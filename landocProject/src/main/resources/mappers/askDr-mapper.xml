@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="askDr">
+
+	<resultMap type="AskDrBoard" id="AskDrBoardList">
+		<id property="rNo" column="RN"/>
+		<result property="bNo" column="AD_NO" />
+		<result property="bTitle" column="AD_TITLE" />
+		<result property="nickname" column="C_NICKNAME" />
+		<result property="submitDate" column="AD_SUBMITDATE" />
+	</resultMap>
+	 
+	<resultMap type="AskDrBoard" id="AskDrBoardDetail">
+		<id property="bNo" column="AD_NO" />
+		<result property="bTitle" column="AD_TITLE" />
+		<result property="nickname" column="C_NICKNAME" />
+		<result property="height" column="AD_HEIGHT" />
+		<result property="weight" column="AD_WEIGHT" />
+		<result property="age" column="AD_AGE" />
+		<result property="gender" column="AD_GENDER" />
+		<result property="caution" column="AD_CAUTION" />
+		<result property="symptoms" column="AD_SYMPTOM" />
+	</resultMap>
+
+<!-- resultMap, Query 경계 -->
+
+	<select id="selectAskDrBoard" parameterType="_int" resultMap="AskDrBoardList">
+		<![CDATA[
+			SELECT * FROM
+			(SELECT ROWNUM AS RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE
+			FROM 
+			(SELECT 
+			    AD.AD_NO,
+			    AD.AD_TITLE,
+			    C.C_NICKNAME,
+			    AD.AD_SUBMITDATE
+			FROM ASKDR AD
+			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
+			WHERE HP_CATE_CODE = #{categoryNo}
+			ORDER BY 4 DESC))
+		]]>
+	</select>
+
+	<select id="selectAskDrBoardCount" parameterType="_int" resultType="_int">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM ASKDR
+			WHERE HP_CATE_CODE = #{categoryNo}
+		]]>
+	</select>
+	
+	<select id="selectAskDrBoardDetail" parameterType="hashMap" resultMap="AskDrBoardDetail">
+		<![CDATA[
+			SELECT 
+			    AD.AD_NO, 
+			    AD.AD_TITLE,
+			    C.C_NICKNAME,
+			    AD.AD_HEIGHT,
+			    AD.AD_WEIGHT,
+			    AD.AD_AGE,
+			    AD.AD_GENDER,
+			    AD.AD_CAUTION,
+			    AD.AD_SYMPTOM
+			FROM ASKDR AD
+			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
+			WHERE AD.AD_NO = #{bNo}
+		    AND AD.HP_CATE_CODE = #{category}
+		]]>
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

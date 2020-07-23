@@ -36,4 +36,19 @@ public class HomeController {
 		return "home";
 	}
 	
+	// admin 페이지 이동하는 메소드_희지
+	@RequestMapping(value = "admin.do", method = RequestMethod.GET)
+	public String admin(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "admin/member/client/clientManage";
+	}
+	
 }
