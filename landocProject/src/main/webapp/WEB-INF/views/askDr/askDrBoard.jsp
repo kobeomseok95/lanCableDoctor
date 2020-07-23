@@ -50,7 +50,7 @@
 	<!-- Playlist section -->
 	<section class="premium-section spad" style="padding-bottom: 150px;">
 		<div class="container">
-			<c:if test="${boardStatus eq 1}">
+			<c:if test="${boardType eq 1}">
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="mb-5" style="font-size: 50px; text-align: center;">
@@ -194,7 +194,7 @@
 				<div class="col-lg-1 col-sm-1"></div>
 			</div>
 			</c:if>
-			<c:if test="${boardStatus eq 2 }">
+			<c:if test="${boardType eq 2 }">
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="mb-5" style="font-size: 50px; text-align: center;">
@@ -390,10 +390,3 @@
 	</script>
 </body>
 </html>
-
-
-
-
-
-
-

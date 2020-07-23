@@ -49,6 +49,21 @@
 		
 	</resultMap>
 	
+	
+	<resultMap type="OrderQna" id="orderQnaMap">
+		<result property="oqnaNo" column="OQNA_NO"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="oqnaTitle" column="OQNA_TITLE"/>
+		<result property="oqnaContent" column="OQNA_CONTENT"/>
+		<result property="oqnaDate" column="OQNA_DATE"/>
+		<result property="oqnaStatus" column="OQNA_STATUS"/>
+		<result property="oqnaAnswer" column="OQNA_ANSWER"/>
+		<result property="pdNo" column="PD_NO"/>
+		<result property="pdName" column="PD_NAME"/>
+		<result property="cNo" column="C_NO"/>
+		
+	</resultMap>
+	
 	<select id="likeHpList" parameterType="string" resultMap="LikeHpListMap">
 		SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X, HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
 		NVL(HT.HP_TIME,'정보없음') AS HP_TIME
@@ -84,7 +99,7 @@
 		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
 		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
 		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
-		WHERE PA.C_NO =#{cNo}
+		WHERE PA.C_NO =#{cNo} AND (OM.O_CODE BETWEEN 1 AND 5 OR OM.O_CODE=14)
 		ORDER BY PA.ORDER_DATE DESC
 	</select>
 	
@@ -110,7 +125,7 @@
 		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
 		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
 		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
-		WHERE PA.C_NO =#{cNo} 
+		WHERE PA.C_NO =#{cNo} AND (OM.O_CODE BETWEEN 1 AND 5 OR OM.O_CODE=14)
 		<if test ='date=="today"'>AND TRUNC(SYSDATE) - ORDER_DATE =0</if> 
 		<if test ='date=="weeks"'>AND 7>=TRUNC(SYSDATE)-ORDER_DATE </if> 
 		<if test ='date=="onemonth"'>AND 30>=TRUNC(SYSDATE) - ORDER_DATE </if> 
@@ -127,9 +142,54 @@
 		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
 		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
 		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
-		WHERE PA.C_NO =#{cNo}
+		WHERE PA.C_NO =#{cNo} AND (OM.O_CODE BETWEEN 1 AND 5 OR OM.O_CODE=14)
 		AND ORDER_DATE BETWEEN #{calendarDate1} AND #{calendarDate2}
 		ORDER BY PA.ORDER_DATE DESC
 	</select>
 	
+	<insert id="pdReviewInsert" parameterType="PdReview">
+		INSERT INTO PRODUCTREVIEW VALUES(SEQ_PDREVIEW.NEXTVAL,#{pdReviewContent},#{orderNo},#{pdNo},#{cNo},NULL)
+	</insert>
+	
+	<update id="updateOStatus" parameterType="PdReview">
+		UPDATE ORDERMG SET O_CODE=14 WHERE ORDER_NO =#{orderNo} AND C_NO=#{cNo}
+	</update>
+	
+	<select id="orderQnaListY" parameterType="OrderQna" resultMap="orderQnaMap">
+		SELECT OQ.*,P.PD_NO,P.PD_NAME,OM.C_NO   
+		FROM ORDERQNA OQ
+		JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT P ON(P.PD_NO=OP.PD_NO)
+		WHERE OM.C_NO=#{cNo} AND OQ.OQNA_STATUS='Y'
+	</select>
+	
+	<select id="orderQnaListN" parameterType="OrderQna" resultMap="orderQnaMap">
+		SELECT OQ.*,P.PD_NO,P.PD_NAME,OM.C_NO   
+		FROM ORDERQNA OQ
+		JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT P ON(P.PD_NO=OP.PD_NO)
+		WHERE OM.C_NO=#{cNo} AND OQ.OQNA_STATUS='N'
+	</select>
+	
+	<select id="orderCancelList" parameterType="string" resultMap="orderListMap" >
+	  	SELECT PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS AMOUNT_PRICE,PA.C_NO,OP.PD_NO,PD.PD_NAME,
+		PD.THUMBNAIL,OS.O_CODE,OS.O_NAME
+		FROM PAYMENT PA
+		JOIN ORDERPRODUCT OP ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
+		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
+		WHERE PA.C_NO =#{cNo}  AND OM.O_CODE BETWEEN 6 AND 13
+		ORDER BY PA.ORDER_DATE DESC
+	</select>
+	
+	<insert id="orderQnaInsert" parameterType="OrderQna">
+		INSERT INTO ORDERQNA VALUES(SEQ_ORDERQNA.NEXTVAL,#{orderNo},#{oqnaTitle},#{oqnaContent},SYSDATE,'N',NULL)
+	</insert>
+	
+	<select id="pdReviewListCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCTREVIEW
+	</select>
 </mapper>

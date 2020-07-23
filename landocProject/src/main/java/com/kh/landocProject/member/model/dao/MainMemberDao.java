@@ -12,7 +12,7 @@ public class MainMemberDao {
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
+
 	// 일반 회원가입_진교
 	public int joinClient(Client c) {
 		System.out.println(c);
@@ -20,12 +20,12 @@ public class MainMemberDao {
 	}
 
 	public Client loginClient(Client c) {
-	
+
 		return sqlSessionTemplate.selectOne("memberMapper.loginClient", c);
 	}
 
 	public DrClient loginDoctor(DrClient d) {
-	
+
 		return sqlSessionTemplate.selectOne("memberMapper.loginDrClient", d);
 	}
 
@@ -40,10 +40,8 @@ public class MainMemberDao {
 	}
 
 	public int joinDrClient(DrClient d) {
-		
+
 		return sqlSessionTemplate.insert("memberMapper.joinDrClient", d);
 	}
-
-	
 
 }

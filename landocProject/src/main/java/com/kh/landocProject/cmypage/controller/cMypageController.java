@@ -1,6 +1,7 @@
 package com.kh.landocProject.cmypage.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -21,7 +22,10 @@ import com.kh.landocProject.cmypage.model.Exception.cMypageException;
 import com.kh.landocProject.cmypage.model.service.cMypageService;
 import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
+import com.kh.landocProject.cmypage.model.vo.OrderQna;
+import com.kh.landocProject.cmypage.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
+import com.kh.landocProject.common.Pagination;
 import com.kh.landocProject.member.model.vo.Client;
 
 
@@ -32,10 +36,12 @@ public class cMypageController {
 	private cMypageService cmService;
 	
 	@RequestMapping(value="clientMypage.do", method=RequestMethod.GET)
-	public String login() {
+	public String mypageWorkjsp() {
 		
 		return "mypage/myPageWork";
 	}
+	
+	
 	
 	@RequestMapping(value="likeHp.do")
 	public ModelAndView likeHospitalList(ModelAndView mv, HttpSession session) throws cMypageException {
@@ -55,12 +61,22 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="pdReview.do")
-	public ModelAndView pdReviewList(ModelAndView mv, HttpSession session) throws cMypageException {
+	public ModelAndView pdReviewList(ModelAndView mv, HttpSession session,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = cmService.getListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
-		ArrayList<PdReview> list = cmService.selectPdReviewList(cNo);
+		ArrayList<PdReview> list = cmService.selectPdReviewList(cNo,pi);
 		if(list!=null) {
 			mv.addObject("pdReviewList",list);
+			mv.addObject("pi",pi);
 			mv.setViewName("mypage/mypagePdReview");
 		}else {
 			throw new cMypageException("상품리뷰리스트 조회 실패!");
@@ -70,13 +86,23 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="myOrderList.do")
-	public ModelAndView myOrderList(ModelAndView mv,HttpSession session) {
+	public ModelAndView myOrderList(ModelAndView mv,HttpSession session,@RequestParam(value="page", required=false) Integer page) {
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = cmService.getListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
-		ArrayList<OrderList> list = cmService.selectOrderList(cNo);
+		ArrayList<OrderList> list = cmService.selectOrderList(cNo,pi);
 		
 		if(list!=null) {
 			mv.addObject("orderList",list);
+			mv.addObject("pi",pi);
 			mv.setViewName("mypage/mypageOrderList");
 		}
 		
@@ -84,7 +110,7 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="cmOrderDetail.do")
-	public void orderDetail(HttpSession session,HttpServletResponse response,OrderList order,@RequestParam(value="orderNo")int orderNo) throws JsonIOException, IOException {
+	public void orderDetail(HttpSession session,HttpServletResponse response,OrderList order,@RequestParam(value="orderNo")int orderNo,@RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		order.setcNo(cNo);
@@ -99,15 +125,24 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="dateSearch.do")
-	public ModelAndView orderListDateSearch(HttpSession session,ModelAndView mv,@RequestParam(value="date") String date, OrderList order) throws cMypageException {
+	public ModelAndView orderListDateSearch(HttpSession session,ModelAndView mv,@RequestParam(value="date") String date, OrderList order,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = cmService.getListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		order.setcNo(cNo);
 		order.setDate(date);
-		ArrayList<OrderList> list = cmService.orderListDateSearch(order);
+		ArrayList<OrderList> list = cmService.orderListDateSearch(order,pi);
 		if(list!=null) {
 			mv.addObject("orderList",list);
-
+			mv.addObject("pi",pi);
 			mv.setViewName("mypage/mypageOrderList");
 		}else {
 			throw new cMypageException("날짜검색 실패!");
@@ -116,16 +151,25 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="dateSearch2.do")
-	public ModelAndView orderListDateSearch2(HttpSession session,ModelAndView mv,@RequestParam(value="startDate") Date startDate, @RequestParam(value="endDate") Date endDate, OrderList order) throws cMypageException{
+	public ModelAndView orderListDateSearch2(HttpSession session,ModelAndView mv,@RequestParam(value="startDate") Date startDate, @RequestParam(value="endDate") Date endDate, OrderList order,@RequestParam(value="page", required=false) Integer page) throws cMypageException{
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = cmService.getListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		order.setcNo(cNo);
 		order.setCalendarDate1(startDate);
 		order.setCalendarDate2(endDate);
-		ArrayList<OrderList> list = cmService.orderListDateSearch2(order);
+		ArrayList<OrderList> list = cmService.orderListDateSearch2(order,pi);
 		if(list!=null) {
 			mv.addObject("orderList",list);
-
+			mv.addObject("pi",pi);
 			mv.setViewName("mypage/mypageOrderList");
 		}else {
 			throw new cMypageException("날짜검색 실패!");
@@ -134,4 +178,137 @@ public class cMypageController {
 		return mv;
 	}
 	
+	@RequestMapping(value="pdReviewInsertView.do")
+	public ModelAndView pdReviewInsertView(HttpSession session,ModelAndView mv,@RequestParam(value="orderNo") int orderNo, OrderList order) throws cMypageException{
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+		order.setOrderNo(orderNo);
+		order.setcNo(cNo);
+		OrderList detail = cmService.selectOrderDetail(order);
+		if(detail!=null) {
+			mv.addObject("orderDetail",detail);
+			mv.setViewName("mypage/mypagePdReviewInsert");
+		}else {
+			throw new cMypageException("리뷰작성페이지 조회 실패!");
+		}
+		return mv;
+		
+	}
+	@RequestMapping(value="pdReviewInsert.do")
+	public ModelAndView pdReviewInsert(ModelAndView mv,HttpServletResponse response,HttpSession session,PdReview review,@RequestParam(value="orderNo") int orderNo, @RequestParam(value="pdNo") int pdNo, @RequestParam(value="pdReview") String pdReviewContent) throws IOException, cMypageException {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+		review.setcNo(cNo);
+		review.setOrderNo(orderNo);
+		review.setPdNo(pdNo);
+		review.setPdReviewContent(pdReviewContent);
+		
+		int result = cmService.pdReviewInsert(review);
+		int result2 = cmService.updateOrderStatus(review);
+		if(result>0 && result2>0) {
+			
+			  response.setContentType("text/html; charset=UTF-8");
+			  PrintWriter out_equals = response.getWriter();
+	          out_equals.println("<script>alert('리뷰작성이 완료되었습니다.');</script>");
+	          out_equals.flush();
+	          mv.setViewName("mypage/myPageWork");
+	     
+		}else{
+			throw new cMypageException("리뷰작성 실패!");
+		}
+		return mv;
+		}
+	
+	@RequestMapping(value="orderQnaList.do")
+	public ModelAndView orderQnaList(HttpSession session, ModelAndView mv,OrderQna qna,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = cmService.getListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		
+		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+		
+		
+		ArrayList<OrderQna> qnaY = cmService.orderQnaListY(cNo,pi);
+		ArrayList<OrderQna> qnaN = cmService.orderQnaListN(cNo);
+		if(qnaY!=null && qnaN!=null) {
+			mv.addObject("qnaYList",qnaY);
+			mv.addObject("qnaNList",qnaN);
+			mv.addObject("pi",pi);
+			mv.setViewName("mypage/mypageOrderQnaList");
+		}else {
+			throw new cMypageException("qna조회실패!");
+		}
+		return mv;
+	}
+	
+	@RequestMapping(value="myOrderCancelList.do")
+	public ModelAndView orderCancelList(HttpSession session, ModelAndView mv,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = cmService.getListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+		
+		ArrayList<OrderList> list = cmService.orderCancelList(cNo,pi);
+		if(list!=null) {
+			mv.addObject("cancelList",list);
+			mv.addObject("pi",pi);
+			mv.setViewName("mypage/mypageOrderCancelList");
+		}else {
+			throw new cMypageException("주문취소/교환 리스트 조회실패!");
+		}
+		return mv;
+	}
+	
+	@RequestMapping(value="orderQnaInsertView.do")
+	public ModelAndView orderQnaInsertView(HttpSession session,ModelAndView mv,@RequestParam(value="orderNo") int orderNo,OrderList order) {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+		order.setcNo(cNo);
+		order.setOrderNo(orderNo);
+		
+		OrderList list = cmService.selectOrderDetail(order);
+		if(list!=null) {
+			mv.addObject("orderQna",list);
+			mv.setViewName("mypage/mypageOrderQnaInsert");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="orderQnaInsert.do")
+	public ModelAndView orderQnaInsert(HttpSession session,ModelAndView mv,HttpServletResponse response,
+			@RequestParam(value="orderNo") int orderNo,
+			@RequestParam(value="orderQnaContent") String oqnaContent,
+			@RequestParam(value="orderQnaTitle") String oqnaTitle, OrderQna qna) throws cMypageException, IOException {
+		
+		qna.setOrderNo(orderNo);
+		qna.setOqnaTitle(oqnaTitle);
+		qna.setOqnaContent(oqnaContent);
+		int result = cmService.orderQnaInsert(qna);
+		if(result>0) {
+			  response.setContentType("text/html; charset=UTF-8");
+			  PrintWriter out_equals = response.getWriter();
+	          out_equals.println("<script>alert('문의작성이 완료되었습니다.');</script>");
+	          out_equals.flush();
+	          mv.setViewName("mypage/myPageWork");
+		}else {
+			throw new cMypageException("주문문의 작성실패!");
+		}
+		return mv;
+	}
 }

@@ -34,6 +34,8 @@
 	.logoDiv .logo{width: 100px; height: 100px;}
 	#ask{padding-top: 30px;}
 	#ask1{padding-top: 5px;}
+	.radiobtn{padding-left: 150px; height: 50px;}
+	.doc{margin-left: 30px;}
 </style>
 </head>
 <body>
@@ -41,7 +43,7 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" action="searchPwd.do" method="post">
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv"> 
 							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -50,6 +52,10 @@
 					<span class="login100-form-title p-b-26">
 						비밀번호 찾기
 					</span>
+					<div class="radiobtn">
+						<label><input type="radio" id="member" name="check" value="client" checked>일반회원</label>
+						<label><input type="radio" id="doctor" name="check" value="drClient" class="doc">의사회원</label>
+					</div>
 					<div class="wrap-input100 validate-input" data-validate = "영소문,숫자 4~20글자로 입력가능합니다.">
 						<input class="input100" type="text" name="userId" id="userId">
 						<span class="focus-input100" data-placeholder="아이디"></span>
@@ -64,7 +70,7 @@
 					<div class="container-login100-form-btn" style="padding-top: 50px;">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" onclick="location.href='searchPwd2.do'">
+							<button class="login100-form-btn">
 								비밀번호 찾기
 							</button>
 						</div>
