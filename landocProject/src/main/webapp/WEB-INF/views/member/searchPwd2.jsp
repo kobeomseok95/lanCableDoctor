@@ -34,6 +34,7 @@
 	.logoDiv .logo{width: 100px; height: 100px;}
 	#ask{padding-top: 30px;}
 	#ask1{padding-top: 5px;}
+<<<<<<< HEAD
 	.mailForm{text-align: center;}
 </style>
 </head>

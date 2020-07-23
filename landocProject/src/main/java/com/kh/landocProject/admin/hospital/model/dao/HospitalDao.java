@@ -1,4 +1,3 @@
-
 package com.kh.landocProject.admin.hospital.model.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -12,15 +11,8 @@ public class HospitalDao {
 	SqlSessionTemplate sqlSessionTemplate;
 
 	public int getListCount() {
-		
-		return sqlSessionTemplate.selectOne("adminHpMapper.getListCount");
-	
-	
-	
-	
-	
-	
-	
-	}
 
+		return sqlSessionTemplate.selectOne("adminHpMapper.getListCount");
+
+	}
 }

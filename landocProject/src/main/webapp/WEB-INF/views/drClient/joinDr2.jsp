@@ -51,6 +51,7 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
+<<<<<<< HEAD
 
 				<form class="login100-form validate-form" action="joinDrClient2.do?dice=${dice }&email=${email}" method="post">
 					<span class="login100-form-title p-b-48" >

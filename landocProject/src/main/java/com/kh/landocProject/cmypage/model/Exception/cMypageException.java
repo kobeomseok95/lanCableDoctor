@@ -1,4 +1,3 @@
-
 package com.kh.landocProject.cmypage.model.Exception;
 
 public class cMypageException extends Exception {

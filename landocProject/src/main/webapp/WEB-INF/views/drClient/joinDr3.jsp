@@ -42,6 +42,7 @@
 	.label2{padding-top: 40px; padding-left: 7px;}
 	.file1{padding-bottom: 10px;}
 	.file2{padding-top: 20px; padding-bottom: 10px;}
+<<<<<<< HEAD
 	.fileBtn{float: right; width: 250px;}
 	.fileBox{width: 100%; height: 700px; border: 1px solid black; border-radius: 7px;}
 	.fileImg{border-radius: 5px; width :100%; height: 700px;  border: 1px solid black;}

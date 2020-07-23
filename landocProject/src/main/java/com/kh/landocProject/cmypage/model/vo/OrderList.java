@@ -18,10 +18,10 @@ public class OrderList implements Serializable {
 	private int opCount;
 	private String pdName;
 	private String tumbnail;
-	private int oCode;
-	private String oName;
+	private int oCode; // 주문상태코드
+	private String oName; // 주문상태이름
 	private String discountPrice; // 원가-판매가+사용포인트(총할인금액)
-	private String originPrice;
+	private String originPrice; // 원가(판매가 아님)
 	private String cName;
 	private int cPostCode;
 	private String cAddress;

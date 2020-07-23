@@ -8,12 +8,12 @@ public class OrderQnaController {
 
 	@RequestMapping("orderQnaManage.do")
 	public String orderQnaManage() {
-		return"admin/orderQna/orderQnaManage";
+		return "admin/orderQna/orderQnaManage";
 	}
-	
+
 	@RequestMapping("orderQnaDetail.do")
 	public String orderQnaDetail() {
-		return"admin/orderQna/orderQnaDetail";
+		return "admin/orderQna/orderQnaDetail";
 	}
-	
+
 }

@@ -1,4 +1,3 @@
-
 package com.kh.landocProject.cmypage.model.vo;
 
 import java.io.Serializable;

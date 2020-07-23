@@ -1,8 +1,6 @@
 package com.kh.landocProject.askDr.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -18,51 +16,54 @@ import com.kh.landocProject.askDr.model.vo.AskDrCategoryMap;
 
 @Controller
 public class MainAskDrController {
-
+	
 	@Resource
 	private AskDrService askDrServiceImpl;
 	@Resource
 	private AskDrCategoryMap askDrCategoryMap;
-
-	@RequestMapping(value = "askDr.do", method = RequestMethod.GET)
+	
+	@RequestMapping(value="askDr.do", method=RequestMethod.GET)
 	public String askDr() {
 		return "askDr/askDr";
 	}
-
+	
 //	카테고리별 의사에게 물어봐 list 뽑아오기 -범석
-	@RequestMapping(value = "askDrBoard.do", method = RequestMethod.GET)
-	public ModelAndView selectAskDrBoard(ModelAndView mv, @RequestParam String category, @RequestParam int pageNo)
-			throws Exception {
+	@RequestMapping(value="askDrBoard.do", method=RequestMethod.GET)
+	public ModelAndView selectAskDrBoard(ModelAndView mv,
+																@RequestParam String category,
+																@RequestParam int pageNo) throws Exception{
 		mv.setViewName("askDr/askDrBoard");
 		int currentPage = pageNo;
 		int categoryNo = Integer.valueOf(category);
-
+		
 		String subject = askDrCategoryMap.getCategoryMap().get(categoryNo);
-
+		
 		int listCount = askDrServiceImpl.selectAskDrBoardCount(categoryNo);
 		AskDrBoardPagination page = AskDrBoardPagination.getAskDrBoardPagination(currentPage, listCount);
-		ArrayList<AskDrBoard> list = (ArrayList<AskDrBoard>) askDrServiceImpl.selectAskDrBoard(categoryNo, page);
+		ArrayList<AskDrBoard> list = (ArrayList<AskDrBoard>)askDrServiceImpl.selectAskDrBoard(categoryNo, page);
 		
-		mv.addObject("boardStatus", 1);
 		mv.addObject("askDrBoardList", list);
+		mv.addObject("boardType", 1);
 		mv.addObject("subject", subject);
 		mv.addObject("page", page);
 		mv.addObject("categoryNo", categoryNo);
 		return mv;
 	}
-
+	
 //	의사에게 물어봐 게시글 상세보기 -범석
-	@RequestMapping(value = "askDrDetail.do", method = RequestMethod.GET)
-	public ModelAndView askDrDetail(ModelAndView mv, @RequestParam int category,
-			// 위에는 파라미터를 String으로 받았다면 여기는 int로 받아보자
-			// 된다면 바로 int로 고쳐주기!
-			@RequestParam int bNo) throws Exception {
+	@RequestMapping(value="askDrDetail.do", method=RequestMethod.GET)
+	public ModelAndView askDrDetail(ModelAndView mv,
+										@RequestParam int category,		
+										//위에는 파라미터를 String으로 받았다면 여기는 int로 받아보자
+										//된다면 바로 int로 고쳐주기!
+										@RequestParam int bNo) throws Exception {
 		mv.setViewName("askDr/askDrDetail");
-
+		
 		String subject = askDrCategoryMap.getCategoryMap().get(category);
 		AskDrBoard askDrBoardDetail = askDrServiceImpl.selectAskDrBoardDeatil(category, bNo);
 		changeGender(askDrBoardDetail);
-
+		
+		
 		mv.addObject("askDrBoardDetail", askDrBoardDetail);
 		mv.addObject("subject", subject);
 		mv.addObject("categoryNo", category);
@@ -72,51 +73,20 @@ public class MainAskDrController {
 	}
 
 	public void changeGender(AskDrBoard settingDetail) {
-		if (settingDetail.getGender().equals("M")) {
+		if(settingDetail.getGender().equals("M")) {
 			settingDetail.setGender("남");
-		} else {
+		}
+		else {
 			settingDetail.setGender("여");
 		}
 	}
-
-	@RequestMapping(value = "askDrBoardSearch.do", method = RequestMethod.GET)
-	public ModelAndView askDrBoardSearch(ModelAndView mv, 
-																@RequestParam int searchBoardOption,
-																@RequestParam String searchBoardContent, 
-																@RequestParam int category, 
-																@RequestParam int pageNo) {
-		mv.setViewName("askDr/askDrBoard");
-
-		String subject = askDrCategoryMap.getCategoryMap().get(category);
-
-		HashMap<String, Object> parameterMap = new HashMap<String, Object>();
-		parameterMap.put("category", category);
-		parameterMap.put("searchBoardOption", searchBoardOption);
-		searchBoardContent = searchBoardContent.replaceAll("\\p{Z}", ""); // 모든 공백 제거
-		parameterMap.put("searchBoardContent", searchBoardContent);
-		int listCount = askDrServiceImpl.selectAskDrBoardSearchCount(parameterMap);
-
-		int currentPage = pageNo;
-		AskDrBoardPagination page = AskDrBoardPagination.getAskDrBoardPagination(currentPage, listCount);
-		ArrayList<AskDrBoard> searchList = (ArrayList<AskDrBoard>) askDrServiceImpl.selectAskDrBoardSearch(parameterMap,
-				page);
-
-		mv.addObject("boardStatus", 2);
-		mv.addObject("askDrBoardSearchList", searchList);
-		mv.addObject("subject", subject);
-		mv.addObject("page", page);
-		mv.addObject("searchBoardContent", searchBoardContent);
-		mv.addObject("searchBoardOption", searchBoardOption);
-		mv.addObject("categoryNo", category);
-		return mv;
-	}
-
-	@RequestMapping(value = "askDrInsert.do", method = RequestMethod.GET)
+	
+	@RequestMapping(value="askDrInsert.do", method=RequestMethod.GET)
 	public String askDrInsert() {
 		return "askDr/askDrInsert";
 	}
-
-	@RequestMapping(value = "askDrSearch.do", method = RequestMethod.GET)
+	
+	@RequestMapping(value="askDrSearch.do", method=RequestMethod.GET)
 	public String askDrSearch() {
 		return "askDr/askDrSearch";
 	}

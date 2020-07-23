@@ -18,5 +18,6 @@ public interface AskDrService {
 	int selectAskDrBoardSearchCount(HashMap<String, Object> parameterMap);
 
 	ArrayList<AskDrBoard> selectAskDrBoardSearch(HashMap<String, Object> parameterMap, AskDrBoardPagination page);
+
 	
 }

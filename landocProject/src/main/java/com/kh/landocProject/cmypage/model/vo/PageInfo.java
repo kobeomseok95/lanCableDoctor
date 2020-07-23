@@ -2,9 +2,8 @@ package com.kh.landocProject.cmypage.model.vo;
 
 import java.io.Serializable;
 
-public class PageInfo implements Serializable{
+public class PageInfo implements Serializable {
 
-	
 	/**
 	 * 
 	 */
@@ -15,8 +14,8 @@ public class PageInfo implements Serializable{
 	private int maxPage;
 	private int startPage;
 	private int endPage;
-	
-	private int boardLimit;	// 페이지에 몇개
+
+	private int boardLimit; // 페이지에 몇개
 
 	public PageInfo() {
 		super();
@@ -100,5 +99,5 @@ public class PageInfo implements Serializable{
 				+ ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage=" + endPage + ", boardLimit="
 				+ boardLimit + "]";
 	}
-	
+
 }

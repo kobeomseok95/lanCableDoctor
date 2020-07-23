@@ -275,6 +275,7 @@
 							<input class="input100 postcodify_address" type="text" name="address1" value="" id="address1">
 							<span class="focus-input100" data-placeholder="도로명 주소"></span>
 						</div>
+<<<<<<< HEAD
 
 						<div class="wrap-input100 validate-input" data-validate="상세 주소를 입력해주세요." >
 							<input class="input100 postcodify_extra_info" type="text" name="address2" value="" id="address2">

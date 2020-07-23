@@ -1,4 +1,3 @@
-
 package com.kh.landocProject.member.model.vo;
 
 import java.io.Serializable;
