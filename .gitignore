@@ -1,1 +1,18 @@
+# STS
+pom.properties
+MANIFEST.MF
+
 /.metadata/
+
+# Compiled class file
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+target/
+/.classpath
+/*.project
+.settings/
+/*.springBeans
