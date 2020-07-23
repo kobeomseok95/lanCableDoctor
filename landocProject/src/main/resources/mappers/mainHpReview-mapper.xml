@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MainHpReviewMapper">
+  
+  <resultMap type="SearchHp" id="HpResultSet">
+  	<id property="hpNo" column="HP_NO"/>
+  	<result property="hpName" column="HP_NAME"/>
+  	<result property="hpPhone" column="HP_PHONE"/>
+  	<result property="hpAddress" column="HP_ADDRESS"/>
+  </resultMap>
+  
+  
+  
+  
+  
+  
+  <!-- 병원 모달창 검색 결과 쿼리문 -->
+  <select id="selectHpList" parameterType="string" resultMap="HpResultSet">
+  	SELECT HP_NO, HP_NAME, HP_PHONE, HP_ADDRESS
+  	FROM HOSPITAL
+  	WHERE HP_NAME LIKE '%' || #{hpName} || '%'
+  </select>
+  
+  
+  
+  
+  
+  
+  
+</mapper>

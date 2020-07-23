@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+  
+  <!-- 일반회원_진교 -->
+  <resultMap type="Client" id="ClientResultSet">
+		<id property="cNo" column="C_NO"/>
+		<result property="userName" column="C_NAME"/>
+		<result property="nickName" column="C_NICKNAME"/>
+		<result property="userId" column="C_ID"/>
+		<result property="userPwd" column="C_PWD"/>
+		<result property="email" column="C_EMAIL"/>
+		<result property="phone" column="C_PHONE"/>
+		<result property="birth" column="C_BIRTH"/>
+		<result property="status" column="C_STATUS"/>
+		<result property="enrollDate" column="C_ENROLL_DATE"/>
+		<result property="profile" column="C_PROFILE"/>
+		<result property="marketing" column="C_MARKETING"/>
+		<result property="point" column="C_POINT"/>
+		<result property="post" column="C_POSTCODE"/>
+		<result property="address" column="C_ADDRESS"/>
+	</resultMap>
+	
+	<!-- 의사회원_진교 -->
+	<resultMap type="DrClient" id="DoctorResultSet">
+		<id property="drNo" column="DR_NO"/>
+		<result property="hpNo" column="HP_NO"/>
+		<result property="hpCateCode" column="HPCATE_CODE"/>
+		<result property="userName" column="DR_NAME"/>
+		<result property="userId" column="DR_ID"/>
+		<result property="userPwd" column="DR_PWD"/>
+		<result property="email" column="DR_EMAIL"/>
+		<result property="phone" column="DR_PHONE"/>
+		<result property="birth" column="DR_BIRTH"/>
+		<result property="point" column="DR_POINT"/>
+		<result property="status" column="DR_STATUS"/>
+		<result property="approval" column="DR_APPROVAL"/>
+		<result property="enrollDate" column="DR_ENROLL_DATE"/>
+		<result property="profile" column="DR_PROFILE"/>
+		<result property="attachment" column="DR_ATTACHMENT"/>
+		<result property="marketing" column="DR_MARKETING"/>
+		<result property="post" column="DR_POSTCODE"/>
+		<result property="address" column="DR_ADDRESS"/>
+		<result property="like" column="DR_LIKE"/>
+		<result property="disLike" column="DR_DISLIKE"/>
+	</resultMap> 
+	
+	<!-- 일반 회원가입_진교 -->
+	<insert id="joinClient" parameterType="Client">
+		INSERT INTO CLIENT
+		VALUES('C'||SEQ_C.NEXTVAL, #{userName}, #{nickName}, #{userId}, #{userPwd}, #{email}, #{phone}, #{birth}, 'Y', SYSDATE, 'N', 'Y', 0, #{post}, #{address})
+	</insert>
+	
+	<!-- 일반회원 로그인_진교 -->
+	<select id="loginClient" parameterType="Client" resultMap="ClientResultSet">
+		SELECT * 
+		FROM CLIENT
+		WHERE C_ID=#{userId}
+	</select>
+	<!-- 의사회원 로그인_진교 -->
+	<select id="loginDrClient" parameterType="DrClient" resultMap="DoctorResultSet">
+		SELECT * 
+		FROM DRCLIENT
+		WHERE DR_ID=#{userId}
+	</select> 
+	
+	<!-- 일반회원 아이디 찾기_진교 -->
+	<select id="searchIdClient" parameterType="Client" resultMap="ClientResultSet">
+		SELECT *
+		FROM Client
+		WHERE C_NAME=#{userName}
+		AND C_EMAIL=#{email}
+	</select>
+	
+	<!-- 의사회원 아이디 찾기_진교 -->
+	<select id="searchIdDrClient" parameterType="DrClient" resultMap="DoctorResultSet">
+		SELECT *
+		FROM DrClient
+		WHERE DR_NAME=#{userName}
+		AND DR_EMAIL=#{email}
+	</select>
+	
+	<!-- 의사 회원가입1_진교 -->
+	<insert id="joinDrClient" parameterType="DrClient">
+		INSERT INTO DRCLIENT
+		VALUES('D'||SEQ_DR.NEXTVAL, #{hpNo}, #{hpCateCode}, #{userName}, #{userId}, #{userPwd}, #{email}, #{phone}, #{birth}, 0, 'Y', 'N', SYSDATE, NULL, 'N', 'Y', #{post}, #{address}, 0, 0)
+	</insert>
+	
+</mapper>
