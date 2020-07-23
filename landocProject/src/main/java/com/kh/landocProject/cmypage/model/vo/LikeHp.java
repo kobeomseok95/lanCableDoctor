@@ -1,16 +1,17 @@
+
 package com.kh.landocProject.cmypage.model.vo;
 
 import java.io.Serializable;
 
-public class LikeHp implements Serializable{
+public class LikeHp implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4793561637003452963L;
-	
+
 	private int hpNo;
 	private String hpName;
-	private String hpPhone;	
+	private String hpPhone;
 	private String hpPostcode;
 	private String hpAddress;
 	private String hpX;
@@ -18,7 +19,7 @@ public class LikeHp implements Serializable{
 	private int hpReview;
 	private int hpAvgRate;
 	private String hpTime;
-	
+
 	public LikeHp() {
 	}
 
@@ -128,9 +129,4 @@ public class LikeHp implements Serializable{
 				+ ", hpAvgRate=" + hpAvgRate + ", hpTime=" + hpTime + "]";
 	}
 
-	
-	
-	
-	
-	
 }

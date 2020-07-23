@@ -41,7 +41,8 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+			<c:if test="${!empty cNo && empty drNo}">
+				<form class="login100-form validate-form" action="searchPwd3.do?cNo=${cNo }&dice=${dice }">
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv"> 
 							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -58,7 +59,7 @@
 					<div class="container-login100-form-btn" style="padding-top: 50px;">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" onclick="location.href='searchPwd4.do'">
+							<button class="login100-form-btn">
 								인증하기
 							</button>
 						</div>
@@ -84,6 +85,52 @@
 						</a>
 					</div>
 				</form>
+			</c:if>
+			<c:if test="${empty cNo && !empty drNo}">
+				<form class="login100-form validate-form" action="searchPwd3.do?drNo=${drNo }&dice=${dice }">
+					<span class="login100-form-title p-b-48" >
+						<div class="logoDiv"> 
+							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
+						</div>
+					</span>
+					<span class="login100-form-title p-b-26">
+						비밀번호 찾기
+					</span>
+					<div class="wrap-input100 validate-input" data-validate="인증번호를 입력해 주세요.">
+						<input class="input100" type="text" name="message" id="message">
+						<span class="focus-input100" data-placeholder="인증번호"></span>
+					</div>
+
+					<div class="container-login100-form-btn" style="padding-top: 50px;">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								인증하기
+							</button>
+						</div>
+					</div>
+					
+					<div class="text-center p-t-115" id="ask">
+						<span class="txt1">
+							아이디를 잊으셨다구요?
+						</span>
+
+						<a class="txt2" href="searchId.do">
+							아이디 찾기
+						</a>
+					</div>
+
+					<div class="text-center p-t-115" id="ask1">
+						<span class="txt1">
+							아직 회원이 아니라구요?
+						</span>
+
+						<a class="txt2" href="join.do">
+							회원가입
+						</a>
+					</div>
+				</form>
+			</c:if>
 			</div>
 		</div>
 	</div>

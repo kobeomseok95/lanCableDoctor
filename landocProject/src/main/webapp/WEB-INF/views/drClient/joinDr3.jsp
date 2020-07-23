@@ -42,8 +42,9 @@
 	.label2{padding-top: 40px; padding-left: 7px;}
 	.file1{padding-bottom: 10px;}
 	.file2{padding-top: 20px; padding-bottom: 10px;}
-	.fileBtn{background-color: #007ee5; border-radius: 5px; width: 50px; color: white;}
-	.fileBox{width: 100%; height: 300px; border: 1px solid black; border-radius: 7px;}
+	.fileBtn{float: right; width: 250px;}
+	.fileBox{width: 100%; height: 700px; border: 1px solid black; border-radius: 7px;}
+	.fileImg{border-radius: 5px; width :100%; height: 700px;  border: 1px solid black;}
 </style>
 </head>
 <body>
@@ -51,7 +52,7 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" action="joinDrClient3.do?drNo=${joinDrClient2.drNo }&hpNo=${joinDrClient2.hpNo}" method="post" enctype="multipart/form-data">
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv"> 
 							<img src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png" class="logo">
@@ -83,28 +84,28 @@
 
 					<div>
 						<label class="file1">재직 증명서 또는 사업자 등록증</label>
-						<button class="fileBtn" type="button">제출</button>
+						<input class="fileBtn" type="file" id="uploadImage1" name="uploadFile1">
 						<div class="fileBox">
-
+							<img class="fileImg" id="imagePreview1"/>
 						</div>
 
 						<label class="file2">신분증</label>
-						<button class="fileBtn" type="button">제출</button>
+						<input type="file" id="uploadImage2" name="uploadFile2">
 						<div class="fileBox">
-
+							<img class="fileImg" id="imagePreview2"/>
 						</div>
 
 						<label class="file2">의사 면허증</label>
-						<button class="fileBtn" type="button">제출</button>
+						<input type="file" id="uploadImage3" name="uploadFile3">
 						<div class="fileBox">
-
+							<img class="fileImg" id="imagePreview3"/>
 						</div>
 					</div>
 
 					<div class="container-login100-form-btn" style="padding-top: 50px;">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button type="button" class="login100-form-btn" onclick="location.href='joinDr4.do'">
+							<button class="login100-form-btn">
 								서류 제출
 							</button>
 						</div>
@@ -115,7 +116,7 @@
 							회원이라구요?
 						</span>
 
-						<a class="txt2" href="login.do">
+						<a class="txt2" href="loginView.do">
 							로그인
 						</a>
 					</div>
@@ -144,4 +145,66 @@
 <!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/resources/login_js/main.js"></script>
 </body>
+
+<script>
+
+         function readUploadImage1(inputObject){
+	          if(inputObject.files && inputObject.files[0]){
+	        	  if(!(/image/i).test(inputObject.files[0].type)){
+	        		  alert("이미지 파일을 선택해 주세요");
+	        		  return false;
+	        	  }
+	        	  
+	        	  var reader = new FileReader();
+	        	  
+	        	  reader.onload = function(e){
+	        		  $("#imagePreview1").attr("src", e.target.result);
+	        	  }
+	        	  reader.readAsDataURL(inputObject.files[0]);
+	          }  	   
+	     }
+	               
+	     $("#uploadImage1").change(function(){
+	    	 readUploadImage1(this);
+	     }) 
+	      function readUploadImage2(inputObject){
+	          if(inputObject.files && inputObject.files[0]){
+	        	  if(!(/image/i).test(inputObject.files[0].type)){
+	        		  alert("이미지 파일을 선택해 주세요");
+	        		  return false;
+	        	  }
+	        	  
+	        	  var reader = new FileReader();
+	        	  
+	        	  reader.onload = function(e){
+	        		  $("#imagePreview2").attr("src", e.target.result);
+	        	  }
+	        	  reader.readAsDataURL(inputObject.files[0]);
+	          }  	   
+	     }
+	               
+	     $("#uploadImage2").change(function(){
+	    	 readUploadImage2(this);
+	     })   
+	      function readUploadImage3(inputObject){
+	          if(inputObject.files && inputObject.files[0]){
+	        	  if(!(/image/i).test(inputObject.files[0].type)){
+	        		  alert("이미지 파일을 선택해 주세요");
+	        		  return false;
+	        	  }
+	        	  
+	        	  var reader = new FileReader();
+	        	  
+	        	  reader.onload = function(e){
+	        		  $("#imagePreview3").attr("src", e.target.result);
+	        	  }
+	        	  reader.readAsDataURL(inputObject.files[0]);
+	          }  	   
+	     }
+	               
+	     $("#uploadImage3").change(function(){
+	    	 readUploadImage3(this);
+	     })    
+		
+	</script>
 </html>

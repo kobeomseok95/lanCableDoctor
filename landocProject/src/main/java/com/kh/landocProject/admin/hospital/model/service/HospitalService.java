@@ -4,7 +4,4 @@ public interface HospitalService {
 
 	int getListCount();
 
-	
-	
-	
 }

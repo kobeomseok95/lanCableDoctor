@@ -275,6 +275,7 @@
 							<input class="input100 postcodify_address" type="text" name="address1" value="" id="address1">
 							<span class="focus-input100" data-placeholder="도로명 주소"></span>
 						</div>
+
 						<div class="wrap-input100 validate-input" data-validate="상세 주소를 입력해주세요." >
 							<input class="input100 postcodify_extra_info" type="text" name="address2" value="" id="address2">
 							<span class="focus-input100" data-placeholder="상세주소"></span>
@@ -303,7 +304,7 @@
 								회원이라구요?
 							</span>
 	
-							<a class="txt2" href="login.html">
+							<a class="txt2" href="loginView.do">
 								로그인
 							</a>
 						</div>

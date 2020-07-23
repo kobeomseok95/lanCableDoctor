@@ -20,7 +20,7 @@ import com.kh.landocProject.askDr.model.vo.AskDrCategoryMap;
 public class MainAskDrController {
 
 	@Resource
-	private AskDrService askDrServiceImpl; 
+	private AskDrService askDrServiceImpl;
 	@Resource
 	private AskDrCategoryMap askDrCategoryMap;
 

@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
-   <settings>
-      <setting name="jdbcTypeForNull" value="NULL"/>
-   </settings>
-   
-   <typeAliases>
-      <typeAlias type="com.kh.landocProject.member.model.vo.Client" alias="Client"/>
-      <typeAlias type="com.kh.landocProject.member.model.vo.DrClient" alias="DrClient"/>
-      <typeAlias type="com.kh.landocProject.askDr.model.vo.AskDrBoard" alias="AskDrBoard"/>
-      <typeAlias type="com.kh.landocProject.hospitalReview.model.vo.SearchHp" alias="SearchHp"/>
-      <typeAlias type="com.kh.landocProject.cmypage.model.vo.LikeHp" alias="LikeHp"/>
-      <typeAlias type="com.kh.landocProject.cmypage.model.vo.PdReview" alias="PdReview"/>
-      <typeAlias type="com.kh.landocProject.cmypage.model.vo.OrderList" alias="OrderList"/>
-   </typeAliases>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
 
-   <mappers>
-  	 <mapper resource="/mappers/member-mapper.xml"/>
-  	 <mapper resource="/mappers/askDr-mapper.xml"/>
-  	 <mapper resource="/mappers/cMypage-mapper.xml"/>
-   </mappers>
+	<typeAliases>
+		<typeAlias
+			type="com.kh.landocProject.member.model.vo.Client" alias="Client" />
+		<typeAlias
+			type="com.kh.landocProject.member.model.vo.DrClient" alias="DrClient" />
+		<typeAlias
+			type="com.kh.landocProject.member.model.vo.DrhpPhoto"
+			alias="DrhpPhoto" />
+		<typeAlias
+			type="com.kh.landocProject.askDr.model.vo.AskDrBoard"
+			alias="AskDrBoard" />
+		<typeAlias
+			type="com.kh.landocProject.hospitalReview.model.vo.SearchHp"
+			alias="SearchHp" />
+		<typeAlias
+			type="com.kh.landocProject.cmypage.model.vo.LikeHp" alias="LikeHp" />
+		<typeAlias
+			type="com.kh.landocProject.cmypage.model.vo.PdReview"
+			alias="PdReview" />
+		<typeAlias
+			type="com.kh.landocProject.cmypage.model.vo.OrderList"
+			alias="OrderList" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="/mappers/member-mapper.xml" />
+		<mapper resource="/mappers/askDr-mapper.xml" />
+		<mapper resource="/mappers/cMypage-mapper.xml" />
+	</mappers>
 </configuration>

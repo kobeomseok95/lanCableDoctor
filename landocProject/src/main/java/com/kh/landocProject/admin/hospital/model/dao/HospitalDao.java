@@ -1,3 +1,4 @@
+
 package com.kh.landocProject.admin.hospital.model.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -20,5 +21,6 @@ public class HospitalDao {
 	
 	
 	
-}
+	}
+
 }

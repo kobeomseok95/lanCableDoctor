@@ -49,7 +49,8 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+
+				<form class="login100-form validate-form" action="loginView.do">
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv"> 
 							<img src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png" class="logo">
@@ -89,7 +90,7 @@
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button type="button" class="login100-form-btn" onclick="location.href='login.do'">
+							<button class="login100-form-btn">
 								로그인
 							</button>
 						</div>
@@ -100,7 +101,7 @@
 							회원이라구요?
 						</span>
 
-						<a class="txt2" href="login.do">
+						<a class="txt2" href="loginView.do">
 							로그인
 						</a>
 					</div>

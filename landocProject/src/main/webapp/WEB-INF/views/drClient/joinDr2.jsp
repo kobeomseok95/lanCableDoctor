@@ -51,7 +51,8 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form" action="joinDrClient2.do?dice=${dice }" method="post">
+
+				<form class="login100-form validate-form" action="joinDrClient2.do?dice=${dice }&email=${email}" method="post">
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv"> 
 							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -62,20 +63,20 @@
 							의사 회원가입
 						</span>
 					</div>
-
+					
 					<div class="doctorForm">
 						<div class="nextBox">
 							<label class="label1">정보 입력</label>
 						</div>
-						<img class="img"src="login_image/icon.png">
+						<img class="img"src="<%=request.getContextPath()%>/resources/login_image/icon.png">
 						<div class="nextBox1">
 							<label class="label2">이메일 인증</label>
 						</div>
-						<img class="img" src="login_image/icon.png">
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
 						<div class="nextBox">
 							<label class="label1">서류 제출</label>
 						</div>
-						<img class="img" src="login_image/icon.png">
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
 						<div class="nextBox">
 							<label class="label1">승인 대기</label>
 						</div>
@@ -100,7 +101,7 @@
 							회원이라구요?
 						</span>
 
-						<a class="txt2" href="login.html">
+						<a class="txt2" href="loginView.do">
 							로그인
 						</a>
 					</div>
