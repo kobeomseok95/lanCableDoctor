@@ -34,6 +34,17 @@ public class AskDrDAO {
 		parameterMap.put("bNo", bNo);
 		return sqlSessionTemplate.selectOne("askDr.selectAskDrBoardDetail", parameterMap);
 	}
+	
+	public int selectAskDrBoardSearchCount(HashMap<String, Object> parameterMap) {
+		return sqlSessionTemplate.selectOne("askDr.selectAskDrBoardSearchCount", parameterMap);
+	}
+
+	public ArrayList<AskDrBoard> selectAskDrBoardSearch(HashMap<String, Object> parameterMap,
+			AskDrBoardPagination page) {
+		int offset = (page.getCurrentPage() - 1) * page.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, page.getBoardLimit());
+		return (ArrayList)sqlSessionTemplate.selectList("askDr.selectAskDrBoardSearch", parameterMap, rowBounds);
+	}
 }
 
 

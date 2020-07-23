@@ -14,32 +14,28 @@ public interface cMypageService {
 
 	int selectCount(String cNo);
 
-	ArrayList<PdReview> selectPdReviewList(String cNo,PageInfo pi);
+	ArrayList<PdReview> selectPdReviewList(String cNo, PageInfo pi);
 
-	ArrayList<OrderList> selectOrderList(String cNo,PageInfo pi);
+	ArrayList<OrderList> selectOrderList(String cNo, PageInfo pi);
 
 	OrderList selectOrderDetail(OrderList order);
 
-	ArrayList<OrderList> orderListDateSearch(OrderList order,PageInfo pi);
+	ArrayList<OrderList> orderListDateSearch(OrderList order, PageInfo pi);
 
-	ArrayList<OrderList> orderListDateSearch2(OrderList order,PageInfo pi);
+	ArrayList<OrderList> orderListDateSearch2(OrderList order, PageInfo pi);
 
 	int pdReviewInsert(PdReview review);
 
 	int updateOrderStatus(PdReview review);
 
-	ArrayList<OrderQna> orderQnaListY(String cNo,PageInfo pi);
+	ArrayList<OrderQna> orderQnaListY(String cNo, PageInfo pi);
 
 	ArrayList<OrderQna> orderQnaListN(String cNo);
 
-	ArrayList<OrderList> orderCancelList(String cNo,PageInfo pi);
+	ArrayList<OrderList> orderCancelList(String cNo, PageInfo pi);
 
 	int orderQnaInsert(OrderQna qna);
 
 	int getListCount();
-
-
-
-
 
 }

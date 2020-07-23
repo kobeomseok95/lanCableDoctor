@@ -32,4 +32,14 @@ public class AskDrServiceImpl implements AskDrService {
 	public AskDrBoard selectAskDrBoardDeatil(int category, int bNo) {
 		return askDrDAO.selectAskDrBoardDetail(category, bNo);
 	}
+	@Override
+	public int selectAskDrBoardSearchCount(HashMap<String, Object> parameterMap) {
+		return askDrDAO.selectAskDrBoardSearchCount(parameterMap);
+	}
+
+	@Override
+	public ArrayList<AskDrBoard> selectAskDrBoardSearch(HashMap<String, Object> parameterMap,
+			AskDrBoardPagination page) {
+		return askDrDAO.selectAskDrBoardSearch(parameterMap, page);
+	}
 }

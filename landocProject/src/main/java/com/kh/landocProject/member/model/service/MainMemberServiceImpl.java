@@ -8,14 +8,14 @@ import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 
 @Service("mService")
-public class MainMemberServiceImpl implements MainMemberService{
+public class MainMemberServiceImpl implements MainMemberService {
 
 	@Autowired
 	MainMemberDao mDao;
 
 	@Override
 	public int joinClient(Client c) {
-		
+
 		return mDao.joinClient(c);
 	}
 
@@ -33,21 +33,20 @@ public class MainMemberServiceImpl implements MainMemberService{
 
 	@Override
 	public Client searchIdClient(Client c) {
-		
+
 		return mDao.searchClient(c);
 	}
 
 	@Override
 	public DrClient searchIdDoctor(DrClient d) {
-		
+
 		return mDao.searchDoctor(d);
 	}
 
 	@Override
 	public int joinDrClient(DrClient d) {
-		
+
 		return mDao.joinDrClient(d);
 	}
 
-	
 }

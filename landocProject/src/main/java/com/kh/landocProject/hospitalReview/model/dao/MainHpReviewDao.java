@@ -10,11 +10,9 @@ import com.kh.landocProject.hospitalReview.model.vo.SearchHp;
 
 @Repository
 public class MainHpReviewDao {
-	
 
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
-	
 
 	// 병원 모달창 검색 결과 가져오는 메소드
 	public ArrayList<SearchHp> selectList(String hpName) {

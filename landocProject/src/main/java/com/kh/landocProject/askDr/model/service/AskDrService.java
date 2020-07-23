@@ -14,5 +14,10 @@ public interface AskDrService {
 	ArrayList<AskDrBoard> selectAskDrBoard(int categoryNo, AskDrBoardPagination page) throws Exception;
 
 	AskDrBoard selectAskDrBoardDeatil(int category, int bNo);
+
+	int selectAskDrBoardSearchCount(HashMap<String, Object> parameterMap);
+
+	ArrayList<AskDrBoard> selectAskDrBoardSearch(HashMap<String, Object> parameterMap, AskDrBoardPagination page);
+
 	
 }

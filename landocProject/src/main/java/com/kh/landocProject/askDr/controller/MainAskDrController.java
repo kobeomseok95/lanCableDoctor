@@ -1,7 +1,6 @@
 package com.kh.landocProject.askDr.controller;
 
 import java.util.ArrayList;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -44,6 +43,7 @@ public class MainAskDrController {
 		ArrayList<AskDrBoard> list = (ArrayList<AskDrBoard>)askDrServiceImpl.selectAskDrBoard(categoryNo, page);
 		
 		mv.addObject("askDrBoardList", list);
+		mv.addObject("boardType", 1);
 		mv.addObject("subject", subject);
 		mv.addObject("page", page);
 		mv.addObject("categoryNo", categoryNo);
@@ -91,16 +91,3 @@ public class MainAskDrController {
 		return "askDr/askDrSearch";
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
