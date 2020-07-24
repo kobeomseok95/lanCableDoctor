@@ -1,197 +1,272 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-	<title>SolMusic | HTML Template</title>
-	<meta charset="UTF-8">
-	<meta name="description" content="SolMusic HTML Template">
-	<meta name="keywords" content="music, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<!-- Favicon -->
-	<link href="img/favicon.ico" rel="shortcut icon"/>
+<title>SolMusic | HTML Template</title>
+<meta charset="UTF-8">
+<meta name="description" content="SolMusic HTML Template">
+<meta name="keywords" content="music, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!-- Google font -->
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
- 
-	<!-- Stylesheets -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css"/>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css"/>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/slicknav.min.css"/>
+<!-- Favicon -->
+<link href="img/favicon.ico" rel="shortcut icon" />
 
-	<!-- Main Stylesheets -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css"/>
-	
-	<!--star rating-->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Google font -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
+	rel="stylesheet">
+
+<!-- Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/slicknav.min.css" />
+
+<!-- Main Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css" />
+
+<!--star rating-->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 
-	<!--[if lt IE 9]>
+<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 
 
-	<script src= 'http://code.jquery.com/jquery-latest.js'></script>
+<script src='http://code.jquery.com/jquery-latest.js'></script>
 
 <style>
-	.btn-file input[type=file] {
-									top: 0;
-									left: 0;
-									min-width: 100%;
-									min-height: 100%;
-									text-align: right;
-									opacity: 0;
-									background: none repeat scroll 0 0 transparent;
-									cursor: inherit;
-									display: block;
-									position: absolute;} 
+.btn-file input[type=file] {
+	top: 0;
+	left: 0;
+	min-width: 100%;
+	min-height: 100%;
+	text-align: right;
+	opacity: 0;
+	background: none repeat scroll 0 0 transparent;
+	cursor: inherit;
+	display: block;
+	position: absolute;
+}
 
-	.btn-block{background-color: #007ee5; position: relative;}
-	.checked {color: orange;}
-	.starRating{width: 50%;}
-	
+.btn-block {
+	background-color: #007ee5;
+	position: relative;
+}
 
+.checked {
+	color: orange;
+}
 
+.starRating {
+	width: 50%;
+}
 
 /*-------------------------------------------------------------*/
 body {
-  background-color: lightblue;
+	background-color: lightblue;
 }
 
 .rating {
-  text-align: center;
-  /* margin-top: 120px; */
-  position: relative;
-  width: 50%;
-  float: left;
+	text-align: center;
+	/* margin-top: 120px; */
+	position: relative;
+	width: 50%;
+	float: left;
 }
 
 .hidden {
-  opacity: 0;
+	opacity: 0;
 }
 
 .star {
-  display: inline-block;
-  margin: 5px;
-  font-size: 30px;
-  color: whitesmoke;
-  position: relative;
+	display: inline-block;
+	margin: 5px;
+	font-size: 30px;
+	color: whitesmoke;
+	position: relative;
 }
+
 .star.animate {
-  -webkit-animation: stretch-bounce .5s ease-in-out;
+	-webkit-animation: stretch-bounce .5s ease-in-out;
 }
+
 .star.hidden {
-  opacity: 0;
+	opacity: 0;
 }
 
 .full:before {
-  font-family: fontAwesome;
-  display: inline-block;
-  content: "\f005";
-  position: relative;
-  float: right;
-  z-index: 2;
+	font-family: fontAwesome;
+	display: inline-block;
+	content: "\f005";
+	position: relative;
+	float: right;
+	z-index: 2;
 }
 
 .half:before {
-  font-family: fontAwesome;
-  content: "\f089";
-  position: absolute;
-  float: left;
-  z-index: 3;
+	font-family: fontAwesome;
+	content: "\f089";
+	position: absolute;
+	float: left;
+	z-index: 3;
 }
 
 .star-colour {
-  color: #ffd700;
+	color: #ffd700;
 }
 
-@-webkit-keyframes stretch-bounce {
-  0% {
-    -webkit-transform: scale(1);
-  }
-  25% {
-    -webkit-transform: scale(1.5);
-  }
-  50% {
-    -webkit-transform: scale(0.9);
-  }
-  75% {
-    -webkit-transform: scale(1.2);
-  }
-  100% {
-    -webkit-transform: scale(1);
-  }
+@
+-webkit-keyframes stretch-bounce { 0% {
+	-webkit-transform: scale(1);
+}
+
+25%
+{
+-webkit-transform
+
+
+:
+
+ 
+
+scale
+
+
+(1
+.5
+
+
+);
+}
+50%
+{
+-webkit-transform
+
+
+:
+
+ 
+
+scale
+
+
+(0
+.9
+
+
+);
+}
+75%
+{
+-webkit-transform
+
+
+:
+
+ 
+
+scale
+
+
+(1
+.2
+
+
+);
+}
+100%
+{
+-webkit-transform
+
+
+:
+
+ 
+
+scale
+
+
+(1);
+}
 }
 .selected:before {
-  font-family: fontAwesome;
-  display: inline-block;
-  content: "\f005";
-  position: absolute;
-  top: 0;
-  left: 0;
-  -webkit-transform: scale(1);
-  opacity: 1;
-  z-index: 1;
+	font-family: fontAwesome;
+	display: inline-block;
+	content: "\f005";
+	position: absolute;
+	top: 0;
+	left: 0;
+	-webkit-transform: scale(1);
+	opacity: 1;
+	z-index: 1;
 }
+
 .selected.pulse:before {
-  -webkit-transform: scale(3);
-  opacity: 0;
+	-webkit-transform: scale(3);
+	opacity: 0;
 }
+
 .selected.is-animated:before {
-  transition: 1s ease-out;
+	transition: 1s ease-out;
 }
 
 .score {
-  font-family: arial;
-  font-size: 20px;
-  color: green;
-  margin-top: 20px;
-  margin-left: 50px;
+	font-family: arial;
+	font-size: 20px;
+	color: green;
+	margin-top: 20px;
+	margin-left: 50px;
 }
 
 .score-rating {
-  vertical-align: sup;
-  top: -5px;
-  position: relative;
-  font-size: 150%;
+	vertical-align: sup;
+	top: -5px;
+	position: relative;
+	font-size: 150%;
 }
 
 .total {
-  vertical-align: sub;
-  top: 0px;
-  position: relative;
-  font-size: 100%;
+	vertical-align: sub;
+	top: 0px;
+	position: relative;
+	font-size: 100%;
 }
 
 .average {
-  font-family: arial;
-  font-size: 20px;
-  color: indianred;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+	font-family: arial;
+	font-size: 20px;
+	color: indianred;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
 }
+
 .average .score-average {
-  padding-top: 30px;
+	padding-top: 30px;
 }
 
-
-.clickedHpList{
-	backgroud-color:#7fbef2;
-}
-.listLine{
-		backgroud:#7fbef2;
-
+.clickedHpList {
+	backgroud-color: #7fbef2;
 }
 
+.listLine {
+	backgroud: #7fbef2;
+}
 
-/*--------------------------------------------------------------*/	
+/*--------------------------------------------------------------*/
 </style>
 </head>
 <body>
@@ -200,39 +275,48 @@ body {
 		<div class="loader"></div>
 	</div>
 
-	  <%@ include file="../static/header.jsp" %>
-		
-	
-	<link rel="stylesheet" type="text/css" href="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/mdd_event/style.css">
-	
-	
+	<%@ include file="../static/header.jsp"%>
+
+
+	<link rel="stylesheet" type="text/css"
+		href="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/mdd_event/style.css">
+
+
 	<!--병원 검색 모달 창-->
-	<div id="hospitalSearchModal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-	  <div class="modal-dialog w-50" role="document">
-		<div class="modal-content">
-		  <div class="modal-header p-4">
-			<h5 class="modal-title">병원명 입력</h5>
-			<button type="button" class="close pt-2 pr-3 pb-0 pl-0" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">×</span>
-			</button>
-		  </div>
-		  <div class="modal-body p-4">
-			  <div>
-				<p style="font-size: 12px;color: #b00020;">
-					<b style="color: #494949">다녀온 병원명을 검색하세요</b>
-				</p>
-			  </div>
-			  <div id="hospital-search-form">
-				  <div class="input-group mb-3" style="border: solid 2px #007ee5;">
-					  <input type="text" id="search_hospital_name" name="search_hospital_name"class="form-control border-0" placeholder="병원이름을 입력하세요." aria-describedby="button-addon-hsearch">
-					  <div class="input-group-append pl-2 pr-2" style="background-color: #007ee5">
-						<button class="btn btn-mdd border-0 w-100" type="button" id="button-addon-hsearch" style="background-color: transparent; color: white;">검색</button>
-					  </div>
-				  </div>
-			  </div>
-			 
-			 
-	<script>
+	<div id="hospitalSearchModal" class="modal fade" tabindex="-1"
+		role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog w-50" role="document">
+			<div class="modal-content">
+				<div class="modal-header p-4">
+					<h5 class="modal-title">병원명 입력</h5>
+					<button type="button" class="close pt-2 pr-3 pb-0 pl-0"
+						data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body p-4">
+					<div>
+						<p style="font-size: 12px; color: #b00020;">
+							<b style="color: #494949">다녀온 병원명을 검색하세요</b>
+						</p>
+					</div>
+					<div id="hospital-search-form">
+						<div class="input-group mb-3" style="border: solid 2px #007ee5;">
+							<input type="text" id="search_hospital_name"
+								name="search_hospital_name" class="form-control border-0"
+								placeholder="병원이름을 입력하세요."
+								aria-describedby="button-addon-hsearch">
+							<div class="input-group-append pl-2 pr-2"
+								style="background-color: #007ee5">
+								<button class="btn btn-mdd border-0 w-100" type="button"
+									id="button-addon-hsearch"
+									style="background-color: transparent; color: white;">검색</button>
+							</div>
+						</div>
+					</div>
+
+
+					<script>
 		// 병원 검색 모달창
 		$(function() {
 			// 병원 조회하기 버튼 클릭 => modal open.
@@ -316,169 +400,188 @@ body {
 		
 		
 	</script>
-			 
-			  <div class="card border-0">
-				  <div class="card-body p-0" style="border-top: solid 1px #007ee5;">
-					  <div class="small-greybox p-2" style="font-size: 12px; border-bottom:solid 1px #007ee5;">
-						  병원 검색결과 (검색결과 중 하나를 선택하세요)
-					  </div>
 
-					  <!--병원 검색 결과 나오는 부분-->
-					  <div class="border-left-0 hospital-search-result-container">
-						<div class="list-group" style="height: 300px;overflow-y: scroll;">
-							
-							<!--검색 결과 나오는 부분-->
-							<table id="searchHpNameTb">
-								<tr>
-									<td></td>
-									<td colspan="2"></td>
-								</tr>
-							</table>
+					<div class="card border-0">
+						<div class="card-body p-0" style="border-top: solid 1px #007ee5;">
+							<div class="small-greybox p-2"
+								style="font-size: 12px; border-bottom: solid 1px #007ee5;">
+								병원 검색결과 (검색결과 중 하나를 선택하세요)</div>
+
+							<!--병원 검색 결과 나오는 부분-->
+							<div class="border-left-0 hospital-search-result-container">
+								<div class="list-group"
+									style="height: 300px; overflow-y: scroll;">
+
+									<!--검색 결과 나오는 부분-->
+									<table id="searchHpNameTb">
+										<tr>
+											<td></td>
+											<td colspan="2"></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+
+							<button id="hospital-search-save-btn"
+								class="btn btn-mdd w-100 p-2 mt-3"
+								style="color: #FFFFFF; background-color: #007ee5;">
+								선택완료</button>
 						</div>
-					  </div>
-					  
-					  <button id="hospital-search-save-btn" class="btn btn-mdd w-100 p-2 mt-3" style="color: #FFFFFF;background-color: #007ee5;">
-						  선택완료
-					  </button>
-				  </div>
-			  </div>
-	
-		  </div>
+					</div>
+
+				</div>
+			</div>
 		</div>
-	  </div>
 	</div>
-	
-	
+
+
 	<!--form 태그 시작-->
 	<form id="register-submit-form" enctype="multipart/form-data">
-		<input type="hidden" name="csrfmiddlewaretoken" value="7EYyK9n8kkbHp3Y3zYlR8e1LSwhuubipViDL0KoRy7LwZOtyK80JuVWhaIcpapZA">
-		
-		<div class="container-fluid mt-0 pt-5 pb-5" style="background-color: #e5f2fc;text-align: center">
+		<input type="hidden" name="csrfmiddlewaretoken"
+			value="7EYyK9n8kkbHp3Y3zYlR8e1LSwhuubipViDL0KoRy7LwZOtyK80JuVWhaIcpapZA">
+
+		<div class="container-fluid mt-0 pt-5 pb-5"
+			style="background-color: #e5f2fc; text-align: center">
 			<div style="width: 1000px; display: inline-block">
 				<!--병원 찾기-->
-			<div class="summit-content-box mx-auto p-5 mt-4">
-				<div class="row mb-5">
-					<div class="col-sm-1">
-						<div class="content-box-numbering align-middle mx-auto">1</div>
+				<div class="summit-content-box mx-auto p-5 mt-4">
+					<div class="row mb-5">
+						<div class="col-sm-1">
+							<div class="content-box-numbering align-middle mx-auto">1</div>
+						</div>
+						<div class="col-sm-11 content-box-title">다녀가신 병원이름을 입력하세요</div>
 					</div>
-					<div class="col-sm-11 content-box-title">
-						다녀가신 병원이름을 입력하세요
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-10 offset-sm-1 pt-5 pl-0" style="border-bottom: solid 2px #9b9b9b;">
-						<input type="hidden" id="hospital_id" name="hospital_id" value="">
-						<input type="text" class="form-control border-0 pl-0" id="hospital_name" name="hospital_name" disabled="" placeholder="하단의 '병원 조회하기'버튼을 눌러 선택해주세요" style="background-color: transparent; font-size: 21px; font-weight: bold; color: #494949;">
-					</div>
-				</div>
-				<div class="row">
-				
-					<button type="button" id="open-hospital-search-modal" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
-						병원 조회하기
-					</button>
-				</div>
-				
-			</div>
-	
-
-			<!--인증자료 업로드 부분(영수증 부분)-->
-			<div class="summit-content-box mx-auto p-5 mt-4">
-				<div class="row mb-5">
-					<div class="col-sm-1">
-						<div class="content-box-numbering align-middle mx-auto">2</div>
-					</div>
-					<div class="col-sm-11 content-box-title">
-						진료인증 자료를 업로드해주세요!
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-10 offset-sm-1 p-0">
-						<span><img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/redstar.svg" class="img-fluid" alt="Responsive image"></span>
-						<b class="align-middle" style="font-size: 21px; letter-spacing: -0.7px;color: #b00020;">전체화면 캡쳐필수</b>
-						<span><img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/redstar.svg" class="img-fluid" alt="Responsive image"></span>
-						<b class="content-box-text1 align-middle">(병원명 + 회원 성명 포함)</b>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-10 offset-sm-1 p-0">
-						<div class="card-deck mt-5">
-							<div class="card">
-								<div class="card-body">
-									<ul class="list-group m-4 list-text text-left">
-									  <li class="list-group-item border-0">
-										  <div class="row">
-											  <div class="col-sm-1 p-0">
-												<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/check.svg" class="img-fluid" alt="Responsive image">
-											  </div>
-											  <div class="col-sm-11" style="color: #494949;">
-												카드 결제 문자
-											  </div>
-										  </div>
-									  </li>
-									  <li class="list-group-item border-0">
-										  <div class="row">
-											  <div class="col-sm-1 p-0">
-												<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/check.svg" class="img-fluid" alt="Responsive image">
-											  </div>
-											  <div class="col-sm-11" style="color: #494949;">
-												  뱅킹 어플 / 인터넷 뱅킹
-											  </div>
-										  </div>
-									  </li>
-									  <li class="list-group-item border-0">
-										  <div class="row">
-											  <div class="col-sm-1 p-0">
-												<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/check.svg" class="img-fluid" alt="Responsive image">
-											  </div>
-											  <div class="col-sm-11" style="color: #494949;">
-												  진료영수증 / 처방전 / 진단서
-											  </div>
-										  </div>
-									  </li>
-									  <li class="list-group-item border-0">
-										  <div class="row">
-											  <div class="col-sm-1 p-0">
-												<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/check.svg" class="img-fluid" alt="Responsive image">
-											  </div>
-											  <div class="col-sm-11" style="color: #494949;">
-												  건강보험공단 / 홈택스 진료내역
-											  </div>
-										  </div>
-									  </li>
-									</ul>
-								</div>
-							</div>
-							<div class="card">
-								<div class="card-body" style="background-color: #f8f8f8;">
-									<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/receipt_example_content.svg" class="img-fluid w-100 h-100" alt="Responsive image">
-								</div>
-							</div>
+					<div class="row">
+						<div class="col-sm-10 offset-sm-1 pt-5 pl-0"
+							style="border-bottom: solid 2px #9b9b9b;">
+							<input type="hidden" id="hospital_id" name="hospital_id" value="">
+							<input type="text" class="form-control border-0 pl-0"
+								id="hospital_name" name="hospital_name" disabled=""
+								placeholder="하단의 '병원 조회하기'버튼을 눌러 선택해주세요"
+								style="background-color: transparent; font-size: 21px; font-weight: bold; color: #494949;">
 						</div>
 					</div>
+					<div class="row">
+
+						<button type="button" id="open-hospital-search-modal"
+							class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4"
+							style="font-size: 18px; background-color: #007ee5; color: white;"
+							data-toggle="modal" data-target="#hospitalSearchModal">
+							병원 조회하기</button>
+					</div>
+
 				</div>
 
-				<!-- 업로드 된 파일 미리보기 부분-->
-				<div class="row mt-4">
-                    <div class="col-sm-10 offset-sm-1 p-0 pr-3">
-                        <div class="file-input file-input-new">
-						
-						<!--파일 미리보기 -->
-						
-						
-							<span id="remove" style="display: none;">X</span>
-					
-						<div class="file-preview" id="thumb-receipt">
+
+				<!--인증자료 업로드 부분(영수증 부분)-->
+				<div class="summit-content-box mx-auto p-5 mt-4">
+					<div class="row mb-5">
+						<div class="col-sm-1">
+							<div class="content-box-numbering align-middle mx-auto">2</div>
 						</div>
-						
-						<div class="clearfix"></div>
-						
-						<div tabindex="500" class="btn btn-blackcontent btn-block p-3 btn-file" style="background-color:#0071ce" id="test" >
-						
-							<span style="font-size: 18px; color: white;">인증자료 첨부하기</span>
-							<input id="receipt_image" name="receipt_image" type="file" style="opacity: 0; " onchange="setThumbnail(event)">
+						<div class="col-sm-11 content-box-title">진료인증 자료를 업로드해주세요!</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-10 offset-sm-1 p-0">
+							<span><img
+								src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/redstar.svg"
+								class="img-fluid" alt="Responsive image"></span> <b
+								class="align-middle"
+								style="font-size: 21px; letter-spacing: -0.7px; color: #b00020;">전체화면
+								캡쳐필수</b> <span><img
+								src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/redstar.svg"
+								class="img-fluid" alt="Responsive image"></span> <b
+								class="content-box-text1 align-middle">(병원명 + 회원 성명 포함)</b>
 						</div>
-					
-						<script> 
+					</div>
+					<div class="row">
+						<div class="col-sm-10 offset-sm-1 p-0">
+							<div class="card-deck mt-5">
+								<div class="card">
+									<div class="card-body">
+										<ul class="list-group m-4 list-text text-left">
+											<li class="list-group-item border-0">
+												<div class="row">
+													<div class="col-sm-1 p-0">
+														<img
+															src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/check.svg"
+															class="img-fluid" alt="Responsive image">
+													</div>
+													<div class="col-sm-11" style="color: #494949;">카드 결제
+														문자</div>
+												</div>
+											</li>
+											<li class="list-group-item border-0">
+												<div class="row">
+													<div class="col-sm-1 p-0">
+														<img
+															src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/check.svg"
+															class="img-fluid" alt="Responsive image">
+													</div>
+													<div class="col-sm-11" style="color: #494949;">뱅킹 어플
+														/ 인터넷 뱅킹</div>
+												</div>
+											</li>
+											<li class="list-group-item border-0">
+												<div class="row">
+													<div class="col-sm-1 p-0">
+														<img
+															src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/check.svg"
+															class="img-fluid" alt="Responsive image">
+													</div>
+													<div class="col-sm-11" style="color: #494949;">진료영수증
+														/ 처방전 / 진단서</div>
+												</div>
+											</li>
+											<li class="list-group-item border-0">
+												<div class="row">
+													<div class="col-sm-1 p-0">
+														<img
+															src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/check.svg"
+															class="img-fluid" alt="Responsive image">
+													</div>
+													<div class="col-sm-11" style="color: #494949;">
+														건강보험공단 / 홈택스 진료내역</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="card">
+									<div class="card-body" style="background-color: #f8f8f8;">
+										<img
+											src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/receipt_example_content.svg"
+											class="img-fluid w-100 h-100" alt="Responsive image">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 업로드 된 파일 미리보기 부분-->
+					<div class="row mt-4">
+						<div class="col-sm-10 offset-sm-1 p-0 pr-3">
+							<div class="file-input file-input-new">
+
+								<!--파일 미리보기 -->
+
+
+								<span id="remove" style="display: none;">X</span>
+
+								<div class="file-preview" id="thumb-receipt"></div>
+
+								<div class="clearfix"></div>
+
+								<div tabindex="500"
+									class="btn btn-blackcontent btn-block p-3 btn-file"
+									style="background-color: #0071ce" id="test">
+
+									<span style="font-size: 18px; color: white;">인증자료 첨부하기</span> <input
+										id="receipt_image" name="receipt_image" type="file"
+										style="opacity: 0;" onchange="setThumbnail(event)">
+								</div>
+
+								<script> 
 						function setThumbnail(event) { 
 							var reader = new FileReader(); reader.onload = function(event) { 
 								var img = document.createElement("img"); img.setAttribute("src", event.target.result);
@@ -502,15 +605,15 @@ body {
 						})
 
 						</script>
+							</div>
 						</div>
-                    </div>
-                </div>
-			</div>
+					</div>
+				</div>
 
 
 
-			
-			<script>
+
+				<script>
 			var starClicked = false;
 
 			$(function() {
@@ -608,188 +711,211 @@ body {
 
 
 
-			<!-------------------------------------------------------------------------------------------------->
-			<div class="summit-content-box mx-auto p-5 mt-4">
-				<div class="row mb-5">
-					<div class="col-sm-1">
-						<div class="content-box-numbering align-middle mx-auto">3</div>
+				<!-------------------------------------------------------------------------------------------------->
+				<div class="summit-content-box mx-auto p-5 mt-4">
+					<div class="row mb-5">
+						<div class="col-sm-1">
+							<div class="content-box-numbering align-middle mx-auto">3</div>
+						</div>
+						<div class="col-sm-11 content-box-title">
+							별점 <b class="p-2" style="font-size: 24px; font-weight: 300;">'매우
+								그렇다'면 5점, '전혀 그렇지 않다'면 0점을 주세요!</b>
+						</div>
 					</div>
-					<div class="col-sm-11 content-box-title">
-						별점
-						<b class="p-2" style="font-size: 24px;font-weight: 300;">'매우 그렇다'면 5점, '전혀 그렇지 않다'면 0점을 주세요!</b>
-					</div>
-				</div>
-				<div class="row">
-					
-					<div class="col-sm-10 offset-sm-1 p-0">
-						<ul class="list-group list-group-flush content-box-text1">
-						  <li class="list-group-item pl-0 pr-0 pt-3">
-							  <div class="row">
-								  <div class="col-sm-11 pr-0">
-									  <div class="d-flex justify-content-between align-items-center">
-										  직원의 친절
-										  <div class="rating" data-vote="0">
-											
-											<div class="star hidden">
-											  <span class="full"data-value="0"></span>
-											  <span class="half"data-value="0"></span>
-											</div>
-										  
-											<div class="star">
-										  
-											  <span class="full" data-value="1"></span>
-											  <span class="half" data-value="0.5"></span>
-											  <span class="selected"></span>
-										  
-											</div>
-										  
-											<div class="star">
-										  
-											  <span class="full" data-value="2"></span>
-											  <span class="half" data-value="1.5"></span>
-											  <span class="selected"></span>
-										  
-											</div>
-										  
-											<div class="star">
-										  
-											  <span class="full" data-value="3"></span>
-											  <span class="half" data-value="2.5"></span>
-											  <span class="selected"></span>
-										  
-											</div>
-										  
-											<div class="star">
-										  
-											  <span class="full" data-value="4"></span>
-											  <span class="half" data-value="3.5"></span>
-											  <span class="selected"></span>
-										  
-											</div>
-										  
-											<div class="star">
-										  
-											  <span class="full" data-value="5"></span>
-											  <span class="half" data-value="4.5"></span>
-											  <span class="selected"></span>
-											  
-											</div>
-											
-											<div class="score">
-												<span class="score-rating js-score">0</span>
-												<span>/</span>
-												<span class="total">5</span>
+					<div class="row">
+
+						<div class="col-sm-10 offset-sm-1 p-0">
+							<ul class="list-group list-group-flush content-box-text1">
+								<li class="list-group-item pl-0 pr-0 pt-3">
+									<div class="row">
+										<div class="col-sm-11 pr-0">
+											<div
+												class="d-flex justify-content-between align-items-center">
+												직원의 친절
+												<div class="rating" data-vote="0">
+
+													<div class="star hidden">
+														<span class="full" data-value="0"></span> <span
+															class="half" data-value="0"></span>
+													</div>
+
+													<div class="star">
+
+														<span class="full" data-value="1"></span> <span
+															class="half" data-value="0.5"></span> <span
+															class="selected"></span>
+
+													</div>
+
+													<div class="star">
+
+														<span class="full" data-value="2"></span> <span
+															class="half" data-value="1.5"></span> <span
+															class="selected"></span>
+
+													</div>
+
+													<div class="star">
+
+														<span class="full" data-value="3"></span> <span
+															class="half" data-value="2.5"></span> <span
+															class="selected"></span>
+
+													</div>
+
+													<div class="star">
+
+														<span class="full" data-value="4"></span> <span
+															class="half" data-value="3.5"></span> <span
+															class="selected"></span>
+
+													</div>
+
+													<div class="star">
+
+														<span class="full" data-value="5"></span> <span
+															class="half" data-value="4.5"></span> <span
+															class="selected"></span>
+
+													</div>
+
+													<div class="score">
+														<span class="score-rating js-score">0</span> <span>/</span>
+														<span class="total">5</span>
+													</div>
+												</div>
+
+
+
 											</div>
 										</div>
-										
-
-
-									  </div>
-								  </div>
-								  <div class="col-sm-1 p-0 d-flex align-items-center caption" id="kv-caption-kindness" style="color: #9b9b9b;"><span class="badge badge-default"></span></div>
-							  </div>
-						  </li>
-						  <li class="list-group-item pl-0 pr-0 pt-3">
-							  <div class="row">
-								  <div class="col-sm-11 pr-0">
-									  <div class="d-flex justify-content-between align-items-center">
-										  짧은 대기시간
-										  
-									  </div>
-								  </div>
-								  <div class="col-sm-1 p-0 d-flex align-items-center caption" id="kv-caption-waiting" style="color: #9b9b9b;"><span class="badge badge-default"></span></div>
-							  </div>
-						  </li>
-						  <li class="list-group-item pl-0 pr-0 pt-3">
-							  <div class="row">
-								  <div class="col-sm-11 pr-0">
-									  <div class="d-flex justify-content-between align-items-center">
-										  청결함
-										  
-									  </div>
-								  </div>
-								  <div class="col-sm-1 p-0 d-flex align-items-center caption" id="kv-caption-clarity" style="color: #9b9b9b;"><span class="badge badge-default"></span></div>
-							  </div>
-						  </li>
-						  <li class="list-group-item pl-0 pr-0 pt-3">
-							  <div class="row">
-								  <div class="col-sm-11 pr-0">
-									  <div class="d-flex justify-content-between align-items-center">
-										  치료에 대한 자세한 설명
-										  
-									  </div>
-								  </div>
-								  <div class="col-sm-1 p-0 d-flex align-items-center caption" id="kv-caption-explain" style="color: #9b9b9b;"><span class="badge badge-default"></span></div>
-							  </div>
-						  </li>
-						  <li class="list-group-item pl-0 pr-0 pt-3">
-							  <div class="row">
-								  <div class="col-sm-11 pr-0">
-									  <div class="d-flex justify-content-between align-items-center">
-										  적절한 금액
-										 
-									  </div>
-								  </div>
-								  <div class="col-sm-1 p-0 d-flex align-items-center caption" id="kv-caption-cost" style="color: #9b9b9b;"><span class="badge badge-default"></span></div>
-							  </div>
-						  </li>
-						  <li class="list-group-item pl-0 pr-0 pt-3 border-bottom">
-							  <div class="row">
-								  <div class="col-sm-11 pr-0">
-									  <div class="d-flex justify-content-between align-items-center">
-										  치료 후 결과
-										  
-									  </div>
-								  </div>
-								  <div class="col-sm-1 p-0 d-flex align-items-center caption" id="kv-caption-outcome" style="color: #9b9b9b;"><span class="badge badge-default"></span></div>
-							  </div>
-						  </li>
-						</ul>
-					</div>
-				</div>
-			</div>
-	
-
-			<!--텍스트 리뷰-->
-			<div class="summit-content-box mx-auto p-5 mt-4">
-				<div class="row mb-4">
-					<div class="col-sm-1">
-						<div class="content-box-numbering align-middle mx-auto">4</div>
-					</div>
-					<div class="col-sm-11 content-box-title">
-						텍스트 리뷰
-					</div>
-				</div>
-				<div class="row text-left">
-					<div class="col-sm-10 offset-sm-1 p-3 rounded-lg" style="background-color: #f8f8f8;">
-						<b style="color: #494949;">좋은 리뷰는?</b>
-						<b style="color: #494949; font-weight:300;">1. 의사 중심의 리뷰  /  2. 처치 중심의 리뷰  /  3. 진료실 내부의 리뷰</b>
-					</div>
-				</div>
-	
-				<div class="row">
-					<div class="col-sm-10 offset-sm-1 p-0 d-flex justify-content-end">
-						<button type="button" class="btn btn-link" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="font-size: 14px;font-weight: bold;color: #007ee5;">
-							예시 보기</button>
-					</div>
-					<div class="row collapse mt-2 mb-2 text-left" id="collapseExample">
-						<div class="col-sm-10 offset-sm-1">
-							<div class="p-3 border rounded-lg" style="font-size: 14px;color: #494949;">
-								OOO 선생님 좋았습니다. 우선 <b class="text-emphasize-puple">진료실 내부</b>에서 상냥하게 인사해주고,
-								<b class="text-emphasize-puple">처치내용</b>에 대해 단계별로 설명해주셨습니다.
-								저는 <b class="text-emphasize-puple">OOOO이 아파서 갔는데</b> 왜 아픈지, 앞으로 치료는 어떤식으로 진행될 지,
-								평소에 생활습관은 어떻게 가져가야 하는지에 대한 자세한 설명을 들을 수 있었습니다.
-								이후 <b class="text-emphasize-puple">처치실에서도</b> 아픈 처치가 이루어지기 전에는 미리 알려주시고 환자를 배려하여 진행해주셨습니다.
-								다만 <b class="text-emphasize-puple">단점으로는</b> 대기시간이 길었던 점과, 영업시간이 짧다는 점, 그리고 데스크 직원분들이 불친절했던 것을 꼽을 수 있습니다.
-							</div>
+										<div class="col-sm-1 p-0 d-flex align-items-center caption"
+											id="kv-caption-kindness" style="color: #9b9b9b;">
+											<span class="badge badge-default"></span>
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item pl-0 pr-0 pt-3">
+									<div class="row">
+										<div class="col-sm-11 pr-0">
+											<div
+												class="d-flex justify-content-between align-items-center">
+												짧은 대기시간</div>
+										</div>
+										<div class="col-sm-1 p-0 d-flex align-items-center caption"
+											id="kv-caption-waiting" style="color: #9b9b9b;">
+											<span class="badge badge-default"></span>
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item pl-0 pr-0 pt-3">
+									<div class="row">
+										<div class="col-sm-11 pr-0">
+											<div
+												class="d-flex justify-content-between align-items-center">
+												청결함</div>
+										</div>
+										<div class="col-sm-1 p-0 d-flex align-items-center caption"
+											id="kv-caption-clarity" style="color: #9b9b9b;">
+											<span class="badge badge-default"></span>
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item pl-0 pr-0 pt-3">
+									<div class="row">
+										<div class="col-sm-11 pr-0">
+											<div
+												class="d-flex justify-content-between align-items-center">
+												치료에 대한 자세한 설명</div>
+										</div>
+										<div class="col-sm-1 p-0 d-flex align-items-center caption"
+											id="kv-caption-explain" style="color: #9b9b9b;">
+											<span class="badge badge-default"></span>
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item pl-0 pr-0 pt-3">
+									<div class="row">
+										<div class="col-sm-11 pr-0">
+											<div
+												class="d-flex justify-content-between align-items-center">
+												적절한 금액</div>
+										</div>
+										<div class="col-sm-1 p-0 d-flex align-items-center caption"
+											id="kv-caption-cost" style="color: #9b9b9b;">
+											<span class="badge badge-default"></span>
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item pl-0 pr-0 pt-3 border-bottom">
+									<div class="row">
+										<div class="col-sm-11 pr-0">
+											<div
+												class="d-flex justify-content-between align-items-center">
+												치료 후 결과</div>
+										</div>
+										<div class="col-sm-1 p-0 d-flex align-items-center caption"
+											id="kv-caption-outcome" style="color: #9b9b9b;">
+											<span class="badge badge-default"></span>
+										</div>
+									</div>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
-	
-				<div class="row">
-					<div class="col-sm-10 offset-sm-1 p-0 mt-1">
-							<textarea class="form-control" rows="5" id="comment" name="comment" placeholder="의사 선생님께 받은 치료 경험을 진솔한 이야기로 풀어주세요. (200자 이상)" onkeyup="textCounter(this, 'counter', 200);"></textarea>
-							<div class="mt-1" style="font-size:14px;text-align:right;color:#494949;letter-spacing: -0.6px;">
+
+
+				<!--텍스트 리뷰-->
+				<div class="summit-content-box mx-auto p-5 mt-4">
+					<div class="row mb-4">
+						<div class="col-sm-1">
+							<div class="content-box-numbering align-middle mx-auto">4</div>
+						</div>
+						<div class="col-sm-11 content-box-title">텍스트 리뷰</div>
+					</div>
+					<div class="row text-left">
+						<div class="col-sm-10 offset-sm-1 p-3 rounded-lg"
+							style="background-color: #f8f8f8;">
+							<b style="color: #494949;">좋은 리뷰는?</b> <b
+								style="color: #494949; font-weight: 300;">1. 의사 중심의 리뷰 / 2.
+								처치 중심의 리뷰 / 3. 진료실 내부의 리뷰</b>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-10 offset-sm-1 p-0 d-flex justify-content-end">
+							<button type="button" class="btn btn-link" data-toggle="collapse"
+								href="#collapseExample" aria-expanded="false"
+								aria-controls="collapseExample"
+								style="font-size: 14px; font-weight: bold; color: #007ee5;">
+								예시 보기</button>
+						</div>
+						<div class="row collapse mt-2 mb-2 text-left" id="collapseExample">
+							<div class="col-sm-10 offset-sm-1">
+								<div class="p-3 border rounded-lg"
+									style="font-size: 14px; color: #494949;">
+									OOO 선생님 좋았습니다. 우선 <b class="text-emphasize-puple">진료실 내부</b>에서
+									상냥하게 인사해주고, <b class="text-emphasize-puple">처치내용</b>에 대해 단계별로
+									설명해주셨습니다. 저는 <b class="text-emphasize-puple">OOOO이 아파서 갔는데</b>
+									왜 아픈지, 앞으로 치료는 어떤식으로 진행될 지, 평소에 생활습관은 어떻게 가져가야 하는지에 대한 자세한 설명을
+									들을 수 있었습니다. 이후 <b class="text-emphasize-puple">처치실에서도</b> 아픈
+									처치가 이루어지기 전에는 미리 알려주시고 환자를 배려하여 진행해주셨습니다. 다만 <b
+										class="text-emphasize-puple">단점으로는</b> 대기시간이 길었던 점과, 영업시간이 짧다는
+									점, 그리고 데스크 직원분들이 불친절했던 것을 꼽을 수 있습니다.
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-10 offset-sm-1 p-0 mt-1">
+							<textarea class="form-control" rows="5" id="comment"
+								name="comment"
+								placeholder="의사 선생님께 받은 치료 경험을 진솔한 이야기로 풀어주세요. (200자 이상)"
+								onkeyup="textCounter(this, 'counter', 200);"></textarea>
+							<div class="mt-1"
+								style="font-size: 14px; text-align: right; color: #494949; letter-spacing: -0.6px;">
 								(<span id="counter">0</span>자, 최소 200자 이상)
 							</div>
 							<script>
@@ -798,59 +924,64 @@ body {
 									$('#' + field2).text(field.value.length);
 								}
 							</script>
-					</div>
-				</div>
-			</div>
-	
-			
-	
-			<div class="summit-content-box mx-auto p-5 mt-4">
-				<div class="row mb-4">
-					<div class="col-sm-1">
-						<div class="content-box-numbering align-middle mx-auto">6</div>
-					</div>
-					<div class="col-sm-11 content-box-title">
-						이 병원은..?
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-sm-10 offset-sm-1">
-						<div class="card-group border-0">
-							<div class="card border-0 d-flex justify-content-center">
-								<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/goodface.svg" class="img-fluid" alt="Responsive image" id="goodface">
-								<div class="card-body">
-									<input type="radio" name="suggest" value="true" id="good_suggest_input">
-								</div>
-							</div>
-							<div class="card border-left-0 border-top-0 border-bottom-0 d-flex justify-content-center">
-								<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/wrongface.svg" class="img-fluid" alt="Responsive image" id="wrongface">
-								<div class="card-body">
-									<input type="radio" name="suggest" value="false" id="wrong_suggest_input">
-								</div>
-							</div>
 						</div>
-	
+					</div>
+				</div>
+
+
+
+				<div class="summit-content-box mx-auto p-5 mt-4">
+					<div class="row mb-4">
+						<div class="col-sm-1">
+							<div class="content-box-numbering align-middle mx-auto">6</div>
+						</div>
+						<div class="col-sm-11 content-box-title">이 병원은..?</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-10 offset-sm-1">
+							<div class="card-group border-0">
+								<div class="card border-0 d-flex justify-content-center">
+									<img
+										src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/goodface.svg"
+										class="img-fluid" alt="Responsive image" id="goodface">
+									<div class="card-body">
+										<input type="radio" name="suggest" value="true"
+											id="good_suggest_input">
+									</div>
+								</div>
+								<div
+									class="card border-left-0 border-top-0 border-bottom-0 d-flex justify-content-center">
+									<img
+										src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/wrongface.svg"
+										class="img-fluid" alt="Responsive image" id="wrongface">
+									<div class="card-body">
+										<input type="radio" name="suggest" value="false"
+											id="wrong_suggest_input">
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+				<div class="row mt-5 mb-5 pt-3">
+					<div class="col-sm-6 offset-sm-3 p-0 align-top">
+						<button class="btn btn-mdd w-100 p-4" type="submit"
+							style="font-size: 21px; color: white; background-color: #0071ce;">
+							작성한 리뷰 제출하기</button>
 					</div>
 				</div>
 
 			</div>
-
-			<div class="row mt-5 mb-5 pt-3">
-				<div class="col-sm-6 offset-sm-3 p-0 align-top">
-					<button class="btn btn-mdd w-100 p-4" type="submit" style="font-size:21px; color: white; background-color: #0071ce;">
-						작성한 리뷰 제출하기
-					</button>
-				</div>
-			</div>
-	
-		</div>
 		</div>
 	</form>
-	
-	
-	
-	
+
+
+
+
 	<script>
 	
 	function openNextPage(url){
@@ -1235,19 +1366,23 @@ body {
 	
 
 	</script>
-	
-	
 
-	 <%@ include file="../static/footer.jsp" %>
-	
+
+
+	<%@ include file="../static/footer.jsp"%>
+
 	<!--====== Javascripts & Jquery ======-->
-	<script src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 
-	</body>
+</body>
 </html>
-    
+

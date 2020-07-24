@@ -8,12 +8,12 @@ public class HpReviewController {
 
 	@RequestMapping("hpReviewManage")
 	public String hpReviewManage() {
-		return"admin/hospitalReview/hpReviewManage";
+		return "admin/hospitalReview/hpReviewManage";
 	}
-	
+
 	@RequestMapping("hpReviewDetail")
 	public String hpReviewDetail() {
-		return"admin/hospitalReview/hpReviewDetail";
+		return "admin/hospitalReview/hpReviewDetail";
 	}
-	
+
 }

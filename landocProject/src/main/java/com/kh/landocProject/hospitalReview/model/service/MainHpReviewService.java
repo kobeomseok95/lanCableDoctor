@@ -8,6 +8,4 @@ public interface MainHpReviewService {
 
 	ArrayList<SearchHp> selectList(String hpName);
 
-	
-	
 }

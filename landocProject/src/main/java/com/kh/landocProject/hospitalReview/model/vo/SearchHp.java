@@ -2,22 +2,21 @@ package com.kh.landocProject.hospitalReview.model.vo;
 
 import java.io.Serializable;
 
-public class SearchHp implements Serializable{
+public class SearchHp implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8222162224956063296L;
-	
+
 	private int hpNo;
 	private String hpName;
 	private String hpPhone;
 	private String hpAddress;
-	
+
 	public SearchHp() {
-		
+
 	}
-	
 
 	public SearchHp(int hpNo, String hpName, String hpPhone, String hpAddress) {
 		this.hpNo = hpNo;
@@ -67,11 +66,7 @@ public class SearchHp implements Serializable{
 		return "SearchHp [hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", hpAddress=" + hpAddress
 				+ "]";
 	}
-	
-	//범석 확인!
-	
-	
-	
-	
-	
+
+	// 범석 확인!
+
 }

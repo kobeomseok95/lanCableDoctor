@@ -22,8 +22,4 @@ public interface cMypageService {
 
 	ArrayList<OrderList> orderListDateSearch2(OrderList order);
 
-
-
-
-
 }

@@ -1,203 +1,216 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%-- <%@ page session="false" %> --%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-   <title>찜한병원</title>
-   <meta charset="UTF-8">
-   <meta name="description" content="SolMusic HTML Template">
-   <meta name="keywords" content="music, html">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>찜한병원</title>
+<meta charset="UTF-8">
+<meta name="description" content="SolMusic HTML Template">
+<meta name="keywords" content="music, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   <!-- Favicon -->
-   <link href="<%=request.getContextPath()%>/resources/img/favicon.ico" rel="shortcut icon" />
+<!-- Favicon -->
+<link href="<%=request.getContextPath()%>/resources/img/favicon.ico"
+	rel="shortcut icon" />
 
-   <!-- Google font -->
-   <link
-      href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
-      rel="stylesheet">
+<!-- Google font -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
+	rel="stylesheet">
 
-   <!-- Stylesheets -->
-   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />
-   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" />
-   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css" />
-   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/slicknav.min.css" />
+<!-- Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/slicknav.min.css" />
 
-   <!-- Main Stylesheets -->
-   <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css" />
+<!-- Main Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css" />
 
 
-   <!--[if lt IE 9]>
+<!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
    <![endif]-->
-   
-   <style>
-    .checked{color: orange;}
-	
-   </style>
-   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<style>
+.checked {
+	color: orange;
+}
+</style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 
 <body>
-   <link rel="stylesheet" type="text/css" href="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/customer_web/style.css">
-   <!-- Page Preloder -->
-   <div id="preloder">
-      <div class="loader"></div>
-   </div>
+	<link rel="stylesheet" type="text/css"
+		href="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/customer_web/style.css">
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
 
-   <%@ include file="../static/header.jsp" %>
+	<%@ include file="../static/header.jsp"%>
 
-   <div class="container" style="margin-bottom: 80px; text-align: center;">
-        <div style="width: 960px; display: inline-block">
-    
-        <div class="row doctor-list-box">
- 
-            <!-- doctor list -->
-            <div class="col-6 mt-3">
-    
-                <div class="doctors-title-box pb-2 text-left" style="border-bottom: solid darkgray 1px;">
-                    <div style="font-size: 20px;">
-          				    찜한 병원 
-                        <b class="ml-3" style="color:#0071ce">${likeHpCount}</b>
-                    </div>
-                </div>
-    
-                <!-- doctors card list -->
-                <div class="doctor-list-section mt-2 ">
-                    
-                   <c:forEach var="h" items="${likeHplist}">
-                   <div class="doctor-total-box border-bottom">
+	<div class="container" style="margin-bottom: 80px; text-align: center;">
+		<div style="width: 960px; display: inline-block">
 
-                        <a href="#" style="color: inherit;text-decoration: none;">
+			<div class="row doctor-list-box">
 
-                            <div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
-                                <div class="row px-3">
+				<!-- doctor list -->
+				<div class="col-6 mt-3">
+
+					<div class="doctors-title-box pb-2 text-left"
+						style="border-bottom: solid darkgray 1px;">
+						<div style="font-size: 20px;">
+							찜한 병원 <b class="ml-3" style="color: #0071ce">${likeHpCount}</b>
+						</div>
+					</div>
+
+					<!-- doctors card list -->
+					<div class="doctor-list-section mt-2 ">
+
+						<c:forEach var="h" items="${likeHplist}">
+							<div class="doctor-total-box border-bottom">
+
+								<a href="#" style="color: inherit; text-decoration: none;">
+
+									<div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
+										<div class="row px-3">
 
 
-                                    <div class="col-3 profile-doctor-image-box p-0">
+											<div class="col-3 profile-doctor-image-box p-0">
 
-                                    
-                                        <img src="img/mainlogo.png" class="img-circle profile-doctor-image border" style="width:97px; height:97px;">
-                                    
-                                    </div>
 
-                                    <div class="col-8 profile-doctor-box  text-left">
-    
-                                        <div style="font-size:14px;font-weight: 300;overflow: hidden;text-overflow: ellipsis;white-space: nowrap">
-                                        
-                                        </div>
-    
-                                        
-                                        <div style="font-size: 1.313rem; font-weight:bold" class="d-flex justify-content-start align-items-start">
-                               		             ${h.hpName}
-                                        </div>
-                                        
-    
-                                        <div class="review-star-box d-flex align-items-start mt-1">
-                                           
-                                           <c:if test="${h.hpAvgRate eq 0}">
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-                                           </c:if>
-                                            <c:if test="${h.hpAvgRate ge 1 && h.hpAvgRate le 3}">
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-                                            </c:if>
-                                            <c:if test="${h.hpAvgRate ge 4 && h.hpAvgRate le 5}">
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-                                            </c:if>
-                                            <c:if test="${h.hpAvgRate ge 6 && h.hpAvgRate le 7}">
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star"></span>
-	                                            <span class="fa fa-star"></span>
-                                            </c:if>
-                                            <c:if test="${h.hpAvgRate ge 8 && h.hpAvgRate le 9}">
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star"></span>
-                                            </c:if>
-                                            <c:if test="${h.hpAvgRate ge 10}">
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-	                                            <span class="fa fa-star checked"></span>
-                                            </c:if>
-                                            
-                                                
-                                           <div class="review-count-box ml-1" style="font-size: 12px;">
-                                                ${h.hpAvgRate}
-                                                (${h.hpReview})
-                                            </div>
-                                        </div>
-    
-                                     
-    
-                                    </div>
-                                </div>
+												<img src="img/mainlogo.png"
+													class="img-circle profile-doctor-image border"
+													style="width: 97px; height: 97px;">
 
-                                
-                                <div class="row pl-4 pt-3 pb-1">
-                                    <div class="col-11 offset-1 p-0" style="border-bottom:solid 1px #f8f8f8"></div>
-                                </div>
-                                
+											</div>
 
-                                <div class="row px-3 pb-0" style="font-size: 14px;">
-                                    <div class="col-4 offset-1 text-left border-right pl-2 pr-1" style="letter-spacing: -0.8px;">
-                                        
-                                           ${h.hpTime }
-                                        
-                                    </div>
-                                    <div class="col-7 text-left color9b pl-1" style="letter-spacing: -0.8px;">
-                                        <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/location_inactive.svg" style="width: 12px;height: 16.5px;" alt="Responsive image">
-                                        ${h.hpAddress }
-                                        </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    </c:forEach>
+											<div class="col-8 profile-doctor-box  text-left">
 
-    			 </div>
+												<div
+													style="font-size: 14px; font-weight: 300; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
 
-            </div>
-    
-    
-    
-    	
-           <div id="map" style="width:500px;height:865px;" class="col-6"></div>
-        </div>
-        
-        
-    </div>
-    
+												</div>
 
-    
 
-   </div>
+												<div style="font-size: 1.313rem; font-weight: bold"
+													class="d-flex justify-content-start align-items-start">
+													${h.hpName}</div>
 
-	
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9819f15f70efbcf9c7fa49a48295392"></script>
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9819f15f70efbcf9c7fa49a48295392&libraries=LIBRARY"></script>
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9819f15f70efbcf9c7fa49a48295392&libraries=services,clusterer,drawing"></script>
-   <script>
+
+												<div class="review-star-box d-flex align-items-start mt-1">
+
+													<c:if test="${h.hpAvgRate eq 0}">
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+													</c:if>
+													<c:if test="${h.hpAvgRate ge 1 && h.hpAvgRate le 3}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+													</c:if>
+													<c:if test="${h.hpAvgRate ge 4 && h.hpAvgRate le 5}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+													</c:if>
+													<c:if test="${h.hpAvgRate ge 6 && h.hpAvgRate le 7}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+													</c:if>
+													<c:if test="${h.hpAvgRate ge 8 && h.hpAvgRate le 9}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+													</c:if>
+													<c:if test="${h.hpAvgRate ge 10}">
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+													</c:if>
+
+
+													<div class="review-count-box ml-1" style="font-size: 12px;">
+														${h.hpAvgRate} (${h.hpReview})</div>
+												</div>
+
+
+
+											</div>
+										</div>
+
+
+										<div class="row pl-4 pt-3 pb-1">
+											<div class="col-11 offset-1 p-0"
+												style="border-bottom: solid 1px #f8f8f8"></div>
+										</div>
+
+
+										<div class="row px-3 pb-0" style="font-size: 14px;">
+											<div class="col-4 offset-1 text-left border-right pl-2 pr-1"
+												style="letter-spacing: -0.8px;">${h.hpTime }</div>
+											<div class="col-7 text-left color9b pl-1"
+												style="letter-spacing: -0.8px;">
+												<img
+													src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/location_inactive.svg"
+													style="width: 12px; height: 16.5px;" alt="Responsive image">
+												${h.hpAddress }
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</c:forEach>
+
+					</div>
+
+				</div>
+
+
+
+
+				<div id="map" style="width: 500px; height: 865px;" class="col-6"></div>
+			</div>
+
+
+		</div>
+
+
+
+
+	</div>
+
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9819f15f70efbcf9c7fa49a48295392"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9819f15f70efbcf9c7fa49a48295392&libraries=LIBRARY"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d9819f15f70efbcf9c7fa49a48295392&libraries=services,clusterer,drawing"></script>
+	<script>
 	   var container = document.getElementById('map');
 	   var options = {
 		   center: new kakao.maps.LatLng(33.450701, 126.570667),
@@ -315,13 +328,18 @@
 		}    
    </script>
 
-  <%@ include file="../static/footer.jsp" %>
-   <!--====== Javascripts & Jquery ======-->
-   <script src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
-   <script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
-   <script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
-   <script src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
-   <script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
-   <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+	<%@ include file="../static/footer.jsp"%>
+	<!--====== Javascripts & Jquery ======-->
+	<script
+		src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 </body>
+
 </html>

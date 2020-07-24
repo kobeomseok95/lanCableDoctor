@@ -16,7 +16,8 @@
 						mp3:songUrl
 					});
 				},
-				play: function() { // To avoid multiple jPlayers playing together.
+				play: function() { // To avoid multiple jPlayers playing
+									// together.
 					$(this).jPlayer("pauseOthers");
 					try {
 						wavesurfer.pause();
@@ -80,26 +81,27 @@
 		}
 
 		function RewindTrack() {
-			//Get current progress and decrement
+			// Get current progress and decrement
 			var currentProgress = GetPlayerProgress();
 			var futureProgress = currentProgress - 5;
-			//If it goes past the starting point - stop rewinding and pause
+			// If it goes past the starting point - stop rewinding and pause
 			if (futureProgress <= 0) {
 				rewinding = false;
 				window.clearInterval(rwaction);
 				player.jPlayer("pause", 0);
 			}
-			//Continue rewinding
+			// Continue rewinding
 			else {
 				player.jPlayer("playHead", parseInt(futureProgress, 10));
 			}
 		}
 
 		function FastforwardTrack() {
-			//Get current progress and increment
+			// Get current progress and increment
 			var currentProgress = GetPlayerProgress();
 			var futureProgress = currentProgress + 5;
-			//If the percentage exceeds the max - stop fast forwarding at the end.
+			// If the percentage exceeds the max - stop fast forwarding at the
+			// end.
 			if (futureProgress >= 100) {
 				fastforward = false;
 				window.clearInterval(ffaction);
@@ -112,4 +114,3 @@
 	});
 
 })(jQuery);
-

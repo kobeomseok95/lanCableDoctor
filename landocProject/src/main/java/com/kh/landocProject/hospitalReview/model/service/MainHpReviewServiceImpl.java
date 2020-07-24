@@ -9,19 +9,15 @@ import com.kh.landocProject.hospitalReview.model.dao.MainHpReviewDao;
 import com.kh.landocProject.hospitalReview.model.vo.SearchHp;
 
 @Service
-public class MainHpReviewServiceImpl implements MainHpReviewService{
+public class MainHpReviewServiceImpl implements MainHpReviewService {
 
 	@Autowired
 	MainHpReviewDao MainHpReDao;
 
 	@Override
 	public ArrayList<SearchHp> selectList(String hpName) {
-		
-		
+
 		return MainHpReDao.selectList(hpName);
 	}
-	
-	
-	
-	
+
 }

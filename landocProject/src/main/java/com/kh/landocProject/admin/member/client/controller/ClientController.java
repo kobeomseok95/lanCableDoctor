@@ -7,15 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ClientController {
 
 	@RequestMapping("clientManage.do")
-	   public String loginView() {
-	      return "admin/member/client/clientManage";
-	   }
-	
+	public String loginView() {
+		return "admin/member/client/clientManage";
+	}
+
 	@RequestMapping("clientDetail.do")
-	   public String clientDetail() {
-	      return "admin/member/client/clientDetail";
-	   }
-	
-	
-	
+	public String clientDetail() {
+		return "admin/member/client/clientDetail";
+	}
+
 }

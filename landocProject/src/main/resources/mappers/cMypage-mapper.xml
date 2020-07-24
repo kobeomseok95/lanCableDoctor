@@ -131,5 +131,4 @@
 		AND ORDER_DATE BETWEEN #{calendarDate1} AND #{calendarDate2}
 		ORDER BY PA.ORDER_DATE DESC
 	</select>
-	
 </mapper>

@@ -8,12 +8,12 @@ public class OrderController {
 
 	@RequestMapping("orderManage.do")
 	public String orderManage() {
-		return"admin/order/orderManage";
+		return "admin/order/orderManage";
 	}
-	
+
 	@RequestMapping("orderDetail.do")
 	public String orderDetail() {
-		return"admin/order/orderDetail";
+		return "admin/order/orderDetail";
 	}
-	
+
 }

@@ -42,7 +42,7 @@ public class MainAskDrController {
 		int listCount = askDrServiceImpl.selectAskDrBoardCount(categoryNo);
 		AskDrBoardPagination page = AskDrBoardPagination.getAskDrBoardPagination(currentPage, listCount);
 		ArrayList<AskDrBoard> list = (ArrayList<AskDrBoard>) askDrServiceImpl.selectAskDrBoard(categoryNo, page);
-		
+
 		mv.addObject("boardStatus", 1);
 		mv.addObject("askDrBoardList", list);
 		mv.addObject("subject", subject);
@@ -80,11 +80,8 @@ public class MainAskDrController {
 	}
 
 	@RequestMapping(value = "askDrBoardSearch.do", method = RequestMethod.GET)
-	public ModelAndView askDrBoardSearch(ModelAndView mv, 
-																@RequestParam int searchBoardOption,
-																@RequestParam String searchBoardContent, 
-																@RequestParam int category, 
-																@RequestParam int pageNo) {
+	public ModelAndView askDrBoardSearch(ModelAndView mv, @RequestParam int searchBoardOption,
+			@RequestParam String searchBoardContent, @RequestParam int category, @RequestParam int pageNo) {
 		mv.setViewName("askDr/askDrBoard");
 
 		String subject = askDrCategoryMap.getCategoryMap().get(category);
