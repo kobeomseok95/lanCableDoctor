@@ -453,7 +453,11 @@
 												style="font-size: 13px; background-color: #0071ce; color: whitesmoke">구매후기</button>
 										</c:if>
 										<c:if test="${o.oCode eq 14 }">
-											<button type="button" id="edit_profile"
+										<c:url var="updateReview" value="updateReviewView.do">
+											<c:param name="orderNo" value="${o.orderNo}"/>
+											<c:param name="cNo" value="${o.cNo }"/>
+										</c:url>
+											<button type="button" id="edit_profile" onclick="location.href='${updateReview}'"
 												class="btn btn-blackcontent w-10 p-1"
 												style="font-size: 13px; background-color: #0071ce; color: whitesmoke">리뷰수정</button>
 										</c:if>
@@ -485,18 +489,38 @@
 			</c:if>
 
 			<c:if test="${pi.currentPage gt 1 }">
+				<c:if test ="${empty date && empty date1}">
 				<c:url var="blistBack" value="myOrderList.do">
 					<c:param name="page" value="${pi.currentPage -1 }" />
 				</c:url>
+				</c:if>
+				
+				<c:if test="${!empty date}">
+				<c:url var="blistBack" value="dateSearch.do">
+					<c:param name="page" value="${pi.currentPage -1 }" />
+					<c:param name="date" value="${date}" />
+				</c:url>
+				</c:if>
+				
+				<c:if test="${!empty data1 && !empty date2 }">
+				<c:url var="blistBack" value="dateSearch2.do">
+					<c:param name="page" value="${pi.currentPage -1 }" />
+					<c:param name="startDate" value="${date1}" />
+					<c:param name="endDate" value="${date2}" />
+				</c:url>
+				</c:if>
+				
 				<li style="width: 30px;"><a href="blistBack"
 					aria-label="Previous"> <span aria-hidden="true">«</span>
-				</a></li>
+				</a>
+				</li>
 			</c:if>
 
 			<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+				<c:if test="${empty date && empty date1}">
 				<c:if test="${p eq pi.currentPage }">
-					<li class="active" style="width: 30px; color: black;"><a
-						href="#">${p}</a></li>
+					<li class="active" style="width: 30px;"><a
+						href="#" style="color:#a82400;">${p}</a></li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
 					<c:url var="blistCheck" value="myOrderList.do">
@@ -505,7 +529,38 @@
 					<li class="active" style="width: 30px;"><a
 						href="${blistCheck }">${p}</a></li>
 				</c:if>
-
+				</c:if>
+				
+				<c:if test="${!empty date}">
+				<c:if test="${p eq pi.currentPage }">
+					<li class="active" style="width: 30px;"><a
+						href="#" style="color:#a82400;">${p}</a></li>
+				</c:if>
+				<c:if test="${p ne pi.currentPage }">
+					<c:url var="blistCheck" value="dateSearch.do">
+						<c:param name="page" value="${p }" />
+						<c:param name="date" value="${date}" />
+					</c:url>
+					<li class="active" style="width: 30px;"><a
+						href="${blistCheck }">${p}</a></li>
+				</c:if>
+				</c:if>
+				
+				<c:if test="${!empty date1 && !empty date2}">
+				<c:if test="${p eq pi.currentPage }">
+					<li class="active" style="width: 30px;"><a
+						href="#" style="color:#a82400;">${p}</a></li>
+				</c:if>
+				<c:if test="${p ne pi.currentPage }">
+					<c:url var="blistCheck" value="dateSearch2.do">
+						<c:param name="page" value="${p }" />
+						<c:param name="startDate" value="${date1}" />
+						<c:param name="endDate" value="${date2}" />
+					</c:url>
+					<li class="active" style="width: 30px;"><a
+						href="${blistCheck }">${p}</a></li>
+				</c:if>
+				</c:if>
 			</c:forEach>
 			<c:if test="${pi.currentPage eq pi.maxPage }">
 				<li class=disabled style="width: 30px;"><a href="#"
@@ -515,13 +570,34 @@
 
 
 			<c:if test="${pi.currentPage lt pi.maxPage }">
-				<c:url var="blistNext" value="myOrderList.do">
-					<c:param name="page" value="${pi.currentPage +1 }" />
-				</c:url>
+				<c:if test ="${empty date && empty date1}">
+					<c:url var="blistNext" value="myOrderList.do">
+						<c:param name="page" value="${pi.currentPage +1 }" />
+					</c:url>
+				</c:if>
+				
+				<c:if test="${!empty date }">
+					<c:url var="blistNext" value="dateSearch.do">
+						<c:param name="page" value="${pi.currentPage +1 }" />
+						<c:param name="date" value="${date}" />
+					</c:url>
+				</c:if>
+				
+				<c:if test="${!empty date1 && !empty date2}">
+					<c:url var="blistNext" value="dateSearch.do">
+						<c:param name="page" value="${pi.currentPage +1 }" />	
+						<c:param name="startDate" value="${date1}" />
+						<c:param name="endDate" value="${date2}" />
+					</c:url>
+				</c:if>
+				
+				
 				<li style="width: 30px;"><a href="blistNext"
 					aria-label="Previous"> <span aria-hidden="true">»</span>
 				</a></li>
 			</c:if>
+			
+	
 		</ul>
 	</nav>
 

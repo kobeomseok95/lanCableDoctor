@@ -78,7 +78,7 @@
 				</div>
 
 
-				<form id="register-submit-form" action="pdReviewInsert.do"
+				<form id="review" action="pdReviewInsert.do"
 					method="post">
 
 					<input type="hidden" name="orderNo" value="${orderDetail.orderNo}">
@@ -180,7 +180,7 @@
 										<textarea class="form-control" rows="5" id="comment"
 											name="pdReview" placeholder="상품을 복용한 후기를 적어주세요 (20자 이상)"
 											onkeyup="textCounter(this, 'counter', 20);"
-											required="required"></textarea>
+											required="required">${review.pdReviewContent}</textarea>
 										<div class="mt-1"
 											style="font-size: 14px; text-align: right; color: #494949; letter-spacing: -0.6px;">
 											(<span id="counter">0</span>자, 최소 20자 이상)
@@ -209,9 +209,15 @@
 
 							<div class="row mt-5 mb-5 pt-3">
 								<div class="col-sm-6 offset-sm-3 p-0 align-top">
+								<c:if test="${!empty review }">
+							        <button class="btn btn-mdd w-100 p-4" type="button" onclick="updateReview();" style="font-size: 21px; background-color: #0071ce; color: whitesmoke;">
+										작성한 리뷰 수정하기</button>
+								</c:if>
+								<c:if test="${empty review }">
 									<button class="btn btn-mdd w-100 p-4" type="submit"
 										style="font-size: 21px; background-color: #0071ce; color: whitesmoke;">
 										작성한 리뷰 제출하기</button>
+								</c:if>
 								</div>
 							</div>
 						</div>
@@ -222,6 +228,13 @@
 
 		</div>
 	</div>
+	<script>
+		function updateReview(){
+			$("#review").attr("action","updateReview.do").submit();
+		
+		
+		}
+	</script>
 
 	<%@ include file="../static/footer.jsp"%>
 	<!--====== Javascripts & Jquery ======-->
