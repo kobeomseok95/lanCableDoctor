@@ -135,6 +135,7 @@
 </head>
 <body>
 
+<<<<<<< HEAD
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -231,4 +232,149 @@
 	<script src="<%=request.getContextPath()%>/resources/login_js/main.js"></script>
 </body>
 
+=======
+					<div class="doctorForm">
+						<div class="nextBox">
+							<label class="label1">정보 입력</label>
+						</div>
+						<img class="img"src="<%=request.getContextPath()%>/resources/login_image/icon.png">
+						<div class="nextBox">
+							<label class="label2">이메일 인증</label>
+						</div>
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
+						<div class="nextBox1">
+							<label class="label1">서류 제출</label>
+						</div>
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
+						<div class="nextBox">
+							<label class="label1">승인 대기</label>
+						</div>
+					</div>
+
+					<div>
+						<label class="file1">재직 증명서 또는 사업자 등록증</label>
+						<input class="fileBtn" type="file" id="uploadImage1" name="uploadFile1">
+						<div class="fileBox">
+							<img class="fileImg" id="imagePreview1"/>
+						</div>
+
+						<label class="file2">신분증</label>
+						<input type="file" id="uploadImage2" name="uploadFile2">
+						<div class="fileBox">
+							<img class="fileImg" id="imagePreview2"/>
+						</div>
+
+						<label class="file2">의사 면허증</label>
+						<input type="file" id="uploadImage3" name="uploadFile3">
+						<div class="fileBox">
+							<img class="fileImg" id="imagePreview3"/>
+						</div>
+					</div>
+
+					<div class="container-login100-form-btn" style="padding-top: 50px;">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								서류 제출
+							</button>
+						</div>
+					</div>
+					
+					<div class="text-center p-t-115" style="padding-top: 30px;">
+						<span class="txt1">
+							회원이라구요?
+						</span>
+
+						<a class="txt2" href="loginView.do">
+							로그인
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+<script src="<%=request.getContextPath()%>/resources/login_vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/login_vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/login_vendor/bootstrap/js/popper.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/login_vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/login_vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/login_vendor/daterangepicker/moment.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/login_vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/login_vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/login_js/main.js"></script>
+</body>
+
+<script>
+
+         function readUploadImage1(inputObject){
+	          if(inputObject.files && inputObject.files[0]){
+	        	  if(!(/image/i).test(inputObject.files[0].type)){
+	        		  alert("이미지 파일을 선택해 주세요");
+	        		  return false;
+	        	  }
+	        	  
+	        	  var reader = new FileReader();
+	        	  
+	        	  reader.onload = function(e){
+	        		  $("#imagePreview1").attr("src", e.target.result);
+	        	  }
+	        	  reader.readAsDataURL(inputObject.files[0]);
+	          }  	   
+	     }
+	               
+	     $("#uploadImage1").change(function(){
+	    	 readUploadImage1(this);
+	     }) 
+	      function readUploadImage2(inputObject){
+	          if(inputObject.files && inputObject.files[0]){
+	        	  if(!(/image/i).test(inputObject.files[0].type)){
+	        		  alert("이미지 파일을 선택해 주세요");
+	        		  return false;
+	        	  }
+	        	  
+	        	  var reader = new FileReader();
+	        	  
+	        	  reader.onload = function(e){
+	        		  $("#imagePreview2").attr("src", e.target.result);
+	        	  }
+	        	  reader.readAsDataURL(inputObject.files[0]);
+	          }  	   
+	     }
+	               
+	     $("#uploadImage2").change(function(){
+	    	 readUploadImage2(this);
+	     })   
+	      function readUploadImage3(inputObject){
+	          if(inputObject.files && inputObject.files[0]){
+	        	  if(!(/image/i).test(inputObject.files[0].type)){
+	        		  alert("이미지 파일을 선택해 주세요");
+	        		  return false;
+	        	  }
+	        	  
+	        	  var reader = new FileReader();
+	        	  
+	        	  reader.onload = function(e){
+	        		  $("#imagePreview3").attr("src", e.target.result);
+	        	  }
+	        	  reader.readAsDataURL(inputObject.files[0]);
+	          }  	   
+	     }
+	               
+	     $("#uploadImage3").change(function(){
+	    	 readUploadImage3(this);
+	     })    
+		
+	</script>
+>>>>>>> refs/remotes/origin/master
 </html>

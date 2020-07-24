@@ -41,6 +41,7 @@
 	href="<%=request.getContextPath()%>/resources/login_css/main.css">
 <!--===============================================================================================-->
 <style>
+<<<<<<< HEAD
 .logoDiv {
 	background-color: #007ee5;
 	width: 100px;
@@ -70,6 +71,14 @@
 .doc {
 	margin-left: 30px;
 }
+=======
+	.logoDiv{background-color: #007ee5; width: 100px; height: 100px; margin: auto; border-radius: 7px;}
+	.logoDiv .logo{width: 100px; height: 100px;}
+	#ask{padding-top: 30px;}
+	#ask1{padding-top: 5px;}
+	.radiobtn{padding-left: 150px; height: 50px;}
+	.doc{margin-left: 30px;}
+>>>>>>> refs/remotes/origin/master
 </style>
 </head>
 <body>
@@ -107,7 +116,13 @@
 					<div class="container-login100-form-btn" style="padding-top: 50px;">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
+<<<<<<< HEAD
 							<button class="login100-form-btn">비밀번호 찾기</button>
+=======
+							<button class="login100-form-btn">
+								비밀번호 찾기
+							</button>
+>>>>>>> refs/remotes/origin/master
 						</div>
 					</div>
 

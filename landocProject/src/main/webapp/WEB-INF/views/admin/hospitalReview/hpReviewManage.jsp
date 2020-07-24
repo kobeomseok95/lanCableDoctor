@@ -175,24 +175,21 @@
 
 
 	<script>
-          // 테이블 한 줄 hover효과 주는 function
-        $("#contentTb td").mouseenter(function(){
-            $(this).parent().css({"background" : "lightgrey"});
-        }).mouseout(function(){
-            $(this).parent().css({"background" : "white"});
-        });
-      
-        
-        function hpReviewDetail(){
-        	location.href="hpReviewDetail.do";
-        }
-          
-          
-          
-          
-          
-          
-    </script>
+		// 테이블 한 줄 hover효과 주는 function
+		$("#contentTb td").mouseenter(function() {
+			$(this).parent().css({
+				"background" : "lightgrey"
+			});
+		}).mouseout(function() {
+			$(this).parent().css({
+				"background" : "white"
+			});
+		});
+
+		function hpReviewDetail() {
+			location.href = "hpReviewDetail.do";
+		}
+	</script>
 
 
 
@@ -201,5 +198,6 @@
 
 
 </body>
+
 
 </html>

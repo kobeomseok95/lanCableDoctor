@@ -11,13 +11,9 @@ public class HospitalDao {
 	SqlSessionTemplate sqlSessionTemplate;
 
 	public int getListCount() {
-		
+
 		return sqlSessionTemplate.selectOne("adminHpMapper.getListCount");
-	
-	
-	
-	
-	
+
 	}
-	
+
 }

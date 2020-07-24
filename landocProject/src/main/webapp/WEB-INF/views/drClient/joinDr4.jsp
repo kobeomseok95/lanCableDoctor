@@ -121,6 +121,10 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/master
 				<form class="login100-form validate-form" action="loginView.do">
 					<span class="login100-form-title p-b-48">
 						<div class="logoDiv">
@@ -166,8 +170,18 @@
 					</div>
 
 					<div class="text-center p-t-115" style="padding-top: 30px;">
+<<<<<<< HEAD
 						<span class="txt1"> 회원이라구요? </span> <a class="txt2"
 							href="loginView.do"> 로그인 </a>
+=======
+						<span class="txt1">
+							회원이라구요?
+						</span>
+
+						<a class="txt2" href="loginView.do">
+							로그인
+						</a>
+>>>>>>> refs/remotes/origin/master
 					</div>
 				</form>
 			</div>

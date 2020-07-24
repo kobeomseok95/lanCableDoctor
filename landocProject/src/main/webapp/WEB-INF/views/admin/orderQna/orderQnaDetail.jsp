@@ -164,19 +164,18 @@
 
 
 	<script>
-        function goModify(){
-            location.href="#";
-        }
+		function goModify() {
+			location.href = "#";
+		}
 
-        function goBack(){
-            location.href="#";
-        }
-
-
-    </script>
+		function goBack() {
+			location.href = "#";
+		}
+	</script>
 
 
 
 </body>
+
 
 </html>

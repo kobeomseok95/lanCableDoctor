@@ -144,7 +144,6 @@
 						</div>
 					</form>
 				</c:if>
-
 			</div>
 		</div>
 	</div>
@@ -178,15 +177,13 @@
 	<script src="<%=request.getContextPath()%>/resources/login_js/main.js"></script>
 
 	<script>
-		$(function(){
-			$("#checkAll").click(function(){
+		$(function() {
+			$("#checkAll").click(function() {
 				var bool = $("#checkAll").prop("checked");
-				$(".infoBox").prop("checked",bool);
+				$(".infoBox").prop("checked", bool);
 			})
-			
-		})
-		
 
+		})
 	</script>
 </body>
 </html>

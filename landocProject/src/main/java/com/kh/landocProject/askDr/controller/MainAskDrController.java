@@ -41,10 +41,13 @@ public class MainAskDrController {
 
 		int listCount = askDrServiceImpl.selectAskDrBoardCount(categoryNo);
 		AskDrBoardPagination page = AskDrBoardPagination.getAskDrBoardPagination(currentPage, listCount);
+
 		ArrayList<AskDrBoard> list = (ArrayList<AskDrBoard>) askDrServiceImpl.selectAskDrBoard(categoryNo, page);
 
 		mv.addObject("boardStatus", 1);
+
 		mv.addObject("askDrBoardList", list);
+		mv.addObject("boardType", 1);
 		mv.addObject("subject", subject);
 		mv.addObject("page", page);
 		mv.addObject("categoryNo", categoryNo);
@@ -109,6 +112,7 @@ public class MainAskDrController {
 	}
 
 	@RequestMapping(value = "askDrInsert.do", method = RequestMethod.GET)
+
 	public String askDrInsert() {
 		return "askDr/askDrInsert";
 	}

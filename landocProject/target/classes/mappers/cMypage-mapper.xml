@@ -1,134 +1,255 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cMypage">
-	
+
 	<resultMap type="LikeHp" id="LikeHpListMap">
-		<result property="hpNo" column="HP_NO"/>
-		<result property="hpName" column="HP_NAME"/>
-		<result property="hpPhone" column="HP_PHONE"/>
-		<result property="hpPostcode" column="HP_POSTCODE"/>
-		<result property="hpAddress" column="HP_ADDRESS"/>
-		<result property="hpX" column="HP_X"/>
-		<result property="hpY" column="HP_Y"/>
-		<result property="hpReview" column="HP_REVIEW"/>
-		<result property="hpAvgRate" column="HP_AVG_RATE"/>
-		<result property="hpTime" column="HP_TIME"/>
-	
+		<result property="hpNo" column="HP_NO" />
+		<result property="hpName" column="HP_NAME" />
+		<result property="hpPhone" column="HP_PHONE" />
+		<result property="hpPostcode" column="HP_POSTCODE" />
+		<result property="hpAddress" column="HP_ADDRESS" />
+		<result property="hpX" column="HP_X" />
+		<result property="hpY" column="HP_Y" />
+		<result property="hpReview" column="HP_REVIEW" />
+		<result property="hpAvgRate" column="HP_AVG_RATE" />
+		<result property="hpTime" column="HP_TIME" />
+
 	</resultMap>
-	
-	
+
+
 	<resultMap type="PdReview" id="pdReviewListMap">
-		<result property="pdReviewContent" column="PDREVIEW_CONTENT"/>
-		<result property="orderNo" column="ORDER_NO"/>
-		<result property="pdNo" column="PD_NO"/>
-		<result property="orderDate" column="ORDER_DATE"/>
-		<result property="pdName" column="PD_NAME"/>
-		<result property="pdReviewNo" column="PDREVIEW_NO"/>
+		<result property="pdReviewContent" column="PDREVIEW_CONTENT" />
+		<result property="orderNo" column="ORDER_NO" />
+		<result property="pdNo" column="PD_NO" />
+		<result property="orderDate" column="ORDER_DATE" />
+		<result property="pdName" column="PD_NAME" />
+		<result property="pdReviewNo" column="PDREVIEW_NO" />
 	</resultMap>
-	
+
 	<resultMap type="OrderList" id="orderListMap">
-		<result property="orderNo" column="ORDER_NO"/>
-		<result property="orderDate" column="ORDER_DATE"/>
-		<result property="amountPrice" column="AMOUNT_PRICE"/>
-		<result property="paymentWay" column="PAYMENT_WAY"/>
-		<result property="usePoint" column="USE_POINT"/>
-		<result property="cNo" column="C_NO"/>
-		<result property="pdNo" column="PD_NO"/>
-		<result property="opCount" column="OP_COUNT"/>
-		<result property="pdName" column="PD_NAME"/>
-		<result property="tumbnail" column="THUMBNAIL"/>
-		<result property="oCode" column="O_CODE"/>
-		<result property="oName" column="O_NAME"/>
-		<result property="discountPrice" column="DISCOUNT_PRICE"/>
-		<result property="originPrice" column="ORIGIN_PRICE"/>
-		<result property="cName" column="C_NAME"/>
-		<result property="cPostCode" column="C_POSTCODE"/>
-		<result property="cAddress" column="C_ADDRESS"/>
-		<result property="cPhone" column="C_PHONE"/>
-		<result property="countMultiple" column="COUNTMULTIPLE"/>
-		
+		<result property="orderNo" column="ORDER_NO" />
+		<result property="orderDate" column="ORDER_DATE" />
+		<result property="amountPrice" column="AMOUNT_PRICE" />
+		<result property="paymentWay" column="PAYMENT_WAY" />
+		<result property="usePoint" column="USE_POINT" />
+		<result property="cNo" column="C_NO" />
+		<result property="pdNo" column="PD_NO" />
+		<result property="opCount" column="OP_COUNT" />
+		<result property="pdName" column="PD_NAME" />
+		<result property="tumbnail" column="THUMBNAIL" />
+		<result property="oCode" column="O_CODE" />
+		<result property="oName" column="O_NAME" />
+		<result property="discountPrice" column="DISCOUNT_PRICE" />
+		<result property="originPrice" column="ORIGIN_PRICE" />
+		<result property="cName" column="C_NAME" />
+		<result property="cPostCode" column="C_POSTCODE" />
+		<result property="cAddress" column="C_ADDRESS" />
+		<result property="cPhone" column="C_PHONE" />
+		<result property="countMultiple" column="COUNTMULTIPLE" />
+
 	</resultMap>
-	
-	<select id="likeHpList" parameterType="string" resultMap="LikeHpListMap">
-		SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X, HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
+
+
+	<resultMap type="OrderQna" id="orderQnaMap">
+		<result property="oqnaNo" column="OQNA_NO" />
+		<result property="orderNo" column="ORDER_NO" />
+		<result property="oqnaTitle" column="OQNA_TITLE" />
+		<result property="oqnaContent" column="OQNA_CONTENT" />
+		<result property="oqnaDate" column="OQNA_DATE" />
+		<result property="oqnaStatus" column="OQNA_STATUS" />
+		<result property="oqnaAnswer" column="OQNA_ANSWER" />
+		<result property="pdNo" column="PD_NO" />
+		<result property="pdName" column="PD_NAME" />
+		<result property="cNo" column="C_NO" />
+
+	</resultMap>
+
+	<select id="likeHpList" parameterType="string"
+		resultMap="LikeHpListMap">
+		SELECT HP.HP_NO, HP.HP_NAME,
+		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X,
+		HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
 		NVL(HT.HP_TIME,'정보없음') AS HP_TIME
 		FROM HPLIKE HL
 		LEFT JOIN HOSPITAL HP ON(HL.HP_NO = HP.HP_NO)
-		LEFT JOIN HPTIME HT ON(HL.HP_NO = HT.HP_UNIQUENO)
-		WHERE TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY 
+		LEFT JOIN
+		HPTIME HT ON(HL.HP_NO = HT.HP_UNIQUENO)
+		WHERE TO_CHAR(SYSDATE,'DAY') =
+		HT.HP_DAY
 		AND C_NO =#{cNo}
 		ORDER BY HL.HP_NO DESC
-	
+
+
 	</select>
-	
+
+
 	<select id="listCount" parameterType="string" resultType="_int">
-		SELECT COUNT(*)
+		SELECT
+		COUNT(*)
 		FROM HPLIKE
 		WHERE C_NO=#{cNo}
 	</select>
 
-	<select id="pdReviewList" parameterType="string" resultMap="pdReviewListMap">
-		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO, PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO
+	<select id="pdReviewList" parameterType="string"
+		resultMap="pdReviewListMap">
+		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO,
+		PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO
 		FROM PRODUCTREVIEW PR
-		JOIN PAYMENT PA ON(PR.ORDER_NO=PA.ORDER_NO)
-		JOIN PRODUCT PD ON(PD.PD_NO=PR.PD_NO)
+		JOIN
+		PAYMENT PA ON(PR.ORDER_NO=PA.ORDER_NO)
+		JOIN PRODUCT PD
+		ON(PD.PD_NO=PR.PD_NO)
 		WHERE PR.C_NO=#{cNo}
 		ORDER BY PA.ORDER_DATE DESC
 	</select>
-	
-	<select id="orderList" parameterType="string" resultMap="orderListMap">
-		SELECT PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS AMOUNT_PRICE,PA.C_NO,OP.PD_NO,PD.PD_NAME,
+
+	<select id="orderList" parameterType="string"
+		resultMap="orderListMap">
+		SELECT
+		PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.C_NO,OP.PD_NO,PD.PD_NAME,
 		PD.THUMBNAIL,OS.O_CODE,OS.O_NAME
 		FROM PAYMENT PA
-		JOIN ORDERPRODUCT OP ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN ORDERPRODUCT OP
+		ON(PA.ORDER_NO=OP.ORDER_NO)
 		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
-		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
-		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
-		WHERE PA.C_NO =#{cNo}
+		JOIN
+		ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS
+		ON(OM.O_CODE=OS.O_CODE)
+		WHERE PA.C_NO =#{cNo} AND (OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE=14)
 		ORDER BY PA.ORDER_DATE DESC
 	</select>
-	
-	<select id="orderDetail" parameterType="OrderList" resultMap="orderListMap">
-		SELECT PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS AMOUNT_PRICE,PA.PAYMENT_WAY,PA.USE_POINT,PA.C_NO,OP.PD_NO,OP.OP_COUNT,
-		PD.PD_NAME,OS.O_CODE,OS.O_NAME, TO_CHAR(ORIGIN_PRICE-SELL_PRICE+PA.USE_POINT,'999,999,999') AS DISCOUNT_PRICE,TO_CHAR(PD.ORIGIN_PRICE,'999,999,999') AS ORIGIN_PRICE, C.C_NAME,C.C_POSTCODE,C.C_ADDRESS,C.C_PHONE
+
+	<select id="orderDetail" parameterType="OrderList"
+		resultMap="orderListMap">
+		SELECT
+		PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.PAYMENT_WAY,PA.USE_POINT,PA.C_NO,OP.PD_NO,OP.OP_COUNT,
+		PD.PD_NAME,OS.O_CODE,OS.O_NAME,
+		TO_CHAR(ORIGIN_PRICE-SELL_PRICE+PA.USE_POINT,'999,999,999') AS
+		DISCOUNT_PRICE,TO_CHAR(PD.ORIGIN_PRICE,'999,999,999') AS ORIGIN_PRICE,
+		C.C_NAME,C.C_POSTCODE,C.C_ADDRESS,C.C_PHONE
 		,TO_CHAR(ORIGIN_PRICE*OP.OP_COUNT,'999,999,999') AS COUNTMULTIPLE
-		FROM PAYMENT PA
+		FROM
+		PAYMENT PA
 		JOIN ORDERPRODUCT OP ON(PA.ORDER_NO=OP.ORDER_NO)
-		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
+		JOIN PRODUCT
+		PD ON(PD.PD_NO=OP.PD_NO)
 		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
 		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
-		JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		JOIN CLIENT C
+		ON(OM.C_NO=C.C_NO)
 		WHERE PA.C_NO =#{cNo} AND OM.ORDER_NO=#{orderNo}
 		ORDER BY PA.ORDER_DATE DESC
 	</select>
-	
-	<select id="orderListDateSearch" parameterType="OrderList" resultMap="orderListMap">
-		SELECT PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS AMOUNT_PRICE,PA.C_NO,OP.PD_NO,PD.PD_NAME,
+
+	<select id="orderListDateSearch" parameterType="OrderList"
+		resultMap="orderListMap">
+		SELECT
+		PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.C_NO,OP.PD_NO,PD.PD_NAME,
 		PD.THUMBNAIL,OS.O_CODE,OS.O_NAME
 		FROM PAYMENT PA
-		JOIN ORDERPRODUCT OP ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN ORDERPRODUCT OP
+		ON(PA.ORDER_NO=OP.ORDER_NO)
 		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
-		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
-		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
-		WHERE PA.C_NO =#{cNo} 
-		<if test ='date=="today"'>AND TRUNC(SYSDATE) - ORDER_DATE =0</if> 
-		<if test ='date=="weeks"'>AND 7>=TRUNC(SYSDATE)-ORDER_DATE </if> 
-		<if test ='date=="onemonth"'>AND 30>=TRUNC(SYSDATE) - ORDER_DATE </if> 
-		<if test ='date=="threemonth"'>AND 90>= TRUNC(SYSDATE) - ORDER_DATE </if> 
-		<if test ='date=="sixmonth"'>AND 180>= TRUNC(SYSDATE) - ORDER_DATE </if> 
+		JOIN
+		ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS
+		ON(OM.O_CODE=OS.O_CODE)
+		WHERE PA.C_NO =#{cNo} AND (OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE=14)
+		<if test='date=="today"'>AND TRUNC(SYSDATE) - ORDER_DATE =0</if>
+		<if test='date=="weeks"'>AND 7>=TRUNC(SYSDATE)-ORDER_DATE </if>
+		<if test='date=="onemonth"'>AND 30>=TRUNC(SYSDATE) - ORDER_DATE </if>
+		<if test='date=="threemonth"'>AND 90>= TRUNC(SYSDATE) - ORDER_DATE </if>
+		<if test='date=="sixmonth"'>AND 180>= TRUNC(SYSDATE) - ORDER_DATE </if>
 		ORDER BY PA.ORDER_DATE DESC
 	</select>
-	
-	<select id="orderListDateSearch2" parameterType="OrderList" resultMap="orderListMap">
-		SELECT PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS AMOUNT_PRICE,PA.C_NO,OP.PD_NO,PD.PD_NAME,
+
+	<select id="orderListDateSearch2" parameterType="OrderList"
+		resultMap="orderListMap">
+		SELECT
+		PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.C_NO,OP.PD_NO,PD.PD_NAME,
 		PD.THUMBNAIL,OS.O_CODE,OS.O_NAME
 		FROM PAYMENT PA
-		JOIN ORDERPRODUCT OP ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN ORDERPRODUCT OP
+		ON(PA.ORDER_NO=OP.ORDER_NO)
 		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
-		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
-		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
-		WHERE PA.C_NO =#{cNo}
-		AND ORDER_DATE BETWEEN #{calendarDate1} AND #{calendarDate2}
+		JOIN
+		ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS
+		ON(OM.O_CODE=OS.O_CODE)
+		WHERE PA.C_NO =#{cNo} AND (OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE=14)
+		AND ORDER_DATE BETWEEN #{calendarDate1} AND
+		#{calendarDate2}
 		ORDER BY PA.ORDER_DATE DESC
+	</select>
+
+	<insert id="pdReviewInsert" parameterType="PdReview">
+		INSERT INTO
+		PRODUCTREVIEW
+		VALUES(SEQ_PDREVIEW.NEXTVAL,#{pdReviewContent},#{orderNo},#{pdNo},#{cNo},NULL)
+	</insert>
+
+	<update id="updateOStatus" parameterType="PdReview">
+		UPDATE ORDERMG SET
+		O_CODE=14 WHERE ORDER_NO =#{orderNo} AND C_NO=#{cNo}
+	</update>
+
+	<select id="orderQnaListY" parameterType="OrderQna"
+		resultMap="orderQnaMap">
+		SELECT OQ.*,P.PD_NO,P.PD_NAME,OM.C_NO
+		FROM ORDERQNA OQ
+		JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		JOIN
+		ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT P
+		ON(P.PD_NO=OP.PD_NO)
+		WHERE OM.C_NO=#{cNo} AND OQ.OQNA_STATUS='Y'
+	</select>
+
+	<select id="orderQnaListN" parameterType="OrderQna"
+		resultMap="orderQnaMap">
+		SELECT OQ.*,P.PD_NO,P.PD_NAME,OM.C_NO
+		FROM ORDERQNA OQ
+		JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		JOIN
+		ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT P
+		ON(P.PD_NO=OP.PD_NO)
+		WHERE OM.C_NO=#{cNo} AND OQ.OQNA_STATUS='N'
+	</select>
+
+	<select id="orderCancelList" parameterType="string"
+		resultMap="orderListMap">
+		SELECT PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.C_NO,OP.PD_NO,PD.PD_NAME,
+		PD.THUMBNAIL,OS.O_CODE,OS.O_NAME
+		FROM PAYMENT PA
+		JOIN ORDERPRODUCT OP
+		ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
+		JOIN
+		ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS
+		ON(OM.O_CODE=OS.O_CODE)
+		WHERE PA.C_NO =#{cNo} AND OM.O_CODE BETWEEN 6
+		AND 13
+		ORDER BY PA.ORDER_DATE DESC
+	</select>
+
+	<insert id="orderQnaInsert" parameterType="OrderQna">
+		INSERT INTO ORDERQNA
+		VALUES(SEQ_ORDERQNA.NEXTVAL,#{orderNo},#{oqnaTitle},#{oqnaContent},SYSDATE,'N',NULL)
+	</insert>
+
+	<select id="pdReviewListCount" resultType="_int">
+		SELECT COUNT(*) FROM
+		PRODUCTREVIEW
 	</select>
 </mapper>

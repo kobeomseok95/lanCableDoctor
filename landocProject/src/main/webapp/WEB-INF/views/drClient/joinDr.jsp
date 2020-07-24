@@ -402,12 +402,57 @@
 							<div class="login100-form-bgbtn"></div>
 							<button class="login100-form-btn">회원가입</button>
 						</div>
+<<<<<<< HEAD
 					</div>
 
 					<div class="text-center p-t-115" id="ask">
 						<span class="txt1"> 회원이라구요? </span> <a class="txt2"
 							href="loginView.do"> 로그인 </a>
 					</div>
+=======
+						<div class="searchDiv">
+							<button type="button" class="searchBtn" id="postcodify_search_button">검색</button>
+						</div>
+						
+						<div class="wrap-input100 validate-input" data-validate="도로명 주소를 입력해주세요." >
+							<input class="input100 postcodify_address" type="text" name="address1" value="" id="address1">
+							<span class="focus-input100" data-placeholder="도로명 주소"></span>
+						</div>
+<<<<<<< HEAD
+
+						<div class="wrap-input100 validate-input" data-validate="상세 주소를 입력해주세요." >
+							<input class="input100 postcodify_extra_info" type="text" name="address2" value="" id="address2">
+							<span class="focus-input100" data-placeholder="상세주소"></span>
+						</div>
+						
+						<div>
+							<input type="checkbox" id="checkAll" class="infoBox"><label>전체동의</label><br>
+							<div class="checkBox">
+								<input type="checkbox" id="check1" class="infoBox"><a href="agree1.html">서비스 이용 약관</a><a>및</a><a href="agree2.html">개인정보 취급 방침</a><a>(필수)</a><br>
+								<input type="checkbox" id="check2" class="infoBox"><a href="agree3.html">위치기반 서비스 이용 약관</a><a>(필수)</a><br>
+								<input type="checkbox" id="check3" class="infoBox"><a>마케팅 정보수신 동의 (선택)</a>
+							</div>
+						</div>
+	
+						<div class="container-login100-form-btn">
+							<div class="wrap-login100-form-btn">
+								<div class="login100-form-bgbtn"></div>
+								<button class="login100-form-btn">
+									회원가입
+								</button>
+							</div>
+						</div>
+						
+						<div class="text-center p-t-115" id="ask">
+							<span class="txt1">
+								회원이라구요?
+							</span>
+	
+							<a class="txt2" href="loginView.do">
+								로그인
+							</a>
+						</div>
+>>>>>>> refs/remotes/origin/master
 				</form>
 				<!-- 의사 회원 end -->
 			</div>

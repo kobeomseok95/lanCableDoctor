@@ -13,7 +13,9 @@
 			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 			<img src="<%=request.getContextPath()%>/resources/img/mainlogo.png"
 				alt="" style="width: 100px; height: 100px;"> Copyright &copy;
-			<script>document.write(new Date().getFullYear());</script>
+			<script>
+				document.write(new Date().getFullYear());
+			</script>
 			All rights reserved | This site is made with by 고범석,신희지,오진교,김소현
 			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 		</div>
@@ -23,5 +25,6 @@
 	</div>
 </footer>
 <!-- Footer section end -->
+
 
 

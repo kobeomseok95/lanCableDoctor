@@ -177,17 +177,20 @@
 
 
 	<script>
-    
-        // 테이블 한 줄 hover효과 주는 function
-        $("#contentTb td").mouseenter(function(){
-            $(this).parent().css({"background" : "lightgrey"});
-        }).mouseout(function(){
-            $(this).parent().css({"background" : "white"});
-        });
-      
-    </script>
+		// 테이블 한 줄 hover효과 주는 function
+		$("#contentTb td").mouseenter(function() {
+			$(this).parent().css({
+				"background" : "lightgrey"
+			});
+		}).mouseout(function() {
+			$(this).parent().css({
+				"background" : "white"
+			});
+		});
+	</script>
 
 
 </body>
 </html>
+
 

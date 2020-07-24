@@ -68,7 +68,7 @@ body {
 
 	<div id="sideBar">
 		<div id="logoBox">
-			<img src="<%=request.getContextPath() %>/resources/images/logo.png">
+			<img src="<%=request.getContextPath()%>/resources/images/logo.png">
 			<h2>ADMIN</h2>
 		</div>
 		<table id="sideBarTb">
@@ -110,55 +110,51 @@ body {
 
 
 	<script>
-        function goMember(){
-            location.href="clientManage.do";
-        }
+		function goMember() {
+			location.href = "clientManage.do";
+		}
 
-        function goDoctor(){
-            location.href="drClientManage.do";
-        }
+		function goDoctor() {
+			location.href = "drClientManage.do";
+		}
 
-        function goHospital(){
-            location.href="hospitalManage.do";
-        }
+		function goHospital() {
+			location.href = "hospitalManage.do";
+		}
 
-        function goHospitalReview(){
-            location.href="hpReviewManage.do";
-        }
-        
-        function goAskDr(){
-            location.href="askDrManage.do";
-        }
-        
-        function goProduct(){
-        	location.href="productManage.do";
-        }
-        
-        function goProductQnA(){
-        	location.href="productQnaManage.do";
-        }
-        
-        function goOrder(){
-        	location.href="orderManage.do";
-        }
-        
-        function goOrderQnA(){
-        	location.href="orderQnaManage.do";
-        }
-        
-        function goSales(){
-        	location.href="#";
-        }
-        
+		function goHospitalReview() {
+			location.href = "hpReviewManage.do";
+		}
 
-        
+		function goAskDr() {
+			location.href = "askDrManage.do";
+		}
 
+		function goProduct() {
+			location.href = "productManage.do";
+		}
 
-    </script>
+		function goProductQnA() {
+			location.href = "productQnaManage.do";
+		}
+
+		function goOrder() {
+			location.href = "orderManage.do";
+		}
+
+		function goOrderQnA() {
+			location.href = "orderQnaManage.do";
+		}
+
+		function goSales() {
+			location.href = "#";
+		}
+	</script>
 
 
 
 
 </body>
+
 
 </html>

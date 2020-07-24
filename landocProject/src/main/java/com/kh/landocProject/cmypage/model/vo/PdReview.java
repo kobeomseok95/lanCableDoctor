@@ -14,6 +14,8 @@ public class PdReview implements Serializable {
 	private Date orderDate;
 	private String pdName;
 	private int pdReviewNo;
+	private String cNo;
+	private String dNo;
 
 	public PdReview() {
 	}
@@ -26,6 +28,18 @@ public class PdReview implements Serializable {
 		this.orderDate = orderDate;
 		this.pdName = pdName;
 		this.pdReviewNo = pdReviewNo;
+	}
+
+	public PdReview(String pdReviewContent, int orderNo, int pdNo, Date orderDate, String pdName, int pdReviewNo,
+			String cNo, String dNo) {
+		this.pdReviewContent = pdReviewContent;
+		this.orderNo = orderNo;
+		this.pdNo = pdNo;
+		this.orderDate = orderDate;
+		this.pdName = pdName;
+		this.pdReviewNo = pdReviewNo;
+		this.cNo = cNo;
+		this.dNo = dNo;
 	}
 
 	public String getPdReviewContent() {
@@ -76,6 +90,22 @@ public class PdReview implements Serializable {
 		this.pdReviewNo = pdReviewNo;
 	}
 
+	public String getcNo() {
+		return cNo;
+	}
+
+	public void setcNo(String cNo) {
+		this.cNo = cNo;
+	}
+
+	public String getdNo() {
+		return dNo;
+	}
+
+	public void setdNo(String dNo) {
+		this.dNo = dNo;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -83,7 +113,8 @@ public class PdReview implements Serializable {
 	@Override
 	public String toString() {
 		return "PdReview [pdReviewContent=" + pdReviewContent + ", orderNo=" + orderNo + ", pdNo=" + pdNo
-				+ ", orderDate=" + orderDate + ", pdName=" + pdName + ", pdReviewNo=" + pdReviewNo + "]";
+				+ ", orderDate=" + orderDate + ", pdName=" + pdName + ", pdReviewNo=" + pdReviewNo + ", cNo=" + cNo
+				+ ", dNo=" + dNo + "]";
 	}
 
 }

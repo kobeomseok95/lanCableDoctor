@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
+
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
@@ -10,9 +11,6 @@
 			type="com.kh.landocProject.member.model.vo.Client" alias="Client" />
 		<typeAlias
 			type="com.kh.landocProject.member.model.vo.DrClient" alias="DrClient" />
-		<typeAlias
-			type="com.kh.landocProject.member.model.vo.DrhpPhoto"
-			alias="DrhpPhoto" />
 		<typeAlias
 			type="com.kh.landocProject.askDr.model.vo.AskDrBoard"
 			alias="AskDrBoard" />
@@ -27,11 +25,19 @@
 		<typeAlias
 			type="com.kh.landocProject.cmypage.model.vo.OrderList"
 			alias="OrderList" />
+		<typeAlias
+			type="com.kh.landocProject.cmypage.model.vo.OrderQna"
+			alias="OrderQna" />
+		<typeAlias
+			type="com.kh.landocProject.member.model.vo.DrhpPhoto"
+			alias="DrhpPhoto" />
 	</typeAliases>
+
 
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml" />
 		<mapper resource="/mappers/askDr-mapper.xml" />
 		<mapper resource="/mappers/cMypage-mapper.xml" />
+
 	</mappers>
 </configuration>

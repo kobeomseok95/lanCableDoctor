@@ -145,17 +145,12 @@
 
 			<!--수정하기 뒤로 가기 버튼영역-->
 			<div id="btnArea">
-				<button type="sumbit" onclick="goModify();">수정하기</button>
+				<button type="submit" onclick="goModify();">수정하기</button>
 				<button type="button" onclick="goBack();">뒤로가기</button>
 			</div>
 
 
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
+			<br> <br> <br> <br> <br> <br>
 
 		</div>
 
@@ -178,5 +173,6 @@
 
 
 </body>
+
 
 </html>

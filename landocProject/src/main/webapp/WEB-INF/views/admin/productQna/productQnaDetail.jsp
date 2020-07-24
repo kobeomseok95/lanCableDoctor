@@ -165,12 +165,7 @@ textarea {
 
 		</form>
 
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+		<br> <br> <br> <br> <br> <br>
 	</div>
 
 
@@ -192,5 +187,6 @@ textarea {
 
 
 </body>
+
 
 </html>

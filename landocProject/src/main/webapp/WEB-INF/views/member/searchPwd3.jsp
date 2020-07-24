@@ -136,7 +136,10 @@
 						</div>
 					</form>
 				</c:if>
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 			</div>
 		</div>
 	</div>
