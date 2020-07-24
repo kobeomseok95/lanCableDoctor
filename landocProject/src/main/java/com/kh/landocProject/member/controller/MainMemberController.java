@@ -1,7 +1,9 @@
 package com.kh.landocProject.member.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -21,12 +23,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.landocProject.member.model.Exception.MainMemberException;
 import com.kh.landocProject.member.model.service.MainMemberService;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
+import com.kh.landocProject.member.model.vo.DrhpPhoto;
 
 @SessionAttributes({ "loginClient", "loginDrClient" })
 @Controller
@@ -339,4 +343,127 @@ public class MainMemberController {
 
 		return mv;
 	}
+	
+	// 의사 회원가입3(파일제출)_진교_start
+			@RequestMapping("joinDrClient3.do")
+			public String insertFile1(HttpServletRequest request, DrhpPhoto dhp, DrClient d,
+					@RequestParam("drNo") String drNo, @RequestParam("hpNo") String hpNo,
+					@RequestParam(value="uploadFile1", required=false) MultipartFile file1,
+					@RequestParam(value="uploadFile2", required=false) MultipartFile file2,
+					@RequestParam(value="uploadFile3", required=false) MultipartFile file3) {
+		
+//				System.out.println("drNo : " + drNo);
+//				System.out.println("hpNo : " + hpNo);
+//				System.out.println("file1 : " + file1);
+//				System.out.println("file2 : " + file2);
+//				System.out.println("file3 : " + file3);
+				
+				
+				
+				if(!file1.getOriginalFilename().equals("")) {
+					String renameFileName1 = saveFile(file1, request);
+					
+//					System.out.println("오리진 파일1 : " + file1.getOriginalFilename());
+//					System.out.println("renameFileName1 : " + renameFileName1);
+//					System.out.println();
+					
+					dhp.setDrhpOrigin(file1.getOriginalFilename());
+					
+					dhp.setDrhpRename(renameFileName1);
+					
+				}
+				int result1 = mService.insertFile1(dhp);
+				
+			
+				if(result1>0) {
+					if(!file2.getOriginalFilename().equals("")) {
+						String renameFileName2 = saveFile(file2, request);
+						
+//						System.out.println("오리진 파일2 : " + file2.getOriginalFilename());
+						
+						dhp.setDrhpOrigin(file2.getOriginalFilename());
+						
+						dhp.setDrhpRename(renameFileName2);
+						
+					}
+					
+					int result2 = mService.insertFile2(dhp);
+					
+					if(result2 > 0) {
+						if(!file3.getOriginalFilename().equals("")) {
+							String renameFileName3 = saveFile(file3, request);
+							
+//							System.out.println("오리진 파일3 : " + file3.getOriginalFilename());
+							
+							dhp.setDrhpOrigin(file3.getOriginalFilename());
+							
+							dhp.setDrhpRename(renameFileName3);
+						}
+						
+						int result3 = mService.insertFile3(dhp);
+						
+						if(result3 > 0) {
+							return "drClient/joinDr4";
+						}else {
+							throw new MainMemberException("게시글 등록 실패!");
+						}
+						
+					}else {
+						throw new MainMemberException("게시글 등록 실패!");
+					}
+					
+				}else {
+					throw new MainMemberException("게시글 등록 실패!");
+				}
+			}
+			
+			public String saveFile(MultipartFile file, HttpServletRequest request) {
+				String root = request.getSession().getServletContext().getRealPath("resources");
+				
+				String savePath = root + "\\drUploadFiles";
+				
+				File folder = new File(savePath);
+				
+				if(!folder.exists()){
+					folder.mkdirs();
+				}
+				
+				// 난수 생성(renameFileName이 겹쳐서)
+				StringBuffer temp = new StringBuffer();
+				Random rnd = new Random();
+				for(int i = 0; i < 5; i++) {
+					int rIndex = rnd.nextInt(3);
+		            switch (rIndex) {
+		            case 0:
+		                // a-z
+		                temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+		                break;
+		            case 1:
+		                // A-Z
+		                temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+		                break;
+		            case 2:
+		                // 0-9
+		                temp.append((rnd.nextInt(10)));
+		                break;
+					}
+				} // 난수 생성_end
+				
+				String dice = temp.toString();
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+				String originFileName = file.getOriginalFilename();
+				String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + dice
+								+ "." + originFileName.substring(originFileName.lastIndexOf(".")+1);
+				
+				String filePath = folder + "\\" + renameFileName;
+				
+				try {
+					file.transferTo(new File(filePath));
+				} catch (Exception e) {
+					System.out.println("파일 제출 에러 : " + e.getMessage());
+				}
+				return renameFileName;
+			}
+			// 의사 회원가입3(파일 제출)_end
 }

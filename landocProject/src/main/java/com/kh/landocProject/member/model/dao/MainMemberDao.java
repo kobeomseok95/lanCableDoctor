@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
+import com.kh.landocProject.member.model.vo.DrhpPhoto;
 
 @Repository("mDao")
 public class MainMemberDao {
@@ -42,6 +43,22 @@ public class MainMemberDao {
 	public int joinDrClient(DrClient d) {
 
 		return sqlSessionTemplate.insert("memberMapper.joinDrClient", d);
+	}
+	
+	// 파일제출(재직,사업자)
+	public int insertFile1(DrhpPhoto dhp) {
+		
+		return sqlSessionTemplate.insert("memberMapper.insertFile1", dhp);
+	}
+	// 파일제출(신분증)
+	public int insertFile2(DrhpPhoto dhp) {
+	
+		return sqlSessionTemplate.insert("memberMapper.insertFile2", dhp);
+	}
+	// 파일제출(의사면허증)
+	public int insertFile3(DrhpPhoto dhp) {
+
+		return sqlSessionTemplate.insert("memberMapper.insertFile3", dhp);
 	}
 
 }
