@@ -24,6 +24,7 @@
 		<result property="orderDate" column="ORDER_DATE"/>
 		<result property="pdName" column="PD_NAME"/>
 		<result property="pdReviewNo" column="PDREVIEW_NO"/>
+		<result property="cNo" column="C_NO"/>
 	</resultMap>
 	
 	<resultMap type="OrderList" id="orderListMap">
@@ -83,7 +84,7 @@
 	</select>
 
 	<select id="pdReviewList" parameterType="string" resultMap="pdReviewListMap">
-		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO, PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO
+		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO, PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO,PR.C_NO
 		FROM PRODUCTREVIEW PR
 		JOIN PAYMENT PA ON(PR.ORDER_NO=PA.ORDER_NO)
 		JOIN PRODUCT PD ON(PD.PD_NO=PR.PD_NO)
@@ -171,6 +172,7 @@
 		JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
 		JOIN PRODUCT P ON(P.PD_NO=OP.PD_NO)
 		WHERE OM.C_NO=#{cNo} AND OQ.OQNA_STATUS='N'
+		ORDER BY OQ.OQNA_DATE DESC
 	</select>
 	
 	<select id="orderCancelList" parameterType="string" resultMap="orderListMap" >
@@ -192,4 +194,22 @@
 	<select id="pdReviewListCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCTREVIEW
 	</select>
+	
+	<select id="orderListCount" resultType="_int">
+		SELECT COUNT(*) FROM PAYMENT
+	</select>
+	
+	<select id="orderQnaListCount" resultType="_int">
+		SELECT COUNT(*) FROM ORDERQNA
+	</select>
+	
+	<select id="updateReview" parameterType="PdReview" resultMap="pdReviewListMap">
+		SELECT *
+		FROM PRODUCTREVIEW
+		WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo}
+	</select>
+	
+	<update id="updateReviewInsert">
+		UPDATE PRODUCTREVIEW SET PDREVIEW_CONTENT = #{pdReviewContent} WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo}
+	</update>
 </mapper>

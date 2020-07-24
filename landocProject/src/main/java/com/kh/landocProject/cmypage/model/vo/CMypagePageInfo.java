@@ -2,7 +2,7 @@ package com.kh.landocProject.cmypage.model.vo;
 
 import java.io.Serializable;
 
-public class PageInfo implements Serializable {
+public class CMypagePageInfo implements Serializable {
 
 	/**
 	 * 
@@ -17,11 +17,11 @@ public class PageInfo implements Serializable {
 
 	private int boardLimit; // 페이지에 몇개
 
-	public PageInfo() {
+	public CMypagePageInfo() {
 		super();
 	}
 
-	public PageInfo(int currentPage, int listCount, int pageLimit, int maxPage, int startPage, int endPage,
+	public CMypagePageInfo(int currentPage, int listCount, int pageLimit, int maxPage, int startPage, int endPage,
 			int boardLimit) {
 		super();
 		this.currentPage = currentPage;

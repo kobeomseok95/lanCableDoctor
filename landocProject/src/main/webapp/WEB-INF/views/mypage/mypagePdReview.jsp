@@ -122,7 +122,11 @@
 						</div>
 
 						<div style="float: right;">
-							<a href="#" class="review-list-detail"> 수정 </a> | <a href="#"
+						<c:url var="updateReview" value="updateReviewView.do">
+							<c:param name="orderNo" value="${r.orderNo}"/>
+							<c:param name="cNo" value="${r.cNo}"/>
+						</c:url>
+							<a href="${updateReview}" class=""> 수정 </a> | <a href="#"
 								class="review-list-detail"> 재구매 </a>
 						</div>
 					</div>

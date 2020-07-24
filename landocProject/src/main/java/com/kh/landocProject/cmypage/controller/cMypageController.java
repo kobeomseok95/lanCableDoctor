@@ -20,12 +20,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.landocProject.cmypage.model.Exception.cMypageException;
 import com.kh.landocProject.cmypage.model.service.cMypageService;
+import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
+import com.kh.landocProject.cmypage.model.vo.CMypagePagination;
 import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
-import com.kh.landocProject.cmypage.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
-import com.kh.landocProject.common.Pagination;
 import com.kh.landocProject.member.model.vo.Client;
 
 
@@ -67,9 +67,9 @@ public class cMypageController {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCount();
+		int listCount = cmService.getListCountReview();
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
@@ -93,9 +93,9 @@ public class cMypageController {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCount();
+		int listCount = cmService.getListCountOrderList();
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		ArrayList<OrderList> list = cmService.selectOrderList(cNo,pi);
@@ -131,9 +131,9 @@ public class cMypageController {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCount();
+		int listCount = cmService.getListCountOrderList();
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
@@ -143,7 +143,9 @@ public class cMypageController {
 		if(list!=null) {
 			mv.addObject("orderList",list);
 			mv.addObject("pi",pi);
+			mv.addObject("date", order.getDate());
 			mv.setViewName("mypage/mypageOrderList");
+			
 		}else {
 			throw new cMypageException("날짜검색 실패!");
 		}
@@ -157,9 +159,9 @@ public class cMypageController {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCount();
+		int listCount = cmService.getListCountOrderList();
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
@@ -170,6 +172,8 @@ public class cMypageController {
 		if(list!=null) {
 			mv.addObject("orderList",list);
 			mv.addObject("pi",pi);
+			mv.addObject("date1",order.getCalendarDate1());
+			mv.addObject("date2", order.getCalendarDate2());
 			mv.setViewName("mypage/mypageOrderList");
 		}else {
 			throw new cMypageException("날짜검색 실패!");
@@ -227,9 +231,9 @@ public class cMypageController {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCount();
+		int listCount = cmService.getListCountOrderQna();
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
@@ -256,9 +260,9 @@ public class cMypageController {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCount();
+		int listCount = cmService.getListCountOrderList();
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
+		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
@@ -310,5 +314,45 @@ public class cMypageController {
 			throw new cMypageException("주문문의 작성실패!");
 		}
 		return mv;
+	}
+	
+	
+	// 리뷰수정 위한 정보 조회
+	@RequestMapping(value="updateReviewView.do")
+	public ModelAndView updateReview(ModelAndView mv , PdReview review, OrderList order ,@RequestParam(value="orderNo") int orderNo,  @RequestParam(value="cNo") String cNo) throws cMypageException {
+		review.setcNo(cNo);
+		review.setOrderNo(orderNo);
+		order.setcNo(cNo);
+		order.setOrderNo(orderNo);
+		PdReview pr = cmService.updateReview(review);
+		OrderList detail = cmService.selectOrderDetail(order);
+		if(pr!=null && detail!=null) {
+			mv.addObject("orderDetail",detail);
+			mv.addObject("review",pr);
+			mv.setViewName("mypage/mypagePdReviewInsert");
+		}else {
+			throw new cMypageException("리뷰수정 조회 실패!");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="updateReview.do")
+	public ModelAndView updateReviewInsert(ModelAndView mv,HttpServletResponse response,HttpSession session,PdReview review,@RequestParam(value="orderNo") int orderNo, @RequestParam(value="pdReview") String pdReviewContent) throws IOException, cMypageException  {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+		review.setcNo(cNo);
+		review.setOrderNo(orderNo);
+		review.setPdReviewContent(pdReviewContent);
+		int result= cmService.updateReviewInsert(review);
+		if(result >0) {
+			  response.setContentType("text/html; charset=UTF-8");
+			  PrintWriter out_equals = response.getWriter();
+	          out_equals.println("<script>alert('리뷰수정이 완료되었습니다.');</script>");
+	          out_equals.flush();
+	          mv.setViewName("mypage/myPageWork");
+		}
+		return mv;
+		
 	}
 }

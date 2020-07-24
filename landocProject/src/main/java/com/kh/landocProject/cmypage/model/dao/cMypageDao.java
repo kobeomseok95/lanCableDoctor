@@ -7,10 +7,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
-import com.kh.landocProject.cmypage.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
 
 @Repository("cmDao")
@@ -30,7 +30,7 @@ public class cMypageDao {
 		return sqlSessionTemplate.selectOne("cMypage.listCount", cNo);
 	}
 
-	public ArrayList<PdReview> selectPdReviewList(String cNo, PageInfo pi) {
+	public ArrayList<PdReview> selectPdReviewList(String cNo, CMypagePageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		// 이전페이지까지의 보드개수
 
@@ -38,7 +38,7 @@ public class cMypageDao {
 		return (ArrayList) sqlSessionTemplate.selectList("cMypage.pdReviewList", cNo, rowBounds);
 	}
 
-	public ArrayList<OrderList> selectOrderList(String cNo, PageInfo pi) {
+	public ArrayList<OrderList> selectOrderList(String cNo, CMypagePageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		// 이전페이지까지의 보드개수
 
@@ -51,7 +51,7 @@ public class cMypageDao {
 		return sqlSessionTemplate.selectOne("cMypage.orderDetail", order);
 	}
 
-	public ArrayList<OrderList> orderListDateSearch(OrderList order, PageInfo pi) {
+	public ArrayList<OrderList> orderListDateSearch(OrderList order, CMypagePageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		// 이전페이지까지의 보드개수
 
@@ -59,7 +59,7 @@ public class cMypageDao {
 		return (ArrayList) sqlSessionTemplate.selectList("cMypage.orderListDateSearch", order, rowBounds);
 	}
 
-	public ArrayList<OrderList> orderListDateSearch2(OrderList order, PageInfo pi) {
+	public ArrayList<OrderList> orderListDateSearch2(OrderList order, CMypagePageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		// 이전페이지까지의 보드개수
 
@@ -77,7 +77,7 @@ public class cMypageDao {
 		return sqlSessionTemplate.update("cMypage.updateOStatus", review);
 	}
 
-	public ArrayList<OrderQna> orderQnaListY(String cNo, PageInfo pi) {
+	public ArrayList<OrderQna> orderQnaListY(String cNo,CMypagePageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		// 이전페이지까지의 보드개수
 
@@ -90,7 +90,7 @@ public class cMypageDao {
 		return (ArrayList) sqlSessionTemplate.selectList("cMypage.orderQnaListN", cNo);
 	}
 
-	public ArrayList<OrderList> orderCancelList(String cNo, PageInfo pi) {
+	public ArrayList<OrderList> orderCancelList(String cNo, CMypagePageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		// 이전페이지까지의 보드개수
 
@@ -103,9 +103,31 @@ public class cMypageDao {
 		return sqlSessionTemplate.insert("cMypage.orderQnaInsert", qna);
 	}
 
-	public int getListCount() {
+	// 리뷰 수
+	public int getListCountReview() {
 
 		return sqlSessionTemplate.selectOne("cMypage.pdReviewListCount");
+	}
+
+	public int getListCountOrderList() {
+		
+		return sqlSessionTemplate.selectOne("cMypage.orderListCount");
+	}
+
+	public int getListCountOrderQna() {
+		
+		return sqlSessionTemplate.selectOne("cMypage.orderQnaListCount");
+	}
+
+	// 업데이트 할 리뷰 정보 가져오기
+	public PdReview updateReview(PdReview review) {
+		
+		return sqlSessionTemplate.selectOne("cMypage.updateReview",review);
+	}
+
+	public int updateReviewInsert(PdReview review) {
+		
+		return sqlSessionTemplate.update("cMypage.updateReviewInsert",review);
 	}
 
 }
