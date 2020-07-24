@@ -50,7 +50,7 @@
 	<!-- Playlist section -->
 	<section class="premium-section spad" style="padding-bottom: 150px;">
 		<div class="container">
-			<c:if test="${boardType eq 1}">
+			<c:if test="${boardStatus eq 1}">
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="mb-5" style="font-size: 50px; text-align: center;">
@@ -82,9 +82,8 @@
 									style="background-color: #0071ce;">검색</button>
 							</div>
 							<div class="col-lg-1 col-sm-1">
-								<button type="button" class="btn btn-block btn-sm btn-primary"
-									style="background-color: #0071ce;"
-									onclick="location.href='insertAskDoctor.html'">글쓰기</button>
+								<button type="button" class="btn btn-block btn-sm btn-primary goInsertAskDr"
+									style="background-color: #0071ce;">글쓰기</button>
 							</div>
 							<div class="col-lg-1 col-sm-1"></div>
 						</div>
@@ -194,7 +193,7 @@
 				<div class="col-lg-1 col-sm-1"></div>
 			</div>
 			</c:if>
-			<c:if test="${boardType eq 2 }">
+			<c:if test="${boardStatus eq 2 }">
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="mb-5" style="font-size: 50px; text-align: center;">
@@ -226,9 +225,8 @@
 									style="background-color: #0071ce;">검색</button>
 							</div>
 							<div class="col-lg-1 col-sm-1">
-								<button type="button" class="btn btn-block btn-sm btn-primary"
-									style="background-color: #0071ce;"
-									onclick="location.href='insertAskDoctor.html'">글쓰기</button>
+								<button type="button" class="btn btn-block btn-sm btn-primary goInsertAskDr"
+									style="background-color: #0071ce;">글쓰기</button>
 							</div>
 							<div class="col-lg-1 col-sm-1"></div>
 						</div>
@@ -386,7 +384,27 @@
 			}
 		});//end of goBoardDetail
 		
-	});//end of jquery $(function)
+		$(".goInsertAskDr").on("click", function(){
+			var client = "${loginClient.nickName}";
+
+			if (client !== "") {
+				location.href = "askDrBoardInsertForm.do";
+			} else {
+				if (confirm("해당 게시글은 회원만 작성할 수 있습니다. 로그인하시겠습니까?")) {
+					location.href = "loginView.do";
+				} else {
+					return false;
+				}
+			}
+		});
+		});//end of jquery $(function)
 	</script>
 </body>
 </html>
+
+
+
+
+
+
+

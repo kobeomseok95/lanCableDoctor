@@ -21,6 +21,7 @@
 		<result property="caution" column="AD_CAUTION" />
 		<result property="symptoms" column="AD_SYMPTOM" />
 	</resultMap>
+	
 
 <!-- resultMap, Query 경계 -->
 
@@ -111,6 +112,25 @@
 		</if>
 		    )
 	</select>
+	
+	<!-- 게시글 작성 -->
+	<insert id="insertAskDrBoard" parameterType="AskDrBoard">
+		INSERT INTO ASKDR
+		VALUES (
+		    SEQ_ASKDRNO.NEXTVAL,
+		    #{bTitle},
+		    SYSDATE,
+		    #{height},
+		    #{weight},
+		    #{age},
+		    #{gender},
+		    #{caution},
+		    #{symptoms},
+		    #{categoryNo},
+		    #{memberNo},
+		    0
+		)
+	</insert>
 </mapper>
 
 
