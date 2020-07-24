@@ -45,6 +45,12 @@ public class MainMemberDao {
 		return sqlSessionTemplate.insert("memberMapper.joinDrClient", d);
 	}
 	
+	// 의사 회원가입_의사 번호 찾기_진교
+	public DrClient joinDrClient2(DrClient d) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.joinDrClient2", d);
+	}
+	
 	// 파일제출(재직,사업자)
 	public int insertFile1(DrhpPhoto dhp) {
 		

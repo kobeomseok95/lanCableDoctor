@@ -179,9 +179,9 @@
 					</div>
 
 					<div class="text-center p-t-115" style="padding-top: 30px;">
-						<<<<<<< HEAD ======= >>>>>>> refs/remotes/origin/master <span
+						<span
 							class="txt1"> 회원이라구요? </span> <a class="txt2" href="loginView.do">
-							로그인 </a> <<<<<<< HEAD ======= >>>>>>> refs/remotes/origin/master
+							로그인 </a> 
 					</div>
 				</form>
 			</div>

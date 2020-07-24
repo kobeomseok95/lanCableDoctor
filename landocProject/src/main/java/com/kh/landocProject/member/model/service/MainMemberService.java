@@ -23,5 +23,7 @@ public interface MainMemberService {
 	int insertFile2(DrhpPhoto dhp);
 
 	int insertFile3(DrhpPhoto dhp);
+	
+	DrClient joinDrClient2(DrClient d);
 
 }

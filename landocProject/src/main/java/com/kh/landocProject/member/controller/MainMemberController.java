@@ -293,6 +293,7 @@ public class MainMemberController {
 			ModelAndView mv = new ModelAndView(); // ModelAndView로 보낼 페이지를 지정하고, 보낼 값을 지정한다.
 			mv.setViewName("/drClient/joinDr2"); // 뷰의이름
 			mv.addObject("dice", dice);
+			mv.addObject("email", tomail);
 
 			response_email.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_email.getWriter();
@@ -306,43 +307,52 @@ public class MainMemberController {
 
 	}
 
-	// 의사 회원가입2(인증번호 입력)_진교
-	@RequestMapping(value = "joinDrClient2.do")
-	public ModelAndView loginDrClient2(String message, @RequestParam String dice, HttpServletResponse response_equals)
-			throws IOException {
+	// 의사 회원가입2(인증번호 입력)_start_진교
+	@RequestMapping(value="joinDrClient2.do")
+	public ModelAndView loginDrClient2(DrClient d, String message, @RequestParam String dice, @RequestParam String email,
+										HttpServletResponse response_equals) throws IOException{
 		System.out.println("mainMemberController.java test line 317");
-		System.out.println("마지막 : message : " + message);
-		System.out.println("마지막 : dice : " + dice);
-
+//				System.out.println("마지막 : message : " + message);
+//				System.out.println("마지막 : dice : " + dice);
+//				System.out.println("email : " + email);
+		
+		// 의사 번호를 찾기위함
+		DrClient joinDrClient2 = mService.joinDrClient2(d);
+		
+//				System.out.println(joinDrClient2);
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("drClient/joinDr3");
 		mv.addObject("message", message);
-
-		if (message.equals(dice)) {
+		mv.addObject("joinDrClient2", joinDrClient2);
+		
+		if(message.equals(dice)) {
 			mv.setViewName("drClient/joinDr3");
 			mv.addObject("e_mail", message);
-
+			mv.addObject("joinDrClient2", joinDrClient2);
+			
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
 			out_equals.println("<script>alert('인증번호가 일치하였습니다. 파일제출 창으로 이동합니다.');</script>");
 			out_equals.flush();
-
+			
 			return mv;
-		} else if (message != dice) {
-
+		}else if(message != dice) {
+			
 			ModelAndView mv2 = new ModelAndView();
 			mv2.setViewName("drClient/joinDr2");
-
+			
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
 			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.'); history.go(-1);</script>");
 			out_equals.flush();
-
+			
 			return mv2;
 		}
-
+		
 		return mv;
 	}
+	// 의사 회원가입2(인증번호 입력)_end
 	
 	// 의사 회원가입3(파일제출)_진교_start
 			@RequestMapping("joinDrClient3.do")
@@ -352,11 +362,11 @@ public class MainMemberController {
 					@RequestParam(value="uploadFile2", required=false) MultipartFile file2,
 					@RequestParam(value="uploadFile3", required=false) MultipartFile file3) {
 		
-//				System.out.println("drNo : " + drNo);
-//				System.out.println("hpNo : " + hpNo);
-//				System.out.println("file1 : " + file1);
-//				System.out.println("file2 : " + file2);
-//				System.out.println("file3 : " + file3);
+				System.out.println("drNo : " + drNo);
+				System.out.println("hpNo : " + hpNo);
+				System.out.println("file1 : " + file1);
+				System.out.println("file2 : " + file2);
+				System.out.println("file3 : " + file3);
 				
 				
 				
@@ -466,4 +476,5 @@ public class MainMemberController {
 				return renameFileName;
 			}
 			// 의사 회원가입3(파일 제출)_end
+			
 }
