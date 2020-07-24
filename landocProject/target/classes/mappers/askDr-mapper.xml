@@ -131,6 +131,12 @@
 		    0
 		)
 	</insert>
+	
+	<!-- 게시글삭제 -->
+	<delete id="deleteAskDrBoard" parameterType="_int">
+		DELETE FROM ASKDR
+		WHERE AD_NO = #{bNo}
+	</delete>
 </mapper>
 
 
