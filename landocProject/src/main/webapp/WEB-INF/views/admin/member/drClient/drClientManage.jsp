@@ -184,12 +184,7 @@
 		</table>
 
 
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+		<br> <br> <br> <br> <br> <br>
 	</div>
 
 	<script>
@@ -214,3 +209,6 @@
 
 </body>
 </html>
+
+
+

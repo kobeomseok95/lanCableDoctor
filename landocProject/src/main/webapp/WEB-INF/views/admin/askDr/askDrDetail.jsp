@@ -119,8 +119,7 @@ textarea {
 
 		<!-- 댓글들 불러오기 -->
 		<div id="commentArea">
-			<br>
-			<br>
+			<br> <br>
 			<h2>댓글 목록</h2>
 
 			<!--테이블 부분-->
@@ -156,12 +155,7 @@ textarea {
 		</div>
 
 
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+		<br> <br> <br> <br> <br> <br>
 	</div>
 
 

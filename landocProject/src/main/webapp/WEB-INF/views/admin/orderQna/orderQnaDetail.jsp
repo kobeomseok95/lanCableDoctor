@@ -153,7 +153,7 @@
 
 			<!--수정하기 뒤로 가기 버튼영역-->
 			<div id="btnArea">
-				<button type="sumbit" onclick="goModify();">등록하기</button>
+				<button type="submit" onclick="goModify();">등록하기</button>
 				<button type="button" onclick="goBack();">뒤로가기</button>
 			</div>
 
@@ -164,18 +164,18 @@
 
 
 	<script>
-        function goModify(){
-            location.href="#";
-        }
+		function goModify() {
+			location.href = "#";
+		}
 
-        function goBack(){
-            location.href="#";
-        }
-
-
-    </script>
+		function goBack() {
+			location.href = "#";
+		}
+	</script>
 
 
 
 </body>
+
+
 </html>

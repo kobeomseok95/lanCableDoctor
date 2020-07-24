@@ -28,7 +28,9 @@
 		<typeAlias
 			type="com.kh.landocProject.cmypage.model.vo.OrderQna"
 			alias="OrderQna" />
-		<typeAlias type="com.kh.landocProject.member.model.vo.DrhpPhoto" alias="DrhpPhoto" />
+		<typeAlias
+			type="com.kh.landocProject.member.model.vo.DrhpPhoto"
+			alias="DrhpPhoto" />
 	</typeAliases>
 
 
@@ -36,5 +38,6 @@
 		<mapper resource="/mappers/member-mapper.xml" />
 		<mapper resource="/mappers/askDr-mapper.xml" />
 		<mapper resource="/mappers/cMypage-mapper.xml" />
+
 	</mappers>
 </configuration>

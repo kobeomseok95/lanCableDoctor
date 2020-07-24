@@ -16,7 +16,7 @@ public class MainHpReviewDao {
 
 	// 병원 모달창 검색 결과 가져오는 메소드
 	public ArrayList<SearchHp> selectList(String hpName) {
-	
-		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpList",hpName);
+
+		return (ArrayList) sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpList", hpName);
 	}
 }

@@ -39,3 +39,4 @@ public interface cMypageService {
 	int getListCount();
 
 }
+

@@ -15,6 +15,4 @@ public class AskDrController {
 	public String askDrDetail() {
 		return"admin/askDr/askDrDetail";
 	}
-	
-	
 }

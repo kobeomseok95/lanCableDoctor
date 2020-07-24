@@ -53,7 +53,10 @@ function wavesurferInit(wavesurfer) {
 						document.getElementById('clipTime').innerHTML = formatSecondsAsTime(clipTime);
 					});
 
-	wavesurfer.on('interaction', function() {
+	wavesurfer
+			.on(
+					'interaction',
+					function() {
 						var clipCurrentTime = wavesurfer.getCurrentTime();
 						document.getElementById('currentTime').innerHTML = formatSecondsAsTime(clipCurrentTime);
 					});
@@ -70,4 +73,5 @@ function wavesurferInit(wavesurfer) {
 			$('.player-box').removeClass('playing');
 		});
 	});
+
 }
