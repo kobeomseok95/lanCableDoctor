@@ -362,11 +362,11 @@ public class MainMemberController {
 					@RequestParam(value="uploadFile2", required=false) MultipartFile file2,
 					@RequestParam(value="uploadFile3", required=false) MultipartFile file3) {
 		
-				System.out.println("drNo : " + drNo);
-				System.out.println("hpNo : " + hpNo);
-				System.out.println("file1 : " + file1);
-				System.out.println("file2 : " + file2);
-				System.out.println("file3 : " + file3);
+//				System.out.println("drNo : " + drNo);
+//				System.out.println("hpNo : " + hpNo);
+//				System.out.println("file1 : " + file1);
+//				System.out.println("file2 : " + file2);
+//				System.out.println("file3 : " + file3);
 				
 				
 				
@@ -476,5 +476,6 @@ public class MainMemberController {
 				return renameFileName;
 			}
 			// 의사 회원가입3(파일 제출)_end
+			
 			
 }
