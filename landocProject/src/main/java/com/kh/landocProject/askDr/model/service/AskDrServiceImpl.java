@@ -32,6 +32,7 @@ public class AskDrServiceImpl implements AskDrService {
 	public AskDrBoard selectAskDrBoardDeatil(int category, int bNo) {
 		return askDrDAO.selectAskDrBoardDetail(category, bNo);
 	}
+
 	@Override
 	public int selectAskDrBoardSearchCount(HashMap<String, Object> parameterMap) {
 		return askDrDAO.selectAskDrBoardSearchCount(parameterMap);
@@ -41,5 +42,10 @@ public class AskDrServiceImpl implements AskDrService {
 	public ArrayList<AskDrBoard> selectAskDrBoardSearch(HashMap<String, Object> parameterMap,
 			AskDrBoardPagination page) {
 		return askDrDAO.selectAskDrBoardSearch(parameterMap, page);
+	}
+
+	@Override
+	public int insertAskDrBoard(AskDrBoard askDrBoard) {
+		return askDrDAO.insertAskDrBoard(askDrBoard);
 	}
 }
