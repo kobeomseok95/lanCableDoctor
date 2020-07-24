@@ -9,18 +9,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.landocProject.askDr.model.service.AskDrService;
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
 import com.kh.landocProject.askDr.model.vo.AskDrCategoryMap;
+import com.kh.landocProject.member.model.vo.Client;
 
 @Controller
 public class MainAskDrController {
 
 	@Resource
-	private AskDrService askDrServiceImpl;
+	private AskDrService askDrServiceImpl; 
 	@Resource
 	private AskDrCategoryMap askDrCategoryMap;
 
@@ -31,7 +34,7 @@ public class MainAskDrController {
 
 //	카테고리별 의사에게 물어봐 list 뽑아오기 -범석
 	@RequestMapping(value = "askDrBoard.do", method = RequestMethod.GET)
-	public ModelAndView selectAskDrBoard(ModelAndView mv, @RequestParam String category, @RequestParam int pageNo)
+	public ModelAndView selectAskDrBoard(ModelAndView mv, @RequestParam int category, @RequestParam int pageNo)
 			throws Exception {
 		mv.setViewName("askDr/askDrBoard");
 		int currentPage = pageNo;
@@ -41,13 +44,10 @@ public class MainAskDrController {
 
 		int listCount = askDrServiceImpl.selectAskDrBoardCount(categoryNo);
 		AskDrBoardPagination page = AskDrBoardPagination.getAskDrBoardPagination(currentPage, listCount);
-
 		ArrayList<AskDrBoard> list = (ArrayList<AskDrBoard>) askDrServiceImpl.selectAskDrBoard(categoryNo, page);
-
+		
 		mv.addObject("boardStatus", 1);
-
 		mv.addObject("askDrBoardList", list);
-		mv.addObject("boardType", 1);
 		mv.addObject("subject", subject);
 		mv.addObject("page", page);
 		mv.addObject("categoryNo", categoryNo);
@@ -83,8 +83,11 @@ public class MainAskDrController {
 	}
 
 	@RequestMapping(value = "askDrBoardSearch.do", method = RequestMethod.GET)
-	public ModelAndView askDrBoardSearch(ModelAndView mv, @RequestParam int searchBoardOption,
-			@RequestParam String searchBoardContent, @RequestParam int category, @RequestParam int pageNo) {
+	public ModelAndView askDrBoardSearch(ModelAndView mv, 
+																@RequestParam int searchBoardOption,
+																@RequestParam String searchBoardContent, 
+																@RequestParam int category, 
+																@RequestParam int pageNo) {
 		mv.setViewName("askDr/askDrBoard");
 
 		String subject = askDrCategoryMap.getCategoryMap().get(category);
@@ -111,12 +114,31 @@ public class MainAskDrController {
 		return mv;
 	}
 
-	@RequestMapping(value = "askDrInsert.do", method = RequestMethod.GET)
-
-	public String askDrInsert() {
-		return "askDr/askDrInsert";
+	@RequestMapping(value = "askDrBoardInsertForm.do", method = RequestMethod.GET)
+	public String askDrBoardInsertForm() {
+		return "askDr/askDrBoardInsertForm";
 	}
+	
+	@RequestMapping(value = "askDrBoardInsert.do", method = RequestMethod.POST)
+	public String askDrBoardInsert(@SessionAttribute("loginClient") Client loginClient,
+												RedirectAttributes ra,
+												AskDrBoard askDrBoard) {
+		askDrBoard.setMemberNo(loginClient.getcNo());
+		
+		int result = 0;
+		result = askDrServiceImpl.insertAskDrBoard(askDrBoard);
 
+		if(result > 0) {
+			ra.addAttribute("category", askDrBoard.getCategoryNo());
+			ra.addAttribute("pageNo", 1);
+			return "redirect:/askDrBoard.do";
+		}
+		else {
+			return "";
+		}
+	}
+	
+	//의사 검색
 	@RequestMapping(value = "askDrSearch.do", method = RequestMethod.GET)
 	public String askDrSearch() {
 		return "askDr/askDrSearch";

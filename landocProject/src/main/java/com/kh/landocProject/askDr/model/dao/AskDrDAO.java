@@ -45,6 +45,10 @@ public class AskDrDAO {
 		RowBounds rowBounds = new RowBounds(offset, page.getBoardLimit());
 		return (ArrayList)sqlSessionTemplate.selectList("askDr.selectAskDrBoardSearch", parameterMap, rowBounds);
 	}
+
+	public int insertAskDrBoard(AskDrBoard askDrBoard) {
+		return sqlSessionTemplate.insert("askDr.insertAskDrBoard", askDrBoard);
+	}
 }
 
 
