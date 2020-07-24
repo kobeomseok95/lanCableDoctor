@@ -48,7 +48,11 @@
 					&nbsp;&nbsp;
 					<a href="askDr.do">의사에게 물어봐 > </a>
 					&nbsp;&nbsp;
-					<a href="javascript:history.back();">${subject }</a> 
+					<c:url var="askDrBoard" value="askDrBoard.do">
+						<c:param name="category" value="${askDrBoardDetail.categoryNo }" />
+						<c:param name="pageNo" value="1" />					
+					</c:url>
+					<a href="${askDrBoard}">${subject }</a> 					
 				</label>
 			</div>
 
@@ -94,7 +98,7 @@
 			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label"></label>
 				<div class="col-lg-9 col-sm-9 control-label my-3" align="right">
-					<button id="udpateAskDrBoard" 
+					<button id="updateAskDrBoard" 
 						class="btn btn-sm" style="background-color: #0071ce; color:white;">수정하기</button>
 					&nbsp;
 					<button id="deleteAskDrBoard" 
@@ -191,12 +195,27 @@
 			
 			$("#deleteAskDrBoard").on("click", function(){
 				if(confirm("해당 게시글을 삭제하시겠습니까? 채택된 게시글은 삭제할 수 없습니다.")){
-					var bNo = $("#AskDrBoardNo").val();
-					location.href="askDrBoardDelete.do?bNo=" + bNo;
+					var $bNo = $("#AskDrBoardNo").val();
+					var $deleteForm = $("<form></form>");
+					$deleteForm.attr("action", "askDrBoardDelete.do");
+					$deleteForm.attr("method", "post");
+					$deleteForm.append($("<input/>", {type: "hidden", name: "bNo", value: $bNo}));
+					$(document.body).append($deleteForm);
+					$deleteForm.submit();
 				}
 				else{
 					return false;
 				}
+			});
+			
+			$("#updateAskDrBoard").on("click", function(){
+				var $bNo = $("#AskDrBoardNo").val();
+				var $updateForm = $("<form></form>");
+				$updateForm.attr("action", "askDrBoardUpdateForm.do");
+				$updateForm.attr("method", "post");
+				$updateForm.append($("<input/>", {type: "hidden", name: "bNo", value: $bNo}));
+				$(document.body).append($updateForm);
+				$updateForm.submit();
 			});
 		});
 	</script>

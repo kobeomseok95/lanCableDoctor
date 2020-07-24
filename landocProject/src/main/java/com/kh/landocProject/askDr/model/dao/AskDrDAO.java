@@ -53,6 +53,14 @@ public class AskDrDAO {
 	public int deleteAskDrBoard(int bNo) {
 		return sqlSessionTemplate.delete("askDr.deleteAskDrBoard", bNo);
 	}
+
+	public AskDrBoard selectAskDrBoardUpdateDeatil(int bNo) {
+		return sqlSessionTemplate.selectOne("askDr.selectAskDrBoardUpdateDeatil", bNo);
+	}
+
+	public int updateAskDrBoard(AskDrBoard askDrBoard) {
+		return sqlSessionTemplate.update("askDr.updateAskDrBoard", askDrBoard);
+	}
 }
 
 

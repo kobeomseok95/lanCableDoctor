@@ -125,8 +125,7 @@ public class MainAskDrController {
 												AskDrBoard askDrBoard) {
 		askDrBoard.setMemberNo(loginClient.getcNo());
 		
-		int result = 0;
-		result = askDrServiceImpl.insertAskDrBoard(askDrBoard);
+		int result = askDrServiceImpl.insertAskDrBoard(askDrBoard);
 
 		if(result > 0) {
 			ra.addAttribute("category", askDrBoard.getCategoryNo());
@@ -138,11 +137,36 @@ public class MainAskDrController {
 		}
 	}
 	
-	@RequestMapping(value="askDrBoardDelete.do", method=RequestMethod.GET)
+	@RequestMapping(value="askDrBoardDelete.do", method=RequestMethod.POST)
 	public String askDrBoardDelete(@RequestParam int bNo) {
 		int result = askDrServiceImpl.deleteAskDrBoard(bNo);
 		if(result > 0) {
 			return "redirect:/askDr.do";			
+		}
+		else {
+			return "";
+		}
+	}
+	
+	@RequestMapping(value="askDrBoardUpdateForm.do", method=RequestMethod.POST)
+	public ModelAndView askDrBoardUpdateForm(ModelAndView mv,
+																@RequestParam int bNo) {
+		mv.setViewName("askDr/askDrBoardUpdateForm");
+		
+		AskDrBoard askDrBoardUpdateDetail = askDrServiceImpl.selectAskDrBoardUpdateDeatil(bNo);
+		mv.addObject("askDrBoardUpdateDetail", askDrBoardUpdateDetail);
+		return mv;
+	}
+	
+	@RequestMapping(value="askDrBoardUpdate.do", method=RequestMethod.POST)
+	public String askDrBoardUpdate(AskDrBoard askDrBoard,
+													RedirectAttributes ra) {
+		int result = askDrServiceImpl.updateAskDrBoard(askDrBoard);
+
+		if(result > 0) {
+			ra.addAttribute("category", askDrBoard.getCategoryNo());
+			ra.addAttribute("bNo", askDrBoard.getbNo());
+			return "redirect:/askDrDetail.do";
 		}
 		else {
 			return "";
