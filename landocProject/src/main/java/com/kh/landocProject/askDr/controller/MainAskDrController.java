@@ -138,6 +138,17 @@ public class MainAskDrController {
 		}
 	}
 	
+	@RequestMapping(value="askDrBoardDelete.do", method=RequestMethod.GET)
+	public String askDrBoardDelete(@RequestParam int bNo) {
+		int result = askDrServiceImpl.deleteAskDrBoard(bNo);
+		if(result > 0) {
+			return "redirect:/askDr.do";			
+		}
+		else {
+			return "";
+		}
+	}
+	
 	//의사 검색
 	@RequestMapping(value = "askDrSearch.do", method = RequestMethod.GET)
 	public String askDrSearch() {

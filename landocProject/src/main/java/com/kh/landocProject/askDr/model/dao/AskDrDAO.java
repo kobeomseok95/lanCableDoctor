@@ -49,6 +49,10 @@ public class AskDrDAO {
 	public int insertAskDrBoard(AskDrBoard askDrBoard) {
 		return sqlSessionTemplate.insert("askDr.insertAskDrBoard", askDrBoard);
 	}
+
+	public int deleteAskDrBoard(int bNo) {
+		return sqlSessionTemplate.delete("askDr.deleteAskDrBoard", bNo);
+	}
 }
 
 
