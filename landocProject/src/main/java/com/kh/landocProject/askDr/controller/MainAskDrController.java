@@ -1,15 +1,18 @@
 package com.kh.landocProject.askDr.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -122,12 +125,47 @@ public class MainAskDrController {
 	@RequestMapping(value = "askDrBoardInsert.do", method = RequestMethod.POST)
 	public String askDrBoardInsert(@SessionAttribute("loginClient") Client loginClient,
 												RedirectAttributes ra,
-												AskDrBoard askDrBoard) {
+												AskDrBoard askDrBoard,
+												HttpServletRequest request) {
 		askDrBoard.setMemberNo(loginClient.getcNo());
-		
-		int result = askDrServiceImpl.insertAskDrBoard(askDrBoard);
 
-		if(result > 0) {
+		int resultOfBoard = askDrServiceImpl.insertAskDrBoard(askDrBoard);
+		int resultOfPhoto = 0;
+		
+//		사진저장
+		if( !askDrBoard.getSymptomPicture().isEmpty() && resultOfBoard > 0 ) {
+			HashMap<String, Object> parameterPhoto = new HashMap<String, Object>();
+			parameterPhoto.put("boardNo", askDrBoard.getbNo());
+			System.out.println("mainAskDrController test line 40");
+			System.out.println(askDrBoard.getbNo());
+			String filePath = "C:\\lanCableDoctorProject\\workspace\\lanCableDoctor\\landocProject\\src\\main\\webapp\\resources\\askDrBoardUploadFiles\\";
+			File folder = new File(filePath);
+			if(!folder.exists())
+				folder.mkdirs();
+			
+			for(MultipartFile mf : askDrBoard.getSymptomPicture()) {
+				String originalFileName = mf.getOriginalFilename();
+				long fileSize = mf.getSize();
+				
+				String saveFile = filePath + System.currentTimeMillis() + originalFileName;
+				try {
+					mf.transferTo(new File(saveFile));
+					
+					parameterPhoto.put("fileName", saveFile);
+					int resultOfInsert = askDrServiceImpl.insertAskDrBoardPhoto(parameterPhoto);
+					resultOfPhoto = resultOfPhoto + resultOfInsert;
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		else {
+//			사진이 없을경우에는 그냥 이렇게 설정하고 넘어가긔
+			resultOfPhoto = 1;
+		}
+		
+		if(resultOfBoard > 0 && resultOfPhoto > 0) {
 			ra.addAttribute("category", askDrBoard.getCategoryNo());
 			ra.addAttribute("pageNo", 1);
 			return "redirect:/askDrBoard.do";
