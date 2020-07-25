@@ -41,7 +41,8 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+			<c:if test="${!empty ClientSearchPwd3 && empty DrClientSearchPwd3 }">
+				<form class="login100-form validate-form" action="ClientSearchPwd4.do">
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv"> 
 							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -56,6 +57,7 @@
 						</span>
 						<input class="input100" type="password" name="userPwd" id="userPwd">
 						<span class="focus-input100" data-placeholder="새 비밀번호 확인"></span>
+						<input type="hidden" value="${ClientSearchPwd3.cNo }" name="cNo">
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="비밀번호가 일치하지 않습니다.">
@@ -95,6 +97,64 @@
 						</a>
 					</div>
 				</form>
+			</c:if>
+			<c:if test="${empty ClientSearchPwd3 && !empty DrClientSearchPwd3 }">
+				<form class="login100-form validate-form" action="DrClientSearchPwd4.do"> 
+					<span class="login100-form-title p-b-48" >
+						<div class="logoDiv" > 
+							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
+						</div>
+					</span>
+					<span class="login100-form-title p-b-26">
+						비밀번호 찾기
+					</span>
+					<div class="wrap-input100 validate-input" data-validate="영소문,숫자 4~20글자로 입력가능합니다.">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+						<input class="input100" type="password" name="userPwd" id="userPwd">
+						<span class="focus-input100" data-placeholder="새 비밀번호 확인"></span>
+						<input type="hidden" value="${DrClientSearchPwd3.drNo }" name="drNo">
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="비밀번호가 일치하지 않습니다.">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+						<input class="input100" type="password" name="checkPwd" id="checkPwd">
+						<span class="focus-input100" data-placeholder="비밀번호 확인"></span>
+					</div>
+
+					<div class="container-login100-form-btn" style="padding-top: 50px;">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn" onclick="location.href='home.do'">
+								비밀번호 변경
+							</button>
+						</div>
+					</div>
+					
+					<div class="text-center p-t-115" id="ask">
+						<span class="txt1">
+							아이디를 잊으셨다구요?
+						</span>
+
+						<a class="txt2" href="searchId.do">
+							아이디 찾기
+						</a>
+					</div>
+
+					<div class="text-center p-t-115" id="ask1">
+						<span class="txt1">
+							아직 회원이 아니라구요?
+						</span>
+
+						<a class="txt2" href="join.do">
+							회원가입
+						</a>
+					</div>
+				</form>
+			</c:if>
 			</div>
 		</div>
 	</div>

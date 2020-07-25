@@ -68,9 +68,9 @@
    <div class="limiter" id="login">
       <div class="container-login100">
          <div class="wrap-login100">
-            <c:if test="${!empty cNo && empty drNo}">
+            <c:if test="${!empty ClientSearchPwd2 && empty DrClientSearchPwd2}">
                <form class="login100-form validate-form"
-                  action="searchPwd3.do?cNo=${cNo }&dice=${dice }">
+                  action="ClientSearchPwd3.do">
                   <span class="login100-form-title p-b-48">
                      <div class="logoDiv">
                         <img class="logo"
@@ -81,6 +81,8 @@
                      data-validate="인증번호를 입력해 주세요.">
                      <input class="input100" type="text" name="message" id="message">
                      <span class="focus-input100" data-placeholder="인증번호"></span>
+                     <input type="hidden" value=${ClientSearchPwd2.cNo } name="cNo">
+                     <input type="hidden" value=${dice } name="dice">
                   </div>
 
                   <div class="container-login100-form-btn"
@@ -102,9 +104,9 @@
                   </div>
                </form>
             </c:if>
-            <c:if test="${empty cNo && !empty drNo}">
+            <c:if test="${empty ClientSearchPwd2 && !empty DrClientSearchPwd2}">
                <form class="login100-form validate-form"
-                  action="searchPwd3.do?drNo=${drNo }&dice=${dice }">
+                  action="DrClientSearchPwd3.do">
                   <span class="login100-form-title p-b-48">
                      <div class="logoDiv">
                         <img class="logo"
@@ -115,6 +117,8 @@
                      data-validate="인증번호를 입력해 주세요.">
                      <input class="input100" type="text" name="message" id="message">
                      <span class="focus-input100" data-placeholder="인증번호"></span>
+                     <input type="hidden" value=${DrClientSearchPwd2.drNo } name="drNo">
+                     <input type="hidden" value=${dice } name="dice">
                   </div>
 
                   <div class="container-login100-form-btn"

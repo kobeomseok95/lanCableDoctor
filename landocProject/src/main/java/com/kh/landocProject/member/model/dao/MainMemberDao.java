@@ -67,4 +67,44 @@ public class MainMemberDao {
 		return sqlSessionTemplate.insert("memberMapper.insertFile3", dhp);
 	}
 
+	public Client searchPwdClient(Client c) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.searchPwdClient", c);
+	}
+
+	public DrClient searchPwdDrClient(DrClient d) {
+	
+		return sqlSessionTemplate.selectOne("memberMapper.searchPwdDrClient", d);
+	}
+
+	public Client ClientSearchPwd2(Client c) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.ClientSearchPwd2", c);
+	}
+
+	public DrClient DrClientSearchPwd2(DrClient d) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.DrClientSearchPwd2", d);
+	}
+
+	public Client ClientSearchPwd3(Client c) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.ClientSearchPwd3", c);
+	}
+
+	public DrClient DrClientSearchPwd3(DrClient d) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.DrClientSearchPwd3", d);
+	}
+
+	public int ClientSearchPwd4(Client c) {
+
+		return sqlSessionTemplate.update("memberMapper.ClientSearchPwd4", c);
+	}
+
+	public int DrClientSearchPwd4(DrClient d) {
+
+		return sqlSessionTemplate.update("memberMapper.DrClientSearchPwd4", d);
+	}
+
 }

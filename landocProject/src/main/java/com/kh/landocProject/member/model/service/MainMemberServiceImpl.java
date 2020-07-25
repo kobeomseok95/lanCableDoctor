@@ -75,5 +75,53 @@ public class MainMemberServiceImpl implements MainMemberService {
 
 		return mDao.insertFile3(dhp);
 	}
+	// 일반회원 비밀번호 찾기1
+	@Override
+	public Client searchPwdClient(Client c) {
+		
+		return mDao.searchPwdClient(c);
+	}
+	// 의사회원 비밀번호 찾기1
+	@Override
+	public DrClient SearchPwdDrClient(DrClient d) {
+		
+		return mDao.searchPwdDrClient(d);
+	}
+	//일반회원 비밀번호 찾기2
+	@Override
+	public Client ClientSearchPwd2(Client c) {
+	
+		return mDao.ClientSearchPwd2(c);
+	}
+	// 의사회원 비밀번호 찾기2
+	@Override
+	public DrClient DrClientSearchPwd2(DrClient d) {
+
+		return mDao.DrClientSearchPwd2(d);
+	}
+	// 일반회원 비밀번호 찾기 3
+	@Override
+	public Client ClientSearchPwd3(Client c) {
+	
+		return mDao.ClientSearchPwd3(c);
+	}
+	// 의사회원 비밀번호 찾기3
+	@Override
+	public DrClient DrClientSearchPwd3(DrClient d) {
+
+		return mDao.DrClientSearchPwd3(d);
+	}
+	// 일반회원 비밀번호 찾기4
+	@Override
+	public int ClientSearchPwd4(Client c) {
+
+		return mDao.ClientSearchPwd4(c);
+	}
+
+	@Override
+	public int DrClientSearchPwd4(DrClient d) {
+	
+		return mDao.DrClientSearchPwd4(d);
+	}
 
 }
