@@ -61,6 +61,10 @@ public class AskDrDAO {
 	public int updateAskDrBoard(AskDrBoard askDrBoard) {
 		return sqlSessionTemplate.update("askDr.updateAskDrBoard", askDrBoard);
 	}
+
+	public int insertAskDrBoardPhoto(HashMap<String, Object> parameterPhoto) {
+		return sqlSessionTemplate.insert("askDr.insertAskDrBoardPhoto", parameterPhoto);
+	}
 }
 
 

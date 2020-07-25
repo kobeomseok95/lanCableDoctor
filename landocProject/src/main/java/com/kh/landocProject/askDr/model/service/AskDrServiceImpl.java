@@ -63,4 +63,9 @@ public class AskDrServiceImpl implements AskDrService {
 	public int updateAskDrBoard(AskDrBoard askDrBoard) {
 		return askDrDAO.updateAskDrBoard(askDrBoard);
 	}
+
+	@Override
+	public int insertAskDrBoardPhoto(HashMap<String, Object> parameterPhoto) {
+		return askDrDAO.insertAskDrBoardPhoto(parameterPhoto);
+	}
 }

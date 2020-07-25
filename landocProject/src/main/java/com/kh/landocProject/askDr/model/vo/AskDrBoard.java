@@ -2,6 +2,9 @@ package com.kh.landocProject.askDr.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class AskDrBoard implements Serializable{
 	/**
@@ -21,18 +24,19 @@ public class AskDrBoard implements Serializable{
 	private String caution;
 	private String symptoms;
 	private String categoryNo;
+	private List<MultipartFile> symptomPicture;
 	
 	public AskDrBoard() {
 	}
 
-	public AskDrBoard(int rNo, int bNo, String bTitle, String nickname, String memberCode, Date submitDate, int height,
-			int weight, int age, String gender, String caution, String symptoms, String categoryNo) {
-		super();
+	public AskDrBoard(int rNo, int bNo, String bTitle, String nickname, String memberNo, Date submitDate, int height,
+			int weight, int age, String gender, String caution, String symptoms, String categoryNo,
+			List<MultipartFile> symptomPicture) {
 		this.rNo = rNo;
 		this.bNo = bNo;
 		this.bTitle = bTitle;
 		this.nickname = nickname;
-		this.memberNo = memberCode;
+		this.memberNo = memberNo;
 		this.submitDate = submitDate;
 		this.height = height;
 		this.weight = weight;
@@ -41,6 +45,7 @@ public class AskDrBoard implements Serializable{
 		this.caution = caution;
 		this.symptoms = symptoms;
 		this.categoryNo = categoryNo;
+		this.symptomPicture = symptomPicture;
 	}
 
 	public int getrNo() {
@@ -147,6 +152,14 @@ public class AskDrBoard implements Serializable{
 		this.categoryNo = categoryNo;
 	}
 
+	public List<MultipartFile> getSymptomPicture() {
+		return symptomPicture;
+	}
+
+	public void setSymptomPicture(List<MultipartFile> symptomPicture) {
+		this.symptomPicture = symptomPicture;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -154,9 +167,10 @@ public class AskDrBoard implements Serializable{
 	@Override
 	public String toString() {
 		return "AskDrBoard [rNo=" + rNo + ", bNo=" + bNo + ", bTitle=" + bTitle + ", nickname=" + nickname
-				+ ", memberNo=" + memberNo + ", submitDate=" + submitDate + ", height=" + height + ", weight="
-				+ weight + ", age=" + age + ", gender=" + gender + ", caution=" + caution + ", symptoms=" + symptoms
-				+ ", categoryNo=" + categoryNo + "]";
+				+ ", memberNo=" + memberNo + ", submitDate=" + submitDate + ", height=" + height + ", weight=" + weight
+				+ ", age=" + age + ", gender=" + gender + ", caution=" + caution + ", symptoms=" + symptoms
+				+ ", categoryNo=" + categoryNo + ", symptomPicture=" + symptomPicture + "]";
 	}
-	
+
+		
 }

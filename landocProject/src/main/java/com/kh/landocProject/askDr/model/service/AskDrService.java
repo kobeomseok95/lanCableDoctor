@@ -26,5 +26,7 @@ public interface AskDrService {
 	AskDrBoard selectAskDrBoardUpdateDeatil(int bNo);
 
 	int updateAskDrBoard(AskDrBoard askDrBoard);
+
+	int insertAskDrBoardPhoto(HashMap<String, Object> parameterPhoto);
 	
 }

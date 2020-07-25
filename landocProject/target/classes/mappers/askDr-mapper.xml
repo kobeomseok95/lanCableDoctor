@@ -173,6 +173,17 @@
 		    AD_NO = #{bNo}
 	</update>
 	
+	<insert id="insertAskDrBoardPhoto" parameterType="hashMap">
+		INSERT INTO ASKDRPHOTO
+		VALUES(
+		    SEQ_ASKDRPHOTONO.NEXTVAL,
+		    'null',
+		    #{fileName},
+		    'null',
+		    SEQ_ASKDRNO.CURRVAL
+		)
+	</insert>
+	
 </mapper>
 
 
