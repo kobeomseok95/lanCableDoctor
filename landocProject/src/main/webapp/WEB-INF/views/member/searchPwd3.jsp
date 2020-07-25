@@ -133,18 +133,15 @@
                      <span class="txt1"> 아이디를 잊으셨다구요? </span> <a class="txt2"
                         href="searchId.do"> 아이디 찾기 </a>
                   </div>
-
-                  <div class="text-center p-t-115" id="ask1">
-                     <span class="txt1"> 아직 회원이 아니라구요? </span> <a class="txt2"
-                        href="join.do"> 회원가입 </a>
-                  </div>
-               </form>
-            </c:if>
-         </div>
-      </div>
-   </div>
-
-
+					<div class="text-center p-t-115" id="ask1">
+						<span class="txt1"> 아직 회원이 아니라구요? </span> <a class="txt2"
+							href="join.do"> 회원가입 </a>
+					</div>
+					</form>
+				</c:if>
+			</div>
+		</div>
+	</div>
    <div id="dropDownSelect1"></div>
 
    <!--===============================================================================================-->

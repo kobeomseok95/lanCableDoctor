@@ -20,5 +20,11 @@ public interface AskDrService {
 	ArrayList<AskDrBoard> selectAskDrBoardSearch(HashMap<String, Object> parameterMap, AskDrBoardPagination page);
 
 	int insertAskDrBoard(AskDrBoard askDrBoard);
+
+	int deleteAskDrBoard(int bNo);
+
+	AskDrBoard selectAskDrBoardUpdateDeatil(int bNo);
+
+	int updateAskDrBoard(AskDrBoard askDrBoard);
 	
 }

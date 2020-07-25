@@ -30,12 +30,12 @@
    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/login_css/main.css">
 <!--===============================================================================================-->
 <style>
-   .logoDiv{background-color: #007ee5; width: 100px; height: 100px; margin: auto; border-radius: 7px;}
-   .logoDiv .logo{width: 100px; height: 100px;}
-   #ask{padding-top: 30px;}
-   #ask1{padding-top: 5px;}
-   .radiobtn{padding-left: 150px; height: 50px;}
-   .doc{margin-left: 30px;}
+	.logoDiv{background-color: #007ee5; width: 100px; height: 100px; margin: auto; border-radius: 7px;}
+	.logoDiv .logo{width: 100px; height: 100px;}
+	#ask{padding-top: 30px;}
+	#ask1{padding-top: 5px;}
+	.radiobtn{padding-left: 150px; height: 50px;}
+	.doc{margin-left: 30px;}
 </style>
 </head>
 <body>
@@ -90,7 +90,6 @@
                   <span class="txt1">
                      아직 회원이 아니라구요?
                   </span>
-
                   <a class="txt2" href="join.do">
                      회원가입
                   </a>

@@ -20,8 +20,8 @@
 		<result property="gender" column="AD_GENDER" />
 		<result property="caution" column="AD_CAUTION" />
 		<result property="symptoms" column="AD_SYMPTOM" />
+		<result property="categoryNo" column="HP_CATE_CODE" />
 	</resultMap>
-	
 
 <!-- resultMap, Query 경계 -->
 
@@ -61,7 +61,8 @@
 			    AD.AD_AGE,
 			    AD.AD_GENDER,
 			    AD.AD_CAUTION,
-			    AD.AD_SYMPTOM
+			    AD.AD_SYMPTOM,
+			    AD.HP_CATE_CODE
 			FROM ASKDR AD
 			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
 			WHERE AD.AD_NO = #{bNo}
@@ -131,6 +132,47 @@
 		    0
 		)
 	</insert>
+	
+	<!-- 게시글삭제 -->
+	<delete id="deleteAskDrBoard" parameterType="_int">
+		DELETE FROM ASKDR
+		WHERE AD_NO = #{bNo}
+	</delete>
+	
+	<!-- update를 위한 의사에게 물어봐 detail -->
+	<select id="selectAskDrBoardUpdateDeatil" parameterType="_int" resultMap="AskDrBoardDetail">
+		<![CDATA[
+			SELECT 
+			    AD.AD_NO, 
+			    AD.AD_TITLE,
+			    AD.AD_HEIGHT,
+			    AD.AD_WEIGHT,
+			    AD.AD_AGE,
+			    AD.AD_GENDER,
+			    AD.AD_CAUTION,
+			    AD.AD_SYMPTOM,
+			    AD.HP_CATE_CODE
+			FROM ASKDR AD
+			WHERE AD.AD_NO = #{bNo}
+		]]>		
+	</select>
+	
+	<!-- 의사에게물어봐 게시글 수정 -->
+	<update id="updateAskDrBoard" parameterType="AskDrBoard">
+		UPDATE ASKDR SET
+		    AD_TITLE = #{bTitle},
+		    AD_SUBMITDATE = SYSDATE,
+		    AD_HEIGHT = #{height},
+		    AD_WEIGHT = #{weight},
+		    AD_AGE = #{age},
+		    AD_GENDER = #{gender},
+		    AD_CAUTION = #{caution},
+		    AD_SYMPTOM = #{symptoms},
+		    HP_CATE_CODE = #{categoryNo}
+		WHERE 
+		    AD_NO = #{bNo}
+	</update>
+	
 </mapper>
 
 

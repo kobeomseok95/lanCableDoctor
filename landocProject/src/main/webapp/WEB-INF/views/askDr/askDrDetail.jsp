@@ -48,11 +48,16 @@
 					&nbsp;&nbsp;
 					<a href="askDr.do">의사에게 물어봐 > </a>
 					&nbsp;&nbsp;
-					<a href="javascript:history.back();">${subject }</a> 
+					<c:url var="askDrBoard" value="askDrBoard.do">
+						<c:param name="category" value="${askDrBoardDetail.categoryNo }" />
+						<c:param name="pageNo" value="1" />					
+					</c:url>
+					<a href="${askDrBoard}">${subject }</a> 					
 				</label>
 			</div>
 
 			<br>
+			<input id="AskDrBoardNo" type="hidden" value="${askDrBoardDetail.bNo }" />
 			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label">제목</label>
 				<div class="col-lg-9 col-sm-9 control-label">${askDrBoardDetail.bTitle }</div>
@@ -93,11 +98,14 @@
 			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label"></label>
 				<div class="col-lg-9 col-sm-9 control-label my-3" align="right">
-					<button class="btn btn-sm" style="background-color: #0071ce; color:white;">수정하기</button>
+					<button id="updateAskDrBoard" 
+						class="btn btn-sm" style="background-color: #0071ce; color:white;">수정하기</button>
 					&nbsp;
-					<button class="btn btn-sm" style="background-color: #0071ce; color:white;">삭제하기</button>
+					<button id="deleteAskDrBoard" 
+						class="btn btn-sm" style="background-color: #0071ce; color:white;">삭제하기</button>
 					&nbsp;
-					<button class="btn btn-sm" style="background-color: #0071ce; color:white;">채택하기</button>
+					<button id="chooseComplete" 
+						class="btn btn-sm" style="background-color: #0071ce; color:white;">채택하기</button>
 				</div>
 			</div>	
 			
@@ -161,15 +169,6 @@
 						</form>
 					</div>
 				</div>
-					<!-- not login -->
-				<div class="form-group form-inline">
-					<!--로그인을 했을 경우-->
-					<div class="col-lg-12 col-sm-12">
-						<div align="center">
-							<a href="#">로그인</a>이&nbsp; 필요합니다.
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</section>
@@ -189,6 +188,35 @@
 	<script>
 		$(function(){
 			$("[data-toggle='popover']").popover();
+		
+			$("#udpateAskDrBoard").on("click", function(){
+				location.href=""
+			});
+			
+			$("#deleteAskDrBoard").on("click", function(){
+				if(confirm("해당 게시글을 삭제하시겠습니까? 채택된 게시글은 삭제할 수 없습니다.")){
+					var $bNo = $("#AskDrBoardNo").val();
+					var $deleteForm = $("<form></form>");
+					$deleteForm.attr("action", "askDrBoardDelete.do");
+					$deleteForm.attr("method", "post");
+					$deleteForm.append($("<input/>", {type: "hidden", name: "bNo", value: $bNo}));
+					$(document.body).append($deleteForm);
+					$deleteForm.submit();
+				}
+				else{
+					return false;
+				}
+			});
+			
+			$("#updateAskDrBoard").on("click", function(){
+				var $bNo = $("#AskDrBoardNo").val();
+				var $updateForm = $("<form></form>");
+				$updateForm.attr("action", "askDrBoardUpdateForm.do");
+				$updateForm.attr("method", "post");
+				$updateForm.append($("<input/>", {type: "hidden", name: "bNo", value: $bNo}));
+				$(document.body).append($updateForm);
+				$updateForm.submit();
+			});
 		});
 	</script>
 </body>
