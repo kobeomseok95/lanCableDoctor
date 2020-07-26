@@ -96,6 +96,20 @@
 				</div>
 			</div>
 			<div class="form-group form-inline">
+				<label class="col-lg-3 col-sm-3 control-label">사진</label>
+				<div class="col-lg-9 col-sm-9 control-label">
+				<c:if test="${!empty imageList}">
+					<c:forEach var="imgs" items="${imageList }">
+						<c:set var="fullPath" value="/projectFiles/${imgs.fileName }" />
+						<img src="${fullPath}" style="width: 244px; height: 244px;" />
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty imageList}">
+					'해당 게시글에는 사진이 없습니다.'
+				</c:if>
+				</div>
+			</div>
+			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label"></label>
 				<div class="col-lg-9 col-sm-9 control-label my-3" align="right">
 					<button id="updateAskDrBoard" 

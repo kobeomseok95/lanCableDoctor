@@ -131,7 +131,7 @@
 				</div>
 				
 				<div class="form-group form-inline">
-					<label class="col-sm-3 control-label">첨부파일</label>
+					<label class="col-sm-3 control-label">첨부사진</label>
 					<button id="fileUpload" class="btn btn-sm" type="button">
 						<h3>+</h3>
 					</button>

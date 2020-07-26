@@ -28,6 +28,15 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+<style>
+#fileUpload {
+	background-color: #0071ce;
+}
+
+#fileUpload > h3 {
+	color: white;
+}
+</style>
 </head>
 <body>
 	<!-- Page Preloder -->
@@ -42,8 +51,8 @@
 	<section class="playlist-section">
 		<!--class="playlist-section spad"-->
 		<div class="container">
-			<h2 class="mb-5">의사에게 물어보기</h2>
-			<form class="form-horizontal" action="askDrBoardUpdate.do" method="post">
+			<h2 class="mb-5">해당 게시글 수정하기</h2>
+			<form class="form-horizontal" action="askDrBoardUpdate.do" method="post" enctype="multipart/form-data">
 				<input name="bNo" type="hidden" value="${askDrBoardUpdateDetail.bNo }" />
 				<div class="form-group form-inline">
 					<label for="category" class="col-sm-3 control-label"> 진료과목 </label> 
@@ -169,15 +178,33 @@
 				</div>
 				
 				<div class="form-group form-inline">
-					<label class="col-sm-3 control-label">증상 사진</label>
+					<label class="col-sm-3 control-label">첨부사진</label>
 					<p style="color: #a82400">* 증상 사진은 게시글 작성자, 의사 선생님들 외에는 비공개
 						처리되며, 최대 3장 업로드 가능합니다.</p>
 				</div>
 				
 				<div class="form-group form-inline">
-					<label class="col-sm-3 control-label">첨부파일</label> 
-					<input type="file" />
+					<label class="col-sm-3 control-label">첨부사진</label>
+					<button id="fileUpload" class="btn btn-sm" type="button">
+						<h3>+</h3>
+					</button>
+					<input id="file" name="symptomPicture" type="file" multiple="multiple" style="display: none;" />
 				</div>
+				<div class="form-group form-inline">
+					<label class="col-sm-3 control-label"></label>
+					<div id="preview">
+					<c:if test="${!empty imageList}">
+						<c:forEach var="imgs" items="${imageList }">
+							<c:set var="fullPath" value="/projectFiles/${imgs.fileName }" />
+							<img src="${fullPath}" style="width: 244px; height: 244px;" />
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty imageList}">
+						'해당 게시글에는 사진이 없습니다.'
+					</c:if>
+					</div>
+				</div>
+				
 				<div class="row mt-5">
 					<div class="col-sm-4"></div>
 					<div class="col-sm-4" style="text-align: center;">
@@ -202,5 +229,84 @@
 	<script src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+	<script>
+		$(document).ready(function (e) {
+
+			$("#fileUpload").on("click", function (e) {
+				e.preventDefault();
+				$("#file").click();
+			});
+
+			$("#file").change(function (e) {
+
+				$('#preview').empty();
+
+				var files = e.target.files;
+				var arr = Array.prototype.slice.call(files);
+				
+				if(files.length >= 4){	//네장일 경우 안된다.
+					alert("사진 파일은 세장까지만 등록 가능합니다.");
+					$("#file").val("");
+					return ;
+				}
+				else{
+					for (var i = 0; i < files.length; i++) {
+						if (!checkExtension(files[i].name, files[i].size)) {
+							return false;
+						}
+					}
+				}
+				preview(arr);
+			});//file change
+
+			function checkExtension(fileName, fileSize) {
+
+				var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+				var maxSize = 20971520;  //20MB
+
+				if (fileSize >= maxSize) {
+					alert('파일 사이즈 초과');
+					$("input[type='file']").val("");  //파일 초기화
+					return false;
+				}
+
+				if (regex.test(fileName)) {
+					alert('업로드 불가능한 파일이 있습니다.');
+					$("input[type='file']").val("");  //파일 초기화
+					return false;
+				}
+				return true;
+			}
+
+			function preview(arr) {
+				arr.forEach(function (f) {
+
+					//파일명이 길면 파일명...으로 처리
+					var fileName = f.name;
+					if (fileName.length > 10) {
+						fileName = fileName.substring(0, 7) + "...";
+					}
+
+					//div에 이미지 추가
+					var str = '<div class="pr-3" style="display: inline">';
+
+					//이미지 파일 미리보기
+					if (f.type.match('image.*')) {
+						var reader = new FileReader();
+						reader.onload = function (e) {
+							str += '<img src="' + e.target.result + '" style="width: 243px; height: 243px;" />';
+							str += '</div>';
+							$(str).appendTo('#preview');
+						}
+						reader.readAsDataURL(f);
+					}
+					else {
+						str += '<img src="/resources/img/fileImg.png" title="' + f.name + '" style="width: 243px; height: 243px;" />';
+						$(str).appendTo('#preview');
+					}
+				});//arr.forEach
+			}
+		});
+	</script>
 </body>
 </html>

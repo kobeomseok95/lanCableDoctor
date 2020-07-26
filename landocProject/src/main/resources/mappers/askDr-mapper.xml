@@ -21,6 +21,13 @@
 		<result property="caution" column="AD_CAUTION" />
 		<result property="symptoms" column="AD_SYMPTOM" />
 		<result property="categoryNo" column="HP_CATE_CODE" />
+		<result property="countImage" column="CNT" />
+	</resultMap>
+	
+	<resultMap type="SymptomsImage" id="SymptomsImage">
+		<id property="adpNo" column="ADP_NO" />
+		<result property="fileName" column="ADP_RENAME" />
+		<result property="filePath" column="ADP_FILEPATH" />
 	</resultMap>
 
 <!-- resultMap, Query 경계 -->
@@ -62,11 +69,23 @@
 			    AD.AD_GENDER,
 			    AD.AD_CAUTION,
 			    AD.AD_SYMPTOM,
-			    AD.HP_CATE_CODE
+			    AD.HP_CATE_CODE,
+                COUNT(ADP.ADP_NO) AS CNT
 			FROM ASKDR AD
 			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
+                LEFT JOIN ASKDRPHOTO ADP ON (AD.AD_NO = ADP.AD_NO)
 			WHERE AD.AD_NO = #{bNo}
 		    AND AD.HP_CATE_CODE = #{category}
+            GROUP BY (AD.AD_NO, 
+			    AD.AD_TITLE,
+			    C.C_NICKNAME,
+			    AD.AD_HEIGHT,
+			    AD.AD_WEIGHT,
+			    AD.AD_AGE,
+			    AD.AD_GENDER,
+			    AD.AD_CAUTION,
+			    AD.AD_SYMPTOM,
+			    AD.HP_CATE_CODE)
 		]]>
 	</select>
 	
@@ -145,18 +164,32 @@
 			SELECT 
 			    AD.AD_NO, 
 			    AD.AD_TITLE,
+			    C.C_NICKNAME,
 			    AD.AD_HEIGHT,
 			    AD.AD_WEIGHT,
 			    AD.AD_AGE,
 			    AD.AD_GENDER,
 			    AD.AD_CAUTION,
 			    AD.AD_SYMPTOM,
-			    AD.HP_CATE_CODE
+			    AD.HP_CATE_CODE,
+                COUNT(ADP.ADP_NO) AS CNT
 			FROM ASKDR AD
+			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
+                LEFT JOIN ASKDRPHOTO ADP ON (AD.AD_NO = ADP.AD_NO)
 			WHERE AD.AD_NO = #{bNo}
+            GROUP BY (AD.AD_NO, 
+			    AD.AD_TITLE,
+			    C.C_NICKNAME,
+			    AD.AD_HEIGHT,
+			    AD.AD_WEIGHT,
+			    AD.AD_AGE,
+			    AD.AD_GENDER,
+			    AD.AD_CAUTION,
+			    AD.AD_SYMPTOM,
+			    AD.HP_CATE_CODE)
 		]]>		
 	</select>
-	
+	 
 	<!-- 의사에게물어봐 게시글 수정 -->
 	<update id="updateAskDrBoard" parameterType="AskDrBoard">
 		UPDATE ASKDR SET
@@ -173,16 +206,58 @@
 		    AD_NO = #{bNo}
 	</update>
 	
+	<!-- 의사에게물어봐 사진 DB 수정 -->
+	<update id="updateAskDrBoardImg" parameterType="AskDrBoard">
+		
+	</update>
+	
 	<insert id="insertAskDrBoardPhoto" parameterType="hashMap">
 		INSERT INTO ASKDRPHOTO
 		VALUES(
 		    SEQ_ASKDRPHOTONO.NEXTVAL,
-		    'null',
 		    #{fileName},
-		    'null',
+		    #{filePath},
 		    SEQ_ASKDRNO.CURRVAL
 		)
 	</insert>
+	
+	<insert id="updateAskDrBoardPhoto" parameterType="hashMap">
+		INSERT INTO ASKDRPHOTO
+		VALUES(
+		    SEQ_ASKDRPHOTONO.NEXTVAL,
+		    #{fileName},
+		    #{filePath},
+		    #{boardNo}
+		)
+	</insert>
+	
+	<select id="selectAskDrBoardDeatilImages" parameterType="_int" resultMap="SymptomsImage">
+		SELECT 
+		    ADP_NO,
+		    ADP_RENAME,
+		    ADP_FILEPATH
+		FROM 
+		    ASKDRPHOTO 
+		WHERE 
+		    AD_NO = #{BNO}
+	</select>
+	
+	<select id="selectAskDrBoardImgNames" parameterType="_int" resultType="string">
+		SELECT
+		    ADP_RENAME
+		FROM
+		    ASKDRPHOTO
+		WHERE
+		    AD_NO = #{bNo}
+	</select>
+	
+	<delete id="deleteImgs" parameterType="_int">
+		DELETE 
+		FROM 
+			ASKDRPHOTO 
+		WHERE 
+			AD_NO = #{bNo}
+	</delete>
 	
 </mapper>
 

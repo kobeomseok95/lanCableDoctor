@@ -3,9 +3,11 @@ package com.kh.landocProject.askDr.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.plaf.multi.MultiFileChooserUI;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import com.kh.landocProject.askDr.model.service.AskDrService;
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
 import com.kh.landocProject.askDr.model.vo.AskDrCategoryMap;
+import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 import com.kh.landocProject.member.model.vo.Client;
 
 @Controller
@@ -29,6 +32,8 @@ public class MainAskDrController {
 	private AskDrService askDrServiceImpl; 
 	@Resource
 	private AskDrCategoryMap askDrCategoryMap;
+//	사진 저장 폴더
+	private final String filePath = "C:\\lanCableDoctorProject\\files\\";
 
 	@RequestMapping(value = "askDr.do", method = RequestMethod.GET)
 	public String askDr() {
@@ -64,11 +69,22 @@ public class MainAskDrController {
 			// 된다면 바로 int로 고쳐주기!
 			@RequestParam int bNo) throws Exception {
 		mv.setViewName("askDr/askDrDetail");
-
+		List<SymptomsImage> images = null;
+		
 		String subject = askDrCategoryMap.getCategoryMap().get(category);
-		AskDrBoard askDrBoardDetail = askDrServiceImpl.selectAskDrBoardDeatil(category, bNo);
+		
+		HashMap<String, Integer> parameterMap = new HashMap<String, Integer>();
+		parameterMap.put("category", category);
+		parameterMap.put("bNo", bNo);
+		AskDrBoard askDrBoardDetail = askDrServiceImpl.selectAskDrBoardDeatil(parameterMap);
 		changeGender(askDrBoardDetail);
-
+		
+		if(askDrBoardDetail.getCountImage() > 0) {
+			images = askDrServiceImpl.selectAskDrBoardDeatilImages( askDrBoardDetail.getbNo() );
+			mv.addObject("imageList", images);
+		}
+		
+		
 		mv.addObject("askDrBoardDetail", askDrBoardDetail);
 		mv.addObject("subject", subject);
 		mv.addObject("categoryNo", category);
@@ -125,40 +141,19 @@ public class MainAskDrController {
 	@RequestMapping(value = "askDrBoardInsert.do", method = RequestMethod.POST)
 	public String askDrBoardInsert(@SessionAttribute("loginClient") Client loginClient,
 												RedirectAttributes ra,
-												AskDrBoard askDrBoard,
-												HttpServletRequest request) {
+												AskDrBoard askDrBoard) {
 		askDrBoard.setMemberNo(loginClient.getcNo());
-
+		
 		int resultOfBoard = askDrServiceImpl.insertAskDrBoard(askDrBoard);
 		int resultOfPhoto = 0;
 		
-//		사진저장
+
 		if( !askDrBoard.getSymptomPicture().isEmpty() && resultOfBoard > 0 ) {
 			HashMap<String, Object> parameterPhoto = new HashMap<String, Object>();
 			parameterPhoto.put("boardNo", askDrBoard.getbNo());
-			System.out.println("mainAskDrController test line 40");
-			System.out.println(askDrBoard.getbNo());
-			String filePath = "C:\\lanCableDoctorProject\\workspace\\lanCableDoctor\\landocProject\\src\\main\\webapp\\resources\\askDrBoardUploadFiles\\";
-			File folder = new File(filePath);
-			if(!folder.exists())
-				folder.mkdirs();
-			
-			for(MultipartFile mf : askDrBoard.getSymptomPicture()) {
-				String originalFileName = mf.getOriginalFilename();
-				long fileSize = mf.getSize();
-				
-				String saveFile = filePath + System.currentTimeMillis() + originalFileName;
-				try {
-					mf.transferTo(new File(saveFile));
-					
-					parameterPhoto.put("fileName", saveFile);
-					int resultOfInsert = askDrServiceImpl.insertAskDrBoardPhoto(parameterPhoto);
-					resultOfPhoto = resultOfPhoto + resultOfInsert;
-				}
-				catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
+			parameterPhoto.put("filePath", filePath);
+
+			resultOfPhoto = saveFiles(parameterPhoto, askDrBoard.getSymptomPicture(), 1);
 		}
 		else {
 //			사진이 없을경우에는 그냥 이렇게 설정하고 넘어가긔
@@ -175,8 +170,49 @@ public class MainAskDrController {
 		}
 	}
 	
+//	사진을 서버에 저장 및 DB에 경로 저장
+	private int saveFiles(HashMap<String, Object> parameterPhoto, List<MultipartFile> symptomPicture,
+								int type) {
+		int resultSum = 0;
+		
+		File folder = new File(filePath);
+		if(!folder.exists())
+			folder.mkdirs();
+		
+		for(MultipartFile mf : symptomPicture) {
+			String originalFileName = mf.getOriginalFilename();
+			String fileName = System.currentTimeMillis() + originalFileName;
+			
+			String saveFile = filePath + fileName;
+			try {
+				mf.transferTo(new File(saveFile));
+				
+				parameterPhoto.put("fileName", fileName);
+//				게시글 insert
+				if(type == 1) {	
+					resultSum = resultSum +  askDrServiceImpl.insertAskDrBoardPhoto(parameterPhoto);
+				}
+//				게시글 update
+				else if(type == 2) {
+					resultSum = resultSum +  askDrServiceImpl.updateAskDrBoardPhoto(parameterPhoto);
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return resultSum;
+	}
+	
 	@RequestMapping(value="askDrBoardDelete.do", method=RequestMethod.POST)
 	public String askDrBoardDelete(@RequestParam int bNo) {
+		List<String> fileNames = askDrServiceImpl.selectAskDrBoardImgNames(bNo);
+		if( !fileNames.isEmpty() ) {
+			deleteStoredImgs(fileNames);
+			askDrServiceImpl.deleteImgs(bNo);
+		}
+		
 		int result = askDrServiceImpl.deleteAskDrBoard(bNo);
 		if(result > 0) {
 			return "redirect:/askDr.do";			
@@ -186,22 +222,60 @@ public class MainAskDrController {
 		}
 	}
 	
+//	외부 폴더에 저장된 사진들을 지운다. 이 메소드는 게시글삭제, 수정에 쓰임
+	public void deleteStoredImgs(List<String> fileNames) {
+		for(String fileName : fileNames) {
+			String path = "C:\\lanCableDoctorProject\\files\\" + fileName;
+			
+			File file = new File(path);
+			if( file.exists() ) {
+				file.delete();
+			}
+		}
+	}
+	
 	@RequestMapping(value="askDrBoardUpdateForm.do", method=RequestMethod.POST)
 	public ModelAndView askDrBoardUpdateForm(ModelAndView mv,
 																@RequestParam int bNo) {
 		mv.setViewName("askDr/askDrBoardUpdateForm");
 		
 		AskDrBoard askDrBoardUpdateDetail = askDrServiceImpl.selectAskDrBoardUpdateDeatil(bNo);
+		
+		List<SymptomsImage> images = null;
+		if(askDrBoardUpdateDetail.getCountImage() > 0) {
+			images = askDrServiceImpl.selectAskDrBoardDeatilImages(bNo);
+		}
+		
 		mv.addObject("askDrBoardUpdateDetail", askDrBoardUpdateDetail);
+		mv.addObject("imageList", images);
 		return mv;
 	}
 	
 	@RequestMapping(value="askDrBoardUpdate.do", method=RequestMethod.POST)
 	public String askDrBoardUpdate(AskDrBoard askDrBoard,
 													RedirectAttributes ra) {
-		int result = askDrServiceImpl.updateAskDrBoard(askDrBoard);
+		int resultOfPhoto = 0;
+		HashMap<String, Object> parameterPhoto = new HashMap<String, Object>();
+		parameterPhoto.put("boardNo", askDrBoard.getbNo());
+		parameterPhoto.put("filePath", filePath);
+		
+		List<String> fileNames = 
+				askDrServiceImpl.selectAskDrBoardImgNames( askDrBoard.getbNo() );
+		if( !fileNames.isEmpty() ) {
+			deleteStoredImgs(fileNames);
+			askDrServiceImpl.deleteImgs( askDrBoard.getbNo() );
+		}
+		
+		int resultOfBoard = askDrServiceImpl.updateAskDrBoard(askDrBoard);
 
-		if(result > 0) {
+		if( resultOfBoard > 0 && !askDrBoard.getSymptomPicture().isEmpty() ) {
+			resultOfPhoto = saveFiles(parameterPhoto, askDrBoard.getSymptomPicture(), 2);
+		}
+		else if ( resultOfBoard <= 0 ) {
+			return "";		//실패
+		}
+		
+		if(resultOfPhoto + resultOfBoard > 0) {
 			ra.addAttribute("category", askDrBoard.getCategoryNo());
 			ra.addAttribute("bNo", askDrBoard.getbNo());
 			return "redirect:/askDrDetail.do";
@@ -210,6 +284,8 @@ public class MainAskDrController {
 			return "";
 		}
 	}
+	
+	
 	
 	//의사 검색
 	@RequestMapping(value = "askDrSearch.do", method = RequestMethod.GET)

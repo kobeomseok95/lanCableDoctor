@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.kh.landocProject.askDr.model.dao.AskDrDAO;
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
+import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 
 @Service
 public class AskDrServiceImpl implements AskDrService {
@@ -26,11 +27,6 @@ public class AskDrServiceImpl implements AskDrService {
 	@Override
 	public ArrayList<AskDrBoard> selectAskDrBoard(int categoryNo, AskDrBoardPagination page) throws Exception {
 		return askDrDAO.selectAskDrBoard(categoryNo, page);
-	}
-
-	@Override
-	public AskDrBoard selectAskDrBoardDeatil(int category, int bNo) {
-		return askDrDAO.selectAskDrBoardDetail(category, bNo);
 	}
 
 	@Override
@@ -67,5 +63,30 @@ public class AskDrServiceImpl implements AskDrService {
 	@Override
 	public int insertAskDrBoardPhoto(HashMap<String, Object> parameterPhoto) {
 		return askDrDAO.insertAskDrBoardPhoto(parameterPhoto);
+	}
+
+	@Override
+	public AskDrBoard selectAskDrBoardDeatil(HashMap<String, Integer> parameterMap) {
+		return askDrDAO.selectAskDrBoardDetail(parameterMap);
+	}
+
+	@Override
+	public List<SymptomsImage> selectAskDrBoardDeatilImages(int bNo) {
+		return askDrDAO.selectAskDrBoardDeatilImages(bNo);
+	}
+
+	@Override
+	public List<String> selectAskDrBoardImgNames(int bNo) {
+		return askDrDAO.selectAskDrBoardImgNames(bNo);
+	}
+
+	@Override
+	public void deleteImgs(int bNo) {
+		askDrDAO.deleteImgs(bNo);
+	}
+
+	@Override
+	public int updateAskDrBoardPhoto(HashMap<String, Object> parameterPhoto) {
+		return askDrDAO.updateAskDrBoardPhoto(parameterPhoto);
 	}
 }

@@ -25,13 +25,14 @@ public class AskDrBoard implements Serializable{
 	private String symptoms;
 	private String categoryNo;
 	private List<MultipartFile> symptomPicture;
+	private int countImage;
 	
 	public AskDrBoard() {
 	}
 
 	public AskDrBoard(int rNo, int bNo, String bTitle, String nickname, String memberNo, Date submitDate, int height,
 			int weight, int age, String gender, String caution, String symptoms, String categoryNo,
-			List<MultipartFile> symptomPicture) {
+			List<MultipartFile> symptomPicture, int countImage) {
 		this.rNo = rNo;
 		this.bNo = bNo;
 		this.bTitle = bTitle;
@@ -46,6 +47,7 @@ public class AskDrBoard implements Serializable{
 		this.symptoms = symptoms;
 		this.categoryNo = categoryNo;
 		this.symptomPicture = symptomPicture;
+		this.countImage = countImage;
 	}
 
 	public int getrNo() {
@@ -164,13 +166,22 @@ public class AskDrBoard implements Serializable{
 		return serialVersionUID;
 	}
 
+	public int getCountImage() {
+		return countImage;
+	}
+	
+	public void setCountImage(int countImage) {
+		this.countImage = countImage;
+	}
+
 	@Override
 	public String toString() {
 		return "AskDrBoard [rNo=" + rNo + ", bNo=" + bNo + ", bTitle=" + bTitle + ", nickname=" + nickname
 				+ ", memberNo=" + memberNo + ", submitDate=" + submitDate + ", height=" + height + ", weight=" + weight
 				+ ", age=" + age + ", gender=" + gender + ", caution=" + caution + ", symptoms=" + symptoms
-				+ ", categoryNo=" + categoryNo + ", symptomPicture=" + symptomPicture + "]";
+				+ ", categoryNo=" + categoryNo + ", symptomPicture=" + symptomPicture + ", countImage=" + countImage
+				+ "]";
 	}
-
-		
+	
+	
 }

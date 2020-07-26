@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
+import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 
 public interface AskDrService {
 
@@ -13,7 +14,7 @@ public interface AskDrService {
 
 	ArrayList<AskDrBoard> selectAskDrBoard(int categoryNo, AskDrBoardPagination page) throws Exception;
 
-	AskDrBoard selectAskDrBoardDeatil(int category, int bNo);
+	AskDrBoard selectAskDrBoardDeatil(HashMap<String, Integer> parameterMap);
 
 	int selectAskDrBoardSearchCount(HashMap<String, Object> parameterMap);
 
@@ -28,5 +29,12 @@ public interface AskDrService {
 	int updateAskDrBoard(AskDrBoard askDrBoard);
 
 	int insertAskDrBoardPhoto(HashMap<String, Object> parameterPhoto);
-	
+
+	List<SymptomsImage> selectAskDrBoardDeatilImages(int bNo);
+
+	List<String> selectAskDrBoardImgNames(int bNo);
+
+	void deleteImgs(int bNo);
+
+	int updateAskDrBoardPhoto(HashMap<String, Object> parameterPhoto);	
 }
