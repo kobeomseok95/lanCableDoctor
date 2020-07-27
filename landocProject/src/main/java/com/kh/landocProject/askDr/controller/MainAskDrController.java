@@ -287,7 +287,19 @@ public class MainAskDrController {
 		}
 	}
 	
-	
+	@RequestMapping(value="chooseAnswer.do", method=RequestMethod.POST)
+	public String chooseAnswer(@RequestParam int bNo,
+											@RequestParam int adrNo) {
+		int resultOfAnswer = askDrServiceImpl.updateAskDrReplyChooseStatus(adrNo);
+		int resultOfBoard = askDrServiceImpl.updateAskDrBoardChooseStatus(bNo);
+		
+		if(resultOfAnswer > 0 && resultOfBoard > 0) {
+			return "redirect:/askDr.do";
+		}
+		else {
+			return "";
+		}
+	}
 	
 	//의사 검색
 	@RequestMapping(value = "askDrSearch.do", method = RequestMethod.GET)

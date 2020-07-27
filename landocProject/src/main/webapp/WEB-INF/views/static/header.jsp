@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>      <!-- 헤더에 이거 추가해줌 오류 생기면 말하기 -범석 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Header section -->
    <header class="header-section clearfix">
       <a href="home.do" class="site-logo">
@@ -32,7 +32,7 @@
                </li>
                <!--로그인 성공시 화면 X-->
                <span>|</span>
-               <li><a href="joinDrView.do" style="color: #a82400;">의사 회원가입</a></li>      <!-- 일반회원가입인지, 의사인지 굉장히 애매래스 -->
+               <li><a href="joinDrView.do" style="color: #a82400;">의사 회원가입</a></li>
                <span>|</span>
                <li><a href="joinClientView.do" style="color: #a82400;">일반 회원가입</a></li>
                <!--//-->

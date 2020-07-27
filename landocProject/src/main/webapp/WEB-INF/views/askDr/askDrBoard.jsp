@@ -132,7 +132,14 @@
 								</td>
 								<td class="nickname">${item.nickname }</td>
 								<td>${item.submitDate }</td>
-								<td>채택대기</td>
+								<td>
+								<c:if test="${item.chooseStatus eq 'Y' }">
+								채택완료
+								</c:if>
+								<c:if test="${item.chooseStatus eq 'N' }">
+								채택대기
+								</c:if>
+								</td>
 							</tr>
 							</c:forEach>
 						</c:if>

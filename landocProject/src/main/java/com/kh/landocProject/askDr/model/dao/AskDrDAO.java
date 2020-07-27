@@ -85,6 +85,14 @@ public class AskDrDAO {
 	public List<AskDrReply> selectAskDrBoardDetailReply(int bNo) {
 		return sqlSessionTemplate.selectList("askDr.selectAskDrBoardDetailReply", bNo);
 	}
+
+	public int updateAskDrReplyChooseStatus(int adrNo) {
+		return sqlSessionTemplate.update("askDr.updateAskDrReplyChooseStatus", adrNo);
+	}
+
+	public int updateAskDrBoardChooseStatus(int bNo) {
+		return sqlSessionTemplate.update("askDr.updateAskDrBoardChooseStatus", bNo);
+	}
 	
 }
 

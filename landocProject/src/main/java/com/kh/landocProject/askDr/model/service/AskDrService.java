@@ -39,5 +39,9 @@ public interface AskDrService {
 
 	int updateAskDrBoardPhoto(HashMap<String, Object> parameterPhoto);
 
-	List<AskDrReply> selectAskDrBoardDetailReply(int bNo);	
+	List<AskDrReply> selectAskDrBoardDetailReply(int bNo);
+
+	int updateAskDrReplyChooseStatus(int adrNo);
+
+	int updateAskDrBoardChooseStatus(int bNo);	
 }
