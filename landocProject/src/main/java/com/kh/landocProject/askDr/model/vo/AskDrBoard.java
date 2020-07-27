@@ -26,13 +26,14 @@ public class AskDrBoard implements Serializable{
 	private String categoryNo;
 	private List<MultipartFile> symptomPicture;
 	private int countImage;
+	private int countReply;
 	
 	public AskDrBoard() {
 	}
 
 	public AskDrBoard(int rNo, int bNo, String bTitle, String nickname, String memberNo, Date submitDate, int height,
 			int weight, int age, String gender, String caution, String symptoms, String categoryNo,
-			List<MultipartFile> symptomPicture, int countImage) {
+			List<MultipartFile> symptomPicture, int countImage, int countReply) {
 		this.rNo = rNo;
 		this.bNo = bNo;
 		this.bTitle = bTitle;
@@ -48,6 +49,7 @@ public class AskDrBoard implements Serializable{
 		this.categoryNo = categoryNo;
 		this.symptomPicture = symptomPicture;
 		this.countImage = countImage;
+		this.countReply = countReply;
 	}
 
 	public int getrNo() {
@@ -162,16 +164,24 @@ public class AskDrBoard implements Serializable{
 		this.symptomPicture = symptomPicture;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public int getCountImage() {
 		return countImage;
 	}
-	
+
 	public void setCountImage(int countImage) {
 		this.countImage = countImage;
+	}
+
+	public int getCountReply() {
+		return countReply;
+	}
+
+	public void setCountReply(int countReply) {
+		this.countReply = countReply;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
@@ -180,8 +190,7 @@ public class AskDrBoard implements Serializable{
 				+ ", memberNo=" + memberNo + ", submitDate=" + submitDate + ", height=" + height + ", weight=" + weight
 				+ ", age=" + age + ", gender=" + gender + ", caution=" + caution + ", symptoms=" + symptoms
 				+ ", categoryNo=" + categoryNo + ", symptomPicture=" + symptomPicture + ", countImage=" + countImage
-				+ "]";
+				+ ", countReply=" + countReply + "]";
 	}
-	
 	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
+import com.kh.landocProject.askDr.model.vo.AskDrReply;
 import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 
 public interface AskDrService {
@@ -36,5 +37,7 @@ public interface AskDrService {
 
 	void deleteImgs(int bNo);
 
-	int updateAskDrBoardPhoto(HashMap<String, Object> parameterPhoto);	
+	int updateAskDrBoardPhoto(HashMap<String, Object> parameterPhoto);
+
+	List<AskDrReply> selectAskDrBoardDetailReply(int bNo);	
 }

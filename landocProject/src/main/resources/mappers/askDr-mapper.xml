@@ -21,13 +21,27 @@
 		<result property="caution" column="AD_CAUTION" />
 		<result property="symptoms" column="AD_SYMPTOM" />
 		<result property="categoryNo" column="HP_CATE_CODE" />
-		<result property="countImage" column="CNT" />
+		<result property="countImage" column="FILECOUNT" />
+		<result property="countReply" column="REPLYCOUNT" />
 	</resultMap>
 	
 	<resultMap type="SymptomsImage" id="SymptomsImage">
 		<id property="adpNo" column="ADP_NO" />
 		<result property="fileName" column="ADP_RENAME" />
 		<result property="filePath" column="ADP_FILEPATH" />
+	</resultMap>
+	
+	<resultMap type="AskDrReply" id="AskDrReply">
+		<id property="adrNo" column="ADR_NO" />
+		<result property="bNo" column="AD_NO" />
+		<result property="drClientNo" column="DR_NO" />
+		<result property="replyDate" column="ADR_REPLYDATE" />
+		<result property="content" column="ADR_CONTENT" />
+		<result property="chooseStatus" column="ADR_CHOOSESTATUS" />
+		<result property="parentNo" column="ADR_PARENTNO" />
+		<result property="orderNo" column="ADR_ORDERNO" />
+		<result property="groupNo" column="ADR_GROUPNO" />
+		<result property="depthNo" column="ADR_DEPTHNO" />
 	</resultMap>
 
 <!-- resultMap, Query 경계 -->
@@ -58,6 +72,7 @@
 	</select>
 	
 	<select id="selectAskDrBoardDetail" parameterType="hashMap" resultMap="AskDrBoardDetail">
+		AND AD.HP_CATE_CODE = #{category}
 		<![CDATA[
 			SELECT 
 			    AD.AD_NO, 
@@ -70,13 +85,19 @@
 			    AD.AD_CAUTION,
 			    AD.AD_SYMPTOM,
 			    AD.HP_CATE_CODE,
-                COUNT(ADP.ADP_NO) AS CNT
-			FROM ASKDR AD
+			    COUNT(ADP.ADP_NO) AS FILECOUNT,
+			    COUNT(ADR.ADR_NO) AS REPLYCOUNT
+			FROM 
+				ASKDR AD
 			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
-                LEFT JOIN ASKDRPHOTO ADP ON (AD.AD_NO = ADP.AD_NO)
-			WHERE AD.AD_NO = #{bNo}
-		    AND AD.HP_CATE_CODE = #{category}
-            GROUP BY (AD.AD_NO, 
+			    LEFT JOIN ASKDRPHOTO ADP ON (AD.AD_NO = ADP.AD_NO)
+			    LEFT JOIN ASKDRREPLY ADR ON (AD.AD_NO = ADR.AD_NO)
+			WHERE 
+				AD.AD_NO = #{bNo}
+			AND 
+				AD.HP_CATE_CODE = #{category}
+			GROUP BY (
+			    AD.AD_NO, 
 			    AD.AD_TITLE,
 			    C.C_NICKNAME,
 			    AD.AD_HEIGHT,
@@ -206,11 +227,6 @@
 		    AD_NO = #{bNo}
 	</update>
 	
-	<!-- 의사에게물어봐 사진 DB 수정 -->
-	<update id="updateAskDrBoardImg" parameterType="AskDrBoard">
-		
-	</update>
-	
 	<insert id="insertAskDrBoardPhoto" parameterType="hashMap">
 		INSERT INTO ASKDRPHOTO
 		VALUES(
@@ -258,6 +274,15 @@
 		WHERE 
 			AD_NO = #{bNo}
 	</delete>
+	
+	<select id="" parameterType="_int" resultMap="AskDrReply">
+		SELECT 
+		    * 
+		FROM 
+		    ASKDRREPLY
+		WHERE
+	    	AD_NO = #{bNo}
+	</select>
 	
 </mapper>
 

@@ -1,32 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="MainHpReviewMapper">
-
-	<resultMap type="SearchHp" id="HpResultSet">
-		<id property="hpNo" column="HP_NO" />
-		<result property="hpName" column="HP_NAME" />
-		<result property="hpPhone" column="HP_PHONE" />
-		<result property="hpAddress" column="HP_ADDRESS" />
-	</resultMap>
-
-
-
-
-
-
-	<!-- 병원 모달창 검색 결과 쿼리문 -->
-	<select id="selectHpList" parameterType="string"
-		resultMap="HpResultSet">
-		SELECT HP_NO, HP_NAME, HP_PHONE, HP_ADDRESS
-		FROM HOSPITAL
-		WHERE HP_NAME LIKE '%' || #{hpName} || '%'
-	</select>
-
-
-
-
-
-
-
-
+  
+  <resultMap type="SearchHp" id="HpResultSet">
+     <id property="hpNo" column="HP_NO"/>
+     <result property="hpName" column="HP_NAME"/>
+     <result property="hpPhone" column="HP_PHONE"/>
+     <result property="hpAddress" column="HP_ADDRESS"/>
+  </resultMap>
+  
+  
+  
+  
+  
+  
+  <!-- 병원 모달창 검색 결과 쿼리문 -->
+  <select id="selectHpList" parameterType="string" resultMap="HpResultSet">
+     SELECT HP_NO, HP_NAME, HP_PHONE, HP_ADDRESS
+     FROM HOSPITAL
+     WHERE HP_NAME LIKE '%' || #{hpName} || '%'
+  </select>
+  
+  
+  <!-- 병원 리뷰 insert 쿼리문 -->
+  <insert id="insertHpRe" parameterType="HpReview">
+     INSERT INTO HPREVIEW VALUES(
+        SEQ_HPRE.NEXTVAL
+        , #{cNo}
+        , #{hpNo}
+        , 'NULL'
+        , #{hpReContent}
+        , SYSDATE
+        , #{like}
+        , #{avgRate}
+        , #{explanation}
+        , #{kindness}
+        , #{waitingTime}
+        , #{trResult}
+        , #{sanitary}
+        , #{price}
+        , 'N'
+        , 0
+        , #{originFile}
+        , #{renameFile}
+        , 'NULL'
+     
+      )
+  
+  </insert>
+  
+  
+  
+  
 </mapper>

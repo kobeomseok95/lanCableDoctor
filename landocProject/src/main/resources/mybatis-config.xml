@@ -11,12 +11,16 @@
 		<typeAlias type="com.kh.landocProject.member.model.vo.DrClient" alias="DrClient" />
 		<typeAlias type="com.kh.landocProject.askDr.model.vo.AskDrBoard" alias="AskDrBoard" />
 		<typeAlias type="com.kh.landocProject.hospitalReview.model.vo.SearchHp" alias="SearchHp" />
+		<typeAlias type="com.kh.landocProject.hospitalReview.model.vo.HpReview" alias="HpReview"/>
 		<typeAlias type="com.kh.landocProject.cmypage.model.vo.LikeHp" alias="LikeHp" />
 		<typeAlias type="com.kh.landocProject.cmypage.model.vo.PdReview" alias="PdReview" />
+		<typeAlias type="com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpReview" alias="AdminHpRe"/>
+     	<typeAlias type="com.kh.landocProject.admin.hospitalReview.model.vo.SearchCondition" alias="sc"/>
 		<typeAlias type="com.kh.landocProject.cmypage.model.vo.OrderList" alias="OrderList" />
 		<typeAlias type="com.kh.landocProject.cmypage.model.vo.OrderQna" alias="OrderQna" />
 		<typeAlias type="com.kh.landocProject.member.model.vo.DrhpPhoto" alias="DrhpPhoto" />
 		<typeAlias type="com.kh.landocProject.askDr.model.vo.SymptomsImage" alias="SymptomsImage" />
+		<typeAlias type="com.kh.landocProject.askDr.model.vo.AskDrReply" alias="AskDrReply" />
 	</typeAliases>
 
 
@@ -24,6 +28,7 @@
 		<mapper resource="/mappers/member-mapper.xml" />
 		<mapper resource="/mappers/askDr-mapper.xml" />
 		<mapper resource="/mappers/cMypage-mapper.xml" />
-
+		<mapper resource="/mappers/mainHpReview-mapper.xml"/>
+		<mapper resource="/mappers/adminHpRe-mapper.xml"/>
 	</mappers>
 </configuration>

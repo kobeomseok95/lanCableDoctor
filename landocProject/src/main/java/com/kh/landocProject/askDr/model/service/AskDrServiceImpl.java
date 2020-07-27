@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.kh.landocProject.askDr.model.dao.AskDrDAO;
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
+import com.kh.landocProject.askDr.model.vo.AskDrReply;
 import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 
 @Service
@@ -88,5 +89,10 @@ public class AskDrServiceImpl implements AskDrService {
 	@Override
 	public int updateAskDrBoardPhoto(HashMap<String, Object> parameterPhoto) {
 		return askDrDAO.updateAskDrBoardPhoto(parameterPhoto);
+	}
+
+	@Override
+	public List<AskDrReply> selectAskDrBoardDetailReply(int bNo) {
+		return askDrDAO.selectAskDrBoardDetailReply(bNo);
 	}
 }

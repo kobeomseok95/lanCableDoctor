@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.swing.plaf.multi.MultiFileChooserUI;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +20,7 @@ import com.kh.landocProject.askDr.model.service.AskDrService;
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
 import com.kh.landocProject.askDr.model.vo.AskDrCategoryMap;
+import com.kh.landocProject.askDr.model.vo.AskDrReply;
 import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 import com.kh.landocProject.member.model.vo.Client;
 
@@ -70,6 +69,7 @@ public class MainAskDrController {
 			@RequestParam int bNo) throws Exception {
 		mv.setViewName("askDr/askDrDetail");
 		List<SymptomsImage> images = null;
+		List<AskDrReply> replys = null;
 		
 		String subject = askDrCategoryMap.getCategoryMap().get(category);
 		
@@ -84,12 +84,14 @@ public class MainAskDrController {
 			mv.addObject("imageList", images);
 		}
 		
+		if(askDrBoardDetail.getCountReply() > 0) {
+			replys = askDrServiceImpl.selectAskDrBoardDetailReply( askDrBoardDetail.getbNo() );
+			mv.addObject("replys", replys);
+		}
 		
 		mv.addObject("askDrBoardDetail", askDrBoardDetail);
 		mv.addObject("subject", subject);
 		mv.addObject("categoryNo", category);
-//		댓글도 가져와야함
-//		mv.addObject();		이게 댓글가져올거
 		return mv;
 	}
 

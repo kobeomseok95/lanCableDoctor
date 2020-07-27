@@ -139,6 +139,7 @@
 									<th style="width: 18%">채택상태</th>
 								</tr>
 							</thead>
+							<c:if test="${!empty replys}">
 							<tbody>
 								<tr>
 									<td>
@@ -168,6 +169,17 @@
 									<td><input type="radio"></td>
 								</tr>
 							</tbody>
+							</c:if>
+							
+							<c:if test="${empty replys}">
+							<tbody>
+								<tr>
+									<td colspan="5">
+										선생님들의 답변이 없습니다!
+									</td>
+								</tr>
+							</tbody>
+							</c:if>
 						</table>
 					</div>
 				</div>

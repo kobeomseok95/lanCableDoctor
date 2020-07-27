@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
+import com.kh.landocProject.askDr.model.vo.AskDrReply;
 import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 
 @Repository
@@ -79,6 +80,10 @@ public class AskDrDAO {
 
 	public int updateAskDrBoardPhoto(HashMap<String, Object> parameterPhoto) {
 		return sqlSessionTemplate.insert("askDr.updateAskDrBoardPhoto", parameterPhoto);
+	}
+
+	public List<AskDrReply> selectAskDrBoardDetailReply(int bNo) {
+		return sqlSessionTemplate.selectList("askDr.selectAskDrBoardDetailReply", bNo);
 	}
 	
 }
