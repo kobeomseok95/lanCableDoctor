@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.landocProject.admin.hospitalReview.model.dao.HpReviewDao;
+import com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpRePoint;
 import com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpReview;
 import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.admin.hospitalReview.model.vo.SearchCondition;
@@ -50,6 +51,20 @@ public class HpReviewServiceImpl implements HpReviewService{
       
       return hpReDao.getSearchListCount(sc);
    }
+
+
+	@Override
+	public int approvalHpRe(Integer hpReNo) {
+		
+		return hpReDao.approvalHpRe(hpReNo);
+	}
+
+
+	@Override
+	public int insertPoint(AdminHpRePoint adminHpRePt) {
+		
+		return hpReDao.insertPoint(adminHpRePt);
+	}
 
 
 

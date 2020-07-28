@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.landocProject.admin.hospitalReview.model.service.HpReviewService;
+import com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpRePoint;
 import com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpReview;
 import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.admin.hospitalReview.model.vo.SearchCondition;
@@ -42,9 +43,9 @@ public class HpReviewController {
          currentPage = page;
       }
       
-      System.out.println("controller에서 currentPage : " + currentPage);
-      System.out.println("controller에서 condition : " + condition);
-      System.out.println("controller에서 value : " + value);
+//      System.out.println("controller에서 currentPage : " + currentPage);
+//      System.out.println("controller에서 condition : " + condition);
+//      System.out.println("controller에서 value : " + value);
 
       
       SearchCondition sc = new SearchCondition();
@@ -96,7 +97,7 @@ public class HpReviewController {
          
       }
       
-      System.out.println("controller에서 리스트 : " + list);
+//      System.out.println("controller에서 리스트 : " + list);
       
       if(list != null) {
          mv.addObject("list",list);
@@ -123,15 +124,52 @@ public class HpReviewController {
 //      if(page != null) {
 //         currentPage = page;
 //      }
-      System.out.println("controller에서 hpReNo : " + hpReNo);
+//      System.out.println("controller에서 hpReNo : " + hpReNo);
       
       adminHpRe = hpReService.selectHpReDetail(hpReNo);
       
-      return null;
+      if(adminHpRe != null) {
+    	  mv.addObject("adminHpRe", adminHpRe);
+    	  mv.setViewName("admin/hospitalReview/hpReviewDetail");
+      }else {
+    	  System.out.println("세부내용 조회 실패");
+      }
+      return mv;
    }
    
    
-   
+   // 리뷰 영수증 승인하기
+   @RequestMapping("adminHpReApproval.do")
+   public String adminHpReApproval(AdminHpReview adminHpRe, AdminHpRePoint adminHpRePt,
+		   						@RequestParam("approval") String approval,
+		   						@RequestParam("hpReNo") Integer hpReNo,
+		   						@RequestParam("cNo") String cNo) {
+	   
+	   // 리뷰 승인하기
+	   int result =  hpReService.approvalHpRe(hpReNo);
+//	   System.out.println("controller에서 result : " + result);
+	   
+	   // 적립포인트 내역
+	   adminHpRePt.setHpReNo(hpReNo);
+	   adminHpRePt.setcNo(cNo);
+	   
+	   if(result > 0) {
+		   // 적립포인트 내역 테이블에 insert
+		   int point = hpReService.insertPoint(adminHpRePt);
+		   
+		   
+		   
+		   
+		   // 일반 회원 테이블의 잔여 테이블 update
+		   
+		   
+	   }
+	   
+	   
+	   
+	   return null;
+	   
+   }
    
    
    

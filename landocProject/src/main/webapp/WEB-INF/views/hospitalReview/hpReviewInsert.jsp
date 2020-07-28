@@ -1204,13 +1204,13 @@
                      <div class="card border-0 d-flex justify-content-center smile">
                         <label for="good_suggest_input"><span class="material-icons md-180">sentiment_satisfied_alt</span></label>
                         <div class="card-body">
-                           <input type="radio" name="suggest" value="true" id="good_suggest_input">
+                           <input type="radio" name="suggest" value="Y" id="good_suggest_input">
                         </div>
                      </div>
                      <div class="card border-left-0 border-top-0 border-bottom-0 d-flex justify-content-center sad">
                         <label for="wrong_suggest_input"><span class="material-icons md-180">sentiment_dissatisfied</span></label>
                         <div class="card-body">
-                           <input type="radio" name="suggest" value="false" id="wrong_suggest_input">
+                           <input type="radio" name="suggest" value="N" id="wrong_suggest_input">
                         </div>
                      </div>
                   </div>

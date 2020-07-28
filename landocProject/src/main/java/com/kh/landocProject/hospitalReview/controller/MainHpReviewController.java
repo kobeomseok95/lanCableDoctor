@@ -29,6 +29,8 @@ public class MainHpReviewController {
    @Autowired
    MainHpReviewService MainHpReService;
    
+   // 사진 저장 폴더
+   private final String filePath = "C:\\lanCableDoctorProject\\files\\";
    
    // header와의 연결
    @RequestMapping("hpReviewInsert.do")
@@ -60,6 +62,7 @@ public class MainHpReviewController {
    }
    
    
+   // 병원리뷰등록
    @RequestMapping("hpReInsert.do")
    public String hpReInsert(HttpServletRequest request, HpReview hpRe, HttpSession session,
                         @RequestParam(value="hospital_id") Integer hpNo, 
@@ -128,13 +131,13 @@ public class MainHpReviewController {
    }
    
    public String saveFile(MultipartFile file, HttpServletRequest request) {
-      // webapp까지의 경로
-      String root = request.getSession().getServletContext().getRealPath("resources");
+//      // webapp까지의 경로
+//      String root = request.getSession().getServletContext().getRealPath("resources");
+//      
+//      // resources안의 hpReUploadFiles 폴더까지의 경로
+//      String savePath = root + "\\hpReUploadFiles";
       
-      // resources안의 hpReUploadFiles 폴더까지의 경로
-      String savePath = root + "\\hpReUploadFiles";
-      
-      File folder = new File(savePath);
+      File folder = new File(filePath);
       
       if(!folder.exists()) {
          folder.mkdirs();
@@ -144,11 +147,11 @@ public class MainHpReviewController {
       String originFileName = file.getOriginalFilename();
       String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." + originFileName.substring(originFileName.lastIndexOf(".")+1);
       
-      String filePath = folder + "\\" + renameFileName;
+      String saveFiles = filePath + renameFileName;
       
       
       try {
-         file.transferTo(new File(filePath));   // 이 때 파일이 저장
+         file.transferTo(new File(saveFiles));   // 이 때 파일이 저장
          
       } catch (IllegalStateException e) {
          
@@ -160,25 +163,6 @@ public class MainHpReviewController {
       
       return renameFileName;
    }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
    
    
 }

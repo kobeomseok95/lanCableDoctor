@@ -144,7 +144,7 @@
   <select id="selectHpReDetail" parameterType="_int" resultMap="hpReResultMap2">
      SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, 
         HR.HP_RE_DATE, HR.DETAIL_EXPLANATION, HR.STAFF_KIND, HR.WAITING_TIME, HR.TREATMENT_RESULT, HR.CLEANLINESS, HR.PRICE, 
-        HR.HPRE_ORIGIN, HR.HPRE_RENAME, HR.RECEIPT_YN
+       HR.HP_RE_CONTENT, HR.HPRE_ORIGIN, HR.HPRE_RENAME, HR.RECEIPT_YN
    FROM HPREVIEW HR
        JOIN CLIENT C ON (HR.C_NO = C.C_NO)
        JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
@@ -152,6 +152,38 @@
        JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
       WHERE HR.HP_RE_NO=#{hpReNo}
   </select>
+  
+  
+  <!-- 승인 업데이트 -->
+  <update id="approvalHpRe" parameterType="_int">
+  	UPDATE HPREVIEW
+  	SET RECEIPT_YN='Y'
+  	WHERE HP_RE_NO=#{hpReNo}
+  </update>
+  
+  
+  
+  <!-- 승인 후 포인트 지급 -->
+  <insert id="insertPoint" parameterType="AdminHpRePt">
+  	INSERT INTO POINTSAVE
+  	VALUES(SEQ_POINTSAVE.NEXTVAL, 1000, SYSDATE, #{hpReNo}, NULL, NULL, #{cNo})
+  
+  </insert>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
