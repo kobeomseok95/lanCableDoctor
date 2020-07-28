@@ -69,7 +69,8 @@
                </li>   
             </div>
          </c:if>
-         <c:if test="${!empty loginClient && !empty loginDrClient }"><div class="user-panel">
+		<%--          
+			<c:if test="${!empty loginClient && !empty loginDrClient }"><div class="user-panel">
             <li>
                <a href="loginView.do">로그인</a>
             </li>
@@ -79,8 +80,9 @@
             <span>|</span>
             <li><a href="joinClientView.do" style="color: #a82400;">일반 회원가입</a></li>
             <!--//-->
-            </div>
+            </div> 
          </c:if>
+         --%>
       </div>
 
       </ul>

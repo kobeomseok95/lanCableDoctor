@@ -175,7 +175,7 @@ public class MainMemberController {
 	public String logout(SessionStatus status) {
 		status.setComplete();
 		
-		return "home";
+		return "redirect:home.do";
 	}
 
 	// 의사 회원가입1(암호화 처리, 메일 인증)_진교
