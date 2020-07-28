@@ -4,7 +4,8 @@
 <!-- Header section -->
 
    <header class="header-section clearfix">
-      <a href="home.do" class="site-logo">
+   	  <c:url var="home" value="home.do" />
+      <a href="${home }" class="site-logo">		<!-- 여기 꼭 볼것!!!!!!! -->
          <img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
       </a>
       <ul class="main-menu">
@@ -87,4 +88,3 @@
 
       </ul>
    </header>
- 

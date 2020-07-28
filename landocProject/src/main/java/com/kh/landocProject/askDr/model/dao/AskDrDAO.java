@@ -93,6 +93,10 @@ public class AskDrDAO {
 	public int updateAskDrBoardChooseStatus(int bNo) {
 		return sqlSessionTemplate.update("askDr.updateAskDrBoardChooseStatus", bNo);
 	}
+
+	public int insertAskDrBoardReply(AskDrReply askDrReply) {
+		return sqlSessionTemplate.insert("askDr.insertAskDrBoardReply", askDrReply);
+	}
 	
 }
 
