@@ -107,14 +107,14 @@
 					</c:forEach>
 				</c:if>
 				<c:if test="${empty imageList}">
-					'해당 게시글에는 사진이 없습니다.'
+					해당 게시글에는 사진이 없습니다.
 				</c:if>
 				</div>
 			</div>
 			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label"></label>
 				<div class="col-lg-9 col-sm-9 control-label my-3" align="right">
-				<c:if test="${askDrBoardDetail.chooseStatus eq 'N' }">
+				<c:if test="${askDrBoardDetail.chooseStatus eq 'N' && empty loginDrClient }">
 					<button id="updateAskDrBoard" 
 						class="btn btn-sm" style="background-color: #0071ce; color:white;">수정하기</button>
 					&nbsp;
@@ -204,18 +204,23 @@
 						</table>
 					</div>
 				</div>
+				<c:choose>
+				<c:when test="${!empty loginDrClient && askDrBoardDetail.chooseStatus eq 'N'}">
 				<div class="form-group form-inline">
-					<!--login-->
 					<div class="col-lg-12 col-sm-12 control-label">
-						<form action="">
+						<form action="askDrBoardReplyInsert.do">
 							<textarea rows="2" style="width: 100%;"></textarea>
 							<div align="right">
-								<button class="btn btn-sm" type="submit"
-									style="background-color: #0071ce; color:white;">작성하기</button>
+								<button id="insertReply" class="btn btn-sm" type="submit"
+								style="background-color: #0071ce; color:white;">작성하기</button>
 							</div>
 						</form>
 					</div>
 				</div>
+				</c:when>
+				<c:otherwise>
+				</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</section>
@@ -276,6 +281,13 @@
 		        else{
 		        	return false;
 		        }
+			});
+			
+			$("#insertReply").on("click", function(){
+				var loginDrClient = "${loginDrClient.drNo}";
+				/* if(loginDrClient !== ""){
+					
+				} */
 			});
 		});	//end of jquery
 	</script>
