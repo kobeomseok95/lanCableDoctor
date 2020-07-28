@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>      <!-- 헤더에 이거 추가해줌 오류 생기면 말하기 -범석 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Header section -->
+
    <header class="header-section clearfix">
-      <a href="home.do" class="site-logo">
+   	  <c:url var="home" value="home.do" />
+      <a href="${home }" class="site-logo">		<!-- 여기 꼭 볼것!!!!!!! -->
          <img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
       </a>
       <ul class="main-menu">
@@ -32,7 +34,7 @@
                </li>
                <!--로그인 성공시 화면 X-->
                <span>|</span>
-               <li><a href="joinDrView.do" style="color: #a82400;">의사 회원가입</a></li>      <!-- 일반회원가입인지, 의사인지 굉장히 애매래스 -->
+               <li><a href="joinDrView.do" style="color: #a82400;">의사 회원가입</a></li>
                <span>|</span>
                <li><a href="joinClientView.do" style="color: #a82400;">일반 회원가입</a></li>
                <!--//-->
@@ -68,6 +70,20 @@
                </li>   
             </div>
          </c:if>
+		<%--          
+			<c:if test="${!empty loginClient && !empty loginDrClient }"><div class="user-panel">
+            <li>
+               <a href="loginView.do">로그인</a>
+            </li>
+            <!--로그인 성공시 화면 X-->
+            <span>|</span>
+            <li><a href="joinDrView.do" style="color: #a82400;">의사 회원가입</a></li>
+            <span>|</span>
+            <li><a href="joinClientView.do" style="color: #a82400;">일반 회원가입</a></li>
+            <!--//-->
+            </div> 
+         </c:if>
+         --%>
       </div>
 
       </ul>

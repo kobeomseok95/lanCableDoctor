@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Enumeration;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -74,27 +77,11 @@ public class MainMemberController {
 		return "member/searchPwd";
 	}
 
-//	@RequestMapping(value = "searchPwd2.do", method = RequestMethod.GET)
-//	public String searchPwd2() {
-//		return "member/searchPwd2";
-//	}
-//
-//	@RequestMapping(value = "searchPwd3.do", method = RequestMethod.GET)
-//	public String searchPwd3() {
-//		return "member/searchPwd3";
-//	}
-//
-//	@RequestMapping(value = "searchPwd4.do", method = RequestMethod.GET)
-//	public String searchPwd4() {
-//		return "member/searchPwd4";
-//	}
-
 	// 암호화 처리 일반 회원가입_진교
 	@RequestMapping(value = "joinClient.do", method = RequestMethod.POST)
 	public String memberInsert(Client c, Model model, @RequestParam("address1") String address1,
 			@RequestParam("address2") String address2) {
 //		System.out.println(c);
-		System.out.println("mainMemberController.java test line 112");
 
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(c.getUserPwd());
@@ -117,13 +104,9 @@ public class MainMemberController {
 	// 암호화 처리 로그인_진교
 	@RequestMapping(value = "memberLogin.do", method = RequestMethod.POST)
 	public String memberLogin(Client c, DrClient d, Model model, @RequestParam("check") String check) {
-		System.out.println("mainMemberController.java test line 134");
-//			System.out.println(check);
 
 		if (check.equals("client")) {
 			Client loginClient = mService.loginClient(c);
-
-			System.out.println("암호화 처리 된 DB일반회원 : " + loginClient);
 
 			if (bcryptPasswordEncoder.matches(c.getUserPwd(), loginClient.getUserPwd())) {
 				model.addAttribute("loginClient", loginClient);
@@ -133,8 +116,6 @@ public class MainMemberController {
 			}
 		} else if (check.equals("drClient")) {
 			DrClient loginDrClient = mService.loginDoctor(d);
-
-			System.out.println("암호화 처리 된 DB의사회원 : " + loginDrClient);
 
 			if (bcryptPasswordEncoder.matches(d.getUserPwd(), loginDrClient.getUserPwd())) {
 				model.addAttribute("loginDrClient", loginDrClient);
@@ -189,12 +170,12 @@ public class MainMemberController {
 
 	}
 
-	// 로그아웃_진교
+// 로그아웃_진교
 	@RequestMapping(value = "logout.do")
 	public String logout(SessionStatus status) {
 		status.setComplete();
-
-		return "home";
+		
+		return "redirect:home.do";
 	}
 
 	// 의사 회원가입1(암호화 처리, 메일 인증)_진교
