@@ -1,16 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>		<!-- 헤더에 이거 추가해줌 오류 생기면 말하기 -범석 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Header section -->
-	<header class="header-section clearfix">
-		<a href="home.do" class="site-logo">
-			<img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
-		</a>
-		<ul class="main-menu">
-			<li><a href="#">병원찾기</a></li>
-			<li><a href="hpReviewInsert.do">리뷰쓰기</a></li>
-			<li><a href="askDr.do">의사에게 물어봐</a></li>
-			<li><a href="productIndex.do">의사추천 영양제</a></li>
+   <header class="header-section clearfix">
+      <a href="home.do" class="site-logo">
+         <img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
+      </a>
+      <ul class="main-menu">
+         <li><a href="#">병원찾기</a></li>
+         
+         <!-- 로그인 유저가 없을 시 로그인 페이지로 이동 -->
+         <c:if test="${empty loginClient }">
+            <c:url var="loginPage" value="loginView.do">
+               <c:param name="noLoginUser" value="noLoginUser"/>
+            </c:url>
+            <li><a href="${loginPage }">리뷰쓰기</a></li>
+         </c:if>
+         
+         <c:if test="${!empty loginClient }">
+            <li><a href="hpReviewInsert.do">리뷰쓰기</a></li>
+         </c:if>
+         
+         <li><a href="askDr.do">의사에게 물어봐</a></li>
+         <li><a href="productIndex.do">의사추천 영양제</a></li>
 
 			<div class="header-right" style="padding-top: 0%; padding-bottom: 0%;">
 			<c:if test="${empty loginClient && empty loginDrClient }">
@@ -57,6 +69,5 @@
 				</div>
 			</c:if>
 		</div>
-
-		</ul>
-	</header>
+      </ul>
+   </header>

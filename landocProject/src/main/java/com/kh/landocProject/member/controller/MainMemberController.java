@@ -141,7 +141,9 @@ public class MainMemberController {
 	public String memberInsert(Client c, ProfilePhoto pp, Model model, @RequestParam("address1") String address1,
 			@RequestParam("address2") String address2) {
 //		System.out.println(c);
+
 		System.out.println("mainMemberController.java test line 121");
+
 
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(c.getUserPwd());
@@ -169,12 +171,15 @@ public class MainMemberController {
 
 	// 암호화 처리 로그인_진교
 	@RequestMapping(value = "memberLogin.do", method = RequestMethod.POST)
+
 	public String memberLogin(Client c, DrClient d, Model model, @RequestParam("check") String check, HttpServletResponse response_equals) throws IOException{
 		System.out.println("mainMemberController.java test line 150");
 //			System.out.println(check);
 
+
 		if (check.equals("client")) {
 			Client loginClient = mService.loginClient(c);
+
 
 //			System.out.println("암호화 처리 된 DB일반회원 : " + loginClient);
 
@@ -190,6 +195,7 @@ public class MainMemberController {
 			}
 		} else if (check.equals("drClient")) {
 			DrClient loginDrClient = mService.loginDoctor(d);
+
 
 //			System.out.println("암호화 처리 된 DB의사회원 : " + loginDrClient);
 			if(loginDrClient.getApproval().equals("Y")) {
@@ -209,6 +215,7 @@ public class MainMemberController {
 				out_equals.println("<script>alert('아직 승인을 받지 못하셨습니다.');</script>");
 				out_equals.flush();
 				return "member/login";
+
 			}
 		}
 		return "home";
@@ -267,7 +274,7 @@ public class MainMemberController {
 	public String logout(SessionStatus status) {
 		System.out.println("mainMemberController.java test line 245");
 		status.setComplete();
-
+		
 		return "home";
 	}
 
