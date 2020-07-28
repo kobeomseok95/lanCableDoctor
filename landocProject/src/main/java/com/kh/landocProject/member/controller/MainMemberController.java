@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Enumeration;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,21 +76,6 @@ public class MainMemberController {
 	public String searchPwd() {
 		return "member/searchPwd";
 	}
-
-//	@RequestMapping(value = "searchPwd2.do", method = RequestMethod.GET)
-//	public String searchPwd2() {
-//		return "member/searchPwd2";
-//	}
-//
-//	@RequestMapping(value = "searchPwd3.do", method = RequestMethod.GET)
-//	public String searchPwd3() {
-//		return "member/searchPwd3";
-//	}
-//
-//	@RequestMapping(value = "searchPwd4.do", method = RequestMethod.GET)
-//	public String searchPwd4() {
-//		return "member/searchPwd4";
-//	}
 
 	// 암호화 처리 일반 회원가입_진교
 	@RequestMapping(value = "joinClient.do", method = RequestMethod.POST)
@@ -182,7 +170,7 @@ public class MainMemberController {
 
 	}
 
-	// 로그아웃_진교
+// 로그아웃_진교
 	@RequestMapping(value = "logout.do")
 	public String logout(SessionStatus status) {
 		status.setComplete();

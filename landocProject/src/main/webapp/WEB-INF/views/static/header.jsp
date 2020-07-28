@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Header section -->
+
    <header class="header-section clearfix">
       <a href="home.do" class="site-logo">
          <img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
@@ -68,7 +69,20 @@
                </li>   
             </div>
          </c:if>
+         <c:if test="${!empty loginClient && !empty loginDrClient }"><div class="user-panel">
+            <li>
+               <a href="loginView.do">로그인</a>
+            </li>
+            <!--로그인 성공시 화면 X-->
+            <span>|</span>
+            <li><a href="joinDrView.do" style="color: #a82400;">의사 회원가입</a></li>
+            <span>|</span>
+            <li><a href="joinClientView.do" style="color: #a82400;">일반 회원가입</a></li>
+            <!--//-->
+            </div>
+         </c:if>
       </div>
 
       </ul>
    </header>
+ 
