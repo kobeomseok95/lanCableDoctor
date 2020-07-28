@@ -317,6 +317,18 @@
 		WHERE AD_NO = #{bNo}
 	</update>
 	
+	<insert id="insertAskDrBoardReply" parameterType="askDrReply">
+		INSERT INTO ASKDRREPLY
+		VALUES(
+		    SEQ_ASKDRREPLY.NEXTVAL,
+		    #{bNo},
+		    #{drClientNo},
+		    SYSDATE,
+		    #{content},
+		    'N',
+		    0, 0, 0, 0
+		)
+	</insert>
 </mapper>
 
 

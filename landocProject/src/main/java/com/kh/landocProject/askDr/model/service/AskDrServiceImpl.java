@@ -105,4 +105,9 @@ public class AskDrServiceImpl implements AskDrService {
 	public int updateAskDrBoardChooseStatus(int bNo) {
 		return askDrDAO.updateAskDrBoardChooseStatus(bNo);
 	}
+
+	@Override
+	public int insertAskDrBoardReply(AskDrReply askDrReply) {
+		return askDrDAO.insertAskDrBoardReply(askDrReply);
+	}
 }
