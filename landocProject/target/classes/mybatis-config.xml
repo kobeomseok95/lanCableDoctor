@@ -31,6 +31,9 @@
 		<typeAlias
 			type="com.kh.landocProject.member.model.vo.DrhpPhoto"
 			alias="DrhpPhoto" />
+		<typeAlias
+			type="com.kh.landocProject.member.model.vo.ProfilePhoto"
+			alias="ProfilePhoto" />
 	</typeAliases>
 
 

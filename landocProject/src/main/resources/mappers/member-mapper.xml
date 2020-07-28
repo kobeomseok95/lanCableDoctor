@@ -14,11 +14,13 @@
 		<result property="birth" column="C_BIRTH" />
 		<result property="status" column="C_STATUS" />
 		<result property="enrollDate" column="C_ENROLL_DATE" />
-		<result property="profile" column="C_PROFILE" />
+		<!-- <result property="profile" column="C_PROFILE" /> -->
 		<result property="marketing" column="C_MARKETING" />
 		<result property="point" column="C_POINT" />
 		<result property="post" column="C_POSTCODE" />
 		<result property="address" column="C_ADDRESS" />
+		<result property="proOrigin" column="PRO_ORIGIN" />
+		<result property="proRename" column="PRO_RENAME" />
 	</resultMap>
 
 	<!-- 의사회원_진교 -->
@@ -36,13 +38,17 @@
 		<result property="status" column="DR_STATUS" />
 		<result property="approval" column="DR_APPROVAL" />
 		<result property="enrollDate" column="DR_ENROLL_DATE" />
-		<result property="profile" column="DR_PROFILE" />
+		<!-- <result property="profile" column="DR_PROFILE" /> -->
 		<result property="attachment" column="DR_ATTACHMENT" />
 		<result property="marketing" column="DR_MARKETING" />
 		<result property="post" column="DR_POSTCODE" />
 		<result property="address" column="DR_ADDRESS" />
 		<result property="like" column="DR_LIKE" />
 		<result property="disLike" column="DR_DISLIKE" />
+		<result property="hpCateName" column="HPCATE_NAME" />
+		<result property="hpName" column="HP_NAME" />
+		<result property="proOrigin" column="PRO_ORIGIN" />
+		<result property="proRename" column="PRO_RENAME" />
 	</resultMap>
 
 	<!-- 의사 파일 제출_진교 -->
@@ -54,6 +60,17 @@
 		<result property="dhCode" column="DRHP_ORIGIN" />
 		<result property="drNo" column="DRHP_ORIGIN" />
 		<result property="hpNo" column="HP_NO" />
+	</resultMap>
+	
+	<!-- 프로필 사진 -->
+	<resultMap type="ProfilePhoto" id="ProfilePhotoResultSet">
+		<id property="proNo" column="PRO_NO"></id>
+		<result property="proOrigin" column="PRO_ORIGIN" />
+		<result property="proRename" column="PRO_RENAME" />
+		<result property="proFilepath" column="PRO_FILEPATH" />
+		<result property="drNo" column="DR_NO"/>
+		<result property="cNo" column="C_NO"/>
+		<result property="hpNo" column="HP_NO"/>
 	</resultMap>
 
 	<!-- 일반 회원가입_진교 -->
@@ -133,58 +150,135 @@
 		#{drNo}, #{hpNo})
 	</insert>
 
-	<!-- 일반회원_비밀번호 찾기 -->
+	<!-- 일반회원_비밀번호 찾기1 -->
 	<select id="searchPwdClient" parameterType="Client" resultMap="ClientResultSet">
 		SELECT * 
 		FROM CLIENT
 		WHERE C_ID = #{userId}
 		AND C_EMAIL = #{email}
 	</select>
-	
+	<!-- 의사회원 비밀번호 찾기1 -->
 	<select id="searchPwdDrClient" parameterType="DrClient" resultMap="DoctorResultSet">
 		SELECT * 
 		FROM DRCLIENT
 		WHERE DR_ID = #{userId}
 		AND DR_EMAIL = #{email}
 	</select>
-	
+	<!-- 일반회원_비밀번호 찾기2 -->
 	<select id="ClientSearchPwd2" parameterType="Client" resultMap="ClientResultSet">
 		SELECT * 
 		FROM CLIENT
 		WHERE C_NO = #{cNo}
 		AND C_EMAIL = #{email}
 	</select>
-	
+	<!-- 의사회원 비밀번호 찾기2 -->
 	<select id="DrClientSearchPwd2" parameterType="DrClient" resultMap="DoctorResultSet">
 		SELECT *
 		FROM DRCLIENT
 		WHERE DR_NO = #{drNo}
 		AND DR_EMAIL = #{email}
 	</select>
-	
+	<!-- 일반회원_비밀번호 찾기3 -->
 	<select id="ClientSearchPwd3" parameterType="Client" resultMap="ClientResultSet">
 		SELECT * 
 		FROM CLIENT
 		WHERE C_NO = #{cNo}
 	</select>
-	
+	<!-- 의사회원 비밀번호 찾기3 -->
 	<select id="DrClientSearchPwd3" parameterType="DrClient" resultMap="DoctorResultSet">
 		SELECT *
 		FROM DRCLIENT
 		WHERE DR_NO=#{drNo}
 	</select>
-	
+	<!-- 일반회원_비밀번호 찾기4 -->
 	<update id="ClientSearchPwd4">
 		UPDATE CLIENT
 		SET 
 			C_PWD = #{userPwd}
 		WHERE C_NO = #{cNo}
 	</update>
-	
+	<!-- 의사회원 비밀번호 찾기4 -->
 	<update id="DrClientSearchPwd4">
 		UPDATE DRCLIENT
 		SET 
 			DR_PWD = #{userPwd}
+		WHERE DR_NO = #{drNo}
+	</update>
+	<!-- 일반화원 프로필 null insert -->
+	<insert id="ClientInsertProfile" parameterType="ProfilePhoto">
+		INSERT INTO PROFILEPHOTO 
+		VALUES(SEQ_PROFILE.NEXTVAL, null, null, null, null , #{cNo}, null)
+	</insert>
+	<!-- 일반회원 정보 수정 -->
+	<update id="updateClient">
+		UPDATE CLIENT
+		SET C_ID = #{userId},
+			  C_NICKNAME = #{nickName},
+			  C_EMAIL = #{email},
+			  C_PHONE = #{phone},
+			  C_BIRTH=#{birth}
+		WHERE C_NO = #{cNo}
+	</update>
+	<!-- 일반회원(회원가입) 정보 -->
+	<select id="ClientCno" parameterType="Client" resultMap="ClientResultSet">
+		SELECT * 
+		FROM CLIENT
+		WHERE C_ID = #{userId}
+		
+	</select>
+	<!-- 의사회원(회원가입) 정보 -->
+	<select id="DrClientDrNo" parameterType="DrClient" resultMap="DoctorResultSet">
+		SELECT * 
+		FROM DRCLIENT
+		WHERE DR_ID = #{userId}
+		
+	</select>
+	<!-- 의사회원 프로필 null insert -->
+	<insert id="DrClientInsertProfile" parameterType="ProfilePhoto">
+		INSERT INTO PROFILEPHOTO 
+		VALUES(SEQ_PROFILE.NEXTVAL, null, null, null, #{drNo}, null, null)
+	</insert>
+	
+	<!-- 일반회원 프로필 수정 -->
+	<update id="updateClientProfile">
+		UPDATE PROFILEPHOTO
+		SET PRO_ORIGIN = #{proOrigin},
+				PRO_RENAME = #{proRename}
+		WHERE C_NO = #{cNo}
+			
+	</update>
+	<!-- 로그인 한 일반회원 정보 -->
+	<select id="loginClient2" parameterType="string" resultMap="ClientResultSet">
+		SELECT C.C_NO, C.C_ID, C.C_NICKNAME, C.C_EMAIL, C.C_PHONE, C.C_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME
+		FROM CLIENT C
+		JOIN PROFILEPHOTO PP ON (C.C_NO = PP.C_NO)
+		WHERE C.C_NO = #{cNo}
+	</select>
+	<!-- 로그인 한 의사회원 정보 -->
+	<select id="loginDrClient2" parameterType="string" resultMap="DoctorResultSet">
+		SELECT D.DR_NO, D.DR_NAME, D.DR_ID, D.DR_EMAIL, D.DR_PHONE, D.DR_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME, HP_NAME, HPCATE_NAME
+		FROM DRCLIENT D
+		JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
+		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
+		JOIN HPCATEGORY HC ON (D.HPCATE_CODE = HC.HPCATE_CODE)
+		WHERE D.DR_NO = #{drNo}
+	</select>
+	<!-- 의사회원 프로필 수정 -->
+	<update id="updateDrClientProfile">
+		UPDATE PROFILEPHOTO
+		SET PRO_ORIGIN = #{proOrigin},
+				PRO_RENAME = #{proRename}
+		WHERE DR_NO = #{drNo}
+			
+	</update>
+	
+	<!-- 의사회원 정보 수정 -->
+	<update id="updateDrClient">
+		UPDATE DRCLIENT
+		SET DR_ID = #{userId},
+			  DR_EMAIL = #{email},
+			  DR_PHONE = #{phone},
+			  DR_BIRTH=#{birth}
 		WHERE DR_NO = #{drNo}
 	</update>
 </mapper>

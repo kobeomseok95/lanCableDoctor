@@ -7,43 +7,44 @@ import com.kh.landocProject.member.model.dao.MainMemberDao;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 @Service("mService")
 public class MainMemberServiceImpl implements MainMemberService {
 
 	@Autowired
 	MainMemberDao mDao;
-
+	// 일반 회원가입 
 	@Override
 	public int joinClient(Client c) {
 
 		return mDao.joinClient(c);
 	}
-
+	// 일반회원 로그인
 	@Override
 	public Client loginClient(Client c) {
 
 		return mDao.loginClient(c);
 	}
-
+	// 의사회원 로그인
 	@Override
 	public DrClient loginDoctor(DrClient d) {
 
 		return mDao.loginDoctor(d);
 	}
-
+	//일반회원 아이디 찾기
 	@Override
 	public Client searchIdClient(Client c) {
 
 		return mDao.searchClient(c);
 	}
-
+	// 의사회원 아이디 찾기
 	@Override
 	public DrClient searchIdDoctor(DrClient d) {
 
 		return mDao.searchDoctor(d);
 	}
-
+	// 의사 회원가입 
 	@Override
 	public int joinDrClient(DrClient d) {
 
@@ -117,11 +118,72 @@ public class MainMemberServiceImpl implements MainMemberService {
 
 		return mDao.ClientSearchPwd4(c);
 	}
-
+	// 의사회원 비밀번호 찾기4
 	@Override
 	public int DrClientSearchPwd4(DrClient d) {
 	
 		return mDao.DrClientSearchPwd4(d);
+	}
+	// 일반회원 프로필 사진 null 등록
+	@Override
+	public int ClientInsertProfile(ProfilePhoto pp) {
+		
+		return mDao.ClientInsertProfile(pp);
+	}
+	// 일반 회원정보 수정
+	@Override
+	public int updateClient(Client c) {
+	
+		return mDao.updateClient(c);
+	}
+	
+	// 일반회원(회원가입) 정보 가져오기
+	@Override
+	public Client ClientCno(Client c) {
+
+		return mDao.ClientCno(c);
+	}
+	// 의사회원(회원가입) 정보 가져오기
+	@Override
+	public DrClient DrClientDrNo(DrClient d) {
+
+		return mDao.DrClientDrNo(d);
+	}
+	// 의사회원 프로필 NULL등록
+	@Override
+	public int DrClientInsertProfile(ProfilePhoto pp) {
+		
+		return mDao.DrClientInsertProfile(pp);
+	}
+	// 일반회원 프로필 수정
+	@Override
+	public int updateClientProfile(ProfilePhoto pp) {
+
+		return mDao.updateClientProfile(pp);
+	}
+	// 로그인 한 일반회원 정보 찾기
+	@Override
+	public Client loginClient2(String cNo) {
+		
+		return mDao.loginClient2(cNo);
+	}
+	// 로그인 한 의사회원 정보 찾기
+	@Override
+	public DrClient loginDrClient2(String drNo) {
+		
+		return mDao.loginDrClient2(drNo);
+	}
+	// 의사회원 프로필 수정
+	@Override
+	public int updateDrClientProfile(ProfilePhoto pp) {
+	
+		return mDao.updateDrClientProfile(pp);
+	}
+	// 의사회원 정보 수정
+	@Override
+	public int updateDrClient(DrClient d) {
+		
+		return mDao.updateDrClient(d);
 	}
 
 }

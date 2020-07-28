@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ import com.kh.landocProject.member.model.service.MainMemberService;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 @SessionAttributes({ "loginClient", "loginDrClient" })
 @Controller
@@ -73,41 +75,92 @@ public class MainMemberController {
 	public String searchPwd() {
 		return "member/searchPwd";
 	}
-
-//	@RequestMapping(value = "searchPwd2.do", method = RequestMethod.GET)
-//	public String searchPwd2() {
-//		return "member/searchPwd2";
-//	}
-//
-//	@RequestMapping(value = "searchPwd3.do", method = RequestMethod.GET)
-//	public String searchPwd3() {
-//		return "member/searchPwd3";
-//	}
-//
-//	@RequestMapping(value = "searchPwd4.do", method = RequestMethod.GET)
-//	public String searchPwd4() {
-//		return "member/searchPwd4";
-//	}
+	
+	@RequestMapping(value = "modifyClientView.do", method = RequestMethod.GET)
+	public ModelAndView modifyClientView(Client c, ModelAndView mv, Model model, HttpSession session,  @RequestParam(value="result1", required=false) Integer result1) {
+		System.out.println("mainMemberController.java test line 81");
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo = loginClient.getcNo();
+		Client loginClient2 = mService.loginClient2(cNo);
+//		System.out.println("loginClient2 : " + loginClient2);
+		
+		if(loginClient2 != null) {
+			if(result1 !=  null) {
+				mv.addObject("loginClient2",loginClient2);
+				mv.addObject("result1",result1);
+				mv.setViewName("Client/modifyClient");
+				return mv;
+			}else {
+				mv.addObject("loginClient2",loginClient2);
+				mv.setViewName("Client/modifyClient");
+				return mv;				
+			}
+		}else {
+			mv.setViewName("home");
+			return mv;
+		}
+	}
+	
+	@RequestMapping(value = "modifyDrClientView.do")
+	public ModelAndView modifyDrClientView(ModelAndView mv, HttpSession session, @RequestParam(value="result1", required=false) Integer result1) {
+		System.out.println("mainMemberController.java test line 99");
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo = loginDrClient.getDrNo();
+//		System.out.println(drNo);
+		DrClient loginDrClient2 = mService.loginDrClient2(drNo);
+//		System.out.println("loginDrClient2 : " + loginDrClient2);
+		
+		
+		// 업데이트 완료시
+//		if(result1 != null) {
+//			System.out.println("controller에서 결과값 : " + result1);
+//			
+//		}
+		
+		if(loginDrClient2 != null) {
+			if(result1 !=  null) {
+				mv.addObject("loginDrClient2",loginDrClient2);
+				mv.addObject("result1",result1);
+				mv.setViewName("drClient/modifyDrClient");
+				return mv;
+			}else {
+				mv.addObject("loginDrClient2",loginDrClient2);
+				mv.setViewName("drClient/modifyDrClient");
+				return mv;				
+			}
+		}
+		
+		else {
+			mv.setViewName("home");
+			return mv;
+		}
+	}
 
 	// 암호화 처리 일반 회원가입_진교
 	@RequestMapping(value = "joinClient.do", method = RequestMethod.POST)
-	public String memberInsert(Client c, Model model, @RequestParam("address1") String address1,
+	public String memberInsert(Client c, ProfilePhoto pp, Model model, @RequestParam("address1") String address1,
 			@RequestParam("address2") String address2) {
 //		System.out.println(c);
-		System.out.println("mainMemberController.java test line 112");
+		System.out.println("mainMemberController.java test line 121");
 
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(c.getUserPwd());
 
-		System.out.println(encPwd);
+//		System.out.println(encPwd);
 
 		c.setUserPwd(encPwd);
 
 		c.setAddress(address1 + "," + address2);
 
 		int result = mService.joinClient(c);
-
+		
 		if (result > 0) {
+			// 일반회원(회원가입한) 정보 가져오기
+			Client ClientCno = mService.ClientCno(c);
+//			System.out.println("ClientCno : " + ClientCno);
+			pp.setcNo(ClientCno.getcNo());
+			// 프로필 사진 null값 등록
+			int result1 = mService.ClientInsertProfile(pp);
 			return "home";
 		} else {
 			throw new MainMemberException("회원 가입 실패!");
@@ -116,32 +169,46 @@ public class MainMemberController {
 
 	// 암호화 처리 로그인_진교
 	@RequestMapping(value = "memberLogin.do", method = RequestMethod.POST)
-	public String memberLogin(Client c, DrClient d, Model model, @RequestParam("check") String check) {
-		System.out.println("mainMemberController.java test line 134");
+	public String memberLogin(Client c, DrClient d, Model model, @RequestParam("check") String check, HttpServletResponse response_equals) throws IOException{
+		System.out.println("mainMemberController.java test line 150");
 //			System.out.println(check);
 
 		if (check.equals("client")) {
 			Client loginClient = mService.loginClient(c);
 
-			System.out.println("암호화 처리 된 DB일반회원 : " + loginClient);
+//			System.out.println("암호화 처리 된 DB일반회원 : " + loginClient);
 
 			if (bcryptPasswordEncoder.matches(c.getUserPwd(), loginClient.getUserPwd())) {
 				model.addAttribute("loginClient", loginClient);
 				return "home";
 			} else {
-				throw new MainMemberException("일반 회원 로그인 실패!");
+				response_equals.setContentType("text/html; charset=UTF-8");
+				PrintWriter out_equals = response_equals.getWriter();
+				out_equals.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.');</script>");
+				out_equals.flush();
+				return "member/login";
 			}
 		} else if (check.equals("drClient")) {
 			DrClient loginDrClient = mService.loginDoctor(d);
 
-			System.out.println("암호화 처리 된 DB의사회원 : " + loginDrClient);
-
-			if (bcryptPasswordEncoder.matches(d.getUserPwd(), loginDrClient.getUserPwd())) {
-				model.addAttribute("loginDrClient", loginDrClient);
-				return "home";
-			} else {
-				throw new MainMemberException("의사 회원 로그인 실패!");
-
+//			System.out.println("암호화 처리 된 DB의사회원 : " + loginDrClient);
+			if(loginDrClient.getApproval().equals("Y")) {
+				if (bcryptPasswordEncoder.matches(d.getUserPwd(), loginDrClient.getUserPwd())) {
+					model.addAttribute("loginDrClient", loginDrClient);
+					return "home";
+				} else {
+					response_equals.setContentType("text/html; charset=UTF-8");
+					PrintWriter out_equals = response_equals.getWriter();
+					out_equals.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.');</script>");
+					out_equals.flush();
+					return "member/login";
+				}
+			}else {
+				response_equals.setContentType("text/html; charset=UTF-8");
+				PrintWriter out_equals = response_equals.getWriter();
+				out_equals.println("<script>alert('아직 승인을 받지 못하셨습니다.');</script>");
+				out_equals.flush();
+				return "member/login";
 			}
 		}
 		return "home";
@@ -151,26 +218,29 @@ public class MainMemberController {
 	@RequestMapping(value = "searchId.do")
 	public String searchId(Client c, DrClient d, Model model, @RequestParam("check") String check,
 			HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 168");
+		System.out.println("mainMemberController.java test line 198");
 //		System.out.println(check);
 
 		if (check.equals("client")) {
 			Client ClientSearchId = mService.searchIdClient(c);
 
-			System.out.println(ClientSearchId);
+//			System.out.println(ClientSearchId);
 
 			if (ClientSearchId != null) {
 				model.addAttribute("ClientSearchId", ClientSearchId);
 
 				response_equals.setContentType("text/html; charset=UTF-8");
 				PrintWriter out_equals = response_equals.getWriter();
-				out_equals.println("<script>alert('아이디는' + ClientSearchId.getUserId()); history.go(-1);</script>");
+				out_equals.println("<script>alert('아이디는'" + ClientSearchId.getUserId() +" '입니다.');</script>");
 				out_equals.flush();
 
 				return "member/login";
 			} else {
-				model.addAttribute("msg", "일반회원 아이디 찾기 실패");
-				return "common/errorPage";
+				response_equals.setContentType("text/html; charset=UTF-8");
+				PrintWriter out_equals = response_equals.getWriter();
+				out_equals.println("<script>alert('입력하신 정보가 없습니다.');</script>");
+				out_equals.flush();
+				return "member/searchId";
 			}
 		} else if (check.equals("drClient")) {
 			DrClient DrClientsearchId = mService.searchIdDoctor(d);
@@ -181,8 +251,11 @@ public class MainMemberController {
 				model.addAttribute("DrClientsearchId", DrClientsearchId);
 				return "member/login";
 			} else {
-				model.addAttribute("msg", "의사회원 아이디 찾기 실패");
-				return "common/errorPage";
+				response_equals.setContentType("text/html; charset=UTF-8");
+				PrintWriter out_equals = response_equals.getWriter();
+				out_equals.println("<script>alert('입력하신 정보가 없습니다.');</script>");
+				out_equals.flush();
+				return "member/searchId";
 			}
 		}
 		return "member/login";
@@ -192,6 +265,7 @@ public class MainMemberController {
 	// 로그아웃_진교
 	@RequestMapping(value = "logout.do")
 	public String logout(SessionStatus status) {
+		System.out.println("mainMemberController.java test line 245");
 		status.setComplete();
 
 		return "home";
@@ -199,7 +273,7 @@ public class MainMemberController {
 
 	// 의사 회원가입1(암호화 처리, 메일 인증)_진교
 	@RequestMapping(value = "joinDrClient.do", method = RequestMethod.POST)
-	public ModelAndView joinDrClient(DrClient d, HttpServletRequest request, HttpServletResponse response_email,
+	public ModelAndView joinDrClient(DrClient d, ProfilePhoto pp, HttpServletRequest request, HttpServletResponse response_email,
 			@RequestParam("email") String email, @RequestParam("address1") String address1,
 			@RequestParam("address2") String address2) throws IOException {
 		System.out.println("mainMemberController.java test line 219");
@@ -285,10 +359,23 @@ public class MainMemberController {
 			PrintWriter out_equals = response_email.getWriter();
 			out_equals.println("<script>alert('이메일이 발송되었습니다. 인증번호를 입력해주세요.');</script>");
 			out_equals.flush();
+			
+			// 일반회원(회원가입한) 정보 가져오기
+			DrClient DrClientDrNo = mService.DrClientDrNo(d);
+			System.out.println("DrClientDrNo : " + DrClientDrNo);
+			pp.setDrNo(DrClientDrNo.getDrNo());
+			// 프로필 사진 null값 등록
+			int result1 = mService.DrClientInsertProfile(pp);
 
 			return mv;
 		} else {
-			throw new MainMemberException("회원 가입 실패!");
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("/drClient/joinDr1"); // 뷰의이름
+			response_email.setContentType("text/html; charset=UTF-8");
+			PrintWriter out_equals = response_email.getWriter();
+			out_equals.println("<script>alert('회원가입에 실페하셨습니다.');</script>");
+			out_equals.flush();
+			return mv;
 		}
 
 	}
@@ -496,7 +583,7 @@ public class MainMemberController {
 		return "member/searchPwd2";
 
 	}
-
+	// 일반회원 비밀번호 찾기2
 	@RequestMapping(value = "ClientSearchPwd2.do")
 	public ModelAndView ClientSearchPwd2(Client c, HttpServletRequest request, HttpServletResponse response_email,
 			@RequestParam("email") String email, @RequestParam("cNo") String cNo) throws IOException {
@@ -585,7 +672,7 @@ public class MainMemberController {
 		}
 		
 	}
-
+	// 의사회원 비밀번호 찾기2
 	@RequestMapping(value = "DrClientSearchPwd2")
 	public ModelAndView DrClientSearchPwd2(DrClient d, HttpServletRequest request, HttpServletResponse response_email,
 			@RequestParam("email") String email, @RequestParam("drNo") String drNo) throws IOException {
@@ -675,7 +762,7 @@ public class MainMemberController {
 		}
 
 	}
-
+	// 일반회원 비밀번호 찾기 3
 	@RequestMapping(value = "ClientSearchPwd3.do")
 	public ModelAndView ClientSearchPwd3(Client c, String message, @RequestParam("dice") String dice, @RequestParam("cNo") String cNo,
 			HttpServletResponse response_equals) throws IOException {
@@ -720,7 +807,7 @@ public class MainMemberController {
 
 		return mv;
 	}
-	
+	// 의사회원 비밀번호 찾기3
 	@RequestMapping(value = "DrClientSearchPwd3.do")
 	public ModelAndView DrClientSearchPwd3(DrClient d, String message, @RequestParam("dice") String dice, @RequestParam("drNo") String drNo,
 			HttpServletResponse response_equals) throws IOException {
@@ -732,7 +819,7 @@ public class MainMemberController {
 		// 의사 번호를 찾기위함
 		DrClient DrClientSearchPwd3 = mService.DrClientSearchPwd3(d);
 
-				System.out.println(DrClientSearchPwd3);
+//				System.out.println(DrClientSearchPwd3);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("drClient/joinDr3");
@@ -765,10 +852,10 @@ public class MainMemberController {
 
 		return mv;
 	}
-	
+	// 일반회원 비밀번호 찾기4
 	@RequestMapping(value="ClientSearchPwd4")
 	public ModelAndView ClientSearchPwd4(Client c, HttpServletResponse response_equals, ModelAndView mv) throws IOException{
-		
+		System.out.println("mainMemberController.java test line 792");
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(c.getUserPwd());
 
@@ -796,10 +883,10 @@ public class MainMemberController {
 		
 		return mv;
 	}
-	
+	// 의사회원 비밀번호 찾기4
 	@RequestMapping(value="DrClientSearchPwd4")
 	public ModelAndView DrClientSearchPwd4(DrClient d, HttpServletResponse response_equals, ModelAndView mv) throws IOException{
-		
+		System.out.println("mainMemberController.java test line 823");
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(d.getUserPwd());
 
@@ -826,5 +913,193 @@ public class MainMemberController {
 		}
 		
 		return mv;
+	}
+	// 일반회원 정보 수정
+	@RequestMapping(value="updateClient")
+	public String updateClient(Client c, ProfilePhoto pp, HttpServletRequest request, HttpServletResponse response_equals,
+			@RequestParam("cNo") String cNo, @RequestParam(value = "profile", required = false) MultipartFile profile) throws IOException{
+		System.out.println("mainMemberController.java test line 854");
+		
+		if (!profile.getOriginalFilename().equals("")) {
+			String renameFileName = saveFile1(profile, request);
+
+
+			pp.setProOrigin(profile.getOriginalFilename());
+
+			pp.setProRename(renameFileName);
+
+			int result = mService.updateClientProfile(pp);
+		}
+		
+
+		
+		
+		int result1 = mService.updateClient(c);
+			
+			if(result1 > 0) {
+//				mv.setViewName("home");
+//				mv.addObject("loginClient", c);
+//				mv.addObject("profile", pp);
+				
+//				response_equals.setContentType("text/html; charset=UTF-8");
+//				PrintWriter out_equals = response_equals.getWriter();
+//				out_equals.println("<script>alert('회원정보 수정되셨습니다.');</script>");
+//				out_equals.flush();
+				return "redirect:modifyClientView.do?result1=" + result1;
+				
+			}else {
+//				mv.setViewName("home");
+				
+				response_equals.setContentType("text/html; charset=UTF-8");
+				PrintWriter out_equals = response_equals.getWriter();
+				out_equals.println("<script>alert('회원정보 수정 실패하셨습니다.');</script>");
+				out_equals.flush();
+				return "home";
+			}
+			
+	}
+	
+	public String saveFile1(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+
+		String savePath = root + "\\clientProfile";
+
+		File folder = new File(savePath);
+
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+
+		// 난수 생성(renameFileName이 겹쳐서)
+		StringBuffer temp = new StringBuffer();
+		Random rnd = new Random();
+		for (int i = 0; i < 5; i++) {
+			int rIndex = rnd.nextInt(3);
+			switch (rIndex) {
+			case 0:
+				// a-z
+				temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+				break;
+			case 1:
+				// A-Z
+				temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+				break;
+			case 2:
+				// 0-9
+				temp.append((rnd.nextInt(10)));
+				break;
+			}
+		} // 난수 생성_end
+
+		String dice = temp.toString();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originFileName = file.getOriginalFilename();
+		String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + dice + "."
+				+ originFileName.substring(originFileName.lastIndexOf(".") + 1);
+
+		String filePath = folder + "\\" + renameFileName;
+
+		try {
+			file.transferTo(new File(filePath));
+		} catch (Exception e) {
+			System.out.println("파일 제출 에러 : " + e.getMessage());
+		}
+		return renameFileName;
+	}
+	
+	// 의사회원 정보 수정
+	@RequestMapping(value="updateDrClient", method=RequestMethod.POST)
+	public String updateDrClient(DrClient d, ProfilePhoto pp, HttpServletRequest request, HttpServletResponse response_equals,
+			@RequestParam("drNo") String drNo, @RequestParam(value = "profile", required = false) MultipartFile profile) throws IOException{
+		System.out.println("mainMemberController.java test line 992");
+		
+		if (!profile.getOriginalFilename().equals("")) {
+			String renameFileName = saveFile2(profile, request);
+
+
+			pp.setProOrigin(profile.getOriginalFilename());
+
+			pp.setProRename(renameFileName);
+
+			int result = mService.updateDrClientProfile(pp);
+		}
+		
+
+		
+		int result1 = mService.updateDrClient(d);
+			
+			if(result1 > 0) {
+//				mv.setViewName("home");
+//				mv.addObject("loginDrClient", d);
+//				mv.addObject("profile", pp);
+				
+				
+				
+//				response_equals.setContentType("text/html; charset=UTF-8");
+//				PrintWriter out_equals = response_equals.getWriter();
+//				out_equals.println("<script>alert('회원정보 수정되셨습니다.');</script>");
+//				out_equals.flush();
+				
+//				return mv;
+				return "redirect:modifyDrClientView.do?result1=" + result1;
+			}else {
+//				mv.setViewName("modifyDrClientView.do");
+				
+				response_equals.setContentType("text/html; charset=UTF-8");
+				PrintWriter out_equals = response_equals.getWriter();
+				out_equals.println("<script>alert('회원정보 수정 실패하셨습니다.');</script>");
+				out_equals.flush();
+				return "home";
+			}
+			
+	}
+	public String saveFile2(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+
+		String savePath = root + "\\drClientProfile";
+
+		File folder = new File(savePath);
+
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+
+		// 난수 생성(renameFileName이 겹쳐서)
+		StringBuffer temp = new StringBuffer();
+		Random rnd = new Random();
+		for (int i = 0; i < 5; i++) {
+			int rIndex = rnd.nextInt(3);
+			switch (rIndex) {
+			case 0:
+				// a-z
+				temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+				break;
+			case 1:
+				// A-Z
+				temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+				break;
+			case 2:
+				// 0-9
+				temp.append((rnd.nextInt(10)));
+				break;
+			}
+		} // 난수 생성_end
+
+		String dice = temp.toString();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originFileName = file.getOriginalFilename();
+		String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + dice + "."
+				+ originFileName.substring(originFileName.lastIndexOf(".") + 1);
+
+		String filePath = folder + "\\" + renameFileName;
+
+		try {
+			file.transferTo(new File(filePath));
+		} catch (Exception e) {
+			System.out.println("파일 제출 에러 : " + e.getMessage());
+		}
+		return renameFileName;
 	}
 }
