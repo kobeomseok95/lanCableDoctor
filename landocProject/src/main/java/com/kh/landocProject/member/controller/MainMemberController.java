@@ -288,7 +288,7 @@ public class MainMemberController {
 		System.out.println("mainMemberController.java test line 276");
 		status.setComplete();
 		
-		return "home";
+		return "redirect:home";
 	}
 
 	// 의사 회원가입1(암호화 처리, 메일 인증)_진교

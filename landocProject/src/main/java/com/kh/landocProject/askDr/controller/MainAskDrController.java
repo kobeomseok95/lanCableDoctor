@@ -1,21 +1,28 @@
 package com.kh.landocProject.askDr.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.landocProject.askDr.model.service.AskDrService;
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
@@ -300,6 +307,30 @@ public class MainAskDrController {
 			return "";
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="insertAskDrBoardReply.do", method=RequestMethod.POST)
+	public String insertReply(AskDrReply askDrReply, 
+									HttpServletResponse response) throws JsonIOException, IOException {
+		int result = askDrServiceImpl.insertAskDrBoardReply(askDrReply);
+		if(result > 0) {
+			return "success";
+		}
+		else{
+			return "error";
+		}
+	}
+
+	@RequestMapping(value="selectAskDrBoardReply.do", method=RequestMethod.GET)
+	public void getReplyList(HttpServletResponse response, 
+										int bNo) throws JsonIOException, IOException {
+		List<AskDrReply> replys = askDrServiceImpl.selectAskDrBoardDetailReply( bNo );
+		
+		response.setContentType("application/json;charset=utf-8");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(replys, response.getWriter());
+	}
+	
 	
 	//의사 검색
 	@RequestMapping(value = "askDrSearch.do", method = RequestMethod.GET)

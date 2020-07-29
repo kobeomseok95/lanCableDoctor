@@ -43,5 +43,7 @@ public interface AskDrService {
 
 	int updateAskDrReplyChooseStatus(int adrNo);
 
-	int updateAskDrBoardChooseStatus(int bNo);	
+	int updateAskDrBoardChooseStatus(int bNo);
+
+	int insertAskDrBoardReply(AskDrReply askDrReply);	
 }

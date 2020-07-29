@@ -48,7 +48,6 @@
 	</div>
 
 	<%@ include file="static/header.jsp"%>
-
 	<!-- Hero section -->
 	<section class="hero-section">
 		<div class="hero-slider owl-carousel">
