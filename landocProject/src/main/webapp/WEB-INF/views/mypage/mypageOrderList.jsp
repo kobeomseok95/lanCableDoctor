@@ -510,7 +510,7 @@
 				</c:url>
 				</c:if>
 				
-				<li style="width: 30px;"><a href="blistBack"
+				<li style="width: 30px;"><a href="${blistBack}"
 					aria-label="Previous"> <span aria-hidden="true">«</span>
 				</a>
 				</li>
@@ -592,7 +592,7 @@
 				</c:if>
 				
 				
-				<li style="width: 30px;"><a href="blistNext"
+				<li style="width: 30px;"><a href="${blistNext}"
 					aria-label="Previous"> <span aria-hidden="true">»</span>
 				</a></li>
 			</c:if>

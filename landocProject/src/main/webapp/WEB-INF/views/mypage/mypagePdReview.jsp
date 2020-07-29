@@ -141,45 +141,16 @@
          </div>
       </div>
    </div>
-   <!--paginnation start-->
-   <nav aria-label="Page navigation">
-      <ul class="pagination"
-         style="justify-content: center; padding-bottom: 30px;">
-         <!-- disabled가 있으면 마우스 커서가 금지표시로 바뀐다. -->
-         <c:if test="${pi.currentPage eq 1 }">
-            <li class=disabled style="width: 30px;"><a href="#"
-               aria-label="Previous"> <span aria-hidden="true">«</span>
-            </a></li>
-         </c:if>
-
-         <c:if test="${pi.currentPage gt 1 }">
-            <c:url var="blistBack" value="pdReview.do">
-               <c:param name="page" value="${pi.currentPage -1 }" />
-            </c:url>
-            <li style="width: 30px;"><a href="${blistBack}"
-               aria-label="Previous"> <span aria-hidden="true">«</span>
-            </a></li>
-         </c:if>
-
-         <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
-            <c:if test="${p eq pi.currentPage }">
-               <li class="active" style="width: 30px;"><a href="#"
-                  style="color: #a82400;">${p}</a></li>
-            </c:if>
-            <c:if test="${p ne pi.currentPage }">
-               <c:url var="blistCheck" value="pdReview.do">
-                  <c:param name="page" value="${p }" />
-               </c:url>
-               <li class="active" style="width: 30px;"><a
-                  href="${blistCheck }">${p}</a></li>
-            </c:if>
-
-         </c:forEach>
-         <c:if test="${pi.currentPage eq pi.maxPage }">
-            <li class=disabled style="width: 30px;"><a href="#"
-               aria-label="Previous"> <span aria-hidden="true">»</span>
-            </a></li>
-         </c:if>
+  <!--paginnation start-->
+	<nav aria-label="Page navigation">
+		<ul class="pagination"
+			style="justify-content: center; padding-bottom: 30px;">
+			<!-- disabled가 있으면 마우스 커서가 금지표시로 바뀐다. -->
+			<c:if test="${pi.currentPage eq 1 }">
+				<li class=disabled style="width: 30px;"><a href="#"
+					aria-label="Previous"> <span aria-hidden="true">«</span>
+				</a></li>
+			</c:if>
 
 			<c:if test="${pi.currentPage gt 1 }">
 				<c:url var="blistBack" value="pdReview.do">
@@ -192,8 +163,8 @@
 
 			<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
 				<c:if test="${p eq pi.currentPage }">
-					<li class="active" style="width: 30px;"><a href="#"
-						style="color: #a82400;">${p}</a></li>
+					<li class="active" style="width: 30px;"><a
+						href="#" style="color:#a82400;">${p}</a></li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
 					<c:url var="blistCheck" value="pdReview.do">
@@ -221,25 +192,8 @@
 			</c:if>
 		</ul>
 	</nav>
-
-
-
 	<!--pagination end-->
-
-         <c:if test="${pi.currentPage lt pi.maxPage }">
-            <c:url var="blistNext" value="pdReview.do">
-               <c:param name="page" value="${pi.currentPage +1 }" />
-            </c:url>
-            <li style="width: 30px;"><a href="${blistNext}"
-               aria-label="Previous"> <span aria-hidden="true">»</span>
-            </a></li>
-         </c:if>
-      </ul>
-   </nav>
-
-
-
-   <!--pagination end-->
+ 
 
    <%@ include file="../static/footer.jsp"%>
    <!--====== Javascripts & Jquery ======-->

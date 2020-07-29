@@ -157,7 +157,7 @@
 	</div>
 
 
-	<!--paginnation start-->
+	 <!--paginnation start-->
 	<nav aria-label="Page navigation">
 		<ul class="pagination"
 			style="justify-content: center; padding-bottom: 30px;">
@@ -179,8 +179,8 @@
 
 			<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
 				<c:if test="${p eq pi.currentPage }">
-					<li class="active" style="width: 30px;"><a href="#"
-						style="color: #a82400;">${p}</a></li>
+					<li class="active" style="width: 30px;"><a
+						href="#" style="color:#a82400;">${p}</a></li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
 					<c:url var="blistCheck" value="orderQnaList.do">
@@ -208,9 +208,6 @@
 			</c:if>
 		</ul>
 	</nav>
-
-
-
 	<!--pagination end-->
 
 

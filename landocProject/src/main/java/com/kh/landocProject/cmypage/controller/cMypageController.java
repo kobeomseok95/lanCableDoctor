@@ -22,6 +22,7 @@ import com.kh.landocProject.cmypage.model.Exception.cMypageException;
 import com.kh.landocProject.cmypage.model.service.cMypageService;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePagination;
+import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
 import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
@@ -350,8 +351,45 @@ public class cMypageController {
 	          out_equals.println("<script>alert('리뷰수정이 완료되었습니다.');</script>");
 	          out_equals.flush();
 	          mv.setViewName("mypage/myPageWork");
+		}else {
+			throw new cMypageException("리뷰 수정 실패!");
 		}
 		return mv;
 		
+	}
+	
+	@RequestMapping(value="mypagePoint.do")
+	public ModelAndView mypagePoint(ModelAndView mv,HttpSession session,CMypagePoint cp) throws cMypageException {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+		 cp.setAllSumUsePoint(cmService.selectAllSumPoint(cNo));
+		 cp.setMonthSumUsePoint(cmService.selectMonthSumPoint(cNo));
+		 cp.setNowMonth(cmService.selectNowMonthPoint());
+		 cp.setcPoint(cmService.selectCPoint(cNo));
+		 
+		
+			 mv.addObject("point",cp);
+			 mv.setViewName("mypage/mypagePoint");
+	
+		 
+		 return mv;
+	}
+	
+	@RequestMapping(value="pointList.do")
+	public ModelAndView pointList(ModelAndView mv, HttpSession session) throws cMypageException {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+		
+		
+		ArrayList<CMypagePoint> listPoint = cmService.selectPointList(cNo);
+		int listCount = cmService.listCountPointList(cNo);
+		if(listPoint !=null && listCount !=0) {
+			mv.addObject("list", listPoint);
+			mv.addObject("count",listCount);
+			mv.setViewName("mypage/pointList");
+		}else {
+			throw new cMypageException("포인트 리스트 조회 실패");
+		}
+		return mv;
 	}
 }
