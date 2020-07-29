@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 @Repository("mDao")
 public class MainMemberDao {
@@ -16,30 +17,30 @@ public class MainMemberDao {
 
 	// 일반 회원가입_진교
 	public int joinClient(Client c) {
-		System.out.println(c);
+//		System.out.println(c);
 		return sqlSessionTemplate.insert("memberMapper.joinClient", c);
 	}
-
+	// 일반회원 로그인
 	public Client loginClient(Client c) {
 
 		return sqlSessionTemplate.selectOne("memberMapper.loginClient", c);
 	}
-
+	// 의사회원 로그인
 	public DrClient loginDoctor(DrClient d) {
 
 		return sqlSessionTemplate.selectOne("memberMapper.loginDrClient", d);
 	}
-
+	// 일반회원 아이디 찾기
 	public Client searchClient(Client c) {
 
 		return sqlSessionTemplate.selectOne("memberMapper.searchIdClient", c);
 	}
-
+	// 의사회원 아이디 찾기
 	public DrClient searchDoctor(DrClient d) {
 
 		return sqlSessionTemplate.selectOne("memberMapper.searchIdDrClient", d);
 	}
-
+	// 의사 회원가입
 	public int joinDrClient(DrClient d) {
 
 		return sqlSessionTemplate.insert("memberMapper.joinDrClient", d);
@@ -66,45 +67,123 @@ public class MainMemberDao {
 
 		return sqlSessionTemplate.insert("memberMapper.insertFile3", dhp);
 	}
-
+	// 일반회원 비밀번호 찾기1
 	public Client searchPwdClient(Client c) {
 
 		return sqlSessionTemplate.selectOne("memberMapper.searchPwdClient", c);
 	}
-
+	// 의사회원 비밀번호 찾기1
 	public DrClient searchPwdDrClient(DrClient d) {
 	
 		return sqlSessionTemplate.selectOne("memberMapper.searchPwdDrClient", d);
 	}
-
+	// 일반회원 비밀번호 찾기2
 	public Client ClientSearchPwd2(Client c) {
 		
 		return sqlSessionTemplate.selectOne("memberMapper.ClientSearchPwd2", c);
 	}
-
+	// 의사회원 비밀번호 찾기2
 	public DrClient DrClientSearchPwd2(DrClient d) {
 
 		return sqlSessionTemplate.selectOne("memberMapper.DrClientSearchPwd2", d);
 	}
-
+	// 일반회원 비밀번호 찾기3
 	public Client ClientSearchPwd3(Client c) {
 		
 		return sqlSessionTemplate.selectOne("memberMapper.ClientSearchPwd3", c);
 	}
-
+	// 의사회원 비밀번호 찾기3
 	public DrClient DrClientSearchPwd3(DrClient d) {
 
 		return sqlSessionTemplate.selectOne("memberMapper.DrClientSearchPwd3", d);
 	}
-
+	// 일반회원 비밀번호 찾기4
 	public int ClientSearchPwd4(Client c) {
 
 		return sqlSessionTemplate.update("memberMapper.ClientSearchPwd4", c);
 	}
-
+	// 의사회원 비밀번호 찾기4
 	public int DrClientSearchPwd4(DrClient d) {
 
 		return sqlSessionTemplate.update("memberMapper.DrClientSearchPwd4", d);
+	}
+	// 일반회원 프로필 null값 insert
+	public int ClientInsertProfile(ProfilePhoto pp) {
+
+		return sqlSessionTemplate.insert("memberMapper.ClientInsertProfile", pp);
+	}
+	// 일반회원 정보 수정
+	public int updateClient(Client c) {
+
+		return sqlSessionTemplate.update("memberMapper.updateClient", c);
+	}
+	// 일반회원(회원가입) 정보
+	public Client ClientCno(Client c) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.ClientCno", c);
+	}
+	// 의사회원(회원가입) 정보
+	public DrClient DrClientDrNo(DrClient d) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.DrClientDrNo", d);
+	}
+	// 의사회원 프로필 null 값 insert
+	public int DrClientInsertProfile(ProfilePhoto pp) {
+
+		return sqlSessionTemplate.insert("memberMapper.DrClientInsertProfile", pp);
+	}
+	
+	// 일반회원 프로필 수정
+	public int updateClientProfile(ProfilePhoto pp) {
+	
+		return sqlSessionTemplate.update("memberMapper.updateClientProfile", pp);
+	}
+	// 로그인 한 일반회원 정보 수정
+	public Client loginClient2(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.loginClient2", cNo);
+	}
+	// 로그인 한 의사회원 정보 수정
+	public DrClient loginDrClient2(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.loginDrClient2", drNo);
+	}
+	
+	// 의사회원 프로필 수정
+	public int updateDrClientProfile(ProfilePhoto pp) {
+		
+		return sqlSessionTemplate.update("memberMapper.updateDrClientProfile", pp);
+	}
+	
+	// 의사회원 정보 수정
+	public int updateDrClient(DrClient d) {
+		
+		return sqlSessionTemplate.update("memberMapper.updateDrClient", d);
+	}
+	// 프로필 사진 삭제시 일반회원 정보
+	public Client CProfile(String cNo) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.CProfile", cNo);
+	}
+	// 프로필 사진 삭제시 의사회원 정보
+	public DrClient DrProfile(String drNo) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.DrProfile", drNo);
+	}
+	// 제출 파일 삭제시 의사회원 정보
+	public DrClient DrFile(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.DrFile", drNo);
+	}
+	// 일반회원 탈퇴
+	public int ClientDelete(String cNo) {
+		
+		return sqlSessionTemplate.update("memberMapper.ClientDelete", cNo);
+	}
+	// 의사회원 탈퇴
+	public int DrClientDelete(String drNo) {
+		
+		return sqlSessionTemplate.update("memberMapper.DrClientDelete", drNo);
 	}
 
 }

@@ -20,18 +20,20 @@ public class Client implements Serializable {
 	private String birth;
 	private String status;
 	private Date enrollDate;
-	private String profile;
+//	private String profile;
 	private String marketing;
 	private int point;
 	private String post;
 	private String address;
+	private String proOrigin;
+	private String proRename;
 
 	public Client() {
 	}
 
 	public Client(String cNo, String userName, String nickName, String userId, String userPwd, String email,
-			String phone, String birth, String status, Date enrollDate, String profile, String marketing, int point,
-			String post, String address) {
+			String phone, String birth, String status, Date enrollDate, String marketing, int point, String post,
+			String address) {
 		this.cNo = cNo;
 		this.userName = userName;
 		this.nickName = nickName;
@@ -42,11 +44,32 @@ public class Client implements Serializable {
 		this.birth = birth;
 		this.status = status;
 		this.enrollDate = enrollDate;
-		this.profile = profile;
 		this.marketing = marketing;
 		this.point = point;
 		this.post = post;
 		this.address = address;
+	}
+	
+
+	public Client(String cNo, String userName, String nickName, String userId, String userPwd, String email,
+			String phone, String birth, String status, Date enrollDate, String marketing, int point, String post,
+			String address, String proOrigin, String proRename) {
+		this.cNo = cNo;
+		this.userName = userName;
+		this.nickName = nickName;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.email = email;
+		this.phone = phone;
+		this.birth = birth;
+		this.status = status;
+		this.enrollDate = enrollDate;
+		this.marketing = marketing;
+		this.point = point;
+		this.post = post;
+		this.address = address;
+		this.proOrigin = proOrigin;
+		this.proRename = proRename;
 	}
 
 	public String getcNo() {
@@ -129,14 +152,6 @@ public class Client implements Serializable {
 		this.enrollDate = enrollDate;
 	}
 
-	public String getProfile() {
-		return profile;
-	}
-
-	public void setProfile(String profile) {
-		this.profile = profile;
-	}
-
 	public String getMarketing() {
 		return marketing;
 	}
@@ -172,13 +187,31 @@ public class Client implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+
+	public String getProOrigin() {
+		return proOrigin;
+	}
+
+	public void setProOrigin(String proOrigin) {
+		this.proOrigin = proOrigin;
+	}
+
+	public String getProRename() {
+		return proRename;
+	}
+
+	public void setProRename(String proRename) {
+		this.proRename = proRename;
+	}
 
 	@Override
 	public String toString() {
 		return "Client [cNo=" + cNo + ", userName=" + userName + ", nickName=" + nickName + ", userId=" + userId
 				+ ", userPwd=" + userPwd + ", email=" + email + ", phone=" + phone + ", birth=" + birth + ", status="
-				+ status + ", enrollDate=" + enrollDate + ", profile=" + profile + ", marketing=" + marketing
-				+ ", point=" + point + ", post=" + post + ", address=" + address + "]";
+				+ status + ", enrollDate=" + enrollDate + ", marketing=" + marketing + ", point=" + point + ", post="
+				+ post + ", address=" + address + ", proOrigin=" + proOrigin + ", proRename=" + proRename + "]";
 	}
-
+	
+	
 }
