@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -32,12 +31,14 @@ public class MainHpReviewController {
    // 사진 저장 폴더
    private final String filePath = "C:\\lanCableDoctorProject\\files\\";
    
+   
    // header와의 연결
    @RequestMapping("hpReviewInsert.do")
    public String hpReviewInsert() {
       return "hospitalReview/hpReviewInsert";
       
    }
+   
    
    // 병원 검색 모달 창
    @RequestMapping("searchHpName.do")
@@ -62,10 +63,26 @@ public class MainHpReviewController {
    }
    
    
+   // 선택한 병원 진료과목 코드 불러오는 것
+   @RequestMapping("searchHpCate.do")
+   public void searchHpCate(HttpServletResponse response, @RequestParam(value="hopiName") String hpName) throws JsonIOException, IOException {
+	   
+	   ArrayList<SearchHp> searchHpCate =  MainHpReService.selectHpCate(hpName);
+	   
+	   response.setContentType("application/json;charset=utf-8");
+	   
+	   Gson gson = new Gson();
+	   
+	   gson.toJson(searchHpCate, response.getWriter());
+	   
+   }
+   
+   
    // 병원리뷰등록
    @RequestMapping("hpReInsert.do")
    public String hpReInsert(HttpServletRequest request, HpReview hpRe, HttpSession session,
                         @RequestParam(value="hospital_id") Integer hpNo, 
+                        @RequestParam(value="hospital_cateCode") Integer hpCateCode,
                         @RequestParam(value="receipt_image", required=true) MultipartFile file,
                         @RequestParam(value="kindness") Double kindness,
                         @RequestParam(value="sanitary") Double sanitary,
@@ -76,13 +93,16 @@ public class MainHpReviewController {
                         @RequestParam(value="comment") String comment,
                         @RequestParam(value="suggest") String suggest) {
       
+	   
       Client loginClient = (Client)session.getAttribute("loginClient");
+      System.out.println("controller에서 병원 진료과목 : " + hpCateCode);
       
       if(!file.getOriginalFilename().equals("")) {   // 파일이 잘 넘어온 경우
          String renameFileName = saveFile(file,request);
          
          hpRe.setcNo(loginClient.getcNo());
          hpRe.setHpNo(hpNo);
+         hpRe.setHpCateCode(hpCateCode);
          hpRe.setHpReContent(comment);   
          hpRe.setLike(suggest);
          

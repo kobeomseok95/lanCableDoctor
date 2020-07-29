@@ -72,7 +72,7 @@
         <!--테이블 부분-->
         <table id="contentTb">
             <tr>
-               <th class="firstLine">리뷰 번호</th>
+               <th class="firstLine">번호</th>
                 <th class="firstLine">병원 번호</th>
                 <th class="firstLine">병원 이름</th>
                 <th class="firstLine">카테고리 번호</th>
@@ -89,7 +89,7 @@
             
             <c:forEach var="hpRe" items="${list }">
                <tr>
-                  <td>${hpRe.hpReNo }</td>
+                  <td>${hpRe.rowNum }</td>
                   <td>${hpRe.hpNo }</td>
                   <td>${hpRe.hpName }</td>
                   <td>${hpRe.hpCateNo }</td>

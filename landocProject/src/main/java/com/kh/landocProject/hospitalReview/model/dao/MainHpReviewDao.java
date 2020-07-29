@@ -28,4 +28,12 @@ public class MainHpReviewDao {
       
       return sqlSessionTemplate.insert("MainHpReviewMapper.insertHpRe", hpRe);
    }
+
+
+	public ArrayList<SearchHp> selectHpCate(String hpName) {
+		
+//		System.out.println("dao에서 병원 카테고리 리스트 : " + (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpCate", hpNo));
+		
+		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpCate", hpName);
+	}
 }
