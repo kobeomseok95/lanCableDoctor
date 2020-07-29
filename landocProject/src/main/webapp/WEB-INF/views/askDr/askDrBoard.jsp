@@ -375,7 +375,7 @@
 			var clientNickname = "${loginClient.nickName}";
 			var drClient = "${loginDrClient}";
 			
-			if( clientNickname === bWriter || drClient !== "" ){		//작성자 및 전체의사일 경우에만 해당 게시글 조회 가능
+			if( clientNickname === bWriter || drClient !== "" ){
 				location.href="askDrDetail.do?category=" + ${categoryNo } + "&bNo=" + bNo;
 			}
 			else if( clientNickname === "" ){
@@ -393,19 +393,26 @@
 		
 		$(".goInsertAskDr").on("click", function(){
 			var client = "${loginClient.nickName}";
-
-			if (client !== "") {
+			var drClient = "${loginDrClient.userName}";
+			
+			if (client !== "" && drClient === "") {
 				location.href = "askDrBoardInsertForm.do";
-			} else {
+			} 
+			else if (client === "" && drClient === "") {
 				if (confirm("해당 게시글은 회원만 작성할 수 있습니다. 로그인하시겠습니까?")) {
 					location.href = "loginView.do";
 				} else {
 					return false;
 				}
 			}
+			else if(client === "" && drClient !== ""){
+				alert("해당 게시글 작성은 일반 회원만 작성할 수 있습니다.")
+			}
 		});
-		});//end of jquery $(function)
+	});	//end of jquery $(function)
 	</script>
+	
+	
 </body>
 </html>
 

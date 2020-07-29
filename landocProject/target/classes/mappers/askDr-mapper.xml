@@ -201,7 +201,7 @@
 			    AD.AD_CAUTION,
 			    AD.AD_SYMPTOM,
 			    AD.HP_CATE_CODE,
-                COUNT(ADP.ADP_NO) AS CNT
+                COUNT(ADP.ADP_NO) AS FILECOUNT
 			FROM ASKDR AD
 			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
                 LEFT JOIN ASKDRPHOTO ADP ON (AD.AD_NO = ADP.AD_NO)
