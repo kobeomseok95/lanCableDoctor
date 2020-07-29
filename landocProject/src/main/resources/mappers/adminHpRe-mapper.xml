@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="adminHpReMapper">
+  
+  <resultMap type="AdminHpRe" id="hpReResultMap">
+     <id property="hpReNo" column="HP_RE_NO"/>
+     <result property="hpName" column="HP_NAME"/>
+     <result property="hpCateNo" column="HPCATE_CODE"/>
+     <result property="hpCateName" column="HPCATE_NAME"/>
+     <result property="cNo" column="C_NO"/>
+     <result property="cId" column="C_ID"/>
+     <result property="hpNo" column="HP_NO"/>
+     <result property="writeDate" column="HP_RE_DATE"/>
+     <result property="like" column="LIKE_YN"/>
+     <result property="avgRate" column="HP_RE_AVG_RATE"/>
+     <result property="approval" column="RECEIPT_YN"/>
+  </resultMap>
+  
+  
+  <resultMap type="AdminHpRe" id="hpReResultMap2">
+     <id property="hpReNo" column="HP_RE_NO"/>
+     <result property="hpNo" column="HP_NO"/>
+     <result property="hpName" column="HP_NAME"/>
+     <result property="hpCateNo" column="HPCATE_CODE"/>
+     <result property="hpCateName" column="HPCATE_NAME"/>
+     <result property="cNo" column="C_NO"/>
+     <result property="cId" column="C_ID"/>
+     <result property="approval" column="RECEIPT_YN"/>
+     <result property="hpReContent" column="HP_RE_CONTENT"/>
+     <result property="like" column="LIKE_YN"/>
+     <result property="avgRate" column="HP_RE_AVG_RATE"/>
+     <result property="explanation" column="DETAIL_EXPLANATION"/>
+     <result property="kindness" column="STAFF_KIND"/>
+     <result property="waitingTime" column="WAITING_TIME"/>
+     <result property="trResult" column="TREATMENT_RESULT"/>
+     <result property="sanitary" column="CLEANLINESS"/>
+     <result property="price" column="PRICE"/>
+     <result property="writeDate" column="HP_RE_DATE"/>
+     <result property="originFile" column="HPRE_ORIGIN"/>
+     <result property="renameFile" column="HPRE_RENAME"/>
+     <result property="filePath" column="FILEPATH"/>
+  </resultMap>
+  
+  
+  
+  <!-- 일반 리스트 카운트 조회용 -->
+  <select id="getListCount" resultType="_int">
+    SELECT COUNT(*)
+     FROM 
+     (SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, RECEIPT_YN
+   FROM HPREVIEW HR
+       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
+       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
+       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
+       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE))
+  </select>
+  
+  
+  <!-- 전체리스트 조회용 -->
+  <select id="selectListAll" resultMap="hpReResultMap">
+     SELECT *
+     FROM 
+     (SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, RECEIPT_YN
+   FROM HPREVIEW HR
+       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
+       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
+       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
+       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE))
+   ORDER BY 1
+  </select>
+  
+  
+  
+  
+  <!-- 검색 리스트 카운트 조회용 -->
+  <select id="selectSearchListCount" parameterType="sc" resultType="_int">
+     SELECT COUNT(*)
+     FROM 
+     (SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, RECEIPT_YN
+   FROM HPREVIEW HR
+       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
+       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
+       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
+       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
+     <where>
+      <if test="hpNo != null and hpNo !=''">
+         AND HR.HP_NO=#{hpNo}
+      </if>
+      <if test="hpName != null and hpName !=''">
+         AND H.HP_NAME LIKE '%' || #{hpName} || '%'
+      </if>
+      <if test="hpCateNo != null and hpCateNo != ''">
+         AND HL.HPCATE_CODE=#{hpCateNo}
+      </if>
+      <if test="hpCateName != null and hpCateName !=''">
+         AND HG.HPCATE_NAME LIKE '%' || #{hpCateName} || '%'
+      </if>
+      <if test="cNo != null and cNo !=''">
+         AND C.C_NO=#{cNo}
+      </if>
+      <if test="approval != null and approval !=''">
+         AND HR.RECEIPT_YN=#{approval}
+      </if>
+   </where>)
+  </select>
+  
+  
+  <!-- 검색 리스트 조회용 -->
+  <select id="selectList" parameterType="sc" resultMap="hpReResultMap">
+     SELECT *
+     FROM 
+     (SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, RECEIPT_YN
+   FROM HPREVIEW HR
+       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
+       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
+       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
+       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
+     <where>
+      <if test="hpNo != null and hpNo !=''">
+         AND HR.HP_NO=#{hpNo}
+      </if>
+      <if test="hpName != null and hpName !=''">
+         AND H.HP_NAME LIKE '%' || #{hpName} || '%'
+      </if>
+      <if test="hpCateNo != null and hpCateNo != ''">
+         AND HL.HPCATE_CODE=#{hpCateNo}
+      </if>
+      <if test="hpCateName != null and hpCateName !=''">
+         AND HG.HPCATE_NAME LIKE '%' || #{hpCateName} || '%'
+      </if>
+      <if test="cNo != null and cNo !=''">
+         AND C.C_NO=#{cNo}
+      </if>
+      <if test="approval != null and approval !=''">
+         AND HR.RECEIPT_YN=#{approval}
+      </if>
+   </where>)
+   ORDER BY 1
+  </select>
+
+
+   
+  <!-- detail 페이지 -->
+  <select id="selectHpReDetail" parameterType="_int" resultMap="hpReResultMap2">
+     SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, 
+        HR.HP_RE_DATE, HR.DETAIL_EXPLANATION, HR.STAFF_KIND, HR.WAITING_TIME, HR.TREATMENT_RESULT, HR.CLEANLINESS, HR.PRICE, 
+        HR.HPRE_ORIGIN, HR.HPRE_RENAME, HR.RECEIPT_YN
+   FROM HPREVIEW HR
+       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
+       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
+       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
+       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
+      WHERE HR.HP_RE_NO=#{hpReNo}
+  </select>
+  
+  
+  
+  
+</mapper>

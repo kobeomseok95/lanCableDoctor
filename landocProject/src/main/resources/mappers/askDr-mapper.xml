@@ -8,6 +8,7 @@
 		<result property="bTitle" column="AD_TITLE" />
 		<result property="nickname" column="C_NICKNAME" />
 		<result property="submitDate" column="AD_SUBMITDATE" />
+		<result property="chooseStatus" column="AD_CHOOSESTATUS" />
 	</resultMap>
 	 
 	<resultMap type="AskDrBoard" id="AskDrBoardDetail">
@@ -20,21 +21,46 @@
 		<result property="gender" column="AD_GENDER" />
 		<result property="caution" column="AD_CAUTION" />
 		<result property="symptoms" column="AD_SYMPTOM" />
+		<result property="chooseStatus" column="AD_CHOOSESTATUS" />
+		<result property="categoryNo" column="HP_CATE_CODE" />
+		<result property="countImage" column="FILECOUNT" />
+		<result property="countReply" column="REPLYCOUNT" />
 	</resultMap>
 	
+	<resultMap type="SymptomsImage" id="SymptomsImage">
+		<id property="adpNo" column="ADP_NO" />
+		<result property="fileName" column="ADP_RENAME" />
+		<result property="filePath" column="ADP_FILEPATH" />
+	</resultMap>
+	
+	<resultMap type="AskDrReply" id="AskDrReply">
+		<id property="adrNo" column="ADR_NO" />
+		<result property="bNo" column="AD_NO" />
+		<result property="drClientNo" column="DR_NO" />
+		<result property="replyDate" column="ADR_REPLYDATE" />
+		<result property="content" column="ADR_CONTENT" />
+		<result property="chooseStatus" column="ADR_CHOOSESTATUS" />
+		<result property="parentNo" column="ADR_PARENTNO" />
+		<result property="orderNo" column="ADR_ORDERNO" />
+		<result property="groupNo" column="ADR_GROUPNO" />
+		<result property="depthNo" column="ADR_DEPTHNO" />
+		<result property="profileRename" column="PRO_RENAME" />
+		<result property="drName" column="DR_NAME" />
+	</resultMap>
 
 <!-- resultMap, Query 경계 -->
 
 	<select id="selectAskDrBoard" parameterType="_int" resultMap="AskDrBoardList">
 		<![CDATA[
 			SELECT * FROM
-			(SELECT ROWNUM AS RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE
+			(SELECT ROWNUM AS RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_CHOOSESTATUS
 			FROM 
 			(SELECT 
 			    AD.AD_NO,
 			    AD.AD_TITLE,
 			    C.C_NICKNAME,
-			    AD.AD_SUBMITDATE
+			    AD.AD_SUBMITDATE,
+			    AD.AD_CHOOSESTATUS
 			FROM ASKDR AD
 			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
 			WHERE HP_CATE_CODE = #{categoryNo}
@@ -61,11 +87,32 @@
 			    AD.AD_AGE,
 			    AD.AD_GENDER,
 			    AD.AD_CAUTION,
-			    AD.AD_SYMPTOM
-			FROM ASKDR AD
+			    AD.AD_SYMPTOM,
+			    AD.AD_CHOOSESTATUS,
+			    AD.HP_CATE_CODE,
+			    COUNT(ADP.ADP_NO) AS FILECOUNT,
+			    COUNT(ADR.ADR_NO) AS REPLYCOUNT
+			FROM 
+				ASKDR AD
 			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
-			WHERE AD.AD_NO = #{bNo}
-		    AND AD.HP_CATE_CODE = #{category}
+			    LEFT JOIN ASKDRPHOTO ADP ON (AD.AD_NO = ADP.AD_NO)
+			    LEFT JOIN ASKDRREPLY ADR ON (AD.AD_NO = ADR.AD_NO)
+			WHERE 
+				AD.AD_NO = #{bNo}
+			AND 
+				AD.HP_CATE_CODE = #{category}
+			GROUP BY (
+			    AD.AD_NO, 
+			    AD.AD_TITLE,
+			    C.C_NICKNAME,
+			    AD.AD_HEIGHT,
+			    AD.AD_WEIGHT,
+			    AD.AD_AGE,
+			    AD.AD_GENDER,
+			    AD.AD_CAUTION,
+			    AD.AD_SYMPTOM,
+			    AD.AD_CHOOSESTATUS,
+			    AD.HP_CATE_CODE)
 		]]>
 	</select>
 	
@@ -87,15 +134,16 @@
 	</select>
 	
 	<select id="selectAskDrBoardSearch" parameterType="hashMap" resultMap="AskDrBoardList">
-		SELECT RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE FROM
-		    (SELECT ROWNUM AS RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_SYMPTOM
+		SELECT RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_CHOOSESTATUS FROM
+		    (SELECT ROWNUM AS RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_SYMPTOM, AD.AD_CHOOSESTATUS
 		    FROM 
 		        (SELECT 
 		            AD.AD_NO,
 		            AD.AD_TITLE,
 		            C.C_NICKNAME,
 		            AD.AD_SUBMITDATE,
-		            AD.AD_SYMPTOM
+		            AD.AD_SYMPTOM,
+			    	AD.AD_CHOOSESTATUS
 		        FROM ASKDR AD
 		            JOIN CLIENT C ON (AD.C_NO = C.C_NO)
 		        WHERE HP_CATE_CODE = #{category}
@@ -126,9 +174,159 @@
 		    #{gender},
 		    #{caution},
 		    #{symptoms},
+		    'N',
 		    #{categoryNo},
 		    #{memberNo},
 		    0
+		)
+	</insert>
+	
+	<!-- 게시글삭제 -->
+	<delete id="deleteAskDrBoard" parameterType="_int">
+		DELETE FROM ASKDR
+		WHERE AD_NO = #{bNo}
+	</delete>
+	
+	<!-- update를 위한 의사에게 물어봐 detail -->
+	<select id="selectAskDrBoardUpdateDeatil" parameterType="_int" resultMap="AskDrBoardDetail">
+		<![CDATA[
+			SELECT 
+			    AD.AD_NO, 
+			    AD.AD_TITLE,
+			    C.C_NICKNAME,
+			    AD.AD_HEIGHT,
+			    AD.AD_WEIGHT,
+			    AD.AD_AGE,
+			    AD.AD_GENDER,
+			    AD.AD_CAUTION,
+			    AD.AD_SYMPTOM,
+			    AD.HP_CATE_CODE,
+                COUNT(ADP.ADP_NO) AS CNT
+			FROM ASKDR AD
+			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
+                LEFT JOIN ASKDRPHOTO ADP ON (AD.AD_NO = ADP.AD_NO)
+			WHERE AD.AD_NO = #{bNo}
+            GROUP BY (AD.AD_NO, 
+			    AD.AD_TITLE,
+			    C.C_NICKNAME,
+			    AD.AD_HEIGHT,
+			    AD.AD_WEIGHT,
+			    AD.AD_AGE,
+			    AD.AD_GENDER,
+			    AD.AD_CAUTION,
+			    AD.AD_SYMPTOM,
+			    AD.HP_CATE_CODE)
+		]]>		
+	</select>
+	 
+	<!-- 의사에게물어봐 게시글 수정 -->
+	<update id="updateAskDrBoard" parameterType="AskDrBoard">
+		UPDATE ASKDR SET
+		    AD_TITLE = #{bTitle},
+		    AD_SUBMITDATE = SYSDATE,
+		    AD_HEIGHT = #{height},
+		    AD_WEIGHT = #{weight},
+		    AD_AGE = #{age},
+		    AD_GENDER = #{gender},
+		    AD_CAUTION = #{caution},
+		    AD_SYMPTOM = #{symptoms},
+		    HP_CATE_CODE = #{categoryNo}
+		WHERE 
+		    AD_NO = #{bNo}
+	</update>
+	
+	<insert id="insertAskDrBoardPhoto" parameterType="hashMap">
+		INSERT INTO ASKDRPHOTO
+		VALUES(
+		    SEQ_ASKDRPHOTONO.NEXTVAL,
+		    #{fileName},
+		    #{filePath},
+		    SEQ_ASKDRNO.CURRVAL
+		)
+	</insert>
+	
+	<insert id="updateAskDrBoardPhoto" parameterType="hashMap">
+		INSERT INTO ASKDRPHOTO
+		VALUES(
+		    SEQ_ASKDRPHOTONO.NEXTVAL,
+		    #{fileName},
+		    #{filePath},
+		    #{boardNo}
+		)
+	</insert>
+	
+	<select id="selectAskDrBoardDeatilImages" parameterType="_int" resultMap="SymptomsImage">
+		SELECT 
+		    ADP_NO,
+		    ADP_RENAME,
+		    ADP_FILEPATH
+		FROM 
+		    ASKDRPHOTO 
+		WHERE 
+		    AD_NO = #{BNO}
+	</select>
+	
+	<select id="selectAskDrBoardImgNames" parameterType="_int" resultType="string">
+		SELECT
+		    ADP_RENAME
+		FROM
+		    ASKDRPHOTO
+		WHERE
+		    AD_NO = #{bNo}
+	</select>
+	
+	<delete id="deleteImgs" parameterType="_int">
+		DELETE 
+		FROM 
+			ASKDRPHOTO 
+		WHERE 
+			AD_NO = #{bNo}
+	</delete>
+	
+	<select id="selectAskDrBoardDetailReply" parameterType="_int" resultMap="AskDrReply">
+		<!-- 의사 번호, 댓글번호 가져와야한다! -->
+		SELECT
+		    PP.PRO_RENAME,
+		    DR.DR_NO,
+		    DR.DR_NAME,
+		    ADR.ADR_NO,
+		    ADR.ADR_CONTENT,
+		    ADR.ADR_REPLYDATE,
+		    ADR.ADR_CHOOSESTATUS
+		FROM 
+		    ASKDRREPLY ADR
+		    LEFT JOIN
+		        DRCLIENT DR ON ( DR.DR_NO = ADR.DR_NO )
+		    LEFT JOIN
+		        PROFILEPHOTO PP ON ( DR.DR_NO = PP.DR_NO )
+		WHERE 
+		    ADR.AD_NO = #{bNo}
+		ORDER BY
+		    ADR.ADR_REPLYDATE ASC
+	</select>
+	
+	<update id="updateAskDrReplyChooseStatus" parameterType="_int">
+		UPDATE ASKDRREPLY
+		SET ADR_CHOOSESTATUS = 'Y'
+		WHERE ADR_NO = #{adrNo}
+	</update>
+	
+	<update id="updateAskDrBoardChooseStatus" parameterType="_int">
+		UPDATE ASKDR
+		SET AD_CHOOSESTATUS = 'Y'
+		WHERE AD_NO = #{bNo}
+	</update>
+	
+	<insert id="insertAskDrBoardReply" parameterType="askDrReply">
+		INSERT INTO ASKDRREPLY
+		VALUES(
+		    SEQ_ASKDRREPLY.NEXTVAL,
+		    #{bNo},
+		    #{drClientNo},
+		    SYSDATE,
+		    #{content},
+		    'N',
+		    0, 0, 0, 0
 		)
 	</insert>
 </mapper>

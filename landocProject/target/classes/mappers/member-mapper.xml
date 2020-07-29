@@ -134,22 +134,57 @@
 	</insert>
 
 	<!-- 일반회원_비밀번호 찾기 -->
-	<select id="searchPwdClient" parameterType="Client"
-		resultMap="ClientResultSet">
-		SELECT *
+	<select id="searchPwdClient" parameterType="Client" resultMap="ClientResultSet">
+		SELECT * 
 		FROM CLIENT
 		WHERE C_ID = #{userId}
-		AND C_EMAIL =
-		#{email}
+		AND C_EMAIL = #{email}
 	</select>
-	<!-- 일반회원_비밀번호 찾기 -->
-	<select id="searchPwdDrClient" parameterType="DrClient"
-		resultMap="DoctorResultSet">
-		SELECT *
+	
+	<select id="searchPwdDrClient" parameterType="DrClient" resultMap="DoctorResultSet">
+		SELECT * 
 		FROM DRCLIENT
 		WHERE DR_ID = #{userId}
-		AND DR_EMAIL =
-		#{email}
+		AND DR_EMAIL = #{email}
 	</select>
-
+	
+	<select id="ClientSearchPwd2" parameterType="Client" resultMap="ClientResultSet">
+		SELECT * 
+		FROM CLIENT
+		WHERE C_NO = #{cNo}
+		AND C_EMAIL = #{email}
+	</select>
+	
+	<select id="DrClientSearchPwd2" parameterType="DrClient" resultMap="DoctorResultSet">
+		SELECT *
+		FROM DRCLIENT
+		WHERE DR_NO = #{drNo}
+		AND DR_EMAIL = #{email}
+	</select>
+	
+	<select id="ClientSearchPwd3" parameterType="Client" resultMap="ClientResultSet">
+		SELECT * 
+		FROM CLIENT
+		WHERE C_NO = #{cNo}
+	</select>
+	
+	<select id="DrClientSearchPwd3" parameterType="DrClient" resultMap="DoctorResultSet">
+		SELECT *
+		FROM DRCLIENT
+		WHERE DR_NO=#{drNo}
+	</select>
+	
+	<update id="ClientSearchPwd4">
+		UPDATE CLIENT
+		SET 
+			C_PWD = #{userPwd}
+		WHERE C_NO = #{cNo}
+	</update>
+	
+	<update id="DrClientSearchPwd4">
+		UPDATE DRCLIENT
+		SET 
+			DR_PWD = #{userPwd}
+		WHERE DR_NO = #{drNo}
+	</update>
 </mapper>

@@ -74,7 +74,7 @@
          <div class="wrap-login100">
             <c:if test="${!empty ClientSearchPwd && empty DrClientsearchPwd }">
                <form class="login100-form validate-form"
-                  action="searchPwd2.do?email=${ClientSearchPwd.email }&cNo=${ClientSearchPwd.cNo}"
+                  action="ClientSearchPwd2.do?email=${ClientSearchPwd.email }&cNo=${ClientSearchPwd.cNo}"
                   method="post">
                   <span class="login100-form-title p-b-48">
                      <div class="logoDiv">
@@ -108,9 +108,9 @@
                   </div>
                </form>
             </c:if>
-            <c:if test="${empty ClientSearchPwd && !empty DrClientsearchPwd }">
+            <c:if test="${empty ClientSearchPwd && !empty DrClientSearchPwd }">
                <form class="login100-form validate-form"
-                  action="searchPwd2.do?email=${DrClientsearchPwd.email }&drNo=${DrClientsearchPwd.drNo}"
+                  action="DrClientSearchPwd2.do?email=${DrClientSearchPwd.email }&drNo=${DrClientSearchPwd.drNo}"
                   method="post">
                   <span class="login100-form-title p-b-48">
                      <div class="logoDiv">
@@ -120,7 +120,7 @@
                   </span> <span class="login100-form-title p-b-26"> 비밀번호 찾기 </span>
 
                   <div class="mailForm">
-                     <label><c:out value="${DrClientsearchPwd.email }" />으로
+                     <label><c:out value="${DrClientSearchPwd.email }" />으로
                         인증번호를 받으시겠습니까?</label><br>
 
                   </div>

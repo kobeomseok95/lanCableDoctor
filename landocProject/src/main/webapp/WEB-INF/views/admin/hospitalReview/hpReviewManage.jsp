@@ -1,195 +1,212 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 <meta charset="UTF-8">
 <head>
-<title>hpReviewManage</title>
-<script src='http://code.jquery.com/jquery-latest.js'></script>
-<style>
-/*오른쪽 영역부분*/
-#contentArea {
-	position: absolute;
-	left: 370px;
-	top: 20px;
-	width: 80%;
-	height: 100%;
-}
+    <title>hpReviewManage</title>
+    <script src= 'http://code.jquery.com/jquery-latest.js'></script>
+    <style>
+       /*오른쪽 영역부분*/
+        #contentArea{position: absolute; left: 300px; top: 20px; width: 78%; height: 100%;}
+        #contentArea h3{padding-bottom: 2%; text-align:center;}
+        
 
-#contentArea h2 {
-	padding-bottom: 30px;
-	text-align: center;
-}
+        /*오른쪽 영역 table*/
+        #contentTb{margin: 0 auto; margin-top: 2%; width: 100%; text-align:center; border: 2px solid #bbb; border-collapse: collapse;}
+        #contentTb tr{line-height: 40px;}
+        #contentTb th{border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
+        #contentTb td{width: auto; border: 1px solid #bbb; font-size:14px;}
+        #contentTb button{height: 35px; width: 55%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
+        #contentTb button:hover{background-color: #007ee5; color: white;}
 
-/*오른쪽 영역 table*/
-#contentTb {
-	margin: 0 auto;
-	margin-top: 30px;
-	width: 100%;
-	text-align: center;
-	border: 2px solid #bbb;
-	border-collapse: collapse;
-}
 
-#contentTb tr {
-	line-height: 40px;
-}
-
-#contentTb th {
-	border-bottom: 2px solid #bbb;
-	border-right: 1px solid #bbb;
-}
-
-#contentTb td {
-	width: auto;
-	border: 1px solid #bbb;
-}
-
-#contentTb button {
-	height: 35px;
-	width: 70%;
-	border: 1px solid white;
-	background-color: #bbb;
-	border-radius: 5px;
-	color: black;
-	font-weight: 600;
-}
-
-#contentTb button:hover {
-	background-color: #007ee5;
-	color: white;
-}
-
-/*오른쪽 영역 안 검색창 부분*/
-#searchArea {
-	text-align: center;
-}
-
-#searchArea select {
-	width: 150px;
-	height: 32px;
-	font-weight: 600;
-}
-
-#searchArea {
-	height: 60px;
-}
-
-#searchArea input {
-	height: 26px;
-	width: 300px;
-}
-
-#searchArea button {
-	height: 35px;
-	width: 120px;
-	border: 1px solid white;
-	background-color: #bbb;
-	border-radius: 5px;
-	color: black;
-	font-weight: 600;
-}
-
-#searchArea button:hover {
-	background-color: #007ee5;
-	color: white;
-}
-</style>
+        /*오른쪽 영역 안 검색창 부분*/
+        #searchArea{text-align: center;}
+        #searchArea select{width: 150px; height: 28px; font-weight: 600;}
+        #searchArea{height: 60px;}
+        #searchArea input{height: 26px; width: 300px;}   
+        #searchArea button{height: 35px; width: 120px; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
+        #searchArea button:hover{background-color:  #007ee5; color: white;}
+      
+   </style>
 
 </head>
 <body>
 
-	<jsp:include page="../../common/adminSide.jsp" />
+   <jsp:include page="../../common/adminSide.jsp"/>
+   
+    <!--여기서 부터 왼쪽 영역 contentArea-->
+    <div id="contentArea">
+        <h3>병원 리뷰 관리</h3>
 
-	<!--여기서 부터 왼쪽 영역 contentArea-->
-	<div id="contentArea">
-		<h2>병원 리뷰 관리</h2>
+        <!--검색 창 부분-->
+        <div id="searchArea">
+            <select id="searchCondition" name="searchCondition">
+                <option>----------</option>
+                <option value="hpNo">병원 번호</option>
+                <option value="hpName">병원 이름</option>
+                <option value="hpCateNo">카테고리 번호</option>
+                <option value="hpCateName">카테고리 이름</option>
+                <option value="cNo">회원 번호</option>
+                <option value="approval">승인 여부</option>
+            </select>
+            <input type="search" id="searchValue">
+            <button onclick="searchHpRe();">검색하기</button>
+        </div>
 
-		<!--검색 창 부분-->
-		<div id="searchArea">
-			<select id="searchCondition" name="searchCondition">
-				<option>병원 번호</option>
-				<option>병원 이름</option>
-				<option>카테고리</option>
-				<option>승인 여부</option>
-			</select> <input type="text">
-			<button type="button">검색하기</button>
-		</div>
+   <script>
+      function searchHpRe(){
+         
+         var searchCondition = $("#searchCondition").val();
+         
+         var searchValue = $("#searchValue").val();
+         
+         location.href="hpReList.do?searchCondition=" + searchCondition + "&searchValue=" + searchValue;
+      }
+      
+   
+   
+   </script>
+      
+        <!--테이블 부분-->
+        <table id="contentTb">
+            <tr>
+               <th class="firstLine">리뷰 번호</th>
+                <th class="firstLine">병원 번호</th>
+                <th class="firstLine">병원 이름</th>
+                <th class="firstLine">카테고리 번호</th>
+                <th class="firstLine">카테고리 이름</th>
+                <th class="firstLine">회원 번호</th>
+                <th class="firstLine">아이디</th>
+                <th class="firstLine">좋아요 여부</th>
+                <th class="firstLine">평균별점</th>
+                <th class="firstLine">작성 날짜</th>
+                <th class="firstLine">영수증 인증 여부</th>
+                <th class="firstLine">영수증 인증</th>
+                
+            </tr>
+            
+            <c:forEach var="hpRe" items="${list }">
+               <tr>
+                  <td>${hpRe.hpReNo }</td>
+                  <td>${hpRe.hpNo }</td>
+                  <td>${hpRe.hpName }</td>
+                  <td>${hpRe.hpCateNo }</td>
+                  <td>${hpRe.hpCateName }</td>
+                  <td>${hpRe.cNo }</td>
+                  <td>${hpRe.cId }</td>
+                  <td>${hpRe.like }</td>
+                  <td>${hpRe.avgRate }</td>
+                  <td>${hpRe.writeDate }</td>
+                  <td>${hpRe.approval }</td>
+                  <td>
+                     <button onclick="location.href='hpReviewDetail.do?hpReNo='+${hpRe.hpReNo}">인증</button>
+                  </td>
+               </tr>
+            </c:forEach>
+             
+        </table>
+        
+        
+        <div id="pagingArea" align="center">
+           <c:if test="${pi.currentPage == 1 }">
+              이전&nbsp;
+           </c:if>
+           
+           <c:if test="${pi.currentPage > 1 }">
+              <c:choose>
+                 <c:when test="${sc.none ne 'noneValue'}">
+                    <c:url var="hpReListBack" value="hpReList.do">
+                       <c:param name="page" value="${pi.currentPage -1 }"/>
+                       <c:param name="searchCondition" value="${condition }"/>
+                       <c:param name="searchValue" value="${value }"/>
+                    </c:url>
+                    <a href="${hpReListBack }">이전</a>
+                 </c:when>
+                 
+                 <c:otherwise>
+                    <c:url var="hpReListBack" value="hpReList.do">
+                       <c:param name="page" value="${pi.currentPage-1 }"/>
+                       <c:param name="searchCondition" value="noneCondition"/>
+                       <c:param name="searchValue" value="noneValue"/>
+                    </c:url>
+                    <a href="${hpReListBack }">이전</a>
+                 </c:otherwise>
+              </c:choose>
+           </c:if>
+           
+           <!-- 번호들 -->
+           <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+              <c:if test="${p eq pi.currentPage }">
+                 <font color="red" size="4"><b>${p }</b></font>
+              </c:if>
+                
+                <c:if test="${p ne pi.currentPage }">
+                   <c:choose>
+                 <c:when test="${sc.none ne 'noneValue'}">
+                    <c:url var="hpReListCheck" value="hpReList.do">
+                       <c:param name="page" value="${p }"/>
+                       <c:param name="searchCondition" value="${condition }"/>
+                       <c:param name="searchValue" value="${value }"/>
+                    </c:url>
+                    <a href="${hpReListCheck }">${p }</a>
+                 </c:when>
+                 
+                 <c:otherwise>
+                    <c:url var="hpReListBack" value="hpReList.do">
+                       <c:param name="page" value="${p }"/>
+                       <c:param name="searchCondition" value="noneCondition"/>
+                       <c:param name="searchValue" value="noneValue"/>
+                    </c:url>
+                    <a href="${hpReListCheck }">${p }</a>
+                 </c:otherwise>
+              </c:choose>
+                </c:if>
+           </c:forEach>
+           
+           <c:if test="${pi.currentPage == pi.maxPage }">
+              &nbsp;이후
+           </c:if>
+           
+           <c:if test="${pi.currentPage < pi.maxPage }">
+              <c:choose>
+                 <c:when test="${sc.none ne 'noneValue'}">
+                    <c:url var="hpReListEnd" value="hpReList.do">
+                       <c:param name="page" value="${pi.currentPage +1 }"/>
+                       <c:param name="searchCondition" value="${condition }"/>
+                       <c:param name="searchValue" value="${value }"/>
+                    </c:url>
+                    <a href="${hpReListEnd }">이후</a>
+                 </c:when>
+                 
+                 <c:otherwise>
+                    <c:url var="hpReListEnd" value="hpReList.do">
+                       <c:param name="page" value="${pi.currentPage +1 }"/>
+                       <c:param name="searchCondition" value="noneCondition"/>
+                       <c:param name="searchValue" value="noneValue"/>
+                    </c:url>
+                    <a href="${hpReListEnd }">이후</a>
+                 </c:otherwise>
+              </c:choose>
+             </c:if>
+        
+        </div><!-- pageingArea end -->
+        
+    </div><!-- 오른쪽 content end -->
 
 
-		<!--테이블 부분-->
-		<table id="contentTb">
-			<tr>
-				<th class="firstLine">번호</th>
-				<th class="firstLine">병원 번호</th>
-				<th class="firstLine">병원 이름</th>
-				<th class="firstLine">제목</th>
-				<th class="firstLine">아이디</th>
-				<th class="firstLine">닉네임</th>
-				<th class="firstLine">좋아요 여부</th>
-				<th class="firstLine">평균 별점</th>
-				<th class="firstLine">작성 날짜</th>
-				<th class="firstLine">인증 여부</th>
-				<th class="firstLine">영수증 인증</th>
-
-			</tr>
-			<tr>
-				<td>R01</td>
-				<td>H01</td>
-				<td>bumseokHospital</td>
-				<td>이 병원 진짜 좋아여</td>
-				<td>bumseok</td>
-				<td>코딩왕 고범석</td>
-				<td>좋아요</td>
-				<td>10</td>
-				<td>2020/07/06</td>
-				<td>Y</td>
-				<td>
-					<button onclick="hpReviewDetail();">인증</button>
-				</td>
-			</tr>
-
-			<tr>
-				<td>R01</td>
-				<td>H01</td>
-				<td>bumseokHospital</td>
-				<td>이 병원 진짜 좋아여!</td>
-				<td>bumseok</td>
-				<td>코딩왕 고범석</td>
-				<td>좋아요</td>
-				<td>10</td>
-				<td>2020/07/06</td>
-				<td>Y</td>
-				<td>
-					<button onclick="hpReviewDetail();">인증</button>
-				</td>
-			</tr>
-
-		</table>
-
-
-
-	</div>
-
-
-
-	<script>
-		// 테이블 한 줄 hover효과 주는 function
-		$("#contentTb td").mouseenter(function() {
-			$(this).parent().css({
-				"background" : "lightgrey"
-			});
-		}).mouseout(function() {
-			$(this).parent().css({
-				"background" : "white"
-			});
-		});
-
-		function hpReviewDetail() {
-			location.href = "hpReviewDetail.do";
-		}
-	</script>
+   
+    <script>
+          // 테이블 한 줄 hover효과 주는 function
+        $("#contentTb td").mouseenter(function(){
+            $(this).parent().css({"background" : "lightgrey"});
+        }).mouseout(function(){
+            $(this).parent().css({"background" : "white"});
+        });
+      
+       
+    </script>
 
 
 
@@ -198,6 +215,4 @@
 
 
 </body>
-
-
 </html>
