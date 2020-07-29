@@ -95,7 +95,7 @@ public class MainHpReviewController {
       
 	   
       Client loginClient = (Client)session.getAttribute("loginClient");
-      System.out.println("controller에서 병원 진료과목 : " + hpCateCode);
+//      System.out.println("controller에서 병원 진료과목 : " + hpCateCode);
       
       if(!file.getOriginalFilename().equals("")) {   // 파일이 잘 넘어온 경우
          String renameFileName = saveFile(file,request);
