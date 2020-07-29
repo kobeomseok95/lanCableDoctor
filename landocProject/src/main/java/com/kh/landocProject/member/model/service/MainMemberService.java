@@ -62,5 +62,15 @@ public interface MainMemberService {
 	int updateDrClientProfile(ProfilePhoto pp);
 
 	int updateDrClient(DrClient d);
+	
+	Client CProfile(String cNo);
+
+	DrClient DrProfile(String drNo);
+
+	DrClient DrFile(String drNo);
+
+	int ClientDelete(String cNo);
+
+	int DrClientDelete(String drNo);
 
 }

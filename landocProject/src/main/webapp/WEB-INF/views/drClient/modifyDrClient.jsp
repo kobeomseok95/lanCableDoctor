@@ -114,6 +114,7 @@
 	color: white;
 	height:30px;
 	width: 110px;
+	display:inline-block;
 }
 
 #noBtn {
@@ -121,7 +122,9 @@
 	border-radius: 3px;
 	border: 0px;
 	height: 30px;
+	color: white;
 	width: 110px;
+	display:inline-block;
 }
 
 input[type="file"] {
@@ -159,7 +162,7 @@ input[type="file"] {
 
 						<tr>
 							<td rowspan="6" class="title1"><img id="imagePreview1"
-								style="width: 400px; height: 400px;" src="<%=request.getContextPath()%>/resources/drClientProfile/${loginDrClient2.proRename }"></td>
+								style="width: 400px; height: 400px;" src="/projectFiles/${loginDrClient2.proRename }"></td>
 							<td class="title">아이디</td>
 							<td class="modiInput"><input class="modiBox" type="text" name="userId"
 								value="${loginDrClient2.userId }" readonly></td>
@@ -181,25 +184,33 @@ input[type="file"] {
 						</tr>
 						<tr>
 							<td class="title">이메일</td>
-							<td class="modiInput"><input class="modiBox" type="text" name="email"
+							<td class="modiInput"><input class="modiBox" type="text" name="email" id="email" required="required"
 								value="${loginDrClient2.email }"></td>
 						</tr>
 						<tr>
 							<td class="title">전화번호</td>
-							<td class="modiInput"><input class="modiBox" type="text" name="phone"
+							<td class="modiInput"><input class="modiBox" type="text" name="phone" id="phone" required="required"
 								value="${loginDrClient2.phone }"></td>
 						</tr>
 						<tr>
 							<td><label for="ex_file" class="modibtn">프로필 수정</label> <input
 								type="file" id="ex_file" name="profile"></td>
 							<td class="title">생년월일</td>
-							<td class="modiInput"><input class="modiBox" type="text" name="birth"
+							<td class="modiInput"><input class="modiBox" type="text" name="birth" id="birth" required="required"
 								value="${loginDrClient2.birth }"></td>
 						</tr>
 					</table>
 					<div class="btn">
-						<input id="subBtn" type="submit" value="병원수정하기"> <input
-							id="noBtn" type="button" value="탈퇴하기">
+						<!-- <input id="subBtn" type="submit" value="병원수정하기">  -->
+						<c:url var="DrClientHpUpdate" value="DrClientHpUpdate.do">
+				 			<c:param name="drNo" value="${loginDrClient2.drNo }"/>
+				 		</c:url>
+						<a id="subBtn" href="${DrClientHpUpdate }">병원 수정하기</a>
+						<c:url var="DrClientDelete" value="DrClientDelete.do">
+				 			<c:param name="drNo" value="${loginDrClient2.drNo }"/>
+				 			<c:param name="status" value="${loginDrClient2.status }"/>
+				 		</c:url>
+						<a id="noBtn" href="${DrClientDelete }">탈퇴하기</a>
 					</div>
 					<div style="text-align: center; padding-top: 100px;">
 						<button value="수정하기"
@@ -254,7 +265,32 @@ input[type="file"] {
 		
 		<%}%>
 		
+		 $("#phone").change(function(){
+             var value = $("#phone").val();
+             var reg = /^[0-9]{11}$/;
+             if(!reg.test(value)){
+                 alert("-를 제외한 숫자 11개");
+                 $("#phone").focus().val('');
+             }
+         });
+		 
+		 $("#email").change(function(){
+             var value = $("#email").val();
+             var reg = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
+             if(!reg.test(value)){
+                 alert("이메일 형식으로 작성해주세요");
+                 $("#email").focus().val('');
+             }
+         });
 	
+		 $("#birth").change(function(){
+             var value = $("#birth").val();
+             var reg = /^[0-9]{6}$/;
+             if(!reg.test(value)){
+                 alert("주민번호 6자리");
+                 $("#birth").focus().val('');
+             }
+         });
 	</script>
 	
 	

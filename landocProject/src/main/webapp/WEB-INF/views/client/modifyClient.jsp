@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	String result1 = (String)request.getParameter("result1");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -104,6 +107,8 @@
 	border: 0px;
 	height: 30px;
 	width: 110px;
+	display: block;
+	padding-top:2px;
 }
 
 input[type="file"] {
@@ -116,6 +121,8 @@ input[type="file"] {
 	clip: rect(0, 0, 0, 0);
 	border: 0;
 }
+ a { text-decoration:none; color:black } 
+ a:hover { text-decoration:none; color:black } 
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -141,36 +148,40 @@ input[type="file"] {
 
 						<tr>
 							<td rowspan="4" class="title1"><img id="imagePreview1"
-								style="width: 400px; height: 300px;" src="<%=request.getContextPath()%>/resources/clientProfile/${loginClient2.proRename }"></td> 
+								style="width: 400px; height: 300px;" src="/projectFiles/${loginClient2.proRename }"></td> 
 							<td class="title">아이디</td>
-							<td class="modiInput"><input class="modiBox" name="userId" type="text"
+							<td class="modiInput"><input class="modiBox" name="userId" type="text" required="required"
 								value="${loginClient2.userId }" readonly></td>
 						</tr>
 						<tr>
 							<td class="title">닉네임</td>
-							<td class="modiInput"><input class="modiBox" name="nickName" type="text"
+							<td class="modiInput"><input class="modiBox" name="nickName" type="text" id="nickName" required="required"
 								value="${loginClient2.nickName }"></td>
 						</tr>
 						<tr>
-							<td class="title">이메일</td>
-							<td class="modiInput"><input class="modiBox" name="email" type="text"
-								value="${loginClient2.email }"></td>
+							<td class="title">이메일</td> 
+							<td class="modiInput"><input class="modiBox" name="email" type="text" id="email" required="required"
+								value="${loginClient2.email }"></td> 
 						</tr>
 						<tr>
 							<td class="title">전화번호</td>
-							<td class="modiInput"><input class="modiBox" name="phone" type="text"
+							<td class="modiInput"><input class="modiBox" name="phone" type="text" id="phone" required="required"
 								value="${loginClient2.phone }"></td>
 						</tr>
 						<tr>
 							<td><label for="ex_file" class="modibtn">프로필 수정</label> <input
 								type="file" id="ex_file" name="profile"></td>
 							<td class="title">생년월일</td>
-							<td class="modiInput"><input class="modiBox" name="birth" type="text"
+							<td class="modiInput"><input class="modiBox" name="birth" type="text" id="birth" required="required"
 								value="${loginClient2.birth }"></td>
 						</tr>
 					</table>
 					<div class="btn">
-						<input id="noBtn" type="button" value="탈퇴하기">
+						<c:url var="ClientDelete" value="ClientDelete.do">
+				 			<c:param name="cNo" value="${loginClient2.cNo }"/>
+				 			<c:param name="status" value="${loginClient2.status }"/>
+				 		</c:url>
+						<a id="noBtn" href="${ClientDelete }">탈퇴하기</a>
 					</div>
 					<div style="text-align: center; padding-top: 100px;">
 						<button value="수정하기"
@@ -217,6 +228,50 @@ input[type="file"] {
 	      readUploadImage1(this);
 	   }) 
 	</script>
+	
+	<script>
+		<%if(result1 != null){%>
+			alert("회원정보 수정이 완료되었습니다.");
+		
+		<%}%>
+		
+		 $("#nickName").change(function(){
+             var value = $("#nickName").val();
+             var reg = /^[a-zA-Z0-9가-힣ㄱ-ㅎ]{4,20}$/;
+             if(!reg.test(value)){
+                 alert("영문자와 숫자로 4글자 이상 20글자 이하여야 합니다.");
+                 $("#nickName").focus().val('');
+             }
+         });
+		 
+		 $("#phone").change(function(){
+             var value = $("#phone").val();
+             var reg = /^[0-9]{11}$/;
+             if(!reg.test(value)){
+                 alert("-를 제외한 숫자 11개");
+                 $("#phone").focus().val('');
+             }
+         });
+		 
+		 $("#email").change(function(){
+             var value = $("#email").val();
+             var reg = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
+             if(!reg.test(value)){
+                 alert("이메일 형식으로 작성해주세요");
+                 $("#email").focus().val('');
+             }
+         });
+	
+		 $("#birth").change(function(){
+             var value = $("#birth").val();
+             var reg = /^[0-9]{6}$/;
+             if(!reg.test(value)){
+                 alert("주민번호 6자리");
+                 $("#birth").focus().val('');
+             }
+         });
+	</script>
+	
 </body>
 
 

@@ -185,5 +185,35 @@ public class MainMemberServiceImpl implements MainMemberService {
 		
 		return mDao.updateDrClient(d);
 	}
+	// 프로필 사진 삭제시 일반회원 정보
+	@Override
+	public Client CProfile(String cNo) {
+		
+		return mDao.CProfile(cNo);
+	}
+	// 프로필 사진 삭제시 의사회원 정보
+	@Override
+	public DrClient DrProfile(String drNo) {
+	
+		return mDao.DrProfile(drNo);
+	}
+	// 제출 파일 삭제시 의사회원 정보
+	@Override
+	public DrClient DrFile(String drNo) {
+		
+		return mDao.DrFile(drNo);
+	}
+	// 일반회원 탈퇴
+	@Override
+	public int ClientDelete(String cNo) {
+		
+		return mDao.ClientDelete(cNo);
+	}
+	// 의사회원 탈퇴
+	@Override
+	public int DrClientDelete(String drNo) {
+		
+		return mDao.DrClientDelete(drNo);
+	}
 
 }

@@ -249,14 +249,14 @@
 	</update>
 	<!-- 로그인 한 일반회원 정보 -->
 	<select id="loginClient2" parameterType="string" resultMap="ClientResultSet">
-		SELECT C.C_NO, C.C_ID, C.C_NICKNAME, C.C_EMAIL, C.C_PHONE, C.C_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME
+		SELECT C.C_NO, C.C_ID, C.C_NICKNAME, C.C_EMAIL, C.C_PHONE, C.C_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME, C.C_STATUS
 		FROM CLIENT C
 		JOIN PROFILEPHOTO PP ON (C.C_NO = PP.C_NO)
 		WHERE C.C_NO = #{cNo}
 	</select>
 	<!-- 로그인 한 의사회원 정보 -->
 	<select id="loginDrClient2" parameterType="string" resultMap="DoctorResultSet">
-		SELECT D.DR_NO, D.DR_NAME, D.DR_ID, D.DR_EMAIL, D.DR_PHONE, D.DR_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME, HP_NAME, HPCATE_NAME
+		SELECT D.DR_NO, D.DR_NAME, D.DR_ID, D.DR_EMAIL, D.DR_PHONE, D.DR_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME, HP_NAME, HPCATE_NAME, D.DR_STATUS
 		FROM DRCLIENT D
 		JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
 		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
@@ -279,6 +279,39 @@
 			  DR_EMAIL = #{email},
 			  DR_PHONE = #{phone},
 			  DR_BIRTH=#{birth}
+		WHERE DR_NO = #{drNo}
+	</update>
+	<!-- 프로필 사진 삭제시 일반회원 정보  -->
+	<select id="CProfile" parameterType="string" resultMap="ClientResultSet">
+		SELECT C.C_NO, PP.PRO_ORIGIN, PP.PRO_RENAME
+		FROM CLIENT C
+		JOIN PROFILEPHOTO PP ON (C.C_NO = PP.C_NO)
+		WHERE C.C_NO = #{cNo}
+	</select>
+	<!--  프로필 사진 삭제시 의사회원 정보  -->
+	<select id="DrProfile" parameterType="string" resultMap="DoctorResultSet">
+		SELECT D.DR_NO, PP.PRO_ORIGIN, PP.PRO_RENAME
+		FROM DRCLIENT D
+		JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
+		WHERE D.DR_NO = #{drNo}
+	</select>
+	<!-- 제출 파일 삭제시 의사회원 정보  -->
+	<select id="DrFile" parameterType="string" resultMap="DoctorResultSet">
+		SELECT D.DR_NO, HPP.DRHP_ORIGIN, HPP.DRHP_RENAME
+		FROM DRCLIENT D
+		JOIN DRHPPHOTO HPP ON (D.DR_NO = HPP.DR_NO)
+		WHERE D.DR_NO = #{drNo}
+	</select>
+	<!-- 일반회원 탈퇴 -->
+	<update id="ClientDelete">
+		UPDATE CLIENT
+		SET C_STATUS = 'N'
+		WHERE C_NO = #{cNo}
+	</update>
+	<!-- 의사회원 탈퇴 -->
+	<update id="DrClientDelete">
+		UPDATE DRCLIENT
+		SET DR_STATUS = 'N'
 		WHERE DR_NO = #{drNo}
 	</update>
 </mapper>

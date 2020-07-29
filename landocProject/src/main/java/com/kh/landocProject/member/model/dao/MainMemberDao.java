@@ -160,5 +160,30 @@ public class MainMemberDao {
 		
 		return sqlSessionTemplate.update("memberMapper.updateDrClient", d);
 	}
+	// 프로필 사진 삭제시 일반회원 정보
+	public Client CProfile(String cNo) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.CProfile", cNo);
+	}
+	// 프로필 사진 삭제시 의사회원 정보
+	public DrClient DrProfile(String drNo) {
+
+		return sqlSessionTemplate.selectOne("memberMapper.DrProfile", drNo);
+	}
+	// 제출 파일 삭제시 의사회원 정보
+	public DrClient DrFile(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.DrFile", drNo);
+	}
+	// 일반회원 탈퇴
+	public int ClientDelete(String cNo) {
+		
+		return sqlSessionTemplate.update("memberMapper.ClientDelete", cNo);
+	}
+	// 의사회원 탈퇴
+	public int DrClientDelete(String drNo) {
+		
+		return sqlSessionTemplate.update("memberMapper.DrClientDelete", drNo);
+	}
 
 }
