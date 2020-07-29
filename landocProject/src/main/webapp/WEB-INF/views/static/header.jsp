@@ -48,7 +48,7 @@
                   <ul class="sub-menu" style="left: 0px;">
                      <li><a href="clientMypage.do">나의활동</a></li>
                      <li><a href="mypagePoint.html">나의 포인트</a></li>
-                     <li><a href="#">계정설정</a></li>
+                     <li><a href="modifyClientView.do">계정설정</a></li>
                      <li><a href="logout.do">로그아웃</a></li>
                   </ul>
                   <!--//-->
@@ -63,7 +63,7 @@
                   <ul class="sub-menu" style="left: 0px;">
                      <li><a href="clientMypage.do">나의활동</a></li>
                      <li><a href="mypagePoint.html">나의 포인트</a></li>
-                     <li><a href="#">계정설정</a></li>
+                     <li><a href="modifyDrClientView.do">계정설정</a></li>
                      <li><a href="logout.do">로그아웃</a></li>
                   </ul>
                   <!--//-->
@@ -85,6 +85,7 @@
          </c:if>
          --%>
       </div>
+
 
       </ul>
    </header>
