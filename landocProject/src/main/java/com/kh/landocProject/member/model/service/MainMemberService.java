@@ -3,6 +3,7 @@ package com.kh.landocProject.member.model.service;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 public interface MainMemberService {
 
@@ -41,5 +42,35 @@ public interface MainMemberService {
 	int ClientSearchPwd4(Client c);
 
 	int DrClientSearchPwd4(DrClient d);
+
+	int ClientInsertProfile(ProfilePhoto pp);
+
+	int updateClient(Client c);
+
+	Client ClientCno(Client c);
+
+	DrClient DrClientDrNo(DrClient d);
+
+	int DrClientInsertProfile(ProfilePhoto pp);
+
+	int updateClientProfile(ProfilePhoto pp);
+
+	Client loginClient2(String cNo);
+
+	DrClient loginDrClient2(String drNo);
+
+	int updateDrClientProfile(ProfilePhoto pp);
+
+	int updateDrClient(DrClient d);
+	
+	Client CProfile(String cNo);
+
+	DrClient DrProfile(String drNo);
+
+	DrClient DrFile(String drNo);
+
+	int ClientDelete(String cNo);
+
+	int DrClientDelete(String drNo);
 
 }
