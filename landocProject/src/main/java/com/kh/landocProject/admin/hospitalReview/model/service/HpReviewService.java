@@ -23,4 +23,6 @@ public interface HpReviewService {
 	
 	int insertPoint(AdminHpRePoint adminHpRePt);
 
+	int updateCPoint(String cNo);
+
 }

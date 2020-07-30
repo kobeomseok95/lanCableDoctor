@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+	String msg = request.getParameter("msg");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <meta charset="UTF-8">
@@ -132,11 +135,19 @@
 
             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
-            	<input type="hidden" value="${adminHpRe.approval }" name="approval">
-            	<input type="hidden" value="${adminHpRe.hpReNo }" name="hpReNo">
-               	<input type="hidden" value="${adminHpRe.cNo }" name="cNo">
-                <button type="submit">리뷰 승인하기</button>
-                <button type="button" onclick="goBack();">뒤로가기</button>
+            	<c:if test="${adminHpRe.approval eq 'N' }">
+	            	<input type="hidden" value="${adminHpRe.approval }" name="approval">
+	            	<input type="hidden" value="${adminHpRe.hpReNo }" name="hpReNo">
+	               	<input type="hidden" value="${adminHpRe.cNo }" name="cNo">
+	                <button type="submit">리뷰 승인하기</button>
+	                <button type="button" onclick="goBack();">뒤로가기</button>  
+                </c:if>
+                
+                <c:if test="${adminHpRe.approval eq 'Y' }">
+                	<button type="button" onclick="alreadyApproved();">리뷰 승인하기</button>
+	                <button type="button" onclick="goBack();">뒤로가기</button>                
+                </c:if>
+                
             </div>
 
             <br><br><br><br><br><br>
@@ -145,18 +156,23 @@
 
 
     <script>
-        function goApproval(){
-        	var approval = 'Y';
-            location.href="";
-        }
-
+    	function alreadyApproved(){
+    		alert("이미 승인 완료된 리뷰 입니다.");
+    	}
+    
         function goBack(){
-            location.href="#";
+            location.href="javascript:history.go(-1)";
         }
 
 
     </script>
 
+	<script>
+		<%if(msg != null){%>
+			alert("영수증 승인과 회원 포인트 적립에 실패했습니다.");
+		<%}%>
+	
+	</script>
   
 
 </body>

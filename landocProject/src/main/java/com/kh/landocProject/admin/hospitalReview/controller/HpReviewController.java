@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.landocProject.admin.hospitalReview.model.service.HpReviewService;
 import com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpRePoint;
@@ -35,7 +36,8 @@ public class HpReviewController {
    public ModelAndView hpReList(ModelAndView mv, HttpServletRequest request,
                         @RequestParam(value="page", required=false) Integer page,
                         @RequestParam(value="searchCondition", required=false) String condition,
-                        @RequestParam(value="searchValue", required=false) String value) {
+                        @RequestParam(value="searchValue", required=false) String value,
+                        @RequestParam(value="msg", required=false) String msg)  {
       
       
       int currentPage = 1;
@@ -104,6 +106,7 @@ public class HpReviewController {
          mv.addObject("pi",pi);
          mv.addObject("condition",condition);
          mv.addObject("value",value);
+         mv.addObject("msg",msg);
          mv.setViewName("admin/hospitalReview/hpReviewManage");
       }else{
          System.out.println("병원 리뷰 조회 실패!");
@@ -117,7 +120,8 @@ public class HpReviewController {
    @RequestMapping("hpReviewDetail.do")
    public ModelAndView hpReviewDetail(ModelAndView mv, AdminHpReview adminHpRe,
                            @RequestParam("hpReNo") Integer hpReNo,
-                           @RequestParam(value="page", required=false) Integer page){
+                           @RequestParam(value="page", required=false) Integer page,
+                           @RequestParam(value="msg", required=false) String msg){
       
 //      int currentPage = 1;
 //      
@@ -126,10 +130,13 @@ public class HpReviewController {
 //      }
 //      System.out.println("controller에서 hpReNo : " + hpReNo);
       
+   
       adminHpRe = hpReService.selectHpReDetail(hpReNo);
+      
       
       if(adminHpRe != null) {
     	  mv.addObject("adminHpRe", adminHpRe);
+    	  mv.addObject("msg", msg);
     	  mv.setViewName("admin/hospitalReview/hpReviewDetail");
       }else {
     	  System.out.println("세부내용 조회 실패");
@@ -141,6 +148,7 @@ public class HpReviewController {
    // 리뷰 영수증 승인하기
    @RequestMapping("adminHpReApproval.do")
    public String adminHpReApproval(AdminHpReview adminHpRe, AdminHpRePoint adminHpRePt,
+		   						RedirectAttributes redirectAttributes,
 		   						@RequestParam("approval") String approval,
 		   						@RequestParam("hpReNo") Integer hpReNo,
 		   						@RequestParam("cNo") String cNo) {
@@ -153,45 +161,42 @@ public class HpReviewController {
 	   adminHpRePt.setHpReNo(hpReNo);
 	   adminHpRePt.setcNo(cNo);
 	   
+	   int point = 0;
+	   int cPoint = 0;
+	   String msg = "";
+	   
+	   
 	   if(result > 0) {
 		   // 적립포인트 내역 테이블에 insert
-		   int point = hpReService.insertPoint(adminHpRePt);
-		   
-		   
-		   
-		   
+		   point = hpReService.insertPoint(adminHpRePt);
+		
 		   // 일반 회원 테이블의 잔여 테이블 update
-		   
-		   
+		  cPoint = hpReService.updateCPoint(cNo); 
+		  
+		  if(point >0 && cPoint >0) {
+			  msg = "영수증 승인과 회원 포인트 적립에 성공했습니다.";
+			  
+			  redirectAttributes.addAttribute("searchCondition", "noneCondition");
+			  redirectAttributes.addAttribute("searchValue", "noneValue");
+			  redirectAttributes.addAttribute("msg",msg);
+			  
+			  return "redirect:hpReList.do";	// 리스트 페이지로 이동
+			  
+		  }else {
+			  System.out.println("적립포인트 테이블, 일반회원 테이블 수정 실패!");
+		  }
+		  
+	   }else {
+		   System.out.println("승인 update실패!");
 	   }
 	   
-	   
-	   
-	   return null;
+	   msg="영수증 승인에 실패했습니다.";
+	   redirectAttributes.addAttribute("msg",msg);
+	   redirectAttributes.addAttribute("hpReNo",hpReNo);
+		  
+		  return "redirect:hpReviewDetail.do";	// 세부페이지로 이동
 	   
    }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
    
    
 }

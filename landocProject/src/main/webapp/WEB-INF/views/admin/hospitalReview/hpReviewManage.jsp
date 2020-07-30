@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+	String msg = request.getParameter("msg");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <meta charset="UTF-8">
@@ -44,14 +47,82 @@
         <div id="searchArea">
             <select id="searchCondition" name="searchCondition">
                 <option>----------</option>
-                <option value="hpNo">병원 번호</option>
-                <option value="hpName">병원 이름</option>
-                <option value="hpCateNo">카테고리 번호</option>
-                <option value="hpCateName">카테고리 이름</option>
-                <option value="cNo">회원 번호</option>
-                <option value="approval">승인 여부</option>
+                
+                <c:if test="${condition != null && condition eq 'hpNo'}">
+                	<option value="hpNo" selected>병원 번호</option>
+	                <option value="hpName">병원 이름</option>
+	                <option value="hpCateNo">카테고리 번호</option>
+	                <option value="hpCateName">카테고리 이름</option>
+	                <option value="cNo">회원 번호</option>
+	                <option value="approval">승인 여부</option>
+                </c:if>
+                
+                <c:if test="${condition != null && condition eq 'hpName'}">
+                	<option value="hpNo">병원 번호</option>
+	                <option value="hpName" selected>병원 이름</option>
+	                <option value="hpCateNo">카테고리 번호</option>
+	                <option value="hpCateName">카테고리 이름</option>
+	                <option value="cNo">회원 번호</option>
+	                <option value="approval">승인 여부</option>
+                </c:if>
+                
+                <c:if test="${condition != null && condition eq 'hpCateNo'}">
+                	<option value="hpNo">병원 번호</option>
+	                <option value="hpName">병원 이름</option>
+	                <option value="hpCateNo" selected>카테고리 번호</option>
+	                <option value="hpCateName">카테고리 이름</option>
+	                <option value="cNo">회원 번호</option>
+	                <option value="approval">승인 여부</option>
+                </c:if>
+                
+                <c:if test="${condition != null && condition eq 'hpCateName'}">
+                	<option value="hpNo">병원 번호</option>
+	                <option value="hpName">병원 이름</option>
+	                <option value="hpCateNo">카테고리 번호</option>
+	                <option value="hpCateName" selected>카테고리 이름</option>
+	                <option value="cNo">회원 번호</option>
+	                <option value="approval">승인 여부</option>
+                </c:if>
+                
+                <c:if test="${condition != null && condition eq 'cNo'}">
+                	<option value="hpNo">병원 번호</option>
+	                <option value="hpName">병원 이름</option>
+	                <option value="hpCateNo">카테고리 번호</option>
+	                <option value="hpCateName">카테고리 이름</option>
+	                <option value="cNo" selected>회원 번호</option>
+	                <option value="approval">승인 여부</option>
+                </c:if>
+                
+                <c:if test="${condition != null && condition eq 'approval'}">
+                	<option value="hpNo">병원 번호</option>
+	                <option value="hpName">병원 이름</option>
+	                <option value="hpCateNo">카테고리 번호</option>
+	                <option value="hpCateName">카테고리 이름</option>
+	                <option value="cNo">회원 번호</option>
+	                <option value="approval" selected>승인 여부</option>
+                </c:if>
+                
+                <c:if test="${condition != null && condition eq 'noneCondition'}">
+                	<option value="hpNo">병원 번호</option>
+	                <option value="hpName">병원 이름</option>
+	                <option value="hpCateNo">카테고리 번호</option>
+	                <option value="hpCateName">카테고리 이름</option>
+	                <option value="cNo">회원 번호</option>
+	                <option value="approval">승인 여부</option>
+                </c:if>
+                
+                
+               
             </select>
-            <input type="search" id="searchValue">
+            
+            <c:if test="${value != null && value ne 'noneValue'}">
+            	<input type="search" id="searchValue" value="${value }">           
+            </c:if>
+            
+            <c:if test="${value != null && value eq 'noneValue'}">
+            	<input type="search" id="searchValue">           
+            </c:if>
+            
             <button onclick="searchHpRe();">검색하기</button>
         </div>
 
@@ -75,8 +146,8 @@
                <th class="firstLine">번호</th>
                 <th class="firstLine">병원 번호</th>
                 <th class="firstLine">병원 이름</th>
-                <th class="firstLine">카테고리 번호</th>
-                <th class="firstLine">카테고리 이름</th>
+                <th class="firstLine">진료과목 번호</th>
+                <th class="firstLine">진료과목</th>
                 <th class="firstLine">회원 번호</th>
                 <th class="firstLine">아이디</th>
                 <th class="firstLine">좋아요 여부</th>
@@ -208,7 +279,12 @@
        
     </script>
 
-
+	<script>
+		<%if(msg != null){%>
+			alert("영수증 승인과 회원 포인트 적립에 성공했습니다.");
+		<%}%>
+	
+	</script>
 
 
 

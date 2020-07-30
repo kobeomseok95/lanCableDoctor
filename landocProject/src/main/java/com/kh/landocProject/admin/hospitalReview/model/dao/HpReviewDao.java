@@ -75,9 +75,17 @@ public class HpReviewDao {
 	
 	public int insertPoint(AdminHpRePoint adminHpRePt) {
 		
-		System.out.println("dao에서 리뷰 승인 후 포인트 insert : " + sqlSessionTemplate.insert("adminHpReMapper.insertPoint", adminHpRePt));
+//		System.out.println("dao에서 리뷰 승인 후 포인트 insert : " + sqlSessionTemplate.insert("adminHpReMapper.insertPoint", adminHpRePt));
 		
 		return sqlSessionTemplate.insert("adminHpReMapper.insertPoint", adminHpRePt);
+	}
+
+
+	public int updateCPoint(String cNo) {
+		
+//		System.out.println("dao에서 리뷰 승인 후 맴버 포인트 update : " + sqlSessionTemplate.update("adminHpReMapper.updateCPoint", cNo));
+		
+		return sqlSessionTemplate.update("adminHpReMapper.updateCPoint", cNo);
 	}
 
 

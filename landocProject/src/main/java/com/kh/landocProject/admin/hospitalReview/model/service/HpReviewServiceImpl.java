@@ -67,5 +67,12 @@ public class HpReviewServiceImpl implements HpReviewService{
 	}
 
 
+	@Override
+	public int updateCPoint(String cNo) {
+		
+		return hpReDao.updateCPoint(cNo);
+	}
+
+
 
 }
