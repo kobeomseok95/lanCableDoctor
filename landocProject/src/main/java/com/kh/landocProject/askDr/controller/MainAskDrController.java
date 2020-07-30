@@ -330,6 +330,17 @@ public class MainAskDrController {
 		gson.toJson(replys, response.getWriter());
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="deleteAskDrBoardReply.do", method=RequestMethod.POST)
+	public String deleteReply(int adrNo) {
+		int result = askDrServiceImpl.deleteAskDrBoardReply(adrNo);
+		if(result > 0) {
+			return "success";
+		}
+		else {
+			return "error";
+		}
+	}
 	
 	//의사 검색
 	@RequestMapping(value = "askDrSearch.do", method = RequestMethod.GET)

@@ -97,6 +97,10 @@ public class AskDrDAO {
 	public int insertAskDrBoardReply(AskDrReply askDrReply) {
 		return sqlSessionTemplate.insert("askDr.insertAskDrBoardReply", askDrReply);
 	}
+
+	public int deleteAskDrBoardReply(int adrNo) {
+		return sqlSessionTemplate.delete("askDr.deleteAskDrBoardReply", adrNo);
+	}
 	
 }
 

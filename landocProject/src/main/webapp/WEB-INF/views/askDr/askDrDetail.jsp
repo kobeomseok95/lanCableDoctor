@@ -30,6 +30,7 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+	<script src="http://code.jquery.com/jquery.min.js"></script>
 </head>
 
 <body>
@@ -180,7 +181,18 @@
 									${replys.replyDate}
 								</td>
 								<td style="text-align:center;" >
-								<c:if test="${replys.chooseStatus eq 'N' && !empty loginDrClient && empty loginClient }">
+								<c:if test="${replys.chooseStatus eq 'N' && !empty loginDrClient && empty loginClient && loginDrClient.userName eq replys.drName }">
+									<button class="btn btn-sm updateReply" type="button">
+										수정
+										<input type="hidden" name="adrNo" value="${replys.adrNo }" />
+									</button>
+									<button class="btn btn-sm deleteReply" type="button">
+										삭제
+										<input type="hidden" name="adrNo" value="${replys.adrNo }" />
+									</button>
+									<!-- 여기 해야 한다! -->
+								</c:if>
+								<c:if test="${replys.chooseStatus eq 'N' && !empty loginDrClient && empty loginClient && loginDrClient.userName ne replys.drName }">
 									채택대기
 								</c:if>
 								<c:if test="${replys.chooseStatus eq 'N' && empty loginDrClient && !empty loginClient && askDrBoardDetail.chooseStatus eq 'N'}">
@@ -235,7 +247,7 @@
 	<%@ include file="../static/footer.jsp"%>
 	<!-- Footer section end -->
 	<!--====== Javascripts & Jquery ======-->
-	<script src="http://code.jquery.com/jquery.min.js"></script>
+	<!-- <script src="http://code.jquery.com/jquery.min.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
@@ -383,8 +395,24 @@
 						$tdFour.text(list[i].replyDate);
 						
 						var $tdFive = $("<td style='text-align:center;'></td>");
-						if(list[i].chooseStatus === 'N'){
+						if(list[i].chooseStatus === 'N' && list[i].drName !== "${loginDrClient.userName}"){
 							$tdFive.text("채택대기");
+						}
+						else if(list[i].chooseStatus === 'N' && list[i].drName === "${loginDrClient.userName}"){
+							var $btnOne = $('<button class="btn btn-sm updateReply" type="button"></button>');
+							$btnOne.text('수정');
+							var $inputOne = $('<input type="hidden" name="adrNo" />');
+							$inputOne.val(list[i].adrNo);
+							$btnOne.append($inputOne);
+							
+							var $btnTwo = $('<button class="btn btn-sm deleteReply" type="button"><input type="hidden" name="adrNo" value="list[i].adrNo" />삭제</button>');
+							$btnTwo.text('삭제');
+							var $inputTwo = $('<input type="hidden" name="adrNo" />');
+							$inputTwo.val(list[i].adrNo);							
+							$btnTwo.append($inputTwo);
+							
+							$tdFive.append($btnOne);
+							$tdFive.append($btnTwo);
 						}
 						
 						$tr.append($tdOne);
@@ -397,6 +425,36 @@
 				}
 				$("#content").val('');
 			}
+						
+			$(document).on("click", ".updateReply", function(){
+				var adrNo = $(this).children("input[type='hidden']").val();				
+				alert(adrNo);
+			});
+			
+			$(document).on("click", ".deleteReply", function(){
+				var adrNo = $(this).children("input[type='hidden']").val();				
+				if(confirm("해당 답변을 삭제하시겠습니까?")){
+					$.ajax({
+						type: 'POST',
+					    data: {adrNo : adrNo},
+					    url:  'deleteAskDrBoardReply.do',
+					    error:function(request, status, errorData){
+		                    alert("error code: " + request.status + "\n"
+		                            +"message: " + request.responseText
+		                            +"error: " + errorData);
+		               	},                    
+					    success: function(data) {
+					    	if(data === "success"){
+					    		getReplyList();
+					    	}
+						}    
+					});
+				}
+				else{
+					return false;
+				}
+			});
+
 		});	//end of jquery
 	</script>
 </body>
