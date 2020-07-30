@@ -64,10 +64,10 @@
 				<div class="col-8 pl-5 text-left">
 					<div class="d-flex align-items-center">
 						<div class="review-list-title text-left"
-							style="font-weight: bold; font-size: 35px;">소혀니야</div>
+							style="font-weight: bold; font-size: 35px;">${loginClient.nickName}</div>
 
 					</div>
-					<div class="text-left py-2">mo_so@naver.com</div>
+					<div class="text-left py-2">${loginClient.email}</div>
 					<button type="button" id="edit_profile"
 						class="btn btn-blackcontent w-50 p-1"
 						style="font-size: 18px; background-color: #0071ce; color: whitesmoke">
@@ -153,7 +153,7 @@
 				<button onclick="likehp();" class="btn w-100 py-3 pl-5 text-left"
 					id="bookmark_list"
 					style="border: 2px solid #9b9b9b; font-size: 21px;">
-					찜한 병원 <b class="px-3" style="color: #0071ce;">3</b>
+					찜한 병원 <b class="px-3" style="color: #0071ce;"></b>
 				</button>
 			</div>
 			<div
