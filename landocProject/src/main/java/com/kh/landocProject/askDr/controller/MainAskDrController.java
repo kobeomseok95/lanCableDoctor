@@ -342,6 +342,19 @@ public class MainAskDrController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="updateAskDrBoardReply.do", method=RequestMethod.POST)
+	public String updateReply(AskDrReply askDrReply) {
+		int result = askDrServiceImpl.updateAskDrBoardReply(askDrReply);
+		
+		if(result > 0) {
+			return "success";
+		}
+		else {
+			return "error";
+		}
+	}
+	
 	//의사 검색
 	@RequestMapping(value = "askDrSearch.do", method = RequestMethod.GET)
 	public String askDrSearch() {
