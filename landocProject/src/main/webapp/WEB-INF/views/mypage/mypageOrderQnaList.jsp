@@ -73,7 +73,12 @@
 						<th class="p-3" style="text-align: center;">작성일자</th>
 						<th class="p-3" style="text-align: center;">진행상황</th>
 					</tr>
-
+					<c:if test="${empty qnaNList}">
+						<tr class="color49" style="font-size: 14px;">
+							<td style="vertical-align: middle; text-align: center;" colspan="4"> <p class="m-0">작성된 QnA글이 없습니다.</p></td>
+						</tr>
+					</c:if>
+					<c:if test="${not empty qnaNList}">
 					<c:forEach var="n" items="${qnaNList}">
 						<tr class="color49" style="font-size: 14px;">
 							<td style="vertical-align: middle; text-align: center;">주문문의</td>
@@ -83,6 +88,7 @@
 								답변대기중</td>
 						</tr>
 					</c:forEach>
+					</c:if>
 				</tbody>
 			</table>
 
@@ -91,7 +97,14 @@
 				class="pb-2 mt-5 review-list-subtitle d-flex justify-content-between"
 				style="font-size: 25px; border-bottom: solid; border-color: rgba(0, 0, 0, 0.514);">
 				답변완료된 QnA</div>
-
+			<c:if test="${empty qnaYList}">
+			<div class="color9b text-center" style="font-size: 1.313rem; margin-top: 73.7px;letter-spacing: -0.8px;">
+                <div class="my-3 text-center">
+                    <p class="m-0">답변완료된 QnA가 없습니다.</p>
+                </div>
+           </div>
+			</c:if>
+			<c:if test="${not empty qnaYList}">
 			<c:forEach var="y" items="${qnaYList}">
 				<div class="card mt-3 mb-3 text-left">
 					<!-- for문 돌려서 리스트 뽑아낼 때 data-targer, href 숫자 증가 시키기-->
@@ -145,6 +158,7 @@
 					</div>
 				</div>
 			</c:forEach>
+			</c:if>
 
 			<div
 				style="position: fixed; bottom: 70px; right: 100px; z-index: 999;">

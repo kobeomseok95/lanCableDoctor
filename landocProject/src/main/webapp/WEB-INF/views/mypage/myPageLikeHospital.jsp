@@ -74,7 +74,12 @@
 
 					<!-- doctors card list -->
 					<div class="doctor-list-section mt-2 ">
-
+						<c:if test="${empty likeHplist}">
+							<div class="doctor-total-box border-bottom">
+								<p class="m-0">찜한 병원이 없습니다.</p>
+							</div>
+						</c:if>
+						<c:if test="${not empty likeHplist}">
 						<c:forEach var="h" items="${likeHplist}">
 							<div class="doctor-total-box border-bottom">
 
@@ -183,6 +188,7 @@
 								</a>
 							</div>
 						</c:forEach>
+						</c:if>
 
 					</div>
 

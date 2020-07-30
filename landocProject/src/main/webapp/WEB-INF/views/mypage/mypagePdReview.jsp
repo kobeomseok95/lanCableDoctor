@@ -87,6 +87,14 @@
          <!-- <div class="pb-2 mt-5 review-list-subtitle d-flex justify-content-between"  style="font-size: 25px; border-bottom: solid; border-color: rgba(0, 0, 0, 0.514);">
                     답변완료된 QnA
                 </div> -->
+         <c:if test="${empty pdReviewList}">
+          <div class="color9b text-center" style="font-size: 1.313rem; margin-top: 73.7px;letter-spacing: -0.8px;">
+                <div class="my-3 text-center">
+                    <p class="m-0">회원님의 리뷰가 아직 없습니다.</p>
+                </div>
+           </div>
+         </c:if>
+         <c:if test="${not empty pdReviewList}">
          <c:forEach var="r" items="${pdReviewList}">
             <div class="card mt-3 mb-3 text-left">
                <!-- for문 돌려서 리스트 뽑아낼 때 data-targer, href 숫자 증가 시키기-->
@@ -132,6 +140,7 @@
                </div>
             </div>
          </c:forEach>
+         </c:if>
 
          <div style="position: fixed; bottom: 70px; right: 100px; z-index: 999;">
             <a href="https://pf.kakao.com/_VAryxb" target="_blank"> <img

@@ -383,7 +383,7 @@ public class cMypageController {
 		
 		ArrayList<CMypagePoint> listPoint = cmService.selectPointList(cNo);
 		int listCount = cmService.listCountPointList(cNo);
-		if(listPoint !=null && listCount !=0) {
+		if(listPoint !=null) {
 			mv.addObject("list", listPoint);
 			mv.addObject("count",listCount);
 			mv.setViewName("mypage/pointList");

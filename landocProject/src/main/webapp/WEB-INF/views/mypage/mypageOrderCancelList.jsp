@@ -99,6 +99,19 @@
 						</tr>
 
 					</thead>
+					<c:if test="${empty cancelList}">
+						<tbody>
+							<tr class="color49"
+								style="font-size: 14px; color: rgba(0, 0, 0, 0.651);">
+								<td class="p-3"
+									style="text-align: center; border-right: solid 1px; border-color: lightgray; vertical-align: middle;"
+									rowspan="2" colspan="3">
+									주문정보가 없습니다.
+								</td>
+							</tr>
+						 </tbody>
+					</c:if>
+					<c:if test="${not empty cancelList}">
 					<!--1번째 글-->
 					<c:forEach var="o" items="${cancelList}">
 						<tbody>
@@ -150,6 +163,7 @@
 
 						</tbody>
 					</c:forEach>
+					</c:if>
 
 
 
@@ -215,12 +229,6 @@
 
 
 	<!--pagination end-->
-
-
-
-
-
-
 
 
 	<%@ include file="../static/footer.jsp"%>
