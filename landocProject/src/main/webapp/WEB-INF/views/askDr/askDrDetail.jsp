@@ -30,7 +30,14 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<script src="http://code.jquery.com/jquery.min.js"></script>
+	
+	<style>
+		.updateReply, .deleteReply, .updateReplyForm{
+			background-color: #0071ce;
+			color: white;
+			margin-right: 5px;
+		}
+	</style>
 </head>
 
 <body>
@@ -182,7 +189,7 @@
 								</td>
 								<td style="text-align:center;" >
 								<c:if test="${replys.chooseStatus eq 'N' && !empty loginDrClient && empty loginClient && loginDrClient.userName eq replys.drName }">
-									<button class="btn btn-sm updateReply" type="button">
+									<button class="btn btn-sm updateReplyForm" type="button">
 										수정
 										<input type="hidden" name="adrNo" value="${replys.adrNo }" />
 									</button>
@@ -247,7 +254,7 @@
 	<%@ include file="../static/footer.jsp"%>
 	<!-- Footer section end -->
 	<!--====== Javascripts & Jquery ======-->
-	<!-- <script src="http://code.jquery.com/jquery.min.js"></script> -->
+	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
@@ -399,7 +406,7 @@
 							$tdFive.text("채택대기");
 						}
 						else if(list[i].chooseStatus === 'N' && list[i].drName === "${loginDrClient.userName}"){
-							var $btnOne = $('<button class="btn btn-sm updateReply" type="button"></button>');
+							var $btnOne = $('<button class="btn btn-sm updateReplyForm" type="button"></button>');
 							$btnOne.text('수정');
 							var $inputOne = $('<input type="hidden" name="adrNo" />');
 							$inputOne.val(list[i].adrNo);
@@ -426,9 +433,10 @@
 				$("#content").val('');
 			}
 						
-			$(document).on("click", ".updateReply", function(){
-				var adrNo = $(this).children("input[type='hidden']").val();				
-				alert(adrNo);
+			$(document).on("click", ".updateReplyForm", function(){
+				var $replyText = $(this).parent().prev().prev().text().trim();
+				var $updateTextarea = $('<textarea ></textarea>');
+				/* 여기 해야합니다! */
 			});
 			
 			$(document).on("click", ".deleteReply", function(){
