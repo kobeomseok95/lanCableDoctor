@@ -40,77 +40,83 @@ public class HpReviewController {
                         @RequestParam(value="msg", required=false) String msg)  {
       
       
-      int currentPage = 1;
-      if(page != null) {
-         currentPage = page;
-      }
-      
+         try{
+        	 int currentPage = 1;
+        	 if(page != null) {
+        		 currentPage = page;
+        	 }
+        	 
 //      System.out.println("controller에서 currentPage : " + currentPage);
 //      System.out.println("controller에서 condition : " + condition);
 //      System.out.println("controller에서 value : " + value);
-
-      
-      SearchCondition sc = new SearchCondition();
-      
-      ArrayList<AdminHpReview> list = null;
-      
-      PageInfo pi = null;
-      
-   
-      
-      // 전체 리스트를 불러와야 할 때
-      if(condition.equals("noneCondition") && !condition.equals("")) {
-         sc.setNone(value);
-         
-         int listCount =  hpReService.getListCount();
-         
-         pi = Pagination.getPageInfo(currentPage, listCount);
-      
-         list = hpReService.selectAllList(pi);
-         
-         
-      // 검색된 리스트를 불러와야 할 때
-      }else {
-         if(condition.equals("hpNo") && !condition.equals("")) {
-            int hpNo = Integer.valueOf(value);
-            sc.setHpNo(hpNo);
-         }else if(condition.equals("hpName") && !condition.equals("")) {
-            sc.setHpName(value);
-         
-         }else if(condition.equals("hpCateNo") && !condition.equals("")) {
-            int cateNo = Integer.valueOf(value);
-            sc.setHpCateNo(cateNo);
-         
-         }else if(condition.equals("hpCateName") && !condition.equals("")) {
-            sc.setHpCateName(value);
-         
-         }else if(condition.equals("cNo") && !condition.equals("")) {
-            sc.setcNo(value);
-         
-         }else if(condition.equals("approval") && !condition.equals("")) {
-            sc.setApproval(value);
+        	 
+        	 
+        	 SearchCondition sc = new SearchCondition();
+        	 
+        	 ArrayList<AdminHpReview> list = null;
+        	 
+        	 PageInfo pi = null;
+        	 
+        	 
+        	 // 전체 리스트를 불러와야 할 때
+        	 if(condition.equals("noneCondition") && !condition.equals("")) {
+        		 sc.setNone(value);
+        		 
+        		 int listCount =  hpReService.getListCount();
+        		 
+        		 pi = Pagination.getPageInfo(currentPage, listCount);
+        		 
+        		 list = hpReService.selectAllList(pi);
+        
+        		 
+        		// 검색된 리스트를 불러와야 할 때
+        	 }else {
+	             if(condition.equals("hpNo") && !condition.equals("")) {
+	            	 int hpNo = Integer.valueOf(value);
+	            	 sc.setHpNo(hpNo);
+	            	
+	             }else if(condition.equals("hpName") && !condition.equals("")) {
+	                sc.setHpName(value);
+	             
+	             }else if(condition.equals("hpCateNo") && !condition.equals("")) {
+	                int cateNo = Integer.valueOf(value);
+	                sc.setHpCateNo(cateNo);
+	             
+	             }else if(condition.equals("hpCateName") && !condition.equals("")) {
+	                sc.setHpCateName(value);
+	             
+	             }else if(condition.equals("cNo") && !condition.equals("")) {
+	                sc.setcNo(value);
+	             
+	             }else if(condition.equals("approval") && !condition.equals("")) {
+	                sc.setApproval(value);
+	             }
+	             
+	             int searchListCount =  hpReService.getSearchListCount(sc);
+	             
+	             pi = Pagination.getPageInfo(currentPage, searchListCount);
+	             
+	             list = hpReService.selectList(pi,sc);
+	             
+	          }
+        	 
+        	 if(list != null) {
+        		 mv.addObject("list",list);
+        		 mv.addObject("pi",pi);
+        		 mv.addObject("condition",condition);
+        		 mv.addObject("value",value);
+        		 mv.addObject("msg",msg);
+        		 mv.setViewName("admin/hospitalReview/hpReviewManage");
+        	 }else{
+        		 System.out.println("병원 리뷰 조회 실패!");
+        	 }
+        	 return mv;
+        	 
+         }catch(NumberFormatException e) {
+        	 e.printStackTrace();
          }
-         
-         int searchListCount =  hpReService.getSearchListCount(sc);
-         
-         pi = Pagination.getPageInfo(currentPage, searchListCount);
-         
-         list = hpReService.selectList(pi,sc);
-         
-      }
       
 //      System.out.println("controller에서 리스트 : " + list);
-      
-      if(list != null) {
-         mv.addObject("list",list);
-         mv.addObject("pi",pi);
-         mv.addObject("condition",condition);
-         mv.addObject("value",value);
-         mv.addObject("msg",msg);
-         mv.setViewName("admin/hospitalReview/hpReviewManage");
-      }else{
-         System.out.println("병원 리뷰 조회 실패!");
-      }
       return mv;
       
    }
