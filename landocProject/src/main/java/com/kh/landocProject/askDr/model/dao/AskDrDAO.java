@@ -101,6 +101,10 @@ public class AskDrDAO {
 	public int deleteAskDrBoardReply(int adrNo) {
 		return sqlSessionTemplate.delete("askDr.deleteAskDrBoardReply", adrNo);
 	}
+
+	public int updateAskDrBoardReply(AskDrReply askDrReply) {
+		return sqlSessionTemplate.update("askDr.updateAskDrBoardReply", askDrReply);
+	}
 	
 }
 

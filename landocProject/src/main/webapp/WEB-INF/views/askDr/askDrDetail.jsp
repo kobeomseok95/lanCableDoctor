@@ -32,10 +32,12 @@
 	<![endif]-->
 	
 	<style>
-		.updateReply, .deleteReply, .updateReplyForm{
+		.updateReply, .deleteReply, .updateReplyForm, .updateCancelReply{
 			background-color: #0071ce;
 			color: white;
 			margin-right: 5px;
+			width: 50px;
+			height: 30px;
 		}
 	</style>
 </head>
@@ -308,27 +310,39 @@
 			});
 			
 			$("#insertReply").on("click", function(){
-				var insertForm = {
-					drClientNo : "${loginDrClient.drNo}",
-					content : $("#content").val(),
-					bNo : "${askDrBoardDetail.bNo}"
-				};
 				
-				$.ajax({
-				    type: 'POST',
-				    data:  insertForm,
-				    url:  'insertAskDrBoardReply.do',
-				    error:function(request, status, errorData){
-	                    alert("error code: " + request.status + "\n"
-	                            +"message: " + request.responseText
-	                            +"error: " + errorData);
-	               	},           
-				    success: function(data) {
-				    	if(data === "success"){
-				    		getReplyList();
-				    	}
-					}    
-				});
+				if(confirm("답변을 등록하시겠습니까?")){
+					var insertForm = {
+						drClientNo : "${loginDrClient.drNo}",
+						content : $("#content").val(),
+						bNo : "${askDrBoardDetail.bNo}"
+					};
+						
+					if(insertForm.content !== ""){
+						$.ajax({
+						    type: 'POST',
+						    data:  insertForm,
+						    url:  'insertAskDrBoardReply.do',
+						    error:function(request, status, errorData){
+			                    alert("error code: " + request.status + "\n"
+			                            +"message: " + request.responseText
+			                            +"error: " + errorData);
+			               	},           
+						    success: function(data) {
+						    	if(data === "success"){
+						    		getReplyList();
+						    	}
+							}    
+						});
+					}
+					else{
+						alert("답변을 입력해주세요!");
+						return false;
+					}
+				}
+				else{
+					return false;
+				}
 			});
 			
 			function getReplyList(){
@@ -435,12 +449,77 @@
 						
 			$(document).on("click", ".updateReplyForm", function(){
 				var $replyText = $(this).parent().prev().prev().text().trim();
-				var $updateTextarea = $('<textarea ></textarea>');
-				/* 여기 해야합니다! */
+				var $adrNo = $(this).children("input[type='hidden']").val();
+				
+				$(this).parent().prev().prev().text('');
+				var $updateTextarea = $('<textarea></textarea>');
+				$updateTextarea.val($replyText);
+				$(this).parent().prev().prev().append($updateTextarea);
+				
+				$(this).parent().children('button').hide();
+				var $updateCompleteBtn = $('<button class="btn btn-sm updateReply" type="button"></button>');
+				var $inputNo = $('<input type="hidden" />');
+				var $inputText = $('<input type="hidden" class="returnText" />');
+				$inputNo.attr("value", $adrNo);
+				$inputText.attr("value", $replyText);
+				$updateCompleteBtn.text("완료");
+				$updateCompleteBtn.append($inputNo);
+				$updateCompleteBtn.append($inputText);
+				
+				var $updateCancelBtn = $('<button class="btn btn-sm updateCancelReply" type="button"></button>');
+				$updateCancelBtn.text("취소");
+				$(this).parent().append($updateCompleteBtn);
+				$(this).parent().append($updateCancelBtn);
+			});
+			
+			$(document).on("click", ".updateCancelReply", function(){
+				$returnText = $(this).prev().children('.returnText').val();
+				$(this).parent().prev().prev().children().remove('textarea');
+				$(this).parent().prev().prev().text($returnText);
+				$(this).parent().children('button').toggle();
+				$(this).parent().children('.updateReply').remove();
+				$(this).parent().children('.updateCancelReply').remove();
+			});
+
+			$(document).on("click", ".updateReply", function(){
+				var adrNo = $(this).children("input[type='hidden']").val();
+				var content = $(this).parent().prev().prev().children('textarea').val();
+				
+				var updateForm = {
+					adrNo : adrNo,
+					content : content
+				};
+				
+				if(confirm("해당 답변을 수정하시겠습니까?")){
+					if(updateForm.content !== ""){
+						$.ajax({
+						    type: 'POST',
+						    data:  updateForm,
+						    url:  'updateAskDrBoardReply.do',
+						    error:function(request, status, errorData){
+			                    alert("error code: " + request.status + "\n"
+			                            +"message: " + request.responseText
+			                            +"error: " + errorData);
+			               	},                    
+						    success: function(data) {
+						    	if(data === "success"){
+						    		getReplyList();
+						    	}
+							}    
+						});
+					}
+					else{
+						alert("내용을 입력해주세요!");
+						return false;
+					}
+				}
+				else{
+					return false;
+				}
 			});
 			
 			$(document).on("click", ".deleteReply", function(){
-				var adrNo = $(this).children("input[type='hidden']").val();				
+				var adrNo = $(this).children("input[type='hidden']").val();
 				if(confirm("해당 답변을 삭제하시겠습니까?")){
 					$.ajax({
 						type: 'POST',
