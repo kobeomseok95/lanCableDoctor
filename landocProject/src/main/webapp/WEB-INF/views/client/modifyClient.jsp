@@ -147,8 +147,14 @@ input[type="file"] {
 					<table class="tableForm">
 
 						<tr>
+							<c:if test="${loginClient2.proRename != null }">
 							<td rowspan="4" class="title1"><img id="imagePreview1"
-								style="width: 400px; height: 300px;" src="/projectFiles/${loginClient2.proRename }"></td> 
+								style="width: 400px; height: 300px;" src="/projectFiles/${loginClient2.proRename }"></td>
+							</c:if>
+							<c:if test="${loginClient2.proRename == null }">
+							<td rowspan="4" class="title1"><img id="imagePreview1"
+								style="width: 400px; height: 300px;" src="/projectFiles/profile.png"></td>
+							</c:if>
 							<td class="title">아이디</td>
 							<td class="modiInput"><input class="modiBox" name="userId" type="text" required="required"
 								value="${loginClient2.userId }" readonly></td>

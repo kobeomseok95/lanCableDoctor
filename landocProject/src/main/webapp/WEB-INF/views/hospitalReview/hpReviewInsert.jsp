@@ -188,7 +188,7 @@
    }
    
    /*--------------------------------------------------------------*/   
-   
+   .hpCate{line-height:35px; width:470px;}
    
 
 
@@ -265,8 +265,8 @@
                      for(var i in data){
                         $tr = $("<tr>");
                         $td = $("<td>");
-                        $hpNo = $("<td>").text(data[i].hpNo);
-                        $hpNoIn = $("<input type='hidden' value='"+$hpNo.text()+"'>").addClass("listHpNo");
+                        $hpNo = $("<td>").text(data[i].hpNo).addClass("listHpNo");
+                        $hpNoIn = $("<input type='hidden' value='"+$hpNo.text()+"'>").addClass("listHpNoIn");
                         /* console.log($hpNoIn.val()); */
                         $hpName = $("<td>").text(data[i].hpName).addClass("listLineName");
                         $hpNameIn = $("<input type='hidden' value='"+$hpName.text()+"'>").addClass("listLineNameIn");
@@ -313,19 +313,85 @@
    <script>
        $(document).on("click",".listLineName",function(){
           $(".listLineName").parent().parent().css("background","white");
-           $(this).parent().parent().css({"background":"#cce5f9", "cursor":"pointer"});
+          $(this).parent().parent().css({"background":"#cce5f9", "cursor":"pointer"});
           /*  console.log("this: " + $(this).text()); */
-           var hopiName = $(this).text();
-             var hpNo = $hpNoIn.val();
-          /* console.log(hpNo); */
+          
+          // 진료과목  div hide&show 효과주기
+           $(".hpCateArea").css("display","block");
+      
+	       	hopiName = $(this).text();
+	       	hpNo = $hpNoIn.val();
+          	/* console.log("jsp에서 hopiName : " + hopiName);  */
+          	console.log("hpNo?? :"  + hpNo)
            
-           $("#hospital-search-save-btn").click(function(){
-                $("#hospitalSearchModal").modal("hide");
-                $("#hospital_name").val(hopiName);
-                $("#hospital_id").val(hpNo);
-           })
+          	// 선택한 병원 진료과목 나오게 하는 에이작스
+          	$.ajax({
+          		url:"searchHpCate.do",
+                data:{hopiName:hopiName},
+                dataType:"json",
+                success:function(data){
+                	  $tableBody = $("#searchHpCateTb");
+                      $tableBody.html("");
+              
+                      var $tr;
+                      var $td;
+                      var $hpCateCode;
+                      var $hpCateName;
+                      
+                      if(data.length>0){   // 검색결과가 존재할 경우
+                         for(var i in data){
+                            $tr = $("<tr>");
+                            $td = $("<td>");
+                            $hpCateCode = $("<td>").text(data[i].hpCateCode);
+                            $hpCateCodeIn = $("<input type='hidden' value='"+$hpCateCode.text()+"'>").addClass("hpCateCodeList");
+                            $hpCateName = $("<td>").text(data[i].hpCateName).addClass("hpCate");
+                            $hpCateNameIn = $("<input type='hidden' value='"+$hpCateName.text()+"'>").addClass("hpCateNameList");
+                            
+                         
+                            $hpCateCode.append($hpCateCodeIn);
+                            $hpCateName.append($hpCateNameIn);
+                            $td.append($hpCateName);
+                            $tr.append($td);
+                            $tableBody.append($tr);
+                         
+                         }	
+                        
+                }
+                },error:function(request, status, errorData){
+                    alert("error code: " + request.status + "\n"
+                          +"message: " + request.responseText
+                          +"error: " + errorData);
+                 }
+                   
+          	});//ajax end
+          
        
        })
+       
+       // 진료과목 선택하는 것
+        $(document).on("click",".hpCate",function(){
+        	$(".hpCate").parent().parent().css("background","white");
+        	$(this).parent().parent().css({"background" : "#99cbf4", "cursor" : "pointer"});
+        	
+  	       	var hpCate = $(this).text();
+  	       	var hpCateCode2 = $hpCateCodeIn.val();
+        	/* console.log(hpCate); */
+        	
+        	
+           $("#hospital-search-save-btn").click(function(){
+        	   /* console.log("진료과목 : " + hpCate);
+        	   console.log("병원이름 : " + hopiName);
+        	   console.log("병원번호 : " + hpNo); */
+               
+        	   $("#hospitalSearchModal").modal("hide");
+                $("#hospital_name").val(hopiName +" ( " + hpCate + " ) ");
+                $("#hospital_id").val(hpNo);
+                $("#hospital_cateCode").val(hpCateCode2);
+                
+                
+           })
+        })
+       
        
    </script>
           
@@ -337,7 +403,8 @@
 
                  <!--병원 검색 결과 나오는 부분-->
                  <div class="border-left-0 hospital-search-result-container">
-                  <div class="list-group" style="height: 300px;overflow-y: scroll;">
+                 <div style="overflow:hidden; width:450px;">
+                  <div class="list-group" style="height: 230px; width:470px; overflow-y: scroll;">
                      
                      <!--검색 결과 나오는 부분-->
                      <table id="searchHpNameTb">
@@ -347,8 +414,20 @@
                         </tr>
                      </table>
                   </div>
-                 </div>
+                 </div><!-- -------- -->
                  
+                  
+              		<!-- 선택한 병원 카테고리 나오는 부분 -->
+              		<div style="overflow:hidden; width:450px;">
+		              	<div class="list-group hpCateArea" style="height: 100px; width:470px; overflow-y: scroll; display:none;">
+			                 <table id="searchHpCateTb">
+			                 	<tr>
+			                 		<td></td>
+			                 	</tr>
+			                 </table>
+		                 </div>
+	                 </div><!-- -------- -->
+                </div>
                  <button id="hospital-search-save-btn" class="btn btn-mdd w-100 p-2 mt-3" style="color: #FFFFFF;background-color: #007ee5;">
                     선택완료
                  </button>
@@ -380,6 +459,7 @@
             <div class="row">
                <div class="col-sm-10 offset-sm-1 pt-5 pl-0" style="border-bottom: solid 2px #9b9b9b;">
                   <input type="hidden" id="hospital_id" name="hospital_id">
+                  <input type="hidden" id="hospital_cateCode" name="hospital_cateCode">
                   <input type="text" class="form-control border-0 pl-0" id="hospital_name" name="hospital_name" disabled="" placeholder="하단의 '병원 조회하기'버튼을 눌러 선택해주세요" style="background-color: transparent; font-size: 21px; font-weight: bold; color: #494949;">
                </div>
             </div>
@@ -1204,13 +1284,13 @@
                      <div class="card border-0 d-flex justify-content-center smile">
                         <label for="good_suggest_input"><span class="material-icons md-180">sentiment_satisfied_alt</span></label>
                         <div class="card-body">
-                           <input type="radio" name="suggest" value="true" id="good_suggest_input">
+                           <input type="radio" name="suggest" value="Y" id="good_suggest_input">
                         </div>
                      </div>
                      <div class="card border-left-0 border-top-0 border-bottom-0 d-flex justify-content-center sad">
                         <label for="wrong_suggest_input"><span class="material-icons md-180">sentiment_dissatisfied</span></label>
                         <div class="card-body">
-                           <input type="radio" name="suggest" value="false" id="wrong_suggest_input">
+                           <input type="radio" name="suggest" value="N" id="wrong_suggest_input">
                         </div>
                      </div>
                   </div>

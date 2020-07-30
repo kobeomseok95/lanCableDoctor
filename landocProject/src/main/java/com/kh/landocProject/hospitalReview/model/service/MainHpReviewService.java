@@ -11,6 +11,8 @@ public interface MainHpReviewService {
 
    int insertHpRe(HpReview hpRe);
 
+   ArrayList<SearchHp> selectHpCate(String hpName);
+
    
    
 }

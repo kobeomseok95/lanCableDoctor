@@ -158,15 +158,15 @@
 						<div class="nextBox1">
 							<label class="label1">정보 입력</label>
 						</div>
-						<img class="img" src="login_image/icon.png">
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
 						<div class="nextBox">
 							<label class="label2">이메일 인증</label>
 						</div>
-						<img class="img" src="login_image/icon.png">
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
 						<div class="nextBox">
 							<label class="label1">서류 제출</label>
 						</div>
-						<img class="img" src="login_image/icon.png">
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
 						<div class="nextBox">
 							<label class="label1">승인 대기</label>
 						</div>

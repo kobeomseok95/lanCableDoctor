@@ -155,9 +155,9 @@ public class MainAskDrController {
 		
 		int resultOfBoard = askDrServiceImpl.insertAskDrBoard(askDrBoard);
 		int resultOfPhoto = 0;
-		
 
-		if( !askDrBoard.getSymptomPicture().isEmpty() && resultOfBoard > 0 ) {
+		if( !askDrBoard.getSymptomPicture().get(0).getOriginalFilename().equals("") &&
+				resultOfBoard > 0 ) {
 			HashMap<String, Object> parameterPhoto = new HashMap<String, Object>();
 			parameterPhoto.put("boardNo", askDrBoard.getbNo());
 			parameterPhoto.put("filePath", filePath);
@@ -165,8 +165,7 @@ public class MainAskDrController {
 			resultOfPhoto = saveFiles(parameterPhoto, askDrBoard.getSymptomPicture(), 1);
 		}
 		else {
-//			사진이 없을경우에는 그냥 이렇게 설정하고 넘어가긔
-			resultOfPhoto = 1;
+			resultOfPhoto = 1;		//	사진이 없을경우에는 그냥 이렇게 설정하고 넘어가긔
 		}
 		
 		if(resultOfBoard > 0 && resultOfPhoto > 0) {
@@ -331,6 +330,30 @@ public class MainAskDrController {
 		gson.toJson(replys, response.getWriter());
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="deleteAskDrBoardReply.do", method=RequestMethod.POST)
+	public String deleteReply(int adrNo) {
+		int result = askDrServiceImpl.deleteAskDrBoardReply(adrNo);
+		if(result > 0) {
+			return "success";
+		}
+		else {
+			return "error";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="updateAskDrBoardReply.do", method=RequestMethod.POST)
+	public String updateReply(AskDrReply askDrReply) {
+		int result = askDrServiceImpl.updateAskDrBoardReply(askDrReply);
+		
+		if(result > 0) {
+			return "success";
+		}
+		else {
+			return "error";
+		}
+	}
 	
 	//의사 검색
 	@RequestMapping(value = "askDrSearch.do", method = RequestMethod.GET)

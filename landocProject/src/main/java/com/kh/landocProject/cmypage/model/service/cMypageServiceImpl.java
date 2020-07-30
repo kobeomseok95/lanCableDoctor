@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.landocProject.cmypage.model.dao.cMypageDao;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
+import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
 import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
@@ -128,6 +129,42 @@ public class cMypageServiceImpl implements cMypageService {
 	public int updateReviewInsert(PdReview review) {
 	
 		return cmDao.updateReviewInsert(review);
+	}
+
+	@Override
+	public String selectAllSumPoint(String cNo) {
+		
+		return cmDao.selectAllSumPoint(cNo);
+	}
+
+	@Override
+	public String selectMonthSumPoint(String cNo) {
+		
+		return cmDao.selectMonthSumPoint(cNo);
+	}
+
+	@Override
+	public String selectNowMonthPoint() {
+		
+		return cmDao.selectNowMonthPoint();
+	}
+
+	@Override
+	public String selectCPoint(String cNo) {
+	
+		return cmDao.selectCPoint(cNo);
+	}
+
+	@Override
+	public ArrayList<CMypagePoint> selectPointList(String cNo) {
+		
+		return cmDao.selectPointList(cNo);
+	}
+
+	@Override
+	public int listCountPointList(String cNo) {
+		
+		return cmDao.listCountPointList(cNo);
 	}
 
 }

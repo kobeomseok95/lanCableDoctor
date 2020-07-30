@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
+import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
 import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
@@ -128,6 +129,36 @@ public class cMypageDao {
 	public int updateReviewInsert(PdReview review) {
 		
 		return sqlSessionTemplate.update("cMypage.updateReviewInsert",review);
+	}
+
+	public String selectAllSumPoint(String cNo) {
+	
+		return sqlSessionTemplate.selectOne("cMypage.selectAllSumPoint",cNo);
+	}
+
+	public String selectMonthSumPoint(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("cMypage.selectMonthSumPoint",cNo);
+	}
+
+	public String selectNowMonthPoint() {
+
+		return sqlSessionTemplate.selectOne("cMypage.selectNowMonthPoint");
+	}
+
+	public String selectCPoint(String cNo) {
+	
+		return sqlSessionTemplate.selectOne("cMypage.selectCPoint",cNo);
+	}
+
+	public ArrayList<CMypagePoint> selectPointList(String cNo) {
+	
+		return (ArrayList)sqlSessionTemplate.selectList("cMypage.selectPointList", cNo);
+	}
+
+	public int listCountPointList(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("cMypage.listCountPointList",cNo);
 	}
 
 }
