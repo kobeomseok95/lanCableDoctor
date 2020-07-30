@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpRePoint;
 import com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpReview;
 import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.admin.hospitalReview.model.vo.SearchCondition;
@@ -20,7 +21,7 @@ public class HpReviewDao {
    // 전체 리스트 카운트
    public int getListCount() {
       
-      System.out.println("dao에서 전체 리스트 갯수 : " + sqlSessionTemplate.selectOne("adminHpReMapper.getListCount"));
+//      System.out.println("dao에서 전체 리스트 갯수 : " + sqlSessionTemplate.selectOne("adminHpReMapper.getListCount"));
       
       return sqlSessionTemplate.selectOne("adminHpReMapper.getListCount");
    }
@@ -38,7 +39,7 @@ public class HpReviewDao {
 
    public int getSearchListCount(SearchCondition sc) {
       
-      System.out.println("dao에서 검색 리스트 카운트 : " + sqlSessionTemplate.selectOne("adminHpReMapper.selectSearchListCount",sc));
+//      System.out.println("dao에서 검색 리스트 카운트 : " + sqlSessionTemplate.selectOne("adminHpReMapper.selectSearchListCount",sc));
       
       return sqlSessionTemplate.selectOne("adminHpReMapper.selectSearchListCount",sc);
    }
@@ -62,6 +63,30 @@ public class HpReviewDao {
       
       return sqlSessionTemplate.selectOne("adminHpReMapper.selectHpReDetail", hpReNo);
    }
+
+
+	public int approvalHpRe(Integer hpReNo) {
+		
+	//	System.out.println("dao에서 승인 업데이트 : " + sqlSessionTemplate.update("adminHpReMapper.approvalHpRe", hpReNo));
+		
+		return sqlSessionTemplate.update("adminHpReMapper.approvalHpRe", hpReNo);
+	}
+	
+	
+	public int insertPoint(AdminHpRePoint adminHpRePt) {
+		
+//		System.out.println("dao에서 리뷰 승인 후 포인트 insert : " + sqlSessionTemplate.insert("adminHpReMapper.insertPoint", adminHpRePt));
+		
+		return sqlSessionTemplate.insert("adminHpReMapper.insertPoint", adminHpRePt);
+	}
+
+
+	public int updateCPoint(String cNo) {
+		
+//		System.out.println("dao에서 리뷰 승인 후 맴버 포인트 update : " + sqlSessionTemplate.update("adminHpReMapper.updateCPoint", cNo));
+		
+		return sqlSessionTemplate.update("adminHpReMapper.updateCPoint", cNo);
+	}
 
 
 

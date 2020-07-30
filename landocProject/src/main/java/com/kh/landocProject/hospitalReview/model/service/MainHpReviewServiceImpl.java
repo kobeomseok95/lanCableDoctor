@@ -25,9 +25,15 @@ public class MainHpReviewServiceImpl implements MainHpReviewService{
    @Override
    public int insertHpRe(HpReview hpRe) {
       
-      System.out.println(MainHpReDao.insertHpRe(hpRe));
+//      System.out.println(MainHpReDao.insertHpRe(hpRe));
       return MainHpReDao.insertHpRe(hpRe);
    }
+
+	@Override
+	public ArrayList<SearchHp> selectHpCate(String hpName) {
+		
+		return MainHpReDao.selectHpCate(hpName);
+	}
    
    
    

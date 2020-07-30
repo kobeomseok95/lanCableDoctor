@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+	String msg = request.getParameter("msg");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <meta charset="UTF-8">
@@ -15,8 +18,8 @@
         /*오른쪽 영역 table*/
         #contentTb{margin: 0 auto; margin-top: 2%; width: 80%; text-align:center; border: 2px solid #bbb; border-collapse: collapse;}
         #contentTb tr{line-height: 40px;}
-        #contentTb th{border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
-        #contentTb td{width: auto; border: 1px solid #bbb; font-size:14px;}
+        #contentTb th{width:400px; border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
+        #contentTb td{width:600px; border: 1px solid #bbb; font-size:14px;}
         #contentTb button{height: 35px; width: 55%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
         #contentTb button:hover{background-color: #007ee5; color: white;}
       #contentTb input{width:95%; border:none;}
@@ -34,7 +37,7 @@
 
 
     <!--여기서 부터 왼쪽 영역 contentArea-->
-    <form action="#" method="post">
+    <form action="adminHpReApproval.do" method="post">
         <div id="contentArea">
             <h3>병원 리뷰 관리</h3>
 
@@ -43,89 +46,88 @@
             <table id="contentTb">
                 <tr>
                     <th class="firstLine">리뷰 번호</th>
-                    <td><input type="text" value="R01" readonly></td>
+                    <td>${adminHpRe.hpReNo }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">병원 번호</th>
-                    <td><input type="text" value="H01"></td>
+                    <td>${adminHpRe.hpNo }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">병원 이름</th>
-                    <td><input type="text" value="bumseokHospital"></td>
+                    <td>${adminHpRe.hpName }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">병원 카테고리 번호</th>
-                    <td><input type="text" value="010"></td>
+                    <td>${adminHpRe.hpCateNo }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">병원 카테고리 이름</th>
-                    <td><input type="text" value="내과"></td>
+                    <td>${adminHpRe.hpCateName }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">회원번호</th>
-                    <td><input type="text" value=""></td>
+                    <td>${adminHpRe.cNo }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">회원 아이디</th>
-                    <td><input type="text" value=""></td>
+                    <td>${adminHpRe.cId }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">좋아요 여부</th>
-                    <td><input type="text" value=""></td>
+                    <td>${adminHpRe.like }</td>
                 </tr>
-               <!--  <tr>
-                    <th class="firstLine">제목</th>
-                    <td><input type="text" value="최고에여"></td>
-                </tr> -->
                 <tr>
                     <th class="firstLine">작성 날짜</th>
-                    <td><input type="text" value="2020/07/06"></td>
+                    <td>${adminHpRe.writeDate }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">평균 별점</th>
-                    <td><input type="number" value="10"></td>
+                    <td>${adminHpRe.avgRate }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">자세한 설명(별점)</th>
-                    <td><input type="number" value="10"></td>
-                </tr>   
+                    <td>${adminHpRe.explanation }</td>
                 <tr>
                     <th class="firstLine">직원의 친절(별점)</th>
-                    <td><input type="number" value="10"></td>
+                    <td>${adminHpRe.kindness }</td>
                 </tr>
                 <tr>
                     <th class="firstLine">적절한 금액(별점)</th>
-                    <td><input type="number" value="10"></td>
+                    <td>${adminHpRe.price }</td>
                 </tr>   
                 <tr>
                     <th class="firstLine">대기시간(별점)</th>
-                    <td><input type="number" value="10"></td>
+                    <td>${adminHpRe.waitingTime }</td>
                 </tr>   
                 <tr>
                     <th class="firstLine">치료 후 결과(별점)</th>
-                    <td><input type="number" value="10"></td>
+                    <td>${adminHpRe.trResult }</td>
                 </tr> 
                 <tr>
                     <th class="firstLine">청결함(별점)</th>
-                    <td><input type="number" value="10"></td>
+                    <td>${adminHpRe.sanitary }</td>
                 </tr>  
                 <tr>
                     <th class="firstLine">자세한 내용</th>
-                    <td style="text-align: left;">자세한 내용</td>
+                    <td style="text-align: left;">
+                    	<textarea rows="15px;" cols="80px;">${adminHpRe.hpReContent }</textarea>
+                    	
+                    </td>
                 </tr> 
 
                 <tr>
                     <th class="firstLine">영수증 인증 사진</th>
-                    <td>이미지 태그 사용할것임</td>
+                    <td>
+                   		<c:set var="fullPath" value="/projectFiles/${adminHpRe.renameFile }"/>
+						<img src="${fullPath}" style="width: 300px; height: 300px;"/>
+                    	<%-- <img src="C://lanCableDoctorProject/files/${adminHpRe.renameFile }"> --%>
+                    
+                    </td>
                 </tr>
                 <tr>
                     <th class="firstLine">영수증 인증 승인 여부</th>
                     <td>
-                        <select id="approval" name="approval">
-                            <option value="Y">Y</option>
-                            <option value="N">N</option>
-                        </select>
-
+						${adminHpRe.approval }
                     </td>
                 </tr>
             </table>
@@ -133,28 +135,44 @@
 
             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
-                <button type="sumbit" onclick="goModify();">승인하기</button>
-                <button type="button" onclick="goBack();">뒤로가기</button>
+            	<c:if test="${adminHpRe.approval eq 'N' }">
+	            	<input type="hidden" value="${adminHpRe.approval }" name="approval">
+	            	<input type="hidden" value="${adminHpRe.hpReNo }" name="hpReNo">
+	               	<input type="hidden" value="${adminHpRe.cNo }" name="cNo">
+	                <button type="submit">리뷰 승인하기</button>
+	                <button type="button" onclick="goBack();">뒤로가기</button>  
+                </c:if>
+                
+                <c:if test="${adminHpRe.approval eq 'Y' }">
+                	<button type="button" onclick="alreadyApproved();">리뷰 승인하기</button>
+	                <button type="button" onclick="goBack();">뒤로가기</button>                
+                </c:if>
+                
             </div>
 
             <br><br><br><br><br><br>
     </div>
-
     </form>
 
 
     <script>
-        function goModify(){
-            location.href="#";
-        }
-
+    	function alreadyApproved(){
+    		alert("이미 승인 완료된 리뷰 입니다.");
+    	}
+    
         function goBack(){
-            location.href="#";
+            location.href="javascript:history.go(-1)";
         }
 
 
     </script>
 
+	<script>
+		<%if(msg != null){%>
+			alert("영수증 승인과 회원 포인트 적립에 실패했습니다.");
+		<%}%>
+	
+	</script>
   
 
 </body>
