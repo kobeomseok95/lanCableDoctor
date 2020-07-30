@@ -149,6 +149,15 @@ public class MainMemberDao {
 		return sqlSessionTemplate.selectOne("memberMapper.loginDrClient2", drNo);
 	}
 	
+	public DrClient loginDrClient3(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.loginDrClient3", drNo);
+	}
+	public DrClient loginDrClient4(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.loginDrClient4", drNo);
+	}
+	
 	// 의사회원 프로필 수정
 	public int updateDrClientProfile(ProfilePhoto pp) {
 		
@@ -185,5 +194,46 @@ public class MainMemberDao {
 		
 		return sqlSessionTemplate.update("memberMapper.DrClientDelete", drNo);
 	}
+	public DrClient selectDrClientHp1(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.selectDrClientHp1", drNo);
+	}
+	public DrClient selectDrClientHp2(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.selectDrClientHp2", drNo);
+	}
+	public DrClient selectDrClientHp3(String drNo) {
+	
+		return sqlSessionTemplate.selectOne("memberMapper.selectDrClientHp3", drNo);
+	}
+	public int drClientHpUpdate1(DrhpPhoto dhp) {
+		
+		return sqlSessionTemplate.update("memberMapper.drClientHpUpdate1", dhp);
+	}
+	public int drClientHpUpdate2(DrhpPhoto dhp) {
+
+		return sqlSessionTemplate.update("memberMapper.drClientHpUpdate2", dhp);
+	}
+	public int drClientHpUpdate3(DrhpPhoto dhp) {
+	
+		return sqlSessionTemplate.update("memberMapper.drClientHpUpdate3", dhp);
+	}
+	public DrClient searchFile1(String drNo) {
+	
+		return sqlSessionTemplate.selectOne("memberMapper.searchFile1", drNo );
+	}
+	public DrClient searchFile2(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.searchFile2", drNo );
+	}
+	public DrClient searchFile3(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.searchFile3", drNo );
+	}
+	public int drClientApproval(DrClient d) {
+
+		return sqlSessionTemplate.update("memberMapper.drClientApproval", d );
+	}
+
 
 }

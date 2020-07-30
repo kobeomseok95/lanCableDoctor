@@ -112,15 +112,23 @@ public class MainMemberController {
 //		System.out.println(drNo);
 		DrClient loginDrClient2 = mService.loginDrClient2(drNo);
 //		System.out.println("loginDrClient2 : " + loginDrClient2);
+		DrClient loginDrClient3 = mService.loginDrClient3(drNo);
+//		System.out.println("loginDrClient3 : " + loginDrClient3);
+		DrClient loginDrClient4 = mService.loginDrClient4(drNo);
+//		System.out.println("loginDrClient4 : " + loginDrClient4);
 		
 		if(loginDrClient2 != null) {
 			if(result1 !=  null) {
 				mv.addObject("loginDrClient2",loginDrClient2);
+				mv.addObject("loginDrClient3",loginDrClient3);
+				mv.addObject("loginDrClient4",loginDrClient4);
 				mv.addObject("result1",result1);
 				mv.setViewName("drClient/modifyDrClient");
 				return mv;
 			}else {
 				mv.addObject("loginDrClient2",loginDrClient2);
+				mv.addObject("loginDrClient3",loginDrClient3);
+				mv.addObject("loginDrClient4",loginDrClient4);
 				mv.setViewName("drClient/modifyDrClient");
 				return mv;				
 			}
@@ -138,7 +146,7 @@ public class MainMemberController {
 			@RequestParam("address2") String address2) {
 //		System.out.println(c);
 
-		System.out.println("mainMemberController.java test line 141");
+		System.out.println("mainMemberController.java test line 149");
 
 
 		// 비밀번호 암호화
@@ -169,28 +177,36 @@ public class MainMemberController {
 	@RequestMapping(value = "memberLogin.do", method = RequestMethod.POST)
 
 	public String memberLogin(Client c, DrClient d, Model model, @RequestParam("check") String check, HttpServletResponse response_equals) throws IOException{
-		System.out.println("mainMemberController.java test line 172");
+		System.out.println("mainMemberController.java test line 180");
 //			System.out.println(check);
 
 
 		if (check.equals("client")) {
 			Client loginClient = mService.loginClient(c);
 //			System.out.println("암호화 처리 된 DB일반회원 : " + loginClient);
-			if(loginClient.getStatus().equals("Y")) {
-				if (bcryptPasswordEncoder.matches(c.getUserPwd(), loginClient.getUserPwd())) {
-					model.addAttribute("loginClient", loginClient);
-					return "home";
-				} else {
+			if(loginClient != null) {
+				if(loginClient.getStatus().equals("Y")) {
+					if (bcryptPasswordEncoder.matches(c.getUserPwd(), loginClient.getUserPwd())) {
+						model.addAttribute("loginClient", loginClient);
+						return "home";
+					} else {
+						response_equals.setContentType("text/html; charset=UTF-8");
+						PrintWriter out_equals = response_equals.getWriter();
+						out_equals.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.');</script>");
+						out_equals.flush();
+						return "member/login";
+					}
+				}else{
 					response_equals.setContentType("text/html; charset=UTF-8");
 					PrintWriter out_equals = response_equals.getWriter();
-					out_equals.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.');</script>");
+					out_equals.println("<script>alert('탈퇴를 하셨습니다.');</script>");
 					out_equals.flush();
 					return "member/login";
 				}
 			}else {
 				response_equals.setContentType("text/html; charset=UTF-8");
 				PrintWriter out_equals = response_equals.getWriter();
-				out_equals.println("<script>alert('탈퇴 하였거나 회원 정보가 없습니다.');</script>");
+				out_equals.println("<script>alert('회원 정보가 없습니다.');</script>");
 				out_equals.flush();
 				return "member/login";
 			}
@@ -199,46 +215,55 @@ public class MainMemberController {
 			DrClient loginDrClient = mService.loginDoctor(d);
 
 //			System.out.println("암호화 처리 된 DB의사회원 : " + loginDrClient);
-			if(loginDrClient.getApproval().equals("Y") && loginDrClient.getStatus().equals("Y")) {
-				if (bcryptPasswordEncoder.matches(d.getUserPwd(), loginDrClient.getUserPwd())) {
-					model.addAttribute("loginDrClient", loginDrClient);
-					return "home";
-				} else {
+			if(loginDrClient != null) {
+				if(loginDrClient.getApproval().equals("Y") && loginDrClient.getStatus().equals("Y")) {
+					if (bcryptPasswordEncoder.matches(d.getUserPwd(), loginDrClient.getUserPwd())) {
+						model.addAttribute("loginDrClient", loginDrClient);
+						return "home";
+					} else {
+						response_equals.setContentType("text/html; charset=UTF-8");
+						PrintWriter out_equals = response_equals.getWriter();
+						out_equals.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.');</script>");
+						out_equals.flush();
+						return "member/login";
+					}
+				}else if(loginDrClient.getApproval().equals("N") && loginDrClient.getStatus().equals("Y")) {
 					response_equals.setContentType("text/html; charset=UTF-8");
 					PrintWriter out_equals = response_equals.getWriter();
-					out_equals.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.');</script>");
+					out_equals.println("<script>alert('아직 승인을 받지 못하셨습니다.');</script>");
+					out_equals.flush();
+					return "member/login";
+	
+				}else if(loginDrClient.getApproval().equals("Y") && loginDrClient.getStatus().equals("N")) {
+					response_equals.setContentType("text/html; charset=UTF-8");
+					PrintWriter out_equals = response_equals.getWriter();
+					out_equals.println("<script>alert('탈퇴하신 아이디입니다.');</script>");
+					out_equals.flush();
+					return "member/login";
+				}else {
+					response_equals.setContentType("text/html; charset=UTF-8");
+					PrintWriter out_equals = response_equals.getWriter();
+					out_equals.println("<script>alert('승인을 받지 못했거나 탈퇴하신 아이디 입니다.');</script>");
 					out_equals.flush();
 					return "member/login";
 				}
-			}else if(loginDrClient.getApproval().equals("N") && loginDrClient.getStatus().equals("Y")) {
-				response_equals.setContentType("text/html; charset=UTF-8");
-				PrintWriter out_equals = response_equals.getWriter();
-				out_equals.println("<script>alert('아직 승인을 받지 못하셨습니다.');</script>");
-				out_equals.flush();
-				return "member/login";
-
-			}else if(loginDrClient.getApproval().equals("Y") && loginDrClient.getStatus().equals("N")) {
-				response_equals.setContentType("text/html; charset=UTF-8");
-				PrintWriter out_equals = response_equals.getWriter();
-				out_equals.println("<script>alert('탈퇴하였거나 정보가 없습니다.');</script>");
-				out_equals.flush();
-				return "member/login";
 			}else {
 				response_equals.setContentType("text/html; charset=UTF-8");
 				PrintWriter out_equals = response_equals.getWriter();
-				out_equals.println("<script>alert('승인을 받지 못했거나 회원 정보가 없습니다.');</script>");
+				out_equals.println("<script>alert('회원 정보가 없습니다.');</script>");
 				out_equals.flush();
 				return "member/login";
 			}
 		}
 		return "home";
 	}
+	
 
 	// 아이디 찾기_진교
 	@RequestMapping(value = "searchId.do")
 	public String searchId(Client c, DrClient d, Model model, @RequestParam("check") String check,
 			HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 241");
+		System.out.println("mainMemberController.java test line 266");
 //		System.out.println(check);
 
 		if (check.equals("client")) {
@@ -285,7 +310,7 @@ public class MainMemberController {
 	// 로그아웃_진교
 	@RequestMapping(value = "logout.do")
 	public String logout(SessionStatus status) {
-		System.out.println("mainMemberController.java test line 288");
+		System.out.println("mainMemberController.java test line 313");
 		status.setComplete();
 		
 		return "redirect:home.do";
@@ -296,7 +321,7 @@ public class MainMemberController {
 	public ModelAndView joinDrClient(DrClient d, ProfilePhoto pp, HttpServletRequest request, HttpServletResponse response_email,
 			@RequestParam("email") String email, @RequestParam("address1") String address1,
 			@RequestParam("address2") String address2) throws IOException {
-		System.out.println("mainMemberController.java test line 299");
+		System.out.println("mainMemberController.java test line 324");
 //		System.out.println("(회원가입)입력받은 의사회원정보 : " + d);
 
 		// 비밀번호 암호화
@@ -382,7 +407,7 @@ public class MainMemberController {
 			
 			// 일반회원(회원가입한) 정보 가져오기
 			DrClient DrClientDrNo = mService.DrClientDrNo(d);
-			System.out.println("DrClientDrNo : " + DrClientDrNo);
+//			System.out.println("DrClientDrNo : " + DrClientDrNo);
 			pp.setDrNo(DrClientDrNo.getDrNo());
 			// 프로필 사진 null값 등록
 			int result1 = mService.DrClientInsertProfile(pp);
@@ -404,7 +429,7 @@ public class MainMemberController {
 	@RequestMapping(value = "joinDrClient2.do")
 	public ModelAndView loginDrClient2(DrClient d, String message, @RequestParam String dice,
 			@RequestParam String email, HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 407");
+		System.out.println("mainMemberController.java test line 432");
 //				System.out.println("마지막 : message : " + message);
 //				System.out.println("마지막 : dice : " + dice);
 //				System.out.println("email : " + email);
@@ -454,18 +479,12 @@ public class MainMemberController {
 			@RequestParam(value = "uploadFile1", required = false) MultipartFile file1,
 			@RequestParam(value = "uploadFile2", required = false) MultipartFile file2,
 			@RequestParam(value = "uploadFile3", required = false) MultipartFile file3) {
-		System.out.println("mainMemberController.java test line 445");
+		System.out.println("mainMemberController.java test line 482");
 //				System.out.println("drNo : " + drNo);
 //				System.out.println("hpNo : " + hpNo);
 //				System.out.println("file1 : " + file1);
 //				System.out.println("file2 : " + file2);
 //				System.out.println("file3 : " + file3);
-		DrClient DrFile = mService.DrFile(drNo);
-		if(DrFile != null) {
-			if(DrFile.getProRename() != null) {
-				deleteProfile(DrFile.getProRename(), request);
-			}
-		}
 		
 		if (!file1.getOriginalFilename().equals("")) {
 			String renameFileName1 = saveFile(file1, request);
@@ -584,7 +603,7 @@ public class MainMemberController {
 	@RequestMapping(value = "searchPwd.do")
 	public String searchPwd(Client c, DrClient d, Model model, @RequestParam("check") String check,
 			HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 587");
+		System.out.println("mainMemberController.java test line 606");
 //		System.out.println(check);
 
 		if (check.equals("client")) {
@@ -620,7 +639,7 @@ public class MainMemberController {
 	@RequestMapping(value = "ClientSearchPwd2.do")
 	public ModelAndView ClientSearchPwd2(Client c, HttpServletRequest request, HttpServletResponse response_email,
 			@RequestParam("email") String email, @RequestParam("cNo") String cNo) throws IOException {
-		System.out.println("mainMemberController.java test line 623");
+		System.out.println("mainMemberController.java test line 642");
 
 //		System.out.println(email);
 //		System.out.println(cNo);
@@ -709,7 +728,7 @@ public class MainMemberController {
 	@RequestMapping(value = "DrClientSearchPwd2")
 	public ModelAndView DrClientSearchPwd2(DrClient d, HttpServletRequest request, HttpServletResponse response_email,
 			@RequestParam("email") String email, @RequestParam("drNo") String drNo) throws IOException {
-		System.out.println("mainMemberController.java test line 712");
+		System.out.println("mainMemberController.java test line 731");
 
 //		System.out.println(email);
 //		System.out.println(drNo);
@@ -799,7 +818,7 @@ public class MainMemberController {
 	@RequestMapping(value = "ClientSearchPwd3.do")
 	public ModelAndView ClientSearchPwd3(Client c, String message, @RequestParam("dice") String dice, @RequestParam("cNo") String cNo,
 			HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 702");
+		System.out.println("mainMemberController.java test line 821");
 //				System.out.println("마지막 : message : " + message);
 //				System.out.println("마지막 : dice : " + dice);
 //				System.out.println("마지막 : cNo : " + cNo);
@@ -844,7 +863,7 @@ public class MainMemberController {
 	@RequestMapping(value = "DrClientSearchPwd3.do")
 	public ModelAndView DrClientSearchPwd3(DrClient d, String message, @RequestParam("dice") String dice, @RequestParam("drNo") String drNo,
 			HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 847");
+		System.out.println("mainMemberController.java test line 866");
 //				System.out.println("마지막 : message : " + message);
 //				System.out.println("마지막 : dice : " + dice);
 //				System.out.println("마지막 : cNo : " + cNo);
@@ -888,7 +907,7 @@ public class MainMemberController {
 	// 일반회원 비밀번호 찾기4
 	@RequestMapping(value="ClientSearchPwd4")
 	public ModelAndView ClientSearchPwd4(Client c, HttpServletResponse response_equals, ModelAndView mv) throws IOException{
-		System.out.println("mainMemberController.java test line 891");
+		System.out.println("mainMemberController.java test line 910");
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(c.getUserPwd());
 
@@ -919,7 +938,7 @@ public class MainMemberController {
 	// 의사회원 비밀번호 찾기4
 	@RequestMapping(value="DrClientSearchPwd4")
 	public ModelAndView DrClientSearchPwd4(DrClient d, HttpServletResponse response_equals, ModelAndView mv) throws IOException{
-		System.out.println("mainMemberController.java test line 922");
+		System.out.println("mainMemberController.java test line 941");
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(d.getUserPwd());
 
@@ -951,7 +970,7 @@ public class MainMemberController {
 	@RequestMapping(value="updateClient")
 	public String updateClient(Client c, ProfilePhoto pp, HttpServletRequest request, HttpServletResponse response_equals,
 			@RequestParam("cNo") String cNo, @RequestParam(value = "profile", required = false) MultipartFile profile) throws IOException{
-		System.out.println("mainMemberController.java test line 954");
+		System.out.println("mainMemberController.java test line 973");
 		
 		Client CProfile = mService.CProfile(cNo);
 //		System.out.println(CProfile);
@@ -994,7 +1013,7 @@ public class MainMemberController {
 	
 	// 파일 update시 삭제
 	public void deleteProfile(String fileName, HttpServletRequest request) {
-		System.out.println("mainMemberController.java test line 985");
+		System.out.println("mainMemberController.java test line 1016");
 		String path = "C:\\lanCableDoctorProject\\files\\" + fileName;
 		
 		File file = new File(path);
@@ -1007,7 +1026,7 @@ public class MainMemberController {
 	@RequestMapping(value="updateDrClient", method=RequestMethod.POST)
 	public String updateDrClient(DrClient d, ProfilePhoto pp, HttpServletRequest request, HttpServletResponse response_equals,
 			@RequestParam("drNo") String drNo, @RequestParam(value = "profile", required = false) MultipartFile profile) throws IOException{
-		System.out.println("mainMemberController.java test line 1010");
+		System.out.println("mainMemberController.java test line 1029");
 
 		DrClient DrProfile = mService.DrProfile(drNo);
 		
@@ -1053,7 +1072,7 @@ public class MainMemberController {
 	// 일반회원 탈퇴
 	@RequestMapping(value="ClientDelete.do")
 	public String ClientDelete(@RequestParam("cNo") String cNo, HttpServletResponse response_equals, SessionStatus status) throws IOException {
-		System.out.println("mainMemberController.java test line 1056");
+		System.out.println("mainMemberController.java test line 1075");
 		int result = mService.ClientDelete(cNo);
 		
 		if(result > 0) {
@@ -1072,16 +1091,12 @@ public class MainMemberController {
 	// 의사회원 탈퇴
 		@RequestMapping(value="DrClientDelete.do")
 		public String DrClientDelete(@RequestParam("drNo") String drNo, HttpServletResponse response_equals, SessionStatus status) throws IOException {
-			System.out.println("mainMemberController.java test line 1075");
+			System.out.println("mainMemberController.java test line 1094");
 			int result = mService.DrClientDelete(drNo);
 			
 			if(result > 0) {
-				status.setComplete();
-				response_equals.setContentType("text/html; charset=UTF-8");
-				PrintWriter out_equals = response_equals.getWriter();
-				out_equals.println("<script>alert('탈퇴 되었습니다.');</script>");
-				out_equals.flush();
-				return "home";
+				
+				return "redirect:logout.do?result = " + result;
 			}else {
 				response_equals.setContentType("text/html; charset=UTF-8");
 				PrintWriter out_equals = response_equals.getWriter();
@@ -1090,5 +1105,128 @@ public class MainMemberController {
 				return "home";
 			}
 			
+		}
+		
+		@RequestMapping(value = "DrClientHpUpdateView.do", method = RequestMethod.GET)
+		public ModelAndView DrClientHpUpdateView(ModelAndView mv, @RequestParam("drNo") String drNo) {
+			System.out.println("mainMemberController.java test line 1112");
+			DrClient drClientHp1 = mService.selectDrClientHp1(drNo);
+//			System.out.println("drClientHp1 : " + drClientHp1 );
+			DrClient drClientHp2 = mService.selectDrClientHp2(drNo);
+//			System.out.println("drClientHp2 : " + drClientHp2 );
+			DrClient drClientHp3 = mService.selectDrClientHp3(drNo);
+//			System.out.println("drClientHp3 : " + drClientHp3 );
+			
+			if(drClientHp1 != null && drClientHp2 != null && drClientHp3 != null) {
+				mv.setViewName("drClient/drClientHpModify");
+				mv.addObject("drClientHp1", drClientHp1);
+				mv.addObject("drClientHp2", drClientHp2);
+				mv.addObject("drClientHp3", drClientHp3);
+				
+				return mv;
+			}
+			
+			return mv;
+		}
+		// 의사정보수정에서 병원 수정하기
+		@RequestMapping("drClientHpModify.do")
+		public String drClientHpModify(HttpServletRequest request, DrhpPhoto dhp, DrClient d, @RequestParam("drNo") String drNo, String hpCateCode,
+				@RequestParam("hpNo") String hpNo,
+				@RequestParam(value = "uploadFile1", required = false) MultipartFile file1,
+				@RequestParam(value = "uploadFile2", required = false) MultipartFile file2,
+				@RequestParam(value = "uploadFile3", required = false) MultipartFile file3) {
+			System.out.println("mainMemberController.java test line 1138");
+//					System.out.println("drNo : " + drNo);
+//					System.out.println("hpNo : " + hpNo);
+//					System.out.println("file1 : " + file1);
+//					System.out.println("file2 : " + file2);
+//					System.out.println("file3 : " + file3);
+//					System.out.println("hpCateCode : "+hpCateCode);
+					
+			
+			if (!file1.getOriginalFilename().equals("")) {
+				String renameFileName1 = saveFile(file1, request);
+
+//						System.out.println("오리진 파일1 : " + file1.getOriginalFilename());
+//						System.out.println("renameFileName1 : " + renameFileName1);
+//						System.out.println();
+
+				dhp.setDrhpOrigin(file1.getOriginalFilename());
+
+				dhp.setDrhpRename(renameFileName1);
+				
+				
+			}
+			DrClient searchFile1 = mService.searchFile1(drNo);
+			if(searchFile1 != null) {
+				if(searchFile1.getDrhpRename() != null) {
+					deleteProfile(searchFile1.getDrhpRename(), request);
+				}
+			}
+			
+			int result1 = mService.drClientHpUpdate1(dhp);
+//			int result1 = mService.insertFile1(dhp);
+
+			if (result1 > 0) {
+				if (!file2.getOriginalFilename().equals("")) {
+					String renameFileName2 = saveFile(file2, request);
+
+//							System.out.println("오리진 파일2 : " + file2.getOriginalFilename());
+
+					dhp.setDrhpOrigin(file2.getOriginalFilename());
+
+					dhp.setDrhpRename(renameFileName2);
+					
+					
+
+				}
+				DrClient searchFile2 = mService.searchFile2(drNo);
+				
+				if(searchFile2 != null) {
+					if(searchFile2.getDrhpRename() != null) {
+						deleteProfile(searchFile2.getDrhpRename(), request);
+					}
+				}
+				int result2 = mService.drClientHpUpdate2(dhp);
+
+//				int result2 = mService.insertFile2(dhp);
+
+				if (result2 > 0) {
+					if (!file3.getOriginalFilename().equals("")) {
+						String renameFileName3 = saveFile(file3, request);
+
+//								System.out.println("오리진 파일3 : " + file3.getOriginalFilename());
+
+						dhp.setDrhpOrigin(file3.getOriginalFilename());
+
+						dhp.setDrhpRename(renameFileName3);
+						
+						
+					}
+					DrClient searchFile3 = mService.searchFile3(drNo);
+					
+					if(searchFile3 != null) {
+						if(searchFile3.getDrhpRename() != null) {
+							deleteProfile(searchFile3.getDrhpRename(), request);
+						}
+					}
+					int result3 = mService.drClientHpUpdate3(dhp);
+					int result4 = mService.drClientApproval(d);
+
+//					int result3 = mService.insertFile3(dhp);
+
+					if (result3 > 0) {
+						return "drClient/drClientHpModify2";
+					} else {
+						throw new MainMemberException("게시글 등록 실패!");
+					}
+
+				} else {
+					throw new MainMemberException("게시글 등록 실패!");
+				}
+
+			} else {
+				throw new MainMemberException("게시글 등록 실패!");
+			}
 		}
 }

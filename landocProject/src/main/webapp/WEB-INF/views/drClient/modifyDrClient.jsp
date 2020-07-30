@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String result1 = (String)request.getParameter("result1");
+	String searchFile3 = (String)request.getParameter("searchFile3");
 %>
 
 <!DOCTYPE html>
@@ -202,10 +203,11 @@ input[type="file"] {
 					</table>
 					<div class="btn">
 						<!-- <input id="subBtn" type="submit" value="병원수정하기">  -->
-						<c:url var="DrClientHpUpdate" value="DrClientHpUpdate.do">
+						<c:url var="DrClientHpUpdateView" value="DrClientHpUpdateView.do">
 				 			<c:param name="drNo" value="${loginDrClient2.drNo }"/>
+				 			<%-- <c:param name="hpNo" value="${loginDrClient2.hpNo }"/> --%>
 				 		</c:url>
-						<a id="subBtn" href="${DrClientHpUpdate }">병원 수정하기</a>
+						<a id="subBtn" href="${DrClientHpUpdateView }">병원 수정하기</a>
 						<c:url var="DrClientDelete" value="DrClientDelete.do">
 				 			<c:param name="drNo" value="${loginDrClient2.drNo }"/>
 				 			<c:param name="status" value="${loginDrClient2.status }"/>
@@ -264,6 +266,10 @@ input[type="file"] {
 			alert("회원정보 수정이 완료되었습니다.");
 		
 		<%}%>
+		<%if(searchFile3 != null){%>
+		alert("병원 수정이 완료되었습니다.");
+	
+	<%}%>
 		
 		 $("#phone").change(function(){
              var value = $("#phone").val();

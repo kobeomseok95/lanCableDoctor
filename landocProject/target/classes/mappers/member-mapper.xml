@@ -49,6 +49,9 @@
 		<result property="hpName" column="HP_NAME" />
 		<result property="proOrigin" column="PRO_ORIGIN" />
 		<result property="proRename" column="PRO_RENAME" />
+		<result property="drhpOrigin" column="DRHP_ORIGIN" />
+		<result property="drhpRename" column="DRHP_RENAME" />
+		<result property="phCode" column="PH_CODE" />
 	</resultMap>
 
 	<!-- 의사 파일 제출_진교 -->
@@ -57,9 +60,9 @@
 		<result property="drhpOrigin" column="DRHP_ORIGIN" />
 		<result property="drhpRename" column="DRHP_RENAME" />
 		<result property="drhpFilepath" column="DRHP_FILEPATH" />
-		<result property="dhCode" column="DRHP_ORIGIN" />
-		<result property="drNo" column="DRHP_ORIGIN" />
-		<result property="hpNo" column="HP_NO" />
+		<result property="hpCode" column="HP_CODE" />
+		<result property="drNo" column="DR_NO" />
+		<result property="phNo" column="PH_NO" />
 	</resultMap>
 	
 	<!-- 프로필 사진 -->
@@ -251,17 +254,39 @@
 	<select id="loginClient2" parameterType="string" resultMap="ClientResultSet">
 		SELECT C.C_NO, C.C_ID, C.C_NICKNAME, C.C_EMAIL, C.C_PHONE, C.C_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME, C.C_STATUS
 		FROM CLIENT C
-		JOIN PROFILEPHOTO PP ON (C.C_NO = PP.C_NO)
+		LEFT JOIN PROFILEPHOTO PP ON (C.C_NO = PP.C_NO)
 		WHERE C.C_NO = #{cNo}
 	</select>
 	<!-- 로그인 한 의사회원 정보 -->
 	<select id="loginDrClient2" parameterType="string" resultMap="DoctorResultSet">
-		SELECT D.DR_NO, D.DR_NAME, D.DR_ID, D.DR_EMAIL, D.DR_PHONE, D.DR_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME, HP_NAME, HPCATE_NAME, D.DR_STATUS
+		SELECT D.DR_NO, HP.HP_NO, D.DR_NAME, D.DR_ID, D.DR_EMAIL, D.DR_PHONE, D.DR_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME, HP_NAME, HPCATE_NAME, D.DR_STATUS, PH_CODE, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME
 		FROM DRCLIENT D
 		JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
 		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
 		JOIN HPCATEGORY HC ON (D.HPCATE_CODE = HC.HPCATE_CODE)
+		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
 		WHERE D.DR_NO = #{drNo}
+		AND PH_CODE = 1
+	</select>
+	
+	<select id="loginDrClient3" parameterType="string" resultMap="DoctorResultSet">
+		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
+		FROM DRCLIENT D
+		JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
+		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
+		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		WHERE D.DR_NO = #{drNo}
+		AND PH_CODE = 2
+	</select>
+	
+	<select id="loginDrClient4" parameterType="string" resultMap="DoctorResultSet">
+		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
+		FROM DRCLIENT D
+		LEFT JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
+		LEFT JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
+		LEFT JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		WHERE D.DR_NO = #{drNo}
+		AND PH_CODE = 3
 	</select>
 	<!-- 의사회원 프로필 수정 -->
 	<update id="updateDrClientProfile">
@@ -314,4 +339,88 @@
 		SET DR_STATUS = 'N'
 		WHERE DR_NO = #{drNo}
 	</update>
+	
+	<select id="selectDrClientHp1" parameterType="string" resultMap="DoctorResultSet">
+		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
+		FROM DRCLIENT D
+		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO) 
+		WHERE D.DR_NO = #{drNo}
+		AND PH_CODE = 1
+	</select>
+	
+	<select id="selectDrClientHp2" parameterType="string" resultMap="DoctorResultSet">
+		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
+		FROM DRCLIENT D
+		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO) 
+		WHERE D.DR_NO = #{drNo}
+		AND PH_CODE = 2
+	</select>
+	
+	<select id="selectDrClientHp3" parameterType="string" resultMap="DoctorResultSet">
+		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
+		FROM DRCLIENT D
+		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
+		WHERE D.DR_NO = #{drNo}
+		AND PH_CODE = 3
+	</select>
+	
+	<update id="drClientHpUpdate1" parameterType="string">
+		UPDATE DRHPPHOTO
+		SET DRHP_ORIGIN = #{drhpOrigin},
+			  DRHP_RENAME = #{drhpRename}
+		WHERE DR_NO = #{drNo}
+		AND PH_CODE = 1
+	</update>
+	
+	<update id="drClientHpUpdate2" parameterType="string">
+		UPDATE DRHPPHOTO
+		SET DRHP_ORIGIN = #{drhpOrigin},
+			  DRHP_RENAME = #{drhpRename}
+		WHERE DR_NO = #{drNo}
+		AND PH_CODE = 2
+	</update>
+	
+	<update id="drClientHpUpdate3" parameterType="string">
+		UPDATE DRHPPHOTO
+		SET DRHP_ORIGIN = #{drhpOrigin},
+			  DRHP_RENAME = #{drhpRename}
+		WHERE DR_NO = #{drNo}
+		AND PH_CODE = 3
+	</update>
+	
+	<select id="searchFile1" parameterType="string" resultMap = "DoctorResultSet">
+		SELECT D.DR_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
+		FROM DRCLIENT D
+		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		WHERE D.DR_NO = #{drNo}
+		AND PH_CODE = 1
+	</select>
+	
+	<select id="searchFile2" parameterType="string" resultMap = "DoctorResultSet">
+		SELECT D.DR_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
+		FROM DRCLIENT D
+		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		WHERE D.DR_NO = #{drNo}
+		AND PH_CODE = 2
+	</select>
+	
+	<select id="searchFile3" parameterType="string" resultMap = "DoctorResultSet">
+		SELECT D.DR_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
+		FROM DRCLIENT D
+		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		WHERE D.DR_NO = #{drNo}
+		AND PH_CODE = 3
+	</select>
+	
+	<update id="drClientApproval" parameterType="DrClient">
+		UPDATE DRCLIENT
+		SET DR_APPROVAL = 'N',
+			  HP_NO = #{hpNo},
+			  HPCATE_CODE = #{hpCateCode}
+		WHERE DR_NO = #{drNo}
+	</update>
+
 </mapper>
