@@ -3,6 +3,7 @@ package com.kh.landocProject.cmypage.model.service;
 import java.util.ArrayList;
 
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
+import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
 import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
@@ -48,6 +49,20 @@ public interface cMypageService {
 	PdReview updateReview(PdReview review);
 
 	int updateReviewInsert(PdReview review);
+
+	String selectAllSumPoint(String cNo);
+
+	String selectMonthSumPoint(String cNo);
+
+	String selectNowMonthPoint();
+
+	String selectCPoint(String cNo);
+
+	ArrayList<CMypagePoint> selectPointList(String cNo);
+
+	int listCountPointList(String cNo);
+
+
 
 }
 

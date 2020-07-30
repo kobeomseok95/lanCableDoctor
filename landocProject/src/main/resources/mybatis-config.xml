@@ -22,7 +22,9 @@
 		<typeAlias type="com.kh.landocProject.member.model.vo.DrhpPhoto" alias="DrhpPhoto" />
 		<typeAlias type="com.kh.landocProject.askDr.model.vo.SymptomsImage" alias="SymptomsImage" />
 		<typeAlias type="com.kh.landocProject.askDr.model.vo.AskDrReply" alias="AskDrReply" />
+		<typeAlias type="com.kh.landocProject.cmypage.model.vo.CMypagePoint" alias="CMypagePoint" />
 		<typeAlias type="com.kh.landocProject.member.model.vo.ProfilePhoto" alias="ProfilePhoto" />
+
 
 	</typeAliases>
 

@@ -87,6 +87,14 @@
          <!-- <div class="pb-2 mt-5 review-list-subtitle d-flex justify-content-between"  style="font-size: 25px; border-bottom: solid; border-color: rgba(0, 0, 0, 0.514);">
                     답변완료된 QnA
                 </div> -->
+         <c:if test="${empty pdReviewList}">
+          <div class="color9b text-center" style="font-size: 1.313rem; margin-top: 73.7px;letter-spacing: -0.8px;">
+                <div class="my-3 text-center">
+                    <p class="m-0">회원님의 리뷰가 아직 없습니다.</p>
+                </div>
+           </div>
+         </c:if>
+         <c:if test="${not empty pdReviewList}">
          <c:forEach var="r" items="${pdReviewList}">
             <div class="card mt-3 mb-3 text-left">
                <!-- for문 돌려서 리스트 뽑아낼 때 data-targer, href 숫자 증가 시키기-->
@@ -132,6 +140,7 @@
                </div>
             </div>
          </c:forEach>
+         </c:if>
 
          <div style="position: fixed; bottom: 70px; right: 100px; z-index: 999;">
             <a href="https://pf.kakao.com/_VAryxb" target="_blank"> <img
@@ -141,45 +150,16 @@
          </div>
       </div>
    </div>
-   <!--paginnation start-->
-   <nav aria-label="Page navigation">
-      <ul class="pagination"
-         style="justify-content: center; padding-bottom: 30px;">
-         <!-- disabled가 있으면 마우스 커서가 금지표시로 바뀐다. -->
-         <c:if test="${pi.currentPage eq 1 }">
-            <li class=disabled style="width: 30px;"><a href="#"
-               aria-label="Previous"> <span aria-hidden="true">«</span>
-            </a></li>
-         </c:if>
-
-         <c:if test="${pi.currentPage gt 1 }">
-            <c:url var="blistBack" value="pdReview.do">
-               <c:param name="page" value="${pi.currentPage -1 }" />
-            </c:url>
-            <li style="width: 30px;"><a href="${blistBack}"
-               aria-label="Previous"> <span aria-hidden="true">«</span>
-            </a></li>
-         </c:if>
-
-         <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
-            <c:if test="${p eq pi.currentPage }">
-               <li class="active" style="width: 30px;"><a href="#"
-                  style="color: #a82400;">${p}</a></li>
-            </c:if>
-            <c:if test="${p ne pi.currentPage }">
-               <c:url var="blistCheck" value="pdReview.do">
-                  <c:param name="page" value="${p }" />
-               </c:url>
-               <li class="active" style="width: 30px;"><a
-                  href="${blistCheck }">${p}</a></li>
-            </c:if>
-
-         </c:forEach>
-         <c:if test="${pi.currentPage eq pi.maxPage }">
-            <li class=disabled style="width: 30px;"><a href="#"
-               aria-label="Previous"> <span aria-hidden="true">»</span>
-            </a></li>
-         </c:if>
+  <!--paginnation start-->
+	<nav aria-label="Page navigation">
+		<ul class="pagination"
+			style="justify-content: center; padding-bottom: 30px;">
+			<!-- disabled가 있으면 마우스 커서가 금지표시로 바뀐다. -->
+			<c:if test="${pi.currentPage eq 1 }">
+				<li class=disabled style="width: 30px;"><a href="#"
+					aria-label="Previous"> <span aria-hidden="true">«</span>
+				</a></li>
+			</c:if>
 
 			<c:if test="${pi.currentPage gt 1 }">
 				<c:url var="blistBack" value="pdReview.do">
@@ -192,8 +172,8 @@
 
 			<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
 				<c:if test="${p eq pi.currentPage }">
-					<li class="active" style="width: 30px;"><a href="#"
-						style="color: #a82400;">${p}</a></li>
+					<li class="active" style="width: 30px;"><a
+						href="#" style="color:#a82400;">${p}</a></li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
 					<c:url var="blistCheck" value="pdReview.do">
@@ -221,25 +201,8 @@
 			</c:if>
 		</ul>
 	</nav>
-
-
-
 	<!--pagination end-->
-
-         <c:if test="${pi.currentPage lt pi.maxPage }">
-            <c:url var="blistNext" value="pdReview.do">
-               <c:param name="page" value="${pi.currentPage +1 }" />
-            </c:url>
-            <li style="width: 30px;"><a href="${blistNext}"
-               aria-label="Previous"> <span aria-hidden="true">»</span>
-            </a></li>
-         </c:if>
-      </ul>
-   </nav>
-
-
-
-   <!--pagination end-->
+ 
 
    <%@ include file="../static/footer.jsp"%>
    <!--====== Javascripts & Jquery ======-->
