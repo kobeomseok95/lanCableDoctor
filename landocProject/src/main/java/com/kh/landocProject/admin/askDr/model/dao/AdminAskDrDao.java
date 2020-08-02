@@ -1,5 +1,6 @@
 package com.kh.landocProject.admin.askDr.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -42,6 +43,21 @@ public class AdminAskDrDao {
 
 	public List<AskDrReply> getReplyList(int adNo) {
 		return sqlSessionTemplate.selectList("adminAskDr.getReplyList", adNo);
+	}
+
+	public List<AdminAskDrBoard> search(HashMap<String, Object> param, PageInfo pageInfo) {
+		if( pageInfo != null ) {
+			int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getBoardLimit();
+			RowBounds rowBounds = new RowBounds(offset, pageInfo.getBoardLimit());
+			return sqlSessionTemplate.selectList("adminAskDr.search", param, rowBounds);
+		}
+		else {
+			return sqlSessionTemplate.selectList("adminAskDr.search", param);
+		}
+	}
+
+	public int searchCount(HashMap<String, Object> param) {
+		return sqlSessionTemplate.selectOne("adminAskDr.searchCount", param);
 	}
 	
 }

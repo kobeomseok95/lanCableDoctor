@@ -21,4 +21,8 @@ public interface AdminAskDrService {
 
 	List<AskDrReply> getReplyList(int adNo);
 
+	List<AdminAskDrBoard> search(HashMap<String, Object> param, PageInfo pageInfo);
+
+	int searchCount(HashMap<String, Object> param);
+
 }

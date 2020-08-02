@@ -47,5 +47,15 @@ public class AdminAskDrServiceImpl implements AdminAskDrService{
 	public List<AskDrReply> getReplyList(int adNo) {
 		return adminAskDrDao.getReplyList(adNo);
 	}
+
+	@Override
+	public List<AdminAskDrBoard> search(HashMap<String, Object> param, PageInfo pageInfo) {
+		return adminAskDrDao.search(param, pageInfo);
+	}
+
+	@Override
+	public int searchCount(HashMap<String, Object> param) {
+		return adminAskDrDao.searchCount(param);
+	}
 	
 }

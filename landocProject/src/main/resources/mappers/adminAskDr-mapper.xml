@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="adminAskDr">
-	<sql id="">
-		
+	<!-- adNo hpcategory -->
+	<sql id="keywords">
+		<choose>
+			<when test="condition == 'adTitle'">
+				WHERE AD_TITLE LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="condition == 'adContent'">
+				WHERE 
+				AD_CAUTION LIKE '%' || #{keyword} || '%'
+		        OR
+		        AD_SYMPTOM LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="condition == 'adNickname'">
+				WHERE C_NICKNAME LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="condition == 'hpcategory'">
+				WHERE HPCATE_NAME LIKE '%' || #{keyword} || '%'
+			</when>
+		</choose>
 	</sql>
+	
+	<sql id="adNo">
+		<if test="condition == 'adNo'">
+			WHERE RNO = #{keyword}
+		</if>
+	</sql>
+	
 	<!-- 게시판 -->
 	<resultMap type="AdminAskDrBoard" id="boardList">
 		<id property="adNo" column="AD_NO"/>
@@ -40,7 +64,7 @@
 		<result property="replyDate" column="ADR_REPLYDATE" />
 	</resultMap>
 	
-	
+<!-- *************************************************************** -->	
 	
 	<select id="getBoardListCount" resultType="_int">
 		SELECT COUNT(*) FROM ASKDR
@@ -134,6 +158,56 @@
 		    ASKDRREPLY R 
 		    JOIN DRCLIENT D ON R.DR_NO = D.DR_NO
 		WHERE R.AD_NO = #{adNo}
+	</select>
+	
+	<select id="search" parameterType="hashMap" resultMap="boardList">
+		SELECT 
+		    * 
+		FROM 
+		(SELECT 
+		    ROWNUM AS RNO,
+		    AD_NO,
+		    AD_TITLE,
+		    C_NICKNAME,
+		    CASE 
+		        WHEN AD_CHOOSESTATUS = 'N'
+		            THEN '채택대기'
+		        ELSE '채택완료'
+		    END AS "AD_CHOOSESTATUS",
+		    HPCATE_NAME
+		FROM
+		    (SELECT 
+		        A.AD_NO, 
+		        A.AD_TITLE, 
+		        C.C_NICKNAME, 
+		        A.AD_CHOOSESTATUS, 
+		        H.HPCATE_NAME
+		    FROM 
+		        ASKDR A
+		        JOIN CLIENT C ON A.C_NO = C.C_NO
+		        JOIN HPCATEGORY H ON A.HP_CATE_CODE = H.HPCATE_CODE
+		    <include refid="keywords" />
+		    ORDER BY
+		        A.AD_SUBMITDATE DESC)
+		)
+		<include refid="adNo" />
+	</select>
+	
+	<select id="searchCount" resultType="_int" parameterType="hashMap">
+		SELECT 
+			COUNT(*)
+		FROM
+		ASKDR A
+		    JOIN CLIENT C ON A.C_NO = C.C_NO
+		    JOIN HPCATEGORY H ON A.HP_CATE_CODE = H.HPCATE_CODE
+		<choose>
+			<when test="condition == 'adNo'">
+				<include refid="adNo" />
+			</when>
+			<otherwise>
+				<include refid="keywords" />
+			</otherwise>
+		</choose>
 	</select>
 	
 </mapper>

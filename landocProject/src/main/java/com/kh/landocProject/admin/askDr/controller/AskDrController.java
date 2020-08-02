@@ -1,6 +1,7 @@
 package com.kh.landocProject.admin.askDr.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -38,6 +39,7 @@ public class AskDrController {
 		
 		mv.addObject("boardList", boardList);
 		mv.addObject("pageInfo", pageInfo);
+		mv.addObject("type", 1);
 		mv.setViewName("admin/askDr/askDrManage");
 		return mv;
 	}
@@ -46,6 +48,7 @@ public class AskDrController {
 	public ModelAndView adminAskDrDetailPost(ModelAndView mv,
 																	@RequestParam int adNo,
 																	@RequestParam int pageNo) {
+		
 		AdminAskDrBoard post = adminAskDrServiceImpl.getPostDetail(adNo);
 		
 		mv.addObject("post", post);
@@ -87,4 +90,58 @@ public class AskDrController {
 		gson.toJson(replyList, response.getWriter());
 	}
 	
+	@RequestMapping(value="adminAskDrSearch.do", method=RequestMethod.GET)
+	public ModelAndView search(@RequestParam String condition,
+											@RequestParam String keyword,
+											@RequestParam int pageNo,
+											ModelAndView mv) {
+		int searchNo = 0;
+		int searchCount = 0;
+		PageInfo pageInfo = null;
+		
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("condition", condition.replaceAll("\\p{Z}", ""));
+		
+		if(condition.equals("adNo")) { 
+			searchNo = Integer.valueOf(keyword);
+			param.put("keyword", searchNo);
+			searchCount = 1;
+		}
+		else {
+			param.put("keyword", keyword);
+			searchCount = adminAskDrServiceImpl.searchCount(param);
+		}
+		pageInfo = Pagination.getPageInfo(pageNo, searchCount);
+		
+		List<AdminAskDrBoard> boardList = adminAskDrServiceImpl.search(param, pageInfo);	
+		
+		mv.addObject("boardList", boardList);
+		mv.addObject("pageInfo", pageInfo);
+		mv.addObject("condition", condition);
+		mv.addObject("keyword", keyword);
+		mv.addObject("type", 2);
+		mv.setViewName("admin/askDr/askDrManage");
+		return mv;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
