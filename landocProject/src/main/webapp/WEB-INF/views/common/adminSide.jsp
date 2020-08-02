@@ -74,7 +74,7 @@
         }
         
         function goAskDr(){
-            location.href="askDrManage.do";
+            location.href="askDrManage.do?pageNo=1";
         }
         
         function goProduct(){
