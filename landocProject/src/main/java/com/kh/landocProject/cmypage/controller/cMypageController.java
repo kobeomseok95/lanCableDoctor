@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -45,15 +48,25 @@ public class cMypageController {
 	
 	
 	@RequestMapping(value="likeHp.do")
-	public ModelAndView likeHospitalList(ModelAndView mv, HttpSession session) throws cMypageException {
+	public ModelAndView likeHospitalList(ModelAndView mv, HttpSession session,HttpServletRequest rq,HttpServletResponse rp) throws cMypageException, ServletException, IOException {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		ArrayList<LikeHp> list = cmService.selectList(cNo);
 		int listCount = cmService.selectCount(cNo);
 		if(list!=null) {
-			mv.addObject("likeHplist",list);
-			mv.addObject("likeHpCount",listCount);
-			mv.setViewName("mypage/myPageLikeHospital");
+			/*
+			 * view = rq.getRequestDispatcher("mypage/myPageLikeHospital");
+			 * rq.setAttribute("rqList", list); rq.setAttribute("likeHplist",list);
+			 * rq.setAttribute("likeHpCount",listCount); view.forward(rq, rp);
+			 */
+			
+			
+			  mv.addObject("likeHplist",list); 
+			  mv.addObject("likeHpCount",listCount);
+		
+			  mv.setViewName("mypage/myPageLikeHospital");
+			 
+			 
 		}else {
 			throw new cMypageException("병원리스트 조회 실패!");
 		}
