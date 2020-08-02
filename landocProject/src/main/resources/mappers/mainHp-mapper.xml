@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mainHpMapper">
+  
+  <resultMap type="MainHp" id="mainHpResultMap">
+	  	<id property="hpNo" column="HP_NO"/>
+	  	<result property="hpName" column="HP_NAME"/>
+	  	<result property="hpPhone" column="HP_PHONE"/>
+	  	<result property="hpPostCode" column="HP_POSTCODE"/>
+	  	<result property="hpAddress" column="HP_ADDRESS"/>
+	  	<result property="hpx" column="HP_X"/>
+	  	<result property="hpy" column="HP_Y"/>
+	  	<result property="hpAvgRate" column="HP_AVG_RATE"/>
+	  	<result property="hpReCount" column="HP_REVIEW"/>
+	  	<result property="hpComment" column="HP_COMMENT"/>
+	  	<result property="hpCateCode" column="HPCATE_CODE"/>
+	  	<result property="hpCateName" column="HPCATE_NAME"/>
+	  	<result property="drHpNo" column="DRHP_NO"/>
+	  	<result property="originFileName" column="DRHP_ORIGIN"/>
+	  	<result property="renameFileName" column="DRHP_RENAME"/>
+	  	<result property="filePath" column="DRHP_FILEPATH"/>
+	  	<result property="ph_code" column="PH_CODE"/>
+	  	<result property="hpDay" column="HP_DAY"/>
+	  	<result property="hpTime" column="HP_TIME"/>
+  </resultMap>
+  
+  
+  
+  <select id="selectOneHp" parameterType="MainHp" resultMap="mainHpResultMap">
+  	SELECT *
+  	FROM HOSPITAL
+  
+  
+  
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>

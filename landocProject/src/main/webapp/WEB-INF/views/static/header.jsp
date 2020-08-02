@@ -55,13 +55,15 @@
                </li>
             </div>
          </c:if>
+         
+         <!-- ------------------------------------------ -->
          <c:if test="${empty loginClient && !empty loginDrClient }">
             <div class="user-panel">
                <li>
                   <!--로그인 성공시 닉네임으로 변경, ul 태그 화면뿌리기 -->
                   <a href="#"><c:out value="${loginDrClient.userName }님 환영합니다"/></a>
                   <ul class="sub-menu" style="left: 0px;">
-                     <li><a href="clientMypage.do">나의활동</a></li>
+                     <li><a href="doctorMypage.do">나의활동</a></li>
                      <li><a href="mypagePoint.html">나의 포인트</a></li>
                      <li><a href="modifyDrClientView.do">계정설정</a></li>
                      <li><a href="logout.do">로그아웃</a></li>
