@@ -4,6 +4,7 @@
   
   <resultMap type="AdminHpRe" id="hpReResultMap">
      <id property="hpReNo" column="HP_RE_NO"/>
+     <id property="rowNum" column="ROWNUM"/>
      <result property="hpName" column="HP_NAME"/>
      <result property="hpCateNo" column="HPCATE_CODE"/>
      <result property="hpCateName" column="HPCATE_NAME"/>
@@ -46,27 +47,22 @@
   <!-- 일반 리스트 카운트 조회용 -->
   <select id="getListCount" resultType="_int">
     SELECT COUNT(*)
-     FROM 
-     (SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, RECEIPT_YN
-   FROM HPREVIEW HR
-       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
-       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
-       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
-       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE))
+     FROM HPREVIEW
+    
   </select>
   
   
   <!-- 전체리스트 조회용 -->
   <select id="selectListAll" resultMap="hpReResultMap">
-     SELECT *
-     FROM 
-     (SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, RECEIPT_YN
-   FROM HPREVIEW HR
-       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
-       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
-       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
-       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE))
-   ORDER BY 1
+     SELECT ROWNUM, HP_RE_NO, HP_NAME, HPCATE_CODE, HPCATE_NAME, C_NO, C_ID, HP_NO, HP_RE_DATE, LIKE_YN, HP_RE_AVG_RATE, RECEIPT_YN
+		FROM 
+		(SELECT HR.HP_RE_NO, H.HP_NAME, HR.HPCATE_CODE, HG.HPCATE_NAME, C.C_NO, C.C_ID, HR.HP_NO, HR.HP_RE_DATE, HR.LIKE_YN, HR.HP_RE_AVG_RATE, HR.RECEIPT_YN
+		FROM HPREVIEW HR
+		    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
+		    JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
+		    JOIN HPCATEGORY HG ON (HR.HPCATE_CODE = HG.HPCATE_CODE)
+		ORDER BY HR.HP_RE_DATE DESC
+		)
   </select>
   
   
@@ -76,12 +72,11 @@
   <select id="selectSearchListCount" parameterType="sc" resultType="_int">
      SELECT COUNT(*)
      FROM 
-     (SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, RECEIPT_YN
-   FROM HPREVIEW HR
-       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
-       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
-       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
-       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
+     (SELECT HR.HP_RE_NO, H.HP_NAME, HR.HPCATE_CODE, HG.HPCATE_NAME, C.C_NO, C.C_ID, HR.HP_NO, HR.HP_RE_DATE, HR.LIKE_YN, HR.HP_RE_AVG_RATE, HR.RECEIPT_YN
+		FROM HPREVIEW HR
+		    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
+		    JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
+		    JOIN HPCATEGORY HG ON (HR.HPCATE_CODE = HG.HPCATE_CODE)
      <where>
       <if test="hpNo != null and hpNo !=''">
          AND HR.HP_NO=#{hpNo}
@@ -90,7 +85,7 @@
          AND H.HP_NAME LIKE '%' || #{hpName} || '%'
       </if>
       <if test="hpCateNo != null and hpCateNo != ''">
-         AND HL.HPCATE_CODE=#{hpCateNo}
+         AND HR.HPCATE_CODE=#{hpCateNo}
       </if>
       <if test="hpCateName != null and hpCateName !=''">
          AND HG.HPCATE_NAME LIKE '%' || #{hpCateName} || '%'
@@ -107,14 +102,13 @@
   
   <!-- 검색 리스트 조회용 -->
   <select id="selectList" parameterType="sc" resultMap="hpReResultMap">
-     SELECT *
-     FROM 
-     (SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, RECEIPT_YN
-   FROM HPREVIEW HR
-       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
-       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
-       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
-       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
+     SELECT ROWNUM, HP_RE_NO, HP_NAME, HPCATE_CODE, HPCATE_NAME, C_NO, C_ID, HP_NO, HP_RE_DATE, LIKE_YN, HP_RE_AVG_RATE, RECEIPT_YN
+		FROM 
+		(SELECT HR.HP_RE_NO, H.HP_NAME, HR.HPCATE_CODE, HG.HPCATE_NAME, C.C_NO, C.C_ID, HR.HP_NO, HR.HP_RE_DATE, HR.LIKE_YN, HR.HP_RE_AVG_RATE, HR.RECEIPT_YN
+		FROM HPREVIEW HR
+		    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
+		    JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
+		    JOIN HPCATEGORY HG ON (HR.HPCATE_CODE = HG.HPCATE_CODE)
      <where>
       <if test="hpNo != null and hpNo !=''">
          AND HR.HP_NO=#{hpNo}
@@ -123,7 +117,7 @@
          AND H.HP_NAME LIKE '%' || #{hpName} || '%'
       </if>
       <if test="hpCateNo != null and hpCateNo != ''">
-         AND HL.HPCATE_CODE=#{hpCateNo}
+         AND HR.HPCATE_CODE=#{hpCateNo}
       </if>
       <if test="hpCateName != null and hpCateName !=''">
          AND HG.HPCATE_NAME LIKE '%' || #{hpCateName} || '%'
@@ -134,24 +128,60 @@
       <if test="approval != null and approval !=''">
          AND HR.RECEIPT_YN=#{approval}
       </if>
-   </where>)
-   ORDER BY 1
+   </where>
+   ORDER BY HR.HP_RE_DATE DESC)
   </select>
 
 
    
   <!-- detail 페이지 -->
   <select id="selectHpReDetail" parameterType="_int" resultMap="hpReResultMap2">
-     SELECT HR.HP_RE_NO, H.HP_NAME, HL.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, 
+     SELECT HR.HP_RE_NO, H.HP_NAME, HR.HPCATE_CODE, HG.HPCATE_NAME, HR.C_NO, C.C_ID, HR.HP_NO, HP_RE_DATE, LIKE_YN, HR.HP_RE_AVG_RATE, 
         HR.HP_RE_DATE, HR.DETAIL_EXPLANATION, HR.STAFF_KIND, HR.WAITING_TIME, HR.TREATMENT_RESULT, HR.CLEANLINESS, HR.PRICE, 
-        HR.HPRE_ORIGIN, HR.HPRE_RENAME, HR.RECEIPT_YN
-   FROM HPREVIEW HR
-       JOIN CLIENT C ON (HR.C_NO = C.C_NO)
-       JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
-       JOIN HPLIST HL ON (H.HP_NO = HL.HP_NO)
-       JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
+       HR.HP_RE_CONTENT, HR.HPRE_ORIGIN, HR.HPRE_RENAME, HR.RECEIPT_YN
+ 	 FROM HPREVIEW HR
+	    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
+	    JOIN HOSPITAL H ON (HR.HP_NO = H.HP_NO)
+	    JOIN HPCATEGORY HG ON (HR.HPCATE_CODE = HG.HPCATE_CODE)
       WHERE HR.HP_RE_NO=#{hpReNo}
   </select>
+  
+  
+  <!-- 승인 업데이트 -->
+  <update id="approvalHpRe" parameterType="_int">
+  	UPDATE HPREVIEW
+  	SET RECEIPT_YN='Y'
+  	WHERE HP_RE_NO=#{hpReNo}
+  </update>
+  
+  
+  
+  <!-- 승인 후 포인트 지급 -->
+  <insert id="insertPoint" parameterType="AdminHpRePt">
+  	INSERT INTO POINTSAVE
+  	VALUES(SEQ_POINTSAVE.NEXTVAL, 1000, SYSDATE, #{hpReNo}, NULL, NULL, #{cNo})
+  
+  </insert>
+  
+  
+  <!-- 승인 후 맴버 포인트 업데이트 -->
+  <update id="updateCPoint" parameterType="string">
+  	UPDATE CLIENT
+  	SET C_POINT = C_POINT + 1000
+  	WHERE C_NO=#{cNo}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   

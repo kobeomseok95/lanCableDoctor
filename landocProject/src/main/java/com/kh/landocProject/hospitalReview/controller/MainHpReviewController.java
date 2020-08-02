@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -29,6 +28,9 @@ public class MainHpReviewController {
    @Autowired
    MainHpReviewService MainHpReService;
    
+   // 사진 저장 폴더
+   private final String filePath = "C:\\lanCableDoctorProject\\files\\";
+   
    
    // header와의 연결
    @RequestMapping("hpReviewInsert.do")
@@ -36,6 +38,7 @@ public class MainHpReviewController {
       return "hospitalReview/hpReviewInsert";
       
    }
+   
    
    // 병원 검색 모달 창
    @RequestMapping("searchHpName.do")
@@ -60,9 +63,26 @@ public class MainHpReviewController {
    }
    
    
+   // 선택한 병원 진료과목 코드 불러오는 것
+   @RequestMapping("searchHpCate.do")
+   public void searchHpCate(HttpServletResponse response, @RequestParam(value="hopiName") String hpName) throws JsonIOException, IOException {
+	   
+	   ArrayList<SearchHp> searchHpCate =  MainHpReService.selectHpCate(hpName);
+	   
+	   response.setContentType("application/json;charset=utf-8");
+	   
+	   Gson gson = new Gson();
+	   
+	   gson.toJson(searchHpCate, response.getWriter());
+	   
+   }
+   
+   
+   // 병원리뷰등록
    @RequestMapping("hpReInsert.do")
    public String hpReInsert(HttpServletRequest request, HpReview hpRe, HttpSession session,
                         @RequestParam(value="hospital_id") Integer hpNo, 
+                        @RequestParam(value="hospital_cateCode") Integer hpCateCode,
                         @RequestParam(value="receipt_image", required=true) MultipartFile file,
                         @RequestParam(value="kindness") Double kindness,
                         @RequestParam(value="sanitary") Double sanitary,
@@ -73,13 +93,16 @@ public class MainHpReviewController {
                         @RequestParam(value="comment") String comment,
                         @RequestParam(value="suggest") String suggest) {
       
+	   
       Client loginClient = (Client)session.getAttribute("loginClient");
+//      System.out.println("controller에서 병원 진료과목 : " + hpCateCode);
       
       if(!file.getOriginalFilename().equals("")) {   // 파일이 잘 넘어온 경우
          String renameFileName = saveFile(file,request);
          
          hpRe.setcNo(loginClient.getcNo());
          hpRe.setHpNo(hpNo);
+         hpRe.setHpCateCode(hpCateCode);
          hpRe.setHpReContent(comment);   
          hpRe.setLike(suggest);
          
@@ -128,13 +151,13 @@ public class MainHpReviewController {
    }
    
    public String saveFile(MultipartFile file, HttpServletRequest request) {
-      // webapp까지의 경로
-      String root = request.getSession().getServletContext().getRealPath("resources");
+//      // webapp까지의 경로
+//      String root = request.getSession().getServletContext().getRealPath("resources");
+//      
+//      // resources안의 hpReUploadFiles 폴더까지의 경로
+//      String savePath = root + "\\hpReUploadFiles";
       
-      // resources안의 hpReUploadFiles 폴더까지의 경로
-      String savePath = root + "\\hpReUploadFiles";
-      
-      File folder = new File(savePath);
+      File folder = new File(filePath);
       
       if(!folder.exists()) {
          folder.mkdirs();
@@ -144,11 +167,11 @@ public class MainHpReviewController {
       String originFileName = file.getOriginalFilename();
       String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." + originFileName.substring(originFileName.lastIndexOf(".")+1);
       
-      String filePath = folder + "\\" + renameFileName;
+      String saveFiles = filePath + renameFileName;
       
       
       try {
-         file.transferTo(new File(filePath));   // 이 때 파일이 저장
+         file.transferTo(new File(saveFiles));   // 이 때 파일이 저장
          
       } catch (IllegalStateException e) {
          
@@ -160,25 +183,6 @@ public class MainHpReviewController {
       
       return renameFileName;
    }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
    
    
 }

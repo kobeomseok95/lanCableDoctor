@@ -201,7 +201,7 @@
 			    AD.AD_CAUTION,
 			    AD.AD_SYMPTOM,
 			    AD.HP_CATE_CODE,
-                COUNT(ADP.ADP_NO) AS CNT
+                COUNT(ADP.ADP_NO) AS FILECOUNT
 			FROM ASKDR AD
 			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
                 LEFT JOIN ASKDRPHOTO ADP ON (AD.AD_NO = ADP.AD_NO)
@@ -284,7 +284,6 @@
 	</delete>
 	
 	<select id="selectAskDrBoardDetailReply" parameterType="_int" resultMap="AskDrReply">
-		<!-- 의사 번호, 댓글번호 가져와야한다! -->
 		SELECT
 		    PP.PRO_RENAME,
 		    DR.DR_NO,
@@ -329,6 +328,19 @@
 		    0, 0, 0, 0
 		)
 	</insert>
+	
+	<delete id="deleteAskDrBoardReply" parameterType="_int">
+		DELETE FROM ASKDRREPLY
+		WHERE ADR_NO = #{adrNo}
+	</delete>
+	
+	<update id="updateAskDrBoardReply" parameterType="AskDrReply">
+		UPDATE ASKDRREPLY
+		SET
+		    ADR_CONTENT = #{content}
+		WHERE
+		    ADR_NO = #{adrNo}		
+	</update>
 </mapper>
 
 
