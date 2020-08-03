@@ -13,6 +13,9 @@
 		<result property="hpReview" column="HP_REVIEW" />
 		<result property="hpAvgRate" column="HP_AVG_RATE" />
 		<result property="hpTime" column="HP_TIME" />
+		<result property="proOrigin" column="PRO_ORIGIN" />
+		<result property="proRename" column="PRO_RENAME" />
+		<result property="proFilepath" column="PRO_FILEPATH" />
 
 	</resultMap>
 
@@ -83,14 +86,14 @@
 		SELECT HP.HP_NO, HP.HP_NAME,
 		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X,
 		HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
-		NVL(HT.HP_TIME,'정보없음') AS HP_TIME
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
+        PT.PRO_ORIGIN,PT.PRO_RENAME,PT.PRO_FILEPATH
 		FROM HPLIKE HL
 		LEFT JOIN HOSPITAL HP ON(HL.HP_NO = HP.HP_NO)
-		LEFT JOIN
-		HPTIME HT ON(HL.HP_NO = HT.HP_UNIQUENO)
-		WHERE TO_CHAR(SYSDATE,'DAY') =
-		HT.HP_DAY
-		AND C_NO =#{cNo}
+		LEFT JOIN HPTIME HT ON(HL.HP_NO = HT.HP_UNIQUENO)
+        LEFT JOIN PROFILEPHOTO PT ON(PT.HP_NO=HL.HP_NO)
+		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY
+		AND HL.C_NO =#{cNo}
 		ORDER BY HL.HP_NO DESC
 
 
@@ -286,13 +289,13 @@
 	
 	
 	<select id="selectAllSumPoint" resultType="string" parameterType="string">
-		SELECT SUM(use_point) AS ALLSUMUSEPOINT
+		SELECT NVL(SUM(use_point),0) AS ALLSUMUSEPOINT
 		FROM PAYMENT
 		WHERE C_NO=#{cNo}
 	</select>
 	
 	<select id="selectMonthSumPoint"  resultType="string" parameterType="string">
-		SELECT SUM(use_point) AS MONTHSUMUSEPOINT
+		SELECT NVL(SUM(use_point),0) AS MONTHSUMUSEPOINT
 		FROM PAYMENT
 		WHERE C_NO=#{cNo} AND TO_CHAR(ORDER_DATE,'Month') =  TO_CHAR(SYSDATE,'Month')
 	</select>

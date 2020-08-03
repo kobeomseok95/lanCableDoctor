@@ -59,7 +59,7 @@
 					style="border: 2px solid #9b9b9b; height: 131px;">
 					<img class="img-fluid" style="width: 100%; height: auto;"
 						alt="Responsive image"
-						src="https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/dog.png">
+						src="/projectFiles/profile.png">
 				</div>
 				<div class="col-8 pl-5 text-left">
 					<div class="d-flex align-items-center">
