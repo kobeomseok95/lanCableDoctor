@@ -173,8 +173,8 @@
 					</div>
 					<div class="wrap-input100 validate-input"
 						data-validate="병원을 선택해 주세요">
-						<span class="focus-input100" data-placeholder="병원"></span> <select
-							class="input100" name="hpNo" id="hpNo" style="border: none;">
+						<span class="focus-input100" data-placeholder="병원"></span> 
+						<select class="input100" name="hpNo" id="hpNo" style="border: none;">
 
 							<!-- <datalist id="hospitalList" class="focus-input100" data-placeholder="병원 검색"> -->
 							<option value="1">소화병원(의료법인 소화병원)</option>
@@ -288,9 +288,8 @@
 
 					<div class="wrap-input100 validate-input"
 						data-validate="정해진 진료과목을 선택 및 입력해주세요.">
-						<span class="focus-input100" data-placeholder="주분야"></span> <select
-							class="input100" name="hpCateCode" id="hpCateCode"
-							style="border: none;">
+						<span class="focus-input100" data-placeholder="주분야"></span> 
+						<select class="input100" name="hpCateCode" id="hpCateCode" style="border: none;">
 							<option value="400">치과</option>
 							<option value="114">피부과</option>
 							<option value="108">성형외과</option>

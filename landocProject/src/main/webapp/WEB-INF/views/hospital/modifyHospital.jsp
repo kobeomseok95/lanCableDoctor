@@ -64,6 +64,7 @@
 	
     .basic label{font-size: 23px; font-weight: 600;}
     .basic input{width: 500px; border:2px solid #9b9b9b; line-height: 40px; border-radius: 5px;}
+    .basic select{width: 500px; border:2px solid #9b9b9b; height: 40px; border-radius: 5px;}
     
     .modify_time{width:500px; border:1px solid #9b9b9b; border-radius: 5px;}
 
@@ -231,18 +232,44 @@
 
 					<div class="p-4 basic" style="width:1000px; text-align: center;">
                         <label style="letter-spacing: 10px;">병원명</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="text" id="hospital_name" name="hospital_name" value="00병원" readonly><br><br>
+                        <input type="text" id="hospital_name" name="hospital_name" value="${hpBasic.hpName }"><br><br>
 
 						 <label style="letter-spacing: 1.5px;">진료과목</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="text" id="hospital_cateName" name="hospital_cateName" value="내과" readonly><br><br>
+                       <%--  <input type="text" id="hospital_cateName" name="hospital_cateName" value="${hpBasic.hpCateName }"> --%>
+                        
+                       
+						<select class="input100" name="hospital_cateCode" id="hospital_cateCode">
+							<c:set var="cateCode" value="${hpBasic.hpCateCode }"/>
+							
+							<option value="400" <c:if test="${cateCode eq 400 }">selected="selected"</c:if>>치과</option>
+							<option value="114" <c:if test="${cateCode eq 114 }">selected="selected"</c:if>>피부과</option>
+							<option value="108" <c:if test="${cateCode eq 108 }">selected="selected"</c:if>>성형외과</option>
+							<option value="112" <c:if test="${cateCode eq 112 }">selected="selected"</c:if>>안과</option>
+							<option value="110" <c:if test="${cateCode eq 110 }">selected="selected"</c:if>>산부인과</option>
+							<option value="115" <c:if test="${cateCode eq 115 }">selected="selected"</c:if>>비뇨기과</option>
+							<option value="103" <c:if test="${cateCode eq 103 }">selected="selected"</c:if>>정신건강의학과</option>
+							<option value="105" <c:if test="${cateCode eq 105 }">selected="selected"</c:if>>정형외과</option>
+							<option value="116" <c:if test="${cateCode eq 116 }">selected="selected"</c:if>>마취통증의학과</option>
+							<option value="106" <c:if test="${cateCode eq 106 }">selected="selected"</c:if>>신경외과</option>
+							<option value="120" <c:if test="${cateCode eq 120 }">selected="selected"</c:if>>재활의학과</option>
+							<option value="109" <c:if test="${cateCode eq 109 }">selected="selected"</c:if>>영상의학과</option>
+							<option value="104" <c:if test="${cateCode eq 104 }">selected="selected"</c:if>>외과</option>
+							<option value="102" <c:if test="${cateCode eq 102 }">selected="selected"</c:if>>신경과</option>
+							<option value="111" <c:if test="${cateCode eq 111 }">selected="selected"</c:if>>소아과</option>
+							<option value="101" <c:if test="${cateCode eq 101 }">selected="selected"</c:if>>내과</option>
+							<option value="113" <c:if test="${cateCode eq 113 }">selected="selected"</c:if>>이비인후과</option>
+							<option value="122" <c:if test="${cateCode eq 122 }">selected="selected"</c:if>>가정의학과</option>
+							<option value="300" <c:if test="${cateCode eq 300 }">selected="selected"</c:if>>한의원</option>
+						</select>
+						<br><br>
 
                         <label style="letter-spacing: 10px;">연락처</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="text" id="hospital_phone" name="hospital_phone" value="010-0000-0000" readonly><br><br>
+                        <input type="text" id="hospital_phone" name="hospital_phone" value="${hpBasic.hpPhone}"><br><br>
 
                         <label style="letter-spacing: 25px;">주소</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="text" id="sample4_postcode" name="postCode" style="width:31%; height:10%;"placeholder="우편번호">
+                        <input type="text" id="sample4_postcode" name="postCode" style="width:31%; height:10%;" value="${hpBasic.hpPostCode}">
                         <input type="button" id="searchAdd" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width:25%; height:10%;"><br><br>
-                        <input type="text" id="sample4_roadAddress" name="address1" style="margin-left:13%;" placeholder="도로명주소"><br><br>
+                        <input type="text" id="sample4_roadAddress" name="address1" style="margin-left:13%;" value="${hpBasic.hpAddress }"><br><br>
                        
                        
 						<span id="guide" style="color:#999;display:none"></span>
@@ -314,10 +341,6 @@
 						    }
 						</script>
 						                        
-                        
-                        
-                        
-                        
                         
                         <!-- ----------------------- -->
                         <input type="hidden" id="hospital_id" name="hospital_id" value="">
@@ -445,10 +468,6 @@
 				
 			})
 				
-				
-				
-			
-		
 		</script>
 
 
@@ -469,11 +488,14 @@
 				
 				<div class="row pt-4">
 					<div class="p-3 border rounded-lg" style="font-size: 10px;color: #494949; width:90%; height:90%; text-align:left; margin-left:45px;">
-					<label class="col-sm-3 control-label" style="font-size:18px; color:#494949; font-weight:800;">기존 등록 사진</label>
+					<label class="col-sm-3 control-label" style="font-size:18px; color:#494949; font-weight:800; margin-top:1%;">기존 등록 사진</label>
 					
 						<!-- 기존 등록사진 불러오기 -->
-						<div id="" style="width:50%; height:50%;">
-							<img id="" name="">
+						<div id="" style="width:100%; height:100%; margin-top:2%; margin-bottom:2%;">
+								<c:forEach var="hpPics" items="${hpPhoto }">
+									<c:set var="fullPath" value="/projectFiles/${hpPics.renameFileName }"/>
+									<img src="${fullPath}" style="width: 33%; height: 33%;"/>
+								</c:forEach>
 						</div>
 					
 					</div>
@@ -482,10 +504,10 @@
 				
             
                  <div class="form-group form-inline pt-4">
-					<label class="col-sm-3 control-label" style="font-size:18px; color:#007ee5; font-weight:800; padding:0;">신규 사진 등록</label>
-                 	<button id="hpPicsUpload" class="btn btn-sm" type="button" style="background-color:#007ee5;">
+                 	<button id="hpPicsUpload" class="btn btn-sm" type="button" style="background-color:#007ee5; margin-left:5%;">
 						<h4 style="color:white;">+</h4>
 					</button>
+					<label class="col-sm-2 control-label" style="font-size:18px; color:#007ee5; font-weight:800; padding:0;">신규 사진 등록</label>
 					
 					<input id="hpPics" name="hpPics" type="file" multiple="multiple" style="display: none;" />
 				</div>
@@ -526,21 +548,12 @@
 				
 			})
 		
-		
-		
-		
-		
-		
 		</script>
-
-
-
-
 
 
             
           <!--3. 병원 영업시간 수정-->
-          <form id="" enctype="multipart/form-data">
+          <form id="" action="#">
 			<div class="summit-content-box mx-auto p-5 mt-4">
 				<div class="row mb-5">
 					<div class="col-sm-1">
@@ -560,6 +573,8 @@
 							
 						</div>
 						<ul class="list-group list-group-flush content-box-text1">
+						  
+						  
 						  <li class="list-group-item pl-0 pr-0 pt-3">
 							  <div class="row">
 								  <div class="col-sm-11 pr-0">
@@ -567,24 +582,25 @@
                                      		     월요일
 										
 										<div class="pull-right">
-											<input type="time" id="mon_open_time" name="mon_open_time">
+											<input type="time" id="mon_open_time" name="mon_open_time" value="${hpTime[0].hpOpenTime }">
 											~
-											<input type="time" id="mon_close_time" name="mon_close_time">
+											<input type="time" id="mon_close_time" name="mon_close_time" value="${hpTime[0].hpCloseTime }">
 										</div>
                                         
 									  </div>
 								  </div>
 							  </div>
 						  </li>
+						  
 						  <li class="list-group-item pl-0 pr-0 pt-3">
 							  <div class="row">
 								  <div class="col-sm-11 pr-0">
 									  <div class="d-flex justify-content-between align-items-center">
 										  화요일
 										  <div class="pull-right">
-											<input type="time" id="tues_open_time" name="tues_open_time">
+											<input type="time" id="tues_open_time" name="tues_open_time" value="${hpTime[1].hpOpenTime }">
 											~
-											<input type="time" id="tues_close_time" name="tues_close_time">
+											<input type="time" id="tues_close_time" name="tues_close_time" value="${hpTime[1].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -597,9 +613,9 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  수요일
 										  <div class="pull-right">
-											<input type="time" id="wed_open_time" name="wed_open_time">
+											<input type="time" id="wed_open_time" name="wed_open_time" value="${hpTime[2].hpOpenTime }">
 											~
-											<input type="time" id="wed_close_time" name="wed_close_time">
+											<input type="time" id="wed_close_time" name="wed_close_time" value="${hpTime[2].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -612,9 +628,9 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  목요일
 										  <div class="pull-right">
-											<input type="time" id="thurs_open_time" name="thurs_open_time">
+											<input type="time" id="thurs_open_time" name="thurs_open_time" value="${hpTime[3].hpOpenTime }">
 											~
-											<input type="time" id="thurs_close_time" name="thurs_close_time">
+											<input type="time" id="thurs_close_time" name="thurs_close_time" value="${hpTime[3].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -627,9 +643,9 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  금요일
 										  <div class="pull-right">
-											<input type="time" id="fri_open_time" name="fri_open_time">
+											<input type="time" id="fri_open_time" name="fri_open_time" value="${hpTime[4].hpOpenTime }">
 											~
-											<input type="time" id="fri_close_time" name="fri_close_time">
+											<input type="time" id="fri_close_time" name="fri_close_time" value="${hpTime[4].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -642,9 +658,9 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  토요일
 										  <div class="pull-right">
-											<input type="time" id="sat_open_time" name="sat_open_time">
+											<input type="time" id="sat_open_time" name="sat_open_time" value="${hpTime[5].hpOpenTime }">
 											~
-											<input type="time" id="sat_close_time" name="sat_close_time">
+											<input type="time" id="sat_close_time" name="sat_close_time" value="${hpTime[5].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -657,9 +673,9 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                        		 일요일
                                         <div class="pull-right">
-											<input type="time" id="sun_open_time" name="sun_open_time">
+											<input type="time" id="sun_open_time" name="sun_open_time" value="${hpTime[6].hpOpenTime }">
 											~
-											<input type="time" id="sun_close_time" name="sun_close_time">
+											<input type="time" id="sun_close_time" name="sun_close_time" value="${hpTime[6].hpCloseTime }">
 										</div>
                                     </div>
                                 </div>
@@ -681,7 +697,7 @@
 			
 			
 			<!--간단 병원 소개-->
-			<form id="" enctype="multipart/form-data">
+			<form id="" action="#">
 			<div class="summit-content-box mx-auto p-5 mt-4">
 				<div class="row mb-4">
 					<div class="col-sm-1">
@@ -719,7 +735,7 @@
 	
 				<div class="row">
 					<div class="col-sm-10 offset-sm-1 p-0 mt-1">
-							<textarea class="form-control" rows="5" id="comment" name="comment" placeholder="병원에 대해 간략한 소개를 적어주세요. (200자 이상)" onkeyup="textCounter(this, 'counter', 200);"></textarea>
+							<textarea class="form-control" rows="5" id="comment" name="comment" placeholder="병원에 대해 간략한 소개를 적어주세요. (200자 이상)" onkeyup="textCounter(this, 'counter', 200);">${hpBasic.hpComment }</textarea>
 							<div class="mt-1" style="font-size:14px;text-align:right;color:#494949;letter-spacing: -0.6px;">
 								(<span id="counter">0</span>자, 최소 200자 이상)
 							</div>

@@ -2,6 +2,8 @@ package com.kh.landocProject.hospital.model.vo;
 
 import java.io.Serializable;
 
+
+
 public class MainHp implements Serializable{
 
 	/**
@@ -37,7 +39,8 @@ public class MainHp implements Serializable{
 	
 	// 영업시간 테이블 변수
 	private String hpDay;
-	private String hpTime;
+	private String hpOpenTime;
+	private String hpCloseTime;
 	
 	
 	public MainHp() {
@@ -46,7 +49,8 @@ public class MainHp implements Serializable{
 
 	public MainHp(int hpNo, String hpName, String hpPhone, String hpPostCode, String hpAddress, String hpx, String hpy,
 			double hpAvgRate, int hpReCount, String hpComment, int hpCateCode, String hpCateName, int drHpNo,
-			int phCode, String originFileName, String renameFileName, String filePath, String hpDay, String hpTime) {
+			int phCode, String originFileName, String renameFileName, String filePath, String hpDay, String hpOpenTime,
+			String hpCloseTime) {
 		this.hpNo = hpNo;
 		this.hpName = hpName;
 		this.hpPhone = hpPhone;
@@ -65,7 +69,8 @@ public class MainHp implements Serializable{
 		this.renameFileName = renameFileName;
 		this.filePath = filePath;
 		this.hpDay = hpDay;
-		this.hpTime = hpTime;
+		this.hpOpenTime = hpOpenTime;
+		this.hpCloseTime = hpCloseTime;
 	}
 
 
@@ -249,13 +254,23 @@ public class MainHp implements Serializable{
 	}
 
 
-	public String getHpTime() {
-		return hpTime;
+	public String getHpOpenTime() {
+		return hpOpenTime;
 	}
 
 
-	public void setHpTime(String hpTime) {
-		this.hpTime = hpTime;
+	public void setHpOpenTime(String hpOpenTime) {
+		this.hpOpenTime = hpOpenTime;
+	}
+
+
+	public String getHpCloseTime() {
+		return hpCloseTime;
+	}
+
+
+	public void setHpCloseTime(String hpCloseTime) {
+		this.hpCloseTime = hpCloseTime;
 	}
 
 
@@ -271,10 +286,8 @@ public class MainHp implements Serializable{
 				+ ", hpReCount=" + hpReCount + ", hpComment=" + hpComment + ", hpCateCode=" + hpCateCode
 				+ ", hpCateName=" + hpCateName + ", drHpNo=" + drHpNo + ", phCode=" + phCode + ", originFileName="
 				+ originFileName + ", renameFileName=" + renameFileName + ", filePath=" + filePath + ", hpDay=" + hpDay
-				+ ", hpTime=" + hpTime + "]";
+				+ ", hpOpenTime=" + hpOpenTime + ", hpCloseTime=" + hpCloseTime + "]";
 	}
 
-
-	
 	
 }

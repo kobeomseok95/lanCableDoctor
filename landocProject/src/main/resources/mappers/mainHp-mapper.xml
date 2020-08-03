@@ -21,11 +21,12 @@
 	  	<result property="filePath" column="DRHP_FILEPATH"/>
 	  	<result property="ph_code" column="PH_CODE"/>
 	  	<result property="hpDay" column="HP_DAY"/>
-	  	<result property="hpTime" column="HP_TIME"/>
+	  	<result property="hpOpenTime" column="HP_OPEN_TIME"/>
+	  	<result property="hpCloseTime" column="HP_CLOSE_TIME"/>
   </resultMap>
   
   
-  
+  <!-- 병원 기본정보 select -->
   <select id="selectOneHp" parameterType="MainHp" resultMap="mainHpResultMap">
   	SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_COMMENT, HL.HPCATE_CODE, HG.HPCATE_NAME
 	FROM HOSPITAL HP
@@ -36,8 +37,21 @@
   </select>
   
   
+  <!-- 병원 영업시간 select -->
+  <select id="selectHpTime" parameterType="MainHp" resultMap="mainHpResultMap">
+  	SELECT HP_DAY, HP_OPEN_TIME, HP_CLOSE_TIME
+	FROM HPTIME
+	WHERE HP_UNIQUENO = #{hpNo}
+  </select>
   
   
+  <!-- 병원 사진 select -->
+  <select id="selectHpPhoto" parameterType="MainHp" resultMap="mainHpResultMap">
+  	SELECT DRHP_ORIGIN, DRHP_RENAME
+	FROM DRHPPHOTO
+	WHERE HP_NO = #{hpNo}
+	AND PH_CODE = 4
+  </select>
   
   
   

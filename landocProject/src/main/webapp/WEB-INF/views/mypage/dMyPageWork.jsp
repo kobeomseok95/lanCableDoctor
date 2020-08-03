@@ -155,7 +155,7 @@
 	
 		// 병원 수정 페이지 이동 함수
 		function editHp(){
-			location.href="preEditHp.do";
+			location.href="editHp.do";
 		}
 	
 	
