@@ -4,6 +4,7 @@
 <!-- Header section -->
 
 <header class="header-section clearfix">
+
 	<c:url var="home" value="home.do" />
 	<a href="${home }" class="site-logo">
 		<img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
@@ -80,4 +81,5 @@
 		</c:choose>
 		</div>
 	</ul>
+
 </header>

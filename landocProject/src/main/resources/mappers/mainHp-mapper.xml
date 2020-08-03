@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mainHpMapper">
+  
+  <resultMap type="MainHp" id="mainHpResultMap">
+	  	<id property="hpNo" column="HP_NO"/>
+	  	<result property="hpName" column="HP_NAME"/>
+	  	<result property="hpPhone" column="HP_PHONE"/>
+	  	<result property="hpPostCode" column="HP_POSTCODE"/>
+	  	<result property="hpAddress" column="HP_ADDRESS"/>
+	  	<result property="hpx" column="HP_X"/>
+	  	<result property="hpy" column="HP_Y"/>
+	  	<result property="hpAvgRate" column="HP_AVG_RATE"/>
+	  	<result property="hpReCount" column="HP_REVIEW"/>
+	  	<result property="hpComment" column="HP_COMMENT"/>
+	  	<result property="hpCateCode" column="HPCATE_CODE"/>
+	  	<result property="hpCateName" column="HPCATE_NAME"/>
+	  	<result property="drHpNo" column="DRHP_NO"/>
+	  	<result property="originFileName" column="DRHP_ORIGIN"/>
+	  	<result property="renameFileName" column="DRHP_RENAME"/>
+	  	<result property="filePath" column="DRHP_FILEPATH"/>
+	  	<result property="ph_code" column="PH_CODE"/>
+	  	<result property="hpDay" column="HP_DAY"/>
+	  	<result property="hpOpenTime" column="HP_OPEN_TIME"/>
+	  	<result property="hpCloseTime" column="HP_CLOSE_TIME"/>
+  </resultMap>
+  
+  
+  <!-- 병원 기본정보 select -->
+  <select id="selectOneHp" parameterType="MainHp" resultMap="mainHpResultMap">
+  	SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_COMMENT, HL.HPCATE_CODE, HG.HPCATE_NAME
+	FROM HOSPITAL HP
+	    JOIN HPLIST HL ON(HP.HP_NO = HL.HP_NO)
+	    JOIN HPCATEGORY HG ON (HL.HPCATE_CODE= HG.HPCATE_CODE)
+	WHERE HP.HP_NO=#{hpNo}
+	AND HL.HPCATE_CODE=#{hpCateCode}
+  </select>
+  
+  
+  <!-- 병원 영업시간 select -->
+  <select id="selectHpTime" parameterType="MainHp" resultMap="mainHpResultMap">
+  	SELECT HP_DAY, HP_OPEN_TIME, HP_CLOSE_TIME
+	FROM HPTIME
+	WHERE HP_UNIQUENO = #{hpNo}
+  </select>
+  
+  
+  <!-- 병원 사진 select -->
+  <select id="selectHpPhoto" parameterType="MainHp" resultMap="mainHpResultMap">
+  	SELECT DRHP_ORIGIN, DRHP_RENAME
+	FROM DRHPPHOTO
+	WHERE HP_NO = #{hpNo}
+	AND PH_CODE = 4
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>

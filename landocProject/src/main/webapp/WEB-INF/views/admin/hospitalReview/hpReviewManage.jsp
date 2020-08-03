@@ -133,10 +133,10 @@
 		/* 검색어 입력 keyup함수*/
 		function validateSearch(){
 			if($("#searchCondition").val() == "hpNo" || $("#searchCondition").val()=="hpCateNo"){
-				console.log($("#searchCondition").val());
+				/* console.log($("#searchCondition").val()); */
 				
 				var inputValue = $("#searchValue").val();
-				console.log(inputValue);
+				/* console.log(inputValue); */
 				
 				var expr = /^[0-9]{1,9}$/;
 				

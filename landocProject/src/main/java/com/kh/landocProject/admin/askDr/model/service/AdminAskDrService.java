@@ -25,4 +25,6 @@ public interface AdminAskDrService {
 
 	int searchCount(HashMap<String, Object> param);
 
+	List<String> getFileNames(int adNo);
+
 }

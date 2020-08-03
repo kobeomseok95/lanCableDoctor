@@ -1,5 +1,6 @@
 package com.kh.landocProject.admin.askDr.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.google.gson.JsonIOException;
 import com.kh.landocProject.admin.askDr.model.service.AdminAskDrService;
 import com.kh.landocProject.admin.askDr.model.vo.AdminAskDrBoard;
 import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
+import com.kh.landocProject.askDr.controller.MainAskDrController;
 import com.kh.landocProject.askDr.model.vo.AskDrReply;
 import com.kh.landocProject.common.Pagination;
 
@@ -59,12 +61,31 @@ public class AskDrController {
 	
 	@RequestMapping(value="deleteAdminAskDrPost.do", method=RequestMethod.POST)
 	public String deletePost(AdminAskDrBoard post) {
-		int result = adminAskDrServiceImpl.deletePost(post.getAdNo());
+		List<String> fileNames = adminAskDrServiceImpl.getFileNames(post.getAdNo());
 		
-		if(result > 0) {
-			return "redirect:askDrManage.do?pageNo=1";
+		if( deleteStoredImgs(fileNames) ){
+			adminAskDrServiceImpl.deletePost(post.getAdNo());
 		}
-		else return "";
+		
+		return "redirect:askDrManage.do?pageNo=1";
+	}
+	
+	public boolean deleteStoredImgs(List<String> fileNames) {
+		for(String fileName : fileNames) {
+			String path = "C:\\lanCableDoctorProject\\files\\" + fileName;
+			
+			try{
+				File file = new File(path);
+				if( file.exists() ) {
+					file.delete();
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				return false;
+			}			
+		}
+		return true;
 	}
 	
 	@ResponseBody
