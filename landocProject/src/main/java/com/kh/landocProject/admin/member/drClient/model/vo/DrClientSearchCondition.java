@@ -10,14 +10,14 @@ public class DrClientSearchCondition implements Serializable{
 	private static final long serialVersionUID = 4172755953820632071L;
 
 	private String none;
-	private String cNo;
+	private String drNo;
 	private String userName;
 	private String nickName;
 	public DrClientSearchCondition() {
 	}
-	protected DrClientSearchCondition(String none, String cNo, String userName, String nickName) {
+	protected DrClientSearchCondition(String none, String drNo, String userName, String nickName) {
 		this.none = none;
-		this.cNo = cNo;
+		this.drNo = drNo;
 		this.userName = userName;
 		this.nickName = nickName;
 	}
@@ -27,11 +27,11 @@ public class DrClientSearchCondition implements Serializable{
 	public void setNone(String none) {
 		this.none = none;
 	}
-	public String getcNo() {
-		return cNo;
+	public String getDrNo() {
+		return drNo;
 	}
-	public void setcNo(String cNo) {
-		this.cNo = cNo;
+	public void setDrNo(String drNo) {
+		this.drNo = drNo;
 	}
 	public String getUserName() {
 		return userName;
@@ -50,8 +50,9 @@ public class DrClientSearchCondition implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "DrClientSearchCondition [none=" + none + ", cNo=" + cNo + ", userName=" + userName + ", nickName="
+		return "DrClientSearchCondition [none=" + none + ", drNo=" + drNo + ", userName=" + userName + ", nickName="
 				+ nickName + "]";
 	}
+	
 	
 }

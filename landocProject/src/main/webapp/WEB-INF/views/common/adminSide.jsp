@@ -65,7 +65,7 @@
         	var searchCondition = "noneCondition";
             var searchValue = "noneValue";
         	
-            location.href="drClientList.do?searchCondtion=" + searchCondition + "&searchValue=" + searchValue;
+            location.href="drClientList.do?searchCondition=" + searchCondition + "&searchValue=" + searchValue;
         }
 
         function goHospital(){
