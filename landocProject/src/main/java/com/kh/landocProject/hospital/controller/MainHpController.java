@@ -28,10 +28,30 @@ public class MainHpController {
 		hp.setHpNo(hpNo);
 		hp.setHpCateCode(hpCateCode);
 		
+//		System.out.println("controller에서 hpNo : " + hpNo);
+//		System.out.println("controller에서 hpCateCode : " + hpCateCode);
+		
+		// 1. 병원 기본정보 + 진료과목 + 설명 추출
 		hp2 = mainHpService.selectOneHp(hp);
+//		System.out.println("controller에서 selectOneHp : " + hp2);
+		
+		// 2. 병원 사진 추출
 		
 		
 		
+		
+		
+		// 3. 병원 영업 시간 추출 
+		
+		
+		
+		
+		
+		if(hp2 != null) {
+			
+			
+			
+		}
 		
 		
 		

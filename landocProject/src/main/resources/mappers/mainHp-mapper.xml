@@ -27,11 +27,12 @@
   
   
   <select id="selectOneHp" parameterType="MainHp" resultMap="mainHpResultMap">
-  	SELECT *
-  	FROM HOSPITAL
-  
-  
-  
+  	SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_COMMENT, HL.HPCATE_CODE, HG.HPCATE_NAME
+	FROM HOSPITAL HP
+	    JOIN HPLIST HL ON(HP.HP_NO = HL.HP_NO)
+	    JOIN HPCATEGORY HG ON (HL.HPCATE_CODE= HG.HPCATE_CODE)
+	WHERE HP.HP_NO=#{hpNo}
+	AND HL.HPCATE_CODE=#{hpCateCode}
   </select>
   
   
