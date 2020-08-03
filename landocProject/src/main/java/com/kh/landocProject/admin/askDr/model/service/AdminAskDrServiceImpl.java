@@ -57,5 +57,10 @@ public class AdminAskDrServiceImpl implements AdminAskDrService{
 	public int searchCount(HashMap<String, Object> param) {
 		return adminAskDrDao.searchCount(param);
 	}
+
+	@Override
+	public List<String> getFileNames(int adNo) {
+		return adminAskDrDao.getFileNames(adNo);
+	}
 	
 }

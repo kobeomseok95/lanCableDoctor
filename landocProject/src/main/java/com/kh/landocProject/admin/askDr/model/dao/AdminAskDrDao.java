@@ -59,5 +59,9 @@ public class AdminAskDrDao {
 	public int searchCount(HashMap<String, Object> param) {
 		return sqlSessionTemplate.selectOne("adminAskDr.searchCount", param);
 	}
+
+	public List<String> getFileNames(int adNo) {
+		return sqlSessionTemplate.selectList("adminAskDr.getFileNames", adNo);
+	}
 	
 }

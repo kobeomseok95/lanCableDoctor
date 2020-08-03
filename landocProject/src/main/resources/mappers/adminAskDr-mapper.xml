@@ -94,12 +94,16 @@
 	</select>
 	
 	<delete id="deletePost" parameterType="_int">
-		DELETE FROM 
-			ASKDR
-		WHERE 
-			AD_NO = #{adNo}
+	{CALL 
+			DECLARE 
+			BEGIN 
+				DELETE FROM ASKDRREPLY WHERE AD_NO = #{adNo};
+				DELETE FROM ASKDRPHOTO WHERE AD_NO = #{adNo};
+				DELETE FROM ASKDR WHERE AD_NO = #{adNo};
+			END 
+	} 
 	</delete>
-	
+	<!--
 	<delete id="deleteUnfinishedData" parameterType="_int"> 
 	{
 		CALL 
@@ -111,7 +115,7 @@
 			END 
 	} 
 	</delete>
-
+ 	-->
 	<select id="getPostDetail" parameterType="_int" resultMap="boardList" >
 		SELECT 
 		    A.AD_NO, A.AD_TITLE, A.AD_SUBMITDATE, A.AD_HEIGHT, A.AD_WEIGHT, A.AD_AGE, A.AD_GENDER, A.AD_CAUTION, 
@@ -208,6 +212,12 @@
 				<include refid="keywords" />
 			</otherwise>
 		</choose>
+	</select>
+	
+	<select id="getFileNames" parameterType="_int" resultType="string">
+		SELECT ADP_RENAME
+		FROM ASKDRPHOTO
+		WHERE AD_NO = #{adNo}
 	</select>
 	
 </mapper>
