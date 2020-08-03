@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Locale.Category;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,20 +53,13 @@ public class cMypageController {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		ArrayList<LikeHp> list = cmService.selectList(cNo);
+	
 		int listCount = cmService.selectCount(cNo);
 		if(list!=null) {
-			/*
-			 * view = rq.getRequestDispatcher("mypage/myPageLikeHospital");
-			 * rq.setAttribute("rqList", list); rq.setAttribute("likeHplist",list);
-			 * rq.setAttribute("likeHpCount",listCount); view.forward(rq, rp);
-			 */
-			
-			
 			  mv.addObject("likeHplist",list); 
 			  mv.addObject("likeHpCount",listCount);
-		
 			  mv.setViewName("mypage/myPageLikeHospital");
-			 
+			  
 			 
 		}else {
 			throw new cMypageException("병원리스트 조회 실패!");
@@ -405,4 +399,6 @@ public class cMypageController {
 		}
 		return mv;
 	}
+	
+
 }

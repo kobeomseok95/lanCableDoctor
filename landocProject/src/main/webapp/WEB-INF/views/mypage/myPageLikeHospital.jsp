@@ -61,7 +61,7 @@
     .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
     .info .link {color: #5085BB;}
 
-	#map{position: sticky;  top:0;}
+	#map{position: sticky;  top:0; margin-top: 50px;}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -121,7 +121,7 @@
 
                                     <div
                                        style="font-size: 14px; font-weight: 300; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
-
+									${h.cateName}
                                     </div>
 
 
@@ -196,7 +196,7 @@
                                  <div class="col-4 offset-1 text-left border-right pl-2 pr-1"
                                     style="letter-spacing: -0.8px;">${h.hpTime }</div>
                                  <div class="col-7 text-left color9b pl-1"
-                                    style="letter-spacing: -0.8px;">
+                                    style="letter-spacing: -0.8px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
                                     <img
                                        src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/location_inactive.svg"
                                        style="width: 12px; height: 16.5px;" alt="Responsive image">

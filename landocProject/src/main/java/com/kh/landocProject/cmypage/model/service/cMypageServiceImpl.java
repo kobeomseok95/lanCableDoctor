@@ -167,5 +167,6 @@ public class cMypageServiceImpl implements cMypageService {
 		return cmDao.listCountPointList(cNo);
 	}
 
+
 }
 
