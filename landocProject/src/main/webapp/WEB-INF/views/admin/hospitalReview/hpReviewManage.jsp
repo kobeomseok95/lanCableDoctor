@@ -130,7 +130,7 @@
 	
 	
 	<script>
-		// 검색어 입력 keyup함수
+		/* 검색어 입력 keyup함수*/
 		function validateSearch(){
 			if($("#searchCondition").val() == "hpNo" || $("#searchCondition").val()=="hpCateNo"){
 				/* console.log($("#searchCondition").val()); */

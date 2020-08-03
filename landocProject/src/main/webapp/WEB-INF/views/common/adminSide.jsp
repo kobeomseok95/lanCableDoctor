@@ -30,7 +30,9 @@
 
     <div id="sideBar">
         <div id="logoBox">
-            <img src="<%=request.getContextPath() %>/resources/images/logo.png">
+        	<a href="home.do">
+            	<img src="<%=request.getContextPath() %>/resources/images/logo.png">
+            </a>
             <h3>ADMIN</h3>
         </div>
         <table id="sideBarTb">
@@ -72,7 +74,7 @@
         }
         
         function goAskDr(){
-            location.href="askDrManage.do";
+            location.href="askDrManage.do?pageNo=1";
         }
         
         function goProduct(){

@@ -26,6 +26,7 @@
 		<typeAlias type="com.kh.landocProject.cmypage.model.vo.CMypagePoint" alias="CMypagePoint" />
 		<typeAlias type="com.kh.landocProject.member.model.vo.ProfilePhoto" alias="ProfilePhoto" />
 		<typeAlias type="com.kh.landocProject.hospital.model.vo.MainHp" alias="MainHp" />
+		<typeAlias type="com.kh.landocProject.admin.askDr.model.vo.AdminAskDrBoard" alias="AdminAskDrBoard" />
 
 	</typeAliases>
 
@@ -37,5 +38,6 @@
 		<mapper resource="/mappers/mainHpReview-mapper.xml"/>
 		<mapper resource="/mappers/adminHpRe-mapper.xml"/>
 		<mapper resource="/mappers/mainHp-mapper.xml"/>
+		<mapper resource="/mappers/adminAskDr-mapper.xml"/>
 	</mappers>
 </configuration>

@@ -58,25 +58,29 @@
 
         <!--테이블 부분-->
         <table class="contentTb">
-            <tr>
+        	<tr>
                 <th class="firstLine">번호</th>
-                <td>123</td>
+                <td>${post.adNo }</td>
             </tr>
             <tr>
                 <th class="firstLine">제목</th>
-                <td>화장실이 어디에요?</td>
+                <td>${post.title }</td>
             </tr>
             <tr>
                 <th class="firstLine">작성자</th>
-                <td>고범석짱짱짱</td>
+                <td>${post.nickname }</td>
             </tr>
             <tr>
-                <th class="firstLine">내용</th>
-                <td>화장실이 너무 급합니다ㅠㅠ 위치좀 알려주세요!</td>
+                <th class="firstLine">주의사항</th>
+                <td>${post.caution }</td>
+            </tr>
+            <tr>
+                <th class="firstLine">증상</th>
+                <td>${post.symptom }</td>
             </tr>
             <tr>
                 <th class="firstLine">채택상태</th>
-                <td>채택완료</td>
+                <td>${post.chooseStatus }</td>
             </tr>
         </table>
 
@@ -84,31 +88,40 @@
         <div id="commentArea">
            <br><br>
             <h2>댓글 목록</h2>
-
+			
             <!--테이블 부분-->
             <table class="contentTb">
-                <tr>
-                    <th class="firstLine">선생님</th>
-                    <th class="firstLine">내용</th>
-                    <th class="firstLine">작성날짜</th>
-                    <th class="firstLine"></th>
-                </tr>
-                <tr>
-                    <td>고읍석</td>
-                    <td>화장실은 저쪽이요!</td>
-                    <td>2020-07-08</td>
-                    <td>
-                        <button onclick="goDelete();">삭제하기</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>고읍석</td>
-                    <td>화장실은 저쪽이요!</td>
-                    <td>2020-07-08</td>
-                    <td>
-                        <button onclick="goDelete();">삭제하기</button>
-                    </td>
-                </tr>
+                <thead>
+	                <tr>
+	                    <th class="firstLine">선생님</th>
+	                    <th class="firstLine">내용</th>
+	                    <th class="firstLine">작성날짜</th>
+	                    <th class="firstLine"></th>
+	                </tr>
+                </thead>
+	            
+	            <tbody id="replyBody">
+	            <c:forEach var="replys" items="${post.replys }">
+	            	<c:if test="${replys.adrNo eq 0 }">
+		            <tr>
+		            	<td colspan='4'>댓글이 존재하지 않습니다.</td>
+	                </tr>
+	            	</c:if>
+	            	<c:if test="${replys.adrNo ne 0 }">
+	                <tr>
+	                    <td class="adrNoClass">
+	                    	${replys.drName }
+	                    	<input type="hidden" value="${replys.adrNo }" />
+	                    </td>
+	                    <td>${replys.content }</td>
+	                    <td>${replys.replyDate }</td>
+	                    <td>
+	                        <button class="goDelete" type="button">삭제하기</button>
+	                    </td>
+	                </tr>
+	            	</c:if>
+                </c:forEach>    	
+				</tbody>
             </table>
         </div>
       
@@ -124,22 +137,105 @@
     
     <script>
         function goBack() {
-            /* location.href = "adminAskDr.html"; */
-            location.href="#";
+            location.href="askDrManage.do?pageNo=" + ${pageNo};
         }
+		
+		$(function(){
+	        // 테이블 한 줄 hover효과 주는 function
+	        $("#contentTb td").mouseenter(function () {
+	            $(this).parent().css({ "background": "lightgrey" });
+	        }).mouseout(function () {
+	            $(this).parent().css({ "background": "white" });
+	        });
+			
+	        $(document).on('click', '.goDelete', function(){
+	        	if(confirm("해당 댓글을 삭제하시겠습니까?")){
+	        		var adrNo = $(this).parent().siblings(".adrNoClass").children("input").val();
+	        		
+	        		$.ajax({
+	        			type:'post',
+	        			data:{adrNo : adrNo},
+	        			url:'deleteAdminAskDrReply.do',
+	        			error:function(request, status, errorData){
+		                    alert("error code: " + request.status + "\n"
+		                            +"message: " + request.responseText
+		                            +"error: " + errorData);
+		               	},
+	        			success:function(data){
+	        				if(data === "success"){
+	        					getReplyList();
+	        				}
+	        			}
+	        		});	//end of ajax
+	        	}
+	        	else{
+	        		return false;
+	        	}
+	        });	//end of deleteReply
+	        
+	        function getReplyList(){
+	        	var adNo = ${post.adNo};
+				$.ajax({
+				    type: 'GET',
+				    dataType: 'JSON',
+				    data:  {adNo : adNo},
+				    url:  'getReplyList.do',
+				    error:function(request, status, errorData){
+	                    alert("error code: " + request.status + "\n"
+	                            +"message: " + request.responseText
+	                            +"error: " + errorData);
+	               	},                    
+				    success: function(list) {
+				    	selectReplyList(list);
+					}    
+				});
+	        }
+	        
+	        function selectReplyList(list){
+	        	var $replyBody = $("#replyBody");
+	        	$replyBody.html('');
+	        	
+	        	if(list.length == 0){
+	        		var $tr = $("<tr></tr>");
+	        		var $td = $("<td colspan='4'></td>");
+	        		$td.text('댓글이 존재하지 않습니다.');
+					$tr.append($td);
+					$replyBody.append($tr);
+	        	}
+	        	else{
+	        		for(var i = 0; i < list.length; i++){
+	        			var $tr = $('<tr></tr>');
+	        			
+	        			var $tdOne = $('<td></td>');
+	        			$tdOne.attr("class", "adrNoClass");
+	        			$tdOne.text(list[i].drName);
+	        			var $input = $("<input type='hidden' />");
+	        			$input.val(list[i].adrNo);
+	        			$tdOne.append($input);
+	        			
+	        			var $tdTwo =  $('<td></td>');
+	        			$tdTwo.text(list[i].content);
+	        			
+	        			var $tdThree =  $('<td></td>');
+	        			$tdThree.text(list[i].replyDate);
+	        			
+	        			var $tdFour =  $('<td></td>');
+	                    var $tdFourBtn = $('<button class="goDelete" type="button"></button>');
+	                    $tdFourBtn.text('삭제하기');
+	                    $tdFour.append($tdFourBtn);
+	                    
+	                   	$tr.append($tdOne);
+	                   	$tr.append($tdTwo);
+	                   	$tr.append($tdThree);
+	                   	$tr.append($tdFour);
+	                   	
+	                   	$replyBody.append($tr);
+	        		}
+	        	}
+	        }
+		});
 
-
-
-        // 테이블 한 줄 hover효과 주는 function
-        $("#contentTb td").mouseenter(function () {
-            $(this).parent().css({ "background": "lightgrey" });
-        }).mouseout(function () {
-            $(this).parent().css({ "background": "white" });
-        });
 
     </script>
-
-
 </body>
-
 </html>

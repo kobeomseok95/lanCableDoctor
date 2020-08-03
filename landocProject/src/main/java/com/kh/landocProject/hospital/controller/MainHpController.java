@@ -19,7 +19,7 @@ public class MainHpController {
 	
 	// 병원 수정 페이지(데이터 불러오기)
 	@RequestMapping("editHp.do")
-	public ModelAndView editHp(HttpSession session, ModelAndView mv, MainHp hp, MainHp hp2) {
+	public ModelAndView editHp(HttpSession session, ModelAndView mv, MainHp hp, MainHp basicHp) {
 		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
 		
 		int hpNo = loginDrClient.getHpNo();
@@ -32,7 +32,7 @@ public class MainHpController {
 //		System.out.println("controller에서 hpCateCode : " + hpCateCode);
 		
 		// 1. 병원 기본정보 + 진료과목 + 설명 추출
-		hp2 = mainHpService.selectOneHp(hp);
+		basicHp = mainHpService.selectOneHp(hp);
 //		System.out.println("controller에서 selectOneHp : " + hp2);
 		
 		// 2. 병원 사진 추출
@@ -47,7 +47,7 @@ public class MainHpController {
 		
 		
 		
-		if(hp2 != null) {
+		if(basicHp != null) {
 			
 			
 			
