@@ -102,10 +102,13 @@
 	            
 	            <tbody id="replyBody">
 	            <c:forEach var="replys" items="${post.replys }">
-	            	<c:if test="${replys.adrNo eq 0 }">
+	            	<c:if test="${replys.adrNo eq 0}">
+	                	<c:if test="${not breakLoop }">
 		            <tr>
 		            	<td colspan='4'>댓글이 존재하지 않습니다.</td>
 	                </tr>
+						<c:set var="breakLoop" value="true" />	                	
+	                	</c:if>
 	            	</c:if>
 	            	<c:if test="${replys.adrNo ne 0 }">
 	                <tr>
@@ -137,7 +140,8 @@
     
     <script>
         function goBack() {
-            location.href="askDrManage.do?pageNo=" + ${pageNo};
+            //location.href="askDrManage.do?pageNo=" + ${pageNo};
+            window.history.back();
         }
 		
 		$(function(){
