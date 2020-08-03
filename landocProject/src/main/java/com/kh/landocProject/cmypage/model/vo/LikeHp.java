@@ -18,13 +18,15 @@ public class LikeHp implements Serializable {
 	private int hpReview;
 	private int hpAvgRate;
 	private String hpTime;
+	private String proOrigin;
+	private String proRename;
+	private String proFilepath;
 
 	public LikeHp() {
 	}
 
 	public LikeHp(int hpNo, String hpName, String hpPhone, String hpPostcode, String hpAddress, String hpX, String hpY,
-			int hpReview, int hpAvgRate, String hpTime) {
-		super();
+			int hpReview, int hpAvgRate, String hpTime, String proOrigin, String proRename, String proFilepath) {
 		this.hpNo = hpNo;
 		this.hpName = hpName;
 		this.hpPhone = hpPhone;
@@ -35,6 +37,9 @@ public class LikeHp implements Serializable {
 		this.hpReview = hpReview;
 		this.hpAvgRate = hpAvgRate;
 		this.hpTime = hpTime;
+		this.proOrigin = proOrigin;
+		this.proRename = proRename;
+		this.proFilepath = proFilepath;
 	}
 
 	public int getHpNo() {
@@ -117,6 +122,30 @@ public class LikeHp implements Serializable {
 		this.hpTime = hpTime;
 	}
 
+	public String getProOrigin() {
+		return proOrigin;
+	}
+
+	public void setProOrigin(String proOrigin) {
+		this.proOrigin = proOrigin;
+	}
+
+	public String getProRename() {
+		return proRename;
+	}
+
+	public void setProRename(String proRename) {
+		this.proRename = proRename;
+	}
+
+	public String getProFilepath() {
+		return proFilepath;
+	}
+
+	public void setProFilepath(String proFilepath) {
+		this.proFilepath = proFilepath;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -125,7 +154,10 @@ public class LikeHp implements Serializable {
 	public String toString() {
 		return "LikeHp [hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", hpPostcode=" + hpPostcode
 				+ ", hpAddress=" + hpAddress + ", hpX=" + hpX + ", hpY=" + hpY + ", hpReview=" + hpReview
-				+ ", hpAvgRate=" + hpAvgRate + ", hpTime=" + hpTime + "]";
+				+ ", hpAvgRate=" + hpAvgRate + ", hpTime=" + hpTime + ", proOrigin=" + proOrigin + ", proRename="
+				+ proRename + ", proFilepath=" + proFilepath + "]";
 	}
+
+
 
 }
