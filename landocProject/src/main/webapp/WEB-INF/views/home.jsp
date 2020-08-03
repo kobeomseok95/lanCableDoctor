@@ -159,7 +159,65 @@
 			<div class="row">
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+					<c:url var="cate1" value="hpCate.do">
+						<c:param name="cateName" value="가정의학과"/>
+					</c:url>
+					<c:url var="cate2" value="hpCate.do">
+						<c:param name="cateName" value="내과"/>
+					</c:url>
+					<c:url var="cate3" value="hpCate.do">
+						<c:param name="cateName" value="통증의학과"/>
+					</c:url>
+					<c:url var="cate4" value="hpCate.do">
+						<c:param name="cateName" value="비뇨기과"/>
+					</c:url>
+					<c:url var="cate5" value="hpCate.do">
+						<c:param name="cateName" value="산부인과"/>
+					</c:url>
+					<c:url var="cate6" value="hpCate.do">
+						<c:param name="cateName" value="성형외과"/>
+					</c:url>
+					<c:url var="cate7" value="hpCate.do">
+						<c:param name="cateName" value="소아과"/>
+					</c:url>
+					<c:url var="cate8" value="hpCate.do">
+						<c:param name="cateName" value="신경과"/>
+					</c:url>
+					<c:url var="cate9" value="hpCate.do">
+						<c:param name="cateName" value="신경외과"/>
+					</c:url>
+					<c:url var="cate10" value="hpCate.do">
+						<c:param name="cateName" value="안과"/>
+					</c:url>
+					<c:url var="cate11" value="hpCate.do">
+						<c:param name="cateName" value="영상의학과"/>
+					</c:url>
+					<c:url var="cate12" value="hpCate.do">
+						<c:param name="cateName" value="외과"/>
+					</c:url>
+					<c:url var="cate13" value="hpCate.do">
+						<c:param name="cateName" value="이비인후과"/>
+					</c:url>
+					<c:url var="cate14" value="hpCate.do">
+						<c:param name="cateName" value="재활의학과"/>
+					</c:url>
+					<c:url var="cate15" value="hpCate.do">
+						<c:param name="cateName" value="정신의학과"/>
+					</c:url>
+					<c:url var="cate16" value="hpCate.do">
+						<c:param name="cateName" value="정형외과"/>
+					</c:url>
+					<c:url var="cate17" value="hpCate.do">
+						<c:param name="cateName" value="치과"/>
+					</c:url>
+					<c:url var="cate18" value="hpCate.do">
+						<c:param name="cateName" value="피부과"/>
+					</c:url>
+					<c:url var="cate19" value="hpCate.do">
+						<c:param name="cateName" value="한의원"/>
+					</c:url>
+					
+						<a href="${cate1}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/가정의학과.png"
 							alt="">
 						</a>
@@ -168,7 +226,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate2}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/내과.png"
 							alt="">
 						</a>
@@ -177,7 +235,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate3}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/마취통증의학과.png"
 							alt="">
 						</a>
@@ -186,7 +244,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate4}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/비뇨기과.png"
 							alt="">
 						</a>
@@ -195,7 +253,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate5}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/산부인과.png"
 							alt="">
 						</a>
@@ -204,7 +262,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate6}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/성형외과.png"
 							alt="">
 						</a>
@@ -213,7 +271,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate7}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/소아과.png"
 							alt="">
 						</a>
@@ -222,7 +280,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate8}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/신경과.png"
 							alt="">
 						</a>
@@ -231,7 +289,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate9}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/신경외과.png"
 							alt="">
 						</a>
@@ -240,7 +298,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate10}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/안과.png"
 							alt="">
 						</a>
@@ -249,7 +307,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate11}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/영상의학과.png"
 							alt="">
 						</a>
@@ -258,7 +316,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate12}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/외과.png"
 							alt="">
 						</a>
@@ -267,7 +325,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate13}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/이비인후과.png"
 							alt="">
 						</a>
@@ -276,7 +334,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate14}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/재활의학과.png"
 							alt="">
 						</a>
@@ -285,7 +343,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate15}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/정신건강의학과.png"
 							alt="">
 						</a>
@@ -294,7 +352,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate16}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/정형외과.png"
 							alt="">
 						</a>
@@ -303,7 +361,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate17}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/치과.png"
 							alt="">
 						</a>
@@ -312,7 +370,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate18}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/피부과.png"
 							alt="">
 						</a>
@@ -321,7 +379,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 ">
 					<div class="premium-item">
-						<a href="#"> <img
+						<a href="${cate19}"> <img
 							src="<%=request.getContextPath()%>/resources/img/hospitalicon/icon/한의원.png"
 							alt="">
 						</a>

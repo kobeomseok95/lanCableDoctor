@@ -16,7 +16,7 @@
 		<result property="proOrigin" column="PRO_ORIGIN" />
 		<result property="proRename" column="PRO_RENAME" />
 		<result property="proFilepath" column="PRO_FILEPATH" />
-	<result property="cateName" column="HPCATE_NAME" />
+		<result property="cateName" column="HPCATE_NAME" />
 	</resultMap>
 
 

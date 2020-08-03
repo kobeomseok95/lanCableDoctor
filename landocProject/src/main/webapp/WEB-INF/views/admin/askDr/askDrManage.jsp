@@ -49,7 +49,7 @@
             padding: 8px 16px;
             text-decoration: none;
         }
-
+     	
    </style>
 
 </head>
@@ -61,77 +61,232 @@
     <div id="contentArea">
         <h3>의사에게 물어봐 관리</h3>
 
+        <!--테이블 부분-->
+        <c:if test="${type eq 1 }">
         <!--검색 창 부분-->
         <div id="searchArea">
-            <select id="searchCondition" name="searchCondition">
-                <option>게시글 번호</option>
-                <option>제목</option>
-                <option>내용</option>
-                <option>작성자</option>
-            </select>
-            <input type="text">
-            <button type="button">검색하기</button>
+        	<form action="adminAskDrSearch.do" method="get">
+	            <select id="searchCondition" name="condition">
+	                <option value="adNo">게시글 번호</option>
+	                <option value="adTitle">제목</option>
+	                <option value="adContent">내용</option>
+	                <option value="adNickname">작성자</option>
+	                <option value="hpcategory">진료과목</option>
+	            </select>
+            <input type="text" name="keyword" />
+            <input type="hidden" name="pageNo" value="1" />
+            <button type="submit">검색하기</button>
+            </form>
         </div>
-
-        <!--테이블 부분-->
+        
         <table id="contentTb">
             <tr>
                 <th class="firstLine">번호</th>
                 <th class="firstLine">제목</th>
                 <th class="firstLine">작성자</th>
+                <th class="firstLine">진료과목</th>
                 <th class="firstLine">채택상태</th>
                 <th class="firstLine"></th>
             </tr>
+            <c:choose>
+            <c:when test="${empty boardList }">
             <tr>
-                <td>123</td>
-                <td>화장실이 어디에요?</td>
-                <td>고범석짱짱짱</td>
-                <td>채택대기</td>
-                <td>
-                    <button onclick="goDetail();">상세보기</button>
-                    <button onclick="goDelete();">삭제하기</button>
-                </td>
+            	<td colspan="6">해당 게시글에 글이 존재하지 않습니다.</td>
             </tr>
+            </c:when>
+            <c:otherwise>
+            	<c:forEach var="boardVO" items="${boardList }">
             <tr>
-                <td>122</td>
-                <td>물좀 한잔 하고싶습니다.</td>
-                <td>고틀범딱</td>
-                <td>채택완료</td>
-                <td>
-                    <button onclick="goDetail();">상세보기</button>
-                    <button onclick="goDelete();">삭제하기</button>
-                </td>
-            </tr>
+           		<td class="boardNo">
+           			<input type="hidden" value="${boardVO.adNo }" />
+           			<c:out value="${boardVO.rNo}" />
+           		</td>
+           		<td><c:out value="${boardVO.title}" /></td>
+           		<td><c:out value="${boardVO.nickname}" /></td>
+           		<td><c:out value="${boardVO.categoryName}" /></td>
+           		<td><c:out value="${boardVO.chooseStatus}" /></td>
+           		<td>
+           			<button class="goDetail" type="button">상세보기</button>
+                  	<button class="deletePost" type="button">삭제하기</button>
+           		</td>
+           	</tr>
+            	</c:forEach>
+            </c:otherwise>
+            </c:choose>
         </table>
     
         <br><br>
+        
         <div class="pagination">
-            <a href="#">&laquo;</a>
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">&raquo;</a>
+        	<c:if test="${pageInfo.currentPage eq 1 }">
+        		&laquo;
+        	</c:if>
+        	<c:if test="${pageInfo.currentPage gt 1 }">
+        		<c:url var="urlBack" value="askDrManage.do">
+        			<c:param name="pageNo" value="${pageInfo.currentPage - 1 }" />
+        		</c:url>
+        		<a href="${urlBack }">&laquo;</a>
+        	</c:if>
+        	
+            <c:forEach var="p" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+				<c:if test="${p eq pageInfo.currentPage }">
+					<a href="#" style="color: red; font-weight: bold;">${p }</a>
+				</c:if>
+				<c:if test="${p ne pageInfo.currentPage }">
+					<c:url var="adminBoardPages" value="askDrManage.do">
+						<c:param name="pageNo" value="${p}" />
+					</c:url>
+					<a href="${adminBoardPages }">${p }</a>
+				</c:if>
+			</c:forEach>
+            
+            <c:if test="${pageInfo.currentPage eq pageInfo.maxPage }">
+        		&raquo;
+        	</c:if>
+        	<c:if test="${pageInfo.currentPage lt pageInfo.maxPage }">
+        		<c:url var="urlFront" value="askDrManage.do">
+        			<c:param name="pageNo" value="${pageInfo.currentPage + 1 }" />
+        		</c:url>
+        		<a href="${urlFront }">&raquo;</a>
+        	</c:if>
         </div>
+        </c:if>
+        
+		<c:if test="${type eq 2 }">
+		<!--검색 창 부분-->
+        <div id="searchArea">
+        	<form action="adminAskDrSearch.do" method="get">
+	            <select id="searchCondition" name="condition">
+	                <option value="adNo" <c:if test="${condition eq 'adNo' }">selected</c:if> >
+	                	게시글 번호
+	                </option>
+	                <option value="adTitle" <c:if test="${condition eq 'adTitle' }">selected</c:if> >
+	                	제목
+	                </option>
+	                <option value="adContent" <c:if test="${condition eq 'adContent' }">selected</c:if> >
+	                	내용
+	                </option>
+	                <option value="adNickname" <c:if test="${condition eq 'adNickname' }">selected</c:if> >
+	                	작성자
+	                </option>
+	                <option value="hpcategory" <c:if test="${condition eq 'hpcategory' }">selected</c:if> >
+	                	진료과목
+	                </option>
+	            </select>
+            <input type="text" name="keyword" value="${keyword }" />
+            <input type="hidden" name="pageNo" value="1" />
+            <button type="submit">검색하기</button>
+            </form>
+        </div>
+        
+        <table id="contentTb">
+            <tr>
+                <th class="firstLine">번호</th>
+                <th class="firstLine">제목</th>
+                <th class="firstLine">작성자</th>
+                <th class="firstLine">진료과목</th>
+                <th class="firstLine">채택상태</th>
+                <th class="firstLine"></th>
+            </tr>
+            <c:choose>
+            <c:when test="${empty boardList }">
+            <tr>
+            	<td colspan="6">해당 게시글에 글이 존재하지 않습니다.</td>
+            </tr>
+            </c:when>
+            <c:otherwise>
+            	<c:forEach var="boardVO" items="${boardList }">
+            <tr>
+           		<td class="boardNo">
+           			<input type="hidden" value="${boardVO.adNo }" />
+           			<c:out value="${boardVO.rNo}" />
+           		</td>
+           		<td><c:out value="${boardVO.title}" /></td>
+           		<td><c:out value="${boardVO.nickname}" /></td>
+           		<td><c:out value="${boardVO.categoryName}" /></td>
+           		<td><c:out value="${boardVO.chooseStatus}" /></td>
+           		<td>
+           			<button class="goDetail" type="button">상세보기</button>
+                  	<button class="deletePost" type="button">삭제하기</button>
+           		</td>
+           	</tr>
+            	</c:forEach>
+            </c:otherwise>
+            </c:choose>
+        </table>
+    
+        <br><br>
+        
+        <div class="pagination">
+        	<c:if test="${!empty pageInfo }">
+		       	<c:if test="${pageInfo.currentPage eq 1 }">
+		       		&laquo;
+		       	</c:if>
+		       	<c:if test="${pageInfo.currentPage gt 1 }">
+		       		<c:url var="urlBack" value="adminAskDrSearch.do">
+		       			<c:param name="pageNo" value="${pageInfo.currentPage - 1 }" />
+		       			<c:param name="condition" value="${condition}" />
+		       			<c:param name="keyword" value="${keyword}" />
+		       		</c:url>
+		       		<a href="${urlBack }">&laquo;</a>
+		       	</c:if>
+		       	
+		           <c:forEach var="p" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+					<c:if test="${p eq pageInfo.currentPage }">
+						<a href="#" style="color: red; font-weight: bold;">${p }</a>
+					</c:if>
+					<c:if test="${p ne pageInfo.currentPage }">
+						<c:url var="adminBoardPages" value="adminAskDrSearch.do">
+							<c:param name="pageNo" value="${p}" />
+		       				<c:param name="condition" value="${condition}" />
+		       				<c:param name="keyword" value="${keyword}" />
+						</c:url>
+						<a href="${adminBoardPages }">${p }</a>
+					</c:if>
+				</c:forEach>
+		           
+	           <c:if test="${pageInfo.currentPage eq pageInfo.maxPage }">
+	       		&raquo;
+		       	</c:if>
+		       	<c:if test="${pageInfo.currentPage lt pageInfo.maxPage }">
+		       		<c:url var="urlFront" value="adminAskDrSearch.do">
+		       			<c:param name="pageNo" value="${pageInfo.currentPage + 1 }" />
+		       			<c:param name="condition" value="${condition}" />
+		       			<c:param name="keyword" value="${keyword}" />
+		       		</c:url>
+		       		<a href="${urlFront }">&raquo;</a>
+		       	</c:if>
+			</c:if>
+			<c:if test="${empty pageInfo }"></c:if>
+        </div>
+		</c:if>
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+    	<br><br><br><br><br><br>
     </div>
-
-
-    <br><br><br><br><br><br>
    
    
    <script>
-   
-        // adminAskDr.html
-        function goDetail() {
-            location.href = "askDrDetail.do";
-        }
-
-        function goDelete() {
-            location.href = "#";
-        }
-
+   		$(function(){
+   			$(".goDetail").on("click", function(){
+				var adNo = $(this).parent().siblings('.boardNo').children().val();
+				var pageNo = "${pageInfo.currentPage}";
+				location.href="adminAskDrDetailPost.do?adNo=" + adNo + "&pageNo=" + pageNo;
+   			});
+   			
+   			$(".deletePost").on("click", function(){
+   				var adNo = $(this).parent().siblings('.boardNo').children().val();
+				
+   				var $deleteForm = $('<form></form>');
+				$deleteForm.attr("action", "deleteAdminAskDrPost.do");
+				$deleteForm.attr("method", "POST");
+				
+				var $inputAdno = $("<input type='hidden' name='adNo' value=" + adNo + " />");
+				
+				$deleteForm.append($inputAdno);
+				$("body").append($deleteForm);
+				$deleteForm.submit();
+   			});
+   		});
         
         
         // 테이블 한 줄 hover효과 주는 function
@@ -140,10 +295,16 @@
         }).mouseout(function () {
             $(this).parent().css({ "background": "white" });
         });
-
     </script>
-
-
 </body>
-
 </html>
+
+
+
+
+
+
+
+
+
+

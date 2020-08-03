@@ -53,7 +53,7 @@ public class cMypageController {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		ArrayList<LikeHp> list = cmService.selectList(cNo);
-	
+	System.out.println(list);
 		int listCount = cmService.selectCount(cNo);
 		if(list!=null) {
 			  mv.addObject("likeHplist",list); 

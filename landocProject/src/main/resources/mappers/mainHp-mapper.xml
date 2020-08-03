@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mainHpMapper">
+  
+  <resultMap type="MainHp" id="mainHpResultMap">
+	  	<id property="hpNo" column="HP_NO"/>
+	  	<result property="hpName" column="HP_NAME"/>
+	  	<result property="hpPhone" column="HP_PHONE"/>
+	  	<result property="hpPostCode" column="HP_POSTCODE"/>
+	  	<result property="hpAddress" column="HP_ADDRESS"/>
+	  	<result property="hpx" column="HP_X"/>
+	  	<result property="hpy" column="HP_Y"/>
+	  	<result property="hpAvgRate" column="HP_AVG_RATE"/>
+	  	<result property="hpReCount" column="HP_REVIEW"/>
+	  	<result property="hpComment" column="HP_COMMENT"/>
+	  	<result property="hpCateCode" column="HPCATE_CODE"/>
+	  	<result property="hpCateName" column="HPCATE_NAME"/>
+	  	<result property="drHpNo" column="DRHP_NO"/>
+	  	<result property="originFileName" column="DRHP_ORIGIN"/>
+	  	<result property="renameFileName" column="DRHP_RENAME"/>
+	  	<result property="filePath" column="DRHP_FILEPATH"/>
+	  	<result property="ph_code" column="PH_CODE"/>
+	  	<result property="hpDay" column="HP_DAY"/>
+	  	<result property="hpOpenTime" column="HP_OPEN_TIME"/>
+	  	<result property="hpCloseTime" column="HP_CLOSE_TIME"/>
+  </resultMap>
+  <resultMap type="com.kh.landocProject.hospital.model.vo.HpNameSplit" id="HpNameSplitMap">
+  		<result property="hpNameSplit" column="HP_NAME_SPLIT"/>
+  </resultMap>
+  
+  <resultMap type="HpSearch" id="hpSearchMap">
+	  	<result property="hpNo" column="HP_NO" />
+		<result property="hpName" column="HP_NAME" />
+		<result property="hpPhone" column="HP_PHONE" />
+		<result property="hpPostcode" column="HP_POSTCODE" />
+		<result property="hpAddress" column="HP_ADDRESS" />
+		<result property="hpX" column="HP_X" />
+		<result property="hpY" column="HP_Y" />
+		<result property="hpReview" column="HP_REVIEW" />
+		<result property="hpAvgRate" column="HP_AVG_RATE" />
+		<result property="hpTime" column="HP_TIME" />
+		<result property="proOrigin" column="PRO_ORIGIN" />
+		<result property="proRename" column="PRO_RENAME" />
+		<result property="proFilepath" column="PRO_FILEPATH" />
+		<result property="cateName" column="HPCATE_NAME" />
+  		
+  		<collection property="hpNameSplit" javaType="java.util.ArrayList" resultMap="HpNameSplitMap"/>
+  		
+  	
+  </resultMap>
+ 
+  <!-- 병원 기본정보 select -->
+  <select id="selectOneHp" parameterType="MainHp" resultMap="mainHpResultMap">
+  	SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_COMMENT, HL.HPCATE_CODE, HG.HPCATE_NAME
+	FROM HOSPITAL HP
+	    JOIN HPLIST HL ON(HP.HP_NO = HL.HP_NO)
+	    JOIN HPCATEGORY HG ON (HL.HPCATE_CODE= HG.HPCATE_CODE)
+	WHERE HP.HP_NO=#{hpNo}
+	AND HL.HPCATE_CODE=#{hpCateCode}
+  </select>
+  
+  
+  <!-- 병원 영업시간 select -->
+  <select id="selectHpTime" parameterType="MainHp" resultMap="mainHpResultMap">
+  	SELECT HP_DAY, HP_OPEN_TIME, HP_CLOSE_TIME
+	FROM HPTIME
+	WHERE HP_UNIQUENO = #{hpNo}
+  </select>
+  
+  
+  <!-- 병원 사진 select -->
+  <select id="selectHpPhoto" parameterType="MainHp" resultMap="mainHpResultMap">
+  	SELECT DRHP_ORIGIN, DRHP_RENAME
+	FROM DRHPPHOTO
+	WHERE HP_NO = #{hpNo}
+	AND PH_CODE = 4
+  </select>
+  
+  
+  <!-- 병원 이름 한글짜씩 추출-->
+  <select id="hpNameSplit" parameterType="string" resultMap="HpNameSplitMap">
+  	SELECT SUBSTR(#{hpTitle}, LEVEL, 1 ) AS HP_NAME_SPLIT  
+	FROM DUAL  
+	CONNECT BY LENGTH(#{hpTitle}) >= LEVEL
+  </select>
+  
+  <select id="hpSearchList" parameterType="HpSearch" resultMap="hpSearchMap">
+  	SELECT HP.HP_NO, HP.HP_NAME,
+		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X,
+		HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
+        PT.PRO_ORIGIN,PT.PRO_RENAME,PT.PRO_FILEPATH,
+        LISTAGG(CAST(HG.HPCATE_name AS VARCHAR(100)),',') WITHIN GROUP (ORDER BY NULL )AS HPCATE_NAME
+        FROM HPLIST HPL
+        LEFT JOIN HPCATEGORY HG ON(HPL.HPCATE_CODE=HG.HPCATE_CODE)
+        LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
+        LEFT JOIN HPTIME HT ON(HPL.HP_NO = HT.HP_UNIQUENO)
+        LEFT JOIN PROFILEPHOTO PT ON(PT.HP_NO=HPL.HP_NO)
+		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY 
+        AND hp_address LIKE '%'||#{area}||'%' AND HP_NAME LIKE 
+       '%'||
+        <foreach collection="hpNameSplit"  separator="%">
+        	 #{hpNameSplit.hpNameSplit}
+        </foreach>||'%'
+        GROUP BY HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, 
+        HP.HP_ADDRESS, HP.HP_X, HP.HP_Y, HP.HP_REVIEW, HP.HP_AVG_RATE, 
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME), HT.HP_OPEN_TIME, NULL, '정보없음', '00:00', 
+        '휴무', HT.HP_OPEN_TIME, HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME, '~', HT.HP_CLOSE_TIME, 
+        PT.PRO_ORIGIN, PT.PRO_RENAME, PT.PRO_FILEPATH
+  </select>
+  
+  
+  <select id="hpSearchListNormal" parameterType="HpSearch" resultMap="hpSearchMap">
+  	SELECT HP.HP_NO, HP.HP_NAME,
+		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X,
+		HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
+        PT.PRO_ORIGIN,PT.PRO_RENAME,PT.PRO_FILEPATH,
+        LISTAGG(CAST(HG.HPCATE_name AS VARCHAR(100)),',') WITHIN GROUP (ORDER BY NULL )AS HPCATE_NAME
+        FROM HPLIST HPL
+        LEFT JOIN HPCATEGORY HG ON(HPL.HPCATE_CODE=HG.HPCATE_CODE)
+        LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
+        LEFT JOIN HPTIME HT ON(HPL.HP_NO = HT.HP_UNIQUENO)
+        LEFT JOIN PROFILEPHOTO PT ON(PT.HP_NO=HPL.HP_NO)
+		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY 
+		<if test="area != '전체'">
+        AND hp_address LIKE '%'||#{area}||'%' 
+        </if>
+        AND HP_NAME LIKE '%'||#{hpName}||'%'
+        GROUP BY HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, 
+        HP.HP_ADDRESS, HP.HP_X, HP.HP_Y, HP.HP_REVIEW, HP.HP_AVG_RATE, 
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME), HT.HP_OPEN_TIME, NULL, '정보없음', '00:00', 
+        '휴무', HT.HP_OPEN_TIME, HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME, '~', HT.HP_CLOSE_TIME, 
+        PT.PRO_ORIGIN, PT.PRO_RENAME, PT.PRO_FILEPATH
+  </select>
+  
+  
+  <select id="hpCateSearchList" parameterType="string" resultMap="hpSearchMap">
+  	SELECT HP.HP_NO, HP.HP_NAME,
+		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X,
+		HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
+        PT.PRO_ORIGIN,PT.PRO_RENAME,PT.PRO_FILEPATH,
+        LISTAGG(CAST(HG.HPCATE_name AS VARCHAR(100)),',') WITHIN GROUP (ORDER BY NULL )AS HPCATE_NAME
+        FROM HPLIST HPL
+        LEFT JOIN HPCATEGORY HG ON(HPL.HPCATE_CODE=HG.HPCATE_CODE)
+        LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
+        LEFT JOIN HPTIME HT ON(HPL.HP_NO = HT.HP_UNIQUENO)
+        LEFT JOIN PROFILEPHOTO PT ON(PT.HP_NO=HPL.HP_NO)
+		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY 
+        AND HG.HPCATE_NAME = #{cateName}
+        GROUP BY HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, 
+        HP.HP_ADDRESS, HP.HP_X, HP.HP_Y, HP.HP_REVIEW, HP.HP_AVG_RATE, 
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME), HT.HP_OPEN_TIME, NULL, '정보없음', '00:00', 
+        '휴무', HT.HP_OPEN_TIME, HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME, '~', HT.HP_CLOSE_TIME, 
+        PT.PRO_ORIGIN, PT.PRO_RENAME, PT.PRO_FILEPATH
+  
+  </select>
+  
+  
+</mapper>

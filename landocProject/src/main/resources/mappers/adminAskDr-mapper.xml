@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="adminAskDr">
+	<!-- adNo hpcategory -->
+	<sql id="keywords">
+		<choose>
+			<when test="condition == 'adTitle'">
+				WHERE AD_TITLE LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="condition == 'adContent'">
+				WHERE 
+				AD_CAUTION LIKE '%' || #{keyword} || '%'
+		        OR
+		        AD_SYMPTOM LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="condition == 'adNickname'">
+				WHERE C_NICKNAME LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="condition == 'hpcategory'">
+				WHERE HPCATE_NAME LIKE '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</sql>
+	
+	<sql id="adNo">
+		<if test="condition == 'adNo'">
+			WHERE RNO = #{keyword}
+		</if>
+	</sql>
+	
+	<!-- 게시판 -->
+	<resultMap type="AdminAskDrBoard" id="boardList">
+		<id property="adNo" column="AD_NO"/>
+		<result property="rNo" column="RNO"/>
+		<result property="title" column="AD_TITLE"/>
+		<result property="submitDate" column="AD_SUBMITDATE"/>
+		<result property="height" column="AD_HEIGHT"/>
+		<result property="weight" column="AD_WEIGHT"/>
+		<result property="age" column="AD_AGE"/>
+		<result property="gender" column="AD_GENDER"/>
+		<result property="caution" column="AD_CAUTION"/>
+		<result property="symptom" column="AD_SYMPTOM"/>
+		<result property="chooseStatus" column="AD_CHOOSESTATUS"/>
+		<result property="categoryName" column="HPCATE_NAME"/>
+		<result property="nickname" column="C_NICKNAME"/>
+		<result property="cNo" column="C_NO"/>
+		<result property="viewCount" column="AD_COUNT"/>
+		<collection property="imgs" javaType="java.util.ArrayList" resultMap="imgs" />
+		<collection property="replys" javaType="java.util.ArrayList" resultMap="replys" />
+	</resultMap>
+	
+	<!-- 사진 -->
+	<resultMap type="SymptomsImage" id="imgs">
+		<id property="adpNo" column="ADP_NO" />
+		<result property="fileName" column="ADP_RENAME" />
+	</resultMap>
+	
+	<!-- 댓글 -->
+	<resultMap type="AskDrReply" id="replys">
+		<id property="adrNo" column="ADR_NO" />
+		<result property="drName" column="DR_NAME" />
+		<result property="content" column="ADR_CONTENT" />
+		<result property="chooseStatus" column="ADR_CHOOSESTATUS" />
+		<result property="replyDate" column="ADR_REPLYDATE" />
+	</resultMap>
+	
+<!-- *************************************************************** -->	
+	
+	<select id="getBoardListCount" resultType="_int">
+		SELECT COUNT(*) FROM ASKDR
+	</select>
+	
+	<select id="getBoardList" resultMap="boardList">
+		SELECT 
+		    ROWNUM AS RNO,
+		    AD_NO,
+		    AD_TITLE,
+		    C_NICKNAME,
+		    CASE 
+		        WHEN AD_CHOOSESTATUS = 'N'
+		            THEN '채택대기'
+		        ELSE '채택완료'
+		    END AS "AD_CHOOSESTATUS",
+		    HPCATE_NAME
+		FROM
+		    (SELECT A.AD_NO, A.AD_TITLE, 
+		        C.C_NICKNAME, A.AD_CHOOSESTATUS, H.HPCATE_NAME
+		    FROM 
+		        ASKDR A
+		    JOIN CLIENT C ON A.C_NO = C.C_NO
+		    JOIN HPCATEGORY H ON A.HP_CATE_CODE = H.HPCATE_CODE
+		    ORDER BY
+		        A.AD_SUBMITDATE DESC)
+	</select>
+	
+	<delete id="deletePost" parameterType="_int">
+	{CALL 
+			DECLARE 
+			BEGIN 
+				DELETE FROM ASKDRREPLY WHERE AD_NO = #{adNo};
+				DELETE FROM ASKDRPHOTO WHERE AD_NO = #{adNo};
+				DELETE FROM ASKDR WHERE AD_NO = #{adNo};
+			END 
+	} 
+	</delete>
+	<!--
+	<delete id="deleteUnfinishedData" parameterType="_int"> 
+	{
+		CALL 
+			DECLARE 
+			BEGIN 
+				DELETE FROM ASKDRREPLY WHERE AD_NO = #{adNo}
+				DELETE FROM ASKDRPHOTO WHERE AD_NO = #{adNo}
+				DELETE FROM ASKDR WHERE AD_NO = #{adNo}
+			END 
+	} 
+	</delete>
+ 	-->
+	<select id="getPostDetail" parameterType="_int" resultMap="boardList" >
+		SELECT 
+		    A.AD_NO, A.AD_TITLE, A.AD_SUBMITDATE, A.AD_HEIGHT, A.AD_WEIGHT, A.AD_AGE, A.AD_GENDER, A.AD_CAUTION, 
+		    A.AD_SYMPTOM, A.AD_COUNT, C.C_NICKNAME, H.HPCATE_NAME,
+		    CASE 
+		        WHEN A.AD_CHOOSESTATUS = 'N'
+		        THEN '채택대기'
+		        ELSE '채택완료' END  AS "AD_CHOOSESTATUS",
+		    R.ADR_NO, D.DR_NAME, R.ADR_REPLYDATE, R.ADR_CONTENT,
+		    CASE
+		        WHEN R.ADR_CHOOSESTATUS = 'N'
+		        THEN '미채택'
+		        ELSE '채택' END AS "ADR_CHOOSESTATUS",
+		    P.ADP_NO, P.ADP_RENAME
+		FROM
+		    ASKDR A
+		    JOIN HPCATEGORY H ON A.HP_CATE_CODE = H.HPCATE_CODE
+		    JOIN CLIENT C ON A.C_NO = C.C_NO
+		    LEFT JOIN ASKDRREPLY R ON A.AD_NO = R.AD_NO
+		    LEFT JOIN DRCLIENT D ON R.DR_NO = D.DR_NO
+		    LEFT JOIN ASKDRPHOTO P ON A.AD_NO = P.AD_NO
+		WHERE 
+		    A.AD_NO = #{adNo}
+		ORDER BY 
+		    R.ADR_NO
+	</select>
+	
+	<delete id="deleteReply" parameterType="_int">
+		DELETE FROM ASKDRREPLY
+		WHERE ADR_NO = #{adrNo}
+	</delete>
+	
+	<select id="getReplyList" parameterType="_int" resultMap="replys">
+		SELECT
+		    ADR_NO,
+		    DR_NAME,
+		    ADR_CONTENT,
+		    ADR_REPLYDATE,
+		    CASE 
+		        WHEN ADR_CHOOSESTATUS = 'N'
+		        THEN '미채택'
+		        ELSE '채택' END AS "ADR_CHOOSESTATUS"
+		FROM
+		    ASKDRREPLY R 
+		    JOIN DRCLIENT D ON R.DR_NO = D.DR_NO
+		WHERE R.AD_NO = #{adNo}
+	</select>
+	
+	<select id="search" parameterType="hashMap" resultMap="boardList">
+		SELECT 
+		    * 
+		FROM 
+		(SELECT 
+		    ROWNUM AS RNO,
+		    AD_NO,
+		    AD_TITLE,
+		    C_NICKNAME,
+		    CASE 
+		        WHEN AD_CHOOSESTATUS = 'N'
+		            THEN '채택대기'
+		        ELSE '채택완료'
+		    END AS "AD_CHOOSESTATUS",
+		    HPCATE_NAME
+		FROM
+		    (SELECT 
+		        A.AD_NO, 
+		        A.AD_TITLE, 
+		        C.C_NICKNAME, 
+		        A.AD_CHOOSESTATUS, 
+		        H.HPCATE_NAME
+		    FROM 
+		        ASKDR A
+		        JOIN CLIENT C ON A.C_NO = C.C_NO
+		        JOIN HPCATEGORY H ON A.HP_CATE_CODE = H.HPCATE_CODE
+		    <include refid="keywords" />
+		    ORDER BY
+		        A.AD_SUBMITDATE DESC)
+		)
+		<include refid="adNo" />
+	</select>
+	
+	<select id="searchCount" resultType="_int" parameterType="hashMap">
+		SELECT 
+			COUNT(*)
+		FROM
+		ASKDR A
+		    JOIN CLIENT C ON A.C_NO = C.C_NO
+		    JOIN HPCATEGORY H ON A.HP_CATE_CODE = H.HPCATE_CODE
+		<choose>
+			<when test="condition == 'adNo'">
+				<include refid="adNo" />
+			</when>
+			<otherwise>
+				<include refid="keywords" />
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getFileNames" parameterType="_int" resultType="string">
+		SELECT ADP_RENAME
+		FROM ASKDRPHOTO
+		WHERE AD_NO = #{adNo}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
