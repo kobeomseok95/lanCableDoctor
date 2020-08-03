@@ -280,6 +280,11 @@ public class MainMemberServiceImpl implements MainMemberService {
 		
 		return mDao.drClientApproval(d);
 	}
+	@Override
+	public int updateProfileYN(Client c) {
+	
+		return mDao.updateProfileYN(c);
+	}
 	
 
 }

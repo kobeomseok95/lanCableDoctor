@@ -422,5 +422,11 @@
 			  HPCATE_CODE = #{hpCateCode}
 		WHERE DR_NO = #{drNo}
 	</update>
+	
+	<update id="updateProfileYN" parameterType="Client">
+		UPDATE CLIENT
+		SET C_PROFILE = 'Y'
+		WHERE C_NO = #{cNo}
+	</update>
 
 </mapper>

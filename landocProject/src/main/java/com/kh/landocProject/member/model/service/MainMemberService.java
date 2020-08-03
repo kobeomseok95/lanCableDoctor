@@ -97,4 +97,6 @@ public interface MainMemberService {
 
 	int drClientApproval(DrClient d);
 
+	int updateProfileYN(Client c);
+
 }

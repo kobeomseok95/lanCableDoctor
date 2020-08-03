@@ -234,6 +234,10 @@ public class MainMemberDao {
 
 		return sqlSessionTemplate.update("memberMapper.drClientApproval", d );
 	}
+	public int updateProfileYN(Client c) {
+		
+		return sqlSessionTemplate.update("memberMapper.updateProfileYN", c);
+	}
 
 
 }

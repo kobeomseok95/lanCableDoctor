@@ -990,6 +990,8 @@ public class MainMemberController {
 			}
 
 			int result = mService.updateClientProfile(pp);
+			
+			int result2 = mService.updateProfileYN(c);
 		}
 		
 

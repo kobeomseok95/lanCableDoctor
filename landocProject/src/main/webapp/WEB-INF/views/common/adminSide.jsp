@@ -55,11 +55,17 @@
 
    <script>
         function goMember(){
-            location.href="clientManage.do";
+        	var searchCondition = "noneCondition";
+            var searchValue = "noneValue";
+            
+            location.href="clientList.do?searchCondition=" + searchCondition + "&searchValue=" + searchValue;
         }
 
         function goDoctor(){
-            location.href="drClientManage.do";
+        	var searchCondition = "noneCondition";
+            var searchValue = "noneValue";
+        	
+            location.href="drClientList.do?searchCondtion=" + searchCondition + "&searchValue=" + searchValue;
         }
 
         function goHospital(){

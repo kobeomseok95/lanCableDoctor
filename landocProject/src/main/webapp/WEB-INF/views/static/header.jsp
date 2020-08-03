@@ -58,7 +58,11 @@
 				<li>
 					<a href="#"><c:out value="${loginClient.nickName }님 환영합니다"/></a>
 					<ul class="sub-menu" style="left: 0px;">
-						<li><a href="admin.do">관리자 페이지</a></li>
+						<c:url var="clientList" value="clientList.do">
+				 			<c:param name="searchCondition" value="noneCondition"/>
+				 			<c:param name="searchValue" value="noneValue"/>
+				 		</c:url>
+						<li><a href="${clientList }">관리자 페이지</a></li>
 						<li><a href="logout.do">로그아웃</a></li>
 					</ul>
 				</li>
