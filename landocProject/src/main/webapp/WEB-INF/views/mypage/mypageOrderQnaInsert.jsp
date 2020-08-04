@@ -138,7 +138,7 @@
 										<b style="color: #494949; font-size: 20px;" class="col-sm-3 ">주문
 											QnA</b> <input type="text" class="form-control col-sm-10"
 											style="display: inline-block;" id="orderQnaTitle"
-											name="orderQnaTitle" placeholder="제목을 작성해주세요.">
+											name="orderQnaTitle" placeholder="제목을 작성해주세요." required="required" >
 									</div>
 								</div>
 
@@ -147,7 +147,7 @@
 									<div class="col-sm-12  p-0 mt-1">
 
 										<textarea class="form-control" rows="5" id="orderQnaContent"
-											name="orderQnaContent" placeholder="문의사항을 작성해주세요."></textarea>
+											name="orderQnaContent" placeholder="문의사항을 작성해주세요." required="required"></textarea>
 
 									</div>
 								</div>

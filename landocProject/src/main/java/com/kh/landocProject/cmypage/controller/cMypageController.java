@@ -400,5 +400,28 @@ public class cMypageController {
 		return mv;
 	}
 	
-
+	@RequestMapping(value="orderCancel.do")
+	public ModelAndView orderCancel(ModelAndView mv,OrderList order,HttpServletResponse response, HttpSession session,@RequestParam(value="orderNo") int orderNo,@RequestParam(value="oCode") int oCode) throws cMypageException, IOException {
+		order.setoCode(oCode);
+		order.setOrderNo(orderNo);
+		int result = cmService.orderCancel(order);
+		if(result>0) {
+			  response.setContentType("text/html; charset=UTF-8");
+			  PrintWriter out_equals = response.getWriter();
+			  if(order.getoCode()==15) {
+				 out_equals.println("<script>alert('주문취소가 완료되었습니다.');</script>");
+			  }else if(order.getoCode()==6) {
+				  
+				 out_equals.println("<script>alert('반품요청이 완료되었습니다.');</script>");
+			  }else if(order.getoCode()==10) {
+				 out_equals.println("<script>alert('교환요청이 완료되었습니다.');</script>");
+			  }
+	          out_equals.flush();
+	          mv.setViewName("mypage/myPageWork");
+		}else {
+			throw new cMypageException("주문취소 실패");
+		}
+		
+		return mv;
+	}
 }
