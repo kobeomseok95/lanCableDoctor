@@ -12,6 +12,7 @@ import com.kh.landocProject.askDr.model.dao.AskDrDAO;
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
 import com.kh.landocProject.askDr.model.vo.AskDrReply;
+import com.kh.landocProject.askDr.model.vo.DrClient;
 import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 
 @Service
@@ -21,18 +22,18 @@ public class AskDrServiceImpl implements AskDrService {
 	private AskDrDAO askDrDAO;
 	
 	@Override
-	public int selectAskDrBoardCount(int categoryNo) {
-		return askDrDAO.selectAskDrBoardCount(categoryNo);
+	public int selectAskDrBoardCount(HashMap<String, Object> param) {
+		return askDrDAO.selectAskDrBoardCount(param);
 	}
 
 	@Override
-	public ArrayList<AskDrBoard> selectAskDrBoard(int categoryNo, AskDrBoardPagination page) throws Exception {
-		return askDrDAO.selectAskDrBoard(categoryNo, page);
+	public ArrayList<AskDrBoard> selectAskDrBoard(HashMap<String, Object> param, AskDrBoardPagination page) throws Exception {
+		return askDrDAO.selectAskDrBoard(param, page);
 	}
 
 	@Override
-	public int selectAskDrBoardSearchCount(HashMap<String, Object> parameterMap) {
-		return askDrDAO.selectAskDrBoardSearchCount(parameterMap);
+	public int selectAskDrBoardSearchCount(HashMap<String, Object> param) {
+		return askDrDAO.selectAskDrBoardSearchCount(param);
 	}
 
 	@Override
@@ -119,5 +120,10 @@ public class AskDrServiceImpl implements AskDrService {
 	@Override
 	public int updateAskDrBoardReply(AskDrReply askDrReply) {
 		return askDrDAO.updateAskDrBoardReply(askDrReply);
+	}
+
+	@Override
+	public List<DrClient> getSearchDr(String drName) {
+		return askDrDAO.getSearchDr(drName);
 	}
 }

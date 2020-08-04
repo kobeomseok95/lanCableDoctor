@@ -93,7 +93,13 @@
 			<div class="row">
 				<div class="col-lg-1 col-sm-1"></div>
 				<div class="col-lg-8 col-sm-8">
-					<input id="choose" type="checkbox"> 채택완료된 글만 보기
+					<c:if test="${choosed eq 'Y'}">
+					<input id="choose" type="checkbox" checked="checked" /> 채택완료된 글만 보기
+					</c:if>
+					<c:if test="${choosed eq 'N'}">
+					<input id="choose" type="checkbox" /> 채택완료된 글만 보기
+					</c:if>
+					
 				</div>
 				<div class="col-lg-2 col-sm-2">
 					<button type="button" class="btn btn-block btn-sm btn-primary"
@@ -161,9 +167,12 @@
 							<c:url var="blistBack" value="askDrBoard.do">
 								<c:param name="category" value="${categoryNo }" />
 								<c:param name="pageNo" value="${page.currentPage -1  }" />
+								<c:if test="${choosed eq 'Y' }">
+								<c:param name="choosed" value="${choosed }" />
+								</c:if>
 							</c:url>
-							<button class="btn btn-md"
-								onclick="location.href='${blistBack }'">&laquo;</button>
+						<button class="btn btn-md"
+							onclick="location.href='${blistBack }'">&laquo;</button>
 						</c:if>
 						&nbsp;&nbsp;
 						
@@ -177,6 +186,9 @@
 								<c:url var="askDrBoardPages" value="askDrBoard.do">
 									<c:param name="category" value="${categoryNo }" />
 									<c:param name="pageNo" value="${p}" />
+									<c:if test="${choosed eq 'Y' }">
+									<c:param name="choosed" value="${choosed }" />
+									</c:if>
 								</c:url>
 								<button class="btn btn-md" onclick="location.href='${askDrBoardPages}'">${p }</button>
 								&nbsp;&nbsp;
@@ -191,6 +203,9 @@
 							<c:url var="blistFront" value="askDrBoard.do">
 								<c:param name="category" value="${categoryNo }" />
 								<c:param name="pageNo" value="${page.currentPage + 1 }" />
+								<c:if test="${choosed eq 'Y' }">
+								<c:param name="choosed" value="${choosed }" />
+								</c:if>
 							</c:url>
 							<button class="btn btn-md" onclick="location.href='${blistFront }'">&raquo;</button>
 						</c:if>
@@ -200,6 +215,7 @@
 				<div class="col-lg-1 col-sm-1"></div>
 			</div>
 			</c:if>
+			
 			<c:if test="${boardStatus eq 2 }">
 			<div class="row">
 				<div class="col-lg-12">
@@ -219,13 +235,17 @@
 								<select name="searchBoardOption"
 									class="form-control form-control-sm"
 									style="width: 100%;">
-									<option value="0">제목</option>
-									<option value="1">내용</option>
-									<option value="2">작성자</option>
+									<option value="0"
+									<c:if test="${searchBoardOption == 0 }">selected</c:if>>제목</option>
+									<option value="1"
+									<c:if test="${searchBoardOption == 1 }">selected</c:if>>내용</option>
+									<option value="2"
+									<c:if test="${searchBoardOption == 2 }">selected</c:if>>작성자</option>
 								</select>
 							</div>
 							<div class="col-lg-5 col-sm-5">
-								<input name="searchBoardContent" type="text" class="form-control form-control-sm">
+								<input name="searchBoardContent" type="text" class="form-control form-control-sm" 
+								value="${searchBoardContent}" />
 							</div>
 							<div class="col-lg-1 col-sm-1">
 								<button type="submit" class="btn btn-block btn-sm btn-primary"
@@ -242,13 +262,23 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-1 col-sm-1"></div>
-				<div class="col-lg-8 col-sm-8">
+				<div class="col-lg-6 col-sm-6">
+					<c:if test="${choosed eq 'Y'}">
+					<input id="choose" type="checkbox" checked="checked" /> 채택완료된 글만 보기
+					</c:if>
+					<c:if test="${choosed eq 'N'}">
 					<input id="choose" type="checkbox"> 채택완료된 글만 보기
+					</c:if>
 				</div>
 				<div class="col-lg-2 col-sm-2">
 					<button type="button" class="btn btn-block btn-sm btn-primary"
 						style="background-color: #0071ce;"
-						onclick="location.href='askDr.do'">목록으로</button>
+						onclick="location.href='askDrBoard.do?category=${categoryNo}&pageNo=1'">검색조건 초기화</button>
+				</div>
+				<div class="col-lg-2 col-sm-2">
+					<button type="button" class="btn btn-block btn-sm btn-primary"
+							style="background-color: #0071ce;"
+							onclick="location.href='askDr.do'">목록으로</button>
 				</div>
 				<div class="col-lg-1 col-sm-1"></div>
 			</div>
@@ -277,12 +307,19 @@
 							<tr class="goAskDrDetail">
 								<input type="hidden" value="${item.bNo }" />
 								<td>${item.rNo }</td>
-								<td>		<!-- 제목을 누르면 해당 게시글로 가게끔 할것 -->
+								<td>	
 									${item.bTitle }
 								</td>
 								<td class="nickname">${item.nickname }</td>
 								<td>${item.submitDate }</td>
-								<td>채택대기</td>
+								<td>
+								<c:if test="${item.chooseStatus eq 'Y' }">
+									채택완료
+								</c:if>
+								<c:if test="${item.chooseStatus eq 'N' }">
+									채택대기
+								</c:if>
+								</td>
 							</tr>
 							</c:forEach>
 						</c:if>
@@ -306,6 +343,9 @@
 								<c:param name="pageNo" value="${page.currentPage -1  }" />
 								<c:param name="searchBoardOption" value="${searchBoardOption }" />
 								<c:param name="searchBoardContent" value="${searchBoardContent}" />
+								<c:if test="${choosed eq 'Y' }">
+								<c:param name="choosed" value="${choosed }" />
+								</c:if>
 							</c:url>
 							<button class="btn btn-md"
 								onclick="location.href='${blistBack }'">&laquo;</button>
@@ -324,6 +364,9 @@
 									<c:param name="pageNo" value="${p}" />
 									<c:param name="searchBoardOption" value="${searchBoardOption }" />
 									<c:param name="searchBoardContent" value="${searchBoardContent}" />
+									<c:if test="${choosed eq 'Y' }">
+									<c:param name="choosed" value="${choosed }" />
+									</c:if>
 								</c:url>
 								<button class="btn btn-md" onclick="location.href='${askDrBoardPages}'">${p }</button>
 								&nbsp;&nbsp;
@@ -340,6 +383,9 @@
 								<c:param name="pageNo" value="${page.currentPage + 1 }" />
 								<c:param name="searchBoardOption" value="${searchBoardOption }" />
 								<c:param name="searchBoardContent" value="${searchBoardContent}" />
+								<c:if test="${choosed eq 'Y' }">
+								<c:param name="choosed" value="${choosed }" />
+								</c:if>
 							</c:url>
 							<button class="btn btn-md" onclick="location.href='${blistFront }'">&raquo;</button>
 						</c:if>
@@ -368,26 +414,32 @@
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 	<script>
 	$(function(){
-		// 글 작성자 및 의사만 해당 게시글의 상세부분을 조회할 수 있다. -범석
+		//로그인 회원만 접근 가능
 		$(".goAskDrDetail").on("click", function(){
 			var bNo = $(this).children("input[type=hidden]").val();
-			var bWriter = $(this).children(".nickname").text();
-			var clientNickname = "${loginClient.nickName}";
-			var drClient = "${loginDrClient}";
 			
-			if( clientNickname === bWriter || drClient !== "" ){
-				location.href="askDrDetail.do?category=" + ${categoryNo } + "&bNo=" + bNo;
+			var client = "${loginClient.cNo}";
+			var drClient = "${loginDrClient.drNo}";
+			//
+			var searchBoardOption = "${searchBoardOption}";
+			var searchBoardContent = "${searchBoardContent}";
+			//
+			if( client !== "" || drClient !== "" ){
+				var url = "category=" + ${categoryNo} + "&bNo=" + bNo;
+				
+				if(searchBoardOption !== "" && searchBoardContent !== ""){
+					url += "&searchBoardOption=" + searchBoardOption + 
+						"&searchBoardContent=" + searchBoardContent;
+				}
+				location.href="askDrDetail.do?" + url;
 			}
-			else if( clientNickname === "" ){
-				if(confirm("해당 게시글은 작성자 및 의사회원만 조회할 수 있습니다. 로그인하시겠습니까?")){
+			else if( client === "" && drClient === "" ){
+				if(confirm("해당 게시글은 회원만 조회할 수 있습니다. 로그인하시겠습니까?")){
 					location.href="loginView.do";	
 				}
 				else{
 					return false;
 				}
-			}
-			else if( clientNickname !== bWriter ){
-				alert("게시글은 작성자만 조회할 수 있습니다.");
 			}
 		});//end of goBoardDetail
 		
@@ -407,6 +459,37 @@
 			}
 			else if(client === "" && drClient !== ""){
 				alert("해당 게시글 작성은 일반 회원만 작성할 수 있습니다.")
+			}
+		});
+		
+ 		$("#choose").on("click", function(){
+ 			var boardStatus = ${boardStatus};
+ 			var category = ${categoryNo};
+ 			//var searchBoardOption = ${searchBoardOption};
+ 			//var searchBoardContent = '${searchBoardContent}';
+ 			
+			if( $("#choose").is(':checked') == true && boardStatus === 1 ){
+				location.href='askDrBoard.do?category=' + category + '&pageNo=1&choosed=Y';
+			}
+			else if( $("#choose").is(':checked') == true && boardStatus === 2 ){
+				var searchBoardOption = '${searchBoardOption}';
+	 			var searchBoardContent = '${searchBoardContent}';
+				
+				location.href='askDrBoardSearch.do?category=' + category + 
+						'&pageNo=1&searchBoardOption=' + searchBoardOption + 
+						'&searchBoardContent=' + searchBoardContent + 
+						'&choosed=Y';
+			}
+			else if( $("#choose").is(':checked') == false && boardStatus === 1 ){
+				location.href='askDrBoard.do?category=' + category + '&pageNo=1';
+			}
+			else if( $("#choose").is(':checked') == false && boardStatus === 2 ){
+				var searchBoardOption = '${searchBoardOption}';
+	 			var searchBoardContent = '${searchBoardContent}';
+				
+				location.href='askDrBoardSearch.do?category=' + category + 
+				'&pageNo=1&searchBoardOption=' + searchBoardOption + 
+				'&searchBoardContent=' + searchBoardContent;
 			}
 		});
 	});	//end of jquery $(function)
