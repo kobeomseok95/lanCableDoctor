@@ -163,7 +163,6 @@ public class MainMemberController {
 
 		System.out.println("mainMemberController.java test line 164");
 
-
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(c.getUserPwd());
 
@@ -192,12 +191,12 @@ public class MainMemberController {
 	@RequestMapping(value = "memberLogin.do", method = RequestMethod.POST)
 
 	public String memberLogin(Client c, DrClient d, Model model, @RequestParam("check") String check, HttpServletResponse response_equals) throws IOException{
-		System.out.println("mainMemberController.java test line 195");
-//			System.out.println(check);
 
+		System.out.println("mainMemberController.java test line 195");
 
 		if (check.equals("client")) {
 			Client loginClient = mService.loginClient(c);
+
 //			System.out.println("암호화 처리 된 DB일반회원 : " + loginClient);
 			if(loginClient != null) {
 				if(loginClient.getStatus().equals("Y")) {
@@ -328,6 +327,7 @@ public class MainMemberController {
 	@RequestMapping(value = "logout.do")
 	public String logout(SessionStatus status) {
 		System.out.println("mainMemberController.java test line 330");
+
 		status.setComplete();
 		
 		return "redirect:home.do";

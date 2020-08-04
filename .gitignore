@@ -15,17 +15,5 @@ target/
 /.classpath
 /*.project
 .settings/
-<<<<<<< HEAD
-/*.springBeans
-=======
 /*.springBeans
 
-
-
-<<<<<<< HEAD
->>>>>>> refs/remotes/origin/master
-=======
-
-
-
->>>>>>> refs/remotes/origin/master

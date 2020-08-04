@@ -7,17 +7,18 @@ import java.util.List;
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
 import com.kh.landocProject.askDr.model.vo.AskDrReply;
+import com.kh.landocProject.askDr.model.vo.DrClient;
 import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 
 public interface AskDrService {
 
-	int selectAskDrBoardCount(int categoryNo) throws Exception;
+	int selectAskDrBoardCount(HashMap<String, Object> param) throws Exception;
 
-	ArrayList<AskDrBoard> selectAskDrBoard(int categoryNo, AskDrBoardPagination page) throws Exception;
+	ArrayList<AskDrBoard> selectAskDrBoard(HashMap<String, Object> param, AskDrBoardPagination page) throws Exception;
 
 	AskDrBoard selectAskDrBoardDeatil(HashMap<String, Integer> parameterMap);
 
-	int selectAskDrBoardSearchCount(HashMap<String, Object> parameterMap);
+	int selectAskDrBoardSearchCount(HashMap<String, Object> param);
 
 	ArrayList<AskDrBoard> selectAskDrBoardSearch(HashMap<String, Object> parameterMap, AskDrBoardPagination page);
 
@@ -49,5 +50,7 @@ public interface AskDrService {
 
 	int deleteAskDrBoardReply(int adrNo);
 
-	int updateAskDrBoardReply(AskDrReply askDrReply);	
+	int updateAskDrBoardReply(AskDrReply askDrReply);
+
+	List<DrClient> getSearchDr(String drName);	
 }

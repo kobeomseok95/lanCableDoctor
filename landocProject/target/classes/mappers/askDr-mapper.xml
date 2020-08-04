@@ -48,32 +48,71 @@
 		<result property="drName" column="DR_NAME" />
 	</resultMap>
 
-<!-- resultMap, Query 경계 -->
-
-	<select id="selectAskDrBoard" parameterType="_int" resultMap="AskDrBoardList">
-		<![CDATA[
-			SELECT * FROM
-			(SELECT ROWNUM AS RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_CHOOSESTATUS
-			FROM 
-			(SELECT 
-			    AD.AD_NO,
-			    AD.AD_TITLE,
-			    C.C_NICKNAME,
-			    AD.AD_SUBMITDATE,
-			    AD.AD_CHOOSESTATUS
-			FROM ASKDR AD
-			    JOIN CLIENT C ON (AD.C_NO = C.C_NO)
-			WHERE HP_CATE_CODE = #{categoryNo}
-			ORDER BY 4 DESC))
-		]]>
+	<resultMap type="searchDrClient" id="searchDrClient">
+		<id property="drNo" column="DR_NO" />
+		<result property="hpNo" column="HP_NO" />
+		<result property="drName" column="DR_NAME" />
+		<result property="drEmail" column="DR_EMAIL" />
+		<result property="drLike" column="DR_LIKE" />
+		<result property="drDislike" column="DR_DISLIKE" />
+		<result property="profileNo" column="PRO_NO" />
+		<result property="profileFileName" column="PRO_RENAME" />
+		<result property="hpName" column="HP_NAME" />
+		<result property="hpPostcode" column="HP_POSTCODE" />
+		<result property="hpAddress" column="HP_ADDRESS" />
+		<result property="hpCategoryName" column="HPCATE_NAME" />
+	</resultMap>
+	
+<!-- ****************resultMap, Query 경계**************** -->
+	
+	<select id="getSearchDr" resultMap="searchDrClient" parameterType="string">
+		SELECT 
+		    A.DR_NO, A.HP_NO, A.DR_NAME, A.DR_EMAIL, A.DR_LIKE, A.DR_DISLIKE,
+		    B.PRO_NO, B.PRO_RENAME,
+		    C.HP_NAME, C.HP_POSTCODE, C.HP_ADDRESS,
+		    E.HPCATE_NAME
+		FROM 
+		    DRCLIENT A
+		    LEFT JOIN PROFILEPHOTO B ON A.DR_NO = B.DR_NO
+		    JOIN HOSPITAL C ON A.HP_NO = C.HP_NO
+		    JOIN HPLIST D ON C.HP_NO = D.HP_NO
+		    JOIN HPCATEGORY E ON D.HPCATE_CODE = E.HPCATE_CODE
+		WHERE 
+		    DR_NAME = #{drName}
+		    AND DR_APPROVAL = 'Y'
+		    AND E.HPCATE_CODE = A.HPCATE_CODE
 	</select>
 
-	<select id="selectAskDrBoardCount" parameterType="_int" resultType="_int">
-		<![CDATA[
+	<select id="selectAskDrBoard" parameterType="hashMap" resultMap="AskDrBoardList">
+		SELECT 
+			* 
+		FROM
+		    (SELECT 
+		        ROWNUM AS RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_CHOOSESTATUS
+		    FROM 
+		        (SELECT 
+		            AD.AD_NO,
+		            AD.AD_TITLE,
+		            C.C_NICKNAME,
+		            AD.AD_SUBMITDATE,
+		            AD.AD_CHOOSESTATUS
+		        FROM ASKDR AD
+		            JOIN CLIENT C ON (AD.C_NO = C.C_NO)
+		        WHERE HP_CATE_CODE = #{categoryNo}
+		        <if test="choosed != null"> 
+		        	AND AD.AD_CHOOSESTATUS = #{choosed}
+		        </if>
+		        ORDER BY 4 DESC)
+		    )
+	</select>
+
+	<select id="selectAskDrBoardCount" parameterType="hashMap" resultType="_int">
 			SELECT COUNT(*) 
 			FROM ASKDR
 			WHERE HP_CATE_CODE = #{categoryNo}
-		]]>
+			<if test="choosed != null"> 
+				AND AD_CHOOSESTATUS = #{choosed}
+			</if>
 	</select>
 	
 	<select id="selectAskDrBoardDetail" parameterType="hashMap" resultMap="AskDrBoardDetail">
@@ -117,7 +156,6 @@
 	</select>
 	
 	<select id="selectAskDrBoardSearchCount" parameterType="hashMap" resultType="_int">
-		<!-- category, searchBoardOption, searchBoardCategory -->
 		SELECT COUNT(*)
 		FROM ASKDR
 		<if test="searchBoardOption != null and searchBoardOption == 0"> 
@@ -131,11 +169,17 @@
 		WHERE C.C_NICKNAME LIKE '%' || #{searchBoardContent} || '%'
 		</if>
 			AND HP_CATE_CODE = #{category}
+		<if test='choosed != null'>
+			AND AD_CHOOSESTATUS = #{choosed}
+		</if>
 	</select>
 	
 	<select id="selectAskDrBoardSearch" parameterType="hashMap" resultMap="AskDrBoardList">
-		SELECT RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_CHOOSESTATUS FROM
-		    (SELECT ROWNUM AS RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_SYMPTOM, AD.AD_CHOOSESTATUS
+		SELECT 
+		    RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_CHOOSESTATUS 
+		FROM
+		    (SELECT 
+		        ROWNUM AS RN, AD_NO, AD_TITLE, C_NICKNAME, AD_SUBMITDATE, AD_SYMPTOM, AD_CHOOSESTATUS
 		    FROM 
 		        (SELECT 
 		            AD.AD_NO,
@@ -143,10 +187,13 @@
 		            C.C_NICKNAME,
 		            AD.AD_SUBMITDATE,
 		            AD.AD_SYMPTOM,
-			    	AD.AD_CHOOSESTATUS
+		            AD.AD_CHOOSESTATUS
 		        FROM ASKDR AD
 		            JOIN CLIENT C ON (AD.C_NO = C.C_NO)
 		        WHERE HP_CATE_CODE = #{category}
+		<if test="choosed != null">
+				 AND AD_CHOOSESTATUS = #{choosed}
+		</if>
 		        ORDER BY 4 DESC
 		        )
 		<if test="searchBoardOption != null and searchBoardOption == 0"> 
@@ -341,6 +388,7 @@
 		WHERE
 		    ADR_NO = #{adrNo}		
 	</update>
+
 </mapper>
 
 

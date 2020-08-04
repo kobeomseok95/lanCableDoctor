@@ -31,7 +31,8 @@
 		<typeAlias type="com.kh.landocProject.admin.member.drClient.model.vo.DrClientSearchCondition" alias="dsc"/>
 		<typeAlias type="com.kh.landocProject.hospital.model.vo.MainHp" alias="MainHp" />
 		<typeAlias type="com.kh.landocProject.admin.askDr.model.vo.AdminAskDrBoard" alias="AdminAskDrBoard" />
-
+		<typeAlias type="com.kh.landocProject.askDr.model.vo.DrClient" alias="searchDrClient" />
+		<typeAlias type="com.kh.landocProject.hospital.model.vo.HpSearch" alias="HpSearch" />
 	</typeAliases>
 
 
