@@ -31,15 +31,6 @@ public class MainHpDao {
 		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectHpPhoto", hp);
 	}
 
-	public ArrayList<HpSearch> hpSearchList(HpSearch hp) {
-		
-		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.hpSearchList", hp);
-	}
-
-	public ArrayList<HpNameSplit> hpNameSplit(String hpTitle) {
-		
-		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.hpNameSplit", hpTitle);
-	}
 
 	public ArrayList<HpSearch> hpSearchListNormal(HpSearch hp) {
 		

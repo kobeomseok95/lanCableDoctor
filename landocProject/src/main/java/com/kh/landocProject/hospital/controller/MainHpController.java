@@ -77,36 +77,32 @@ public class MainHpController {
 	}
 	
 	
-	   // 나중에 다시
-	
-//	  @RequestMapping(value="hpSearch.do")
-//	  public ModelAndView hpSearch(ModelAndView mv, HttpSession session,HpSearch hp,@RequestParam(value="area") String area, @RequestParam(value="hpSearch")String hpTitle){
-//		  ArrayList<HpNameSplit> hpSplit = mainHpService.hpNameSplit(hpTitle);
-//		  
-//		  System.out.println("hpSplit:"+hpSplit); 
-//		  hp.setArea(area);
-//		  hp.setHpName(hpTitle); 
-//		  hp.setHpNameSplit(hpSplit);
-//		  System.out.println("hp:"+hp); 
-//		  ArrayList<HpSearch> hpList =
-//		  mainHpService.hpSearchList(hp);
-//		  System.out.println("hplist:"+hpList);
-//	  
-//	  return mv; 
-//	  
-//	}
+
 	 
 	   
 	@RequestMapping(value="hpSearch.do")
 	public ModelAndView hpSearch(ModelAndView mv, HttpSession session,HpSearch hp,@RequestParam(value="area") String area, @RequestParam(value="hpSearch") String hpTitle) throws MainHpException{
-		  hp.setArea(area);
-	      hp.setHpName(hpTitle);
-	      String hpSearch = hp.getHpName();
+		  
+	      
+	   
+	      String[] hpNameSplit = hpTitle.split("");
+	      String hpNameLike ="";
+	      for(int i =0; i<hpNameSplit.length;i++) {
+	    	 
+	    	   	if(i==hpNameSplit.length-1) {
+	    	   		hpNameLike += "%"+hpNameSplit[i]+"%";
+	    	   	}else {
+	    	   	    hpNameLike += "%"+hpNameSplit[i];
+	    	   	}
+	      }
+	      hp.setArea(area);
+	      hp.setHpName(hpNameLike);
 	   
 	      ArrayList<HpSearch> hpList = mainHpService.hpSearchListNormal(hp);
 	      if(hpList !=null) {
 	    	  mv.addObject("hp",hpList);
-	    	  mv.addObject("hpName", hpSearch);
+	    	  mv.addObject("area",area);
+	    	  mv.addObject("hpName", hpTitle);
 	    	  mv.setViewName("hospital/hpSearch");
 	      }else {
 	    	  throw new MainHpException("병원검색 실패!");

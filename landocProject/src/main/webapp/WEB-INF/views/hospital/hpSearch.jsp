@@ -62,6 +62,7 @@
     .info .link {color: #5085BB;}
 
 	#map{position: sticky;  top:0; margin-top: 50px;}
+	#hpInfo:hover{background-color: #007bff1f;}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -88,7 +89,7 @@
                   style="border-bottom: solid darkgray 1px;">
                   <c:if test="${empty cateName && not empty hpName }">
 	                  <div style="font-size: 20px;">
-	                     병원검색 <b class="ml-3" style="color: #0071ce">'${hpName}'</b>
+	                     병원검색 <b class="ml-3" style="color: #0071ce">'${hpName}(${area})'</b>
 	                  </div>
                   </c:if>
                   <c:if test="${not empty cateName && empty hpName }">
@@ -107,9 +108,9 @@
                   </c:if>
                   <c:if test="${not empty hp}">
                   <c:forEach var="h" items="${hp}">
-                     <div class="doctor-total-box border-bottom">
+                     <div class="doctor-total-box border-bottom" id="hpInfo" onmouseover="hpover(${h.hpAddress});">
 
-                        <a href="#" style="color: inherit; text-decoration: none;">
+                        <a href="#" style="color: inherit; text-decoration: none;" >
 
                            <div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
                               <div class="row px-3">
@@ -260,8 +261,97 @@
       listFile.push("${result.proRename}");
    </c:forEach>
    
-   
-   
+ <%--   function hpover(){
+      
+	   geocoder.addressSearch(addr, function(result, status) {
+           if (status === daum.maps.services.Status.OK) {
+               var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+               var marker = new daum.maps.Marker({
+                   map: map,
+                   position: coords
+               });
+           
+               var content = document.createElement('div'); 
+               content.className = 'wrap';
+             
+               var info = document.createElement('div');
+               info.className = 'info';
+                content.appendChild(info);
+               
+               var title = document.createElement('div');
+               title.className = 'title';
+               title.innerHTML=listTitle[index];
+               info.appendChild(title);
+               
+               var closeBtn = document.createElement('button');
+               closeBtn.className = 'close';
+               
+               title.appendChild(closeBtn);
+            
+               // 닫기 이벤트 추가
+               closeBtn.onclick = function() {
+                   overlay.setMap(null);
+               };
+
+               
+               var body = document.createElement('div');
+               body.className='body';
+               info.appendChild(body);
+               
+               var img = document.createElement('div');
+               img.className='img';
+               body.appendChild(img);
+               
+               var imgsrc =  document.createElement('img');
+                imgsrc.setAttribute( 'src', '<%=request.getContextPath()%>/resources/img/mainlogo.png' )
+                imgsrc.src = ".png";
+               img.appendChild(imgsrc);
+               
+               var desc = document.createElement("div");
+               desc.className='desc';
+               body.appendChild(desc);
+               
+               var ellipsis = document.createElement('div');
+               ellipsis.className ='ellipsis';
+               ellipsis.innerHTML='';
+               desc.appendChild(ellipsis);
+               
+               var score = document.createElement('div');
+               score.className='jibun ellipsis';
+              
+               desc.appendChild(score);
+               
+              
+               var star = document.createElement('span')
+               star.className='fa fa-star checked';
+               score.appendChild(star);
+               
+               var starscore = document.createElement('span');
+               starscore.innerHTML='('')';
+               score.appendChild(starscore);
+               
+               var page = document.createElement('div');
+               desc.appendChild(page);
+               
+               var a = document.createElement('a');
+               a.setAttribute('href','');
+               a.innerHTML='상세보기';
+               page.appendChild(a);
+               
+               var overlay = new kakao.maps.CustomOverlay({
+                    content: content,
+                    position:coords
+                });
+                   
+                // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+              
+                    overlay.setMap(map);
+              
+      		
+      
+   } --%>
+
 
    listAdr.forEach(function(addr, index){
          
@@ -350,9 +440,8 @@
                 kakao.maps.event.addListener(marker, 'click', function() {
                     overlay.setMap(map);
                 });
-      
-
-
+               
+              
                  
            } 
        });

@@ -14,10 +14,6 @@ public interface MainHpService {
 
 	ArrayList<MainHp> selectHpPhoto(MainHp hp);
 
-	ArrayList<HpSearch> hpSearchList(HpSearch hp);
-
-	ArrayList<HpNameSplit> hpNameSplit(String hpTitle);
-
 	ArrayList<HpSearch> hpSearchListNormal(HpSearch hp);
 
 	ArrayList<HpSearch> hpCateSearchList(String cateName);

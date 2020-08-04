@@ -34,17 +34,6 @@ public class MainHpServiceImpl implements MainHpService{
 		return mainHpDao.selectHpPhoto(hp);
 	}
 
-	@Override
-	public ArrayList<HpSearch> hpSearchList(HpSearch hp) {
-		
-		return  mainHpDao.hpSearchList(hp);
-	}
-
-	@Override
-	public ArrayList<HpNameSplit> hpNameSplit(String hpTitle) {
-		
-		return mainHpDao.hpNameSplit(hpTitle);
-	}
 
 	@Override
 	public ArrayList<HpSearch> hpSearchListNormal(HpSearch hp) {
