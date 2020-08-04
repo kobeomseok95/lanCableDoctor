@@ -15,7 +15,8 @@
 <!-- Favicon -->
 <link href="<%=request.getContextPath()%>/resources/img/favicon.ico"
 	rel="shortcut icon" />
-
+<!-- Font - Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
 <!-- Google font -->
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
@@ -185,120 +186,78 @@
 					<div class="doctors-title-box pb-2 text-left"
 						style="border-bottom: solid darkgray 1px;">
 						<div style="font-size: 20px;">
-							<b class="ml-3" style="color: #0071ce">'${hpName}' 선생님! 나와주세요!</b>
+							<b class="ml-3">'${searchList[0].drName}' 선생님! 나와주세요!</b>
 						</div>
 					</div>
 
 					<!-- doctors card list -->
 					<div class="doctor-list-section mt-2 ">
-						<c:if test="${empty hp}">
+						<c:if test="${empty searchList}">
 							<div class="doctor-total-box border-bottom">
 								<p class="m-0">검색 결과가 없습니다.</p>
 							</div>
 						</c:if>
-						<c:if test="${not empty hp}">
-							<c:forEach var="h" items="${hp}">
+						<c:if test="${!empty searchList}">
+							<c:forEach var="list" items="${searchList}">
 								<div class="doctor-total-box border-bottom">
-
 									<a href="#" style="color: inherit; text-decoration: none;">
-
 										<div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
 											<div class="row px-3">
-
-
 												<div class="col-3 profile-doctor-image-box p-0">
-
-
-													<img src="${h.proRename}.png"
+													<c:if test="${empty list.profileFileName }">
+													<i class="fas fa-user-nurse fa-7x profile-doctor-image"
+													style="color: #45668e;"></i>
+													</c:if>
+													<c:if test="${!empty list.profileFileName }">
+													<img src="${list.profileFileName}"
 														class="img-circle profile-doctor-image border"
 														style="width: 97px; height: 97px;">
-
+													</c:if>
 												</div>
-
 												<div class="col-8 profile-doctor-box  text-left">
-
-													<div
-														style="font-size: 14px; font-weight: 300; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
-														${h.cateName}</div>
-
-
-													<div style="font-size: 1.313rem; font-weight: bold"
-														class="d-flex justify-content-start align-items-start">
-														${h.hpName}</div>
-
-
-													<div class="review-star-box d-flex align-items-start mt-1">
-
-														<c:if test="${h.hpAvgRate eq 0}">
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-														</c:if>
-														<c:if test="${h.hpAvgRate ge 1 && h.hpAvgRate le 3}">
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-														</c:if>
-														<c:if test="${h.hpAvgRate ge 4 && h.hpAvgRate le 5}">
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-														</c:if>
-														<c:if test="${h.hpAvgRate ge 6 && h.hpAvgRate le 7}">
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star"></span>
-															<span class="fa fa-star"></span>
-														</c:if>
-														<c:if test="${h.hpAvgRate ge 8 && h.hpAvgRate le 9}">
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star"></span>
-														</c:if>
-														<c:if test="${h.hpAvgRate ge 10}">
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-															<span class="fa fa-star checked"></span>
-														</c:if>
-
-
-														<div class="review-count-box ml-1"
-															style="font-size: 12px;">${h.hpAvgRate}
-															(${h.hpReview})</div>
+													<div style="font-size: 14px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+													class="mb-2">
+														${list.drName}
 													</div>
-
-
-
+													<div style="font-size: 1.313rem; font-weight: 200"
+														class="d-flex justify-content-start align-items-start mb-2">
+														${list.hpName}
+													</div>
+													<div class="review-star-box d-flex align-items-start mt-1">
+														 <span class="mr-4">
+															 <i class="fas fa-thumbs-up fa-2x"
+															 style="color: #026219;"></i>
+															 <b>${list.drLike}</b>
+														</span>
+														 <span>
+															 <i class="fas fa-thumbs-down fa-2x"
+															 style="color: #a82400;"></i>
+															 <b>${list.drDislike}</b>
+														</span>
+														
+														<!-- 여긴 채택률 -->
+														<div class="review-count-box ml-5"
+															style="font-size: 18px;">
+															<span>채택률</span>
+															<span>${list.choosePer}%</span>
+														</div>
+														
+													</div>
 												</div>
 											</div>
-
-
 											<div class="row pl-4 pt-3 pb-1">
 												<div class="col-11 offset-1 p-0"
 													style="border-bottom: solid 1px #f8f8f8"></div>
 											</div>
-
-
 											<div class="row px-3 pb-0" style="font-size: 14px;">
 												<div class="col-4 offset-1 text-left border-right pl-2 pr-1"
-													style="letter-spacing: -0.8px;">${h.hpTime }</div>
+													style="letter-spacing: -0.8px;">${h.drEmail }</div>
 												<div class="col-7 text-left color9b pl-1"
 													style="letter-spacing: -0.8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
 													<img
 														src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/location_inactive.svg"
 														style="width: 12px; height: 16.5px;"
-														alt="Responsive image"> ${h.hpAddress }
+														alt="Responsive image"> ${list.hpAddress }
 												</div>
 											</div>
 										</div>
@@ -306,18 +265,10 @@
 								</div>
 							</c:forEach>
 						</c:if>
-
 					</div>
-
 				</div>
-
-
-
-
-				<div id="map" style="width: 500px; height: 865px;" class="col-6"></div>
+				<!-- <div id="map" style="width: 500px; height: 865px;" class="col-6"></div> -->
 			</div>
-
-
 		</div>
 	</div>
 

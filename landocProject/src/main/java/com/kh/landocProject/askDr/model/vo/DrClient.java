@@ -13,12 +13,16 @@ public class DrClient {
 	private String hpPostcode;
 	private String hpAddress;
 	private String hpCategoryName;
+	private int chooseCount;
+	private int answerCount;
+	private int choosePer;
 	
 	public DrClient() {
 	}
-	
+
 	public DrClient(String drNo, int hpNo, String drName, String drEmail, int drLike, int drDislike, int profileNo,
-			String profileFileName, String hpName, String hpPostcode, String hpAddress, String hpCategoryName) {
+			String profileFileName, String hpName, String hpPostcode, String hpAddress, String hpCategoryName,
+			int chooseCount, int answerCount, int choosePer) {
 		this.drNo = drNo;
 		this.hpNo = hpNo;
 		this.drName = drName;
@@ -31,6 +35,9 @@ public class DrClient {
 		this.hpPostcode = hpPostcode;
 		this.hpAddress = hpAddress;
 		this.hpCategoryName = hpCategoryName;
+		this.chooseCount = chooseCount;
+		this.answerCount = answerCount;
+		this.choosePer = choosePer;
 	}
 
 	public String getDrNo() {
@@ -129,11 +136,38 @@ public class DrClient {
 		this.hpCategoryName = hpCategoryName;
 	}
 
+	public int getChooseCount() {
+		return chooseCount;
+	}
+
+	public void setChooseCount(int chooseCount) {
+		this.chooseCount = chooseCount;
+	}
+
+	public int getAnswerCount() {
+		return answerCount;
+	}
+
+	public void setAnswerCount(int answerCount) {
+		this.answerCount = answerCount;
+	}
+
+	public int getChoosePer() {
+		return choosePer;
+	}
+
+	public void setChoosePer(int choosePer) {
+		this.choosePer = choosePer;
+	}
+
 	@Override
 	public String toString() {
 		return "DrClient [drNo=" + drNo + ", hpNo=" + hpNo + ", drName=" + drName + ", drEmail=" + drEmail + ", drLike="
 				+ drLike + ", drDislike=" + drDislike + ", profileNo=" + profileNo + ", profileFileName="
 				+ profileFileName + ", hpName=" + hpName + ", hpPostcode=" + hpPostcode + ", hpAddress=" + hpAddress
-				+ ", hpCategoryName=" + hpCategoryName + "]";
+				+ ", hpCategoryName=" + hpCategoryName + ", chooseCount=" + chooseCount + ", answerCount=" + answerCount
+				+ ", choosePer=" + choosePer + "]";
 	}
+	
+	
 }
