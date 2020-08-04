@@ -358,15 +358,17 @@ public class MainAskDrController {
 			return "error";
 		}
 	}
-
+	
 	@RequestMapping(value="selectAskDrBoardReply.do", method=RequestMethod.GET)
 	public void getReplyList(HttpServletResponse response, 
 										int bNo) throws JsonIOException, IOException {
 		List<AskDrReply> replys = askDrServiceImpl.selectAskDrBoardDetailReply( bNo );
 		
-		response.setContentType("application/json;charset=utf-8");
+		response.setContentType("application/json;charset=utf-8");	//
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(replys, response.getWriter());
+//		void에서 replys를 반환하였다.
+//		return replys;
 	}
 	
 	@ResponseBody
@@ -397,8 +399,9 @@ public class MainAskDrController {
 	@RequestMapping(value = "searchDr.do", method = RequestMethod.GET)
 	public ModelAndView askDrSearch(ModelAndView mv,
 														@RequestParam String drName) {
-		
+		drName = drName.replaceAll("\\p{Z}", "");
 		List<DrClient> searchList = askDrServiceImpl.getSearchDr(drName);
+		
 		mv.addObject("searchList", searchList);
 		mv.setViewName("askDr/askDrSearch");
 		return mv;

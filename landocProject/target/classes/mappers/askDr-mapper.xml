@@ -61,26 +61,37 @@
 		<result property="hpPostcode" column="HP_POSTCODE" />
 		<result property="hpAddress" column="HP_ADDRESS" />
 		<result property="hpCategoryName" column="HPCATE_NAME" />
+		<result property="chooseCount" column="CHOOSECOUNT" />
+		<result property="answerCount" column="ANSWERCOUNT" />
+		<result property="choosePer" column="CHOOSEPER" />
 	</resultMap>
 	
 <!-- ****************resultMap, Query 경계**************** -->
 	
 	<select id="getSearchDr" resultMap="searchDrClient" parameterType="string">
 		SELECT 
-		    A.DR_NO, A.HP_NO, A.DR_NAME, A.DR_EMAIL, A.DR_LIKE, A.DR_DISLIKE,
+		    DISTINCT(A.DR_NO), A.HP_NO, A.DR_NAME, A.DR_EMAIL, A.DR_LIKE, A.DR_DISLIKE,
 		    B.PRO_NO, B.PRO_RENAME,
-		    C.HP_NAME, C.HP_POSTCODE, C.HP_ADDRESS,
-		    E.HPCATE_NAME
+		    C.HP_NAME, C.HP_POSTCODE, C.HP_ADDRESS, 
+		    E.HPCATE_NAME,
+		    (SELECT COUNT(*) FROM ASKDRREPLY R WHERE A.DR_NO = R.DR_NO AND R.ADR_CHOOSESTATUS = 'Y') AS "CHOOSECOUNT",
+		    (SELECT COUNT(*) FROM ASKDRREPLY R WHERE A.DR_NO = R.DR_NO) AS "ANSWERCOUNT",
+		    TRUNC(
+		    ((SELECT COUNT(*) FROM ASKDRREPLY R WHERE A.DR_NO = R.DR_NO AND R.ADR_CHOOSESTATUS = 'Y') 
+		    / DECODE((SELECT COUNT(*) FROM ASKDRREPLY R WHERE A.DR_NO = R.DR_NO), 0, 1, (SELECT COUNT(*) FROM ASKDRREPLY R WHERE A.DR_NO = R.DR_NO))) * 100
+		    , 0) AS "CHOOSEPER"
 		FROM 
-		    DRCLIENT A
+		    ( SELECT * FROM DRCLIENT WHERE DR_NAME= #{drName} ) A
 		    LEFT JOIN PROFILEPHOTO B ON A.DR_NO = B.DR_NO
 		    JOIN HOSPITAL C ON A.HP_NO = C.HP_NO
 		    JOIN HPLIST D ON C.HP_NO = D.HP_NO
 		    JOIN HPCATEGORY E ON D.HPCATE_CODE = E.HPCATE_CODE
-		WHERE 
-		    DR_NAME = #{drName}
-		    AND DR_APPROVAL = 'Y'
+		    LEFT JOIN ASKDRREPLY F ON A.DR_NO = F.DR_NO
+		WHERE
+		    DR_APPROVAL = 'Y'
 		    AND E.HPCATE_CODE = A.HPCATE_CODE
+		ORDER BY
+		    "CHOOSEPER" DESC
 	</select>
 
 	<select id="selectAskDrBoard" parameterType="hashMap" resultMap="AskDrBoardList">
