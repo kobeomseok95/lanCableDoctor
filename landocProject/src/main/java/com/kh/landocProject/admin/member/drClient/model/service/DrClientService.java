@@ -16,4 +16,12 @@ public interface DrClientService {
 
 	ArrayList<DrClientPage> selectList(PageInfo pi, DrClientSearchCondition dsc);
 
+	ArrayList<DrClientPage> selectDrClientDetail(String drNo);
+
+	DrClientPage selectDrClientDetail1(String drNo);
+
+	int drClientApproval1(String drNo);
+
+	int drClientApproval2(String drNo);
+
 }

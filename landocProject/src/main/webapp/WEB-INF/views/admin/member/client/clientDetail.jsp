@@ -24,7 +24,7 @@
         #contentTb td{width:600px; border: 1px solid #bbb; font-size:14px;}
         #contentTb button{height: 35px; width: 55%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
         #contentTb button:hover{background-color: #007ee5; color: white;}
-      #contentTb input{width:95%; border:none;}
+      	#contentTb input{width:95%; border:none; text-align: center;}
 
       /* 수정하기, 뒤로가기 버튼*/
         #btnArea{text-align: center; padding-top: 45px;}

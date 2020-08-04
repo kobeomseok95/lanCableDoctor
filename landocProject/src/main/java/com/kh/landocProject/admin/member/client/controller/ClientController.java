@@ -39,6 +39,7 @@ public class ClientController {
 								@RequestParam(value="searchCondition", required=false) String condition,
 								@RequestParam(value="searchValue", required=false) String value,
 								@RequestParam(value="msg", required=false) String msg) {
+		System.out.println("adminClientController.java test line 42");
 		
 		try {
 			int currentPage = 1;
@@ -76,7 +77,7 @@ public class ClientController {
 				}
 				
 				int searchListCount = cService.getSearchListCont(msc);
-				System.out.println("searchListCount : " + searchListCount );
+//				System.out.println("searchListCount : " + searchListCount );
 				
 				pi = Pagination.getMemberPageInfo(currentPage, searchListCount);
 				
@@ -107,6 +108,7 @@ public class ClientController {
 	public ModelAndView clientDetail(ModelAndView mv, ClientPage cPage,
 							@RequestParam("cNo") String cNo,
 							@RequestParam(value="msg", required=false) String msg) {
+		System.out.println("adminClientController.java test line 111");
 		
 		cPage = cService.selectClientDetail(cNo);
 		
@@ -125,8 +127,10 @@ public class ClientController {
 	public String modifyClient(ClientPage cPage, Integer point, RedirectAttributes redirectAttributes,
 								@RequestParam("cNo") String cNo) {
 		
+		System.out.println("adminClientController.java test line 130");
+		
 		String msg = "";
-		System.out.println(cPage);
+//		System.out.println(cPage);
 		int result = cService.modifyClient(cPage);
 		
 		if(result > 0) {

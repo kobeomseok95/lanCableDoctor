@@ -40,4 +40,28 @@ public class DrClientServiceImpl implements DrClientService{
 		return dDao.selectList(pi,dsc);
 	}
 
+	@Override
+	public ArrayList<DrClientPage> selectDrClientDetail(String drNo) {
+		
+		return dDao.selectDrClientDetail(drNo);
+	}
+
+	@Override
+	public DrClientPage selectDrClientDetail1(String drNo) {
+		
+		return dDao.selectClientDetail1(drNo);
+	}
+
+	@Override
+	public int drClientApproval1(String drNo) {
+	
+		return dDao.drClientApproval1(drNo);
+	}
+
+	@Override
+	public int drClientApproval2(String drNo) {
+		
+		return dDao.drClientApproval2(drNo);
+	}
+
 }

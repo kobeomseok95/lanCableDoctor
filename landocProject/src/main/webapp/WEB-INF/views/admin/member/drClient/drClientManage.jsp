@@ -157,7 +157,7 @@
 		                <td>${dCli.enrollDate }</td>
 		                <td>${dCli.status }</td>
 		                <td>
-		                    <button onclick="drClientDetail();">수정</button>
+		                    <button onclick="location.href='drClientDetailView.do?drNo=' + '${dCli.drNo}'">수정</button>
 		                </td>
 		            </tr>
             	</c:forEach>

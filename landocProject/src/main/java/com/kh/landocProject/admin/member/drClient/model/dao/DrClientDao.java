@@ -47,4 +47,24 @@ public class DrClientDao {
 	      return (ArrayList)sqlSessionTemplate.selectList("drClientMapper.selectList", dsc, rowBounds);
 	}
 
+	public ArrayList<DrClientPage> selectDrClientDetail(String drNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("drClientMapper.selectDrClientDetail", drNo);
+	}
+
+	public DrClientPage selectClientDetail1(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("drClientMapper.selectDrClientDetail1", drNo);
+	}
+
+	public int drClientApproval1(String drNo) {
+
+		return sqlSessionTemplate.update("drClientMapper.drClientApproval1", drNo);
+	}
+
+	public int drClientApproval2(String drNo) {
+		
+		return sqlSessionTemplate.update("drClientMapper.drClientApproval2", drNo);
+	}
+
 }

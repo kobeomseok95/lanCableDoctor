@@ -24,6 +24,9 @@
 		<result property="hpName" column="HP_NAME"/>
 		<result property="hpNo" column="HP_NO"/>
 		<result property="hpCateCode" column="HPCATE_CODE"/>
+		<result property="drhpRename" column="DRHP_RENAME"/>
+		<result property="phCode" column="PH_CODE"/>
+		
 	</resultMap>
 	
 	<!-- 일반 리스트 카운트 조회용 -->
@@ -82,4 +85,36 @@
   			  </where>
   			  ORDER BY DR_ENROLL_DATE DESC)
   </select>
+  
+  <select id="selectDrClientDetail1" parameterType="string" resultMap="drClientResultSet">
+  	SELECT D.DR_NO, DR_ID, DR_NAME, DR_BIRTH, DR_PHONE, DR_EMAIL, DR_PROFILE, DR_POINT, DR_POSTCODE, DR_ADDRESS, HP_NAME, HPC.HPCATE_NAME, 
+  				DR_APPROVAL, DR_ENROLL_DATE, DR_STATUS, PRO_RENAME, DR_MARKETING
+  	FROM DRCLIENT D
+  	LEFT JOIN HOSPITAL HP ON(D.HP_NO = HP.HP_NO)
+  	LEFT JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
+  	LEFT JOIN DRHPPHOTO DRHP ON(D.DR_NO = DRHP.DR_NO)
+  	LEFT JOIN PROFILEPHOTO PRO ON(D.DR_NO = PRO.DR_NO)
+  	WHERE D.DR_NO = #{drNo}
+  				AND PH_CODE = 1
+  </select> 
+  
+  <select id="selectDrClientDetail" parameterType="string" resultMap="drClientResultSet">
+  	SELECT D.DR_NO, DRHP_RENAME
+  	FROM DRCLIENT D
+  	LEFT JOIN DRHPPHOTO DRHP ON(D.DR_NO = DRHP.DR_NO)
+  	WHERE D.DR_NO = #{drNo}
+  	AND (PH_CODE = 1 OR PH_CODE = 2 OR PH_CODE = 3)
+  </select>
+  
+   <update id="drClientApproval1" parameterType="string">
+  	UPDATE DRCLIENT
+  	SET DR_APPROVAL = 'Y'
+  	WHERE DR_NO = #{drNo}
+  </update>
+  
+  <update id="drClientApproval2" parameterType="string">
+  	UPDATE DRCLIENT
+  	SET DR_APPROVAL = 'X'
+  	WHERE DR_NO = #{drNo}
+  </update>
 </mapper>

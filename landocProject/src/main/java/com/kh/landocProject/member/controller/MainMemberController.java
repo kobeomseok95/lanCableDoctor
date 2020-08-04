@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -32,6 +33,7 @@ import com.kh.landocProject.member.model.service.MainMemberService;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.JoinHospital;
 import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 @SessionAttributes({ "loginClient", "loginDrClient" })
@@ -65,8 +67,21 @@ public class MainMemberController {
 
 	// 의사 회원가입 창 이동_진교
 	@RequestMapping(value = "joinDrView.do", method = RequestMethod.GET)
-	public String joinDrClient() {
-		return "drClient/joinDr";
+	public ModelAndView joinDrClient(ModelAndView mv) {
+		
+		ArrayList<JoinHospital> list = null;
+		
+		list = mService.selectList();
+		
+		System.out.println(list);
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.setViewName("drClient/joinDr");
+			return mv;
+		}
+		
+		return mv;
 	}
 
 	@RequestMapping(value = "searchIdView.do", method = RequestMethod.GET)
@@ -81,7 +96,7 @@ public class MainMemberController {
 	
 	@RequestMapping(value = "modifyClientView.do", method = RequestMethod.GET)
 	public ModelAndView modifyClientView(Client c, ModelAndView mv, Model model, HttpSession session,  @RequestParam(value="result1", required=false) Integer result1) {
-		System.out.println("mainMemberController.java test line 84");
+		System.out.println("mainMemberController.java test line 99");
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo = loginClient.getcNo();
 		Client loginClient2 = mService.loginClient2(cNo);
@@ -106,7 +121,7 @@ public class MainMemberController {
 	
 	@RequestMapping(value = "modifyDrClientView.do")
 	public ModelAndView modifyDrClientView(ModelAndView mv, HttpSession session, @RequestParam(value="result1", required=false) Integer result1) {
-		System.out.println("mainMemberController.java test line 109");
+		System.out.println("mainMemberController.java test line 124");
 		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
 		String drNo = loginDrClient.getDrNo();
 //		System.out.println(drNo);
@@ -146,7 +161,7 @@ public class MainMemberController {
 			@RequestParam("address2") String address2) {
 //		System.out.println(c);
 
-		System.out.println("mainMemberController.java test line 149");
+		System.out.println("mainMemberController.java test line 164");
 
 
 		// 비밀번호 암호화
@@ -177,7 +192,7 @@ public class MainMemberController {
 	@RequestMapping(value = "memberLogin.do", method = RequestMethod.POST)
 
 	public String memberLogin(Client c, DrClient d, Model model, @RequestParam("check") String check, HttpServletResponse response_equals) throws IOException{
-		System.out.println("mainMemberController.java test line 180");
+		System.out.println("mainMemberController.java test line 195");
 //			System.out.println(check);
 
 
@@ -261,23 +276,23 @@ public class MainMemberController {
 
 	// 아이디 찾기_진교
 	@RequestMapping(value = "searchId.do")
-	public String searchId(Client c, DrClient d, Model model, @RequestParam("check") String check,
-			HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 266");
+	public String searchId(Client c, DrClient d, Model model, @RequestParam("check") String check, HttpServletResponse response_equals) throws IOException {
+		System.out.println("mainMemberController.java test line 280");
 //		System.out.println(check);
-
+		String msg="";
 		if (check.equals("client")) {
 			Client ClientSearchId = mService.searchIdClient(c);
 
 //			System.out.println(ClientSearchId);
 
 			if (ClientSearchId != null) {
+				msg=ClientSearchId.getUserId();
 				model.addAttribute("ClientSearchId", ClientSearchId);
-
-				response_equals.setContentType("text/html; charset=UTF-8");
-				PrintWriter out_equals = response_equals.getWriter();
-				out_equals.println("<script>alert('아이디는'" + ClientSearchId.getUserId() +" '입니다.');</script>");
-				out_equals.flush();
+				model.addAttribute("msg", msg);
+//				response_equals.setContentType("text/html; charset=UTF-8");
+//				PrintWriter out_equals = response_equals.getWriter();
+//				out_equals.println("<script>alert('아이디는'" + ClientSearchId.getUserId() +" '입니다.');</script>");
+//				out_equals.flush();
 
 				return "member/login";
 			} else {
@@ -290,9 +305,11 @@ public class MainMemberController {
 		} else if (check.equals("drClient")) {
 			DrClient DrClientsearchId = mService.searchIdDoctor(d);
 
-			System.out.println(DrClientsearchId);
+//			System.out.println(DrClientsearchId);
 
 			if (DrClientsearchId != null) {
+				msg=DrClientsearchId.getUserId();
+				model.addAttribute("msg", msg);
 				model.addAttribute("DrClientsearchId", DrClientsearchId);
 				return "member/login";
 			} else {
@@ -310,7 +327,7 @@ public class MainMemberController {
 	// 로그아웃_진교
 	@RequestMapping(value = "logout.do")
 	public String logout(SessionStatus status) {
-		System.out.println("mainMemberController.java test line 313");
+		System.out.println("mainMemberController.java test line 330");
 		status.setComplete();
 		
 		return "redirect:home.do";
@@ -321,7 +338,7 @@ public class MainMemberController {
 	public ModelAndView joinDrClient(DrClient d, ProfilePhoto pp, HttpServletRequest request, HttpServletResponse response_email,
 			@RequestParam("email") String email, @RequestParam("address1") String address1,
 			@RequestParam("address2") String address2) throws IOException {
-		System.out.println("mainMemberController.java test line 324");
+		System.out.println("mainMemberController.java test line 341");
 //		System.out.println("(회원가입)입력받은 의사회원정보 : " + d);
 
 		// 비밀번호 암호화
@@ -429,7 +446,7 @@ public class MainMemberController {
 	@RequestMapping(value = "joinDrClient2.do")
 	public ModelAndView loginDrClient2(DrClient d, String message, @RequestParam String dice,
 			@RequestParam String email, HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 432");
+		System.out.println("mainMemberController.java test line 449");
 //				System.out.println("마지막 : message : " + message);
 //				System.out.println("마지막 : dice : " + dice);
 //				System.out.println("email : " + email);
@@ -479,7 +496,7 @@ public class MainMemberController {
 			@RequestParam(value = "uploadFile1", required = false) MultipartFile file1,
 			@RequestParam(value = "uploadFile2", required = false) MultipartFile file2,
 			@RequestParam(value = "uploadFile3", required = false) MultipartFile file3) {
-		System.out.println("mainMemberController.java test line 482");
+		System.out.println("mainMemberController.java test line 499");
 //				System.out.println("drNo : " + drNo);
 //				System.out.println("hpNo : " + hpNo);
 //				System.out.println("file1 : " + file1);
@@ -603,7 +620,7 @@ public class MainMemberController {
 	@RequestMapping(value = "searchPwd.do")
 	public String searchPwd(Client c, DrClient d, Model model, @RequestParam("check") String check,
 			HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 606");
+		System.out.println("mainMemberController.java test line 623");
 //		System.out.println(check);
 
 		if (check.equals("client")) {
@@ -639,7 +656,7 @@ public class MainMemberController {
 	@RequestMapping(value = "ClientSearchPwd2.do")
 	public ModelAndView ClientSearchPwd2(Client c, HttpServletRequest request, HttpServletResponse response_email,
 			@RequestParam("email") String email, @RequestParam("cNo") String cNo) throws IOException {
-		System.out.println("mainMemberController.java test line 642");
+		System.out.println("mainMemberController.java test line 659");
 
 //		System.out.println(email);
 //		System.out.println(cNo);
@@ -728,7 +745,7 @@ public class MainMemberController {
 	@RequestMapping(value = "DrClientSearchPwd2")
 	public ModelAndView DrClientSearchPwd2(DrClient d, HttpServletRequest request, HttpServletResponse response_email,
 			@RequestParam("email") String email, @RequestParam("drNo") String drNo) throws IOException {
-		System.out.println("mainMemberController.java test line 731");
+		System.out.println("mainMemberController.java test line 748");
 
 //		System.out.println(email);
 //		System.out.println(drNo);
@@ -818,7 +835,7 @@ public class MainMemberController {
 	@RequestMapping(value = "ClientSearchPwd3.do")
 	public ModelAndView ClientSearchPwd3(Client c, String message, @RequestParam("dice") String dice, @RequestParam("cNo") String cNo,
 			HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 821");
+		System.out.println("mainMemberController.java test line 838");
 //				System.out.println("마지막 : message : " + message);
 //				System.out.println("마지막 : dice : " + dice);
 //				System.out.println("마지막 : cNo : " + cNo);
@@ -863,7 +880,7 @@ public class MainMemberController {
 	@RequestMapping(value = "DrClientSearchPwd3.do")
 	public ModelAndView DrClientSearchPwd3(DrClient d, String message, @RequestParam("dice") String dice, @RequestParam("drNo") String drNo,
 			HttpServletResponse response_equals) throws IOException {
-		System.out.println("mainMemberController.java test line 866");
+		System.out.println("mainMemberController.java test line 883");
 //				System.out.println("마지막 : message : " + message);
 //				System.out.println("마지막 : dice : " + dice);
 //				System.out.println("마지막 : cNo : " + cNo);
@@ -907,7 +924,7 @@ public class MainMemberController {
 	// 일반회원 비밀번호 찾기4
 	@RequestMapping(value="ClientSearchPwd4")
 	public ModelAndView ClientSearchPwd4(Client c, HttpServletResponse response_equals, ModelAndView mv) throws IOException{
-		System.out.println("mainMemberController.java test line 910");
+		System.out.println("mainMemberController.java test line 927");
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(c.getUserPwd());
 
@@ -938,7 +955,7 @@ public class MainMemberController {
 	// 의사회원 비밀번호 찾기4
 	@RequestMapping(value="DrClientSearchPwd4")
 	public ModelAndView DrClientSearchPwd4(DrClient d, HttpServletResponse response_equals, ModelAndView mv) throws IOException{
-		System.out.println("mainMemberController.java test line 941");
+		System.out.println("mainMemberController.java test line 958");
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(d.getUserPwd());
 
@@ -970,7 +987,7 @@ public class MainMemberController {
 	@RequestMapping(value="updateClient")
 	public String updateClient(Client c, ProfilePhoto pp, HttpServletRequest request, HttpServletResponse response_equals,
 			@RequestParam("cNo") String cNo, @RequestParam(value = "profile", required = false) MultipartFile profile) throws IOException{
-		System.out.println("mainMemberController.java test line 973");
+		System.out.println("mainMemberController.java test line 990");
 		
 		Client CProfile = mService.CProfile(cNo);
 //		System.out.println(CProfile);
@@ -1015,7 +1032,7 @@ public class MainMemberController {
 	
 	// 파일 update시 삭제
 	public void deleteProfile(String fileName, HttpServletRequest request) {
-		System.out.println("mainMemberController.java test line 1016");
+		System.out.println("mainMemberController.java test line 1035");
 		String path = "C:\\lanCableDoctorProject\\files\\" + fileName;
 		
 		File file = new File(path);
@@ -1028,8 +1045,8 @@ public class MainMemberController {
 	@RequestMapping(value="updateDrClient", method=RequestMethod.POST)
 	public String updateDrClient(DrClient d, ProfilePhoto pp, HttpServletRequest request, HttpServletResponse response_equals,
 			@RequestParam("drNo") String drNo, @RequestParam(value = "profile", required = false) MultipartFile profile) throws IOException{
-		System.out.println("mainMemberController.java test line 1029");
-
+		System.out.println("mainMemberController.java test line 1048");
+		
 		DrClient DrProfile = mService.DrProfile(drNo);
 		
 		if (!profile.getOriginalFilename().equals("")) {
@@ -1055,6 +1072,7 @@ public class MainMemberController {
 
 		
 		int result1 = mService.updateDrClient(d);
+		int result2 = mService.updateDrProfileYN(d);
 			
 			if(result1 > 0) {
 
@@ -1074,7 +1092,7 @@ public class MainMemberController {
 	// 일반회원 탈퇴
 	@RequestMapping(value="ClientDelete.do")
 	public String ClientDelete(@RequestParam("cNo") String cNo, HttpServletResponse response_equals, SessionStatus status) throws IOException {
-		System.out.println("mainMemberController.java test line 1075");
+		System.out.println("mainMemberController.java test line 1095");
 		int result = mService.ClientDelete(cNo);
 		
 		if(result > 0) {
@@ -1093,7 +1111,7 @@ public class MainMemberController {
 	// 의사회원 탈퇴
 		@RequestMapping(value="DrClientDelete.do")
 		public String DrClientDelete(@RequestParam("drNo") String drNo, HttpServletResponse response_equals, SessionStatus status) throws IOException {
-			System.out.println("mainMemberController.java test line 1094");
+			System.out.println("mainMemberController.java test line 1114");
 			int result = mService.DrClientDelete(drNo);
 			
 			if(result > 0) {
@@ -1111,7 +1129,7 @@ public class MainMemberController {
 		
 		@RequestMapping(value = "DrClientHpUpdateView.do", method = RequestMethod.GET)
 		public ModelAndView DrClientHpUpdateView(ModelAndView mv, @RequestParam("drNo") String drNo) {
-			System.out.println("mainMemberController.java test line 1112");
+			System.out.println("mainMemberController.java test line 1132");
 			DrClient drClientHp1 = mService.selectDrClientHp1(drNo);
 //			System.out.println("drClientHp1 : " + drClientHp1 );
 			DrClient drClientHp2 = mService.selectDrClientHp2(drNo);
@@ -1119,11 +1137,18 @@ public class MainMemberController {
 			DrClient drClientHp3 = mService.selectDrClientHp3(drNo);
 //			System.out.println("drClientHp3 : " + drClientHp3 );
 			
+			ArrayList<JoinHospital> list = null;
+			
+			list = mService.selectList();
+			
+			System.out.println(list);
+			
 			if(drClientHp1 != null && drClientHp2 != null && drClientHp3 != null) {
 				mv.setViewName("drClient/drClientHpModify");
 				mv.addObject("drClientHp1", drClientHp1);
 				mv.addObject("drClientHp2", drClientHp2);
 				mv.addObject("drClientHp3", drClientHp3);
+				mv.addObject("list", list);
 				
 				return mv;
 			}
@@ -1132,19 +1157,20 @@ public class MainMemberController {
 		}
 		// 의사정보수정에서 병원 수정하기
 		@RequestMapping("drClientHpModify.do")
-		public String drClientHpModify(HttpServletRequest request, DrhpPhoto dhp, DrClient d, @RequestParam("drNo") String drNo, String hpCateCode,
-				@RequestParam("hpNo") String hpNo,
+		public ModelAndView drClientHpModify(HttpServletRequest request, DrhpPhoto dhp, DrClient d, @RequestParam("drNo") String drNo, String hpCateCode,
+				@RequestParam("hpNo") String hpNo, ModelAndView mv,
 				@RequestParam(value = "uploadFile1", required = false) MultipartFile file1,
 				@RequestParam(value = "uploadFile2", required = false) MultipartFile file2,
 				@RequestParam(value = "uploadFile3", required = false) MultipartFile file3) {
-			System.out.println("mainMemberController.java test line 1138");
+			System.out.println("mainMemberController.java test line 1165");
 //					System.out.println("drNo : " + drNo);
 //					System.out.println("hpNo : " + hpNo);
 //					System.out.println("file1 : " + file1);
 //					System.out.println("file2 : " + file2);
 //					System.out.println("file3 : " + file3);
 //					System.out.println("hpCateCode : "+hpCateCode);
-					
+			
+		
 			
 			if (!file1.getOriginalFilename().equals("")) {
 				String renameFileName1 = saveFile(file1, request);
@@ -1214,14 +1240,18 @@ public class MainMemberController {
 					}
 					int result3 = mService.drClientHpUpdate3(dhp);
 					int result4 = mService.drClientApproval(d);
+					
 
 //					int result3 = mService.insertFile3(dhp);
 
 					if (result3 > 0) {
-						return "drClient/drClientHpModify2";
+						
+						mv.setViewName("drClient/drClientHpModify2");
+						return mv;
 					} else {
 						throw new MainMemberException("게시글 등록 실패!");
 					}
+					
 
 				} else {
 					throw new MainMemberException("게시글 등록 실패!");
@@ -1230,5 +1260,6 @@ public class MainMemberController {
 			} else {
 				throw new MainMemberException("게시글 등록 실패!");
 			}
+			
 		}
 }

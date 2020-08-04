@@ -1,5 +1,7 @@
 package com.kh.landocProject.member.model.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,7 @@ import com.kh.landocProject.member.model.dao.MainMemberDao;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.JoinHospital;
 import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 @Service("mService")
@@ -285,6 +288,17 @@ public class MainMemberServiceImpl implements MainMemberService {
 	
 		return mDao.updateProfileYN(c);
 	}
+	@Override
+	public ArrayList<JoinHospital> selectList() {
+		
+		return mDao.selectList();
+	}
+	@Override
+	public int updateDrProfileYN(DrClient d) {
+		
+		return mDao.updateDrProfileYN(d);
+	}
+	
 	
 
 }

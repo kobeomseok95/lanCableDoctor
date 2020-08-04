@@ -1,5 +1,7 @@
 package com.kh.landocProject.member.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.JoinHospital;
 import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 @Repository("mDao")
@@ -238,6 +241,13 @@ public class MainMemberDao {
 		
 		return sqlSessionTemplate.update("memberMapper.updateProfileYN", c);
 	}
-
+	public ArrayList<JoinHospital> selectList() {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("memberMapper.selectList");
+	}
+	public int updateDrProfileYN(DrClient d) {
+		
+		return sqlSessionTemplate.update("memberMapper.updateDrProfileYN", d);
+	}
 
 }

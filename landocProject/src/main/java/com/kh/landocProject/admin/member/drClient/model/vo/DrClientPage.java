@@ -31,12 +31,14 @@ public class DrClientPage implements Serializable{
 	private String hpName;
 	private int hpNo;
 	private int hpCateCode;
+	private String drhpRename;
+	private String phCode;
 	protected DrClientPage() {
 	}
 	protected DrClientPage(int rowNum, String drNo, String userId, String userName, String birth, String phone,
 			String email, int point, String post, String address, String profile, String marketing, Date enrollDate,
 			String status, String approval, String proRename, String proOrigin, String hpCateName, String hpName,
-			int hpNo, int hpCateCode) {
+			int hpNo, int hpCateCode, String drhpRename, String phCode) {
 		this.rowNum = rowNum;
 		this.drNo = drNo;
 		this.userId = userId;
@@ -58,6 +60,8 @@ public class DrClientPage implements Serializable{
 		this.hpName = hpName;
 		this.hpNo = hpNo;
 		this.hpCateCode = hpCateCode;
+		this.drhpRename = drhpRename;
+		this.phCode = phCode;
 	}
 	public int getRowNum() {
 		return rowNum;
@@ -185,6 +189,18 @@ public class DrClientPage implements Serializable{
 	public void setHpCateCode(int hpCateCode) {
 		this.hpCateCode = hpCateCode;
 	}
+	public String getDrhpRename() {
+		return drhpRename;
+	}
+	public void setDrhpRename(String drhpRename) {
+		this.drhpRename = drhpRename;
+	}
+	public String getPhCode() {
+		return phCode;
+	}
+	public void setPhCode(String phCode) {
+		this.phCode = phCode;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -195,8 +211,9 @@ public class DrClientPage implements Serializable{
 				+ ", address=" + address + ", profile=" + profile + ", marketing=" + marketing + ", enrollDate="
 				+ enrollDate + ", status=" + status + ", approval=" + approval + ", proRename=" + proRename
 				+ ", proOrigin=" + proOrigin + ", hpCateName=" + hpCateName + ", hpName=" + hpName + ", hpNo=" + hpNo
-				+ ", hpCateCode=" + hpCateCode + "]";
+				+ ", hpCateCode=" + hpCateCode + ", drhpRename=" + drhpRename + ", phCode=" + phCode + "]";
 	}
+	
 	
 	
 	

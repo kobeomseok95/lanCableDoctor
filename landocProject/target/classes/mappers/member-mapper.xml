@@ -75,6 +75,11 @@
 		<result property="cNo" column="C_NO"/>
 		<result property="hpNo" column="HP_NO"/>
 	</resultMap>
+	
+	<resultMap type="MainHp" id="JoinHospital">
+		<id property="hpNo" column="HP_NO"/>
+		<result property="hpName" column="HP_NAME"/>
+	</resultMap>
 
 	<!-- 일반 회원가입_진교 -->
 	<insert id="joinClient" parameterType="Client">
@@ -124,7 +129,7 @@
 		INSERT INTO DRCLIENT
 		VALUES('D'||SEQ_DR.NEXTVAL, #{hpNo}, #{hpCateCode}, #{userName},
 		#{userId}, #{userPwd}, #{email}, #{phone}, #{birth}, 0, 'Y', 'N',
-		SYSDATE, NULL, 'Y', #{post}, #{address}, 0, 0)
+		SYSDATE, 'N', 'Y', #{post}, #{address}, 0, 0)
 	</insert>
 
 	<!-- 의사 회원가입2_회원 번호 찾기 -->
@@ -261,10 +266,10 @@
 	<select id="loginDrClient2" parameterType="string" resultMap="DoctorResultSet">
 		SELECT D.DR_NO, HP.HP_NO, D.DR_NAME, D.DR_ID, D.DR_EMAIL, D.DR_PHONE, D.DR_BIRTH, PP.PRO_ORIGIN, PP.PRO_RENAME, HP_NAME, HPCATE_NAME, D.DR_STATUS, PH_CODE, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME
 		FROM DRCLIENT D
-		JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
-		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
-		JOIN HPCATEGORY HC ON (D.HPCATE_CODE = HC.HPCATE_CODE)
-		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		LEFT JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
+		LEFT JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
+		LEFT JOIN HPCATEGORY HC ON (D.HPCATE_CODE = HC.HPCATE_CODE)
+		LEFT JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
 		WHERE D.DR_NO = #{drNo}
 		AND PH_CODE = 1
 	</select>
@@ -272,9 +277,9 @@
 	<select id="loginDrClient3" parameterType="string" resultMap="DoctorResultSet">
 		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
 		FROM DRCLIENT D
-		JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
-		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
-		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		LEFT JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
+		LEFT JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
+		LEFT JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
 		WHERE D.DR_NO = #{drNo}
 		AND PH_CODE = 2
 	</select>
@@ -310,21 +315,21 @@
 	<select id="CProfile" parameterType="string" resultMap="ClientResultSet">
 		SELECT C.C_NO, PP.PRO_ORIGIN, PP.PRO_RENAME
 		FROM CLIENT C
-		JOIN PROFILEPHOTO PP ON (C.C_NO = PP.C_NO)
+		LEFT JOIN PROFILEPHOTO PP ON (C.C_NO = PP.C_NO)
 		WHERE C.C_NO = #{cNo}
 	</select>
 	<!--  프로필 사진 삭제시 의사회원 정보  -->
 	<select id="DrProfile" parameterType="string" resultMap="DoctorResultSet">
 		SELECT D.DR_NO, PP.PRO_ORIGIN, PP.PRO_RENAME
 		FROM DRCLIENT D
-		JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
+		LEFT JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
 		WHERE D.DR_NO = #{drNo}
 	</select>
 	<!-- 제출 파일 삭제시 의사회원 정보  -->
 	<select id="DrFile" parameterType="string" resultMap="DoctorResultSet">
 		SELECT D.DR_NO, HPP.DRHP_ORIGIN, HPP.DRHP_RENAME
 		FROM DRCLIENT D
-		JOIN DRHPPHOTO HPP ON (D.DR_NO = HPP.DR_NO)
+		LEFT JOIN DRHPPHOTO HPP ON (D.DR_NO = HPP.DR_NO)
 		WHERE D.DR_NO = #{drNo}
 	</select>
 	<!-- 일반회원 탈퇴 -->
@@ -343,8 +348,8 @@
 	<select id="selectDrClientHp1" parameterType="string" resultMap="DoctorResultSet">
 		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
 		FROM DRCLIENT D
-		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
-		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO) 
+		LEFT JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		LEFT JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO) 
 		WHERE D.DR_NO = #{drNo}
 		AND PH_CODE = 1
 	</select>
@@ -352,8 +357,8 @@
 	<select id="selectDrClientHp2" parameterType="string" resultMap="DoctorResultSet">
 		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
 		FROM DRCLIENT D
-		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
-		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO) 
+		LEFT JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		LEFT JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO) 
 		WHERE D.DR_NO = #{drNo}
 		AND PH_CODE = 2
 	</select>
@@ -361,8 +366,8 @@
 	<select id="selectDrClientHp3" parameterType="string" resultMap="DoctorResultSet">
 		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
 		FROM DRCLIENT D
-		JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
-		JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
+		LEFT JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
+		LEFT JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO)
 		WHERE D.DR_NO = #{drNo}
 		AND PH_CODE = 3
 	</select>
@@ -428,5 +433,17 @@
 		SET C_PROFILE = 'Y'
 		WHERE C_NO = #{cNo}
 	</update>
+	
+	<select id="selectList" parameterType="MainHp" resultMap="JoinHospital">
+		SELECT HP_NO, HP_NAME
+		FROM HOSPITAL
+	</select>
+	
+	<update id="updateDrProfileYN" parameterType="DrClient">
+		UPDATE DRCLIENT
+		SET DR_PROFILE = 'Y'
+		WHERE DR_NO = #{drNo}
+	</update>
+	
 
 </mapper>

@@ -1,8 +1,11 @@
 package com.kh.landocProject.member.model.service;
 
+import java.util.ArrayList;
+
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.JoinHospital;
 import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 public interface MainMemberService {
@@ -98,5 +101,11 @@ public interface MainMemberService {
 	int drClientApproval(DrClient d);
 
 	int updateProfileYN(Client c);
+
+	ArrayList<JoinHospital> selectList();
+
+	int updateDrProfileYN(DrClient d);
+
+
 
 }
