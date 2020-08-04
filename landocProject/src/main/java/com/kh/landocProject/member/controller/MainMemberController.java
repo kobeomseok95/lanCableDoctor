@@ -136,11 +136,6 @@ public class MainMemberController {
 	@RequestMapping(value = "joinClient.do", method = RequestMethod.POST)
 	public String memberInsert(Client c, ProfilePhoto pp, Model model, @RequestParam("address1") String address1,
 			@RequestParam("address2") String address2) {
-//		System.out.println(c);
-
-		System.out.println("mainMemberController.java test line 141");
-
-
 		// 비밀번호 암호화
 		String encPwd = bcryptPasswordEncoder.encode(c.getUserPwd());
 
@@ -169,13 +164,8 @@ public class MainMemberController {
 	@RequestMapping(value = "memberLogin.do", method = RequestMethod.POST)
 
 	public String memberLogin(Client c, DrClient d, Model model, @RequestParam("check") String check, HttpServletResponse response_equals) throws IOException{
-		System.out.println("mainMemberController.java test line 172");
-//			System.out.println(check);
-
-
 		if (check.equals("client")) {
 			Client loginClient = mService.loginClient(c);
-//			System.out.println("암호화 처리 된 DB일반회원 : " + loginClient);
 			if(loginClient.getStatus().equals("Y")) {
 				if (bcryptPasswordEncoder.matches(c.getUserPwd(), loginClient.getUserPwd())) {
 					model.addAttribute("loginClient", loginClient);
@@ -285,7 +275,6 @@ public class MainMemberController {
 	// 로그아웃_진교
 	@RequestMapping(value = "logout.do")
 	public String logout(SessionStatus status) {
-		System.out.println("mainMemberController.java test line 288");
 		status.setComplete();
 		
 		return "redirect:home.do";

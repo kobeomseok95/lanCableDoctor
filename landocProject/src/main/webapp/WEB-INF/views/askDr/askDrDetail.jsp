@@ -59,11 +59,7 @@
 					&nbsp;&nbsp;
 					<a href="askDr.do">의사에게 물어봐 > </a>
 					&nbsp;&nbsp;
-					<c:url var="askDrBoard" value="askDrBoard.do">
-						<c:param name="category" value="${askDrBoardDetail.categoryNo }" />
-						<c:param name="pageNo" value="1" />					
-					</c:url>
-					<a href="${askDrBoard}">${subject }</a> 					
+					<a href="javascript:history.back();">${subject }</a> 					
 				</label>
 			</div>
 
@@ -123,7 +119,7 @@
 			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label"></label>
 				<div class="col-lg-9 col-sm-9 control-label my-3" align="right">
-				<c:if test="${askDrBoardDetail.chooseStatus eq 'N' && empty loginDrClient }">
+				<c:if test="${askDrBoardDetail.chooseStatus eq 'N' && empty loginDrClient && loginClient.nickName eq askDrBoardDetail.nickname }">
 					<button id="updateAskDrBoard" 
 						class="btn btn-sm" style="background-color: #0071ce; color:white;">수정하기</button>
 					&nbsp;
