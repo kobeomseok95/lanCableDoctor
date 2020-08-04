@@ -161,4 +161,6 @@ public class cMypageDao {
 		return sqlSessionTemplate.selectOne("cMypage.listCountPointList",cNo);
 	}
 
+
+
 }

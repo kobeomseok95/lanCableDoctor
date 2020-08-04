@@ -1,13 +1,8 @@
-package com.kh.landocProject.cmypage.model.vo;
+package com.kh.landocProject.hospital.model.vo;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 
-public class LikeHp implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4793561637003452963L;
-
+public class HpSearch {
 	private int hpNo;
 	private String hpName;
 	private String hpPhone;
@@ -22,15 +17,23 @@ public class LikeHp implements Serializable {
 	private String proRename;
 	private String proFilepath;
 	private String CateName;
-
+	private int cateCode;
 	
-	public LikeHp() {
+	// 병원검색 위한 값
+	private String area; 	// 지역
+	
+	
+	
+	public HpSearch() {
+		super();
 	}
 
 
-	public LikeHp(int hpNo, String hpName, String hpPhone, String hpPostcode, String hpAddress, String hpX, String hpY,
-			int hpReview, int hpAvgRate, String hpTime, String proOrigin, String proRename, String proFilepath,
-			String cateName) {
+
+	public HpSearch(int hpNo, String hpName, String hpPhone, String hpPostcode, String hpAddress, String hpX,
+			String hpY, int hpReview, int hpAvgRate, String hpTime, String proOrigin, String proRename,
+			String proFilepath, String cateName, int cateCode, String area) {
+		super();
 		this.hpNo = hpNo;
 		this.hpName = hpName;
 		this.hpPhone = hpPhone;
@@ -45,7 +48,10 @@ public class LikeHp implements Serializable {
 		this.proRename = proRename;
 		this.proFilepath = proFilepath;
 		CateName = cateName;
+		this.cateCode = cateCode;
+		this.area = area;
 	}
+
 
 
 	public int getHpNo() {
@@ -53,9 +59,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpNo(int hpNo) {
 		this.hpNo = hpNo;
 	}
+
 
 
 	public String getHpName() {
@@ -63,9 +71,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpName(String hpName) {
 		this.hpName = hpName;
 	}
+
 
 
 	public String getHpPhone() {
@@ -73,9 +83,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpPhone(String hpPhone) {
 		this.hpPhone = hpPhone;
 	}
+
 
 
 	public String getHpPostcode() {
@@ -83,9 +95,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpPostcode(String hpPostcode) {
 		this.hpPostcode = hpPostcode;
 	}
+
 
 
 	public String getHpAddress() {
@@ -93,9 +107,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpAddress(String hpAddress) {
 		this.hpAddress = hpAddress;
 	}
+
 
 
 	public String getHpX() {
@@ -103,9 +119,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpX(String hpX) {
 		this.hpX = hpX;
 	}
+
 
 
 	public String getHpY() {
@@ -113,9 +131,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpY(String hpY) {
 		this.hpY = hpY;
 	}
+
 
 
 	public int getHpReview() {
@@ -123,9 +143,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpReview(int hpReview) {
 		this.hpReview = hpReview;
 	}
+
 
 
 	public int getHpAvgRate() {
@@ -133,9 +155,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpAvgRate(int hpAvgRate) {
 		this.hpAvgRate = hpAvgRate;
 	}
+
 
 
 	public String getHpTime() {
@@ -143,9 +167,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setHpTime(String hpTime) {
 		this.hpTime = hpTime;
 	}
+
 
 
 	public String getProOrigin() {
@@ -153,9 +179,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setProOrigin(String proOrigin) {
 		this.proOrigin = proOrigin;
 	}
+
 
 
 	public String getProRename() {
@@ -163,9 +191,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setProRename(String proRename) {
 		this.proRename = proRename;
 	}
+
 
 
 	public String getProFilepath() {
@@ -173,9 +203,11 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setProFilepath(String proFilepath) {
 		this.proFilepath = proFilepath;
 	}
+
 
 
 	public String getCateName() {
@@ -183,25 +215,51 @@ public class LikeHp implements Serializable {
 	}
 
 
+
 	public void setCateName(String cateName) {
 		CateName = cateName;
 	}
 
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+
+	public int getCateCode() {
+		return cateCode;
 	}
+
+
+
+	public void setCateCode(int cateCode) {
+		this.cateCode = cateCode;
+	}
+
+
+
+	public String getArea() {
+		return area;
+	}
+
+
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
 
 
 	@Override
 	public String toString() {
-		return "LikeHp [hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", hpPostcode=" + hpPostcode
+		return "HpSearch [hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", hpPostcode=" + hpPostcode
 				+ ", hpAddress=" + hpAddress + ", hpX=" + hpX + ", hpY=" + hpY + ", hpReview=" + hpReview
 				+ ", hpAvgRate=" + hpAvgRate + ", hpTime=" + hpTime + ", proOrigin=" + proOrigin + ", proRename="
-				+ proRename + ", proFilepath=" + proFilepath + ", CateName=" + CateName + "]";
+				+ proRename + ", proFilepath=" + proFilepath + ", CateName=" + CateName + ", cateCode=" + cateCode
+				+ ", area=" + area + "]";
 	}
+
+	
 	
 	
 
-
+	
+	
+	
 }

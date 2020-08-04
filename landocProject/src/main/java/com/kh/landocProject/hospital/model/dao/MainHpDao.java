@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.hospital.model.vo.HpNameSplit;
+import com.kh.landocProject.hospital.model.vo.HpSearch;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 
 @Repository("mainHpDao")
@@ -27,6 +29,17 @@ public class MainHpDao {
 	public ArrayList<MainHp> selectHpPhoto(MainHp hp) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectHpPhoto", hp);
+	}
+
+
+	public ArrayList<HpSearch> hpSearchListNormal(HpSearch hp) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.hpSearchListNormal",hp);
+	}
+
+	public ArrayList<HpSearch> hpCateSearchList(String cateName) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.hpCateSearchList",cateName);
 	}
 	
 }
