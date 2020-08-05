@@ -39,4 +39,6 @@ public interface MainHpService {
 
 	int updateHptime(HpTime ht2);
 
+	int updateComment(MainHp hp);
+
 }

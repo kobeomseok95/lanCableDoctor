@@ -53,7 +53,8 @@ public class MainHpController {
 	public ModelAndView editHp(HttpSession session, ModelAndView mv, MainHp hp, MainHp hpBasic,
 								@RequestParam(value="msg", required=false) String msg,
 								@RequestParam(value="basicHpInfoMsg", required=false) String basicHpInfoMsg,
-								@RequestParam(value="hpTimeMsg", required=false) String hpTimeMsg) {
+								@RequestParam(value="hpTimeMsg", required=false) String hpTimeMsg,
+								@RequestParam(value="hpCommentMsg", required=false) String hpCommentMsg) {
 		
 		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
 		
@@ -80,6 +81,7 @@ public class MainHpController {
 			mv.addObject("msg", msg);
 			mv.addObject("basicHpInfoMsg", basicHpInfoMsg);
 			mv.addObject("hpTimeMsg", hpTimeMsg);
+			mv.addObject("hpCommentMsg", hpCommentMsg);
 			mv.setViewName("hospital/modifyHospital");
 
 		}else {
@@ -388,13 +390,24 @@ public class MainHpController {
 	
 	// 병원 간단 소개 UPDATE
 	@RequestMapping(value="introHpEdit.do", method=RequestMethod.POST)
-	public String introHpEdit() {
+	public String introHpEdit(MainHp hp, RedirectAttributes redirectAttributes,
+						@RequestParam("hpNo") Integer hpNo,
+						@RequestParam("comment") String comment) {
+	
+		hp.setHpNo(hpNo);
+		hp.setHpComment(comment);
 		
+		int result = mainHpService.updateComment(hp);
 		
+		if(result>0) {
+			String hpCommentMsg = "ok";
+			redirectAttributes.addAttribute("hpCommentMsg", hpCommentMsg);
+			return "redirect:editHp.do";
+		}else {
+			System.out.println("병원 소개 업데이트 실패!");
+			return "home";
+		}
 		
-		
-		
-		return null;
 	}
 	
 	

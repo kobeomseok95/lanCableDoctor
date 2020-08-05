@@ -13,6 +13,7 @@
 	  	<result property="hpAvgRate" column="HP_AVG_RATE"/>
 	  	<result property="hpReCount" column="HP_REVIEW"/>
 	  	<result property="hpComment" column="HP_COMMENT"/>
+	  	<result property="hpStatus" column="HP_STATUS"/>
 	  	<result property="hpCateCode" column="HPCATE_CODE"/>
 	  	<result property="hpCateName" column="HPCATE_NAME"/>
 	  	<result property="drHpNo" column="DRHP_NO"/>
@@ -56,7 +57,7 @@
 
   <!-- 병원 기본정보 select -->
   <select id="selectOneHp" parameterType="MainHp" resultMap="mainHpResultMap">
-  	SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_COMMENT, HL.HPCATE_CODE, HG.HPCATE_NAME
+  	SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_COMMENT, HP.HP_STATUS, HL.HPCATE_CODE, HG.HPCATE_NAME
 	FROM HOSPITAL HP
 	    JOIN HPLIST HL ON(HP.HP_NO = HL.HP_NO)
 	    JOIN HPCATEGORY HG ON (HL.HPCATE_CODE= HG.HPCATE_CODE)
@@ -225,7 +226,12 @@
   </update>
   
   
-  
+  <!-- 병원 소개 update -->
+  <update id="updateComment" parameterType="MainHp">
+  	UPDATE HOSPITAL
+  	SET HP_COMMENT=#{hpComment}
+  	WHERE HP_NO = #{hpNo}
+  </update>
   
   
   

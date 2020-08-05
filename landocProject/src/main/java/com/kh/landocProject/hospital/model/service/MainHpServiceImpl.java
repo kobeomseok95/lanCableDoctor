@@ -106,6 +106,12 @@ public class MainHpServiceImpl implements MainHpService{
 		return mainHpDao.updateHptime(ht2);
 	}
 
+	@Override
+	public int updateComment(MainHp hp) {
+		
+		return mainHpDao.updateComment(hp);
+	}
+
 	
 	
 }

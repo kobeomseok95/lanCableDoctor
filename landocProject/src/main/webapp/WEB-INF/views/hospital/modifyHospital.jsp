@@ -9,6 +9,7 @@
 	String msg = (String)request.getAttribute("msg");
 	String basicHpInfoMsg = (String)request.getAttribute("basicHpInfoMsg");
 	String hpTimeMsg = (String)request.getAttribute("hpTimeMsg");
+	String hpCommentMsg = (String)request.getAttribute("hpCommentMsg");
 %>
 
 <!DOCTYPE html>
@@ -118,11 +119,13 @@
 						<div class="content-box-numbering align-middle mx-auto">1</div>
 					</div>
 					<div class="col-sm-11 content-box-title">${hpBasic.hpName } 기본 정보 수정</div>
-					<div id="holdApproval" style="display:none;">
-					<span><img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/redstar.svg" class="img-fluid" alt="Responsive image"></span>
-                     <b class="align-middle" style="font-size: 21px; letter-spacing: -0.7px;color: #b00020;">기본 정보 수정 신청 승인 대기 중 </b>
-                     <span><img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/redstar.svg" class="img-fluid" alt="Responsive image"></span>
+					
+					<c:if test="${hpBasic.hpStatus eq 'N' }">
+					<div class="col-sm-11 content-box-title mt-5 p-2" id="waitingApproval" style="background-color:#007ee5; text-align:center; margin-left:5%;">
+                     <b class="align-middle" style="font-size: 21px; letter-spacing: -0.7px;color: white;">기본 정보 수정 신청 승인 대기 중 </b>
 					</div>
+					</c:if>
+					
 				</div>
 				
 				<div class="row">
@@ -818,7 +821,7 @@
 					<div class="col-sm-10 offset-sm-1 p-0 mt-1">
 							<textarea class="form-control" rows="5" id="comment" name="comment" placeholder="병원에 대해 간략한 소개를 적어주세요. (200자 이상)" onkeyup="textCounter(this, 'counter', 200);">${hpBasic.hpComment }</textarea>
 							<div class="mt-1" style="font-size:14px;text-align:right;color:#494949;letter-spacing: -0.6px;">
-								(<span id="counter">0</span>자, 최소 200자 이상)
+								(<span id="counter">0</span>자)
 							</div>
 							<script>
 								function textCounter(field,field2,maxlimit)
@@ -830,6 +833,7 @@
 				</div>
 				
 				<div class="row pt-4">
+					<input type="hidden" name="hpNo" value="${hpBasic.hpNo }">
 					<button type="submit" id="" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
 						병원 소개 수정하기
 					</button>
@@ -861,6 +865,12 @@
 			<%}%>
 		})
 		
+		$(function(){
+			<%if(hpCommentMsg != null){%>
+				alert("병원 간단 소개 수정에 성공했습니다.");
+		
+			<%}%>
+		})
 		
 		
 			

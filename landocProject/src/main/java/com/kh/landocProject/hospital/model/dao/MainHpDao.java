@@ -90,5 +90,10 @@ public class MainHpDao {
 		
 		return sqlSessionTemplate.update("mainHpMapper.updateHptime", ht2);
 	}
+
+	public int updateComment(MainHp hp) {
+		
+		return sqlSessionTemplate.update("mainHpMapper.updateComment", hp);
+	}
 	
 }
