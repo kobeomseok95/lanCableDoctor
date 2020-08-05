@@ -403,6 +403,7 @@ public class MainAskDrController {
 		List<DrClient> searchList = askDrServiceImpl.getSearchDr(drName);
 		
 		mv.addObject("searchList", searchList);
+		mv.addObject("drName", drName);
 		mv.setViewName("askDr/askDrSearch");
 		return mv;
 	}

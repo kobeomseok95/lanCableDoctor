@@ -161,6 +161,9 @@
 	top: 0;
 	margin-top: 50px;
 }
+.goProfile{
+	margin-left: 13px;
+}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -177,7 +180,15 @@
 
 	<div class="container" style="margin-bottom: 80px; text-align: center;">
 		<div style="width: 960px; display: inline-block">
-
+			<form action="searchDr.do" method="get">
+	            <input type="text" id="searchProduct" name="drName" class="mb-4"
+	            placeholder="의사선생님 성함을 입력해주세요!"
+	            <c:if test="${!empty drName }">
+	            	value="${drName }"
+	            </c:if> />
+	            <button id="searchDr" type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
+           	</form>
+           	
 			<div class="row doctor-list-box">
 
 				<!-- doctor list -->
@@ -186,7 +197,7 @@
 					<div class="doctors-title-box pb-2 text-left"
 						style="border-bottom: solid darkgray 1px;">
 						<div style="font-size: 20px;">
-							<b class="ml-3">'${searchList[0].drName}' 선생님! 나와주세요!</b>
+							<b class="ml-3">'${drName}' 선생님! 나와주세요!</b>
 						</div>
 					</div>
 
@@ -343,7 +354,13 @@
 			            titleDiv.innerHTML=searchList[i].drName + " 선생님";
 	            	}
 	            }
+	            
+	            var goProfile = document.createElement('a');
+	            goProfile.setAttribute('href', '#');		//의사 프로필
+	            goProfile.className = 'goProfile';
+	            goProfile.innerHTML = '<i class="far fa-address-card"></i>';
 	            infoDiv.appendChild(titleDiv);
+	            titleDiv.appendChild(goProfile);
 	            
 	            var closeBtn = document.createElement('button');
 	            closeBtn.className = 'close';
@@ -379,10 +396,6 @@
             		}
             	}
             	img.appendChild(imgsrc);
-	            <%-- var imgsrc =  document.createElement('img');
-             	imgsrc.setAttribute( 'src', '<%=request.getContextPath()%>/resources/img/mainlogo.png' );           		
-            	imgsrc.src = listFile[index]+".png";
-            	img.appendChild(imgsrc); --%>
 	            
 	            var desc = document.createElement("div");
 	            desc.className='desc';
@@ -439,10 +452,10 @@
 	                
 	             // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
 	            kakao.maps.event.addListener(marker, 'click', function() {
-	                 overlay.setMap(map);
-	             });
+	                overlay.setMap(map);
+	            });
 	            
-            	
+	            
 	        } 
 	    });
 	});
@@ -491,7 +504,11 @@
         map.setCenter(locPostion);
     }
     
-    
+    $(function(){
+    	$("#searchDr").on('click', function(){
+    		$(this).submit();
+    	});
+    })
    </script>
 </body>
 </html>
