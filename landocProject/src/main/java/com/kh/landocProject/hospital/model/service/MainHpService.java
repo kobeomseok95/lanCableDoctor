@@ -1,9 +1,11 @@
 package com.kh.landocProject.hospital.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.landocProject.hospital.model.vo.HpNameSplit;
 import com.kh.landocProject.hospital.model.vo.HpSearch;
+import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 
 public interface MainHpService {
@@ -30,5 +32,11 @@ public interface MainHpService {
 	ArrayList<HpSearch> hpSearchListNormal(HpSearch hp);
 
 	ArrayList<HpSearch> hpCateSearchList(String cateName);
+
+	int deleteOriginPics(Integer hpNo);
+
+	int insertNewHpPhoto(HashMap<String, Object> parameterPhoto);
+
+	int updateHptime(HpTime ht2);
 
 }

@@ -1,6 +1,7 @@
 package com.kh.landocProject.hospital.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.landocProject.hospital.model.dao.MainHpDao;
 import com.kh.landocProject.hospital.model.vo.HpNameSplit;
 import com.kh.landocProject.hospital.model.vo.HpSearch;
+import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 
 @Service("mainHpService")
@@ -84,6 +86,24 @@ public class MainHpServiceImpl implements MainHpService{
 	public ArrayList<HpSearch> hpCateSearchList(String cateName) {
 		
 		return mainHpDao.hpCateSearchList(cateName);
+	}
+
+	@Override
+	public int deleteOriginPics(Integer hpNo) {
+		
+		return mainHpDao.deleteOriginPics(hpNo);
+	}
+
+	@Override
+	public int insertNewHpPhoto(HashMap<String, Object> parameterPhoto) {
+		
+		return mainHpDao.insertNewHpPhoto(parameterPhoto);
+	}
+
+	@Override
+	public int updateHptime(HpTime ht2) {
+		
+		return mainHpDao.updateHptime(ht2);
 	}
 
 	

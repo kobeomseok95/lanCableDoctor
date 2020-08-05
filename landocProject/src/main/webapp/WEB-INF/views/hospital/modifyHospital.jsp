@@ -6,6 +6,9 @@
 	String hpName = (String)session.getAttribute("hpName");
 	int hpNo = (Integer)(session.getAttribute("hpNo"));
 	int hpCateCode = (Integer)(session.getAttribute("hpCateCode"));
+	String msg = (String)request.getAttribute("msg");
+	String basicHpInfoMsg = (String)request.getAttribute("basicHpInfoMsg");
+	String hpTimeMsg = (String)request.getAttribute("hpTimeMsg");
 %>
 
 <!DOCTYPE html>
@@ -106,14 +109,20 @@
 				
 				
 	<!--form 태그 시작-->
+	<!-- ******************************************************************************************************************* -->
 	<!--1. 병원 기본 정보 수정-->
-		<form id="basicInfo" action="basicInfoHpEdit.do" method="POST" enctype="multipart/form-data">
+		<form id="basicInfo" action="basicInfoHpEdit.do" method="POST" enctype="multipart/form-data" onsubmit="return checkBasicInfo();">
 			<div class="summit-content-box mx-auto p-5 mt-4">
 				<div class="row mb-5">
 					<div class="col-sm-1">
 						<div class="content-box-numbering align-middle mx-auto">1</div>
 					</div>
-					<div class="col-sm-11 content-box-title">${hpName }병원 기본 정보 수정</div>
+					<div class="col-sm-11 content-box-title">${hpBasic.hpName } 기본 정보 수정</div>
+					<div id="holdApproval" style="display:none;">
+					<span><img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/redstar.svg" class="img-fluid" alt="Responsive image"></span>
+                     <b class="align-middle" style="font-size: 21px; letter-spacing: -0.7px;color: #b00020;">기본 정보 수정 신청 승인 대기 중 </b>
+                     <span><img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/redstar.svg" class="img-fluid" alt="Responsive image"></span>
+					</div>
 				</div>
 				
 				<div class="row">
@@ -356,7 +365,7 @@
 				</div>
 				
 				<div class="row pt-4">
-					<button type="submit" id="" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
+					<button type="submit" id="basicInfoSubmit" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
 						기본 정보 수정하기
 					</button>
 				</div>
@@ -475,10 +484,10 @@
 
 
 
-
+		<!-- ******************************************************************************************************************* -->
 		<!--2. 병원사진 업로드 부분-->
-		<form id="" enctype="multipart/form-data">
-			<div class="summit-content-box mx-auto p-5 mt-4">
+		<form action="hpPicEdit.do" method="post" enctype="multipart/form-data" onsubmit="return checkHpPics();">
+			<div class="summit-content-box mx-auto p-5 mt-4" id="here">
 				<div class="row mb-3">
 					<div class="col-sm-1">
 						<div class="content-box-numbering align-middle mx-auto">2</div>
@@ -519,6 +528,7 @@
 				</div>
               
                 <div class="row pt-4">
+                	 <input type="hidden" id="hpNo" name="hpNo" value="${hpBasic.hpNo }">
 					<button type="submit" id="" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
 						병원 사진 수정하기
 					</button>
@@ -563,7 +573,7 @@
 										+ "<p>"
 										+ file.name
 										+ "</p>"
-										+ "<a href=\"#\" value=\""
+										+ "<a href=\"#here\" value=\""
 										+ imgNum
 										+ "\" onclick=\"deletePreview(this)\">"
 										+ "삭제" + "</a>" + "</div>");
@@ -605,16 +615,12 @@
 			$("#hpPics").change(function(){
 				addPreview($(this));
 			})
-			
-		
-		
-		
 		
 		</script>
 
-            
+          <!-- ******************************************************************************************************************* -->  
           <!--3. 병원 영업시간 수정-->
-          <form id="" action="#">
+          <form action="hpTimeEdit.do" method="post" commandName="HpTime">
 			<div class="summit-content-box mx-auto p-5 mt-4">
 				<div class="row mb-5">
 					<div class="col-sm-1">
@@ -643,9 +649,11 @@
                                      		     월요일
 										
 										<div class="pull-right">
-											<input type="time" id="mon_open_time" name="mon_open_time" value="${hpTime[0].hpOpenTime }">
+											<input type="hidden" name="hpTimeList[0].day" value="월요일">
+											<input type="hidden" name="hpTimeList[0].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="mon_open_time" name="hpTimeList[0].openTime" value="${hpTime[0].hpOpenTime }">
 											~
-											<input type="time" id="mon_close_time" name="mon_close_time" value="${hpTime[0].hpCloseTime }">
+											<input type="time" id="mon_close_time" name="hpTimeList[0].closeTime" value="${hpTime[0].hpCloseTime }">
 										</div>
                                         
 									  </div>
@@ -659,9 +667,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  화요일
 										  <div class="pull-right">
-											<input type="time" id="tues_open_time" name="tues_open_time" value="${hpTime[1].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[1].day" value="화요일">
+											<input type="hidden" name="hpTimeList[1].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="tues_open_time" name="hpTimeList[1].openTime" value="${hpTime[1].hpOpenTime }">
 											~
-											<input type="time" id="tues_close_time" name="tues_close_time" value="${hpTime[1].hpCloseTime }">
+											<input type="time" id="tues_close_time" name="hpTimeList[1].closeTime" value="${hpTime[1].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -674,9 +684,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  수요일
 										  <div class="pull-right">
-											<input type="time" id="wed_open_time" name="wed_open_time" value="${hpTime[2].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[2].day" value="수요일">
+											<input type="hidden" name="hpTimeList[2].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="wed_open_time" name="hpTimeList[2].openTime" value="${hpTime[2].hpOpenTime }">
 											~
-											<input type="time" id="wed_close_time" name="wed_close_time" value="${hpTime[2].hpCloseTime }">
+											<input type="time" id="wed_close_time" name="hpTimeList[2].closeTime" value="${hpTime[2].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -689,9 +701,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  목요일
 										  <div class="pull-right">
-											<input type="time" id="thurs_open_time" name="thurs_open_time" value="${hpTime[3].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[3].day" value="목요일">
+											<input type="hidden" name="hpTimeList[3].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="thurs_open_time" name="hpTimeList[3].openTime" value="${hpTime[3].hpOpenTime }">
 											~
-											<input type="time" id="thurs_close_time" name="thurs_close_time" value="${hpTime[3].hpCloseTime }">
+											<input type="time" id="thurs_close_time" name="hpTimeList[3].closeTime" value="${hpTime[3].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -704,9 +718,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  금요일
 										  <div class="pull-right">
-											<input type="time" id="fri_open_time" name="fri_open_time" value="${hpTime[4].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[4].day" value="금요일">
+											<input type="hidden" name="hpTimeList[4].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="fri_open_time" name="hpTimeList[4].openTime" value="${hpTime[4].hpOpenTime }">
 											~
-											<input type="time" id="fri_close_time" name="fri_close_time" value="${hpTime[4].hpCloseTime }">
+											<input type="time" id="fri_close_time" name="hpTimeList[4].closeTime" value="${hpTime[4].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -719,9 +735,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  토요일
 										  <div class="pull-right">
-											<input type="time" id="sat_open_time" name="sat_open_time" value="${hpTime[5].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[5].day" value="토요일">
+											<input type="hidden" name="hpTimeList[5].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="sat_open_time" name="hpTimeList[5].openTime" value="${hpTime[5].hpOpenTime }">
 											~
-											<input type="time" id="sat_close_time" name="sat_close_time" value="${hpTime[5].hpCloseTime }">
+											<input type="time" id="sat_close_time" name="hpTimeList[5].closeTime" value="${hpTime[5].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -734,9 +752,11 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                        		 일요일
                                         <div class="pull-right">
-											<input type="time" id="sun_open_time" name="sun_open_time" value="${hpTime[6].hpOpenTime }">
+                                        	<input type="hidden" name="hpTimeList[6].day" value="일요일">
+											<input type="hidden" name="hpTimeList[6].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="sun_open_time" name="hpTimeList[6].openTime" value="${hpTime[6].hpOpenTime }">
 											~
-											<input type="time" id="sun_close_time" name="sun_close_time" value="${hpTime[6].hpCloseTime }">
+											<input type="time" id="sun_close_time" name="hpTimeList[6].closeTime" value="${hpTime[6].hpCloseTime }">
 										</div>
                                     </div>
                                 </div>
@@ -756,9 +776,9 @@
 			</form>
 			
 			
-			
-			<!--간단 병원 소개-->
-			<form id="" action="#">
+			<!-- ******************************************************************************************************************* -->  
+			<!-- 4. 간단 병원 소개-->
+			<form action="introHpEdit.do" method="post">
 			<div class="summit-content-box mx-auto p-5 mt-4">
 				<div class="row mb-4">
 					<div class="col-sm-1">
@@ -816,21 +836,64 @@
 				</div>
 			</div>
 			</form>
-	
-			
-			
-			
-			
-			
-			
-			
-			
 		</div>
 	</div>
 
 	
 	<script>
-	
+		$(function(){
+			<%if(msg != null){%>
+				alert("병원 사진 수정에 성공했습니다.");
+			<%}%>
+		})
+			
+		$(function(){
+			<%if(basicHpInfoMsg != null){%>
+				alert("병원 기본 정보 수정 신청에 성공했습니다.");
+				
+			<%}%>
+		})
+		
+		$(function(){
+			<%if(hpTimeMsg != null){%>
+				alert("병원 영업시간 수정에 성공했습니다.");
+				
+			<%}%>
+		})
+		
+		
+		
+			
+		// 기본정보 수정 항목 체크
+		function checkBasicInfo(){
+			if($("#empPic").val() == ""){
+				alert("재직증명서 또는 사업자 등록증을 업로드 해주세요.");
+				return false;
+			}
+			
+			if($("#idPic").val() == ""){
+			 	alert("신분증 사진을 업로드 해주세요.");
+			 	return false;
+			}
+			if($("#drPic").val() == ""){
+				alert("의사 면허증을 업로드 해주세요.");
+				return false;
+			}
+			
+		}
+		
+		// 병원 소개 사진 항목 체크
+		function checkHpPics(){
+			if($("#hpPics").val() == ""){
+				alert("병원 소개 사진을 1장 이상 등록해주세요.");
+				return false;
+			}
+		}
+		
+		
+		
+		
+		
 
 	</script>
 	

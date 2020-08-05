@@ -1,6 +1,9 @@
 package com.kh.landocProject.hospital.model.vo;
 
 import java.io.Serializable;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 
 
@@ -42,15 +45,17 @@ public class MainHp implements Serializable{
 	private String hpOpenTime;
 	private String hpCloseTime;
 	
+	private List<MultipartFile> file;
 	
 	public MainHp() {
 	}
 
 
+
 	public MainHp(int hpNo, String hpName, String hpPhone, String hpPostCode, String hpAddress, String hpx, String hpy,
 			double hpAvgRate, int hpReCount, String hpComment, int hpCateCode, String hpCateName, int drHpNo,
 			int phCode, String originFileName, String renameFileName, String filePath, String hpDay, String hpOpenTime,
-			String hpCloseTime) {
+			String hpCloseTime, List<MultipartFile> file) {
 		this.hpNo = hpNo;
 		this.hpName = hpName;
 		this.hpPhone = hpPhone;
@@ -71,7 +76,9 @@ public class MainHp implements Serializable{
 		this.hpDay = hpDay;
 		this.hpOpenTime = hpOpenTime;
 		this.hpCloseTime = hpCloseTime;
+		this.file = file;
 	}
+
 
 
 	public int getHpNo() {
@@ -79,9 +86,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpNo(int hpNo) {
 		this.hpNo = hpNo;
 	}
+
 
 
 	public String getHpName() {
@@ -89,9 +98,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpName(String hpName) {
 		this.hpName = hpName;
 	}
+
 
 
 	public String getHpPhone() {
@@ -99,9 +110,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpPhone(String hpPhone) {
 		this.hpPhone = hpPhone;
 	}
+
 
 
 	public String getHpPostCode() {
@@ -109,9 +122,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpPostCode(String hpPostCode) {
 		this.hpPostCode = hpPostCode;
 	}
+
 
 
 	public String getHpAddress() {
@@ -119,9 +134,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpAddress(String hpAddress) {
 		this.hpAddress = hpAddress;
 	}
+
 
 
 	public String getHpx() {
@@ -129,9 +146,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpx(String hpx) {
 		this.hpx = hpx;
 	}
+
 
 
 	public String getHpy() {
@@ -139,9 +158,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpy(String hpy) {
 		this.hpy = hpy;
 	}
+
 
 
 	public double getHpAvgRate() {
@@ -149,9 +170,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpAvgRate(double hpAvgRate) {
 		this.hpAvgRate = hpAvgRate;
 	}
+
 
 
 	public int getHpReCount() {
@@ -159,9 +182,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpReCount(int hpReCount) {
 		this.hpReCount = hpReCount;
 	}
+
 
 
 	public String getHpComment() {
@@ -169,9 +194,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpComment(String hpComment) {
 		this.hpComment = hpComment;
 	}
+
 
 
 	public int getHpCateCode() {
@@ -179,9 +206,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpCateCode(int hpCateCode) {
 		this.hpCateCode = hpCateCode;
 	}
+
 
 
 	public String getHpCateName() {
@@ -189,9 +218,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpCateName(String hpCateName) {
 		this.hpCateName = hpCateName;
 	}
+
 
 
 	public int getDrHpNo() {
@@ -199,9 +230,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setDrHpNo(int drHpNo) {
 		this.drHpNo = drHpNo;
 	}
+
 
 
 	public int getPhCode() {
@@ -209,9 +242,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setPhCode(int phCode) {
 		this.phCode = phCode;
 	}
+
 
 
 	public String getOriginFileName() {
@@ -219,9 +254,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setOriginFileName(String originFileName) {
 		this.originFileName = originFileName;
 	}
+
 
 
 	public String getRenameFileName() {
@@ -229,9 +266,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setRenameFileName(String renameFileName) {
 		this.renameFileName = renameFileName;
 	}
+
 
 
 	public String getFilePath() {
@@ -239,9 +278,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
+
 
 
 	public String getHpDay() {
@@ -249,9 +290,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpDay(String hpDay) {
 		this.hpDay = hpDay;
 	}
+
 
 
 	public String getHpOpenTime() {
@@ -259,9 +302,11 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpOpenTime(String hpOpenTime) {
 		this.hpOpenTime = hpOpenTime;
 	}
+
 
 
 	public String getHpCloseTime() {
@@ -269,14 +314,29 @@ public class MainHp implements Serializable{
 	}
 
 
+
 	public void setHpCloseTime(String hpCloseTime) {
 		this.hpCloseTime = hpCloseTime;
 	}
 
 
+
+	public List<MultipartFile> getFile() {
+		return file;
+	}
+
+
+
+	public void setFile(List<MultipartFile> file) {
+		this.file = file;
+	}
+
+
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 
 
 	@Override
@@ -286,8 +346,9 @@ public class MainHp implements Serializable{
 				+ ", hpReCount=" + hpReCount + ", hpComment=" + hpComment + ", hpCateCode=" + hpCateCode
 				+ ", hpCateName=" + hpCateName + ", drHpNo=" + drHpNo + ", phCode=" + phCode + ", originFileName="
 				+ originFileName + ", renameFileName=" + renameFileName + ", filePath=" + filePath + ", hpDay=" + hpDay
-				+ ", hpOpenTime=" + hpOpenTime + ", hpCloseTime=" + hpCloseTime + "]";
+				+ ", hpOpenTime=" + hpOpenTime + ", hpCloseTime=" + hpCloseTime + ", file=" + file + "]";
 	}
 
+	
 	
 }

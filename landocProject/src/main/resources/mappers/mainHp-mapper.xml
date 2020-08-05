@@ -200,4 +200,35 @@
    </select>
 
   
+  <!-- 기존 병원 소개 사진 delete -->
+  <delete id="deleteOriginPics" parameterType="_int">
+  	DELETE FROM DRHPPHOTO
+  	WHERE HP_NO = #{hpNo}
+  		AND PH_CODE = 4
+  </delete>
+  
+  
+  <!-- 병원 소개 사진 INSERT -->
+  <insert id="insertNewHpPhoto" parameterType="hashMap">
+  	INSERT INTO DRHPPHOTO
+  	VALUES(SEQ_DHP.NEXTVAL, #{originalFileName}, #{renameFileName}, 'null', 4, #{drNo}, #{hpNo})
+  </insert>
+  
+  
+  <!-- 병원 영업시간 update -->
+  <update id="updateHptime" parameterType="HpTime">
+  	UPDATE HPTIME
+  	SET HP_OPEN_TIME = #{openTime}
+  		,HP_CLOSE_TIME = #{closeTime}
+  	WHERE HP_UNIQUENO = #{hpNo}
+  		AND HP_DAY=#{day} 
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
 </mapper>

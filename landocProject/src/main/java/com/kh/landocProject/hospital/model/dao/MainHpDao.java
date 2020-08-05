@@ -1,6 +1,7 @@
 package com.kh.landocProject.hospital.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.landocProject.hospital.model.vo.HpNameSplit;
 import com.kh.landocProject.hospital.model.vo.HpSearch;
+import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 
 @Repository("mainHpDao")
@@ -72,6 +74,21 @@ public class MainHpDao {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.hpCateSearchList",cateName);
 
+	}
+
+	public int deleteOriginPics(Integer hpNo) {
+		
+		return sqlSessionTemplate.delete("mainHpMapper.deleteOriginPics", hpNo);
+	}
+
+	public int insertNewHpPhoto(HashMap<String, Object> parameterPhoto) {
+	
+		return sqlSessionTemplate.insert("mainHpMapper.insertNewHpPhoto", parameterPhoto);
+	}
+
+	public int updateHptime(HpTime ht2) {
+		
+		return sqlSessionTemplate.update("mainHpMapper.updateHptime", ht2);
 	}
 	
 }

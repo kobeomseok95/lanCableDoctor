@@ -46,7 +46,7 @@
 				<li>
 					<a href="#"><c:out value="${loginDrClient.userName }님 환영합니다"/></a>
 					<ul class="sub-menu" style="left: 0px;">
-						<li><a href="clientMypage.do">나의활동</a></li>
+						<li><a href="doctorMypage.do">나의활동</a></li>
 						<li><a href="mypagePoint.html">나의 포인트</a></li>
 						<li><a href="modifyDrClientView.do">계정설정</a></li>
 						<li><a href="logout.do">로그아웃</a></li>
