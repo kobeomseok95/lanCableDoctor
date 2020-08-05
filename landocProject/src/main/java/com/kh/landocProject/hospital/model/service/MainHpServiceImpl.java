@@ -31,6 +31,44 @@ public class MainHpServiceImpl implements MainHpService{
 		
 		return mainHpDao.selectHpPhoto(hp);
 	}
+
+	@Override
+	public ArrayList selectRenameList(Integer hpNo) {
+		
+		return mainHpDao.selectRenameList(hpNo);
+	}
+
+
+	@Override
+	public int insertBeforeBasicInfo(MainHp mainHp) {
+		
+		return mainHpDao.insertBeforeBasicInfo(mainHp);
+	}
+
+	@Override
+	public int insertBeEmpPic(MainHp mainHp) {
+		
+		return mainHpDao.insertBeEmpPic(mainHp);
+	}
+
+	@Override
+	public int insertBeIdPic(MainHp mainHp) {
+		
+		return mainHpDao.insertBeIdPic(mainHp);
+	}
+
+	@Override
+	public int insertBeDrPic(MainHp mainHp) {
+		
+		return mainHpDao.insertBeDrPic(mainHp);
+	}
+
+	@Override
+	public int updateApproval(Integer hpNo) {
+		
+		return mainHpDao.updateApproval(hpNo);
+	}
+
 	
 	
 }

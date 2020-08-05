@@ -75,7 +75,14 @@
 
 	#searchAdd:hover{background-color:#007ee5; border:none; color:white;}
 	
-
+	#preview img{width:100px; height:100px;}
+	#preview p{text-overflow:ellopsis; overflow:hidden;}
+	.preview-box{border:1px solid #9b9b9b; padding: 5px; border-radius:2px; margin-bottom:10px;}
+	
+	
+	
+	
+	
 /*--------------------------------------------------------------*/	
 </style>
 </head>
@@ -100,7 +107,7 @@
 				
 	<!--form 태그 시작-->
 	<!--1. 병원 기본 정보 수정-->
-		<form id="basicInfo" action="basicInfoHpEdit.do" enctype="multipart/form-data">
+		<form id="basicInfo" action="basicInfoHpEdit.do" method="POST" enctype="multipart/form-data">
 			<div class="summit-content-box mx-auto p-5 mt-4">
 				<div class="row mb-5">
 					<div class="col-sm-1">
@@ -234,8 +241,8 @@
                         <label style="letter-spacing: 10px;">병원명</label>&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="text" id="hospital_name" name="hospital_name" value="${hpBasic.hpName }"><br><br>
 
-						 <label style="letter-spacing: 1.5px;">진료과목</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                       <%--  <input type="text" id="hospital_cateName" name="hospital_cateName" value="${hpBasic.hpCateName }"> --%>
+						<%--  <label style="letter-spacing: 1.5px;">진료과목</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="text" id="hospital_cateName" name="hospital_cateName" value="${hpBasic.hpCateName }">
                         
                        
 						<select class="input100" name="hospital_cateCode" id="hospital_cateCode">
@@ -261,14 +268,14 @@
 							<option value="122" <c:if test="${cateCode eq 122 }">selected="selected"</c:if>>가정의학과</option>
 							<option value="300" <c:if test="${cateCode eq 300 }">selected="selected"</c:if>>한의원</option>
 						</select>
-						<br><br>
+						<br><br> --%>
 
                         <label style="letter-spacing: 10px;">연락처</label>&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="text" id="hospital_phone" name="hospital_phone" value="${hpBasic.hpPhone}"><br><br>
 
                         <label style="letter-spacing: 25px;">주소</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="text" id="sample4_postcode" name="postCode" style="width:31%; height:10%;" value="${hpBasic.hpPostCode}">
-                        <input type="button" id="searchAdd" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width:25%; height:10%;"><br><br>
+                        <input type="text" id="sample4_postcode" name="postCode" style="width:31%; height:13%;" value="${hpBasic.hpPostCode}">
+                        <input type="button" id="searchAdd" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width:25%; height:13%;"><br><br>
                         <input type="text" id="sample4_roadAddress" name="address1" style="margin-left:13%;" value="${hpBasic.hpAddress }"><br><br>
                        
                        
@@ -343,8 +350,8 @@
 						                        
                         
                         <!-- ----------------------- -->
-                        <input type="hidden" id="hospital_id" name="hospital_id" value="">
-						
+                        <input type="hidden" id="hpNo" name="hpNo" value="${hpBasic.hpNo }">
+						<%-- <input type="hidden" id="hpCateCode" name="hpCateCode" value="${hpBasic.hpCateCode }"> --%>
 					</div>
 				</div>
 				
@@ -389,8 +396,6 @@
 				})
 				
 				
-				
-				
 				// 신분증
 				$("#idPicUpload").on("click",function(e){
 					e.preventDefault();
@@ -417,8 +422,6 @@
 					$("#removeId").show();
 					readUploadImage2(this);
 				})
-				
-				
 				
 				
 				// 의사면허증
@@ -497,7 +500,6 @@
 									<img src="${fullPath}" style="width: 33%; height: 33%;"/>
 								</c:forEach>
 						</div>
-					
 					</div>
 				</div>
 
@@ -508,26 +510,14 @@
 						<h4 style="color:white;">+</h4>
 					</button>
 					<label class="col-sm-2 control-label" style="font-size:18px; color:#007ee5; font-weight:800; padding:0;">신규 사진 등록</label>
-					
 					<input id="hpPics" name="hpPics" type="file" multiple="multiple" style="display: none;" />
 				</div>
 				
-				<div class="form-group form-inline">
+				<div class="row pt-4">
 					<label class="col-sm-3 control-label"></label>
 					<div id="preview"></div>
 				</div>
               
-
-				<!-- 업로드 된 파일 미리보기 부분-->
-				<div class="row mt-4">
-                    <div class="col-sm-10 offset-sm-1 p-0 pr-0">
-                        <div class="file-input file-input-new">
-							<!--파일 미리보기 -->
-							<span id="remove" style="display: none;">X</span>
-							<div class="file-preview" id="thumb-receipt"></div>
-						</div>
-                    </div>
-                </div>
                 <div class="row pt-4">
 					<button type="submit" id="" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
 						병원 사진 수정하기
@@ -545,11 +535,82 @@
 					e.preventDefault();
 					$("#hpPics").click();
 				})
-				
-			})
-		
+			});
+			
 		</script>
 
+
+		<script>
+			var files = {};
+			var previewIndex = 0;
+			
+			function addPreview(input){
+				if(input[0].files){
+					
+					// 파일 선택이 여러개였을 시의 대응
+					for(var fileIndex = 0; fileIndex < input[0].files.length; fileIndex++){
+						var file = input[0].files[fileIndex];
+						
+						if(validation(file.name))
+							continue;
+						
+						var reader = new FileReader();
+						reader.onload = function(img){
+							var imgNum = previewIndex++;
+							$("#preview").append(
+								"<div class=\"preview-box\" value=\"" + imgNum  +"\">"
+										+ "<img class=\"thumbnail\" src=\"" + img.target.result + "\"\/>"
+										+ "<p>"
+										+ file.name
+										+ "</p>"
+										+ "<a href=\"#\" value=\""
+										+ imgNum
+										+ "\" onclick=\"deletePreview(this)\">"
+										+ "삭제" + "</a>" + "</div>");
+							
+							files[imgNum] = file;
+						};
+						reader.readAsDataURL(file);
+						
+					}
+					
+				}else
+					alert("invalid file input");
+				
+				
+			}
+		
+			// preview 영역에서 삭제 버튼 클릭 시 해당 미리보기 이미지 영역 삭제
+			function deletePreview(obj){
+				var imgNum = obj.attributes['value'].value;
+				delete files[imgNum];
+				$("#preview .preview-box[value=" + imgNum + "]").remove();
+				/* resizeHeight();	 */
+			}
+		
+			function validation(fileName){
+				fileName = fileName + "";
+				var fileNameExtensionIndex = fileName.lastIndexOf('.') + 1;
+				var fileNameExtension = fileName.toLowerCase().substring(
+						fileNameExtensionIndex, fileName.length);
+				
+				if(!((fileNameExtension === 'jpg')
+					|| (fileNameExtension === 'gif') || (fileNameExtension === 'png'))){
+					alert('jpg, gif, png 확장자만 업로드 가능합니다.');
+					return true;	
+				}else{
+					return false;
+				}
+			}
+			$("#hpPics").change(function(){
+				addPreview($(this));
+			})
+			
+		
+		
+		
+		
+		</script>
 
             
           <!--3. 병원 영업시간 수정-->

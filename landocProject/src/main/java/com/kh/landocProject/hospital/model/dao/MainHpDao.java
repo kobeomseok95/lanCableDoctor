@@ -28,5 +28,36 @@ public class MainHpDao {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectHpPhoto", hp);
 	}
+
+	public ArrayList selectRenameList(Integer hpNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectRenameList", hpNo);
+	}
+
+
+	public int insertBeforeBasicInfo(MainHp mainHp) {
+		
+		return sqlSessionTemplate.insert("mainHpMapper.insertBeforeBasicInfo", mainHp);
+	}
+
+	public int insertBeEmpPic(MainHp mainHp) {
+		
+		return sqlSessionTemplate.insert("mainHpMapper.insertBeEmpPic", mainHp);
+	}
+
+	public int insertBeIdPic(MainHp mainHp) {
+		
+		return sqlSessionTemplate.insert("mainHpMapper.insertBeIdPic", mainHp);
+	}
+
+	public int insertBeDrPic(MainHp mainHp) {
+		
+		return sqlSessionTemplate.insert("mainHpMapper.insertBeDrPic", mainHp);
+	}
+
+	public int updateApproval(Integer hpNo) {
+		
+		return sqlSessionTemplate.update("mainHpMapper.updateApproval", hpNo);
+	}
 	
 }

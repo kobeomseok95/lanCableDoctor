@@ -12,4 +12,16 @@ public interface MainHpService {
 
 	ArrayList<MainHp> selectHpPhoto(MainHp hp);
 
+	ArrayList selectRenameList(Integer hpNo);
+
+	int insertBeforeBasicInfo(MainHp mainHp);
+
+	int insertBeEmpPic(MainHp mainHp);
+
+	int insertBeIdPic(MainHp mainHp);
+
+	int insertBeDrPic(MainHp mainHp);
+
+	int updateApproval(Integer hpNo);
+
 }
