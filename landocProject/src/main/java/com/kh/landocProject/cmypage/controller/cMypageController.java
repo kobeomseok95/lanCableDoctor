@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Locale.Category;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,20 +53,13 @@ public class cMypageController {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		ArrayList<LikeHp> list = cmService.selectList(cNo);
+	System.out.println(list);
 		int listCount = cmService.selectCount(cNo);
 		if(list!=null) {
-			/*
-			 * view = rq.getRequestDispatcher("mypage/myPageLikeHospital");
-			 * rq.setAttribute("rqList", list); rq.setAttribute("likeHplist",list);
-			 * rq.setAttribute("likeHpCount",listCount); view.forward(rq, rp);
-			 */
-			
-			
 			  mv.addObject("likeHplist",list); 
 			  mv.addObject("likeHpCount",listCount);
-		
 			  mv.setViewName("mypage/myPageLikeHospital");
-			 
+			  
 			 
 		}else {
 			throw new cMypageException("병원리스트 조회 실패!");
@@ -403,6 +397,31 @@ public class cMypageController {
 		}else {
 			throw new cMypageException("포인트 리스트 조회 실패");
 		}
+		return mv;
+	}
+	
+	@RequestMapping(value="orderCancel.do")
+	public ModelAndView orderCancel(ModelAndView mv,OrderList order,HttpServletResponse response, HttpSession session,@RequestParam(value="orderNo") int orderNo,@RequestParam(value="oCode") int oCode) throws cMypageException, IOException {
+		order.setoCode(oCode);
+		order.setOrderNo(orderNo);
+		int result = cmService.orderCancel(order);
+		if(result>0) {
+			  response.setContentType("text/html; charset=UTF-8");
+			  PrintWriter out_equals = response.getWriter();
+			  if(order.getoCode()==15) {
+				 out_equals.println("<script>alert('주문취소가 완료되었습니다.');</script>");
+			  }else if(order.getoCode()==6) {
+				  
+				 out_equals.println("<script>alert('반품요청이 완료되었습니다.');</script>");
+			  }else if(order.getoCode()==10) {
+				 out_equals.println("<script>alert('교환요청이 완료되었습니다.');</script>");
+			  }
+	          out_equals.flush();
+	          mv.setViewName("mypage/myPageWork");
+		}else {
+			throw new cMypageException("주문취소 실패");
+		}
+		
 		return mv;
 	}
 }

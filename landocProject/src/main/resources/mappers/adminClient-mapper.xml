@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="clientMapper">
+	
+	<resultMap type="ClientPage" id="clientResultSet">
+		<id property="cNo" column = "C_NO"/>
+		<id property = "rowNum" column = "ROWNUM"/>
+		<result property="userId" column="C_ID"/>
+		<result property="nickName" column="C_NICKNAME"/>
+		<result property="email" column="C_EMAIL"/>
+		<result property="userName" column="C_NAME"/>
+		<result property="birth" column="C_BIRTH"/>
+		<result property="phone" column="C_PHONE"/>
+		<result property="point" column="C_POINT"/>
+		<result property="profile" column="C_PROFILE"/>
+		<result property="marketing" column="C_MARKETING"/>
+		<result property="post" column="C_POSTCODE"/>
+		<result property="address" column="C_ADDRESS"/>
+		<result property="enrollDate" column="C_ENROLL_DATE"/>
+		<result property="status" column="C_STATUS"/>
+		<result property="proRename" column="PRO_RENAME"/>
+	</resultMap>
+
+
+
+<!-- 일반 리스트 카운트 조회용 -->
+  <select id="getListCount" resultType="_int">
+    SELECT COUNT(*)
+    FROM CLIENT
+  </select>
+  
+   <!-- 전체리스트 조회용 -->
+  <select id="selectAllList" resultMap="clientResultSet">
+     SELECT ROWNUM, C_NO, C_ID, C_EMAIL, C_NAME, C_NICKNAME, C_BIRTH, C_PHONE, C_POINT, C_POSTCODE, C_ADDRESS, C_ENROLL_DATE, C_STATUS, C_PROFILE, C_MARKETING
+		FROM 
+		(SELECT C_NO, C_ID, C_EMAIL, C_NAME, C_NICKNAME, C_BIRTH, C_PHONE, C_POINT, C_POSTCODE, C_ADDRESS, C_ENROLL_DATE, C_STATUS, C_PROFILE, C_MARKETING
+		FROM CLIENT 
+		ORDER BY C_ENROLL_DATE DESC
+		)
+  </select>
+    <!-- 검색 리스트 카운트 조회용 -->
+  <select id="selectSearchListCount" parameterType="msc" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM 
+  	(SELECT C_NO, C_ID, C_EMAIL, C_NAME, C_NICKNAME, C_BIRTH, C_PHONE, C_POINT, C_POSTCODE, C_ADDRESS, C_ENROLL_DATE, C_STATUS, C_PROFILE, C_MARKETING
+  	 FROM CLIENT
+  	 <where>
+  	 <if test="cNo != null and cNo != ''">
+  	 	AND C_NO = #{cNo}
+  	 </if>
+  	 <if test="userName != null and userName != ''">
+  	 	AND C_NAME LIKE '%' || #{userName} || '%'
+  	 </if>
+  	 <if test="nickName != null and nickName != ''">
+  	 	AND C_NICKNAME LIKE '%' || #{nickName} || '%'
+  	 </if> 	 
+  	 </where>)
+  </select>
+  
+  <!-- 검색 리스트 조회용 -->
+  <select id="selectList" parameterType="msc" resultMap="clientResultSet">
+  	SELECT ROWNUM, C_NO, C_ID, C_EMAIL, C_NAME, C_NICKNAME, C_BIRTH, C_PHONE, C_POINT, C_POSTCODE, C_ADDRESS, C_ENROLL_DATE, C_STATUS, C_PROFILE, C_MARKETING
+		FROM 
+		(SELECT C_NO, C_ID, C_EMAIL, C_NAME, C_NICKNAME, C_BIRTH, C_PHONE, C_POINT, C_POSTCODE, C_ADDRESS, C_ENROLL_DATE, C_STATUS, C_PROFILE, C_MARKETING
+		FROM CLIENT
+		<where>
+			<if test="cNo != null and cNo !=''">
+				AND C_NO = #{cNo}
+			</if> 
+			<if test="userName != null and userName !=''">
+				AND C_NAME = #{userName}
+			</if> 
+			<if test="nickName != null and nickName !=''">
+				AND C_NICKNAME = #{nickName}
+			</if> 
+		</where>
+		ORDER BY C_ENROLL_DATE DESC)
+  </select>
+  
+  <select id="selectClientDetail" parameterType="string" resultMap="clientResultSet">
+  	SELECT C.C_NO, C_ID, C_EMAIL, C_NICKNAME, C_NAME, C_BIRTH, C_PHONE, C_POINT, C_POSTCODE, C_ADDRESS, PRO.PRO_RENAME, PRO.PRO_ORIGIN, C_MARKETING, C_ENROLL_DATE, C_STATUS
+  	FROM CLIENT C
+  	LEFT JOIN PROFILEPHOTO PRO ON(C.C_NO = PRO.C_NO)
+  	WHERE C.C_NO = #{cNo}
+  </select>
+  
+  <update id="modifyClient">
+  	UPDATE CLIENT
+  	SET 
+  		  	C_ID = #{userId},
+  		  	C_NICKNAME = #{nickName},
+  		  	C_NAME = #{userName},
+  		  	C_BIRTH = #{birth},
+  		  	C_PHONE = #{phone},
+  		  	C_EMAIL = #{email},
+  		  	C_POINT = #{point},
+  		  	C_POSTCODE = #{post},
+  		  	C_ADDRESS = #{address},
+  		  	C_MARKETING = #{marketing},
+  		  	C_STATUS = #{status}
+  	WHERE C_NO = #{cNo}
+  </update>
+</mapper>
+

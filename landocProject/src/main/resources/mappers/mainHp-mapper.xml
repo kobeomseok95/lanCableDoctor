@@ -24,6 +24,7 @@
 	  	<result property="hpOpenTime" column="HP_OPEN_TIME"/>
 	  	<result property="hpCloseTime" column="HP_CLOSE_TIME"/>
   </resultMap>
+
   
   <resultMap type="MainHp" id="mainHpResultMap2">
   		<id property="hpNo" column="HP_NO"/>
@@ -32,8 +33,27 @@
 	  	<result property="phCode" column="PH_CODE"/>
   </resultMap>
   
-  
-  
+
+
+  <resultMap type="HpSearch" id="hpSearchMap">
+	  	<result property="hpNo" column="HP_NO" />
+		<result property="hpName" column="HP_NAME" />
+		<result property="hpPhone" column="HP_PHONE" />
+		<result property="hpPostcode" column="HP_POSTCODE" />
+		<result property="hpAddress" column="HP_ADDRESS" />
+		<result property="hpX" column="HP_X" />
+		<result property="hpY" column="HP_Y" />
+		<result property="hpReview" column="HP_REVIEW" />
+		<result property="hpAvgRate" column="HP_AVG_RATE" />
+		<result property="hpTime" column="HP_TIME" />
+		<result property="proOrigin" column="PRO_ORIGIN" />
+		<result property="proRename" column="PRO_RENAME" />
+		<result property="proFilepath" column="PRO_FILEPATH" />
+		<result property="cateName" column="HPCATE_NAME" />
+  		<result property="cateCode" column="HPCATE_CODE" />
+  </resultMap>
+ 
+
   <!-- 병원 기본정보 select -->
   <select id="selectOneHp" parameterType="MainHp" resultMap="mainHpResultMap">
   	SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_COMMENT, HL.HPCATE_CODE, HG.HPCATE_NAME
@@ -61,7 +81,7 @@
 	AND PH_CODE = 4
   </select>
   
-  
+ 
   <!-- 병원 기본정보 수정사진 rename select -->
   <select id="selectRenameList" parameterType="_int" resultMap="mainHpResultMap2">
   	SELECT DRHP_ORIGIN, DRHP_RENAME, PH_CODE, HP_NO
@@ -69,8 +89,34 @@
 	WHERE HP_NO=#{hpNo}
     	AND (PH_CODE = 1 OR PH_CODE = 2 OR PH_CODE=3)
   	</select>
-  
-  
+
+
+  <!--병원이름검색  -->
+  <select id="hpSearchListNormal" parameterType="HpSearch" resultMap="hpSearchMap">
+  	SELECT HP.HP_NO, HP.HP_NAME,
+		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X,
+		HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
+        PT.PRO_ORIGIN,PT.PRO_RENAME,PT.PRO_FILEPATH,
+        LISTAGG(CAST(HG.HPCATE_name AS VARCHAR(100)),',') WITHIN GROUP (ORDER BY NULL )AS HPCATE_NAME
+        FROM HPLIST HPL
+        LEFT JOIN HPCATEGORY HG ON(HPL.HPCATE_CODE=HG.HPCATE_CODE)
+        LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
+        LEFT JOIN HPTIME HT ON(HPL.HP_NO = HT.HP_UNIQUENO)
+        LEFT JOIN PROFILEPHOTO PT ON(PT.HP_NO=HPL.HP_NO)
+		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY 
+		<if test="area != '전체'">
+        AND hp_address LIKE '%'||#{area}||'%' 
+        </if>
+        AND HP_NAME LIKE #{hpName}
+        GROUP BY HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, 
+        HP.HP_ADDRESS, HP.HP_X, HP.HP_Y, HP.HP_REVIEW, HP.HP_AVG_RATE, 
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME), HT.HP_OPEN_TIME, NULL, '정보없음', '00:00', 
+        '휴무', HT.HP_OPEN_TIME, HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME, '~', HT.HP_CLOSE_TIME, 
+        PT.PRO_ORIGIN, PT.PRO_RENAME, PT.PRO_FILEPATH
+  </select>
+
+
   <!-- 재직증명서 update -->
   <update id="updateEmpPic" parameterType="MainHp">
   	UPDATE DRHPPHOTO
@@ -136,11 +182,22 @@
   	WHERE HP_NO = #{hpNo}
   </update>
   
-  
-  
-  
-  
-  
-  
+
+  <!--진료과목별 검색-->
+  <select id="hpCateSearchList" parameterType="string" resultMap="hpSearchMap">
+  	SELECT HP.HP_NO, HP.HP_NAME,
+		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X,
+		HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
+        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
+        PT.PRO_ORIGIN,PT.PRO_RENAME,PT.PRO_FILEPATH,HG.HPCATE_name,HG.HPCATE_CODE
+        FROM HPLIST HPL
+        LEFT JOIN HPCATEGORY HG ON(HPL.HPCATE_CODE=HG.HPCATE_CODE)
+        LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
+        LEFT JOIN HPTIME HT ON(HPL.HP_NO = HT.HP_UNIQUENO)
+        LEFT JOIN PROFILEPHOTO PT ON(PT.HP_NO=HPL.HP_NO)
+		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY 
+        AND HG.HPCATE_NAME = #{cateName}
+   </select>
+
   
 </mapper>

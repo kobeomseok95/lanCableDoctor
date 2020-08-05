@@ -1,183 +1,466 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="java.util.ArrayList,com.kh.landocProject.cmypage.model.vo.LikeHp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<title>의사에게 물어봐 - 게시글 작성</title>
-	<meta charset="UTF-8">
-	<meta name="description" content="SolMusic HTML Template">
-	<meta name="keywords" content="music, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Favicon -->
-	<link href="img/favicon.ico" rel="shortcut icon" />
+<title>찜한병원</title>
+<meta charset="UTF-8">
+<meta name="description" content="SolMusic HTML Template">
+<meta name="keywords" content="music, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!-- Favicon -->
-	<link href="<%=request.getContextPath()%>/resources/img/favicon.ico" rel="shortcut icon" />
-	
-	<!-- Google font -->
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
-	<!-- Stylesheets -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />
-	<!-- font awesome cdn -->
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css" />
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/slicknav.min.css" />
-	
-	<!-- Main Stylesheets -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css" />
+<!-- Favicon -->
+<link href="<%=request.getContextPath()%>/resources/img/favicon.ico"
+	rel="shortcut icon" />
+<!-- Font - Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<!-- Google font -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
+	rel="stylesheet">
+
+<!-- Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/slicknav.min.css" />
+
+<!-- Main Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css" />
 
 
-	<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+   <![endif]-->
+
+<style>
+.checked {
+	color: orange;
+}
+
+.wrap {
+	position: absolute;
+	left: 0;
+	bottom: 40px;
+	width: 288px;
+	height: 132px;
+	margin-left: -144px;
+	text-align: left;
+	overflow: hidden;
+	font-size: 12px;
+	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+	line-height: 1.5;
+}
+
+.wrap * {
+	padding: 0;
+	margin: 0;
+}
+
+.wrap .info {
+	width: 286px;
+	height: 120px;
+	border-radius: 5px;
+	border-bottom: 2px solid #ccc;
+	border-right: 1px solid #ccc;
+	overflow: hidden;
+	background: #fff;
+}
+
+.wrap .info:nth-child(1) {
+	border: 0;
+	box-shadow: 0px 1px 2px #888;
+}
+
+.info .title {
+	padding: 5px 0 0 10px;
+	height: 30px;
+	background: rgba(0, 123, 255, .5);
+	border-bottom: 1px solid #ddd;
+	font-size: 18px;
+	font-weight: bold;
+	color: white;
+}
+
+.info .close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: #888;
+	width: 17px;
+	height: 17px;
+	background:
+		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
+}
+
+.info .close:hover {
+	cursor: pointer;
+}
+
+.info .body {
+	position: relative;
+	overflow: hidden;
+}
+
+.info .desc {
+	position: relative;
+	margin: 13px 0 0 90px;
+	height: 75px;
+}
+
+.desc .ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.desc .jibun {
+	font-size: 12px;
+	color: #888;
+	margin-top: -2px;
+}
+
+.info .img {
+	position: absolute;
+	top: 6px;
+	left: 5px;
+	width: 73px;
+	height: 71px;
+	border: 1px solid #ddd;
+	color: #888;
+	overflow: hidden;
+}
+
+.info:after {
+	content: '';
+	position: absolute;
+	margin-left: -12px;
+	left: 50%;
+	bottom: 0;
+	width: 22px;
+	height: 12px;
+	background:
+		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+
+.info .link {
+	color: #5085BB;
+}
+
+#map {
+	position: sticky;
+	top: 0;
+	margin-top: 50px;
+}
+</style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 
 <body>
+	<link rel="stylesheet" type="text/css"
+		href="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/customer_web/style.css">
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
 	</div>
-	<!-- Header section -->
+
 	<%@ include file="../static/header.jsp"%>
-	<!-- Header section end -->
 
-	<!-- detailAskDr -->
-	<section class="premium-section spad" style="padding-bottom: 30px;">
-		<div class="container">
-			<div class="row">	<!--'검색한 의사 성함' 선생님 검색 결과-->
-				<div class="col-lg-4"></div>
-				<div class="col-lg-4" style="text-align: center;">
-					<h1 style="font-size: 25px; color:black;">'검색한' 선생님 검색 결과</h1>
-				</div>
-			</div>
-			<br><br>
+	<div class="container" style="margin-bottom: 80px; text-align: center;">
+		<div style="width: 960px; display: inline-block">
 
-			 <div class="row">
-				<form class="form form-inline" style="margin: 0 auto;">
-					<input type="text" class="form-control form-control-lg" value="검색한">
-					<button type="submit" class="btn btn-lg btn-primary" style="background-color:  #0071ce;">검색</button>
-				</form>
-			</div>
+			<div class="row doctor-list-box">
 
-			<div class="row">
+				<!-- doctor list -->
+				<div class="col-6 mt-3 scrollspy-example">
 
-			</div>
-			<br><br>
-
-			<div class="row">
-				<div class="col-lg-2"></div>
-				<div class="col-lg-7">
-					<div class="media">
-						<div class="media-left">
-							<a href="#">
-								<img class="media-object rounded-circle searchDrImage" src="../images/car.jpg">
-							</a>
-						</div>
-						&nbsp;&nbsp;&nbsp;
-						<div class="media-body">
-							<h3 class="media-heading">
-								고범석 선생님
-							</h3>
-							<a href="#" style="color:#0071ce;">저승횡단열차 병원</a>
-							<div class="media-object">
-								<span>채택</span>
-								<span class="count-no">12</span>
-							</div>
-							<div class="media-object">
-								<span>좋아요</span>
-								<span class="count-no">12</span>
-							</div>
-						</div>
-						<div class="media-right">
-							<div style="padding-top:40px">
-								<h5>
-									<a href="#" style="color:#0071ce;">
-										<i class="far fa-address-card fa-3x"></i>	<!--얘는 프로필로 간다-->
-									</a>
-								</h5>
-							</div>
-						</div>
-					</div><br><br>
-					<div class="media">
-						<div class="media-left">
-							<a href="#">
-								<img class="media-object rounded-circle searchDrImage" src="../images/car.jpg">
-							</a>
-						</div>
-						&nbsp;&nbsp;&nbsp;
-						<div class="media-body">
-							<h3 class="media-heading">
-								고범석 선생님
-							</h3>
-							<a href="#" style="color:#0071ce;">저승횡단열차 병원</a>
-							<div class="media-object">
-								<span>채택</span>
-								<span class="count-no">12</span>
-							</div>
-							<div class="media-object">
-								<span>좋아요</span>
-								<span class="count-no">12</span>
-							</div>
-						</div>
-						<div class="media-right">
-							<div style="padding-top:40px">
-								<h5>
-									<a href="#" style="color:#0071ce;">
-										<i class="far fa-address-card fa-3x"></i>	<!--얘는 프로필로 간다-->
-									</a>
-								</h5>
-							</div>
-						</div>
-					</div><br><br>
-					<div class="media">
-						<div class="media-left">
-							<a href="#">
-								<img class="media-object rounded-circle searchDrImage" src="../images/car.jpg">
-							</a>
-						</div>
-						&nbsp;&nbsp;&nbsp;
-						<div class="media-body">
-							<h3 class="media-heading">
-								고범석 선생님
-							</h3>
-							<a href="#" style="color:#0071ce;">저승횡단열차 병원</a>
-							<div class="media-object">
-								<span>채택</span>
-								<span class="count-no">12</span>
-							</div>
-							<div class="media-object">
-								<span>좋아요</span>
-								<span class="count-no">12</span>
-							</div>
-						</div>
-						<div class="media-right">
-							<div style="padding-top:40px">
-								<h5>
-									<a href="#" style="color:#0071ce;">
-										<i class="far fa-address-card fa-3x"></i>	<!--얘는 프로필로 간다-->
-									</a>
-								</h5>
-							</div>
+					<div class="doctors-title-box pb-2 text-left"
+						style="border-bottom: solid darkgray 1px;">
+						<div style="font-size: 20px;">
+							<b class="ml-3">'${searchList[0].drName}' 선생님! 나와주세요!</b>
 						</div>
 					</div>
+
+					<!-- doctors card list -->
+					<div class="doctor-list-section mt-2 ">
+						<c:if test="${empty searchList}">
+							<div class="doctor-total-box border-bottom">
+								<p class="m-0">검색 결과가 없습니다.</p>
+							</div>
+						</c:if>
+						<c:if test="${!empty searchList}">
+							<c:forEach var="list" items="${searchList}">
+								<div class="doctor-total-box border-bottom">
+									<a href="#" style="color: inherit; text-decoration: none;">
+										<div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
+											<div class="row px-3">
+												<div class="col-3 profile-doctor-image-box p-0">
+													<c:if test="${empty list.profileFileName }">
+													<i class="fas fa-user-nurse fa-7x profile-doctor-image"
+													style="color: #45668e;"></i>
+													</c:if>
+													<c:if test="${!empty list.profileFileName }">
+													<img src="${list.profileFileName}"
+														class="img-circle profile-doctor-image border"
+														style="width: 97px; height: 97px;">
+													</c:if>
+												</div>
+												<div class="col-8 profile-doctor-box  text-left">
+													<div style="font-size: 14px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+													class="mb-2">
+														${list.drName}
+													</div>
+													<div style="font-size: 1.313rem; font-weight: 200"
+														class="d-flex justify-content-start align-items-start mb-2">
+														${list.hpName}
+													</div>
+													<div class="review-star-box d-flex align-items-start mt-1">
+														 <span class="mr-4">
+															 <i class="fas fa-thumbs-up fa-2x"
+															 style="color: #026219;"></i>
+															 <b>${list.drLike}</b>
+														</span>
+														 <span>
+															 <i class="fas fa-thumbs-down fa-2x"
+															 style="color: #a82400;"></i>
+															 <b>${list.drDislike}</b>
+														</span>
+														
+														<!-- 여긴 채택률 -->
+														<div class="review-count-box ml-5"
+															style="font-size: 18px;">
+															<span>채택률</span>
+															<span>${list.choosePer}%</span>
+														</div>
+														
+													</div>
+												</div>
+											</div>
+											<div class="row pl-4 pt-3 pb-1">
+												<div class="col-11 offset-1 p-0"
+													style="border-bottom: solid 1px #f8f8f8"></div>
+											</div>
+											<div class="row px-3 pb-0" style="font-size: 14px;">
+												<div class="col-4 offset-1 text-left border-right pl-2 pr-1"
+													style="letter-spacing: -0.8px;">${h.drEmail }</div>
+												<div class="col-7 text-left color9b pl-1"
+													style="letter-spacing: -0.8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
+													<img
+														src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/location_inactive.svg"
+														style="width: 12px; height: 16.5px;"
+														alt="Responsive image"> ${list.hpAddress }
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</c:forEach>
+						</c:if>
+					</div>
 				</div>
+				<!-- <div id="map" style="width: 500px; height: 865px;" class="col-6"></div> -->
 			</div>
 		</div>
-	</section>
-	<!-- detailAskDoctor end -->
+	</div>
 
-	<!-- Footer section -->
+
+	<!-- <script type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0dc4c5330fadaa329deb65c826969980"></script>
+   <script type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0dc4c5330fadaa329deb65c826969980&libraries=LIBRARY"></script> -->
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0dc4c5330fadaa329deb65c826969980&libraries=services,clusterer,drawing"></script>
+	<script>
+   var mapContainer = document.getElementById('map');
+   var mapOption = {
+       center: new daum.maps.LatLng(37.450701, 126.570667),
+       level: 8
+   };  
+
+   var map = new daum.maps.Map(mapContainer, mapOption); 
+
+   var geocoder = new daum.maps.services.Geocoder();
+   
+   /* 
+   		검색결과 리스트
+   		의사의 간단한 프로필이 있어야되고, 의사선생님의 소속 병원과 지도를 매핑시켜줘야한다.
+   */
+   var listTitle = new Array();
+   var listAdr = new Array();
+   var listAvgRate = new Array();
+   var listFile = new Array();
+   <c:forEach var="result" items="${hp}" >
+      listTitle.push("${result.hpName}");
+      listAdr.push("${result.hpAddress}");
+      listAvgRate.push("${result.hpAvgRate}");
+      listFile.push("${result.proRename}");
+   </c:forEach>
+   
+   
+   
+
+   listAdr.forEach(function(addr, index){
+         
+       geocoder.addressSearch(addr, function(result, status) {
+           if (status === daum.maps.services.Status.OK) {
+               var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+               var marker = new daum.maps.Marker({
+                   map: map,
+                   position: coords
+               });
+           
+               var content = document.createElement('div'); 
+               content.className = 'wrap';
+             
+               var info = document.createElement('div');
+               info.className = 'info';
+                content.appendChild(info);
+               
+               var title = document.createElement('div');
+               title.className = 'title';
+               title.innerHTML=listTitle[index];
+               info.appendChild(title);
+               
+               var closeBtn = document.createElement('button');
+               closeBtn.className = 'close';
+               
+               title.appendChild(closeBtn);
+            
+               // 닫기 이벤트 추가
+               closeBtn.onclick = function() {
+                   overlay.setMap(null);
+               };
+
+               
+               var body = document.createElement('div');
+               body.className='body';
+               info.appendChild(body);
+               
+               var img = document.createElement('div');
+               img.className='img';
+               body.appendChild(img);
+               
+               var imgsrc =  document.createElement('img');
+                imgsrc.setAttribute( 'src', '<%=request.getContextPath()%>/resources/img/mainlogo.png' )
+                imgsrc.src = listFile[index]+".png";
+               img.appendChild(imgsrc);
+               
+               var desc = document.createElement("div");
+               desc.className='desc';
+               body.appendChild(desc);
+               
+               var ellipsis = document.createElement('div');
+               ellipsis.className ='ellipsis';
+               ellipsis.innerHTML=listAdr[index];
+               desc.appendChild(ellipsis);
+               
+               var score = document.createElement('div');
+               score.className='jibun ellipsis';
+              
+               desc.appendChild(score);
+               
+              
+               var star = document.createElement('span')
+               star.className='fa fa-star checked';
+               score.appendChild(별);
+               
+               var starscore = document.createElement('span');
+               starscore.innerHTML='('+listAvgRate[index]+')';
+               score.appendChild(starscore);
+               
+               var page = document.createElement('div');
+               desc.appendChild(page);
+               
+               var a = document.createElement('a');
+               a.setAttribute('href','');
+               a.innerHTML='상세보기';
+               page.appendChild(a);
+               
+               var overlay = new kakao.maps.CustomOverlay({
+                    content: content,
+                    position:coords
+                });
+                   
+                // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    overlay.setMap(map);
+                });
+      
+
+
+                 
+           } 
+       });
+   });
+   
+   
+     // HTML5의 geolocaiton으로 사용할 수 있는지 확인합니다.
+    if (navigator.geolocation) {
+        // GeoLocation을 이용해서 접속 위치를 얻어옵니다.
+        navigator.geolocation.getCurrentPosition(function(position){
+            
+            var lat = position.coords.latitude, // 위도
+                lon = position.coords.longitude; // 경도
+                
+            var locPostion = new kakao.maps.LatLng(lat, lon), //마커가 표시될 위치를 geolocation 좌표로 생성합니다.
+                message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다.
+
+            // 마커와 인포윈도우를 표시합니다.
+            displayMarker(locPostion,message);
+        });
+    } else {   
+
+    }
+    
+    // 지도에 마커와 인포윈도우를 표시하는 함수입니다.
+    function displayMarker(locPostion, message) {
+        
+    /*     // 마커를 생성합니다.
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: locPostion
+        });
+
+        var iwContent = message, // 인포윈도우에 표시할 내용
+            iwRemoveable = true;
+        
+        // 인포윈도우를 생성합니다.
+        var infowindow = new kakao.maps.InfoWindow({
+            content : iwContent,
+            removable : iwRemoveable
+        });
+
+        // 인포윈도우를 마커위에 표시합니다.
+        infowindow.open(map,marker); */
+
+        // 지도 중심좌표를 접속위치로 변경합니다.
+        map.setCenter(locPostion);
+    }
+   
+
+   </script>
+
 	<%@ include file="../static/footer.jsp"%>
-	<!-- Footer section end -->
 	<!--====== Javascripts & Jquery ======-->
-	<script src="http://code.jquery.com/jquery.min.js"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 </body>
-
 </html>

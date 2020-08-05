@@ -185,11 +185,13 @@
 											style="font-size: 14px; text-align: right; color: #494949; letter-spacing: -0.6px;">
 											(<span id="counter">0</span>자, 최소 20자 이상)
 										</div>
-										<script>
+							<script>
                                 function textCounter(field,field2,maxlimit)
                                 {
                                     $('#' + field2).text(field.value.length);
                                 }
+                                
+                                
                             </script>
 									</div>
 								</div>
@@ -229,9 +231,14 @@
 		</div>
 	</div>
 	<script>
+	
 		function updateReview(){
+			if($("#comment").val()==""){
+				alert("내용을 입력하세요")
+		    	$("#comment").focus();
+		    }else{
 			$("#review").attr("action","updateReview.do").submit();
-		
+		    }
 		
 		}
 	</script>

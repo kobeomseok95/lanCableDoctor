@@ -11,12 +11,19 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.landocProject.hospital.Exception.MainHpException;
 import com.kh.landocProject.hospital.model.service.MainHpService;
+import com.kh.landocProject.hospital.model.vo.HpNameSplit;
+import com.kh.landocProject.hospital.model.vo.HpSearch;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 import com.kh.landocProject.member.model.vo.DrClient;
 
@@ -81,6 +88,7 @@ public class MainHpController {
 	}
 	
 	
+
 	// 병원 기본 정보 수정
 	@RequestMapping(value="basicInfoHpEdit.do", method=RequestMethod.POST)
 	public String basicInfoHpEdit(MainHp mainHp, HttpServletRequest request,
@@ -176,7 +184,41 @@ public class MainHpController {
 		
 		return null;
 	}
-	
+
+
+	 
+	   
+	@RequestMapping(value="hpSearch.do")
+	public ModelAndView hpSearch(ModelAndView mv, HttpSession session,HpSearch hp,@RequestParam(value="area") String area, @RequestParam(value="hpSearch") String hpTitle) throws MainHpException{
+		  
+	      
+	   
+	      String[] hpNameSplit = hpTitle.split("");
+	      String hpNameLike ="";
+	      for(int i =0; i<hpNameSplit.length;i++) {
+	    	 
+	    	   	if(i==hpNameSplit.length-1) {
+	    	   		hpNameLike += "%"+hpNameSplit[i]+"%";
+	    	   	}else {
+	    	   	    hpNameLike += "%"+hpNameSplit[i];
+	    	   	}
+	      }
+	      hp.setArea(area);
+	      hp.setHpName(hpNameLike);
+	   
+	      ArrayList<HpSearch> hpList = mainHpService.hpSearchListNormal(hp);
+	      if(hpList !=null) {
+	    	  mv.addObject("hp",hpList);
+	    	  mv.addObject("area",area);
+	    	  mv.addObject("hpName", hpTitle);
+	    	  mv.setViewName("hospital/hpSearch");
+	      }else {
+	    	  throw new MainHpException("병원검색 실패!");
+	      }
+	      
+	      return mv;
+	  }
+
 	
 	// 파일 저장 메소드
 	public String saveFile(MultipartFile file) {
@@ -219,8 +261,22 @@ public class MainHpController {
 		}
 	}
 	
-	
-	
+
+	@RequestMapping(value="hpCate.do")
+	public ModelAndView hpCateSearch(ModelAndView mv, HttpSession session,@RequestParam(value="cateName") String cateName) throws MainHpException{
+		  ArrayList<HpSearch> hpList = mainHpService.hpCateSearchList(cateName);
+	      
+	      if(hpList !=null) {
+	    	  mv.addObject("hp",hpList);
+	    	  mv.addObject("cateName", cateName);
+	    	  mv.setViewName("hospital/hpSearch");
+	      }else {
+	    	  throw new MainHpException("진료과목 검색 실패!");
+	      }
+	      
+	      return mv;
+	  }
+
 	
 	
 }

@@ -167,5 +167,12 @@ public class cMypageServiceImpl implements cMypageService {
 		return cmDao.listCountPointList(cNo);
 	}
 
+	@Override
+	public int orderCancel(OrderList order) {
+		
+		return cmDao.orderCancel(order);
+	}
+
+
 }
 

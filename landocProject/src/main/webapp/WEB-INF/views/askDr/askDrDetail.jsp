@@ -59,11 +59,7 @@
 					&nbsp;&nbsp;
 					<a href="askDr.do">의사에게 물어봐 > </a>
 					&nbsp;&nbsp;
-					<c:url var="askDrBoard" value="askDrBoard.do">
-						<c:param name="category" value="${askDrBoardDetail.categoryNo }" />
-						<c:param name="pageNo" value="1" />					
-					</c:url>
-					<a href="${askDrBoard}">${subject }</a> 					
+					<a href="javascript:history.back();">${subject }</a> 					
 				</label>
 			</div>
 
@@ -123,7 +119,7 @@
 			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label"></label>
 				<div class="col-lg-9 col-sm-9 control-label my-3" align="right">
-				<c:if test="${askDrBoardDetail.chooseStatus eq 'N' && empty loginDrClient }">
+				<c:if test="${askDrBoardDetail.chooseStatus eq 'N' && empty loginDrClient && loginClient.nickName eq askDrBoardDetail.nickname }">
 					<button id="updateAskDrBoard" 
 						class="btn btn-sm" style="background-color: #0071ce; color:white;">수정하기</button>
 					&nbsp;
@@ -174,6 +170,7 @@
 								</c:if>
 								</td>
 								<td>
+									<input type="hidden" class="drNo" value="${replys.drClientNo }" />
 									<div data-toggle="popover" data-html="true" title="선생님 정보"
 										data-content="
 										<a href='#'>프로필</a>
@@ -190,29 +187,31 @@
 									${replys.replyDate}
 								</td>
 								<td style="text-align:center;" >
-								<c:if test="${replys.chooseStatus eq 'N' && !empty loginDrClient && empty loginClient && loginDrClient.userName eq replys.drName }">
-									<button class="btn btn-sm updateReplyForm" type="button">
-										수정
+								<c:choose>
+									<c:when test="${askDrBoardDetail.chooseStatus eq 'Y' && replys.chooseStatus eq 'Y' }">
+										<i class="fas fa-check fa-3x" style="color: #4EC54B;"></i>
+									</c:when>
+									<c:when test="${askDrBoardDetail.chooseStatus eq 'Y' && replys.chooseStatus eq 'N' }">
+									<!-- 공란 -->
+									</c:when>
+									<c:when test="${askDrBoardDetail.chooseStatus eq 'N' && loginClient.nickName eq askDrBoardDetail.nickname }">
+										<input type="hidden" name="drClientNo" value="${replys.drClientNo }" />
+										<input type="radio" class="chooseAnswer" name="chooseAnswer" value="${replys.adrNo }" />	
+									</c:when>
+									<c:when test="${askDrBoardDetail.chooseStatus eq 'N' && loginClient.nickName ne askDrBoardDetail.nickname && loginDrClient.drNo eq replys.drClientNo }">
+										<button class="btn btn-sm updateReplyForm" type="button">
+											수정
 										<input type="hidden" name="adrNo" value="${replys.adrNo }" />
-									</button>
-									<button class="btn btn-sm deleteReply" type="button">
-										삭제
-										<input type="hidden" name="adrNo" value="${replys.adrNo }" />
-									</button>
-									<!-- 여기 해야 한다! -->
-								</c:if>
-								<c:if test="${replys.chooseStatus eq 'N' && !empty loginDrClient && empty loginClient && loginDrClient.userName ne replys.drName }">
-									채택대기
-								</c:if>
-								<c:if test="${replys.chooseStatus eq 'N' && empty loginDrClient && !empty loginClient && askDrBoardDetail.chooseStatus eq 'N'}">
-									<input type="hidden" name="drClientNo" value="${replys.drClientNo }" />
-									<input type="radio" class="chooseAnswer" name="chooseAnswer" value="${replys.adrNo }" />
-								</c:if>
-								<!-- 게시글의 답변완료 상태에 따라 수정해줘야함 -->
-								<c:if test="${replys.chooseStatus eq 'Y' && askDrBoardDetail.chooseStatus eq 'Y'}">
-									<i class="fas fa-check fa-3x" style="color: #4EC54B;"></i>
-								</c:if>
-								<c:if test="${replys.chooseStatus eq 'N' && askDrBoardDetail.chooseStatus eq 'Y'}"></c:if>
+										</button>
+										<button class="btn btn-sm deleteReply" type="button">
+											삭제
+											<input type="hidden" name="adrNo" value="${replys.adrNo }" />
+										</button>
+									</c:when>
+									<c:when test="${askDrBoardDetail.chooseStatus eq 'N' && loginClient.memberNo ne askDrBoardDetail.nickname && loginDrClient.drNo ne replys.drClientNo }">
+									<!-- 공란 -->
+									</c:when>
+								</c:choose>
 								</td>
 							</tr>
 							</c:forEach>
@@ -309,40 +308,59 @@
 		        }
 			});
 			
-			$("#insertReply").on("click", function(){
+			$(document).on("click", "#insertReply", function(){
+				var drArray = new Array();
+				$(".drNo").each(function(){
+					drArray.push($(this).val());
+				});
 				
 				if(confirm("답변을 등록하시겠습니까?")){
-					var insertForm = {
-						drClientNo : "${loginDrClient.drNo}",
-						content : $("#content").val(),
-						bNo : "${askDrBoardDetail.bNo}"
-					};
-						
-					if(insertForm.content !== ""){
-						$.ajax({
-						    type: 'POST',
-						    data:  insertForm,
-						    url:  'insertAskDrBoardReply.do',
-						    error:function(request, status, errorData){
-			                    alert("error code: " + request.status + "\n"
-			                            +"message: " + request.responseText
-			                            +"error: " + errorData);
-			               	},           
-						    success: function(data) {
-						    	if(data === "success"){
-						    		getReplyList();
-						    	}
-							}    
-						});
+					var flag = true;
+					for(var i in drArray){
+						if(drArray[i] === "${loginDrClient.drNo}"){
+							flag = false;
+							break;
+						}
+					}
+					
+					if(!flag){
+						$("#content").val('');
+						alert("선생님은 이미 답변을 작성하셨습니다. 수정 및 삭제를 이용해주세요.");
 					}
 					else{
-						alert("답변을 입력해주세요!");
-						return false;
+						var insertForm = {
+							drClientNo : "${loginDrClient.drNo}",
+							content : $("#content").val(),
+							bNo : "${askDrBoardDetail.bNo}"
+						};
+							
+						if(insertForm.content !== ""){
+							$.ajax({
+							    type: 'POST',
+							    data:  insertForm,
+							    url:  'insertAskDrBoardReply.do',
+							    error:function(request, status, errorData){
+				                    alert("error code: " + request.status + "\n"
+				                            +"message: " + request.responseText
+				                            +"error: " + errorData);
+				               	},           
+							    success: function(data) {
+							    	if(data === "success"){
+							    		getReplyList();
+							    	}
+								}    
+							});
+						}
+						else{
+							alert("답변을 입력해주세요!");
+							return false;
+						}
 					}
 				}
 				else{
 					return false;
 				}
+				
 			});
 			
 			function getReplyList(){
@@ -405,8 +423,11 @@
 						}
 						
 						var $tdTwo = $("<td></td>");
+						var $inputDrno = $('<input type="hidden" class="drNo" />');
+						$inputDrno.val(list[i].drClientNo);
 						var $tdTwoInDiv = $("<div data-toggle='popover' data-html='true' title='선생님 정보' data-content='<a href='#'>프로필</a> <br> <a href='#'>여기는 병원이름</a>'></div>");
 						$tdTwoInDiv.text(list[i].drName);
+						$tdTwo.append($inputDrno);
 						$tdTwo.append($tdTwoInDiv);
 						
 						var $tdThree = $("<td></td>");
@@ -416,10 +437,10 @@
 						$tdFour.text(list[i].replyDate);
 						
 						var $tdFive = $("<td style='text-align:center;'></td>");
-						if(list[i].chooseStatus === 'N' && list[i].drName !== "${loginDrClient.userName}"){
-							$tdFive.text("채택대기");
+						if(list[i].chooseStatus === 'N' && list[i].drClientNo !== "${loginDrClient.drNo}"){
+							//$tdFive.text("채택대기");
 						}
-						else if(list[i].chooseStatus === 'N' && list[i].drName === "${loginDrClient.userName}"){
+						else if(list[i].chooseStatus === 'N' && list[i].drClientNo === "${loginDrClient.drNo}"){
 							var $btnOne = $('<button class="btn btn-sm updateReplyForm" type="button"></button>');
 							$btnOne.text('수정');
 							var $inputOne = $('<input type="hidden" name="adrNo" />');

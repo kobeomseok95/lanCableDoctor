@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.askDr.model.vo.AskDrBoardPagination;
 import com.kh.landocProject.askDr.model.vo.AskDrReply;
+import com.kh.landocProject.askDr.model.vo.DrClient;
 import com.kh.landocProject.askDr.model.vo.SymptomsImage;
 
 @Repository
@@ -21,18 +22,18 @@ public class AskDrDAO {
 	@Resource(name="sqlSessionTemplate")
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-	public int selectAskDrBoardCount(int categoryNo) {
-		return sqlSessionTemplate.selectOne("askDr.selectAskDrBoardCount", categoryNo);
+	public int selectAskDrBoardCount(HashMap<String, Object> param) {
+		return sqlSessionTemplate.selectOne("askDr.selectAskDrBoardCount", param);
 	}
 
-	public ArrayList<AskDrBoard> selectAskDrBoard(int categoryNo, AskDrBoardPagination page) {
+	public ArrayList<AskDrBoard> selectAskDrBoard(HashMap<String, Object> param, AskDrBoardPagination page) {
 		int offset = (page.getCurrentPage() - 1) * page.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, page.getBoardLimit());
-		return (ArrayList)sqlSessionTemplate.selectList("askDr.selectAskDrBoard", categoryNo, rowBounds);
+		return (ArrayList)sqlSessionTemplate.selectList("askDr.selectAskDrBoard", param, rowBounds);
 	}
 	
-	public int selectAskDrBoardSearchCount(HashMap<String, Object> parameterMap) {
-		return sqlSessionTemplate.selectOne("askDr.selectAskDrBoardSearchCount", parameterMap);
+	public int selectAskDrBoardSearchCount(HashMap<String, Object> param) {
+		return sqlSessionTemplate.selectOne("askDr.selectAskDrBoardSearchCount", param);
 	}
 
 	public ArrayList<AskDrBoard> selectAskDrBoardSearch(HashMap<String, Object> parameterMap,
@@ -104,6 +105,10 @@ public class AskDrDAO {
 
 	public int updateAskDrBoardReply(AskDrReply askDrReply) {
 		return sqlSessionTemplate.update("askDr.updateAskDrBoardReply", askDrReply);
+	}
+
+	public List<DrClient> getSearchDr(String drName) {
+		return sqlSessionTemplate.selectList("askDr.getSearchDr", drName);
 	}
 	
 }

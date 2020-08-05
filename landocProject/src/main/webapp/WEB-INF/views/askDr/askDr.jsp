@@ -67,12 +67,12 @@
 				<p>찾으시는 의사선생님의 성함을 검색해주세요!</p>
 			</div>
 			<div class="row">
-				<form>
+				<form action="searchDr.do" method="GET">
 					<div class="form-row">
 						<!-- col-12 col-md-6 mb-2 mb-md-0 -->
 						<div class="col-12 col-md-6 mb-2 mb-md-0">
 							<input type="text" class="form-control form-control-lg"
-								placeholder="성함" size="70">
+								placeholder="성함" size="70" name="drName">
 						</div>
 						<div class="col-12 col-md-3">
 							<button type="submit" class="btn btn-block btn-lg btn-primary"

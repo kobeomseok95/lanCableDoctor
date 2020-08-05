@@ -1,5 +1,7 @@
 package com.kh.landocProject.member.model.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,7 @@ import com.kh.landocProject.member.model.dao.MainMemberDao;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.JoinHospital;
 import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 @Service("mService")
@@ -173,6 +176,18 @@ public class MainMemberServiceImpl implements MainMemberService {
 		
 		return mDao.loginDrClient2(drNo);
 	}
+	
+	@Override
+	public DrClient loginDrClient3(String drNo) {
+		
+		return mDao.loginDrClient3(drNo);
+	}
+	@Override
+	public DrClient loginDrClient4(String drNo) {
+		
+		return mDao.loginDrClient4(drNo);
+	}
+
 	// 의사회원 프로필 수정
 	@Override
 	public int updateDrClientProfile(ProfilePhoto pp) {
@@ -215,5 +230,75 @@ public class MainMemberServiceImpl implements MainMemberService {
 		
 		return mDao.DrClientDelete(drNo);
 	}
+	// 의사 파일가져오기1
+	@Override
+	public DrClient selectDrClientHp1(String drNo) {
+
+		return mDao.selectDrClientHp1(drNo);
+	}
+	// 의사 파일가져오기2
+	@Override
+	public DrClient selectDrClientHp2(String drNo) {
+		
+		return mDao.selectDrClientHp2(drNo);
+	}
+	// 의사 파일가져오기3
+	@Override
+	public DrClient selectDrClientHp3(String drNo) {
+	
+		return mDao.selectDrClientHp3(drNo);
+	}
+	@Override
+	public int drClientHpUpdate1(DrhpPhoto dhp) {
+		
+		return mDao.drClientHpUpdate1(dhp);
+	}
+	@Override
+	public int drClientHpUpdate2(DrhpPhoto dhp) {
+
+		return mDao.drClientHpUpdate2(dhp);
+	}
+	@Override
+	public int drClientHpUpdate3(DrhpPhoto dhp) {
+		
+		return mDao.drClientHpUpdate3(dhp);
+	}
+	@Override
+	public DrClient searchFile1(String drNo) {
+		
+		return mDao.searchFile1(drNo);
+	}
+	@Override
+	public DrClient searchFile2(String drNo) {
+		
+		return mDao.searchFile2(drNo);
+	}
+	@Override
+	public DrClient searchFile3(String drNo) {
+		
+		return mDao.searchFile3(drNo);
+	}
+	@Override
+	public int drClientApproval(DrClient d) {
+		
+		return mDao.drClientApproval(d);
+	}
+	@Override
+	public int updateProfileYN(Client c) {
+	
+		return mDao.updateProfileYN(c);
+	}
+	@Override
+	public ArrayList<JoinHospital> selectList() {
+		
+		return mDao.selectList();
+	}
+	@Override
+	public int updateDrProfileYN(DrClient d) {
+		
+		return mDao.updateDrProfileYN(d);
+	}
+	
+	
 
 }

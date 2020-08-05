@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.landocProject.hospital.model.dao.MainHpDao;
+import com.kh.landocProject.hospital.model.vo.HpNameSplit;
+import com.kh.landocProject.hospital.model.vo.HpSearch;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 
 @Service("mainHpService")
@@ -31,6 +33,7 @@ public class MainHpServiceImpl implements MainHpService{
 		
 		return mainHpDao.selectHpPhoto(hp);
 	}
+
 
 	@Override
 	public ArrayList selectRenameList(Integer hpNo) {
@@ -67,6 +70,20 @@ public class MainHpServiceImpl implements MainHpService{
 	public int updateApproval(Integer hpNo) {
 		
 		return mainHpDao.updateApproval(hpNo);
+	}
+
+
+
+	@Override
+	public ArrayList<HpSearch> hpSearchListNormal(HpSearch hp) {
+		
+		return mainHpDao.hpSearchListNormal(hp);
+	}
+
+	@Override
+	public ArrayList<HpSearch> hpCateSearchList(String cateName) {
+		
+		return mainHpDao.hpCateSearchList(cateName);
 	}
 
 	
