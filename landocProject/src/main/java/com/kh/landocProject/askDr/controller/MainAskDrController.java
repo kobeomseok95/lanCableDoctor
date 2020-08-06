@@ -55,7 +55,7 @@ public class MainAskDrController {
 		mv.setViewName("askDr/askDrBoard");
 		int listCount = 0;
 		int currentPage = pageNo;
-		
+		//DB수정하기
 		int categoryNo = Integer.valueOf(category);
 		String subject = askDrCategoryMap.getCategoryMap().get(categoryNo);
 		
