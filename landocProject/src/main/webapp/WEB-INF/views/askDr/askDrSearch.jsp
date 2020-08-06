@@ -162,7 +162,7 @@
 	margin-top: 50px;
 }
 .goProfile{
-	margin-left: 13px;
+	margin-left: 9px;
 }
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -182,11 +182,8 @@
 		<div style="width: 960px; display: inline-block">
 			<form action="searchDr.do" method="get">
 	            <input type="text" id="searchProduct" name="drName" class="mb-4"
-	            placeholder="의사선생님 성함을 입력해주세요!"
-	            <c:if test="${!empty drName }">
-	            	value="${drName }"
-	            </c:if> />
-	            <button id="searchDr" type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
+	            placeholder="의사선생님 성함을 입력해주세요!" value="${drName }" />
+	            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
            	</form>
            	
 			<div class="row doctor-list-box">
@@ -292,7 +289,14 @@
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0dc4c5330fadaa329deb65c826969980&libraries=services,clusterer,drawing"></script>
 	<script>
-	
+	function userKeyPress(){
+		if(window.event.keyCode == 13){
+			window.event.keyCode = 0;
+		}
+		else{
+			return ;
+		}
+	}
 	var mapContainer = document.getElementById('map');
 	var mapOption = {
 	    center: new daum.maps.LatLng(35.9361525430941, 127.86992756379321),
@@ -454,8 +458,11 @@
 	            kakao.maps.event.addListener(marker, 'click', function() {
 	                overlay.setMap(map);
 	            });
-	            
-	            
+	            /*
+	            kakao.maps.event.addListener(marker, 'mouseover', function() {
+	                alert('marker mouseover!');
+	            });
+	            */
 	        } 
 	    });
 	});
@@ -503,12 +510,6 @@
         // 지도 중심좌표를 접속위치로 변경합니다.
         map.setCenter(locPostion);
     }
-    
-    $(function(){
-    	$("#searchDr").on('click', function(){
-    		$(this).submit();
-    	});
-    })
    </script>
 </body>
 </html>

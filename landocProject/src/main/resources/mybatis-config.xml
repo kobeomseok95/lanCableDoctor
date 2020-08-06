@@ -33,6 +33,10 @@
 		<typeAlias type="com.kh.landocProject.admin.askDr.model.vo.AdminAskDrBoard" alias="AdminAskDrBoard" />
 		<typeAlias type="com.kh.landocProject.askDr.model.vo.DrClient" alias="searchDrClient" />
 		<typeAlias type="com.kh.landocProject.hospital.model.vo.HpSearch" alias="HpSearch" />
+		<typeAlias type="com.kh.landocProject.product.model.vo.Product" alias="Product" />
+		<typeAlias type="com.kh.landocProject.product.model.vo.ProductPhoto" alias="ProductPhoto" />
+		<typeAlias type="com.kh.landocProject.product.model.vo.ProductQna" alias="ProductQna" />
+		<typeAlias type="com.kh.landocProject.product.model.vo.ProductReview" alias="ProductReview" />	
 	</typeAliases>
 
 
@@ -46,6 +50,7 @@
 		<mapper resource="/mappers/adminDrClient-mapper.xml"/>
 		<mapper resource="/mappers/mainHp-mapper.xml"/>
 		<mapper resource="/mappers/adminAskDr-mapper.xml"/>
+		<mapper resource="/mappers/product-mapper.xml"/>
 
 	</mappers>
 </configuration>
