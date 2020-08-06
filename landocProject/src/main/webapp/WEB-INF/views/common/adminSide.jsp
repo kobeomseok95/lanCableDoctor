@@ -69,7 +69,9 @@
         }
 
         function goHospital(){
-            location.href="hospitalManage.do";
+        	var searchCondition = "noneCondition";
+        	var searchValue="noneValue";
+            location.href="hpList.do?searchCondition=" + searchCondition + "&searchValue=" + searchValue;
         }
 
         function goHospitalReview(){

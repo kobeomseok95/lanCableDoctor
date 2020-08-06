@@ -34,6 +34,7 @@
 		<typeAlias type="com.kh.landocProject.askDr.model.vo.DrClient" alias="searchDrClient" />
 		<typeAlias type="com.kh.landocProject.hospital.model.vo.HpSearch" alias="HpSearch" />
 		<typeAlias type="com.kh.landocProject.hospital.model.vo.HpTime" alias="HpTime" />
+		<typeAlias type="com.kh.landocProject.admin.hospital.model.vo.AdminHpSearchCondition" alias="adminHpSearch"/>
 	</typeAliases>
 
 
@@ -47,6 +48,7 @@
 		<mapper resource="/mappers/adminDrClient-mapper.xml"/>
 		<mapper resource="/mappers/mainHp-mapper.xml"/>
 		<mapper resource="/mappers/adminAskDr-mapper.xml"/>
+		<mapper resource="/mappers/adminHp-mapper.xml"/>
 
 	</mappers>
 </configuration>

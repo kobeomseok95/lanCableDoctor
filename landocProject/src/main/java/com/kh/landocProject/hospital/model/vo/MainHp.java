@@ -14,6 +14,8 @@ public class MainHp implements Serializable{
 	 */
 	private static final long serialVersionUID = -8722540332219462132L;
 
+	private int rowNum;
+	
 	// 병원 테이블 변수
 	private int hpNo;
 	private String hpName;
@@ -51,10 +53,11 @@ public class MainHp implements Serializable{
 	public MainHp() {
 	}
 
-	public MainHp(int hpNo, String hpName, String hpPhone, String hpPostCode, String hpAddress, String hpx, String hpy,
-			double hpAvgRate, int hpReCount, String hpComment, String hpStatus, int hpCateCode, String hpCateName,
-			int drHpNo, int phCode, String originFileName, String renameFileName, String filePath, String hpDay,
-			String hpOpenTime, String hpCloseTime, List<MultipartFile> file) {
+	public MainHp(int rowNum, int hpNo, String hpName, String hpPhone, String hpPostCode, String hpAddress, String hpx,
+			String hpy, double hpAvgRate, int hpReCount, String hpComment, String hpStatus, int hpCateCode,
+			String hpCateName, int drHpNo, int phCode, String originFileName, String renameFileName, String filePath,
+			String hpDay, String hpOpenTime, String hpCloseTime, List<MultipartFile> file) {
+		this.rowNum = rowNum;
 		this.hpNo = hpNo;
 		this.hpName = hpName;
 		this.hpPhone = hpPhone;
@@ -77,6 +80,14 @@ public class MainHp implements Serializable{
 		this.hpOpenTime = hpOpenTime;
 		this.hpCloseTime = hpCloseTime;
 		this.file = file;
+	}
+
+	public int getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
 	}
 
 	public int getHpNo() {
@@ -261,16 +272,16 @@ public class MainHp implements Serializable{
 
 	@Override
 	public String toString() {
-		return "MainHp [hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", hpPostCode=" + hpPostCode
-				+ ", hpAddress=" + hpAddress + ", hpx=" + hpx + ", hpy=" + hpy + ", hpAvgRate=" + hpAvgRate
-				+ ", hpReCount=" + hpReCount + ", hpComment=" + hpComment + ", hpStatus=" + hpStatus + ", hpCateCode="
-				+ hpCateCode + ", hpCateName=" + hpCateName + ", drHpNo=" + drHpNo + ", phCode=" + phCode
-				+ ", originFileName=" + originFileName + ", renameFileName=" + renameFileName + ", filePath=" + filePath
-				+ ", hpDay=" + hpDay + ", hpOpenTime=" + hpOpenTime + ", hpCloseTime=" + hpCloseTime + ", file=" + file
-				+ "]";
+		return "MainHp [rowNum=" + rowNum + ", hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone
+				+ ", hpPostCode=" + hpPostCode + ", hpAddress=" + hpAddress + ", hpx=" + hpx + ", hpy=" + hpy
+				+ ", hpAvgRate=" + hpAvgRate + ", hpReCount=" + hpReCount + ", hpComment=" + hpComment + ", hpStatus="
+				+ hpStatus + ", hpCateCode=" + hpCateCode + ", hpCateName=" + hpCateName + ", drHpNo=" + drHpNo
+				+ ", phCode=" + phCode + ", originFileName=" + originFileName + ", renameFileName=" + renameFileName
+				+ ", filePath=" + filePath + ", hpDay=" + hpDay + ", hpOpenTime=" + hpOpenTime + ", hpCloseTime="
+				+ hpCloseTime + ", file=" + file + "]";
 	}
-
-
+	
+	
 	
 	
 }
