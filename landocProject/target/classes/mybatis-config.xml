@@ -29,6 +29,8 @@
 		<typeAlias type="com.kh.landocProject.admin.askDr.model.vo.AdminAskDrBoard" alias="AdminAskDrBoard" />
 		<typeAlias type="com.kh.landocProject.askDr.model.vo.DrClient" alias="searchDrClient" />
 		<typeAlias type="com.kh.landocProject.hospital.model.vo.HpSearch" alias="HpSearch" />
+		<typeAlias type="com.kh.landocProject.admin.orderQna.model.vo.OrderQna" alias="adOrderQna" />
+		<typeAlias type="com.kh.landocProject.admin.order.model.vo.OrderManage" alias="OrderManage" />
 	</typeAliases>
 
 
@@ -40,5 +42,7 @@
 		<mapper resource="/mappers/adminHpRe-mapper.xml"/>
 		<mapper resource="/mappers/mainHp-mapper.xml"/>
 		<mapper resource="/mappers/adminAskDr-mapper.xml"/>
+		<mapper resource="/mappers/adminOrderQna-mapper.xml"/>
+		<mapper resource="/mappers/adminOrderMg-mapper.xml"/>
 	</mappers>
 </configuration>
