@@ -7,6 +7,32 @@
 	<title>비밀번호 찾기</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="SolMusic HTML Template">
+<meta name="keywords" content="music, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Favicon -->
+<link href="<%=request.getContextPath()%>/resources/img/favicon.ico"
+	rel="shortcut icon" />
+
+<!-- Google font -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
+	rel="stylesheet">
+
+<!-- Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/slicknav.min.css" />
+
+<!-- Main Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css" />
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/resources/login_images/icons/favicon.ico"/>
 <!--===============================================================================================-->
@@ -37,7 +63,7 @@
 </style>
 </head>
 <body>
-	
+	<%@ include file="../static/header.jsp"%>
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -139,19 +165,15 @@
 							아이디를 잊으셨다구요?
 						</span>
 
-						<a class="txt2" href="searchId.do">
+						<a class="txt2" href="searchIdView.do">
 							아이디 찾기
 						</a>
 					</div>
 
 					<div class="text-center p-t-115" id="ask1">
-						<span class="txt1">
-							아직 회원이 아니라구요?
-						</span>
-
-						<a class="txt2" href="join.do">
-							회원가입
-						</a>
+						 <span class="txt1"> 아직 회원이 아니라구요? </span> <a class="txt2"
+                     href="joinClientView.do"> 일반회원가입 </a> / <a class="txt2"
+                     href="joinDrView.do"> 의사회원가입 </a>
 					</div>
 				</form>
 			</c:if>
@@ -161,7 +183,7 @@
 	
 
 	<div id="dropDownSelect1"></div>
-	
+	  <%@ include file="../static/footer.jsp"%>
 <!--===============================================================================================-->
 <script src="<%=request.getContextPath()%>/resources/login_vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
