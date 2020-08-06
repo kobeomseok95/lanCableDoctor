@@ -522,7 +522,7 @@
 						<h4 style="color:white;">+</h4>
 					</button>
 					<label class="col-sm-2 control-label" style="font-size:18px; color:#007ee5; font-weight:800; padding:0;">신규 사진 등록</label>
-					<input id="hpPics" name="hpPics" type="file" multiple="multiple" style="display: none;" />
+					<input id="hpPics" name="hpPics" type="file" style="display: none;" multiple/>
 				</div>
 				
 				<div class="row pt-4">
@@ -562,6 +562,7 @@
 					
 					// 파일 선택이 여러개였을 시의 대응
 					for(var fileIndex = 0; fileIndex < input[0].files.length; fileIndex++){
+						$("#preview").html("");
 						var file = input[0].files[fileIndex];
 						
 						if(validation(file.name))
@@ -584,7 +585,6 @@
 							files[imgNum] = file;
 						};
 						reader.readAsDataURL(file);
-						
 					}
 					
 				}else
@@ -618,6 +618,16 @@
 			$("#hpPics").change(function(){
 				addPreview($(this));
 			})
+			
+			
+			/* function addInput(){
+				$(this).append("<input type='file' class='hpPics'></input>");
+			} */
+			
+			
+			
+			
+			
 		
 		</script>
 

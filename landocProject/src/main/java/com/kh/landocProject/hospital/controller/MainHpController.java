@@ -5,15 +5,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -108,14 +107,13 @@ public class MainHpController {
 								@RequestParam(value="address2", required=false) String address2) {
 		
 		
-		
 		// 1. 기본 정보 업데이트 -> 수정 승인 전 테이블에 insert
 		mainHp.setHpNo(hpNo);
 		mainHp.setHpName(hpName);
 		mainHp.setHpPhone(hpPhone);
 		mainHp.setHpPostCode(hpPostCode);
 		
-		String hpAddress = "";
+		String hpAddress = ""; 
 		if(address2 == "") {
 			hpAddress = address1 + "," + address2;
 		}else {
@@ -295,10 +293,7 @@ public class MainHpController {
 		String drNo = loginDrClient.getDrNo();
 		
 		hp.setHpNo(hpNo);
-		
-		System.out.println("controller에서 다중 사진 : " + file);
-		
-		
+	
 		// 기존 병원  소개 사진 추출
 		ArrayList<MainHp> hpPhoto = mainHpService.selectHpPhoto(hp);
 		
@@ -311,12 +306,28 @@ public class MainHpController {
 			}
 		}
 		
-		
 		// 기존 등록 된 사진들 DB에서 삭제
 		int deleteResult = mainHpService.deleteOriginPics(hpNo);
 		int insertNewPhoto = 0;
 		
-		if(deleteResult > 0) {
+		if(deleteResult >= 0) {
+		
+			
+//		Iterator<String> files = request.getFileNames();
+//		while(files.hasNext()) {
+//			String uploadFile = files.next();
+//			
+//			MultipartFile mFile = request.getFile(uploadFile);
+//			System.out.println("controller에서 mFile : " + mFile);
+//			
+//		}
+		
+	
+//		System.out.println("controller에서 다중 사진 : " + file);
+
+//		List<MultipartFile> fileList = request.getFiles("hpPics");
+//		System.out.println("controller에서 fileList : " + fileList);
+		
 			
 			// 새로운 사진 파일을 서버에 저장 및 DB에 경로 저장
 			
@@ -347,14 +358,12 @@ public class MainHpController {
 			
 		}
 		
-		
-		
 		if(insertNewPhoto>0) {
 			String msg ="ok";
 			redirectAttributes.addAttribute("msg", msg);
 			return "redirect:editHp.do";
 		}
-		
+		System.out.println("병원 사진 수정 실패!");
 		return "home";
 	}
 	
@@ -370,7 +379,7 @@ public class MainHpController {
 	
 		if(hpTimeList.size() != 0) {
 			for(HpTime ht2 : hpTimeList) {
-				System.out.println(ht2);
+//				System.out.println(ht2);
 				result = mainHpService.updateHptime(ht2);
 //				System.out.println("controller에서 result : " + result);
 			}
