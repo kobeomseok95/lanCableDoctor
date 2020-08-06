@@ -161,6 +161,9 @@
 	top: 0;
 	margin-top: 50px;
 }
+.goProfile{
+	margin-left: 13px;
+}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -177,7 +180,15 @@
 
 	<div class="container" style="margin-bottom: 80px; text-align: center;">
 		<div style="width: 960px; display: inline-block">
-
+			<form action="searchDr.do" method="get">
+	            <input type="text" id="searchProduct" name="drName" class="mb-4"
+	            placeholder="의사선생님 성함을 입력해주세요!"
+	            <c:if test="${!empty drName }">
+	            	value="${drName }"
+	            </c:if> />
+	            <button id="searchDr" type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
+           	</form>
+           	
 			<div class="row doctor-list-box">
 
 				<!-- doctor list -->
@@ -186,7 +197,7 @@
 					<div class="doctors-title-box pb-2 text-left"
 						style="border-bottom: solid darkgray 1px;">
 						<div style="font-size: 20px;">
-							<b class="ml-3">'${searchList[0].drName}' 선생님! 나와주세요!</b>
+							<b class="ml-3">'${drName}' 선생님! 나와주세요!</b>
 						</div>
 					</div>
 
@@ -267,141 +278,187 @@
 						</c:if>
 					</div>
 				</div>
-				<!-- <div id="map" style="width: 500px; height: 865px;" class="col-6"></div> -->
+				<div id="map" style="width: 500px; height: 865px;" class="col-6"></div>
 			</div>
 		</div>
 	</div>
-
-
-	<!-- <script type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0dc4c5330fadaa329deb65c826969980"></script>
-   <script type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0dc4c5330fadaa329deb65c826969980&libraries=LIBRARY"></script> -->
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0dc4c5330fadaa329deb65c826969980&libraries=services,clusterer,drawing"></script>
+	<%@ include file="../static/footer.jsp"%>
+	<!--====== Javascripts & Jquery ======-->
+	<script src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0dc4c5330fadaa329deb65c826969980&libraries=services,clusterer,drawing"></script>
 	<script>
-   var mapContainer = document.getElementById('map');
-   var mapOption = {
-       center: new daum.maps.LatLng(37.450701, 126.570667),
-       level: 8
-   };  
-
-   var map = new daum.maps.Map(mapContainer, mapOption); 
-
-   var geocoder = new daum.maps.services.Geocoder();
-   
-   /* 
-   		검색결과 리스트
-   		의사의 간단한 프로필이 있어야되고, 의사선생님의 소속 병원과 지도를 매핑시켜줘야한다.
-   */
-   var listTitle = new Array();
-   var listAdr = new Array();
-   var listAvgRate = new Array();
-   var listFile = new Array();
-   <c:forEach var="result" items="${hp}" >
-      listTitle.push("${result.hpName}");
-      listAdr.push("${result.hpAddress}");
-      listAvgRate.push("${result.hpAvgRate}");
-      listFile.push("${result.proRename}");
-   </c:forEach>
-   
-   
-   
-
-   listAdr.forEach(function(addr, index){
-         
-       geocoder.addressSearch(addr, function(result, status) {
-           if (status === daum.maps.services.Status.OK) {
-               var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-
-               var marker = new daum.maps.Marker({
-                   map: map,
-                   position: coords
-               });
-           
-               var content = document.createElement('div'); 
-               content.className = 'wrap';
-             
-               var info = document.createElement('div');
-               info.className = 'info';
-                content.appendChild(info);
-               
-               var title = document.createElement('div');
-               title.className = 'title';
-               title.innerHTML=listTitle[index];
-               info.appendChild(title);
-               
-               var closeBtn = document.createElement('button');
-               closeBtn.className = 'close';
-               
-               title.appendChild(closeBtn);
-            
-               // 닫기 이벤트 추가
-               closeBtn.onclick = function() {
-                   overlay.setMap(null);
-               };
-
-               
-               var body = document.createElement('div');
-               body.className='body';
-               info.appendChild(body);
-               
-               var img = document.createElement('div');
-               img.className='img';
-               body.appendChild(img);
-               
-               var imgsrc =  document.createElement('img');
-                imgsrc.setAttribute( 'src', '<%=request.getContextPath()%>/resources/img/mainlogo.png' )
-                imgsrc.src = listFile[index]+".png";
-               img.appendChild(imgsrc);
-               
-               var desc = document.createElement("div");
-               desc.className='desc';
-               body.appendChild(desc);
-               
-               var ellipsis = document.createElement('div');
-               ellipsis.className ='ellipsis';
-               ellipsis.innerHTML=listAdr[index];
-               desc.appendChild(ellipsis);
-               
-               var score = document.createElement('div');
-               score.className='jibun ellipsis';
-              
-               desc.appendChild(score);
-               
-              
-               var star = document.createElement('span')
-               star.className='fa fa-star checked';
-               score.appendChild(별);
-               
-               var starscore = document.createElement('span');
-               starscore.innerHTML='('+listAvgRate[index]+')';
-               score.appendChild(starscore);
-               
-               var page = document.createElement('div');
-               desc.appendChild(page);
-               
-               var a = document.createElement('a');
-               a.setAttribute('href','');
-               a.innerHTML='상세보기';
-               page.appendChild(a);
-               
-               var overlay = new kakao.maps.CustomOverlay({
-                    content: content,
-                    position:coords
-                });
-                   
-                // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-                kakao.maps.event.addListener(marker, 'click', function() {
-                    overlay.setMap(map);
-                });
-      
-
-
-                 
-           } 
-       });
-   });
+	
+	var mapContainer = document.getElementById('map');
+	var mapOption = {
+	    center: new daum.maps.LatLng(35.9361525430941, 127.86992756379321),
+	    level: 13
+	};  
+	var map = new daum.maps.Map(mapContainer, mapOption); 
+	var geocoder = new daum.maps.services.Geocoder();
+	
+	var searchList = new Array();
+	<c:forEach var="list" items="${searchList}" >
+		searchList.push({
+			"hpName" : "${list.hpName}",
+			"hpAddress" : "${list.hpAddress}",
+			"profileFileName" : "${list.profileFileName}",
+			"drName" : "${list.drName}",
+			"drNo" : "${list.drNo}",
+			"hpNo" : "${list.hpNo}",
+			"hpCategoryName" : "${list.hpCategoryName}"
+		});
+	</c:forEach>
+	var listAdr = new Array();
+	<c:forEach var="list" items="${searchList}" >
+		listAdr.push("${list.hpAddress}");
+	</c:forEach>
+	
+	/* var listTitle = new Array();
+	var listAdr = new Array();
+	var listFile = new Array();
+	var listDrName = new Array();
+	<c:forEach var="list" items="${searchList}" >
+	   listTitle.push("${list.hpName}");
+	   listAdr.push("${list.hpAddress}");
+	   listFile.push("${list.profileFileName}");
+	   listDrName.push("${list.drName}");
+	</c:forEach> */
+	
+	listAdr.forEach(function(addr, index){
+	      
+	    geocoder.addressSearch(addr, function(result, status) {
+	        if (status === daum.maps.services.Status.OK) {
+	            var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+	
+	            var marker = new daum.maps.Marker({
+	                map: map,
+	                position: coords
+	            });
+	        
+	            var contentDiv = document.createElement('div'); 
+	            contentDiv.className = 'wrap';
+	          
+	            var infoDiv = document.createElement('div');
+	            infoDiv.className = 'info';
+	            contentDiv.appendChild(infoDiv);
+	            
+	            var titleDiv = document.createElement('div');
+	            titleDiv.className = 'title';
+	            for(var i in searchList){
+	            	if(listAdr[index] === searchList[i].hpAddress){
+			            titleDiv.innerHTML=searchList[i].drName + " 선생님";
+	            	}
+	            }
+	            
+	            var goProfile = document.createElement('a');
+	            goProfile.setAttribute('href', '#');		//의사 프로필
+	            goProfile.className = 'goProfile';
+	            goProfile.innerHTML = '<i class="far fa-address-card"></i>';
+	            infoDiv.appendChild(titleDiv);
+	            titleDiv.appendChild(goProfile);
+	            
+	            var closeBtn = document.createElement('button');
+	            closeBtn.className = 'close';
+	            
+	            titleDiv.appendChild(closeBtn);
+	         
+	            // 닫기 이벤트 추가
+	            closeBtn.onclick = function() {
+	                overlay.setMap(null);
+	            };
+				
+	            var body = document.createElement('div');
+	            body.className='body';
+	            infoDiv.appendChild(body);
+	            
+	            var img = document.createElement('div');
+	            img.className='img';
+	            body.appendChild(img);
+	            
+            	//지도에 맞는 의사와, 해당 의사가 프사가 있는지 판별
+            	var imgsrc;
+            	for(var i in searchList){
+            		if(searchList[i].hpAddress === listAdr[index] && 
+            				searchList[i].profileFileName === ""){
+						imgsrc = document.createElement('i');
+						imgsrc.setAttribute('class', 'fas fa-user-nurse fa-7x profile-doctor-image');
+						imgsrc.setAttribute('style', 'color: #45668e;');
+            		}
+            		else if(searchList[i].hpAddress === listAdr[index] && 
+            				searchList[i].profileFileName !== ""){
+            			imgsrc =  document.createElement('img');
+                     	imgsrc.setAttribute( 'src', 'C:\\lanCableDoctorProject\\files\\' + searchList[i].profileFileName );
+            		}
+            	}
+            	img.appendChild(imgsrc);
+	            
+	            var desc = document.createElement("div");
+	            desc.className='desc';
+	            body.appendChild(desc);
+	            
+	            var category = document.createElement("div");
+	            category.className = 'category';
+	            for(var i in searchList){
+	            	if(searchList[i].hpAddress === listAdr[index]) {
+		            	category.innerHTML = searchList[i].hpCategoryName;
+	            	}
+	            }
+	            desc.appendChild(category);
+	            
+	            var ellipsis = document.createElement('div');
+	            ellipsis.className ='ellipsis';
+	            for(var i in searchList){
+	            	if(searchList[i].hpAddress === listAdr[index]){
+			            ellipsis.innerHTML=searchList[i].hpName;	            		
+	            	}
+	            }
+	            desc.appendChild(ellipsis);
+	            
+	            /*
+	            var score = document.createElement('div');
+	            score.className='jibun ellipsis';
+	            desc.appendChild(score);
+	            
+	            var star = document.createElement('span')
+	            star.className='fa fa-star checked';
+	            score.appendChild(별);
+	            
+	            var starscore = document.createElement('span');
+	            starscore.innerHTML='('+listAvgRate[index]+')';
+	            score.appendChild(starscore);
+	            */
+	            var page = document.createElement('div');
+	            desc.appendChild(page);
+	            
+	            var a = document.createElement('a');
+	            for(var i in searchList){
+	            	if(searchList[i].hpAddress === listAdr[index]){
+			            a.setAttribute('href', /*병원 프로필 만들어지면 완성하기*/
+			            		searchList[i].hpNo);
+	            	}
+	            }
+	            a.innerHTML='병원가기';
+	            page.appendChild(a);
+	            
+	            var overlay = new kakao.maps.CustomOverlay({
+	                 content: contentDiv,
+	                 position: coords
+	            });
+	                
+	             // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+	            kakao.maps.event.addListener(marker, 'click', function() {
+	                overlay.setMap(map);
+	            });
+	            
+	            
+	        } 
+	    });
+	});
    
    
      // HTML5의 geolocaiton으로 사용할 수 있는지 확인합니다.
@@ -446,21 +503,12 @@
         // 지도 중심좌표를 접속위치로 변경합니다.
         map.setCenter(locPostion);
     }
-   
-
+    
+    $(function(){
+    	$("#searchDr").on('click', function(){
+    		$(this).submit();
+    	});
+    })
    </script>
-
-	<%@ include file="../static/footer.jsp"%>
-	<!--====== Javascripts & Jquery ======-->
-	<script
-		src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 </body>
 </html>
