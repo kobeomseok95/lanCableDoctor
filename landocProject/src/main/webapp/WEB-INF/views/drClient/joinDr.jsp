@@ -142,7 +142,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" action="joinDrClient.do"
-					method="post">
+					method="post" onsubmit="return validate();">
 					<span class="login100-form-title p-b-48">
 						<div class="logoDiv">
 							<img class="logo"
@@ -213,6 +213,9 @@
 						data-validate="영소문,숫자 4~20글자로 입력가능합니다.">
 						<input class="input100" type="text" name="userId" id="userId">
 						<span class="focus-input100" data-placeholder="아이디"></span>
+						<span class="focus-input100 guide NO" id="NO" data-placeholder="NO!!" style="margin-left:90%; width:50%; display:none"></span>
+						<span class="focus-input100 guide OK" id="OK"data-placeholder="OK!!" style="margin-left:90%; width:50%; display:none"></span>
+						<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0">
 					</div>
 
 					<div class="wrap-input100 validate-input"
@@ -287,7 +290,7 @@
 								href="agree1.html">서비스 이용 약관</a><a>및</a><a href="agree2.html">개인정보
 								취급 방침</a><a>(필수)</a><br> <input type="checkbox" id="check2"
 								class="infoBox"><a href="agree3.html">위치기반 서비스 이용 약관</a><a>(필수)</a><br>
-							<input type="checkbox" id="check3" class="infoBox"><a>마케팅
+							<input type="checkbox" id="check3" name="check3" value="Y" class="infoBox"><a>마케팅
 								정보수신 동의 (선택)</a>
 						</div>
 					</div>
@@ -350,5 +353,54 @@
        });
        
     </script>
+    <script>
+	 	$(function(){
+	 		$("#userId").on("keyup", function(){
+	 			var userId= $(this).val().trim();
+	 			
+	 			if(userId.length < 4){
+	 				$(".OK").hide();
+	 				$(".NO").hide();
+	 				$("#idDuplicateCheck").val();
+	 				
+	 				return;
+	 			} 
+	 			
+	 			$.ajax({
+	 				url:"drDupid.do",
+	 				data:{id:userId},
+	 				success:function(data){
+	 					if(data == "true"){ 
+	 						$(".NO").hide();
+	 						$(".OK").show();
+	 						$("#idDuplicateCheck").val(1);
+	 					}else{
+	 						$(".NO").show();
+	 						$(".OK").hide();
+	 						$("#idDuplicateCheck").val(0);
+	 					}
+	 				},
+	 				error:function(request, status, errorData){
+	                     alert("error code: " + request.status + "\n"
+	                           +"message: " + request.responseText
+	                           +"error: " + errorData);
+	                 } 
+	 			})
+	 		})
+	 	})
+	 	
+	 	
+	 	
+	 </script>
+	 <script>
+	 function validate(){
+			// 아이디 중복 체크 후 회원가입 버튼 눌렀을 때
+			if($("#idDuplicateCheck").val()==0){
+				alert("사용 가능한 아이디를 입력해 주세요.");
+				return false;
+			}
+			return true;
+	 }
+	 </script>
 </body>
 </html>

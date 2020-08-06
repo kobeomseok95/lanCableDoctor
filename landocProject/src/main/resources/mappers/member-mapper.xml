@@ -79,13 +79,14 @@
 	<resultMap type="MainHp" id="JoinHospital">
 		<id property="hpNo" column="HP_NO"/>
 		<result property="hpName" column="HP_NAME"/>
+		<result property="hpStatus" column="HP_STATUS"/>
 	</resultMap>
 
 	<!-- 일반 회원가입_진교 -->
 	<insert id="joinClient" parameterType="Client">
 		INSERT INTO CLIENT
 		VALUES('C'||SEQ_C.NEXTVAL, #{userName}, #{nickName}, #{userId},
-		#{userPwd}, #{email}, #{phone}, #{birth}, 'Y', SYSDATE, 'N', 'Y', 0,
+		#{userPwd}, #{email}, #{phone}, #{birth}, 'Y', SYSDATE, 'N', #{marketing}, 0,
 		#{post}, #{address})
 	</insert>
 
@@ -129,7 +130,7 @@
 		INSERT INTO DRCLIENT
 		VALUES('D'||SEQ_DR.NEXTVAL, #{hpNo}, #{hpCateCode}, #{userName},
 		#{userId}, #{userPwd}, #{email}, #{phone}, #{birth}, 0, 'Y', 'N',
-		SYSDATE, 'N', 'Y', #{post}, #{address}, 0, 0)
+		SYSDATE, 'N', #{marketing}, #{post}, #{address}, 0, 0)
 	</insert>
 
 	<!-- 의사 회원가입2_회원 번호 찾기 -->
@@ -437,6 +438,7 @@
 	<select id="selectList" parameterType="MainHp" resultMap="JoinHospital">
 		SELECT HP_NO, HP_NAME
 		FROM HOSPITAL
+		WHERE HP_STATUS = 'Y'
 	</select>
 	
 	<update id="updateDrProfileYN" parameterType="DrClient">
@@ -445,5 +447,15 @@
 		WHERE DR_NO = #{drNo}
 	</update>
 	
-
+	<select id="idCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM CLIENT
+		WHERE C_ID=#{userId}
+	</select>
+	
+	<select id="drIdCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM DRCLIENT
+		WHERE DR_ID=#{userId}
+	</select>
 </mapper>
