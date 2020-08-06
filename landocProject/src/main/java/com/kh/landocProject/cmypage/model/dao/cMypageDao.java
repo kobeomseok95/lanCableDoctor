@@ -161,6 +161,11 @@ public class cMypageDao {
 		return sqlSessionTemplate.selectOne("cMypage.listCountPointList",cNo);
 	}
 
+	public int orderCancel(OrderList order) {
+		
+		return sqlSessionTemplate.update("cMypage.orderCancelUpdate", order);
+	}
+
 
 
 }

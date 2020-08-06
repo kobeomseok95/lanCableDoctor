@@ -261,7 +261,7 @@
 		JOIN ORDER_STATE OS
 		ON(OM.O_CODE=OS.O_CODE)
 		WHERE PA.C_NO =#{cNo} AND OM.O_CODE BETWEEN 6
-		AND 13
+		AND 13 OR OM.O_CODE = 15
 		ORDER BY PA.ORDER_DATE DESC
 	</select>
 
@@ -369,5 +369,7 @@
 		ORDER BY 2 DESC)
 	</select>
 	
-	
+	<update id="orderCancelUpdate" parameterType="OrderList">
+		UPDATE ORDERMG SET O_CODE=#{oCode} WHERE ORDER_NO=#{orderNo}
+	</update>
 </mapper>

@@ -62,6 +62,8 @@ public interface cMypageService {
 
 	int listCountPointList(String cNo);
 
+	int orderCancel(OrderList order);
+
 	
 
 

@@ -442,16 +442,16 @@
 									</div>
 									<div class="buttons" style="float: right;">
 										<c:if test="${o.oCode ge 1 && o.oCode le 3}">
-											<button type="button" id="edit_profile"
-												class="btn btn-blackcontent w-10 p-1"
-												style="font-size: 13px; background-color: #0071ce; color: whitesmoke">주문취소</button>
+											<button type="button" onclick="cancel(${o.orderNo})" id="edit_profile"
+											class="btn btn-blackcontent w-10 p-1"
+											style="font-size: 13px; background-color: #0071ce; color: whitesmoke">주문취소</button>
 
 										</c:if>
 										<c:if test="${o.oCode ge 4 && o.oCode le 5}">
-											<button type="button" id="edit_profile"
+											<button type="button" onclick="pdreturn(${o.orderNo})" id="edit_profile"
 												class="btn btn-blackcontent w-10 p-1"
 												style="font-size: 13px; background-color: #0071ce; color: whitesmoke">반품신청</button>
-											<button type="button" id="edit_profile"
+											<button type="button" onclick="change(${o.orderNo})" id="edit_profile"
 												class="btn btn-blackcontent w-10 p-1"
 												style="font-size: 13px; background-color: #0071ce; color: whitesmoke">교환신청</button>
 											<c:url var="pdReviewInset" value="pdReviewInsertView.do">
@@ -485,7 +485,34 @@
 	</div>
 	</div>
 
-
+	<script>
+		function cancel(value){
+			var orderNo =value;
+			var sellflag = confirm("주문취소 하시겠습니까?");
+            if(sellflag){
+               //여기 중요
+               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=15";
+            }
+		}
+		
+		function pdreturn(value){
+			var orderNo = value;
+			var sellflag = confirm("반품요청 하시겠습니까?");
+            if(sellflag){
+               //여기 중요
+               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=6";
+            }
+		}
+		
+		function change(value){
+			var orderNo = value;
+			var sellflag = confirm("교환요청 하시겠습니까?");
+            if(sellflag){
+               //여기 중요
+               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=10";
+            }
+		}
+	</script>
 
 	<!-- 페이징 처리 부분 -->
 	<!--paginnation start-->
