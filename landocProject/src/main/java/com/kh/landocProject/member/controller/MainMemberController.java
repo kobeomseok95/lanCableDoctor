@@ -1365,4 +1365,17 @@ public class MainMemberController {
 			pw.flush();
 			pw.close();
 		}
+		
+		@RequestMapping(value = "agree1View.do", method = RequestMethod.GET)
+		public String agree1View() {
+			return "member/agree1";
+		}
+		@RequestMapping(value = "agree2View.do", method = RequestMethod.GET)
+		public String agree2View() {
+			return "member/agree2";
+		}
+		@RequestMapping(value = "agree3View.do", method = RequestMethod.GET)
+		public String agree3View() {
+			return "member/agree3";
+		}
 }
