@@ -158,15 +158,15 @@
 						<div class="nextBox1">
 							<label class="label1">정보 입력</label>
 						</div>
-						<img class="img" src="login_image/icon.png">
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
 						<div class="nextBox">
 							<label class="label2">이메일 인증</label>
 						</div>
-						<img class="img" src="login_image/icon.png">
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
 						<div class="nextBox">
 							<label class="label1">서류 제출</label>
 						</div>
-						<img class="img" src="login_image/icon.png">
+						<img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
 						<div class="nextBox">
 							<label class="label1">승인 대기</label>
 						</div>
@@ -175,113 +175,9 @@
 						data-validate="병원을 선택해 주세요">
 						<span class="focus-input100" data-placeholder="병원"></span> 
 						<select class="input100" name="hpNo" id="hpNo" style="border: none;">
-
-							<!-- <datalist id="hospitalList" class="focus-input100" data-placeholder="병원 검색"> -->
-							<option value="1">소화병원(의료법인 소화병원)</option>
-							<option value="2">연세슬기병원</option>
-							<option value="3">연세바로척병원</option>
-							<option value="4">서울명병원</option>
-							<option value="5">도봉병원</option>
-							<option value="6">강서필병원</option>
-							<option value="7">의료법인 길정의료재단 길정병원</option>
-							<option value="8">진병원</option>
-							<option value="9">신세계 여성병원</option>
-							<option value="10">한그루치과병원</option>
-							<option value="11">신촌다인치과병원</option>
-							<option value="12">새로난한방병원</option>
-							<option value="13">가천대학교부속 길한방병원</option>
-							<option value="14">의료법인다나의료재단구로다나병원</option>
-							<option value="15">지앤지병원</option>
-							<option value="16">메드윌병원</option>
-							<option value="17">열경의료재단동부허병원</option>
-							<option value="18">서울지구병원</option>
-							<option value="19">기쁨병원</option>
-							<option value="20">예울병원</option>
-							<option value="21">바른유병원</option>
-							<option value="22">샤인치과교정과 치과병원</option>
-							<option value="23">서울실버한방병원</option>
-							<option value="24">재단법인 자생의료재단 해운대자생한방병원</option>
-							<option value="25">바른마디병원</option>
-							<option value="26">국군강릉병원</option>
-							<option value="27">푸른사랑병원</option>
-							<option value="28">금강아산병원(재단법인 아산사회복지재단)</option>
-							<option value="29">9988병원</option>
-							<option value="30">연세무척나은병원</option>
-							<option value="31">맑은수병원</option>
-							<option value="32">서울현대병원</option>
-							<option value="33">의료법인 백천의료재단 바로본병원</option>
-							<option value="34">대명의료재단서대구병원</option>
-							<option value="35">의료법인장호의료재단녹동현대병원</option>
-							<option value="36">해남한국병원</option>
-							<option value="37">의료법인삼선의료재단영암병원</option>
-							<option value="38">국군고양병원</option>
-							<option value="39">마디세상병원</option>
-							<option value="40">재단법인한국산업보건환경연구소부설 해상병원</option>
-							<option value="41">송파미소병원</option>
-							<option value="42">순천센텀병원</option>
-							<option value="43">의료법인 현경의료재단 광양서울병원</option>
-							<option value="44">잎사귀치과병원</option>
-							<option value="45">학교법인대진교육재단 제인병원</option>
-							<option value="46">제니스병원</option>
-							<option value="47">성신병원</option>
-							<option value="48">정병원</option>
-							<option value="49">참튼튼병원</option>
-							<option value="50">강남을지대학교병원</option>
-							<option value="51">에스병원(S병원)</option>
-							<option value="52">대동병원</option>
-							<option value="53">새동산병원</option>
-							<option value="54">전라남도강진의료원</option>
-							<option value="55">계명대학교 의과대학 경주 동산병원</option>
-							<option value="56">문치과병원</option>
-							<option value="57">학교법인연세대학교치과대학치과병원</option>
-							<option value="58">네모치과병원</option>
-							<option value="59">목동예치과병원</option>
-							<option value="60">더존한방병원</option>
-							<option value="61">허브휴양 한방병원</option>
-							<option value="62">(의)광혜원한방병원</option>
-							<option value="63">더웰병원</option>
-							<option value="64">국군구리병원</option>
-							<option value="65">의료법인 제일의료재단 제일병원</option>
-							<option value="66">서울특별시서북병원</option>
-							<option value="67">서울특별시은평병원</option>
-							<option value="68">씨에스나무병원</option>
-							<option value="69">장흥우리병원</option>
-							<option value="70">해남우석병원</option>
-							<option value="71">서울아동병원</option>
-							<option value="72">로덴성문치과병원</option>
-							<option value="73">이엔이치과병원</option>
-							<option value="74">서울특별시 북부병원</option>
-							<option value="75">강북으뜸병원</option>
-							<option value="76">의료법인 우리아이들 의료재단 우리아이들병원</option>
-							<option value="77">(복지)예사랑병원</option>
-							<option value="78">화순성심병원</option>
-							<option value="79">강남병원</option>
-							<option value="80">의료법인 갑을의료재단 갑을구미병원</option>
-							<option value="81">다인치과병원</option>
-							<option value="82">강북예치과병원</option>
-							<option value="83">동의대부속 한방병원</option>
-							<option value="84">대구자생한방병원</option>
-							<option value="85">성인천한방병원</option>
-							<option value="86">강남여성병원</option>
-							<option value="87">오산세종병원</option>
-							<option value="88">국립교통재활병원</option>
-							<option value="89">반도정형외과병원</option>
-							<option value="90">국립중앙의료원</option>
-							<option value="91">서울송도병원</option>
-							<option value="92">서울동인병원</option>
-							<option value="93">서울프라임병원</option>
-							<option value="94">서울척병원</option>
-							<option value="95">사회복지법인 성가소비녀회 성가복지병원</option>
-							<option value="96">연세노블병원</option>
-							<option value="97">성지병원</option>
-							<option value="98">새움병원</option>
-							<option value="99">통합의료진흥원 전인병원</option>
-							<option value="100">경희치과병원</option>
-							<option value="101">강동모커리한방병원</option>
-							<option value="102">대구한의대학교부속대구한방병원</option>
-							<option value="103">수원중앙병원</option>
-							<option value="104">고운여성병원</option>
-							<option value="105">의료법인 대광의료재단 괴산성모병원</option>
+							<c:forEach var="hp" items="${list }">
+							<option value="${hp.hpNo }">${hp.hpName }</option>
+							</c:forEach>
 						</select>
 
 					</div>

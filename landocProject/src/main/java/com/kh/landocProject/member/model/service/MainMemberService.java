@@ -1,8 +1,11 @@
 package com.kh.landocProject.member.model.service;
 
+import java.util.ArrayList;
+
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.member.model.vo.DrhpPhoto;
+import com.kh.landocProject.member.model.vo.JoinHospital;
 import com.kh.landocProject.member.model.vo.ProfilePhoto;
 
 public interface MainMemberService {
@@ -72,5 +75,37 @@ public interface MainMemberService {
 	int ClientDelete(String cNo);
 
 	int DrClientDelete(String drNo);
+
+	DrClient selectDrClientHp1(String drNo);
+
+	DrClient selectDrClientHp2(String drNo);
+
+	DrClient selectDrClientHp3(String drNo);
+
+	int drClientHpUpdate1(DrhpPhoto dhp);
+
+	int drClientHpUpdate2(DrhpPhoto dhp);
+
+	int drClientHpUpdate3(DrhpPhoto dhp);
+
+	DrClient loginDrClient3(String drNo);
+
+	DrClient loginDrClient4(String drNo);
+
+	DrClient searchFile1(String drNo);
+
+	DrClient searchFile2(String drNo);
+
+	DrClient searchFile3(String drNo);
+
+	int drClientApproval(DrClient d);
+
+	int updateProfileYN(Client c);
+
+	ArrayList<JoinHospital> selectList();
+
+	int updateDrProfileYN(DrClient d);
+
+
 
 }

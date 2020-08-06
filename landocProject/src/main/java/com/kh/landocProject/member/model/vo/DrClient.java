@@ -34,6 +34,9 @@ public class DrClient implements Serializable {
 	private String hpName;
 	private String proOrigin;
 	private String proRename;
+	private String drhpOrigin;
+	private String drhpRename;
+	private String phCode;
 
 	public DrClient() {
 	}
@@ -116,6 +119,71 @@ public class DrClient implements Serializable {
 		this.hpName = hpName;
 		this.proOrigin = proOrigin;
 		this.proRename = proRename;
+	}
+
+	
+	public DrClient(String drNo, int hpNo, int hpCateCode, String userName, String userId, String userPwd, String email,
+			String phone, String birth, int point, String status, String approval, Date enrollDate, String attachment,
+			String marketing, String post, String address, int like, int disLike, String hpCateName, String hpName,
+			String proOrigin, String proRename, String drhpOrigin, String drhpRename) {
+		this.drNo = drNo;
+		this.hpNo = hpNo;
+		this.hpCateCode = hpCateCode;
+		this.userName = userName;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.email = email;
+		this.phone = phone;
+		this.birth = birth;
+		this.point = point;
+		this.status = status;
+		this.approval = approval;
+		this.enrollDate = enrollDate;
+		this.attachment = attachment;
+		this.marketing = marketing;
+		this.post = post;
+		this.address = address;
+		this.like = like;
+		this.disLike = disLike;
+		this.hpCateName = hpCateName;
+		this.hpName = hpName;
+		this.proOrigin = proOrigin;
+		this.proRename = proRename;
+		this.drhpOrigin = drhpOrigin;
+		this.drhpRename = drhpRename;
+	}
+
+	
+	public DrClient(String drNo, int hpNo, int hpCateCode, String userName, String userId, String userPwd, String email,
+			String phone, String birth, int point, String status, String approval, Date enrollDate, String attachment,
+			String marketing, String post, String address, int like, int disLike, String hpCateName, String hpName,
+			String proOrigin, String proRename, String drhpOrigin, String drhpRename, String phCode) {
+		this.drNo = drNo;
+		this.hpNo = hpNo;
+		this.hpCateCode = hpCateCode;
+		this.userName = userName;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.email = email;
+		this.phone = phone;
+		this.birth = birth;
+		this.point = point;
+		this.status = status;
+		this.approval = approval;
+		this.enrollDate = enrollDate;
+		this.attachment = attachment;
+		this.marketing = marketing;
+		this.post = post;
+		this.address = address;
+		this.like = like;
+		this.disLike = disLike;
+		this.hpCateName = hpCateName;
+		this.hpName = hpName;
+		this.proOrigin = proOrigin;
+		this.proRename = proRename;
+		this.drhpOrigin = drhpOrigin;
+		this.drhpRename = drhpRename;
+		this.phCode = phCode;
 	}
 
 	public String getDrNo() {
@@ -303,6 +371,30 @@ public class DrClient implements Serializable {
 		this.proRename = proRename;
 	}
 
+	public String getDrhpOrigin() {
+		return drhpOrigin;
+	}
+
+	public void setDrhpOrigin(String drhpOrigin) {
+		this.drhpOrigin = drhpOrigin;
+	}
+
+	public String getDrhpRename() {
+		return drhpRename;
+	}
+
+	public void setDrhpRename(String drhpRename) {
+		this.drhpRename = drhpRename;
+	}
+
+	public String getPhCode() {
+		return phCode;
+	}
+
+	public void setPhCode(String phCode) {
+		this.phCode = phCode;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -314,7 +406,8 @@ public class DrClient implements Serializable {
 				+ birth + ", point=" + point + ", status=" + status + ", approval=" + approval + ", enrollDate="
 				+ enrollDate + ", attachment=" + attachment + ", marketing=" + marketing + ", post=" + post
 				+ ", address=" + address + ", like=" + like + ", disLike=" + disLike + ", hpCateName=" + hpCateName
-				+ ", hpName=" + hpName + ", proOrigin=" + proOrigin + ", proRename=" + proRename + "]";
+				+ ", hpName=" + hpName + ", proOrigin=" + proOrigin + ", proRename=" + proRename + ", drhpOrigin="
+				+ drhpOrigin + ", drhpRename=" + drhpRename + ", phCode=" + phCode + "]";
 	}
 	
 }

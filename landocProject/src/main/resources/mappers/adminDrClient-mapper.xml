@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="drClientMapper">
+	
+	<resultMap type="DrClientPage" id="drClientResultSet">
+		<id property="drNo" column="DR_NO"/>
+		<id property="rowNum" column="ROWNUM"/>
+		<result property="userId" column="DR_ID"/>
+		<result property="userName" column="DR_NAME"/>
+		<result property="birth" column="DR_BIRTH"/>
+		<result property="phone" column="DR_PHONE"/>
+		<result property="email" column="DR_EMAIL"/>
+		<result property="point" column="DR_POINT"/>
+		<result property="post" column="DR_POSTCODE"/>
+		<result property="address" column="DR_ADDRESS"/>
+		<result property="profile" column="DR_PROFILE"/>
+		<result property="marketing" column="DR_MARKETING"/>
+		<result property="enrollDate" column="DR_ENROLL_DATE"/>
+		<result property="status" column="DR_STATUS"/>
+		<result property="approval" column="DR_APPROVAL"/>
+		<result property="proRename" column="PRO_RENAME"/>
+		<result property="proOrigin" column="PRO_ORIGIN"/>
+		<result property="hpCateName" column="HPCATE_NAME"/>
+		<result property="hpName" column="HP_NAME"/>
+		<result property="hpNo" column="HP_NO"/>
+		<result property="hpCateCode" column="HPCATE_CODE"/>
+		<result property="drhpRename" column="DRHP_RENAME"/>
+		<result property="phCode" column="PH_CODE"/>
+		
+	</resultMap>
+	
+	<!-- 일반 리스트 카운트 조회용 -->
+  <select id="getListCount" resultType="_int">
+    SELECT COUNT(*)
+    FROM DRCLIENT
+  </select>
+  
+  <!-- 전체 조회 -->
+  <select id="selectAllList" resultMap="drClientResultSet">
+  	SELECT ROWNUM, DR_NO, DR_NAME, DR_ID, DR_BIRTH, DR_PHONE, DR_EMAIL, DR_PROFILE, DR_POINT, DR_POSTCODE, DR_ADDRESS, HP_NAME, HPCATE_NAME, 
+  				DR_APPROVAL, DR_ENROLL_DATE, DR_STATUS
+  	FROM (SELECT DR_NO, DR_ID, DR_NAME, DR_BIRTH, DR_PHONE, DR_EMAIL, DR_PROFILE, DR_POINT, DR_POSTCODE, DR_ADDRESS, HP_NAME, HPCATE_NAME, 
+  				DR_APPROVAL, DR_ENROLL_DATE, DR_STATUS
+  			  FROM DRCLIENT D
+  			  JOIN HOSPITAL HP ON(D.HP_NO = HP.HP_NO)
+  			  JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
+  			  ORDER BY DR_NO DESC)
+  </select>
+  
+  <!-- 검색 리스트 카운트 -->
+  <select id="selectSearchListCount" parameterType="dsc" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM
+  	(SELECT DR_NO, DR_ID,DR_NAME, DR_BIRTH, DR_PHONE, DR_EMAIL, DR_PROFILE, DR_POINT, DR_POSTCODE, DR_ADDRESS, HP_NAME, HPCATE_NAME, 
+  				DR_APPROVAL, DR_ENROLL_DATE, DR_STATUS
+  			  FROM DRCLIENT D
+  			  JOIN HOSPITAL HP ON(D.HP_NO = HP.HP_NO)
+  			  JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
+  			  <where>
+  			  	<if test="drNo != null and drNo != ''">
+  			  		AND DR_NO = #{drNo}
+  			  	</if>
+  			  	<if test="userName != null and userName != ''">
+  			  		AND DR_NAME LIKE '%' || #{userName} || '%'
+  			  	</if>
+  			  </where>
+  			  ORDER BY DR_ENROLL_DATE DESC)
+  </select>
+  
+  <select id="selectList" parameterType="msc" resultMap="drClientResultSet">
+  	SELECT ROWNUM, DR_NO, DR_NAME, DR_ID, DR_BIRTH, DR_PHONE, DR_EMAIL, DR_PROFILE, DR_POINT, DR_POSTCODE, DR_ADDRESS, HP_NAME, HPCATE_NAME, 
+  				DR_APPROVAL, DR_ENROLL_DATE, DR_STATUS
+  	FROM (SELECT DR_NO, DR_ID, DR_NAME, DR_BIRTH, DR_PHONE, DR_EMAIL, DR_PROFILE, DR_POINT, DR_POSTCODE, DR_ADDRESS, HP_NAME, HPC.HPCATE_NAME, 
+  				DR_APPROVAL, DR_ENROLL_DATE, DR_STATUS
+  			  FROM DRCLIENT D
+  			  JOIN HOSPITAL HP ON(D.HP_NO = HP.HP_NO)
+  			  JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
+  			  <where>
+  			  	<if test="drNo != null and drNo != ''">
+  			  		AND DR_NO = #{drNo}
+  			  	</if>
+  			  	<if test="userName != null and userName != ''">
+  			  		AND DR_NAME LIKE '%' || #{userName} || '%'
+  			  	</if>
+  			  </where>
+  			  ORDER BY DR_ENROLL_DATE DESC)
+  </select>
+  
+  <select id="selectDrClientDetail1" parameterType="string" resultMap="drClientResultSet">
+  	SELECT D.DR_NO, DR_ID, DR_NAME, DR_BIRTH, DR_PHONE, DR_EMAIL, DR_PROFILE, DR_POINT, DR_POSTCODE, DR_ADDRESS, HP_NAME, HPC.HPCATE_NAME, 
+  				DR_APPROVAL, DR_ENROLL_DATE, DR_STATUS, PRO_RENAME, DR_MARKETING
+  	FROM DRCLIENT D
+  	LEFT JOIN HOSPITAL HP ON(D.HP_NO = HP.HP_NO)
+  	LEFT JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
+  	LEFT JOIN DRHPPHOTO DRHP ON(D.DR_NO = DRHP.DR_NO)
+  	LEFT JOIN PROFILEPHOTO PRO ON(D.DR_NO = PRO.DR_NO)
+  	WHERE D.DR_NO = #{drNo}
+  				AND PH_CODE = 1
+  </select> 
+  
+  <select id="selectDrClientDetail" parameterType="string" resultMap="drClientResultSet">
+  	SELECT D.DR_NO, DRHP_RENAME
+  	FROM DRCLIENT D
+  	LEFT JOIN DRHPPHOTO DRHP ON(D.DR_NO = DRHP.DR_NO)
+  	WHERE D.DR_NO = #{drNo}
+  	AND (PH_CODE = 1 OR PH_CODE = 2 OR PH_CODE = 3)
+  </select>
+  
+   <update id="drClientApproval1" parameterType="string">
+  	UPDATE DRCLIENT
+  	SET DR_APPROVAL = 'Y'
+  	WHERE DR_NO = #{drNo}
+  </update>
+  
+  <update id="drClientApproval2" parameterType="string">
+  	UPDATE DRCLIENT
+  	SET DR_APPROVAL = 'X'
+  	WHERE DR_NO = #{drNo}
+  </update>
+</mapper>

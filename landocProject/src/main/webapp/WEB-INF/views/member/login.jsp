@@ -4,6 +4,9 @@
 <% 
    String noLoginUser = (String)request.getParameter("noLoginUser");
 %>
+<% 
+   String msg = (String)request.getAttribute("msg");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -239,6 +242,10 @@
             alert("로그인이 필요한 서비스입니다.");
          
          <%}%>
+         <%if(msg != null){%>
+         alert("아이디는<%=msg%>입니다.");
+      
+      <%}%>
    </script>
 </body>
 

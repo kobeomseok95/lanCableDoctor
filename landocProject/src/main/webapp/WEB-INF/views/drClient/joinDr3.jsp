@@ -84,20 +84,20 @@
 
                <div>
                   <label class="file1">재직 증명서 또는 사업자 등록증</label>
-                  <input class="fileBtn" type="file" id="uploadImage1" name="uploadFile1">
+                  <input class="fileBtn" type="file" id="uploadImage1" name="uploadFile1" required="required">
                   <div class="fileBox">
                      <img class="fileImg" id="imagePreview1"/>
                   </div>
 
                   <label class="file2">신분증</label>
-                  <input type="file" id="uploadImage2" name="uploadFile2">
+                  <input type="file" id="uploadImage2" name="uploadFile2" required="required">
                   <div class="fileBox">
                      <img class="fileImg" id="imagePreview2"/>
                   </div>
 
                   <label class="file2">의사 면허증</label>
-                  <input type="file" id="uploadImage3" name="uploadFile3">
-                  <div class="fileBox">
+                  <input type="file" id="uploadImage3" name="uploadFile3" required="required"> 
+                  <div class="fileBox"> 
                      <img class="fileImg" id="imagePreview3"/>
                   </div>
                </div>
