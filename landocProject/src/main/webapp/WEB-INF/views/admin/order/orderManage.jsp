@@ -56,14 +56,24 @@
                	<option value="orderNo" >주문번호</option>
                 <option value="userId" selected="selected">아이디</option>
              </c:if>
+              <c:if test="${condition == null}">
                 <option value="orderNo">주문번호</option>
                 <option value="userId">아이디</option>
+              </c:if>
             </select>
             <input type="text" name="search" id="search" value="${search}">
             <button type="button" onclick="searchHpRe()">검색하기</button>
         </form>
+        <input type="hidden" id="result" value="${result}">
         </div>
         <script>
+        $(function(){
+        	var result = $("#result").val();
+        	if(result!=""){
+        		alert(result);
+        	}
+        })
+        
 	        function searchHpRe(){
 	       	 var expr =  /^[0-9]*$/;
 	            var searchCondition = $("#searchCondition option:selected").val();
@@ -122,7 +132,7 @@
                 <c:choose>
                 	<c:when test="${m.oCode eq 6 or m.oCode eq 10}">
                 	<td>
-                    <button type="button">승인</button>
+                    <button type="button" onclick="location.href='omGrant.do?orderNo=${m.orderNo}&oCode=${m.oCode}'">승인</button>
                 	</td>
                 	</c:when>
                 	<c:when test="${m.oCode eq 15}">
@@ -130,7 +140,7 @@
                 	</c:when>
                 	<c:otherwise>
                 	 <td>
-                    <button type="button">승인취소</button>
+                    <button type="button" onclick="location.href='omGrantCancel.do?orderNo=${m.orderNo}&oCode=${m.oCode}'">승인취소</button>
                 	</td>
                 	</c:otherwise>
                 </c:choose>

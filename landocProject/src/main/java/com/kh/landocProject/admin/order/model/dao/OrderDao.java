@@ -62,4 +62,14 @@ public class OrderDao{
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSessionTemplate.selectList("adminOrderMg.searchOrderMg",order,rowBounds);
 	}
+
+	public int omGrant(OrderManage order) {
+		
+		return sqlSessionTemplate.update("adminOrderMg.omGrant",order);
+	}
+
+	public int omGrantCancel(OrderManage order) {
+		
+		return sqlSessionTemplate.update("adminOrderMg.omGrantCancel",order);
+	}
 }

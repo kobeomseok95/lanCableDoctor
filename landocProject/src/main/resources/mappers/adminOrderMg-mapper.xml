@@ -88,4 +88,22 @@
         ORDER BY PY.ORDER_DATE DESC
 		
 	</select>
+	<update id="omGrant" parameterType="OrderManage">
+	<if test='oCode=="6"'>
+		UPDATE ORDERMG SET O_CODE=7 WHERE ORDER_NO=#{orderNo}
+	</if>
+	<if test='oCode=="10"'>
+		UPDATE ORDERMG SET O_CODE=11 WHERE ORDER_NO=#{orderNo}
+	</if>
+	</update>
+	
+	
+	<update id="omGrantCancel" parameterType="OrderManage">
+	<if test='oCode>=7 and 9>=oCode'>
+		UPDATE ORDERMG SET O_CODE=6 WHERE ORDER_NO=#{orderNo}
+	</if>
+	<if test='oCode>=11 and 13>=oCode'>
+		UPDATE ORDERMG SET O_CODE=10 WHERE ORDER_NO=#{orderNo}
+	</if>
+	</update>
 </mapper>

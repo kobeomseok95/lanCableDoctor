@@ -22,5 +22,9 @@ public interface OrderService {
 
 	ArrayList<OrderManage> searchOrderMg(OrderManage order, PageInfo pi);
 
+	int omGrant(OrderManage order);
+
+	int omGrantCancel(OrderManage order);
+
 	
 }

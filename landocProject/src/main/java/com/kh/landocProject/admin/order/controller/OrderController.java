@@ -1,6 +1,10 @@
 package com.kh.landocProject.admin.order.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +16,8 @@ import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.admin.order.model.exception.OrderException;
 import com.kh.landocProject.admin.order.model.service.OrderService;
 import com.kh.landocProject.admin.order.model.vo.OrderManage;
+import com.kh.landocProject.admin.orderQna.exception.OrderQnaException;
+import com.kh.landocProject.admin.orderQna.model.vo.OrderQna;
 import com.kh.landocProject.common.Pagination;
 
 @Controller
@@ -139,7 +145,68 @@ public class OrderController {
 		
 		return mv;
 	}
+	
+	
+	@RequestMapping("omGrant.do")
+	public ModelAndView omGrant(HttpSession session,ModelAndView mv,HttpServletResponse response,
+			@RequestParam(value="orderNo") int orderNo,
+			@RequestParam(value="oCode") int oCode,
+			OrderManage order) throws OrderException {
+	
+		order.setOrderNo(orderNo);
+		order.setoCode(oCode);
+		int currentPage = 1;
+		
+		int listCount = orderService.getListCountOrdergMgList();
+		
+	
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		
+		
+		int result = orderService.omGrant(order);
+		ArrayList<OrderManage> list = orderService.selectOrderMgList(pi);
+		if(result>0 && list!=null) {
+			mv.addObject("result","승인이 완료되었습니다.");
+			mv.addObject("list",list);
+			mv.addObject("pi",pi);
+			mv.setViewName("admin/order/orderManage");
+		}else {
+			throw new OrderException("리스트 조회 실패");
+		}
+		return mv;
+	}
 
+	
+	@RequestMapping("omGrantCancel.do")
+	public ModelAndView omGrantCancel(HttpSession session,ModelAndView mv,HttpServletResponse response,
+			@RequestParam(value="orderNo") int orderNo,
+			@RequestParam(value="oCode") int oCode,
+			OrderManage order) throws OrderException {
+	
+		order.setOrderNo(orderNo);
+		order.setoCode(oCode);
+		int currentPage = 1;
+		
+		int listCount = orderService.getListCountOrdergMgList();
+		
+	
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		
+		
+		int result = orderService.omGrantCancel(order);
+		ArrayList<OrderManage> list = orderService.selectOrderMgList(pi);
+		if(result>0 && list!=null) {
+			mv.addObject("result","승인취소가 완료되었습니다.");
+			mv.addObject("list",list);
+			mv.addObject("pi",pi);
+			mv.setViewName("admin/order/orderManage");
+		}else {
+			throw new OrderException("리스트 조회 실패");
+		}
+		return mv;
+	}
 	@RequestMapping("orderDetail.do")
 	public String orderDetail() {
 		return "admin/order/orderDetail";

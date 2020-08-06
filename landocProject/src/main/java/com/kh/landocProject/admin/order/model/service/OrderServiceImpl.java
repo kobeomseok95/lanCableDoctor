@@ -51,4 +51,16 @@ public class OrderServiceImpl implements OrderService{
 		
 		return orderDao.searchOrderMg(order,pi);
 	}
+
+	@Override
+	public int omGrant(OrderManage order) {
+		
+		return orderDao.omGrant(order);
+	}
+
+	@Override
+	public int omGrantCancel(OrderManage order) {
+		
+		return orderDao.omGrantCancel(order);
+	}
 }
