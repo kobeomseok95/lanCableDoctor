@@ -7,6 +7,32 @@
 	<title>비밀번호 찾기</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="SolMusic HTML Template">
+<meta name="keywords" content="music, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Favicon -->
+<link href="<%=request.getContextPath()%>/resources/img/favicon.ico"
+	rel="shortcut icon" />
+
+<!-- Google font -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
+	rel="stylesheet">
+
+<!-- Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/slicknav.min.css" />
+
+<!-- Main Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css" />
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/resources/login_images/icons/favicon.ico"/>
 <!--===============================================================================================-->
@@ -37,12 +63,12 @@
 </style>
 </head>
 <body>
-	
+	<%@ include file="../static/header.jsp"%>
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
 			<c:if test="${!empty ClientSearchPwd3 && empty DrClientSearchPwd3 }">
-				<form class="login100-form validate-form" action="ClientSearchPwd4.do">
+				<form class="login100-form validate-form" action="ClientSearchPwd4.do" onsubmit="return validate();">
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv"> 
 							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -58,6 +84,7 @@
 						<input class="input100" type="password" name="userPwd" id="userPwd">
 						<span class="focus-input100" data-placeholder="새 비밀번호 확인"></span>
 						<input type="hidden" value="${ClientSearchPwd3.cNo }" name="cNo">
+						<input type="hidden" name="pwdDuplicateCheck" id="pwdDuplicateCheck" value="0">
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="비밀번호가 일치하지 않습니다.">
@@ -71,7 +98,7 @@
 					<div class="container-login100-form-btn" style="padding-top: 50px;">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" onclick="location.href='home.do'">
+							<button class="login100-form-btn">
 								비밀번호 변경
 							</button>
 						</div>
@@ -99,7 +126,7 @@
 				</form>
 			</c:if>
 			<c:if test="${empty ClientSearchPwd3 && !empty DrClientSearchPwd3 }">
-				<form class="login100-form validate-form" action="DrClientSearchPwd4.do"> 
+				<form class="login100-form validate-form" action="DrClientSearchPwd4.do" onsubmit="return validate();"> 
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv" > 
 							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -115,6 +142,7 @@
 						<input class="input100" type="password" name="userPwd" id="userPwd">
 						<span class="focus-input100" data-placeholder="새 비밀번호 확인"></span>
 						<input type="hidden" value="${DrClientSearchPwd3.drNo }" name="drNo">
+						<input type="hidden" name="pwdDuplicateCheck" id="pwdDuplicateCheck" value="0">
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="비밀번호가 일치하지 않습니다.">
@@ -128,7 +156,7 @@
 					<div class="container-login100-form-btn" style="padding-top: 50px;">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" onclick="location.href='home.do'">
+							<button class="login100-form-btn">
 								비밀번호 변경
 							</button>
 						</div>
@@ -139,19 +167,15 @@
 							아이디를 잊으셨다구요?
 						</span>
 
-						<a class="txt2" href="searchId.do">
+						<a class="txt2" href="searchIdView.do">
 							아이디 찾기
 						</a>
 					</div>
 
 					<div class="text-center p-t-115" id="ask1">
-						<span class="txt1">
-							아직 회원이 아니라구요?
-						</span>
-
-						<a class="txt2" href="join.do">
-							회원가입
-						</a>
+						 <span class="txt1"> 아직 회원이 아니라구요? </span> <a class="txt2"
+                     href="joinClientView.do"> 일반회원가입 </a> / <a class="txt2"
+                     href="joinDrView.do"> 의사회원가입 </a>
 					</div>
 				</form>
 			</c:if>
@@ -161,7 +185,7 @@
 	
 
 	<div id="dropDownSelect1"></div>
-	
+	  <%@ include file="../static/footer.jsp"%>
 <!--===============================================================================================-->
 <script src="<%=request.getContextPath()%>/resources/login_vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -190,5 +214,49 @@
 		
 
 	</script>
+	 <script>
+	 	$(function(){
+	 		$("#userPwd").on("keyup", function(){
+	 			var userPwd= $(this).val().trim();
+	 			
+	 			if(userPwd.length < 4){
+	 				$("#pwdDuplicateCheck").val();
+	 				
+	 				return;
+	 			} 
+	 			
+	 			$.ajax({
+	 				url:"dupPwd.do?cNo=${ClientSearchPwd3.cNo}&drNo=${DrClientSearchPwd3.drNo }",
+	 				data:{pwd:userPwd},
+	 				success:function(data){
+	 					if(data == "true"){ 
+	 						$("#pwdDuplicateCheck").val(0);
+	 					}else{
+	 						$("#pwdDuplicateCheck").val(1);
+	 					}
+	 				},
+	 				error:function(request, status, errorData){
+	                     alert("error code: " + request.status + "\n"
+	                           +"message: " + request.responseText
+	                           +"error: " + errorData);
+	                 } 
+	 			})
+	 		})
+	 	})
+	 	
+	 	
+	 	
+	 </script>
+	 <script>
+	 function validate(){
+			// 아이디 중복 체크 후 회원가입 버튼 눌렀을 때
+			if($("#pwdDuplicateCheck").val()==0){
+				alert("이전의 비밀번호와 같습니다.");
+				return false;
+			}
+			return true;
+	 }
+	 </script>
+	
 </body>
 </html>

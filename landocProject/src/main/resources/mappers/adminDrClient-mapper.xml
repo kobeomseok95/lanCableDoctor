@@ -44,7 +44,7 @@
   			  FROM DRCLIENT D
   			  JOIN HOSPITAL HP ON(D.HP_NO = HP.HP_NO)
   			  JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
-  			  ORDER BY DR_NO DESC)
+  			  ORDER BY DR_ENROLL_DATE DESC)
   </select>
   
   <!-- 검색 리스트 카운트 -->
