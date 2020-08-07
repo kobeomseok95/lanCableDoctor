@@ -37,6 +37,8 @@
 		<typeAlias type="com.kh.landocProject.product.model.vo.ProductPhoto" alias="ProductPhoto" />
 		<typeAlias type="com.kh.landocProject.product.model.vo.ProductQna" alias="ProductQna" />
 		<typeAlias type="com.kh.landocProject.product.model.vo.ProductReview" alias="ProductReview" />	
+		<typeAlias type="com.kh.landocProject.admin.orderQna.model.vo.OrderQna" alias="adOrderQna" />
+		<typeAlias type="com.kh.landocProject.admin.order.model.vo.OrderManage" alias="OrderManage" />
 	</typeAliases>
 
 
@@ -46,11 +48,12 @@
 		<mapper resource="/mappers/cMypage-mapper.xml" />
 		<mapper resource="/mappers/mainHpReview-mapper.xml"/>
 		<mapper resource="/mappers/adminHpRe-mapper.xml"/>
-		<mapper resource="/mappers/adminClient-mapper.xml"/>
-		<mapper resource="/mappers/adminDrClient-mapper.xml"/>
 		<mapper resource="/mappers/mainHp-mapper.xml"/>
 		<mapper resource="/mappers/adminAskDr-mapper.xml"/>
-		<mapper resource="/mappers/product-mapper.xml"/>
-
+		<mapper resource="/mappers/adminOrderQna-mapper.xml"/>
+		<mapper resource="/mappers/adminOrderMg-mapper.xml"/>
+		<mapper resource="/mappers/adminClient-mapper.xml"/>
+      	<mapper resource="/mappers/adminDrClient-mapper.xml"/>
+      	<mapper resource="/mappers/product-mapper.xml" />
 	</mappers>
 </configuration>

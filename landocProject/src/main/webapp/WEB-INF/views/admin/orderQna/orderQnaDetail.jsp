@@ -44,42 +44,57 @@
             <table id="contentTb">
                 <tr>
                     <th class="firstLine">주문번호</th>
-                    <td><input type="text" value="20232432" readonly></td>
+                    <td><input type="text" value="${detail.orderNo}" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">상품이름</th>
-                    <td><input type="text" value="비타민C" readonly></td>
+                    <td><input type="text" value="${detail.pdName}" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">회원아이디</th>
-                    <td><input type="text" value="mo_so" readonly></td>
+                    <c:if test="${not empty detail.cId}">
+                    <td><input type="text" value="${detail.cId}" readonly></td>
+                    </c:if>
+                     <c:if test="${not empty detail.drId}">
+                     <td><input type="text" value="${detail.drId}" readonly></td>
+                     </c:if>
                 </tr>
                 <tr>
                     <th class="firstLine">제목</th>
-                    <td><input type="text" value="배송 언제와용" readonly></td>
+                    <td><input type="text" value="${detail.oqnaTitle}" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">내용</th>
-                    <td><input type="text" value="빨리 보내줴요요요" readonly></td>
+                    <td><input type="text" value="${detail.oqnaContent}" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">작성날짜</th>
-                    <td><input type="text" value="20-07-13" readonly></td>
+                    <td><input type="text" value="${detail.oqnaDate}" readonly></td>
                 </tr>   
                 <tr>
                     <th class="firstLine">답변완료 여부</th>
-                    <td><input type="text" value="N" readonly></td>
+                    <td><input type="text" value="${detail.oqnaStatus}" readonly></td>
                 </tr>   
                 <tr>
                     <th class="firstLine">답변</th>
-                    <td><input type="text" value="" placeholder="답변을 입력하세요"></td>
+                    <c:if test='${empty detail.oqnaAnswer}'>
+              		<td><input type="text" id="answer" name="answer" value="" placeholder="답변을 입력하세요"></td>
+              		</c:if>
+              		<c:if test='${not empty detail.oqnaAnswer}'>
+              		<td><input type="text" id="answer" name="answer" value="${detail.oqnaAnswer}" placeholder="답변을 입력하세요"></td>
+              		</c:if>
                 </tr>   
             </table>
-            
-
+         
+			<input type="hidden" value="${detail.oqnaNo}" id="qnaNo">
             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
-                <button type="sumbit" onclick="goModify();">등록하기</button>
+           	   <c:if test='${empty detail.oqnaAnswer}'>
+                <button type="button" onclick="goModify();">등록하기</button>
+               </c:if>
+                <c:if test='${not empty detail.oqnaAnswer}'>
+                <button type="button" onclick="goModify();">수정하기</button>
+                </c:if>
                 <button type="button" onclick="goBack();">뒤로가기</button>
             </div>
 
@@ -90,12 +105,21 @@
 
 
     <script>
+  
+    	
         function goModify(){
-            location.href="#";
+    	var oqnaNo = $("#qnaNo").val();
+    	var answer = $("#answer").val();
+    	if(answer ==""){
+    		alert("답변을 입력해주세요.");
+    	}else{
+    		location.href="insertAnswer.do?oqnaNo="+oqnaNo+"&answer="+answer;
+    	}
+            
         }
 
         function goBack(){
-            location.href="#";
+            location.href="orderQnaManage.do";
         }
 
 

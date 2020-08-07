@@ -249,5 +249,22 @@ public class MainMemberDao {
 		
 		return sqlSessionTemplate.update("memberMapper.updateDrProfileYN", d);
 	}
+	public int checkIdDup(String id) {
+	
+		return sqlSessionTemplate.selectOne("memberMapper.idCheck", id);
+	}
+	public int checkIdDrDup(String id) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.drIdCheck", id);
+	}
+	public Client selectPwd(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.selectPwd", cNo);
+	}
+	public DrClient selectDrPwd(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.selectDrPwd", drNo);
+	}
+
 
 }

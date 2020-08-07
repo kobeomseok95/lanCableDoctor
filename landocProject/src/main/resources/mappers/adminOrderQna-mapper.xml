@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="adminOrderQna">
+
+	<resultMap type="adOrderQna" id="orderQnaListMap">
+		<result property="oqnaNo" column="OQNA_NO"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="pdName" column="PD_NAME"/>
+		<result property="cId" column="C_ID"/>
+		<result property="cNo" column="C_NO"/>
+		<result property="drId" column="DR_ID"/>
+		<result property="dNo" column="DR_NO"/>
+		<result property="oqnaTitle" column="OQNA_TITLE"/>
+		<result property="oqnaContent" column="OQNA_CONTENT"/>
+		<result property="oqnaDate" column="OQNA_DATE"/>
+		<result property="oqnaStatus" column="OQNA_STATUS"/>
+		<result property="oqnaAnswer" column="OQNA_ANSWER"/>
+	
+	</resultMap>
+	
+	<select id="orderQnaList" resultMap="orderQnaListMap">
+		SELECT OQ.OQNA_NO,
+		 OM.ORDER_NO,
+		 P.PD_NAME,
+		 OQ.OQNA_TITLE,
+		 C.C_ID,
+		 C.C_NO,
+		 D.DR_NO,
+		 D.DR_ID,
+		 OQ.OQNA_CONTENT,
+		 OQ.OQNA_DATE,
+		 OQ.OQNA_STATUS,
+		 OQ.OQNA_ANSWER
+		FROM ORDERQNA OQ
+		LEFT JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
+		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+		ORDER BY OQ.OQNA_DATE DESC
+	</select>
+	
+	<select id="orderQnaDetail" resultMap="orderQnaListMap" parameterType="_int">
+		
+		SELECT OQ.OQNA_NO, OM.ORDER_NO,P.PD_NAME,OQ.OQNA_TITLE,C.C_ID,C.C_NO,D.DR_NO,D.DR_ID,OQ.OQNA_CONTENT,OQ.OQNA_DATE,OQ.OQNA_STATUS,OQ.OQNA_ANSWER
+		FROM ORDERQNA OQ
+		LEFT JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
+		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+		WHERE OQ.OQNA_NO=#{oqnaNo}
+	</select>
+	
+	
+	<select id="orderQnaSearch" resultMap="orderQnaListMap" parameterType="adOrderQna">
+		SELECT OQ.OQNA_NO, OM.ORDER_NO,P.PD_NAME,OQ.OQNA_TITLE,C.C_ID,C.C_NO,D.DR_NO,D.DR_ID,OQ.OQNA_CONTENT,OQ.OQNA_DATE,OQ.OQNA_STATUS,OQ.OQNA_ANSWER
+		FROM ORDERQNA OQ
+		LEFT JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
+		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+		<if test='condition=="opOrder"'>
+		WHERE OM.ORDER_NO = #{search}
+		</if>
+		<if test='condition=="opId"'>
+		WHERE C.C_ID =#{search} OR D.DR_ID=#{search}
+		</if> 
+		<if test='condition=="opTitle"'>
+		WHERE OQ.OQNA_TITLE LIKE '%'||#{search}||'%'
+		</if>
+		<if test='condition=="opContent"'>
+		WHERE OQ.OQNA_CONTENT LIKE '%'||#{search}||'%'
+		</if>
+	</select>
+	
+	<select id="getListCountOrderQna" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDERQNA
+	</select>
+	
+	<select id="qnaStatusN" resultMap="orderQnaListMap">
+		SELECT OQ.OQNA_NO, OM.ORDER_NO,P.PD_NAME,OQ.OQNA_TITLE,C.C_ID,C.C_NO,D.DR_NO,D.DR_ID,OQ.OQNA_CONTENT,OQ.OQNA_DATE,OQ.OQNA_STATUS,OQ.OQNA_ANSWER
+		FROM ORDERQNA OQ
+		LEFT JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
+		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+		WHERE OQNA_STATUS = 'N'
+		ORDER BY OQ.OQNA_DATE DESC
+		
+	</select>
+	
+	<update id="orderQnaAnswer" parameterType="adOrderQna">
+		UPDATE ORDERQNA SET OQNA_ANSWER = #{oqnaAnswer},OQNA_STATUS='Y' WHERE OQNA_NO=#{oqnaNo}
+	</update>
+
+</mapper>
