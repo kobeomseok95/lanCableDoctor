@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="adminOrderMg">
+	<resultMap type="OrderManage" id="orderMgMap">
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="pdName" column="PD_NAME"/>
+		<result property="cId" column="C_ID"/>
+		<result property="drId" column="DR_ID"/>
+		<result property="orderDate" column="ORDER_DATE"/>
+		<result property="oName" column="O_NAME"/>
+		<result property="oCode" column="O_CODE"/>
+	</resultMap>
+
+
+	<select id="selectOrderMgList" resultMap="orderMgMap">
+		SELECT OM.ORDER_NO,P.PD_NAME,C.C_ID,D.DR_ID,PY.ORDER_DATE,OS.O_NAME,OS.O_CODE
+        FROM ORDERMG OM
+        LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+        LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
+		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+        LEFT JOIN PAYMENT PY ON(PY.ORDER_NO = OM.ORDER_NO)
+        LEFT JOIN ORDER_STATE OS ON(OS.O_CODE=OM.O_CODE)
+        WHERE (OS.O_CODE BETWEEN 6 AND 8) OR (OS.O_CODE BETWEEN 10 AND 12) OR OS.O_CODE =15
+        ORDER BY PY.ORDER_DATE DESC
+
+	</select>
+	<select id="selectRefundList" resultMap="orderMgMap">
+		SELECT OM.ORDER_NO,P.PD_NAME,C.C_ID,D.DR_ID,PY.ORDER_DATE,OS.O_NAME,OS.O_CODE
+        FROM ORDERMG OM
+        LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+        LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
+		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+        LEFT JOIN PAYMENT PY ON(PY.ORDER_NO = OM.ORDER_NO)
+        LEFT JOIN ORDER_STATE OS ON(OS.O_CODE=OM.O_CODE)
+        WHERE OS.O_CODE BETWEEN 6 AND 13
+        ORDER BY PY.ORDER_DATE DESC
+	</select>
+	
+	<select id="getListCountOrdergMg" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDERMG
+	</select>
+
+	<select id="selectCancelList" resultMap="orderMgMap">
+		SELECT OM.ORDER_NO,P.PD_NAME,C.C_ID,D.DR_ID,PY.ORDER_DATE,OS.O_NAME,OS.O_CODE
+        FROM ORDERMG OM
+        LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+        LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
+		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+        LEFT JOIN PAYMENT PY ON(PY.ORDER_NO = OM.ORDER_NO)
+        LEFT JOIN ORDER_STATE OS ON(OS.O_CODE=OM.O_CODE)
+        WHERE OS.O_CODE =15
+        ORDER BY PY.ORDER_DATE DESC
+	
+	</select>
+	
+	<select id="selectHoldList" resultMap="orderMgMap">
+		SELECT OM.ORDER_NO,P.PD_NAME,C.C_ID,D.DR_ID,PY.ORDER_DATE,OS.O_NAME,OS.O_CODE
+        FROM ORDERMG OM
+        LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+        LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
+		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+        LEFT JOIN PAYMENT PY ON(PY.ORDER_NO = OM.ORDER_NO)
+        LEFT JOIN ORDER_STATE OS ON(OS.O_CODE=OM.O_CODE)
+        WHERE OS.O_CODE IN(6,10)
+        ORDER BY PY.ORDER_DATE DESC
+	</select>
+	
+	<select id="searchOrderMg" resultMap="orderMgMap" parameterType="OrderManage">
+		SELECT OM.ORDER_NO,P.PD_NAME,C.C_ID,D.DR_ID,PY.ORDER_DATE,OS.O_NAME,OS.O_CODE
+        FROM ORDERMG OM
+        LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+        LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
+		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
+		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+        LEFT JOIN PAYMENT PY ON(PY.ORDER_NO = OM.ORDER_NO)
+        LEFT JOIN ORDER_STATE OS ON(OS.O_CODE=OM.O_CODE)
+        <if test='condition=="orderNo"'>
+		WHERE OM.ORDER_NO = #{search}
+		</if>
+		<if test='condition=="userId"'>
+		WHERE C.C_ID =#{search} OR D.DR_ID=#{search}
+		</if> 
+        ORDER BY PY.ORDER_DATE DESC
+		
+	</select>
+	<update id="omGrant" parameterType="OrderManage">
+	<if test='oCode=="6"'>
+		UPDATE ORDERMG SET O_CODE=7 WHERE ORDER_NO=#{orderNo}
+	</if>
+	<if test='oCode=="10"'>
+		UPDATE ORDERMG SET O_CODE=11 WHERE ORDER_NO=#{orderNo}
+	</if>
+	</update>
+	
+	
+	<update id="omGrantCancel" parameterType="OrderManage">
+	<if test='oCode>=7 and 9>=oCode'>
+		UPDATE ORDERMG SET O_CODE=6 WHERE ORDER_NO=#{orderNo}
+	</if>
+	<if test='oCode>=11 and 13>=oCode'>
+		UPDATE ORDERMG SET O_CODE=10 WHERE ORDER_NO=#{orderNo}
+	</if>
+	</update>
+</mapper>

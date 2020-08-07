@@ -106,6 +106,16 @@ public interface MainMemberService {
 
 	int updateDrProfileYN(DrClient d);
 
+	int checkIdDup(String id);
+
+	int checkIdDrDup(String id);
+
+	Client selectPwd(String cNo);
+	
+	DrClient selectDrPwd(String cNo);
+
+	
+
 
 
 }

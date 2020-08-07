@@ -75,7 +75,7 @@
 								placeholder="성함" size="70" name="drName">
 						</div>
 						<div class="col-12 col-md-3">
-							<button type="submit" class="btn btn-block btn-lg btn-primary"
+							<button id="searchDr" type="submit" class="btn btn-block btn-lg btn-primary"
 								style="background-color: #0071ce;">검색</button>
 						</div>
 					</div>

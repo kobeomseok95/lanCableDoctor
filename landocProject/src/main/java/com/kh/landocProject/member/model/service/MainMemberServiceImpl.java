@@ -298,7 +298,27 @@ public class MainMemberServiceImpl implements MainMemberService {
 		
 		return mDao.updateDrProfileYN(d);
 	}
+	@Override
+	public int checkIdDup(String id) {
+		
+		return mDao.checkIdDup(id);
+	}
+	@Override
+	public int checkIdDrDup(String id) {
+
+		return mDao.checkIdDrDup(id);
+	}
+	@Override
+	public Client selectPwd(String cNo) {
 	
+		return mDao.selectPwd(cNo);
+	}
+	
+	@Override
+	public DrClient selectDrPwd(String drNo) {
+	
+		return mDao.selectDrPwd(drNo);
+	}
 	
 
 }

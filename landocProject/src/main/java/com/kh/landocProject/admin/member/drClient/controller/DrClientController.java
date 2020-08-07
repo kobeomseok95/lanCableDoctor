@@ -225,7 +225,7 @@ public class DrClientController {
 
 						System.getProperty("line.separator") +
 
-						"홈페이지로 가셔서 미승인 회원을 눌러 다시 제출해 주시기 바랍니다. "
+						"로그인 후 계정 설정에 들어가 병원 수정을 해주십시오. "
 						
 						+ System.getProperty("line.separator") +
 

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="productMapper">	
+	<resultMap type="Product" id="product">
+		<id property="pdNo" column="PD_NO" />
+		<result property="pdName" column="PD_NAME" />
+		<result property="originPrice" column="ORIGIN_PRICE" />
+		<result property="discountPer" column="DISCOUNT" />
+		<result property="sellPrice" column="SELL_PRICE" />
+		<result property="volume" column="VOLUME" />
+		<result property="subExplicate" column="SUB_EX" />
+		<result property="drugWay" column="DRUG_WAY" />
+		<result property="shelflife" column="SHELFLIFE" />
+		<result property="recommendCount" column="RECOMEND" />
+		<result property="categoryCode" column="CT_CODE" />
+		<result property="categoryName" column="CT_NAME" />
+		<result property="viewCount" column="PD_COUNT" />
+		<collection property="photos" javaType="java.util.List" resultMap="productPhotos" />
+		<collection property="qnas" javaType="java.util.List" resultMap="productQnas" />
+		<collection property="reviews" javaType="java.util.List" resultMap="productReviews" />
+	</resultMap>
+	
+	<resultMap type="ProductPhoto" id="productPhotos">
+		<id property="pdpNo" column="PDP_NO" />
+		<result property="fileName" column="PDP_RENAME" />
+		<result property="filePath" column="PDP_FILEPATH" />
+		<result property="photoType" column="PDP_TYPE" />
+	</resultMap>
+	
+	<resultMap type="ProductQna" id="productQnas">
+		<id property="pdqNo" column="PDQ_NO" />
+		<result property="title" column="PDQ_TITLE" />
+		<result property="content" column="PDQ_CONTENT" />
+		<result property="submitDate" column="PDQ_SUBMITDATE" />
+		<result property="status" column="PDQ_ANSWERSTATUS" />
+		<result property="answerContent" column="PDQ_ANSWERCONTENT" />
+	</resultMap>
+	
+	<resultMap type="ProductReview" id="productReviews">
+		<id property="reviewNo" column="PDREVIEW_NO" />
+		<result property="content" column="PDREVIEW_CONTENT" />
+		<result property="orderNo" column="ORDER_NO" />
+		<result property="cNo" column="C_NO" />
+		<result property="drNo" column="DR_NO" />
+	</resultMap>
+	
+	<sql id="sortFormula">
+		<choose>
+			<when test="sortNo == 1">
+				ORDER BY
+					PD_UPLOADDATE DESC
+			</when>
+			<when test="sortNo == 2">
+				ORDER BY
+					SELL_PRICE ASC
+			</when>
+			<when test="sortNo == 3">
+				ORDER BY
+					SELL_PRICE DESC
+			</when>
+			<when test="sortNo == 4">
+				ORDER BY
+					PD_COUNT DESC
+			</when>
+			<otherwise>
+				ORDER BY
+					(RECOMEND * 5) + (PD_COUNT) DESC
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<sql id="categoryFormula">
+		<choose>
+			<when test="categoryNo != 7">
+				AND A.CT_CODE = #{categoryNo}
+			</when>
+			<otherwise></otherwise>
+		</choose>
+	</sql>
+	<!-- *******************resultMap & Query******************* -->
+	
+	<select id="getListCount" parameterType="hashMap" resultType="_int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			PRODUCT
+		<if test="categoryNo != 7">
+		WHERE
+			CT_CODE = #{categoryNo}
+		</if>
+	</select>
+	
+	<select id="getMainList" parameterType="hashMap" resultMap="product">
+		SELECT
+		    A.PD_NO, 
+		    A.PD_NAME, 
+		    A.ORIGIN_PRICE, 
+		    A.DISCOUNT, 
+		    A.SELL_PRICE, 
+		    A.VOLUME, 
+		    A.SUB_EX,
+		    A.DRUG_WAY, 
+		    A.SHELFLIFE, 
+		    A.RECOMEND, 
+		    A.CT_CODE, 
+		    A.PD_COUNT, 
+		    A.PD_UPLOADDATE,
+		    B.CT_NAME,
+		    C.PDP_NO, 
+		    C.PDP_RENAME, 
+		    C.PDP_FILEPATH, 
+		    C.PDP_TYPE
+		FROM
+		    PRODUCT A
+		    JOIN PCATEGORY B ON A.CT_CODE = B.CT_CODE
+		    JOIN PRODUCTPHOTO C ON A.PD_NO = C.PD_NO
+		WHERE
+		    C.PDP_TYPE = 0
+		    <include refid="categoryFormula" />
+		<include refid="sortFormula" />
+	</select>
+	
+</mapper>
