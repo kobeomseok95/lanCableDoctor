@@ -76,7 +76,8 @@ public class HpReviewController {
 	            	 sc.setHpNo(hpNo);
 	            	
 	             }else if(condition.equals("hpName") && !condition.equals("")) {
-	                sc.setHpName(value);
+	            	 String hpName = value.trim().replaceAll("\\p{Z}", "");
+	                sc.setHpName(hpName);
 	             
 	             }else if(condition.equals("hpCateNo") && !condition.equals("")) {
 	                int cateNo = Integer.valueOf(value);

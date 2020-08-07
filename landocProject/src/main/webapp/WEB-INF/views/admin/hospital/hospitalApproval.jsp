@@ -5,7 +5,7 @@
 <html lang="ko">
 <meta charset="UTF-8">
 <head>
-    <title>hospitalDetail</title>
+    <title>hospitalApproval</title>
     <script src= 'http://code.jquery.com/jquery-latest.js'></script>
     <style>
     
@@ -37,78 +37,70 @@
     <!--여기서 부터 왼쪽 영역 contentArea-->
     <form action="#" method="post">
         <div id="contentArea">
-            <h3>병원 상세 정보</h3>
+            <h3>병원 기본 정보 승인</h3>
 
 
             <!--테이블 부분-->
             <table id="contentTb">
                 <tr>
                     <th class="firstLine">병원 번호</th>
-                    <td  colspan="7"><input type="text" value="${hp.hpNo }" readonly></td>
+                    <td><input type="number" name="hpNo" value="${hp.hpNo }" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">병원 이름</th>
-                    <td  colspan="7"><input type="text" value="${hp.hpName }" readonly></td>
-                </tr>
-                <tr>
-                    <th class="firstLine">진료과목 코드 번호</th>
-                    <td colspan="7"><input type="text" value="${hp.hpCateCode }" readonly></td>
-                </tr>
-                <tr>
-                    <th class="firstLine">진료과목</th>
-                    <td colspan="7"><input type="text" value="${hp.hpCateName }" readonly></td>
+                    <td><input type="text" name="hpName" value="${hp.hpName }" readonly></td>
                 </tr>
  				<tr>
                     <th class="firstLine">우편번호</th>
-                    <td colspan="7"><input type="text" value="${hp.hpPostCode }" readonly></td>
+                    <td><input type="text" name="hpPostCode" value="${hp.hpPostCode }" readonly></td>
                 </tr> 
                 <tr>
                     <th class="firstLine">주소</th>
-                    <td colspan="7"><input type="text" value="${hp.hpAddress }" readonly></td>
+                    <td><input type="text" name="hpAddress" value="${hp.hpAddress }" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">연락처</th>
-                    <td colspan="7"><input type="tel" value="${hp.hpPhone }" readonly></td>
+                    <td><input type="text" name="hpPhone" value="${hp.hpPhone }" readonly></td>
+                </tr> 
+                <tr>
+                    <th class="firstLine">승인 상태</th>
+                    <td><input type="text" name="hpStatus" id="approval" value="${hp.hpStatus }" readonly></td>
                 </tr>   
                 <tr>
-                    <th class="firstLine" rowspan="1">영업시간</th>
-	                   <c:forEach var="ht" items="${hpTimeList }">
-	                    <td>
-	                    	<input type="text" value="${ht.day }" readonly>
-	                    	
-	                    	<c:if test="${ht.openTime == null  && ht.closeTime == null}">
-			                    <input type="text" value="휴무" readonly>
-		                    	<input type="text" value="휴무" readonly>
-	                    	</c:if>
-	                    	
-	                    	<c:if test="${ht.openTime != null  && ht.closeTime != null}">
-			                    <input type="text" value="${ht.openTime }" readonly>
-		                    	<input type="text" value="${ht.closeTime }" readonly>
-	                    	</c:if>
-	                    </td>
-	             	</c:forEach>	
+           			<th class="firstLine">재직증명서 및 사업자 등록증</th>
+           			<td>
+           				<input type="hidden" name="renameFileName1" value="${hp1.renameFileName }">
+           				<input type="hidden" name="originalFileName1" value="${hp1.originFileName }">
+            			<c:set var="fullPath" value="/projectFiles/${hp1.renameFileName }"/>
+						<img src="${fullPath}" style="width: 100px; height: 100px;"/>
+           			</td>
                 </tr>
-                <tr>
-                    <th class="firstLine" rowspan="1">병원 내부 사진</th>
-                    <c:if test="${hpPhotoList != null}">
-	                    <c:forEach var="photo" items="${hpPhotoList }">
-	                    	<td colspan="3">
-		                    	<c:set var="fullPath" value="/projectFiles/${photo.renameFileName }"/>
-								<img src="${fullPath}" style="width: 100px; height: 100px;"/>
-		                    </td>
-	                    </c:forEach>
-                    </c:if>
+                 <tr>
+           			<th class="firstLine">신분증</th>
+           			<td>
+           				<input type="hidden" name="renameFileName2" value="${hp2.renameFileName }">
+           				<input type="hidden" name="originalFileName2" value="${hp2.originFileName }">
+            			<c:set var="fullPath" value="/projectFiles/${hp2.renameFileName }"/>
+						<img src="${fullPath}" style="width: 100px; height: 100px;"/>
+           			</td>
                 </tr>
-                <tr>
-                    <th class="firstLine">병원 간단 소개</th>
-                    <td colspan="7"><input type="text" value="${hp.hpComment }" readonly></td>
+                 <tr>
+           			<th class="firstLine">의사 면허증</th>
+           			<td>
+           				<input type="hidden" name="renameFileName3" value="${hp3.renameFileName }">
+           				<input type="hidden" name="originalFileName3" value="${hp3.originFileName }">
+            			<c:set var="fullPath" value="/projectFiles/${hp3.renameFileName }"/>
+						<img src="${fullPath}" style="width: 100px; height: 100px;"/>
+           			</td>
                 </tr>
+               
                 
             </table>
-            
-
+           
             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
+            	<button type="submit" id="approval">승인 하기</button>
+            	<button type="submit" id="denied">미승인 요청</button>
                 <button type="button" onclick="goBack();">뒤로가기</button>
             </div>
 
@@ -122,9 +114,22 @@
 
 
     <script>
+    	$("#approval").click(function(){
+    		$("form").attr("action", "basicInfoApproved.do");
+    		
+    	})
+    	
+    	$("#denied").click(function(){
+    		$("form").attr("action", "denied.do");
+    		
+    	})
+    
+    
         function goBack(){
         	 location.href="javascript:history.go(-1)";
         }
+        
+        
 
 
     </script>

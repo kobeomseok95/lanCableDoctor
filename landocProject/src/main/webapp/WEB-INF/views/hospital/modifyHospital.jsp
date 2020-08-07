@@ -6,6 +6,10 @@
 	String hpName = (String)session.getAttribute("hpName");
 	int hpNo = (Integer)(session.getAttribute("hpNo"));
 	int hpCateCode = (Integer)(session.getAttribute("hpCateCode"));
+	String msg = (String)request.getAttribute("msg");
+	String basicHpInfoMsg = (String)request.getAttribute("basicHpInfoMsg");
+	String hpTimeMsg = (String)request.getAttribute("hpTimeMsg");
+	String hpCommentMsg = (String)request.getAttribute("hpCommentMsg");
 %>
 
 <!DOCTYPE html>
@@ -75,7 +79,14 @@
 
 	#searchAdd:hover{background-color:#007ee5; border:none; color:white;}
 	
-
+	#preview img{width:100px; height:100px;}
+	#preview p{text-overflow:ellopsis; overflow:hidden;}
+	.preview-box{border:1px solid #9b9b9b; padding: 5px; border-radius:2px; margin-bottom:10px;}
+	
+	
+	
+	
+	
 /*--------------------------------------------------------------*/	
 </style>
 </head>
@@ -99,14 +110,31 @@
 				
 				
 	<!--form 태그 시작-->
+	<!-- ******************************************************************************************************************* -->
 	<!--1. 병원 기본 정보 수정-->
-		<form id="basicInfo" action="basicInfoHpEdit.do" enctype="multipart/form-data">
+		<form id="basicInfo" action="basicInfoHpEdit.do" method="POST" enctype="multipart/form-data" onsubmit="return checkBasicInfo();">
 			<div class="summit-content-box mx-auto p-5 mt-4">
 				<div class="row mb-5">
 					<div class="col-sm-1">
 						<div class="content-box-numbering align-middle mx-auto">1</div>
 					</div>
-					<div class="col-sm-11 content-box-title">${hpName }병원 기본 정보 수정</div>
+					<div class="col-sm-11 content-box-title">${hpBasic.hpName } 기본 정보 수정</div>
+					
+					<c:if test="${hpBasic.hpStatus eq 'N' }">
+					<div class="col-sm-11 content-box-title mt-5 p-2" id="waitingApproval" style="background-color:#007ee5; text-align:center; margin-left:5%;">
+                     <b class="align-middle" style="font-size: 21px; letter-spacing: -0.7px;color: white;">기본 정보 수정 신청 승인 대기 중 </b>
+					</div>
+					</c:if>
+					
+					<c:if test="${hpBasic.hpStatus eq 'X' }">
+					<div class="col-sm-11 content-box-title mt-5 p-2" id="waitingApproval" style="background-color:#b00020; text-align:center; margin-left:5%;">
+                     <b class="align-middle" style="font-size: 21px; letter-spacing: -0.7px;color: white;">미 승인 처리되셨습니다. 재 신청 해주세요. </b>
+					</div>
+					</c:if>
+					
+					
+					
+					
 				</div>
 				
 				<div class="row">
@@ -234,8 +262,8 @@
                         <label style="letter-spacing: 10px;">병원명</label>&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="text" id="hospital_name" name="hospital_name" value="${hpBasic.hpName }"><br><br>
 
-						 <label style="letter-spacing: 1.5px;">진료과목</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                       <%--  <input type="text" id="hospital_cateName" name="hospital_cateName" value="${hpBasic.hpCateName }"> --%>
+						<%--  <label style="letter-spacing: 1.5px;">진료과목</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="text" id="hospital_cateName" name="hospital_cateName" value="${hpBasic.hpCateName }">
                         
                        
 						<select class="input100" name="hospital_cateCode" id="hospital_cateCode">
@@ -261,14 +289,14 @@
 							<option value="122" <c:if test="${cateCode eq 122 }">selected="selected"</c:if>>가정의학과</option>
 							<option value="300" <c:if test="${cateCode eq 300 }">selected="selected"</c:if>>한의원</option>
 						</select>
-						<br><br>
+						<br><br> --%>
 
                         <label style="letter-spacing: 10px;">연락처</label>&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="text" id="hospital_phone" name="hospital_phone" value="${hpBasic.hpPhone}"><br><br>
 
                         <label style="letter-spacing: 25px;">주소</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="text" id="sample4_postcode" name="postCode" style="width:31%; height:10%;" value="${hpBasic.hpPostCode}">
-                        <input type="button" id="searchAdd" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width:25%; height:10%;"><br><br>
+                        <input type="text" id="sample4_postcode" name="postCode" style="width:31%; height:13%;" value="${hpBasic.hpPostCode}">
+                        <input type="button" id="searchAdd" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width:25%; height:13%;"><br><br>
                         <input type="text" id="sample4_roadAddress" name="address1" style="margin-left:13%;" value="${hpBasic.hpAddress }"><br><br>
                        
                        
@@ -343,13 +371,13 @@
 						                        
                         
                         <!-- ----------------------- -->
-                        <input type="hidden" id="hospital_id" name="hospital_id" value="">
-						
+                        <input type="hidden" id="hpNo" name="hpNo" value="${hpBasic.hpNo }">
+						<%-- <input type="hidden" id="hpCateCode" name="hpCateCode" value="${hpBasic.hpCateCode }"> --%>
 					</div>
 				</div>
 				
 				<div class="row pt-4">
-					<button type="submit" id="" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
+					<button type="submit" id="basicInfoSubmit" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
 						기본 정보 수정하기
 					</button>
 				</div>
@@ -389,8 +417,6 @@
 				})
 				
 				
-				
-				
 				// 신분증
 				$("#idPicUpload").on("click",function(e){
 					e.preventDefault();
@@ -417,8 +443,6 @@
 					$("#removeId").show();
 					readUploadImage2(this);
 				})
-				
-				
 				
 				
 				// 의사면허증
@@ -472,10 +496,10 @@
 
 
 
-
+		<!-- ******************************************************************************************************************* -->
 		<!--2. 병원사진 업로드 부분-->
-		<form id="" enctype="multipart/form-data">
-			<div class="summit-content-box mx-auto p-5 mt-4">
+		<form action="hpPicEdit.do" method="post" enctype="multipart/form-data" onsubmit="return checkHpPics();">
+			<div class="summit-content-box mx-auto p-5 mt-4" id="here">
 				<div class="row mb-3">
 					<div class="col-sm-1">
 						<div class="content-box-numbering align-middle mx-auto">2</div>
@@ -497,7 +521,6 @@
 									<img src="${fullPath}" style="width: 33%; height: 33%;"/>
 								</c:forEach>
 						</div>
-					
 					</div>
 				</div>
 
@@ -508,27 +531,16 @@
 						<h4 style="color:white;">+</h4>
 					</button>
 					<label class="col-sm-2 control-label" style="font-size:18px; color:#007ee5; font-weight:800; padding:0;">신규 사진 등록</label>
-					
-					<input id="hpPics" name="hpPics" type="file" multiple="multiple" style="display: none;" />
+					<input id="hpPics" name="hpPics" type="file" style="display: none;" multiple/>
 				</div>
 				
-				<div class="form-group form-inline">
+				<div class="row pt-4">
 					<label class="col-sm-3 control-label"></label>
 					<div id="preview"></div>
 				</div>
               
-
-				<!-- 업로드 된 파일 미리보기 부분-->
-				<div class="row mt-4">
-                    <div class="col-sm-10 offset-sm-1 p-0 pr-0">
-                        <div class="file-input file-input-new">
-							<!--파일 미리보기 -->
-							<span id="remove" style="display: none;">X</span>
-							<div class="file-preview" id="thumb-receipt"></div>
-						</div>
-                    </div>
-                </div>
                 <div class="row pt-4">
+                	 <input type="hidden" id="hpNo" name="hpNo" value="${hpBasic.hpNo }">
 					<button type="submit" id="" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
 						병원 사진 수정하기
 					</button>
@@ -545,15 +557,92 @@
 					e.preventDefault();
 					$("#hpPics").click();
 				})
-				
-			})
-		
+			});
+			
 		</script>
 
 
-            
+		<script>
+			var files = {};
+			var previewIndex = 0;
+			
+			function addPreview(input){
+				if(input[0].files){
+					
+					// 파일 선택이 여러개였을 시의 대응
+					for(var fileIndex = 0; fileIndex < input[0].files.length; fileIndex++){
+						$("#preview").html("");
+						var file = input[0].files[fileIndex];
+						
+						if(validation(file.name))
+							continue;
+						
+						var reader = new FileReader();
+						reader.onload = function(img){
+							var imgNum = previewIndex++;
+							$("#preview").append(
+								"<div class=\"preview-box\" value=\"" + imgNum  +"\">"
+										+ "<img class=\"thumbnail\" src=\"" + img.target.result + "\"\/>"
+										+ "<p>"
+										+ file.name
+										+ "</p>"
+										+ "<a href=\"#here\" value=\""
+										+ imgNum
+										+ "\" onclick=\"deletePreview(this)\">"
+										+ "삭제" + "</a>" + "</div>");
+							
+							files[imgNum] = file;
+						};
+						reader.readAsDataURL(file);
+					}
+					
+				}else
+					alert("invalid file input");
+				
+				
+			}
+		
+			// preview 영역에서 삭제 버튼 클릭 시 해당 미리보기 이미지 영역 삭제
+			function deletePreview(obj){
+				var imgNum = obj.attributes['value'].value;
+				delete files[imgNum];
+				$("#preview .preview-box[value=" + imgNum + "]").remove();
+				/* resizeHeight();	 */
+			}
+		
+			function validation(fileName){
+				fileName = fileName + "";
+				var fileNameExtensionIndex = fileName.lastIndexOf('.') + 1;
+				var fileNameExtension = fileName.toLowerCase().substring(
+						fileNameExtensionIndex, fileName.length);
+				
+				if(!((fileNameExtension === 'jpg')
+					|| (fileNameExtension === 'gif') || (fileNameExtension === 'png'))){
+					alert('jpg, gif, png 확장자만 업로드 가능합니다.');
+					return true;	
+				}else{
+					return false;
+				}
+			}
+			$("#hpPics").change(function(){
+				addPreview($(this));
+			})
+			
+			
+			/* function addInput(){
+				$(this).append("<input type='file' class='hpPics'></input>");
+			} */
+			
+			
+			
+			
+			
+		
+		</script>
+
+          <!-- ******************************************************************************************************************* -->  
           <!--3. 병원 영업시간 수정-->
-          <form id="" action="#">
+          <form action="hpTimeEdit.do" method="post" commandName="HpTime">
 			<div class="summit-content-box mx-auto p-5 mt-4">
 				<div class="row mb-5">
 					<div class="col-sm-1">
@@ -582,9 +671,11 @@
                                      		     월요일
 										
 										<div class="pull-right">
-											<input type="time" id="mon_open_time" name="mon_open_time" value="${hpTime[0].hpOpenTime }">
+											<input type="hidden" name="hpTimeList[0].day" value="월요일">
+											<input type="hidden" name="hpTimeList[0].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="mon_open_time" name="hpTimeList[0].openTime" value="${hpTime[0].hpOpenTime }">
 											~
-											<input type="time" id="mon_close_time" name="mon_close_time" value="${hpTime[0].hpCloseTime }">
+											<input type="time" id="mon_close_time" name="hpTimeList[0].closeTime" value="${hpTime[0].hpCloseTime }">
 										</div>
                                         
 									  </div>
@@ -598,9 +689,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  화요일
 										  <div class="pull-right">
-											<input type="time" id="tues_open_time" name="tues_open_time" value="${hpTime[1].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[1].day" value="화요일">
+											<input type="hidden" name="hpTimeList[1].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="tues_open_time" name="hpTimeList[1].openTime" value="${hpTime[1].hpOpenTime }">
 											~
-											<input type="time" id="tues_close_time" name="tues_close_time" value="${hpTime[1].hpCloseTime }">
+											<input type="time" id="tues_close_time" name="hpTimeList[1].closeTime" value="${hpTime[1].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -613,9 +706,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  수요일
 										  <div class="pull-right">
-											<input type="time" id="wed_open_time" name="wed_open_time" value="${hpTime[2].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[2].day" value="수요일">
+											<input type="hidden" name="hpTimeList[2].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="wed_open_time" name="hpTimeList[2].openTime" value="${hpTime[2].hpOpenTime }">
 											~
-											<input type="time" id="wed_close_time" name="wed_close_time" value="${hpTime[2].hpCloseTime }">
+											<input type="time" id="wed_close_time" name="hpTimeList[2].closeTime" value="${hpTime[2].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -628,9 +723,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  목요일
 										  <div class="pull-right">
-											<input type="time" id="thurs_open_time" name="thurs_open_time" value="${hpTime[3].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[3].day" value="목요일">
+											<input type="hidden" name="hpTimeList[3].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="thurs_open_time" name="hpTimeList[3].openTime" value="${hpTime[3].hpOpenTime }">
 											~
-											<input type="time" id="thurs_close_time" name="thurs_close_time" value="${hpTime[3].hpCloseTime }">
+											<input type="time" id="thurs_close_time" name="hpTimeList[3].closeTime" value="${hpTime[3].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -643,9 +740,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  금요일
 										  <div class="pull-right">
-											<input type="time" id="fri_open_time" name="fri_open_time" value="${hpTime[4].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[4].day" value="금요일">
+											<input type="hidden" name="hpTimeList[4].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="fri_open_time" name="hpTimeList[4].openTime" value="${hpTime[4].hpOpenTime }">
 											~
-											<input type="time" id="fri_close_time" name="fri_close_time" value="${hpTime[4].hpCloseTime }">
+											<input type="time" id="fri_close_time" name="hpTimeList[4].closeTime" value="${hpTime[4].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -658,9 +757,11 @@
 									  <div class="d-flex justify-content-between align-items-center">
 										  토요일
 										  <div class="pull-right">
-											<input type="time" id="sat_open_time" name="sat_open_time" value="${hpTime[5].hpOpenTime }">
+										  	<input type="hidden" name="hpTimeList[5].day" value="토요일">
+											<input type="hidden" name="hpTimeList[5].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="sat_open_time" name="hpTimeList[5].openTime" value="${hpTime[5].hpOpenTime }">
 											~
-											<input type="time" id="sat_close_time" name="sat_close_time" value="${hpTime[5].hpCloseTime }">
+											<input type="time" id="sat_close_time" name="hpTimeList[5].closeTime" value="${hpTime[5].hpCloseTime }">
 										</div>
 									  </div>
 								  </div>
@@ -673,9 +774,11 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                        		 일요일
                                         <div class="pull-right">
-											<input type="time" id="sun_open_time" name="sun_open_time" value="${hpTime[6].hpOpenTime }">
+                                        	<input type="hidden" name="hpTimeList[6].day" value="일요일">
+											<input type="hidden" name="hpTimeList[6].hpNo" value="${hpBasic.hpNo }">
+											<input type="time" id="sun_open_time" name="hpTimeList[6].openTime" value="${hpTime[6].hpOpenTime }">
 											~
-											<input type="time" id="sun_close_time" name="sun_close_time" value="${hpTime[6].hpCloseTime }">
+											<input type="time" id="sun_close_time" name="hpTimeList[6].closeTime" value="${hpTime[6].hpCloseTime }">
 										</div>
                                     </div>
                                 </div>
@@ -695,9 +798,9 @@
 			</form>
 			
 			
-			
-			<!--간단 병원 소개-->
-			<form id="" action="#">
+			<!-- ******************************************************************************************************************* -->  
+			<!-- 4. 간단 병원 소개-->
+			<form action="introHpEdit.do" method="post">
 			<div class="summit-content-box mx-auto p-5 mt-4">
 				<div class="row mb-4">
 					<div class="col-sm-1">
@@ -737,7 +840,7 @@
 					<div class="col-sm-10 offset-sm-1 p-0 mt-1">
 							<textarea class="form-control" rows="5" id="comment" name="comment" placeholder="병원에 대해 간략한 소개를 적어주세요. (200자 이상)" onkeyup="textCounter(this, 'counter', 200);">${hpBasic.hpComment }</textarea>
 							<div class="mt-1" style="font-size:14px;text-align:right;color:#494949;letter-spacing: -0.6px;">
-								(<span id="counter">0</span>자, 최소 200자 이상)
+								(<span id="counter">0</span>자)
 							</div>
 							<script>
 								function textCounter(field,field2,maxlimit)
@@ -749,27 +852,77 @@
 				</div>
 				
 				<div class="row pt-4">
+					<input type="hidden" name="hpNo" value="${hpBasic.hpNo }">
 					<button type="submit" id="" class="col-sm-10 offset-sm-1 btn btn-blackcontent w-100 h-100 p-3 mt-4" style="font-size:18px; background-color: #007ee5; color: white;" data-toggle="modal" data-target="#hospitalSearchModal">
 						병원 소개 수정하기
 					</button>
 				</div>
 			</div>
 			</form>
-	
-			
-			
-			
-			
-			
-			
-			
-			
 		</div>
 	</div>
 
 	
 	<script>
-	
+		$(function(){
+			<%if(msg != null){%>
+				alert("병원 사진 수정에 성공했습니다.");
+			<%}%>
+		})
+			
+		$(function(){
+			<%if(basicHpInfoMsg != null){%>
+				alert("병원 기본 정보 수정 신청에 성공했습니다.");
+				
+			<%}%>
+		})
+		
+		$(function(){
+			<%if(hpTimeMsg != null){%>
+				alert("병원 영업시간 수정에 성공했습니다.");
+				
+			<%}%>
+		})
+		
+		$(function(){
+			<%if(hpCommentMsg != null){%>
+				alert("병원 간단 소개 수정에 성공했습니다.");
+		
+			<%}%>
+		})
+		
+		
+			
+		// 기본정보 수정 항목 체크
+		function checkBasicInfo(){
+			if($("#empPic").val() == ""){
+				alert("재직증명서 또는 사업자 등록증을 업로드 해주세요.");
+				return false;
+			}
+			
+			if($("#idPic").val() == ""){
+			 	alert("신분증 사진을 업로드 해주세요.");
+			 	return false;
+			}
+			if($("#drPic").val() == ""){
+				alert("의사 면허증을 업로드 해주세요.");
+				return false;
+			}
+			
+		}
+		
+		// 병원 소개 사진 항목 체크
+		function checkHpPics(){
+			if($("#hpPics").val() == ""){
+				alert("병원 소개 사진을 1장 이상 등록해주세요.");
+				return false;
+			}
+		}
+		
+		
+		
+		
+		
 
 	</script>
 	
