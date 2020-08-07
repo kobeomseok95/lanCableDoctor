@@ -32,4 +32,9 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.getSearchCount(param);
 	}
 
+	@Override
+	public List<Product> suggestProduct(String keyword) {
+		return productDao.suggestProduct(keyword);
+	}
+
 }

@@ -68,21 +68,7 @@
                             <button id="searchBtn" type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
                         </form>
                         <div id="suggestProduct">
-                        	<!-- 상품 추천 리스트 -->
-                        	<div class="productList">
-	                        	<a href="#">
-		                        	<span class="prodImg">
-		                        		<img src="#" />
-		                        	</span>
-		                        	<span class="prodName">
-		                        		상품명상품명상품명상품명상품명상품명상품명
-		                        	</span>
-		                        	<span class="prodPrice">
-		                        		51,000원
-		                        	</span>
-	                        	</a>
-                        	</div>
-                        	<!-- 상품 추천 리스트 -->
+                        	
                         </div>
                     </div>
                 </div>
@@ -293,9 +279,72 @@
 			});
 			
 			$("#searchProduct").keyup(function(){
-				//여기 해야해
+				if($(this).val() !== ""){
+					$("#suggestProduct").css("display", "block");	//먼저할까 나중에할까
+					$.ajax({
+						type : 'GET',
+						url : 'suggestProduct.do',
+						data:{
+							'keyword' : $(this).val()
+						},
+						dataType:'JSON',
+						success:function(data){
+							if(data.result === "ok"){
+								suggestProducts(data.suggestProducts);
+							}
+							else{
+								suggestEmpty();
+							}
+						},
+						error:function(request, status, errorData){
+		                    alert("error code: " + request.status + "\n"
+		                            +"message: " + request.responseText
+		                            +"error: " + errorData);
+		               	}
+					});
+					//$("#suggestProduct").css("display", "block");
+				}
+				else{
+					$("#suggestProduct").css("display", "none");
+				}
 			});
-		});
+			
+			function suggestProducts(suggestList){
+				$("#suggestProduct").html('');
+				for(var i in suggestList){
+					console.log(i);
+					var $divProd = $('<div class="productList"></div>');
+					var $a = $('<a></a>');
+					$a.attr('href', '#');		//상품 상세보기 구현시 꼭 매핑
+					
+					var $spanOne = $('<span class="prodImg"></span>');
+					var $img = $('<img />');
+					$img.attr('src', '/projectFiles/' + suggestList[i].photos[0].fileName);
+					$spanOne.append($img);
+					
+					var $spanTwo = $('<span class="prodName"></span>');
+					$spanTwo.text(suggestList[i].pdName);
+					
+					var $spanThree = $('<span class="prodPrice"></span>');
+					$spanThree.text(numberWithCommas(suggestList[i].sellPrice) + '원');
+					
+					$a.append($spanOne);
+					$a.append($spanTwo);
+					$a.append($spanThree);
+					
+					$divProd.append($a);
+				$("#suggestProduct").append($divProd);
+				}
+			}
+			
+			function suggestEmpty(){
+				$("#suggestProduct").html('');
+				var $divEmpty = $('<div></div>');
+				$divEmpty.attr('id', 'listEmpty');
+				$divEmpty.text('추천 상품이 없습니다.');
+				$("#suggestProduct").append($divEmpty);
+			}
+		});	//end of jquery
 		
 		
 		function numberWithCommas(x) {
@@ -305,3 +354,10 @@
 </body>
 
 </html>
+
+
+
+
+
+
+

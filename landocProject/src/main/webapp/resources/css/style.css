@@ -1951,7 +1951,6 @@ h5 > a {
 	width: 100%;
 }
 #suggestProduct{
-	/* display:block; */
 	display: none;
 	width: 70%;
 	position: absolute;
@@ -1962,6 +1961,15 @@ h5 > a {
 .productList{
 	position: relative;
 	height: 70px;
+}
+#listEmpty{
+	position: relative;
+	height: 70px;
+	font-weight: 555;
+	color: #000000;
+	display:table-cell;
+	vertical-align: middle;
+	text-align: center;
 }
 .prodImg > img{
 	position: relative;

@@ -31,5 +31,9 @@ public class ProductDao {
 	public int getSearchCount(HashMap<String, Object> param) {
 		return sqlSessionTemplate.selectOne("productMapper.getSearchCount", param);
 	}
+
+	public List<Product> suggestProduct(String keyword) {
+		return sqlSessionTemplate.selectList("productMapper.suggestProduct", keyword);
+	}
 	
 }

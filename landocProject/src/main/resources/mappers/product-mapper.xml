@@ -125,4 +125,23 @@
 		<!-- *******************검색기능 구현하기******************* -->
 	</select>
 	
+	<select id="suggestProduct" parameterType="string" resultMap="product">
+		SELECT 
+		    A.PD_NO,
+		    B.PDP_RENAME,
+		    A.PD_NAME,
+		    A.SELL_PRICE
+		FROM 
+		    PRODUCT A
+		    JOIN PRODUCTPHOTO B ON A.PD_NO = B.PD_NO
+		WHERE 
+		    PD_NAME LIKE '%' || #{keyword} || '%'
+		    AND B.PDP_TYPE = 0
+		    <![CDATA[
+		    AND ROWNUM <= 3
+		    ]]>
+		ORDER BY 
+		(RECOMEND * 30) + (PD_COUNT) DESC
+	</select>
+	
 </mapper>
