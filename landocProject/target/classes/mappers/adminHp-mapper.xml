@@ -2,6 +2,275 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="adminHpMapper">
 
+	 <resultMap type="MainHp" id="adminHpResultMap">
+	  	<id property="hpNo" column="HP_NO"/>
+	  	<result property="rowNum" column="ROWNUM"/>
+	  	<result property="hpName" column="HP_NAME"/>
+	  	<result property="hpPhone" column="HP_PHONE"/>
+	  	<result property="hpPostCode" column="HP_POSTCODE"/>
+	  	<result property="hpAddress" column="HP_ADDRESS"/>
+	  	<result property="hpx" column="HP_X"/>
+	  	<result property="hpy" column="HP_Y"/>
+	  	<result property="hpAvgRate" column="HP_AVG_RATE"/>
+	  	<result property="hpReCount" column="HP_REVIEW"/>
+	  	<result property="hpComment" column="HP_COMMENT"/>
+	  	<result property="hpStatus" column="HP_STATUS"/>
+	  	<result property="hpCateCode" column="HPCATE_CODE"/>
+	  	<result property="hpCateName" column="HPCATE_NAME"/>
+	  	<result property="drHpNo" column="DRHP_NO"/>
+	  	<result property="originFileName" column="DRHP_ORIGIN"/>
+	  	<result property="renameFileName" column="DRHP_RENAME"/>
+	  	<result property="filePath" column="DRHP_FILEPATH"/>
+	  	<result property="phCode" column="PH_CODE"/>
+	  	<result property="hpDay" column="HP_DAY"/>
+	  	<result property="hpOpenTime" column="HP_OPEN_TIME"/>
+	  	<result property="hpCloseTime" column="HP_CLOSE_TIME"/>
+  </resultMap>
+
+
+	<resultMap type="HpTime" id="adminHpResultMap2">
+		<id property="no" column="HPTIME_SEQNO"/>
+		<result property="hpNo" column="HP_UNIQUENO"/>
+		<result property="day" column="HP_DAY"/>
+		<result property="openTime" column="HP_OPEN_TIME"/>
+		<result property="closeTime" column="HP_CLOSE_TIME"/>
+	</resultMap>
+
+
+	<resultMap type="MainHp" id="adminHpResultMap3">
+		<id property="hpNo" column="BE_HP_NO"/>
+		<result property="hpName" column="BE_HP_NAME"/>
+		<result property="hpPhone" column="BE_HP_PHONE"/>
+		<result property="hpPostCode" column="BE_HP_POSTCODE"/>
+		<result property="hpAddress" column="BE_HP_ADDRESS"/>
+		<result property="hpStatus" column="BE_HP_STATUS"/>
+	</resultMap>
+	
+
+	<resultMap type="MainHp" id="adminHpResultMap4">
+		<id property="hpNo" column="BE_HP_NO"/>
+		<result property="originFileName" column="ORIGINAL_FILENAME"/>
+		<result property="renameFileName" column="RENAME_FILENAME"/>
+		<result property="phCode" column="PH_CODE"/>
+		<result property="hpStatus" column="BE_HP_STATUS"/>
+	</resultMap>
+
+
+
+
+	<!-- 일반 리스트 카운트 조회용 -->
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM HOSPITAL
+	</select>
+	
+	
+	
+	<!-- 전체리스트 조회용 -->
+	<select id="selectAllList" resultMap="adminHpResultMap">
+		SELECT ROWNUM, HP_NO, HP_NAME, HP_PHONE, HP_POSTCODE, HP_ADDRESS, HP_AVG_RATE, HP_REVIEW, HP_STATUS, HPCATE_NAME
+		FROM(
+			SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_AVG_RATE, HP.HP_REVIEW, HP.HP_STATUS,
+			LISTAGG(CAST(HG.HPCATE_NAME AS VARCHAR(100)),', ')WITHIN GROUP (ORDER BY NULL) AS HPCATE_NAME
+            FROM HOSPITAL HP
+                JOIN HPLIST HL ON (HP.HP_NO = HL.HP_NO)
+                JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
+            GROUP BY HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_AVG_RATE, HP.HP_REVIEW, HP.HP_STATUS
+		)
+	</select>
+
+
+	
+	<!-- 검색 리스트 카운트 -->
+	<select id="selectSearchListCount" parameterType="adminHpSearch" resultType="_int">
+		 SELECT COUNT(*)
+		 FROM 
+		 (
+		 	SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_AVG_RATE, HP.HP_REVIEW, HP.HP_STATUS,
+			LISTAGG(CAST(HG.HPCATE_NAME AS VARCHAR(100)),', ')WITHIN GROUP (ORDER BY NULL) AS HPCATE_NAME
+            FROM HOSPITAL HP
+                JOIN HPLIST HL ON (HP.HP_NO = HL.HP_NO)
+                JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
+            <where>
+            <if test="hpNo != null and hpNo !=''">
+            	AND HP.HP_NO=#{hpNo}
+            </if>
+            <if test="hpName != null and hpName !=''">
+            	AND HP.HP_NAME LIKE '%' || #{hpName} || '%'
+            </if>
+            <if test="hpCateCode != null and hpCateCode !=''">
+            	AND HG.HPCATE_CODE=#{hpCateCode}
+            </if>
+            <if test="hpCateName != null and hpCateName !=''">
+            	AND HG.HPCATE_NAME LIKE '%' || #{hpCateName} || '%'
+            </if>
+            <if test="hpStatus != null and hpStatus !=''">
+            	AND HP.STATUS=#{hpStatus}
+            </if>
+            </where>
+                   
+            GROUP BY HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_AVG_RATE, HP.HP_REVIEW, HP.HP_STATUS
+		 
+		 )
+	
+	</select>
+	
+
+
+	<!-- 검색 리스트 조회용 -->
+	<select id="selectSearchList" parameterType="adminHpSearch" resultMap="adminHpResultMap">
+		SELECT ROWNUM, HP_NO, HP_NAME, HP_PHONE, HP_POSTCODE, HP_ADDRESS, HP_AVG_RATE, HP_REVIEW, HP_STATUS, HPCATE_NAME
+		 FROM 
+		 (
+		 	SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_AVG_RATE, HP.HP_REVIEW, HP.HP_STATUS,
+			LISTAGG(CAST(HG.HPCATE_NAME AS VARCHAR(100)),', ')WITHIN GROUP (ORDER BY NULL) AS HPCATE_NAME
+            FROM HOSPITAL HP
+                JOIN HPLIST HL ON (HP.HP_NO = HL.HP_NO)
+                JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE)
+            <where>
+            <if test="hpNo != null and hpNo !=''">
+            	AND HP.HP_NO=#{hpNo}
+            </if>
+            <if test="hpName != null and hpName !=''">
+            	AND HP.HP_NAME LIKE '%' || #{hpName} || '%'
+            </if>
+            <if test="hpCateCode != null and hpCateCode !=''">
+            	AND HG.HPCATE_CODE=#{hpCateCode}
+            </if>
+            <if test="hpCateName != null and hpCateName !=''">
+            	AND HG.HPCATE_NAME LIKE '%' || #{hpCateName} || '%'
+            </if>
+            <if test="hpStatus != null and hpStatus !=''">
+            	AND HP.STATUS=#{hpStatus}
+            </if>
+            </where>
+                   
+            GROUP BY HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_AVG_RATE, HP.HP_REVIEW, HP.HP_STATUS
+		 )
+	</select>
+
+	
+	<!-- 병원 상세보기 조회용(기본 정보) -->
+	<select id="selectHpDetail" parameterType="_int" resultMap="adminHpResultMap">
+		SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_AVG_RATE, HP.HP_REVIEW,
+		        HP.HP_COMMENT, HP.HP_STATUS,
+		        LISTAGG(CAST(HG.HPCATE_NAME AS VARCHAR(100)),', ')WITHIN GROUP (ORDER BY NULL) AS HPCATE_NAME,
+		        LISTAGG(CAST(HG.HPCATE_CODE AS VARCHAR(100)),', ')WITHIN GROUP (ORDER BY NULL) AS HPCATE_CODE
+		FROM HOSPITAL HP
+		    JOIN HPLIST HL ON (HP.HP_NO = HL.HP_NO)
+		    JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE) 
+		WHERE HP.HP_NO = #{hpNo}
+		GROUP BY HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, 
+		HP.HP_AVG_RATE, HP.HP_REVIEW, HP.HP_COMMENT, HP.HP_STATUS
+	</select>
+
+
+	<!-- 병원 상세보기 조회용(병원 사진) -->
+	<select id="selectHpDetailPhoto" parameterType="_int" resultMap="adminHpResultMap">
+		SELECT DRHP_ORIGIN, DRHP_RENAME
+		FROM DRHPPHOTO
+		WHERE HP_NO=#{hpNo} 
+			AND PH_CODE = 4
+	</select>
+	
+	
+	
+	<!-- 병원 상세보기 조회용(영업시간) -->
+	<select id="selectHpDetailTime" parameterType="_int" resultMap="adminHpResultMap2">
+		SELECT HP_DAY, HP_OPEN_TIME, HP_CLOSE_TIME
+		FROM HPTIME
+		WHERE HP_UNIQUENO = #{hpNo}
+	</select>
+
+
+
+	<!-- 수정 승인전 병원 조회 -->
+	<select id="selectNonAppHp" parameterType="_int" resultMap="adminHpResultMap3">
+		SELECT BE_HP_NO, BE_HP_NAME, BE_HP_PHONE, BE_HP_POSTCODE, BE_HP_ADDRESS, BE_HP_STATUS
+		FROM BEFORE_HPINFO
+		WHERE BE_HP_NO=#{hpNo}
+	</select>
+
+
+	<!-- 수정 승인전 사진 조회 -->
+	<select id="selectNonAppPic" parameterType="_int" resultMap="adminHpResultMap4">
+		SELECT BE_HP_NO, ORIGINAL_FILENAME, RENAME_FILENAME, PH_CODE, BE_HP_STATUS
+		FROM BEFORE_HPPIC
+		WHERE BE_HP_NO = #{hpNo}
+		ORDER BY PH_CODE
+	</select>
+	
+	
+	<!-- 수정 승인 후 update -->
+	<update id="updateHp" parameterType="MainHp">
+		UPDATE HOSPITAL
+		SET HP_NAME = #{hpName}
+			, HP_PHONE = #{hpPhone}
+			, HP_POSTCODE = #{hpPostCode}
+			, HP_ADDRESS = #{hpAddress}
+			, HP_STATUS = 'Y'
+		WHERE HP_NO = #{hpNo}
+	</update>
+
+
+	<!-- 수정 승인 후 사진1 update -->
+	<update id="updatePic1" parameterType="MainHp">
+		UPDATE DRHPPHOTO
+		SET DRHP_ORIGIN = #{originFileName}
+			, DRHP_RENAME = #{renameFileName}
+			, DRHP_FILEPATH = 'NULL'
+		WHERE PH_CODE = 1
+			AND HP_NO = #{hpNo}
+	</update>
+
+
+	<!-- 수정 승인 후 사진2 update -->
+	<update id="updatePic2" parameterType="MainHp">
+		UPDATE DRHPPHOTO
+		SET DRHP_ORIGIN = #{originFileName}
+			, DRHP_RENAME = #{renameFileName}
+			, DRHP_FILEPATH = 'NULL'
+		WHERE PH_CODE = 2
+			AND HP_NO = #{hpNo}
+	</update>
+
+	
+	<!-- 수정 승인 후 사진3 update -->
+	<update id="updatePic3" parameterType="MainHp">
+		UPDATE DRHPPHOTO
+		SET DRHP_ORIGIN = #{originFileName}
+			, DRHP_RENAME = #{renameFileName}
+			, DRHP_FILEPATH = 'NULL'
+		WHERE PH_CODE = 3
+			AND HP_NO = #{hpNo}
+	</update>
+
+
+	<!-- 수정 승인 후 delete -->
+	<delete id="deleteBeforeInfo" parameterType="_int">
+		DELETE FROM BEFORE_HPINFO
+		WHERE BE_HP_NO = #{hpNo}
+	</delete>
+
+	
+	<!-- 수정 승인 후 사진 delete -->
+	<delete id="deleteBeforePic" parameterType="_int">
+		DELETE FROM BEFORE_HPPIC
+		WHERE BE_HP_NO = #{hpNo}
+	</delete>
+
+
+	<!-- 수정 미승인 상태 update -->
+	<delete id="updateDenied" parameterType="_int">
+		UPDATE HOSPITAL
+		SET HP_STATUS = 'X'
+		WHERE HP_NO = #{hpNo}
+	</delete>
+
+
+
+
+
 
 
 

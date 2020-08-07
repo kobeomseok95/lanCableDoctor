@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-	<title>SolMusic | HTML Template</title>
+	<title>포인트 사용내역</title>
 	<meta charset="UTF-8">
 	<meta name="description" content="SolMusic HTML Template">
 	<meta name="keywords" content="music, html">

@@ -271,7 +271,7 @@
                  </c:when>
                  
                  <c:otherwise>
-                    <c:url var="hpReListBack" value="hpReList.do">
+                    <c:url var="hpReListCheck" value="hpReList.do">
                        <c:param name="page" value="${p }"/>
                        <c:param name="searchCondition" value="noneCondition"/>
                        <c:param name="searchValue" value="noneValue"/>

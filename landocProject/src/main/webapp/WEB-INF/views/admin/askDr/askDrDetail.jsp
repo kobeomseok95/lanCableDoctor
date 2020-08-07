@@ -9,18 +9,24 @@
     <script src= 'http://code.jquery.com/jquery-latest.js'></script>
     <style>
       
-      /*오른쪽 영역부분*/
+       /*오른쪽 영역부분*/
         #contentArea{position: absolute; left: 300px; top: 20px; width: 78%; height: 100%;}
         #contentArea h3{padding-bottom: 2%; text-align:center;}
         
-
         /*오른쪽 영역 table*/
-        #contentTb{margin: 0 auto; margin-top: 2%; width: 100%; text-align:center; border: 2px solid #bbb; border-collapse: collapse;}
-        #contentTb tr{line-height: 40px;}
-        #contentTb th{border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
-        #contentTb td{width: auto; border: 1px solid #bbb; font-size:14px;}
-        #contentTb button{height: 35px; width: 55%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
-        #contentTb button:hover{background-color: #007ee5; color: white;}
+        #contentArea h3{padding-bottom: 2%; text-align:center;}
+        .contentTb{margin: 0 auto; margin-top: 2%; width: 80%; text-align:center; border: 2px solid #bbb; border-collapse: collapse;}
+        .contentTb tr{line-height: 40px;}
+        .contentTb th{width:400px; border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
+        .contentTb td{width:600px; border: 1px solid #bbb; font-size:14px;}
+        .contentTb button{height: 35px; width: 55%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
+        .contentTb button:hover{background-color: #007ee5; color: white;}
+      	.contentTb input{width:95%; border:none;}
+
+      /* 수정하기, 뒤로가기 버튼*/
+        #btnArea{text-align: center; padding-top: 45px;}
+        #btnArea button{height: 40px; width: 15%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600; font-size:15px;}
+        #btnArea button:hover{background-color: #007ee5; color: white;}
         
         /* td  */
         td>button {
@@ -33,17 +39,9 @@
         }
 
         /* goBackBtnArea */
-        .goBackBtnArea button{
-            height: 31px;
-            width: 95.250px;
-            border: 1px solid white;
-            background-color: #bbb;
-            border-radius: 5px;
-            color: black;
-            font-weight: 600;
-            padding: 0 6px 0 6px;
-        }
-
+        .goBackBtnArea{text-align:center; padding-top:5%;}
+        .goBackBtnArea button{height: 40px; width: 15%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600; font-size:15px;}
+		.goBackBtnArea button:hover{background-color: #007ee5; color: white;}
 
    </style>
 
@@ -87,7 +85,7 @@
         <!-- 댓글들 불러오기 -->
         <div id="commentArea">
            <br><br>
-            <h2>댓글 목록</h2>
+            <h3>댓글 목록</h3>
 			
             <!--테이블 부분-->
             <table class="contentTb">
@@ -145,12 +143,12 @@
         }
 		
 		$(function(){
-	        // 테이블 한 줄 hover효과 주는 function
+	        /* // 테이블 한 줄 hover효과 주는 function
 	        $("#contentTb td").mouseenter(function () {
 	            $(this).parent().css({ "background": "lightgrey" });
 	        }).mouseout(function () {
 	            $(this).parent().css({ "background": "white" });
-	        });
+	        }); */
 			
 	        $(document).on('click', '.goDelete', function(){
 	        	if(confirm("해당 댓글을 삭제하시겠습니까?")){
