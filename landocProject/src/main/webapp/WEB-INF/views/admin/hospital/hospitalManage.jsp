@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+	String approvalMsg = (String)request.getAttribute("approvalMsg");
+	String deniedMsg = (String )request.getAttribute("deniedMsg");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <meta charset="UTF-8">
@@ -116,8 +120,8 @@
                 <th class="firstLine">병원 번호</th>
                 <th class="firstLine">병원이름</th>
                 <th class="firstLine">병원 카테고리</th>
-                <th class="firstLine">우편번호</th>
-                <th class="firstLine">주소</th>
+                <!-- <th class="firstLine">우편번호</th> -->
+                <!-- <th class="firstLine">주소</th> -->
                 <th class="firstLine">연락처</th>
                 <th class="firstLine">정보 수정 <br>승인 상태</th>
                 <th class="firstLine">정보 수정</th>
@@ -131,15 +135,39 @@
             			<td style="width:5%;">${hp.hpNo }</td>
             			<td style="width:15%;">${hp.hpName }</td>
             			<td style="width:17%;">${hp.hpCateName }</td>
-            			<td style="width:6%;">${hp.hpPostCode }</td>
-            			<td style="width:20%;">${hp.hpAddress }</td>
+            			<%-- <td style="width:6%;">${hp.hpPostCode }</td> --%>
+            			<%-- <td style="width:18%;">${hp.hpAddress }</td> --%>
             			<td style="width:10%;">${hp.hpPhone }</td>
             			<td style="width:7%;">${hp.hpStatus }</td>
-            			<td style="width:7%;">
-		                    <button onclick="hospitalDetail();">수정</button>
-		                </td>
+            			
+            			<c:if test="${hp.hpStatus eq 'Y' }">
+	            			<td style="width:13%;">
+			                    <button style="width:50%;" onclick="location.href='hpDetail.do?hpNo=' + ${hp.hpNo }">상세보기</button>
+			                </td>
+            			</c:if>
+            			
+            			<c:if test="${hp.hpStatus eq 'X' }">
+	            			<td style="width:13%;">
+			                    <button style="width:50%;" onclick="location.href='hpDetail.do?hpNo=' + ${hp.hpNo }">상세보기</button>
+			                </td>
+            			</c:if>
+            			
+            			<c:if test="${hp.hpStatus eq 'N' }">
+            				<td>
+			                    <button style="width:45%;" onclick="location.href='hpDetail.do?hpNo=' + ${hp.hpNo }">상세보기</button>
+			                    <button style="width:45%;" onclick="location.href='hpApproval.do?hpNo=' + ${hp.hpNo}">수정승인</button>
+			                </td>
+            			</c:if>
+            			
             		</tr>
             	</c:forEach>
+            </c:if>
+            
+            
+            <c:if test="${empty list }">
+            	<tr>
+            		<td colspan="7">검색결과가 없습니다.</td>
+            	</tr>
             </c:if>
            
         </table>
@@ -238,14 +266,18 @@
         });
         
         
-        function hospitalDetail(){
-           location.href="hospitalDetail.do";
-        }
-        
-        
     </script>
     
+    <script>
+    	<%if(approvalMsg != null){%>
+    		alert("병원 기본 정보 수정 승인에 성공했습니다.");
+    	<%}%>
+    	
+    	<%if(deniedMsg != null){%>
+			alert("병원 기본 정보 수정 미승인 처리에 성공했습니다.");
+		<%}%>
     
+    </script>
     
     
     

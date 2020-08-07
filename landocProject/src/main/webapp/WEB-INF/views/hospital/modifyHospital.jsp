@@ -126,6 +126,15 @@
 					</div>
 					</c:if>
 					
+					<c:if test="${hpBasic.hpStatus eq 'X' }">
+					<div class="col-sm-11 content-box-title mt-5 p-2" id="waitingApproval" style="background-color:#b00020; text-align:center; margin-left:5%;">
+                     <b class="align-middle" style="font-size: 21px; letter-spacing: -0.7px;color: white;">미 승인 처리되셨습니다. 재 신청 해주세요. </b>
+					</div>
+					</c:if>
+					
+					
+					
+					
 				</div>
 				
 				<div class="row">
