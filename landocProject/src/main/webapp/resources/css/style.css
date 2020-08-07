@@ -1950,6 +1950,40 @@ h5 > a {
 .list-group .list-group-horizontal-sm{
 	width: 100%;
 }
+#suggestProduct{
+	/* display:block; */
+	display: none;
+	width: 70%;
+	position: absolute;
+	z-index: 2000;
+	left: 100px;
+	background-color: #ffffff;
+}
+.productList{
+	position: relative;
+	height: 70px;
+}
+.prodImg > img{
+	position: relative;
+	width: 70px;
+	height: 70px;
+	float: left;
+	margin-left: 9px;
+}
+.prodName{
+	position: relative;
+	display: inline-block;
+	width: 60%;
+}
+.prodPrice{
+	position: relative;
+	float: right;
+	margin-right: 35px;
+}
+.prodName, .prodPrice{
+	font-weight: 555;
+	color: #000000;
+}
 /* cart.html */
 #allProduct{
 	width: 20px;

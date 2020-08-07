@@ -41,6 +41,7 @@
 		font-weight: 600;
 		color: #0071ce;
 	}
+	
 	</style>
 </head>
 
@@ -63,27 +64,43 @@
                     <div class="product-search">
                     	<!-- 검색하기 -->
                         <form id="searchForm" action="productSearch.do" method="get">
-                            <input type="text" id="searchProduct" name="keyword" class="mb-4" />
+                            <input type="text" id="searchProduct" name="keyword" /><!-- class="mb-4" -->
                             <button id="searchBtn" type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
                         </form>
+                        <div id="suggestProduct">
+                        	<!-- 상품 추천 리스트 -->
+                        	<div class="productList">
+	                        	<a href="#">
+		                        	<span class="prodImg">
+		                        		<img src="#" />
+		                        	</span>
+		                        	<span class="prodName">
+		                        		상품명상품명상품명상품명상품명상품명상품명
+		                        	</span>
+		                        	<span class="prodPrice">
+		                        		51,000원
+		                        	</span>
+	                        	</a>
+                        	</div>
+                        	<!-- 상품 추천 리스트 -->
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-2"></div>
             </div>
 
-            <div class="row">
+            <div class="row mt-4">
 				<ul>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=7">전체보기</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=1">종합건강</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=2">눈건강</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=4">장건강</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=5">피로개선</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=6">피부건강</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=3">뼈&관절건강</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=7">전체보기</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=1">종합건강</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=2">눈건강</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=4">장건강</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=5">피로개선</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=6">피부건강</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=3">뼈&관절건강</a></li>
 				</ul>
             </div>
         </div>
-
 
         <div class="cateSeletion">
             <div class="row" style="height: 40px;">
@@ -123,7 +140,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- 상품나열 상품은 열두개 나열-->
         <div class="products-main mb-5">
@@ -275,7 +291,13 @@
 					$("#searchForm").submit();
 				}
 			});
+			
+			$("#searchProduct").keyup(function(){
+				//여기 해야해
+			});
 		});
+		
+		
 		function numberWithCommas(x) {
 		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
