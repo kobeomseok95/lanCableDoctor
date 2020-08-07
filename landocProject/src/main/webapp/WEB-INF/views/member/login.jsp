@@ -162,6 +162,8 @@
                      아이디 및 비밀번호를 잊으셨나요? </span> <a class="txt2" href="searchIdView.do">
                      아이디 </a><span class="txt2"> / </span> <a class="txt2"
                      href="searchPwdView.do"> 비밀번호 </a><span class="txt2">찾기</span>
+                     <a class="txt2"
+                     href="payView.do"> 결제 </a>
                </div>
             </form>
          </div>
