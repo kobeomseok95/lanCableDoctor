@@ -46,24 +46,54 @@
 
         <!--검색 창 부분-->
         <div id="searchArea">
-            <select id="searchCondition" name="searchCondition">
-                <option>주문번호</option>
-                <option>아이디</option>
-                <option>제목</option>
-                <option>내용</option>
-            </select>
-            <input type="text">
-            <button type="button">검색하기</button>
-            <!-- --------------------------------------------------- -->
-            <a href="orderQnaDetail.do">detail페이지 전환 확인용</a>
+        <form action="orderQnaSearch.do" method="POST" id="orderQnaForm">
+            <select id="searchCondition" name="condition">
+            <c:if test="${condition != null && condition eq 'opOrder'}">
+               	<option value="opOrder" selected="selected">주문번호</option>
+                <option value="opId">아이디</option>
+                <option value="opTitle">제목</option>
+                <option value="opContent">내용</option>
+            </c:if>
+            <c:if test="${condition != null && condition eq 'opId'}">
+               	<option value="opOrder" >주문번호</option>
+                <option value="opId" selected="selected">아이디</option>
+                <option value="opTitle">제목</option>
+                <option value="opContent">내용</option>
+            </c:if>
+            <c:if test="${condition != null && condition eq 'opTitle'}">
+               	<option value="opOrder" >주문번호</option>
+                <option value="opId" >아이디</option>
+                <option value="opTitle" selected="selected">제목</option>
+                <option value="opContent">내용</option>
+            </c:if>
+             <c:if test="${condition != null && condition eq 'opContent'}">
+               	<option value="opOrder" >주문번호</option>
+                <option value="opId" >아이디</option>
+                <option value="opTitle" >제목</option>
+                <option value="opContent" selected="selected">내용</option>
+            </c:if>
             
+                <option value="opOrder">주문번호</option>
+                <option value="opId">아이디</option>
+                <option value="opTitle">제목</option>
+                <option value="opContent">내용</option>
+            </select>
+            <input type="text" name="search" id="search" value="${search}" required="required">
+            <button type="button" onclick="searchHpRe()">검색하기</button>
+        </form>
+           
+  
+
+
+
         </div>
         <div id="selectBtn">
-            <button type="button">전체보기</button> <button type="button">답변대기</button>
+            <button type="button" onclick="location.href='orderQnaManage.do'">전체보기</button> <button type="button" onclick="location.href='qnaStatusN.do?page=${pi.currentPage}'">답변대기</button>
         </div>
         <!--테이블 부분-->
         <table id="contentTb">
             <tr>
+            	<th class="firstLine">번호</th>
                 <th class="firstLine">주문번호</th>
                 <th class="firstLine">상품이름</th>
                 <th class="firstLine">회원아이디</th>
@@ -72,37 +102,136 @@
                 <th class="firstLine">작성날짜</th>
                 <th class="firstLine">답변완료 여부</th>
             </tr>
-            <tr>
-                <td>203444333</td>
-                <td>비타민C</td>
-                <td>mo_so</td>
-                <td>배송언제와요?</td>
-                <td>배송빨리부탁드려용</td>
-                <td>20-07-13</td>
+            <c:forEach var="q" items="${list}" varStatus="status">
+            <tr onclick="location.href='orderQnaDetail.do?oqnaNo=${q.oqnaNo}'">
+             	<td>${status.count}</td>
+                <td>${q.orderNo}</td>
+                <td>${q.pdName}</td>
+                <c:if test="${not empty q.cId}">
+                <td>${q.cId}</td>
+                </c:if>
+                <c:if test="${not empty q.drId}">
+                <td>${q.drId}</td>
+                </c:if>
+                <td>${q.oqnaTitle}</td>
+                <td>${q.oqnaContent}</td>
+                <td>${q.oqnaDate}</td>
                 <td>
-                    N
+                    ${q.oqnaStatus}
                 </td>
             </tr>
-            <tr>
-                <td>203444333</td>
-                <td>비타민C</td>
-                <td>mo_so</td>
-                <td>배송언제와요?</td>
-                <td>배송빨리부탁드려용</td>
-                <td>20-07-13</td>
-                <td>
-                    Y
-                </td>
-            </tr>
-
+            </c:forEach>
+         
 
         </table>
-
+        <input type="hidden" value="${result}" id="result">
+ 
+        <div id="pagingArea" align="center">
+           <c:if test="${pi.currentPage == 1 }">
+              이전&nbsp;
+           </c:if>
+           
+           <c:if test="${pi.currentPage > 1 }">
+              <c:choose>
+                 <c:when test="${not empty condition}">
+                    <c:url var="searchQnaBack" value="orderQnaSearch.do">
+                       <c:param name="page" value="${pi.currentPage -1 }"/>
+                       <c:param name="condition" value="${condition}"/>
+                       <c:param name="search" value="${search}"/>
+                    </c:url>
+                    <a href="${orderQnaBack}">이전</a>
+                 </c:when>
+                 
+                 <c:otherwise>
+                    <c:url var="orderqnaBack" value="orderQnaManage.do">
+                       <c:param name="page" value="${pi.currentPage-1 }"/>
+                    </c:url>
+                    <a href="${orderqnaBack}">이전</a>
+                 </c:otherwise>
+              </c:choose>
+           </c:if>
+           
+           <!-- 번호들 -->
+           <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+              <c:if test="${p eq pi.currentPage }">
+                 <font color="red" size="4"><b>${p }</b></font>
+              </c:if>
+                
+                <c:if test="${p ne pi.currentPage }">
+                   <c:choose>
+                 <c:when test="${not empty condition}">
+                     <c:url var="searchQna" value="orderQnaSearch.do">
+                       <c:param name="page" value="${p}"/>
+                       <c:param name="condition" value="${condition}"/>
+                       <c:param name="search" value="${search}"/>
+                    </c:url>
+                    <a href="${searchQna}">${p }</a>
+                 </c:when>
+                 
+                 <c:otherwise>
+                     <c:url var="Qna" value="orderQnaManage.do">
+                       <c:param name="page" value="${p}"/>
+                    </c:url>
+                    <a href="${Qna}">${p }</a>
+                 </c:otherwise>
+              </c:choose>
+                </c:if>
+           </c:forEach>
+           
+           <c:if test="${pi.currentPage == pi.maxPage }">
+              &nbsp;이후
+           </c:if>
+           
+           <c:if test="${pi.currentPage < pi.maxPage }">
+              <c:choose>
+                  <c:when test="${not empty condition}">
+                    <c:url var="searchQnaNext" value="orderQnaSearch.do">
+                       <c:param name="page" value="${pi.currentPage +1 }"/>
+                       <c:param name="condition" value="${condition}"/>
+                       <c:param name="search" value="${search}"/>
+                    </c:url>
+                    <a href="${searchQnaNext}">이후</a>
+                 </c:when>
+                 
+                 <c:otherwise>
+                    <c:url var="orderQnaNext" value="orderQnaManage.do">
+                           <c:param name="page" value="${pi.currentPage+1 }"/>
+                    </c:url>
+                    <a href="${orderQnaNext}">이후</a>
+                 </c:otherwise>
+              </c:choose>
+             </c:if>
+        
+        </div><!-- pageingArea end -->
 
 
     </div>
 
 
+
+   <script>
+      function searchHpRe(){
+    	 var expr =  /^[0-9]*$/;
+         var searchCondition = $("#searchCondition option:selected").val();
+         var search = $("#search").val();
+         if(!expr.test(search) &&searchCondition=='opOrder'){
+        	 alert("숫자만 입력하세요");
+        	 
+         }else{
+        	 $("#orderQnaForm").submit();
+         }
+        
+      }
+      
+      $(function(){
+      	var result = $("#result").val();
+      	if(result!=""){
+      		alert("답변등록이 완료되었습니다");
+      	}
+      })
+      	
+  
+   </script>
    
     <script>
           
