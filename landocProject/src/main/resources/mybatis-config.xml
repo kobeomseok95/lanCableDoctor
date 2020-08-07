@@ -57,7 +57,7 @@
 		<mapper resource="/mappers/adminOrderQna-mapper.xml"/>
 		<mapper resource="/mappers/adminOrderMg-mapper.xml"/>
 		<mapper resource="/mappers/adminClient-mapper.xml"/>
-     	<mapper resource="/mappers/adminDrClient-mapper.xml"/>
+		<mapper resource="/mappers/adminDrClient-mapper.xml"/>
      	<mapper resource="/mappers/product-mapper.xml"/>
      	<mapper resource="/mappers/dMypage-mapper.xml" />
 	</mappers>

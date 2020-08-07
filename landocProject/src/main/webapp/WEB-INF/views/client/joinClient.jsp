@@ -8,6 +8,32 @@
 	<meta charset="UTF-8">
 	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="SolMusic HTML Template">
+<meta name="keywords" content="music, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Favicon -->
+<link href="<%=request.getContextPath()%>/resources/img/favicon.ico"
+	rel="shortcut icon" />
+
+<!-- Google font -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
+	rel="stylesheet">
+
+<!-- Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/slicknav.min.css" />
+
+<!-- Main Stylesheets -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css" />
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/resources/login_images/icons/favicon.ico"/>
 <!--===============================================================================================-->
@@ -47,13 +73,16 @@
 	.searchDiv{display: inline-block; margin-bottom: 0px;}
 	.searchBtn{background-color: #007ee5; width: 140px; height: 40px; border-radius: 5px; border: 0px; color: white;}
 	.wrap-input1001{display: inline-block;}
+	
+	
 </style>
 </head>
 <body>
+<%@ include file="../static/header.jsp"%>
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
-			<form class="login100-form validate-form" action="joinClient.do" method="post">
+			<form class="login100-form validate-form" action="joinClient.do" method="post" onsubmit="return validate();">
 				<span class="login100-form-title p-b-48">
 					<div class="logoDiv"> 
 						<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -70,6 +99,9 @@
 						<div class="wrap-input100 validate-input" data-validate="영소문,숫자 4~20글자로 입력가능합니다." >
 							<input class="input100" type="text" name="userId" id="userId">
 							<span class="focus-input100" data-placeholder="아이디"></span>
+							<span class="focus-input100 guide NO" id="NO" data-placeholder="NO!!" style="margin-left:90%; width:50%; display:none"></span>
+							<span class="focus-input100 guide OK" id="OK"data-placeholder="OK!!" style="margin-left:90%; width:50%; display:none"></span>
+							<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0">
 						</div>
 
 						<div class="wrap-input100 validate-input" data-validate="영소문,숫자 4~20글자로 입력가능합니다.">
@@ -130,11 +162,11 @@
 						</div>
 						
 						<div>
-							<input type="checkbox" id="checkAll" class="infoBox"><label>전체동의</label><br>
+							<label><input type="checkbox" id="checkAll" class="infoBox">전체동의</label><br>
 							<div class="checkBox">
-								<input type="checkbox" id="check1" class="infoBox"><a href="agree1.html">서비스 이용 약관</a><a>및</a><a href="agree2.html">개인정보 취급 방침</a><a>(필수)</a><br>
-								<input type="checkbox" id="check2" class="infoBox"><a href="agree3.html">위치기반 서비스 이용 약관</a><a>(필수)</a><br>
-								<input type="checkbox" id="check3" class="infoBox"><a>마케팅 정보수신 동의 (선택)</a>
+								<input type="checkbox" id="check1" class="infoBox"><a href="agree1View.do">서비스 이용 약관</a><a>및</a><a href="agree2View.do">개인정보 취급 방침</a><a>(필수)</a><br>
+								<input type="checkbox" id="check2" class="infoBox"><a href="agree3View.do">위치기반 서비스 이용 약관</a><a>(필수)</a><br>
+								<input type="checkbox" id="check3" name="check3" value="Y" class="infoBox"><a>마케팅 정보수신 동의 (선택)</a>
 							</div>
 						</div>
 	
@@ -152,7 +184,7 @@
 								회원이라구요?
 							</span>
 	
-							<a class="txt2" href="login.do">
+							<a class="txt2" href="loginView.do">
 								로그인
 							</a>
 						</div>
@@ -165,6 +197,7 @@
 	
 
 	<div id="dropDownSelect1"></div>
+	  <%@ include file="../static/footer.jsp"%>
 	
 <!--===============================================================================================-->
 <script src="<%=request.getContextPath()%>/resources/login_vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -193,5 +226,56 @@
 	 	});
 	 	
 	 </script>
+	 
+	 <script>
+	 	$(function(){
+	 		$("#userId").on("keyup", function(){
+	 			var userId= $(this).val().trim();
+	 			
+	 			if(userId.length < 4){
+	 				$(".OK").hide();
+	 				$(".NO").hide();
+	 				$("#idDuplicateCheck").val();
+	 				
+	 				return;
+	 			} 
+	 			
+	 			$.ajax({
+	 				url:"dupid.do",
+	 				data:{id:userId},
+	 				success:function(data){
+	 					if(data == "true"){ 
+	 						$(".NO").hide();
+	 						$(".OK").show();
+	 						$("#idDuplicateCheck").val(1);
+	 					}else{
+	 						$(".NO").show();
+	 						$(".OK").hide();
+	 						$("#idDuplicateCheck").val(0);
+	 					}
+	 				},
+	 				error:function(request, status, errorData){
+	                     alert("error code: " + request.status + "\n"
+	                           +"message: " + request.responseText
+	                           +"error: " + errorData);
+	                 } 
+	 			})
+	 		})
+	 	})
+	 	
+	 	
+	 	
+	 </script>
+	 <script>
+	 function validate(){
+			// 아이디 중복 체크 후 회원가입 버튼 눌렀을 때
+			if($("#idDuplicateCheck").val()==0){
+				alert("사용 가능한 아이디를 입력해 주세요.");
+				return false;
+			}
+			return true;
+	 }
+	 </script>
+	 
 </body>
 </html>

@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
+<%
+	String result = (String)request.getParameter("result");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -462,6 +465,12 @@
 	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 </body>
+<script>
+<%if(result != null){%>
+alert("탈퇴하셨습니다.");
+
+<%}%>
+</script>
 
 
 </html>
