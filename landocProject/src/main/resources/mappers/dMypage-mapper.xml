@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dMypage">
+
+	
+
+
+	<resultMap type="DPdReview" id="pdReviewListMap">
+		<result property="pdReviewContent" column="PDREVIEW_CONTENT"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="pdNo" column="PD_NO"/>
+		<result property="orderDate" column="ORDER_DATE"/>
+		<result property="pdName" column="PD_NAME"/>
+		<result property="pdReviewNo" column="PDREVIEW_NO"/>
+		<result property="dNo" column="DR_NO"/>
+	</resultMap>
+
+	<resultMap type="DOrderList" id="orderListMap">
+		<result property="orderNo" column="ORDER_NO" />
+		<result property="orderDate" column="ORDER_DATE" />
+		<result property="amountPrice" column="AMOUNT_PRICE" />
+		<result property="paymentWay" column="PAYMENT_WAY" />
+		<result property="usePoint" column="USE_POINT" />
+		<result property="drNo" column="DR_NO" />
+		<result property="pdNo" column="PD_NO" />
+		<result property="opCount" column="OP_COUNT" />
+		<result property="pdName" column="PD_NAME" />
+		<result property="tumbnail" column="THUMBNAIL" />
+		<result property="oCode" column="O_CODE" />
+		<result property="oName" column="O_NAME" />
+		<result property="discountPrice" column="DISCOUNT_PRICE" />
+		<result property="originPrice" column="ORIGIN_PRICE" />
+		<result property="cName" column="DR_NAME" />
+		<result property="cPostCode" column="DR_POSTCODE" />
+		<result property="cAddress" column="DR_ADDRESS" />
+		<result property="cPhone" column="DR_PHONE" />
+		<result property="countMultiple" column="COUNTMULTIPLE" />
+
+	</resultMap>
+
+
+	<resultMap type="DOrderQna" id="orderQnaMap">
+		<result property="oqnaNo" column="OQNA_NO" />
+		<result property="orderNo" column="ORDER_NO" />
+		<result property="oqnaTitle" column="OQNA_TITLE" />
+		<result property="oqnaContent" column="OQNA_CONTENT" />
+		<result property="oqnaDate" column="OQNA_DATE" />
+		<result property="oqnaStatus" column="OQNA_STATUS" />
+		<result property="oqnaAnswer" column="OQNA_ANSWER" />
+		<result property="pdNo" column="PD_NO" />
+		<result property="pdName" column="PD_NAME" />
+		<result property="drNo" column="DR_NO" />
+
+	</resultMap>
+	
+	<resultMap type="DrMypagePoint" id="CMypagePointMap">
+		<result property="allSumUsePoint" column="ALLSUMUSEPOINT"/>
+		<result property="monthSumUsePoint" column="MONTHSUMUSEPOINT"/>
+		<result property="nowMonth" column="NOWMONTH"/>
+		<result property="cPoint" column="C_POINT"/>
+		<result property="useSavePoint" column="USESAVE_POINT"/>
+		<result property="useSaveDate" column="USESAVE_DATE"/>
+		<result property="pdHpName" column="PDHPNAME"/>
+		<result property="hpReNo" column="HP_RE_NO"/>
+		<result property="adrNo" column="ADR_NO"/>
+		
+	</resultMap>
+
+
+	<select id="pdReviewList" parameterType="string" resultMap="pdReviewListMap">
+		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO, PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO,PR.DR_NO
+		FROM PRODUCTREVIEW PR
+		JOIN
+		PAYMENT PA ON(PR.ORDER_NO=PA.ORDER_NO)
+		JOIN PRODUCT PD
+		ON(PD.PD_NO=PR.PD_NO)
+		WHERE PR.DR_NO=#{drNo}
+		ORDER BY PA.ORDER_DATE DESC
+	</select>
+
+	<select id="orderList" parameterType="string"
+		resultMap="orderListMap">
+		SELECT
+		PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.DR_NO,OP.PD_NO,PD.PD_NAME,
+		PD.THUMBNAIL,OS.O_CODE,OS.O_NAME
+		FROM PAYMENT PA
+		JOIN ORDERPRODUCT OP
+		ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
+		JOIN
+		ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS
+		ON(OM.O_CODE=OS.O_CODE)
+		WHERE PA.DR_NO =#{drNo} AND (OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE=14)
+		ORDER BY PA.ORDER_DATE DESC
+	</select>
+
+	<select id="orderDetail" parameterType="DOrderList"
+		resultMap="orderListMap">
+		SELECT
+		PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.PAYMENT_WAY,PA.USE_POINT,PA.DR_NO,OP.PD_NO,OP.OP_COUNT,
+		PD.PD_NAME,OS.O_CODE,OS.O_NAME,
+		TO_CHAR(ORIGIN_PRICE-SELL_PRICE+PA.USE_POINT,'999,999,999') AS
+		DISCOUNT_PRICE,TO_CHAR(PD.ORIGIN_PRICE,'999,999,999') AS ORIGIN_PRICE,
+		C.DR_NAME,C.DR_POSTCODE,C.DR_ADDRESS,C.DR_PHONE
+		,TO_CHAR(ORIGIN_PRICE*OP.OP_COUNT,'999,999,999') AS COUNTMULTIPLE
+		FROM
+		PAYMENT PA
+		JOIN ORDERPRODUCT OP ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT
+		PD ON(PD.PD_NO=OP.PD_NO)
+		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
+		JOIN DRCLIENT C
+		ON(OM.DR_NO=C.DR_NO)
+		WHERE PA.DR_NO =#{drNo} AND OM.ORDER_NO=#{orderNo}
+		ORDER BY PA.ORDER_DATE DESC
+	</select>
+
+	<select id="orderListDateSearch" parameterType="DOrderList"
+		resultMap="orderListMap">
+		SELECT
+		PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.DR_NO,OP.PD_NO,PD.PD_NAME,
+		PD.THUMBNAIL,OS.O_CODE,OS.O_NAME
+		FROM PAYMENT PA
+		JOIN ORDERPRODUCT OP
+		ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
+		JOIN
+		ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS
+		ON(OM.O_CODE=OS.O_CODE)
+		WHERE PA.DR_NO =#{drNo} AND (OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE=14)
+		<if test='date=="today"'>AND TRUNC(SYSDATE) - ORDER_DATE =0</if>
+		<if test='date=="weeks"'>AND 7>=TRUNC(SYSDATE)-ORDER_DATE </if>
+		<if test='date=="onemonth"'>AND 30>=TRUNC(SYSDATE) - ORDER_DATE </if>
+		<if test='date=="threemonth"'>AND 90>= TRUNC(SYSDATE) - ORDER_DATE </if>
+		<if test='date=="sixmonth"'>AND 180>= TRUNC(SYSDATE) - ORDER_DATE </if>
+		ORDER BY PA.ORDER_DATE DESC
+	</select>
+
+	<select id="orderListDateSearch2" parameterType="DOrderList"
+		resultMap="orderListMap">
+		SELECT
+		PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.DR_NO,OP.PD_NO,PD.PD_NAME,
+		PD.THUMBNAIL,OS.O_CODE,OS.O_NAME
+		FROM PAYMENT PA
+		JOIN ORDERPRODUCT OP
+		ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
+		JOIN
+		ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS
+		ON(OM.O_CODE=OS.O_CODE)
+		WHERE PA.DR_NO =#{drNo} AND (OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE=14)
+		AND ORDER_DATE BETWEEN #{calendarDate1} AND
+		#{calendarDate2}
+		ORDER BY PA.ORDER_DATE DESC
+	</select>
+
+	<insert id="pdReviewInsert" parameterType="DPdReview">
+		INSERT INTO
+		PRODUCTREVIEW
+		VALUES(SEQ_PDREVIEW.NEXTVAL,#{pdReviewContent},#{orderNo},#{pdNo},NULL,#{dNo})
+	</insert>
+
+	<update id="updateOStatus" parameterType="DPdReview">
+		UPDATE ORDERMG SET
+		O_CODE=14 WHERE ORDER_NO =#{orderNo} AND DR_NO=#{dNo}
+	</update>
+
+	<select id="orderQnaListY" parameterType="DOrderQna"
+		resultMap="orderQnaMap">
+		SELECT OQ.*,P.PD_NO,P.PD_NAME,OM.DR_NO
+		FROM ORDERQNA OQ
+		JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		JOIN
+		ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT P
+		ON(P.PD_NO=OP.PD_NO)
+		WHERE OM.DR_NO=#{drNo} AND OQ.OQNA_STATUS='Y'
+	</select>
+
+	<select id="orderQnaListN" parameterType="DOrderQna"
+		resultMap="orderQnaMap">
+		SELECT OQ.*,P.PD_NO,P.PD_NAME,OM.DR_NO
+		FROM ORDERQNA OQ
+		JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		JOIN
+		ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT P
+		ON(P.PD_NO=OP.PD_NO)
+		WHERE OM.DR_NO=#{drNo} AND OQ.OQNA_STATUS='N'
+		ORDER BY OQ.OQNA_DATE DESC
+	</select>
+
+	<select id="orderCancelList" parameterType="string"
+		resultMap="orderListMap">
+		SELECT PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
+		AMOUNT_PRICE,PA.DR_NO,OP.PD_NO,PD.PD_NAME,
+		PD.THUMBNAIL,OS.O_CODE,OS.O_NAME
+		FROM PAYMENT PA
+		JOIN ORDERPRODUCT OP
+		ON(PA.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
+		JOIN
+		ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		JOIN ORDER_STATE OS
+		ON(OM.O_CODE=OS.O_CODE)
+		WHERE PA.DR_NO =#{drNo} AND OM.O_CODE BETWEEN 6
+		AND 13 OR OM.O_CODE = 15
+		ORDER BY PA.ORDER_DATE DESC
+	</select>
+
+	<insert id="orderQnaInsert" parameterType="DOrderQna">
+		INSERT INTO ORDERQNA
+		VALUES(SEQ_ORDERQNA.NEXTVAL,#{orderNo},#{oqnaTitle},#{oqnaContent},SYSDATE,'N',NULL)
+	</insert>
+
+	<select id="pdReviewListCount" resultType="_int">
+		SELECT COUNT(*) FROM
+		PRODUCTREVIEW
+	</select>
+	
+	<select id="orderListCount" resultType="_int">
+		SELECT COUNT(*) FROM PAYMENT
+	</select>
+	
+	<select id="orderQnaListCount" resultType="_int">
+		SELECT COUNT(*) FROM ORDERQNA
+	</select>
+	
+	<select id="updateReview" parameterType="DPdReview" resultMap="pdReviewListMap">
+		SELECT *
+		FROM PRODUCTREVIEW
+		WHERE ORDER_NO=#{orderNo} AND DR_NO=#{dNo}
+	</select>
+	
+	<update id="updateReviewInsert" parameterType="DPdReview">
+		UPDATE PRODUCTREVIEW SET PDREVIEW_CONTENT = #{pdReviewContent} WHERE ORDER_NO=#{orderNo} AND DR_NO=#{dNo}
+	</update>
+	
+	
+	<select id="selectAllSumPoint" resultType="string" parameterType="string">
+		SELECT NVL(SUM(use_point),0) AS ALLSUMUSEPOINT
+		FROM PAYMENT
+		WHERE DR_NO=#{drNo}
+	</select>
+	
+	<select id="selectMonthSumPoint"  resultType="string" parameterType="string">
+		SELECT NVL(SUM(use_point),0) AS MONTHSUMUSEPOINT
+		FROM PAYMENT
+		WHERE DR_NO=#{drNo} AND TO_CHAR(ORDER_DATE,'Month') =  TO_CHAR(SYSDATE,'Month')
+	</select>
+	
+	<select id="selectNowMonthPoint"  resultType="string">
+		SELECT TO_CHAR(SYSDATE,'MONTH') AS NOWMONTH
+		FROM DUAL
+	</select>
+	
+	<select id="selectCPoint"  resultType="string" parameterType="string">
+		SELECT DR_POINT
+		FROM DRCLIENT
+		WHERE DR_NO=#{drNo}
+	</select>
+	
+	<select id="selectPointList" resultMap="CMypagePointMap" parameterType="string">
+		SELECT TO_CHAR('-'||P.USE_POINT,'999,999,999') AS USESAVE_POINT,P.USE_DATE AS USESAVE_DATE,PD.PD_NAME AS PDHPNAME,PD.PD_NO AS HP_RE_NO,PD.ORIGIN_PRICE AS ADR_NO
+		FROM PAYMENT P
+		JOIN ORDERPRODUCT OP ON(P.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT PD ON(OP.PD_NO=PD.PD_NO)
+		WHERE P.DR_NO=#{drNo} AND USE_POINT !=0
+		
+		UNION 
+		
+		SELECT TO_CHAR(PS.GETPOINT,'999,999,999'),PS.GETDATE,H.HP_NAME,ps.hp_re_no,PS.ADR_NO
+		FROM POINTSAVE PS
+		JOIN HPREVIEW HW ON(PS.HP_RE_NO = HW.HP_RE_NO)
+		JOIN HOSPITAL H ON(HW.HP_NO=H.HP_NO)
+		WHERE PS.DR_NO=#{drNo}
+		
+		UNION 
+
+		SELECT TO_CHAR(PS.GETPOINT,'999,999,999'),PS.GETDATE,AD.AD_TITLE,ps.hp_re_no,PS.ADR_NO
+		FROM POINTSAVE PS
+		JOIN ASKDRREPLY A ON(A.ADR_NO = PS.ADR_NO)
+		JOIN ASKDR AD ON(AD.AD_NO=A.AD_NO)
+		WHERE PS.DR_NO=#{drNo}
+		ORDER BY 2 DESC
+	</select>
+	
+	<select id="listCountPointList" resultType="_int" parameterType="string">
+	select count(*)
+	from( 
+		SELECT TO_CHAR('-'||P.USE_POINT,'999,999,999') AS USESAVE_POINT,P.USE_DATE AS USESAVE_DATE,PD.PD_NAME AS PDHPNAME,PD.PD_NO AS HP_RE_NO,PD.ORIGIN_PRICE AS ADR_NO
+		FROM PAYMENT P
+		JOIN ORDERPRODUCT OP ON(P.ORDER_NO=OP.ORDER_NO)
+		JOIN PRODUCT PD ON(OP.PD_NO=PD.PD_NO)
+		WHERE P.DR_NO=#{drNo} AND USE_POINT !=0
+		
+		UNION 
+		
+		SELECT TO_CHAR(PS.GETPOINT,'999,999,999'),PS.GETDATE,H.HP_NAME,ps.hp_re_no,PS.ADR_NO
+		FROM POINTSAVE PS
+		JOIN HPREVIEW HW ON(PS.HP_RE_NO = HW.HP_RE_NO)
+		JOIN HOSPITAL H ON(HW.HP_NO=H.HP_NO)
+		WHERE PS.DR_NO=#{drNo}
+		
+		UNION 
+
+		SELECT TO_CHAR(PS.GETPOINT,'999,999,999'),PS.GETDATE,AD.AD_TITLE,ps.hp_re_no,PS.ADR_NO
+		FROM POINTSAVE PS
+		JOIN ASKDRREPLY A ON(A.ADR_NO = PS.ADR_NO)
+		JOIN ASKDR AD ON(AD.AD_NO=A.AD_NO)
+		WHERE PS.DR_NO=#{drNo}
+		ORDER BY 2 DESC)
+	</select>
+	
+	<update id="orderCancelUpdate" parameterType="DOrderList">
+		UPDATE ORDERMG SET O_CODE=#{oCode} WHERE ORDER_NO=#{orderNo}
+	</update>
+</mapper>

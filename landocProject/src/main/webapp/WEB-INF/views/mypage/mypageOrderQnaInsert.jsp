@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>주문목록</title>
+<title>주문QnA작성</title>
 <meta charset="UTF-8">
 <meta name="description" content="SolMusic HTML Template">
 <meta name="keywords" content="music, html">
@@ -67,7 +67,7 @@
 			<div class="col-12 text-left">
 
 				<div class="point-breadcrumb text-left">
-					<a href="mypageWork.html"
+					<a href="mypageWork.do"
 						style="color: #0071ce; letter-spacing: -0.5px; font-size: 25px;">
 						나의 주문조회 </a> > <a href="myOrderList.html"
 						style="color: #0071ce; letter-spacing: -0.5px; font-size: 25px;">

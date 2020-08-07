@@ -58,7 +58,7 @@
                 <div class="col-12 text-left">
     
                     <div class="point-breadcrumb text-left">
-                        <a href="mypagePoint.do" style="color:  #0071ce;letter-spacing: -0.5px; font-size: 20px;">
+                        <a href="drMypagePoint.do" style="color:  #0071ce;letter-spacing: -0.5px; font-size: 20px;">
                             나의 포인트
                         </a>
                         >

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>나의 활동</title>
+<title>주문QnA</title>
 <meta charset="UTF-8">
 <meta name="description" content="SolMusic HTML Template">
 <meta name="keywords" content="music, html">

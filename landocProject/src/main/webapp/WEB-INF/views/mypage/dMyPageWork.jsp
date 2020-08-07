@@ -111,8 +111,7 @@
 			<div class="row mt-3" id="myQnaSub" style="display: none;">
 				<div class="btn w-100 py-3 pl-5 text-left" id="" style="border: 2px solid #9b9b9b; font-size: 21px;">
 					<a href="#" style="color: #45668e;">상품 QnA</a><br>
-					<a href="#" style="color: #45668e;">주문 QnA</a><br>
-					<a href="#" style="color: #45668e;">사이트 QnA</a>
+					<a href="drOrderQnaList.do" style="color: #45668e;">주문 QnA</a><br>
 				</div>
 			</div>
 
@@ -130,13 +129,13 @@
 
 			<div class="row mt-3" id="myOrderSub" style="display: none;">
 				<div class="btn w-100 py-3 pl-5 text-left" id="" style="border: 2px solid #9b9b9b; font-size: 21px;">
-					<a href="myOrderList.do" style="color: #45668e;">주문목록</a><br> 
-					<a href="myOrderCancelList.do" style="color: #45668e;">주문취소/교환/반품 목록</a>
+					<a href="drMyOrderList.do" style="color: #45668e;">주문목록</a><br> 
+					<a href="drMyOrderCancelList.do" style="color: #45668e;">주문취소/교환/반품 목록</a>
 				</div>
 			</div>
 
 			<div class="row mt-3">
-				<button class="btn w-100 py-3 pl-5 text-left" id="" style="border: 2px solid #9b9b9b; font-size: 21px;">
+				<button class="btn w-100 py-3 pl-5 text-left" id="" onclick="location.href='drPdReview.do'" style="border: 2px solid #9b9b9b; font-size: 21px;">
                   	  상품 리뷰
                 </button>
 			</div>
