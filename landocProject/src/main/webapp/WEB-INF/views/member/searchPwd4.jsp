@@ -68,7 +68,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 			<c:if test="${!empty ClientSearchPwd3 && empty DrClientSearchPwd3 }">
-				<form class="login100-form validate-form" action="ClientSearchPwd4.do">
+				<form class="login100-form validate-form" action="ClientSearchPwd4.do" onsubmit="return validate();">
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv"> 
 							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -84,6 +84,7 @@
 						<input class="input100" type="password" name="userPwd" id="userPwd">
 						<span class="focus-input100" data-placeholder="새 비밀번호 확인"></span>
 						<input type="hidden" value="${ClientSearchPwd3.cNo }" name="cNo">
+						<input type="hidden" name="pwdDuplicateCheck" id="pwdDuplicateCheck" value="0">
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="비밀번호가 일치하지 않습니다.">
@@ -97,7 +98,7 @@
 					<div class="container-login100-form-btn" style="padding-top: 50px;">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" onclick="location.href='home.do'">
+							<button class="login100-form-btn">
 								비밀번호 변경
 							</button>
 						</div>
@@ -125,7 +126,7 @@
 				</form>
 			</c:if>
 			<c:if test="${empty ClientSearchPwd3 && !empty DrClientSearchPwd3 }">
-				<form class="login100-form validate-form" action="DrClientSearchPwd4.do"> 
+				<form class="login100-form validate-form" action="DrClientSearchPwd4.do" onsubmit="return validate();"> 
 					<span class="login100-form-title p-b-48" >
 						<div class="logoDiv" > 
 							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -141,6 +142,7 @@
 						<input class="input100" type="password" name="userPwd" id="userPwd">
 						<span class="focus-input100" data-placeholder="새 비밀번호 확인"></span>
 						<input type="hidden" value="${DrClientSearchPwd3.drNo }" name="drNo">
+						<input type="hidden" name="pwdDuplicateCheck" id="pwdDuplicateCheck" value="0">
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="비밀번호가 일치하지 않습니다.">
@@ -154,7 +156,7 @@
 					<div class="container-login100-form-btn" style="padding-top: 50px;">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn" onclick="location.href='home.do'">
+							<button class="login100-form-btn">
 								비밀번호 변경
 							</button>
 						</div>
@@ -212,5 +214,49 @@
 		
 
 	</script>
+	 <script>
+	 	$(function(){
+	 		$("#userPwd").on("keyup", function(){
+	 			var userPwd= $(this).val().trim();
+	 			
+	 			if(userPwd.length < 4){
+	 				$("#pwdDuplicateCheck").val();
+	 				
+	 				return;
+	 			} 
+	 			
+	 			$.ajax({
+	 				url:"dupPwd.do?cNo=${ClientSearchPwd3.cNo}&drNo=${DrClientSearchPwd3.drNo }",
+	 				data:{pwd:userPwd},
+	 				success:function(data){
+	 					if(data == "true"){ 
+	 						$("#pwdDuplicateCheck").val(0);
+	 					}else{
+	 						$("#pwdDuplicateCheck").val(1);
+	 					}
+	 				},
+	 				error:function(request, status, errorData){
+	                     alert("error code: " + request.status + "\n"
+	                           +"message: " + request.responseText
+	                           +"error: " + errorData);
+	                 } 
+	 			})
+	 		})
+	 	})
+	 	
+	 	
+	 	
+	 </script>
+	 <script>
+	 function validate(){
+			// 아이디 중복 체크 후 회원가입 버튼 눌렀을 때
+			if($("#pwdDuplicateCheck").val()==0){
+				alert("이전의 비밀번호와 같습니다.");
+				return false;
+			}
+			return true;
+	 }
+	 </script>
+	
 </body>
 </html>

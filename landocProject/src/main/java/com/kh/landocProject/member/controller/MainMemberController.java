@@ -1378,4 +1378,39 @@ public class MainMemberController {
 		public String agree3View() {
 			return "member/agree3";
 		}
+		
+		// 의사회원 아이디 중복
+		@RequestMapping("dupPwd.do")
+		public void pwdDrDuplicateCheck(HttpServletResponse response, String pwd, String cNo, String drNo, DrClient d, Client c) throws IOException {
+			System.out.println("mainMemberController.java test line 1385");
+//			System.out.println(pwd);
+//			System.out.println(cNo);
+//			System.out.println(drNo);
+			
+			if(cNo != null && drNo.equals("")) {
+				Client selectPwd = mService.selectPwd(cNo);
+				
+				boolean isUsable = bcryptPasswordEncoder.matches(pwd, selectPwd.getUserPwd());
+				
+				PrintWriter pw = response.getWriter();
+				pw.print(isUsable);
+				pw.flush();
+				pw.close();
+				
+			}else if(cNo.equals("") && drNo != null) {
+				DrClient selectDrPwd = mService.selectDrPwd(drNo);
+//				System.out.println("selectDrPwd : " + selectDrPwd);
+//				System.out.println("bcryptPasswordEncode : " + bcryptPasswordEncoder.matches(pwd, selectDrPwd.getUserPwd()));
+				
+				boolean isUsable = bcryptPasswordEncoder.matches(pwd, selectDrPwd.getUserPwd());
+				
+				PrintWriter pw = response.getWriter();
+				pw.print(isUsable);
+				pw.flush();
+				pw.close();	
+				
+			}
+		}
+		
+		
 }

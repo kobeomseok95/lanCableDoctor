@@ -458,4 +458,16 @@
 		FROM DRCLIENT
 		WHERE DR_ID=#{userId}
 	</select>
+	
+	<select id="selectPwd" parameterType="Client" resultMap="ClientResultSet">
+		SELECT * 
+		FROM CLIENT
+		WHERE C_NO = #{cNo}
+	</select>
+	
+	<select id="selectDrPwd" parameterType="DrClient" resultMap="DoctorResultSet">
+		SELECT * 
+		FROM DRCLIENT
+		WHERE DR_NO = #{drNo}
+	</select>
 </mapper>

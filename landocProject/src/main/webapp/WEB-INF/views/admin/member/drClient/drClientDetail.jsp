@@ -157,7 +157,7 @@
     function no(frm){
     	if($("#approval").val() == 'N'){
     	frm.action="drClientApproval2.do";   
-    		frm.submit();
+    	frm.submit();
     		return true;
     	}else if($("#approval").val() == 'X'){
     		alert("이미 미승인 버튼 누르셨습니다.");

@@ -257,5 +257,14 @@ public class MainMemberDao {
 		
 		return sqlSessionTemplate.selectOne("memberMapper.drIdCheck", id);
 	}
+	public Client selectPwd(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.selectPwd", cNo);
+	}
+	public DrClient selectDrPwd(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.selectDrPwd", drNo);
+	}
+
 
 }

@@ -110,6 +110,12 @@ public interface MainMemberService {
 
 	int checkIdDrDup(String id);
 
+	Client selectPwd(String cNo);
+	
+	DrClient selectDrPwd(String cNo);
+
+	
+
 
 
 }
