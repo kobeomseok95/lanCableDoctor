@@ -131,7 +131,7 @@
 						</div>
 						<div class="col-12 col-md-6 mb-2 mb-md-0">
 							<input type="text" class="form-control form-control-lg" name="hpSearch"
-								placeholder="병원이름을 검색하세요">
+								placeholder="병원이름을 검색하세요" required="required">
 						</div>
 						<div class="col-12 col-md-3">
 							<button type="submit" class="btn btn-block btn-lg btn-primary"

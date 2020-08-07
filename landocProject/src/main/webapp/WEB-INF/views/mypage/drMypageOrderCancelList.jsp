@@ -74,7 +74,7 @@
 			<div class="col-12 text-left">
 
 				<div class="point-breadcrumb text-left">
-					<a href="mypageWork.do"
+					<a href="doctorMypage.do"
 						style="color: #0071ce; letter-spacing: -0.5px; font-size: 25px;">
 						나의 주문조회 </a> > <strong class="ml-2" style="font-size: 25px;">주문취소/교환/반품
 						목록</strong>

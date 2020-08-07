@@ -130,7 +130,7 @@
 	
 	<script>
 		function pointList(){
-			location.href="pointList.do";
+			location.href="drPointList.do";
 		}
 	</script>
 	

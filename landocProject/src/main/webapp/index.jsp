@@ -12,10 +12,11 @@
 </head>
 <body>
 	<!-- 클라이언트 페이지 이동 -->
-	<%-- <%response.sendRedirect(request.getContextPath() + "/home.do");%>  --%>
+	 <%response.sendRedirect(request.getContextPath() + "/home.do");%>  
 	
 
 	<!-- admin 페이지 이동(clientManage.jsp로 이동)  -->
-	  <% response.sendRedirect(request.getContextPath() + "/admin.do"); %> 
+	<%--  <% response.sendRedirect(reques
+	t.getContextPath() + "/admin.do"); %> --%> 
 </body>
 </html>
