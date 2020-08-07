@@ -62,9 +62,9 @@
                 <div class="col-lg-8">
                     <div class="product-search">
                     	<!-- 검색하기 -->
-                        <form action="#" method="get">
-                            <input type="text" id="searchProduct" name="searchProduct" class="mb-4" />
-                            <button type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
+                        <form id="searchForm" action="productSearch.do" method="get">
+                            <input type="text" id="searchProduct" name="keyword" class="mb-4" />
+                            <button id="searchBtn" type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
                         </form>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
             </div>
 
             <div class="row">
-				<ul>	<!-- productIndex.do?sortNo=1&pageNo=1&categoryNo=7 -->
+				<ul>
 				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=7">전체보기</a></li>
 				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=1">종합건강</a></li>
 				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=2">눈건강</a></li>
@@ -264,6 +264,15 @@
 				var sortNo = "${sortNo}";
 				if(index === sortNo - 1){
 					$(item).css("color", "#a82400");
+				}
+			});
+			
+			$('#searchBtn').on('click', function(){
+				if($("#searchProduct").val().length === 0){
+					alert('한 글자 이상 검색해주세요!');
+				}
+				else{
+					$("#searchForm").submit();
 				}
 			});
 		});

@@ -27,5 +27,9 @@ public class ProductDao {
 		RowBounds rowBounds = new RowBounds(offset, page.getBoardLimit());
 		return sqlSessionTemplate.selectList("productMapper.getMainList", param, rowBounds);
 	}
+
+	public int getSearchCount(HashMap<String, Object> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getSearchCount", param);
+	}
 	
 }

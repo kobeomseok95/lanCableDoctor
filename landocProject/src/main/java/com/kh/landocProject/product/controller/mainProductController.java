@@ -1,5 +1,6 @@
 package com.kh.landocProject.product.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,8 +47,22 @@ public class mainProductController {
 	}
 	
 	@RequestMapping(value="productSearch.do", method=RequestMethod.GET)
-	public String productSearch() {
-		return "product/productSearch";
+	public /*ModelAndView*/ void productSearch(ModelAndView mv,
+															@RequestParam String keyword) {
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		ArrayList<String> keywords = new ArrayList<String>();
+		keywords.add(keyword);
+		for(int i = 0; i < keyword.length(); i++) {
+			keywords.add(String.valueOf(keyword.charAt(i)));
+		}
+		param.put("keywords", keywords);
+		int listCount = productServiceImpl.getSearchCount(param);
+		//	*******************검색기능 구현하기!*******************
+		System.out.println("*****Test line 61*****");
+		System.out.println(listCount);
+		
+//		mv.setViewName("product/productSearch");
+//		return mv;
 	}
 	
 	@RequestMapping(value="productDetail.do", method=RequestMethod.GET)
@@ -56,6 +71,10 @@ public class mainProductController {
 	}
 	
 }
+
+
+
+
 
 
 
