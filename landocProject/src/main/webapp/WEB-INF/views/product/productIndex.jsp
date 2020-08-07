@@ -41,7 +41,6 @@
 		font-weight: 600;
 		color: #0071ce;
 	}
-	
 	</style>
 </head>
 

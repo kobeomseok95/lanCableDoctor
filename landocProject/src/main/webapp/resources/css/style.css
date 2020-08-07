@@ -1915,7 +1915,11 @@ div >  .btn-default{
 	color: #c00;
 	background-color: #fff; 
 }
-
+.price, .won{
+		font-size: 24px;
+		font-weight: 600;
+		color: #0071ce;
+}
 h4 > a{
 	color: black;
 }
@@ -1991,6 +1995,17 @@ h5 > a {
 .prodName, .prodPrice{
 	font-weight: 555;
 	color: #000000;
+}
+#keyword{
+    background-color: #dddddd;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    height: 200px;
+}
+#child{
+    display: inline-block;
+    margin: 57px;
 }
 /* cart.html */
 #allProduct{

@@ -37,4 +37,9 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.suggestProduct(keyword);
 	}
 
+	@Override
+	public List<Product> getSearchProducts(HashMap<String, Object> param, ProductPagination page) {
+		return productDao.getSearchProducts(param, page);
+	}
+
 }

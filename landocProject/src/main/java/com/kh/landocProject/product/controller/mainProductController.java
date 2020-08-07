@@ -25,14 +25,13 @@ public class mainProductController {
 	
 	@RequestMapping(value="productIndex.do", method=RequestMethod.GET)
 	public ModelAndView productIndex(ModelAndView mv,
-														@RequestParam(required = false) Integer sortNo,
+														@RequestParam int sortNo,
 														@RequestParam int pageNo,
 														@RequestParam int categoryNo) {
-		if(sortNo == null) sortNo = 1;
-
 		HashMap<String, Integer> param = new HashMap<String, Integer>();
 		param.put("categoryNo", categoryNo);
 		int listCount = productServiceImpl.getListCount(param);
+		
 		ProductPagination page = ProductPagination.getPagination(pageNo, listCount);
 		param.put("sortNo", sortNo);
 		
@@ -48,22 +47,28 @@ public class mainProductController {
 	}
 	
 	@RequestMapping(value="productSearch.do", method=RequestMethod.GET)
-	public /*ModelAndView*/ void productSearch(ModelAndView mv,
-															@RequestParam String keyword) {
+	public ModelAndView productSearch(ModelAndView mv,
+															@RequestParam String keyword,
+															@RequestParam(required=false) Integer sortNo,
+															@RequestParam(required=false) Integer pageNo) {
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		ArrayList<String> keywords = new ArrayList<String>();
-		keywords.add(keyword);
-		for(int i = 0; i < keyword.length(); i++) {
-			keywords.add(String.valueOf(keyword.charAt(i)));
-		}
-		param.put("keywords", keywords);
+		param.put("keyword", keyword);
 		int listCount = productServiceImpl.getSearchCount(param);
-		//	*******************검색기능 구현하기!*******************
-		System.out.println("*****Test line 61*****");
-		System.out.println(listCount);
+		if(pageNo == null)	pageNo = 1;
+		if(sortNo == null) sortNo = 1;
+		param.put("pageNo", pageNo);
+		param.put("sortNo", sortNo);
 		
-//		mv.setViewName("product/productSearch");
-//		return mv;
+		ProductPagination page = ProductPagination.getPagination(pageNo, listCount);
+		List<Product> products = productServiceImpl.getSearchProducts(param, page);
+		
+		mv.addObject("products", products);
+		mv.addObject("page", page);
+		mv.addObject("sortNo", sortNo);
+		mv.addObject("listCount", listCount);
+		mv.addObject("keyword", keyword);
+		mv.setViewName("product/productSearch");
+		return mv;
 	}
 	
 	@RequestMapping(value="suggestProduct.do", method=RequestMethod.GET)

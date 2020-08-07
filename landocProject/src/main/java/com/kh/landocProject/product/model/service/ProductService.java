@@ -15,4 +15,6 @@ public interface ProductService {
 	int getSearchCount(HashMap<String, Object> param);
 
 	List<Product> suggestProduct(String keyword);
+
+	List<Product> getSearchProducts(HashMap<String, Object> param, ProductPagination page);
 }
