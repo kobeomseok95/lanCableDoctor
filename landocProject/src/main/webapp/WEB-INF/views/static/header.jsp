@@ -32,7 +32,7 @@
 			</c:when>
 			<c:otherwise>
 			<li><a href="askDr.do">의사에게 물어봐</a></li>
-			<li><a href="productIndex.do">의사추천 영양제</a></li>
+			<li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=7">의사추천 영양제</a></li>
 			</c:otherwise>         	
 		</c:choose>
 		

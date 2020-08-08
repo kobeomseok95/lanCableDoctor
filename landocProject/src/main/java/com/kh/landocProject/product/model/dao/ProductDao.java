@@ -27,5 +27,19 @@ public class ProductDao {
 		RowBounds rowBounds = new RowBounds(offset, page.getBoardLimit());
 		return sqlSessionTemplate.selectList("productMapper.getMainList", param, rowBounds);
 	}
+
+	public int getSearchCount(HashMap<String, Object> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getSearchCount", param);
+	}
+
+	public List<Product> suggestProduct(String keyword) {
+		return sqlSessionTemplate.selectList("productMapper.suggestProduct", keyword);
+	}
+
+	public List<Product> getSearchProducts(HashMap<String, Object> param, ProductPagination page) {
+		int offset = (page.getCurrentPage() - 1) * page.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, page.getBoardLimit());
+		return sqlSessionTemplate.selectList("productMapper.getSearchProducts", param, rowBounds);
+	}
 	
 }

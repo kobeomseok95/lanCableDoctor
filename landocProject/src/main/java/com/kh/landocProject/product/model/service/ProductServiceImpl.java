@@ -27,4 +27,19 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.getMainList(param, page);
 	}
 
+	@Override
+	public int getSearchCount(HashMap<String, Object> param) {
+		return productDao.getSearchCount(param);
+	}
+
+	@Override
+	public List<Product> suggestProduct(String keyword) {
+		return productDao.suggestProduct(keyword);
+	}
+
+	@Override
+	public List<Product> getSearchProducts(HashMap<String, Object> param, ProductPagination page) {
+		return productDao.getSearchProducts(param, page);
+	}
+
 }
