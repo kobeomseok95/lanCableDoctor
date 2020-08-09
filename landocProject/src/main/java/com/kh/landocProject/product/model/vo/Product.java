@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import com.kh.landocProject.dmypage.model.vo.DrProductRecommends;
+
 public class Product implements Serializable{
 	/**
 	 * 
@@ -25,13 +27,13 @@ public class Product implements Serializable{
 	List<ProductPhoto> photos;
 	List<ProductQna> qnas;
 	List<ProductReview> reviews;
+	List<DrProductRecommends> recommends;
 	public Product() {
 	}
-	
 	public Product(int pdNo, String pdName, int originPrice, int discountPer, int sellPrice, String volume,
 			String subExplicate, String drugWay, Date shelflife, int recommendCount, int categoryCode,
 			String categoryName, int viewCount, List<ProductPhoto> photos, List<ProductQna> qnas,
-			List<ProductReview> reviews) {
+			List<ProductReview> reviews, List<DrProductRecommends> recommends) {
 		this.pdNo = pdNo;
 		this.pdName = pdName;
 		this.originPrice = originPrice;
@@ -48,8 +50,8 @@ public class Product implements Serializable{
 		this.photos = photos;
 		this.qnas = qnas;
 		this.reviews = reviews;
+		this.recommends = recommends;
 	}
-
 	public int getPdNo() {
 		return pdNo;
 	}
@@ -116,6 +118,12 @@ public class Product implements Serializable{
 	public void setCategoryCode(int categoryCode) {
 		this.categoryCode = categoryCode;
 	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 	public int getViewCount() {
 		return viewCount;
 	}
@@ -140,38 +148,21 @@ public class Product implements Serializable{
 	public void setReviews(List<ProductReview> reviews) {
 		this.reviews = reviews;
 	}
-	public void printPhotos() {
-		System.out.println("********************");
-		for(ProductPhoto p : photos) {
-			System.out.println(p);
-		}
+	public List<DrProductRecommends> getRecommends() {
+		return recommends;
 	}
-	public void printQnas() {
-		System.out.println("********************");
-		for(ProductQna q : qnas) {
-			System.out.println(q);
-		}
+	public void setRecommends(List<DrProductRecommends> recommends) {
+		this.recommends = recommends;
 	}
-	public void printReviews() {
-		System.out.println("********************");
-		for(ProductReview r : reviews) {
-			System.out.println(r);
-		}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
-	public String getCategoryName() {
-		return categoryName;
-	}
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-
 	@Override
 	public String toString() {
 		return "Product [pdNo=" + pdNo + ", pdName=" + pdName + ", originPrice=" + originPrice + ", discountPer="
 				+ discountPer + ", sellPrice=" + sellPrice + ", volume=" + volume + ", subExplicate=" + subExplicate
 				+ ", drugWay=" + drugWay + ", shelflife=" + shelflife + ", recommendCount=" + recommendCount
 				+ ", categoryCode=" + categoryCode + ", categoryName=" + categoryName + ", viewCount=" + viewCount
-				+ ", photos=" + photos + ", qnas=" + qnas + ", reviews=" + reviews + "]";
+				+ ", photos=" + photos + ", qnas=" + qnas + ", reviews=" + reviews + ", recommends=" + recommends + "]";
 	}
-	
 }

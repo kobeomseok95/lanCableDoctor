@@ -124,11 +124,14 @@
 	        			<hr>
 	        			<div class="row">
 	                		<div class="col-lg-3" align="center">
-	        					<a href="#">
+	        					<c:url var="goDetail" value="productDetail.do">
+	        						<c:param name="pdNo" value="${product.pdNo }" />
+	        					</c:url>
+	        					<a href="${goDetail }">
 	        					<c:set var="fullPath" value="/projectFiles/${product.photos[0].fileName }" />
 		        					<img class="product-image my-3" src="${fullPath }" />
 	        					</a>
-			                    <h4 class="my-3"><a href="#">${product.pdName }</a></h4>
+			                    <h4 class="my-3"><a href="${goDetail }">${product.pdName }</a></h4>
 			                    <span class="price">${product.sellPrice }</span>
 			                    <span class="won">원</span>
 			                </div>
@@ -140,11 +143,14 @@
 	        			</c:when>
 	        			<c:when test="${status.index mod 4 eq 3}">
 	        				<div class="col-lg-3" align="center">
-	        					<a href="#">
+	        					<c:url var="goDetail" value="productDetail.do">
+	        						<c:param name="pdNo" value="${product.pdNo }" />
+	        					</c:url>
+	        					<a href="${goDetail }">
 	        					<c:set var="fullPath" value="/projectFiles/${product.photos[0].fileName }" />
 	        						<img class="product-image my-3" src="${fullPath }" />
 	        					</a>
-			                    <h4 class="my-3"><a href="#">${product.pdName }</a></h4>
+			                    <h4 class="my-3"><a href="${goDetail }">${product.pdName }</a></h4>
 			                    <span class="price">${product.sellPrice }</span>
 			                    <span class="won">원</span>
 			                </div>
@@ -152,11 +158,14 @@
 	        			</c:when>
 	        			<c:otherwise>
 		        			<div class="col-lg-3" align="center">
-		       					<a href="#">
+		       					<c:url var="goDetail" value="productDetail.do">
+	        						<c:param name="pdNo" value="${product.pdNo }" />
+	        					</c:url>
+	        					<a href="${goDetail }">
 	        					<c:set var="fullPath" value="/projectFiles/${product.photos[0].fileName }" />
 		       						<img class="product-image my-3" src="${fullPath }" />
 		       					</a>
-			                    <h4 class="my-3"><a href="#">${product.pdName }</a></h4>
+			                    <h4 class="my-3"><a href="${goDetail }">${product.pdName }</a></h4>
 			                    <span class="price">${product.sellPrice }</span>
 			                    <span class="won">원</span>
 				            </div>
@@ -302,10 +311,9 @@
 			function suggestProducts(suggestList){
 				$("#suggestProduct").html('');
 				for(var i in suggestList){
-					console.log(i);
 					var $divProd = $('<div class="productList"></div>');
 					var $a = $('<a></a>');
-					$a.attr('href', '#');		//상품 상세보기 구현시 꼭 매핑
+					$a.attr('href', 'productDetail.do?pdNo='+suggestList[i].pdNo);		//상품 상세보기 구현시 꼭 매핑
 					
 					var $spanOne = $('<span class="prodImg"></span>');
 					var $img = $('<img />');

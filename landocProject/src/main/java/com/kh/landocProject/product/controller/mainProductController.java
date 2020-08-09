@@ -1,6 +1,5 @@
 package com.kh.landocProject.product.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,9 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.landocProject.dmypage.model.vo.DrProductRecommends;
 import com.kh.landocProject.product.model.service.ProductService;
 import com.kh.landocProject.product.model.vo.Product;
+import com.kh.landocProject.product.model.vo.ProductDetailPagination;
 import com.kh.landocProject.product.model.vo.ProductPagination;
+import com.kh.landocProject.product.model.vo.ProductPhoto;
+import com.kh.landocProject.product.model.vo.ProductQna;
+import com.kh.landocProject.product.model.vo.ProductReview;
 
 @Controller
 public class mainProductController {
@@ -89,8 +93,38 @@ public class mainProductController {
 	}
 	
 	@RequestMapping(value="productDetail.do", method=RequestMethod.GET)
-	public String productDetail() {
-		return "product/productDetail";
+	public ModelAndView productDetail(ModelAndView mv,
+										@RequestParam int pdNo) {
+		int viewCount = productServiceImpl.updateViewCount(pdNo);
+		if(viewCount <= 0) {
+			return null;
+		}
+		
+		Product product = productServiceImpl.getProductDetail(pdNo);
+		List<ProductPhoto> photos = productServiceImpl.getProductPhotos(pdNo);
+		
+		int reviewCount = productServiceImpl.getReviewCount(pdNo);
+		ProductDetailPagination reviewPage = ProductDetailPagination.getPagination(1, reviewCount);
+		List<ProductReview> reviews = productServiceImpl.getProductReviews(pdNo, reviewPage);
+		
+		int qnaCount = productServiceImpl.getQnaCount(pdNo);
+		ProductDetailPagination qnaPage = ProductDetailPagination.getPagination(1, qnaCount);
+		List<ProductQna> qnas = productServiceImpl.getProductQnas(pdNo, qnaPage);
+		
+		int recommendCount = productServiceImpl.getRecommendCount(pdNo);
+		ProductDetailPagination recommendPage = ProductDetailPagination.getPagination(1, recommendCount);
+		List<DrProductRecommends> recommends = productServiceImpl.getProductRecommends(pdNo, recommendPage);
+		
+		mv.setViewName("product/productDetail");
+		mv.addObject("product", product);
+		mv.addObject("photos", photos);
+		mv.addObject("reviews", reviews);
+		mv.addObject("qnas", qnas);
+		mv.addObject("recommends", recommends);
+		mv.addObject("reviewPage", reviewPage);
+		mv.addObject("qnaPage", qnaPage);
+		mv.addObject("recommendPage", recommendPage);
+		return mv;
 	}
 	
 }
