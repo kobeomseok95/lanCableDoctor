@@ -124,6 +124,9 @@ public class mainProductController {
 		mv.addObject("reviewPage", reviewPage);
 		mv.addObject("qnaPage", qnaPage);
 		mv.addObject("recommendPage", recommendPage);
+		mv.addObject("reviewCount", reviewCount);
+		mv.addObject("qnaCount", qnaCount);
+		mv.addObject("recommendCount", recommendCount);
 		return mv;
 	}
 	

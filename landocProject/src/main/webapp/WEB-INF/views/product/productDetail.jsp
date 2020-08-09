@@ -65,20 +65,6 @@
                 </div>
                 <div class="col-lg-2"></div>
             </div>
-
-            <!-- <div class="row">					바꾸기전
-                <div class="product-menu">
-                    <ul>
-                        <li><a href="#">전체보기</a></li>
-                        <li><a href="#">종합건강</a></li>
-                        <li><a href="#">눈건강</a></li>
-                        <li><a href="#">장건강</a></li>
-                        <li><a href="#">피로개선</a></li>
-                        <li><a href="#">피부건강</a></li>
-                        <li><a href="#">뼈&관절건강</a></li>
-                    </ul>
-                </div>
-            </div> -->
             <div class="row my-4">
 				<ul>
 				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=7">전체보기</a></li>
@@ -110,7 +96,12 @@
                             <li class="list-group-item border-0">
                                 <span class="product-infor">판매금액</span>
                                 <span class="price" style="float: right;">
+                                	<c:if test="${product.originPrice eq product.sellPrice }">
+                                	<span class="price" style="text-decoration:line-through"></span>
+                                	</c:if>
+                                	<c:if test="${product.originPrice ne product.sellPrice }">
                                     <span class="price" style="text-decoration:line-through">${product.originPrice }원</span>
+                                	</c:if>
                                     <strong class="price">${product.sellPrice }원</strong>
                                 </span>
                             </li>
@@ -128,7 +119,7 @@
                             </li>
                             <li class="list-group-item border-0">
                                 <span class="product-infor">추천수</span>
-                                <span style="float: right;">${fn:length(recommends)} </span>
+                                <span style="float: right;">${recommendCount } </span>
                             </li>
                         </ul>
 
@@ -136,19 +127,19 @@
                             <ul class="list-group">
                                 <li class="list-group-item border-0">
                                     <span>총 주문 금액</span>
-                                    <span id="allPrice" style="float: right;">50,000원</span>
+                                    <span id="allPrice" class="price" style="float: right;">${product.sellPrice }원</span>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <span class="discount">할인 금액</span>
-                                    <span id="discountPrice" class="discount" style="float: right;">0원</span>
+                                    <span id="discountPrice" class="discount price" style="float: right;">0</span>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <span class="product-infor">총 금액</span>
-                                    <span id="payPrice" class="product-infor" style="float: right;">45,000원</span>
+                                    <span id="payPrice" class="product-infor price" style="float: right;">${product.sellPrice }원</span>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <span>수량</span>
-                                    <input type="number" id="productCount" name="productCount" value="1"
+                                    <input type="number" id="productCount" name="productCount" value="1" min="1" max="5"
                                         style="width: 15%; float: right;" />
                                 </li>
                                 <li class="list-group-item border-0">
@@ -175,9 +166,9 @@
             <div id="product-tabs">
                 <ul>
                     <li><a href="#product-images">제품상세</a></li>
-                    <li><a href="#doctors-comments">추천평(${fn:length(recommends)})</a></li>
-                    <li><a href="#product-qna">QnA(${fn:length(qnas) })</a></li>
-                    <li><a href="#product-review">리뷰(${fn:length(reviews) })</a></li>
+                    <li><a href="#doctors-comments">추천평(${recommendCount })</a></li>
+                    <li><a href="#product-qna">QnA(${qnaCount })</a></li>
+                    <li><a href="#product-review">리뷰(${reviewCount })</a></li>
                 </ul>
             </div>
         </div>
@@ -199,7 +190,7 @@
         <!-- doctors-comments -->
         <div id="doctors-comments" class="doctors-comments">
             <div class="row">
-                <h3 class="mb-5">선생님들의 추천평(${fn:length(recommends)})</h3>
+                <h3 class="mb-5">선생님들의 추천평(${recommendCount })</h3>
 
                 <div class="col-lg-12 col-sm-12">
                     <table class="table">
@@ -304,7 +295,7 @@
         <!-- product-qna -->
         <div id="product-qna" class="product-qna">
             <div class="row">
-                <h3 class="mb-5">상품 Q&A(${fn:length(qnas) })</h3>
+                <h3 class="mb-5">상품 Q&A(${qnaCount })</h3>
 
                 <div class="col-lg-12 col-sm-12">
                     <table class="table">
@@ -348,21 +339,6 @@
                         	</tr>
                             </c:forEach>
                         	</c:if>
-                            <!-- 
-                            <tr>
-                                <td>1</td>
-                                <td>상품 문의 관련1</td>
-                                <td>중곡동오이돼지</td>
-                                <td>2020-07-12</td>
-                                <td>답변완료</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>상품 문의 관련2</td>
-                                <td>고범석 의원님</td>
-                                <td>2020-07-12</td>
-                                <td>답변대기</td>
-                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -460,7 +436,7 @@
         <!-- product-review -->
         <div id="product-review" class="product-review mb-5">
             <div class="row">
-                <h3 class="mb-5">리뷰(${fn:length(reviews) })</h3>
+                <h3 class="mb-5">리뷰(${recommendCount })</h3>
 
                 <div class="col-lg-12 col-sm-12">
                     <table class="table">
@@ -567,8 +543,26 @@
 	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
     <script>
+	    function numberWithCommas(x) {
+		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
         $(function () {
             $("[data-toggle='popover']").popover();
+           	//numberWithCommas
+            
+           	//$('.price').text(numberWithCommas($(this).text()));
+			$('.price').each(function(index, item){
+				$(this).text(numberWithCommas($(this).text()));
+			});
+			
+            $("#productCount").on('change', function(){
+            	var amount = $(this).val();
+            	var price = "${product.sellPrice }";
+            	var discountPrice = $("#discountPrice").text();
+            	$("#allPrice").text(numberWithCommas(amount * price) + "원");
+            	$("#payPrice").text(numberWithCommas(amount * price - discountPrice) + "원");
+            });
+            
             
             $('#searchBtn').on('click', function(){
 				if($("#searchProduct").val().length === 0){
@@ -648,10 +642,6 @@
 				$(this).text(numberWithCommas($(this).text()));
 			});
         });	//end of jquery
-        
-        function numberWithCommas(x) {
-		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
     </script>
 </body>
 
