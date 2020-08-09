@@ -1411,9 +1411,6 @@ public class MainMemberController {
 				
 			}
 		}
-		@RequestMapping(value = "payView.do", method = RequestMethod.GET)
-		public String payView() {
-			return "payment/pay";
-		}
+		
 		
 }

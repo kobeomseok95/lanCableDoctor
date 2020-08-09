@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="com.kh.landocProject.payment.model.vo.MemberPay" %>
+<%@ page import="com.kh.landocProject.payment.model.vo.PayProduct" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%
+	MemberPay pay = (MemberPay)request.getAttribute("payClientSelect");
+	int point = pay.getPoint();
+	PayProduct pro = (PayProduct)request.getAttribute("selectPro");
+	DecimalFormat formatter = new DecimalFormat("###,###");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -71,57 +80,68 @@
 							<img src="../../KakaoTalk_20200702_150917241.png" width="100px" height="100px" style="margin-left: 10px; border: 1px solid black;">
 						</div>
 						<div style="display: inline-block;">
-							<span>파이토 오메가</span> <span style="margin-left: 20px;">58,000</span> <span style="margin-left: 20px;">x</span> <span style="margin-left: 20px;">1 </span> <span style="margin-left: 20px;">=</span> <span style="margin-left: 20px;">58,000원</span>
+							<span>${selectPro.pdName }</span><span style="margin-left: 20px;">${selectPro.sellPrice }</span> <span style="margin-left: 20px;">x</span> <span style="margin-left: 20px;">1 </span> <span style="margin-left: 20px;">=</span> <span style="margin-left: 20px;">58,000원</span>
 						</div>
 					</div>
 				</div>
 				<form>	
-					<div style="margin-top: 30px; background-color: #e5f2fc; width: 600px; height: 530px; border-radius: 7px; display: inline-block; position: relative;">
+					<div style="margin-top: 30px; background-color: #e5f2fc; width: 600px; height: 600px; border-radius: 7px; display: inline-block; position: relative;">
 						<div style="padding-left: 20px; padding-top: 20px; width: 600px;">
 							<h4 style="color: black;">주문자 정보</h4>
 						</div>
 						<div style="border: 1px solid #e5f2fc; margin-top: 25px; margin-left: 20px; width: 560px; border-radius: 7px; background-color: white;">
 							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>주문자명</label><input type="text" value="" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;">
+								<label>주문자명</label><input type="text" value="${payClientSelect.userName }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
 							</div>
 							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>연락처</label><input type="text" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;">
+								<label>연락처</label><input type="text" value="${payClientSelect.phone }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
 							</div>
 							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>이메일</label><input type="text" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;">
+								<label>이메일</label><input type="text" value="${payClientSelect.email }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
 							</div>
 							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>우편번호</label><input type="text" name="post" value="" id="post" style="width: 250px; margin-left: 65px; height:35px; border: 1px solid lightgray;">
+								<label>우편번호</label><input type="text" value="${payClientSelect.post }" name="post" value="" id="post" style="width: 250px; margin-left: 65px; height:35px; border: 1px solid lightgray;" readonly> 
 								<input type="button" value="검색" style="float: right; margin-right: 10px; width: 130px; height:35px ; color: black; background-color: #e5f2fc; border: 0px; border-radius: 3px;">
 							</div>
 							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>도로명 주소</label><input type="text" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;">
+								<label>도로명 주소</label><input type="text" value="${address1 }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
 							</div>
 							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;">
-								<label>상세 주소</label><input type="text" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;">
+								<label>상세 주소</label><input type="text" value="${address2 }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+							</div>
+							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;" >
+								<label>남기실 말</label><select name="talk" style="float:right; margin-right:10px; width:400px; border: 1px solid lightgray; height:35px;">
+																	<option value="">남기실말</option>
+																	<option value="배송전 연락 바랍니다.">배송전 연락 바랍니다.</option>
+																	<option value="집앞에 놓고가세요.">집앞에 놓고가세요.</option>
+																	<option value="경비실에 맡겨주세요.">경비실에 맡겨주세요.</option>
+																	<option value="주의해서 가져다 주세요.">주의해서 가져다 주세요.</option>
+																</select>
 							</div>
 						</div>
 					</div>
 					<div style="margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 530px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white;" >
 						<div style="border: 1px solid white; background-color: white; margin: 10px; height: 300px; border-radius: 7px;">
 							<div style="margin-left: 10px; margin-top: 10px; width: 180px; display: inline-block; position: relative;">
-								<h6>총 주문금액</h6><br>
+								<div>총 주문금액</div><br>
 								<span>할인금액</span><br><br>
 								<span>포인트</span><br>
-								<span style="font-size: 10px;">(포인트는 5000점부터 사용가능)</span><br>
+								<span>보유포인트 : ${payClientSelect.point }점</span>
+								<br>
 								<hr>
 								<br>
 								<h6>총 결제금액</h6><br>
 								<h6>적립금</h6>
 							</div>
 							<div style="margin-right: 10px; margin-top: 10px; width: 180px; display: inline-block; position: absolute; text-align: right;">
-								<label>50,000</label><br>
-								<label>10,000</label><br><br>
-								<input type="text" style="width: 100px; height: 20px;"><span>원</span><br><br>
+								<div id="totalOrder" style="padding-top: 0px; margin-top: 0px" >qweqwe</div>
+								<div id="sales" style="padding-top:20px">${selectPro.discount }</div><br><br>
+								<input type="text" style="width: 100px; height: 20px;" id="minusPoint" value="0"><span>원</span><br>
+								<span style="font-size: 10px;">(포인트는 5000점부터 사용가능)</span><br>
 								<hr>
 								<br>
-								<h6>총 결제금액</h6><br>
-								<h6>적립금</h6>
+								<div id="resultPrice1"></div><br>
+								<label id="point">적립금</label>
 							</div>
 						</div>
 						<div style="margin: 20px; margin-top: 30px;">
@@ -158,8 +178,42 @@
 	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 
-	
-	
+	<script>
+		$(function(){
+			var total = $("#totalOrder").val() - $("#sales").val();
+			$("#totalOder").keyUp(function(){
+					var totalPay = total - $("minusPoint").val();
+					
+					$("#totalPay").val(totalPay);
+					
+				})
+			});
+				
+			
+	</script>
+	<script>
+	$(function(){
+		 $("#rcv_name").focus();
+         
+               var tp = 58000*2 ;
+               $("#resultPrice").text(tp+"원");
+               $("#expt_price").val(tp);
+               $("#resultPrice1").text(tp+"원");
+         var result;
+		
+		$("#minusPoint").blur(function(){
+			if($(this).val() > <%=point%>){
+				alert("사용가능한 적립금을 초과하였습니다.");
+			}else if($(this).val() <= <%=point%>){
+				var pu = $("minusPoint").val();
+				result = tp-pu;
+				$("#resultPrice").text(result + "원");
+				$("#exptPrice").val(result);
+				$("#resultPrice1").text(result + "원");
+			}
+		})
+	})
+	</script>
 
 	
 </body>
