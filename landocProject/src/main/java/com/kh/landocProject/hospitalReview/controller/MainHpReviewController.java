@@ -14,9 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import com.kh.landocProject.hospital.model.vo.MainHp;
 import com.kh.landocProject.hospitalReview.model.service.MainHpReviewService;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 import com.kh.landocProject.hospitalReview.model.vo.SearchHp;
@@ -183,6 +185,40 @@ public class MainHpReviewController {
       
       return renameFileName;
    }
+   
+   
+   
+   // 메인 병원 리뷰 페이지 병원 정보 가져오기
+   @RequestMapping("mainHpReviewDetail.do")
+   public ModelAndView mainHpReviewDetail(ModelAndView mv, MainHp hp,
+		   						@RequestParam("hpNo") Integer hpNo) {
+	   
+//	   System.out.println("controller에서 hpNo : " + hpNo);
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   return null;
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
 }
