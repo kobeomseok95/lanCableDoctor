@@ -100,7 +100,7 @@
                                 	<span class="price" style="text-decoration:line-through"></span>
                                 	</c:if>
                                 	<c:if test="${product.originPrice ne product.sellPrice }">
-                                    <span class="price" style="text-decoration:line-through">${product.originPrice }원</span>
+                                    <span id="originPrice" class="price">${product.originPrice }원</span>
                                 	</c:if>
                                     <strong class="price">${product.sellPrice }원</strong>
                                 </span>
@@ -187,10 +187,10 @@
 
 
 
-        <!-- doctors-comments -->
+        <!-- doctors-recommend -->
         <div id="doctors-comments" class="doctors-comments">
             <div class="row">
-                <h3 class="mb-5">선생님들의 추천평(${recommendCount })</h3>
+                <h3 id="recCount" class="mb-5">선생님들의 추천평(${recommendCount })</h3>
 
                 <div class="col-lg-12 col-sm-12">
                     <table class="table">
@@ -201,21 +201,27 @@
                                 <th style="width: 15%">작성날짜</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="recBody">
                         	<c:if test="${!empty recommends }">
                         	<c:forEach items="${recommends }" var="rec">
                         	<tr>
                         		<td>
-                                    <img class="rounded-circle" src="../images/car.jpg">
+                                    <c:if test="${empty rec.profileFileName }">
+                                    <i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>
+                                    </c:if>
+                                    <c:if test="${!empty rec.profileFileName }">
+                                    <img src="/projectFiles/${rec.profileFileName }" />
+                                    </c:if>
                                 </td>
                                 <td>
+                                <!-- ${rec.drNo}, ${rec.hpNo} -->
                                     <div data-toggle="popover" data-html="true" title="선생님 정보"
                                         data-content="<a href='#'>프로필</a> <br> <a href='#'>여기는 병원이름</a>">
-                                        고읍석
+                                        ${rec.drName }
                                     </div>
                                 </td>
-                                <td>코로나보다 강한 고로나 조심하세요코로나보다 강한 고로나 조심하세요코로나보다 강한 고로나 조심하세요코로나보다 강한 고로나 조심하세요</td>
-                                <td>2020-07-03</td>
+                                <td>${rec.comment }</td>
+                                <td>${rec.submitDate }</td>
                         	</tr> 
                         	</c:forEach>
                         	</c:if>
@@ -235,46 +241,21 @@
             <div class="pagination">
                 <div style="float:none; margin:0 auto">
                     <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                        	<!-- << -->
-                            <li class="page-item">
-                        	<c:if test="${recommendPage.currentPage eq 1 }">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                        	</c:if>
-                            </li>                        	
-                        	<li class="page-item">
-                        	<c:if test="${recommendPage.currentPage gt 1 }">
-                        		<!-- Ajax 구현할거니깐 일단 형태만 만들어두기 -->
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                        	</c:if>
-                            </li>              
+                        <ul id="recPagination" class="pagination">
                             <!-- numbers -->
                             <c:forEach var="p" begin="${recommendPage.startPage }" end="${recommendPage.endPage }">
                         		<c:if test="${p eq recommendPage.currentPage }">
-	                        <li class="page-item"><a class="page-link" style="color: #a82400;">${p }</a></li>
+	                        <li class="page-item"><a id="recCurPage" class="page-link recPageNo" style="color: #a82400;">${p }</a></li>
                         		</c:if>
                         		<c:if test="${p ne recommendPage.currentPage }">
-                        	<!-- Ajax 구현할거니깐 일단 형태만 만들어두기 -->
-                        	<li class="page-item"><a class="page-link">${p }</a></li>	
+                        	<li class="page-item"><a class="page-link recPageNo">${p }</a></li>	
                         		</c:if>
                         	</c:forEach>
                             <!-- >> -->
                             <li class="page-item">
-                            <c:if test="${recommendPage.currentPage eq recommendPage.maxPage }">
-		                        <a class="page-link" href="#" aria-label="Next">
-	                                <span aria-hidden="true">&raquo;</span>
+		                        <a class="page-link" aria-label="Next">
+	                                <span class="recPageNo" aria-hidden="true">Next</span>
 	                            </a>
-	                        </c:if>
-	                        <c:if test="${recommendPage.currentPage lt recommendPage.maxPage }">
-	                        	<!-- Ajax 구현할거니깐 일단 형태만 만들어두기 -->
-								<a class="page-link" href="#" aria-label="Next">
-	                                <span aria-hidden="true">&raquo;</span>
-	                            </a>
-	                        </c:if>
                             </li>
                         </ul>
                     </nav>
@@ -353,7 +334,7 @@
                             <li class="page-item">
                         	<c:if test="${qnaPage.currentPage eq 1 }">
                                 <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
+                                    <span aria-hidden="true">Prev</span>
                                 </a>
                         	</c:if>
                             </li>                        	
@@ -361,7 +342,7 @@
                         	<c:if test="${qnaPage.currentPage gt 1 }">
                         		<!-- Ajax 구현할거니깐 일단 형태만 만들어두기 -->
                                 <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
+                                    <span aria-hidden="true">Prev</span>
                                 </a>
                         	</c:if>
                             </li>              
@@ -379,13 +360,13 @@
                             <li class="page-item">
                             <c:if test="${qnaPage.currentPage eq qnaPage.maxPage }">
 		                        <a class="page-link" href="#" aria-label="Next">
-	                                <span aria-hidden="true">&raquo;</span>
+	                                <span aria-hidden="true">Next</span>
 	                            </a>
 	                        </c:if>
 	                        <c:if test="${qnaPage.currentPage lt qnaPage.maxPage }">
 	                        	<!-- Ajax 구현할거니깐 일단 형태만 만들어두기 -->
 								<a class="page-link" href="#" aria-label="Next">
-	                                <span aria-hidden="true">&raquo;</span>
+	                                <span aria-hidden="true">Next</span>
 	                            </a>
 	                        </c:if>
                             </li>
@@ -436,7 +417,7 @@
         <!-- product-review -->
         <div id="product-review" class="product-review mb-5">
             <div class="row">
-                <h3 class="mb-5">리뷰(${recommendCount })</h3>
+                <h3 id="revCount" class="mb-5">구매자들의 리뷰(${reviewCount })</h3>
 
                 <div class="col-lg-12 col-sm-12">
                     <table class="table">
@@ -447,7 +428,7 @@
                                 <th style="width: 15%">작성날짜</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="revBody">
                         	<c:if test="${empty reviews }">
                        		<tr>
                        			<td colspan='4'>'해당 상품의 리뷰가 없습니다'</td>
@@ -466,7 +447,7 @@
                         			</c:if>
 								</td>
                         		<td>${review.content }</td>
-                        		<td><!-- 리뷰작성날짜 --></td>
+                        		<td>${review.submitDate }</td>
                         	</tr>
                         	</c:forEach>
                         	</c:if>
@@ -477,46 +458,20 @@
                     <div class="pagination">
 		                <div style="float:none; margin:0 auto">
 		                    <nav aria-label="Page navigation example">
-		                        <ul class="pagination">
-		                        	<!-- << -->
-		                            <li class="page-item">
-		                        	<c:if test="${reviewPage.currentPage eq 1 }">
-		                                <a class="page-link" href="#" aria-label="Previous">
-		                                    <span aria-hidden="true">&laquo;</span>
-		                                </a>
-		                        	</c:if>
-		                            </li>                        	
-		                        	<li class="page-item">
-		                        	<c:if test="${reviewPage.currentPage gt 1 }">
-		                        		<!-- Ajax 구현할거니깐 일단 형태만 만들어두기 -->
-		                                <a class="page-link" href="#" aria-label="Previous">
-		                                    <span aria-hidden="true">&laquo;</span>
-		                                </a>
-		                        	</c:if>
-		                            </li>              
-		                            <!-- numbers -->
+		                        <ul id="revPagination" class="pagination">
 		                            <c:forEach var="p" begin="${reviewPage.startPage }" end="${reviewPage.endPage }">
 		                        		<c:if test="${p eq reviewPage.currentPage }">
-			                        <li class="page-item"><a class="page-link" style="color: #a82400;">${p }</a></li>
+			                        <li class="page-item"><a id="revCurPage" class="page-link revPageNo" style="color: #a82400;">${p }</a></li>
 		                        		</c:if>
 		                        		<c:if test="${p ne reviewPage.currentPage }">
-		                        	<!-- Ajax 구현할거니깐 일단 형태만 만들어두기 -->
-		                        	<li class="page-item"><a class="page-link">${p }</a></li>	
+		                        	<li class="page-item"><a class="page-link revPageNo">${p }</a></li>	
 		                        		</c:if>
 		                        	</c:forEach>
 		                            <!-- >> -->
 		                            <li class="page-item">
-		                            <c:if test="${reviewPage.currentPage eq reviewPage.maxPage }">
-				                        <a class="page-link" href="#" aria-label="Next">
-			                                <span aria-hidden="true">&raquo;</span>
+				                        <a class="page-link" aria-label="Next">
+			                                <span class="revPageNo" aria-hidden="true">Next</span>
 			                            </a>
-			                        </c:if>
-			                        <c:if test="${reviewPage.currentPage lt reviewPage.maxPage }">
-			                        	<!-- Ajax 구현할거니깐 일단 형태만 만들어두기 -->
-										<a class="page-link" href="#" aria-label="Next">
-			                                <span aria-hidden="true">&raquo;</span>
-			                            </a>
-			                        </c:if>
 		                            </li>
 		                        </ul>
 		                    </nav>
@@ -543,14 +498,230 @@
 	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
     <script>
-	    function numberWithCommas(x) {
-		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
         $(function () {
+			function reviewHTML(data){
+				var page = data.page;
+				
+				$("#revPagination").html('');
+        		if(page.currentPage !== 1){
+	       			var $liOne = $('<li class="page-item"></li>');
+	       			var $a = $('<a class="page-link" aria-label="Previous"></a>');
+	       			var $span = $('<span class="revPageNo" aria-hidden="true"></span>');
+	       			$span.text("Prev");
+	       			$a.append($span);
+	       			$liOne.append($a);
+	       			$("#revPagination").append($liOne);
+        		}
+        		
+        		for(var i = page.startPage; i <= page.endPage; i++){
+        			var $li = $('<li class="page-item"></li>');
+	    			var $a;
+        			if(i === page.currentPage){
+        				$a = $('<a id="revCurPage" class="page-link revPageNo" style="color: #a82400;"></a>');
+        			}
+        			else{
+        				$a = $('<a class="page-link revPageNo"></a>');
+        			}
+        			$a.text(i);
+       				$li.append($a);
+       				$("#revPagination").append($li);
+        		}
+        		
+        		if(page.currentPage !== page.maxPage){
+	   				var $liTwo = $('<li class="page-item"></li>');
+	       			var $a = $('<a class="page-link" aria-label="Next"></a>');
+	       			var $span = $('<span class="revPageNo" aria-hidden="true"></span>');
+	       			$span.text("Next");
+	       			$a.append($span);
+	       			$liTwo.append($a);
+	       			$("#revPagination").append($liTwo);        			
+        		}
+				
+        		$("#revCount").text("구매자들의 리뷰(" + data.reviewCount + ")");
+            	$("#revBody").html('');
+            	var list = data.list;
+            	
+            	for(var i = 0; i < list.length; i++){
+            		/* 의사일경우, 회원일경우 생각 잘하기! */
+            		var $tr = $('<tr></tr>');
+            		var $tdProfile = $('<td></td>');
+            		if( !list[i].profileFileName ){
+            			var $fa = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
+            			$tdProfile.append($fa);
+            		}
+            		else{
+            			var $img = $('<img />');
+            			$img.attr("src", list[i].profileFileName);
+            			$tdProfile.append($img);
+            		}
+            		$tr.append($tdProfile);
+            		
+            		/* 병원프로필 완료되면 바로 매핑 */
+            		if( list[i].drNo && !list[i].cNo ){
+	            		var $tdDr = $('<td></td>');
+	            		var $tdPopover = $('<div data-toggle="popover" data-html="true" title="선생님 정보" data-content="<a href="#">프로필</a> <br> <a href="#">여기는 병원이름</a>"></div>');
+	            		$tdPopover.text(list[i].drName);
+	            		$tdDr.append($tdPopover);
+	            		$tr.append($tdDr);
+            		}
+            		else if( !list[i].drNo && list[i].cNo ){
+            			var $tdNickname = $('<td></td>');
+            			$tdNickname.text(list[i].cNickname);
+            			$tr.append($tdNickname);
+            		}
+            		
+            		var $tdContent = $('<td></td>');
+            		$tdContent.text(list[i].content);
+            		$tr.append($tdContent);
+            		
+            		var $tdSubmitDate = $('<td></td>');
+            		$tdSubmitDate.text(getFormatDate(new Date(list[i].submitDate)));
+            		$tr.append($tdSubmitDate);
+            		
+            		$("#revBody").append($tr);
+            	}
+			}
+        	
+			$(document).on('click', '.revPageNo', function(){
+				var pageNo;
+        		if($(this).text() === "Prev"){
+            		pageNo = Number($("#revCurPage").text()) - 1;
+            	}
+            	else if ($(this).text() === "Next"){
+            		pageNo = Number($("#revCurPage").text()) + 1;
+            	}
+            	else{
+            		pageNo = $(this).text();
+            	}
+            	
+        		var pageForm = {
+            			pdNo : "${product.pdNo}",
+            			pageNo : pageNo
+            	}
+            	$.ajax({
+            		type:'get',
+            		data:pageForm,
+            		dataType:'JSON',
+            		url:"getAsyncReviews.do",
+            		success: function(data){
+            			reviewHTML(data);
+            		},
+            		error:function(request, status, errorData){
+	                    alert("error code: " + request.status + "\n"
+	                            +"message: " + request.responseText
+	                            +"error: " + errorData);
+	               	}
+            	});
+        	});
+			
+        	function recommendHTML(data){
+        		var page = data.page;
+        		
+        		$("#recPagination").html('');
+        		
+        		if(page.currentPage !== 1){
+	       			var $liOne = $('<li class="page-item"></li>');
+	       			var $a = $('<a class="page-link" aria-label="Previous"></a>');
+	       			var $span = $('<span class="recPageNo" aria-hidden="true"></span>');
+	       			$span.text("Prev");
+	       			$a.append($span);
+	       			$liOne.append($a);
+	       			$("#recPagination").append($liOne);
+        		}
+        		
+        		for(var i = page.startPage; i <= page.endPage; i++){
+        			var $li = $('<li class="page-item"></li>');
+	    			var $a;
+        			if(i === page.currentPage){
+        				$a = $('<a id="recCurPage" class="page-link recPageNo" style="color: #a82400;"></a>');
+        			}
+        			else{
+        				$a = $('<a class="page-link recPageNo"></a>');
+        			}
+        			$a.text(i);
+       				$li.append($a);
+       				$("#recPagination").append($li);
+        		}
+        		
+        		if(page.currentPage !== page.maxPage){
+	   				var $liTwo = $('<li class="page-item"></li>');
+	       			var $a = $('<a class="page-link" aria-label="Next"></a>');
+	       			var $span = $('<span class="recPageNo" aria-hidden="true"></span>');
+	       			$span.text("Next");
+	       			$a.append($span);
+	       			$liTwo.append($a);
+	       			$("#recPagination").append($liTwo);        			
+        		}
+    			
+            	$("#recCount").text("선생님들의 추천평(" + data.recommendCount + ")");
+            	$("#recBody").html('');
+            	for(var i = 0; i < data.list.length; i++){
+            		var $tr = $('<tr></tr>');
+            		var $tdProfile = $('<td></td>');
+            		if( !data.list[i].profileFileName ){
+            			var $fa = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
+            			$tdProfile.append($fa);
+            		}
+            		else{
+            			var $img = $('<img />');
+            			$img.attr("src", data.list[i].profileFileName);
+            			$tdProfile.append($img);
+            		}
+            		$tr.append($tdProfile);
+            		
+            		var $tdDr = $('<td></td>');
+            		var $tdPopover = $('<div data-toggle="popover" data-html="true" title="선생님 정보" data-content="<a href="#">프로필</a> <br> <a href="#">여기는 병원이름</a>"></div>');
+            		$tdPopover.text(data.list[i].drName);
+            		$tdDr.append($tdPopover);
+            		$tr.append($tdDr);
+            		
+            		var $tdContent = $('<td></td>');
+            		$tdContent.text(data.list[i].comment);
+            		$tr.append($tdContent);
+            		
+            		var $tdSubmitDate = $('<td></td>');
+            		$tdSubmitDate.text(getFormatDate(new Date(data.list[i].submitDate)));
+            		$tr.append($tdSubmitDate);
+            		
+            		$("#recBody").append($tr);
+            	}
+            }
+        	
+        	$(document).on('click', '.recPageNo', function(){
+            	var pageNo;
+        		if($(this).text() === "Prev"){
+            		pageNo = Number($("#recCurPage").text()) - 1;
+            	}
+            	else if ($(this).text() === "Next"){
+            		pageNo = Number($("#recCurPage").text()) + 1;
+            	}
+            	else{
+            		pageNo = $(this).text();
+            	}
+            	
+        		var pageForm = {
+            			pdNo : "${product.pdNo}",
+            			pageNo : pageNo
+            	}
+            	$.ajax({
+            		type:'get',
+            		data:pageForm,
+            		dataType:'JSON',
+            		url:"getAsyncRecommends.do",
+            		success: function(data){
+            			recommendHTML(data);
+            		},
+            		error:function(request, status, errorData){
+	                    alert("error code: " + request.status + "\n"
+	                            +"message: " + request.responseText
+	                            +"error: " + errorData);
+	               	}
+            	});
+            });
+        
+        	
             $("[data-toggle='popover']").popover();
-           	//numberWithCommas
             
-           	//$('.price').text(numberWithCommas($(this).text()));
 			$('.price').each(function(index, item){
 				$(this).text(numberWithCommas($(this).text()));
 			});
@@ -562,7 +733,6 @@
             	$("#allPrice").text(numberWithCommas(amount * price) + "원");
             	$("#payPrice").text(numberWithCommas(amount * price - discountPrice) + "원");
             });
-            
             
             $('#searchBtn').on('click', function(){
 				if($("#searchProduct").val().length === 0){
@@ -642,6 +812,17 @@
 				$(this).text(numberWithCommas($(this).text()));
 			});
         });	//end of jquery
+        function numberWithCommas(x) {
+		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+        function getFormatDate(date){
+            var year = date.getFullYear();              
+            var month = (1 + date.getMonth());          
+            month = month >= 10 ? month : '0' + month; 
+            var day = date.getDate();                   
+            day = day >= 10 ? day : '0' + day;         
+            return  year + '-' + month + '-' + day;
+        }
     </script>
 </body>
 

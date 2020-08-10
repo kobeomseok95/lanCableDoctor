@@ -1,6 +1,7 @@
 package com.kh.landocProject.product.model.vo;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class ProductReview implements Serializable {
 	/**
@@ -15,12 +16,13 @@ public class ProductReview implements Serializable {
 	private String cNickname;
 	private String drNo;
 	private String drName;
+	private Date submitDate;
 	
 	public ProductReview() {
 	}
 
 	public ProductReview(int pdNo, int reviewNo, String content, int orderNo, String cNo, String cNickname, String drNo,
-			String drName) {
+			String drName, Date submitDate) {
 		this.pdNo = pdNo;
 		this.reviewNo = reviewNo;
 		this.content = content;
@@ -29,7 +31,10 @@ public class ProductReview implements Serializable {
 		this.cNickname = cNickname;
 		this.drNo = drNo;
 		this.drName = drName;
+		this.submitDate = submitDate;
 	}
+
+
 
 	public int getPdNo() {
 		return pdNo;
@@ -99,9 +104,19 @@ public class ProductReview implements Serializable {
 		return serialVersionUID;
 	}
 
+	public Date getSubmitDate() {
+		return submitDate;
+	}
+
+	public void setSubmitDate(Date submitDate) {
+		this.submitDate = submitDate;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductReview [pdNo=" + pdNo + ", reviewNo=" + reviewNo + ", content=" + content + ", orderNo="
-				+ orderNo + ", cNo=" + cNo + ", cNickname=" + cNickname + ", drNo=" + drNo + ", drName=" + drName + "]";
+				+ orderNo + ", cNo=" + cNo + ", cNickname=" + cNickname + ", drNo=" + drNo + ", drName=" + drName
+				+ ", submitDate=" + submitDate + "]";
 	}
+	
 }
