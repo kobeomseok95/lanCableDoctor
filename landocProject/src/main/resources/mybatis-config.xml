@@ -45,6 +45,7 @@
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DOrderList" alias="DOrderList" />
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DOrderQna" alias="DOrderQna" />
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrMypagePoint" alias="DrMypagePoint" />
+		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrProductRecommends" alias="DrProductRecommends" />
 	</typeAliases>
 
 
