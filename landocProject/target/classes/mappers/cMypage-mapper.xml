@@ -28,6 +28,8 @@
 		<result property="pdName" column="PD_NAME"/>
 		<result property="pdReviewNo" column="PDREVIEW_NO"/>
 		<result property="cNo" column="C_NO"/>
+		<result property="originFile" column="PRP_ORIGINAL"/>
+		<result property="renameFile" column="PRP_RENAME"/>
 	</resultMap>
 
 	<resultMap type="OrderList" id="orderListMap">
@@ -114,7 +116,7 @@
 	</select>
 
 	<select id="pdReviewList" parameterType="string" resultMap="pdReviewListMap">
-		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO, PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO,PR.C_NO
+		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO, PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO,PR.C_NO,PR.PRP_RENAME
 		FROM PRODUCTREVIEW PR
 		JOIN
 		PAYMENT PA ON(PR.ORDER_NO=PA.ORDER_NO)
@@ -214,7 +216,7 @@
 	<insert id="pdReviewInsert" parameterType="PdReview">
 		INSERT INTO
 		PRODUCTREVIEW
-		VALUES(SEQ_PDREVIEW.NEXTVAL,#{pdReviewContent},#{orderNo},#{pdNo},#{cNo},NULL)
+		VALUES(SEQ_PDREVIEW.NEXTVAL,#{pdReviewContent},#{orderNo},#{pdNo},#{cNo},NULL,SYSDATE,#{originFile},#{renameFile})
 	</insert>
 
 	<update id="updateOStatus" parameterType="PdReview">
@@ -290,7 +292,7 @@
 	</select>
 	
 	<update id="updateReviewInsert">
-		UPDATE PRODUCTREVIEW SET PDREVIEW_CONTENT = #{pdReviewContent} WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo}
+		UPDATE PRODUCTREVIEW SET PDREVIEW_CONTENT = #{pdReviewContent},PRP_ORIGINAL=#{originFile},PRP_RENAME=#{renameFile} WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo}
 	</update>
 	
 	
@@ -372,4 +374,13 @@
 	<update id="orderCancelUpdate" parameterType="OrderList">
 		UPDATE ORDERMG SET O_CODE=#{oCode} WHERE ORDER_NO=#{orderNo}
 	</update>
+	
+	
+	
+	<select id="selectPdReviewPhoto" resultType="string" parameterType="PdReview">
+	
+		SELECT PRP_RENAME
+		FROM PRODUCTREVIEW
+		WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo}
+	</select>
 </mapper>

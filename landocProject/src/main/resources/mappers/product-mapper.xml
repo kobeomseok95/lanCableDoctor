@@ -18,6 +18,14 @@
 		<collection property="photos" javaType="java.util.List" resultMap="productPhotos" />
 		<collection property="qnas" javaType="java.util.List" resultMap="productQnas" />
 		<collection property="reviews" javaType="java.util.List" resultMap="productReviews" />
+		<collection property="recommends" javaType="java.util.List" resultMap="drProductRecommends" />
+	</resultMap>
+	
+	<resultMap type="DrProductRecommends" id="drProductRecommends">
+		<id property="drrmNo" column="DRRM_NO"/>
+		<result property="comment" column="DRRM_COMMENT" />
+		<result property="drNo" column="DR_NO" />
+		<result property="drName" column="DR_NAME" />
 	</resultMap>
 	
 	<resultMap type="ProductPhoto" id="productPhotos">
@@ -29,11 +37,16 @@
 	
 	<resultMap type="ProductQna" id="productQnas">
 		<id property="pdqNo" column="PDQ_NO" />
+		<result property="rno" column="RNO" />
 		<result property="title" column="PDQ_TITLE" />
 		<result property="content" column="PDQ_CONTENT" />
 		<result property="submitDate" column="PDQ_SUBMITDATE" />
 		<result property="status" column="PDQ_ANSWERSTATUS" />
 		<result property="answerContent" column="PDQ_ANSWERCONTENT" />
+		<result property="cNo" column="C_NO" />
+		<result property="cNickname" column="C_NICKNAME" />
+		<result property="drNo" column="DR_NO" />
+		<result property="drName" column="DR_NAME" />
 	</resultMap>
 	
 	<resultMap type="ProductReview" id="productReviews">
@@ -41,7 +54,9 @@
 		<result property="content" column="PDREVIEW_CONTENT" />
 		<result property="orderNo" column="ORDER_NO" />
 		<result property="cNo" column="C_NO" />
+		<result property="cNickname" column="C_NICKNAME" />
 		<result property="drNo" column="DR_NO" />
+		<result property="drName" column="DR_NAME" />
 	</resultMap>
 	
 	<sql id="sortFormula">
@@ -77,6 +92,7 @@
 			<otherwise></otherwise>
 		</choose>
 	</sql>
+	
 	<!-- *******************resultMap & Query******************* -->
 	
 	<select id="getListCount" parameterType="hashMap" resultType="_int">
@@ -120,4 +136,143 @@
 		<include refid="sortFormula" />
 	</select>
 	
+	<select id="getSearchCount" parameterType="hashMap" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			PRODUCT
+		WHERE 
+			PD_NAME LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="suggestProduct" parameterType="string" resultMap="product">
+		SELECT ROWNUM, F.*
+		FROM
+		    (SELECT 
+		        A.PD_NO,
+		        B.PDP_RENAME,
+		        A.PD_NAME,
+		        A.SELL_PRICE
+		    FROM 
+		        PRODUCT A
+		        JOIN PRODUCTPHOTO B ON A.PD_NO = B.PD_NO
+		    WHERE 
+		        PD_NAME LIKE '%' || #{keyword} || '%'
+		        AND B.PDP_TYPE = 0
+		    ORDER BY 
+		        (RECOMEND * 5) + (PD_COUNT) DESC) F
+		<![CDATA[
+		WHERE ROWNUM <= 3
+		]]>
+	</select>
+	
+	<select id="getSearchProducts" parameterType="hashMap" resultMap="product">
+		SELECT
+		    A.PD_NO, 
+		    A.PD_NAME, 
+		    A.ORIGIN_PRICE, 
+		    A.DISCOUNT, 
+		    A.SELL_PRICE, 
+		    A.VOLUME, 
+		    A.SUB_EX,
+		    A.DRUG_WAY, 
+		    A.SHELFLIFE, 
+		    A.RECOMEND, 
+		    A.CT_CODE, 
+		    A.PD_COUNT, 
+		    A.PD_UPLOADDATE,
+		    B.CT_NAME,
+		    C.PDP_NO, 
+		    C.PDP_RENAME, 
+		    C.PDP_FILEPATH, 
+		    C.PDP_TYPE
+		FROM
+		    PRODUCT A
+		    JOIN PCATEGORY B ON A.CT_CODE = B.CT_CODE
+		    JOIN PRODUCTPHOTO C ON A.PD_NO = C.PD_NO
+		WHERE
+		    C.PDP_TYPE = 0
+		    AND A.PD_NAME LIKE '%' || #{keyword} || '%'
+		<include refid="sortFormula" />		
+	</select>
+	
+	<select id="getProductDetail" parameterType="_int" resultMap="product">
+		SELECT 
+			A.PD_NO, A.PD_NAME, A.ORIGIN_PRICE, A.SELL_PRICE, A.VOLUME, 
+			A.SUB_EX, A.DRUG_WAY, A.SHELFLIFE, A.RECOMEND, A.CT_CODE, 
+			A.PD_COUNT, B.CT_NAME
+		FROM 
+			PRODUCT A
+			JOIN PCATEGORY B ON A.CT_CODE = B.CT_CODE
+		WHERE A.PD_NO = #{pdNo}
+	</select>
+	
+	<select id="getProductPhotos" parameterType="_int" resultMap="productPhotos">
+		SELECT PDP_RENAME FROM PRODUCTPHOTO WHERE PD_NO = #{pdNo}
+		ORDER BY PDP_TYPE ASC
+	</select>
+	
+	<select id="getProductReviews" parameterType="_int" resultMap="productReviews">
+		SELECT B.PDREVIEW_NO, B.PDREVIEW_CONTENT, B.DR_NO, G.DR_NAME, B.C_NO, H.C_NICKNAME
+		FROM PRODUCTREVIEW B
+		LEFT JOIN DRCLIENT G ON G.DR_NO = B.DR_NO
+		LEFT JOIN CLIENT H ON H.C_NO = B.C_NO
+		WHERE B.PD_NO = #{pdNo}
+	</select>
+	
+	<select id="getProductQnas" parameterType="_int" resultMap="productQnas">
+		SELECT 
+			ROWNUM AS RNO, TB.*
+		FROM
+			(SELECT F.PDQ_NO, F.PDQ_TITLE, F.PDQ_CONTENT, F.PDQ_SUBMITDATE, F.PDQ_ANSWERSTATUS, F.DR_NO, I.DR_NAME, F.C_NO, J.C_NICKNAME, (SELECT COUNT(*) FROM PRODUCTQNA WHERE PD_NO = 1) AS "QNACOUNT"
+			FROM PRODUCTQNA F
+			LEFT JOIN DRCLIENT I ON I.DR_NO = F.DR_NO
+			LEFT JOIN CLIENT J ON J.C_NO = F.C_NO
+			WHERE F.PD_NO = #{pdNo}) TB
+	</select>
+	
+	<select id="getProductRecommends" parameterType="_int" resultMap="drProductRecommends">
+		SELECT D.DRRM_NO, D.DRRM_COMMENT, D.DR_NO, K.DR_NAME
+		FROM DRRECOMMEND D
+		JOIN DRCLIENT K ON K.DR_NO = D.DR_NO
+		WHERE D.PD_NO = #{pdNo}
+	</select>
+	
+	<select id="getReviewCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCTREVIEW
+		WHERE PD_NO = #{pdNo}
+	</select>
+	
+	<select id="getQnaCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCTQNA
+		WHERE PD_NO = #{pdNo}
+	</select>
+	
+	<select id="getRecommendCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM DRRECOMMEND
+		WHERE PD_NO = #{pdNo}
+	</select>
+	
+	<update id="updateViewCount" parameterType="_int">
+		UPDATE PRODUCT
+		SET PD_COUNT = PD_COUNT + 1
+		WHERE PD_NO = #{pdNo}
+	</update>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

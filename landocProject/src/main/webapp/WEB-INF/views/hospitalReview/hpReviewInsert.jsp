@@ -1344,7 +1344,7 @@
             alert("병원을 선택해주세요.");
             return false;
          }else if($("#receipt_image").val()==""){
-            alert("인증자료를 업로드해주세요.");
+            alert("인증자료를 업로드 해주세요.");
             return false;
             
          }else if($("#kindness").val()==0){

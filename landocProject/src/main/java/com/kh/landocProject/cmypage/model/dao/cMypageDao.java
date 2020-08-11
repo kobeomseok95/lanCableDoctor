@@ -166,6 +166,11 @@ public class cMypageDao {
 		return sqlSessionTemplate.update("cMypage.orderCancelUpdate", order);
 	}
 
+	public String selectPdReviewPhoto(PdReview review) {
+		
+		return sqlSessionTemplate.selectOne("cMypage.selectPdReviewPhoto",review);
+	}
+
 
 
 }

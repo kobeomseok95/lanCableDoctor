@@ -64,6 +64,8 @@ public interface cMypageService {
 
 	int orderCancel(OrderList order);
 
+	String selectPdReviewPhoto(PdReview review);
+
 	
 
 

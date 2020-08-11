@@ -62,28 +62,30 @@
                 <div class="col-lg-8">
                     <div class="product-search">
                     	<!-- 검색하기 -->
-                        <form action="#" method="get">
-                            <input type="text" id="searchProduct" name="searchProduct" class="mb-4" />
-                            <button type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
+                        <form id="searchForm" action="productSearch.do" method="get">
+                            <input type="text" id="searchProduct" name="keyword" /><!-- class="mb-4" -->
+                            <button id="searchBtn" type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
                         </form>
+                        <div id="suggestProduct">
+                        	
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-2"></div>
             </div>
 
-            <div class="row">
-				<ul>	<!-- productIndex.do?sortNo=1&pageNo=1&categoryNo=7 -->
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=7">전체보기</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=1">종합건강</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=2">눈건강</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=4">장건강</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=5">피로개선</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=6">피부건강</a></li>
-				    <li><a href="productIndex.do?sortNo=1&pageNo=1&categoryNo=3">뼈&관절건강</a></li>
+            <div class="row mt-4">
+				<ul>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=7">전체보기</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=1">종합건강</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=2">눈건강</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=4">장건강</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=5">피로개선</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=6">피부건강</a></li>
+				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=3">뼈&관절건강</a></li>
 				</ul>
             </div>
         </div>
-
 
         <div class="cateSeletion">
             <div class="row" style="height: 40px;">
@@ -124,7 +126,6 @@
             </div>
         </div>
 
-
         <!-- 상품나열 상품은 열두개 나열-->
         <div class="products-main mb-5">
         	<c:if test="${!empty products }">
@@ -134,11 +135,14 @@
 	        			<hr>
 	        			<div class="row">
 	                		<div class="col-lg-3" align="center">
-	        					<a href="#">
-	        					<c:set var="fullPath" value="/projectFiles/${product.photos[0].fileName }" />
+	        					<c:url var="goDetail" value="productDetail.do">
+	        						<c:param name="pdNo" value="${product.pdNo }" />
+	        					</c:url>
+	        					<a href="${goDetail }">
+	        						<c:set var="fullPath" value="/projectFiles/${product.photos[0].fileName }" />
 		        					<img class="product-image my-3" src="${fullPath }" />
 	        					</a>
-			                    <h4 class="my-3"><a href="#">${product.pdName }</a></h4>
+			                    <h4 class="my-3"><a href="${goDetail }">${product.pdName }</a></h4>
 			                    <span class="price">${product.sellPrice }</span>
 			                    <span class="won">원</span>
 			                </div>
@@ -150,11 +154,14 @@
 	        			</c:when>
 	        			<c:when test="${status.index mod 4 eq 3}">
 	        				<div class="col-lg-3" align="center">
-	        					<a href="#">
+	        					<c:url var="goDetail" value="productDetail.do">
+	        						<c:param name="pdNo" value="${product.pdNo }" />
+	        					</c:url>
+	        					<a href="${goDetail }">
 	        					<c:set var="fullPath" value="/projectFiles/${product.photos[0].fileName }" />
 	        						<img class="product-image my-3" src="${fullPath }" />
 	        					</a>
-			                    <h4 class="my-3"><a href="#">${product.pdName }</a></h4>
+			                    <h4 class="my-3"><a href="${goDetail }">${product.pdName }</a></h4>
 			                    <span class="price">${product.sellPrice }</span>
 			                    <span class="won">원</span>
 			                </div>
@@ -162,11 +169,14 @@
 	        			</c:when>
 	        			<c:otherwise>
 		        			<div class="col-lg-3" align="center">
-		       					<a href="#">
+		       					<c:url var="goDetail" value="productDetail.do">
+	        						<c:param name="pdNo" value="${product.pdNo }" />
+	        					</c:url>
+	        					<a href="${goDetail }">
 	        					<c:set var="fullPath" value="/projectFiles/${product.photos[0].fileName }" />
 		       						<img class="product-image my-3" src="${fullPath }" />
 		       					</a>
-			                    <h4 class="my-3"><a href="#">${product.pdName }</a></h4>
+			                    <h4 class="my-3"><a href="${goDetail }">${product.pdName }</a></h4>
 			                    <span class="price">${product.sellPrice }</span>
 			                    <span class="won">원</span>
 				            </div>
@@ -206,8 +216,7 @@
                         </li>
                         <c:forEach var="p" begin="${page.startPage }" end="${page.endPage }">
                         	<c:if test="${p eq page.currentPage }">
-                        <li class="page-item"><a class="page-link" 
-                        style="color: #a82400;">${p }</a></li>
+                        <li class="page-item"><a class="page-link" style="color: #a82400;">${p }</a></li>
                         	</c:if>
                         	<c:if test="${p ne page.currentPage }">
                         	<c:url var="pageNumbering" value="productIndex.do">
@@ -266,7 +275,84 @@
 					$(item).css("color", "#a82400");
 				}
 			});
-		});
+			
+			$('#searchBtn').on('click', function(){
+				if($("#searchProduct").val().length === 0){
+					alert('한 글자 이상 검색해주세요!');
+				}
+				else{
+					$("#searchForm").submit();
+				}
+			});
+			
+			$("#searchProduct").keyup(function(){
+				if($(this).val() !== ""){
+					$("#suggestProduct").css("display", "block");	//먼저할까 나중에할까
+					$.ajax({
+						type : 'GET',
+						url : 'suggestProduct.do',
+						data:{
+							'keyword' : $(this).val()
+						},
+						dataType:'JSON',
+						success:function(data){
+							if(data.result === "ok"){
+								suggestProducts(data.suggestProducts);
+							}
+							else{
+								suggestEmpty();
+							}
+						},
+						error:function(request, status, errorData){
+		                    alert("error code: " + request.status + "\n"
+		                            +"message: " + request.responseText
+		                            +"error: " + errorData);
+		               	}
+					});
+					//$("#suggestProduct").css("display", "block");
+				}
+				else{
+					$("#suggestProduct").css("display", "none");
+				}
+			});
+			
+			function suggestProducts(suggestList){
+				$("#suggestProduct").html('');
+				for(var i in suggestList){
+					var $divProd = $('<div class="productList"></div>');
+					var $a = $('<a></a>');
+					$a.attr('href', 'productDetail.do?pdNo='+suggestList[i].pdNo);		//상품 상세보기 구현시 꼭 매핑
+					
+					var $spanOne = $('<span class="prodImg"></span>');
+					var $img = $('<img />');
+					$img.attr('src', '/projectFiles/' + suggestList[i].photos[0].fileName);
+					$spanOne.append($img);
+					
+					var $spanTwo = $('<span class="prodName"></span>');
+					$spanTwo.text(suggestList[i].pdName);
+					
+					var $spanThree = $('<span class="prodPrice"></span>');
+					$spanThree.text(numberWithCommas(suggestList[i].sellPrice) + '원');
+					
+					$a.append($spanOne);
+					$a.append($spanTwo);
+					$a.append($spanThree);
+					
+					$divProd.append($a);
+				$("#suggestProduct").append($divProd);
+				}
+			}
+			
+			function suggestEmpty(){
+				$("#suggestProduct").html('');
+				var $divEmpty = $('<div></div>');
+				$divEmpty.attr('id', 'listEmpty');
+				$divEmpty.text('추천 상품이 없습니다.');
+				$("#suggestProduct").append($divEmpty);
+			}
+		});	//end of jquery
+		
+		
 		function numberWithCommas(x) {
 		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
@@ -274,3 +360,10 @@
 </body>
 
 </html>
+
+
+
+
+
+
+

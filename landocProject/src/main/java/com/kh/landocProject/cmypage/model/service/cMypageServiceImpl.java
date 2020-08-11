@@ -173,6 +173,12 @@ public class cMypageServiceImpl implements cMypageService {
 		return cmDao.orderCancel(order);
 	}
 
+	@Override
+	public String selectPdReviewPhoto(PdReview review) {
+		
+		return cmDao.selectPdReviewPhoto(review);
+	}
+
 
 }
 
