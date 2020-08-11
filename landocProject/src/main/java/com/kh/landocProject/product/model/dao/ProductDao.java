@@ -92,5 +92,8 @@ public class ProductDao {
 	public ProductQna getAnswer(int pdqNo) {
 		return sqlSessionTemplate.selectOne("productMapper.getAnswer", pdqNo);
 	}
-	
+
+	public int insertQna(ProductQna qna) {
+		return sqlSessionTemplate.insert("productMapper.insertQna", qna);
+	}
 }

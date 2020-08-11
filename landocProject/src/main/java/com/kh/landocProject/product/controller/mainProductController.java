@@ -189,6 +189,27 @@ public class mainProductController {
 		}
 		return data;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="insertProductQna.do", method=RequestMethod.POST)
+	public String insertProductQna(ProductQna qna) {
+		int result = 0;
+		if( qna.getSecretPwd().equals("") ) {
+			qna.setSecretStatus("N");
+		}
+		else {
+			qna.setSecretStatus("Y");
+		}
+		
+		result = productServiceImpl.insertQna(qna);
+
+		if(result > 0) {
+			return "ok";
+		}
+		else{
+			return "fail";
+		}
+	}
 }
 
 

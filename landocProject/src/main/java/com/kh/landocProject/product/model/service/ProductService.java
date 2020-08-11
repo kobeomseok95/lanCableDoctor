@@ -42,4 +42,6 @@ public interface ProductService {
 	int updateViewCount(int pdNo);
 
 	ProductQna getAnswer(int pdqNo);
+
+	int insertQna(ProductQna qna);
 }

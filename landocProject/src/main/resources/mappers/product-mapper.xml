@@ -239,7 +239,9 @@
 		        LEFT JOIN DRCLIENT I ON I.DR_NO = F.DR_NO
 		        LEFT JOIN CLIENT J ON J.C_NO = F.C_NO
 		    WHERE 
-		        F.PD_NO = #{pdNo}) TB
+		        F.PD_NO = #{pdNo}
+		    ORDER BY
+		    	PDQ_SUBMITDATE DESC) TB
 	</select>
 	
 	<select id="getProductRecommends" parameterType="_int" resultMap="drProductRecommends">
@@ -287,6 +289,23 @@
 		WHERE
 		    PDQ_NO = #{pdqNo}
 	</select>
+	
+	<insert id="insertQna" parameterType="ProductQna">
+	INSERT INTO PRODUCTQNA
+	VALUES(
+	    SEQ_PRODUCTQNA.NEXTVAL,
+	    #{title},
+	    #{content},
+	    SYSDATE,
+	    'N',
+	    NULL,
+	    #{pdNo},
+	    #{cNo},
+	    #{drNo},
+	    #{secretStatus},
+	    #{secretPwd}
+	)
+	</insert>
 </mapper>
 
 

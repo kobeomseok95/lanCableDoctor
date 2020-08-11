@@ -97,4 +97,9 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.getAnswer(pdqNo);
 	}
 
+	@Override
+	public int insertQna(ProductQna qna) {
+		return productDao.insertQna(qna);
+	}
+
 }

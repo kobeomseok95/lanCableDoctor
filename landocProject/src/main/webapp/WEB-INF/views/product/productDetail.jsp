@@ -277,8 +277,14 @@
         <div id="product-qna" class="product-qna">
             <div class="row">
                 <h3 id="qCount" class="mb-5">상품 Q&A(${qnaCount })</h3>
-				<button class="btn btn-sm goProductQnA ml-3" data-toggle="modal" data-target="#goQnA"
-				style="background-color: #0071ce; height: 37px; width: 100px;">질문하기</button>
+                <c:if test="${!empty loginDrClient || !empty loginClient }">
+					<button id="modalQna" class="btn btn-sm goProductQnA ml-3" data-toggle="modal" data-target="#goQnA"
+					style="background-color: #0071ce; height: 37px; width: 100px;">질문하기</button>
+				</c:if>
+				<c:if test="${empty loginDrClient && empty loginClient }">
+					<button id="modalQna" class="btn btn-sm goProductQnA ml-3" data-toggle="modal"
+					style="background-color: #0071ce; height: 37px; width: 100px;">질문하기</button>
+				</c:if>
                 <div class="col-lg-12 col-sm-12">
                     <table class="table">
                         <thead>
@@ -374,23 +380,31 @@
             <div class="modal fade" id="goQnA" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form action="#" method="post">
+                        <form id="insertQnaForm" action="insertProductQna.do" method="post">
                             <div class="modal-header">
                                 <h4>상품 QnA 작성하기</h4>
-                                <button type="button" class="close" data-dismiss="modal">×</button>
+                                <button id="closeQnaModal" type="button" class="close" data-dismiss="modal">×</button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="qnaTitle">제목</label>
-                                    <input id="qnaTitle" type="text" style="width: 90%; float:right;" />
+                                    <input id="qnaTitle" name="title"  type="text" style="width: 90%; float:right;" />
                                 </div>
                                 <div class="form-group">
                                     <label for="qnaContent">내용</label>
-                                    <textarea id="qnaContent" rows="8"></textarea>
+                                    <textarea id="qnaContent" rows="8" name="content" ></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qnaSecret">비밀글 설정하기</label>
+                                    <input type="checkbox" id="qnaSecret" name="qnaSecret" class="ml-1" />
+                                </div>
+                                <div id="togglePwd" class="form-group" style="display: none;">
+                                    <label for="qnaPwd">비밀번호 : </label>
+                                    <input type="password" id="secretPwd" name="secretPwd" class="ml-1" style="height: 80%;" />
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-default">제출하기</button>
+                                <button id="submitModal" type="button" class="btn btn-default">제출하기</button>
                             </div>
                         </form>
                     </div>
@@ -496,6 +510,66 @@
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
     <script>
         $(function () {
+        	$('#goQnA').on('shown.bs.modal', function () {
+				$("#qnaSecret").on('change', function(){
+					if($(this).is(":checked") === true){
+						$("#togglePwd").show();
+					}
+					else{
+						$("#togglePwd").hide();
+					}
+				});
+        	});
+        	
+        	$('#submitModal').on('click', function(){
+				var title = $("#qnaTitle").val();
+				var content = $("#qnaContent").val();
+				var secretPwd = $("#secretPwd").val();
+				var pdNo = "${product.pdNo}";
+				
+				$.ajax({
+					type : 'POST',
+					data : {
+						cNo : "${loginClient.cNo}",
+						drNo : "${loginDrClient.drNo}",
+						pdNo : pdNo,
+						title : title,
+						content : content,
+						secretPwd : secretPwd
+					},
+					url : 'insertProductQna.do',
+					success : function(data){
+						if(data === "ok"){
+							alert("질문이 작성되었습니다.");
+							$("#qCurPage").click();
+							$("#closeQnaModal").click();
+						}
+						else{
+							alert("작성에 실패하였습니다.");
+						}
+					},
+					error:function(request, status, errorData){
+	                    alert("error code: " + request.status + "\n"
+	                            +"message: " + request.responseText
+	                            +"error: " + errorData);
+	               	}
+				});
+			});
+        	
+        	$(document).on('click', '#modalQna', function(){
+        		var client = "${loginClient.cNo}";
+        		var drClient = "${loginDrClient.drNo}";
+        		
+        		if(client === "" && drClient === ""){
+        			if(confirm("회원만 질문하실 수 있습니다. 로그인하시겠습니까?")){
+        				location.href="loginView.do";
+        			}
+        			else{
+        				return false;
+        			}
+        		}
+        	});
+        	
         	function createModal(qna){
         		$("#confirmAnswer-dialog").html('');
         		var $modalContent = $('<div class="modal-content"></div>'); 
@@ -595,7 +669,7 @@
         			var $li = $('<li class="page-item"></li>');
 	    			var $a;
         			if(i === page.currentPage){
-        				$a = $('<a id="qCurPage" class="page-link revPageNo" style="color: #a82400;"></a>');
+        				$a = $('<a id="qCurPage" class="page-link qPageNo" style="color: #a82400;"></a>');
         			}
         			else{
         				$a = $('<a class="page-link qPageNo"></a>');
