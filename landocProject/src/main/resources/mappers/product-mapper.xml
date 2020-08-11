@@ -50,6 +50,8 @@
 		<result property="cNickname" column="C_NICKNAME" />
 		<result property="drNo" column="DR_NO" />
 		<result property="drName" column="DR_NAME" />
+		<result property="secretStatus" column="SECRETSTATUS" />
+		<result property="secretPwd" column="SECRETPASSWORD" />
 	</resultMap>
 	
 	<resultMap type="ProductReview" id="productReviews">
@@ -227,13 +229,17 @@
 	
 	<select id="getProductQnas" parameterType="_int" resultMap="productQnas">
 		SELECT 
-			ROWNUM AS RNO, TB.*
+		    ROWNUM AS RNO, TB.*
 		FROM
-			(SELECT F.PDQ_NO, F.PDQ_TITLE, F.PDQ_CONTENT, F.PDQ_SUBMITDATE, F.PDQ_ANSWERSTATUS, F.DR_NO, I.DR_NAME, F.C_NO, J.C_NICKNAME, (SELECT COUNT(*) FROM PRODUCTQNA WHERE PD_NO = 1) AS "QNACOUNT"
-			FROM PRODUCTQNA F
-			LEFT JOIN DRCLIENT I ON I.DR_NO = F.DR_NO
-			LEFT JOIN CLIENT J ON J.C_NO = F.C_NO
-			WHERE F.PD_NO = #{pdNo}) TB
+		    (SELECT 
+		        F.PDQ_NO, F.PDQ_TITLE, F.PDQ_CONTENT, F.PDQ_SUBMITDATE, F.PDQ_ANSWERSTATUS, 
+		        F.DR_NO, I.DR_NAME, F.C_NO, J.C_NICKNAME, F.SECRETSTATUS, F.PDQ_ANSWERCONTENT
+		    FROM 
+		        PRODUCTQNA F
+		        LEFT JOIN DRCLIENT I ON I.DR_NO = F.DR_NO
+		        LEFT JOIN CLIENT J ON J.C_NO = F.C_NO
+		    WHERE 
+		        F.PD_NO = #{pdNo}) TB
 	</select>
 	
 	<select id="getProductRecommends" parameterType="_int" resultMap="drProductRecommends">
@@ -269,6 +275,18 @@
 		SET PD_COUNT = PD_COUNT + 1
 		WHERE PD_NO = #{pdNo}
 	</update>
+	
+	<select id="getAnswer" parameterType="_int" resultMap="productQnas">
+		SELECT 
+		    PDQ_TITLE,
+			PDQ_CONTENT,
+			PDQ_ANSWERCONTENT,
+		    SECRETPASSWORD
+		FROM 
+		    PRODUCTQNA
+		WHERE
+		    PDQ_NO = #{pdqNo}
+	</select>
 </mapper>
 
 

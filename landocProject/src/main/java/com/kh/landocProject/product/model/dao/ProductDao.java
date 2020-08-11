@@ -89,4 +89,8 @@ public class ProductDao {
 		return sqlSessionTemplate.update("productMapper.updateViewCount", pdNo);
 	}
 	
+	public ProductQna getAnswer(int pdqNo) {
+		return sqlSessionTemplate.selectOne("productMapper.getAnswer", pdqNo);
+	}
+	
 }
