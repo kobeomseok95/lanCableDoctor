@@ -18,22 +18,14 @@ public class DPdReview implements Serializable {
 	private int pdReviewNo;
 	private String cNo;
 	private String dNo;
+	private String originFile;
+	private String renameFile;
 
 	public DPdReview() {
 	}
 
-	public DPdReview(String pdReviewContent, int orderNo, int pdNo, Date orderDate, String pdName, int pdReviewNo) {
-		super();
-		this.pdReviewContent = pdReviewContent;
-		this.orderNo = orderNo;
-		this.pdNo = pdNo;
-		this.orderDate = orderDate;
-		this.pdName = pdName;
-		this.pdReviewNo = pdReviewNo;
-	}
-
 	public DPdReview(String pdReviewContent, int orderNo, int pdNo, Date orderDate, String pdName, int pdReviewNo,
-			String cNo, String dNo) {
+			String cNo, String dNo, String originFile, String renameFile) {
 		this.pdReviewContent = pdReviewContent;
 		this.orderNo = orderNo;
 		this.pdNo = pdNo;
@@ -42,6 +34,8 @@ public class DPdReview implements Serializable {
 		this.pdReviewNo = pdReviewNo;
 		this.cNo = cNo;
 		this.dNo = dNo;
+		this.originFile = originFile;
+		this.renameFile = renameFile;
 	}
 
 	public String getPdReviewContent() {
@@ -108,15 +102,33 @@ public class DPdReview implements Serializable {
 		this.dNo = dNo;
 	}
 
+	public String getOriginFile() {
+		return originFile;
+	}
+
+	public void setOriginFile(String originFile) {
+		this.originFile = originFile;
+	}
+
+	public String getRenameFile() {
+		return renameFile;
+	}
+
+	public void setRenameFile(String renameFile) {
+		this.renameFile = renameFile;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return "PdReview [pdReviewContent=" + pdReviewContent + ", orderNo=" + orderNo + ", pdNo=" + pdNo
+		return "DPdReview [pdReviewContent=" + pdReviewContent + ", orderNo=" + orderNo + ", pdNo=" + pdNo
 				+ ", orderDate=" + orderDate + ", pdName=" + pdName + ", pdReviewNo=" + pdReviewNo + ", cNo=" + cNo
-				+ ", dNo=" + dNo + "]";
+				+ ", dNo=" + dNo + ", originFile=" + originFile + ", renameFile=" + renameFile + "]";
 	}
+
+	
 
 }

@@ -57,4 +57,6 @@ public interface DmyPageService {
 	int listCountPointList(String drNo);
 
 	int orderCancel(DOrderList order);
+
+	String selectPdReviewPhoto(DPdReview review);
 }

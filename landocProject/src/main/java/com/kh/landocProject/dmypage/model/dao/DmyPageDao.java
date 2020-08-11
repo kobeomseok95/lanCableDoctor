@@ -151,6 +151,11 @@ public class DmyPageDao {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.update("dMypage.orderCancelUpdate", order);
 	}
+
+	public String selectPdReviewPhoto(DPdReview review) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectPdReviewPhoto",review);
+	}
 	
 	
 	

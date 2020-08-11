@@ -128,7 +128,7 @@
                          
                         <c:if test="${r.renameFile ne null}">
 						<div class="color49 toast-message mb-4" style="font-size: 14px;">
-                           <img src="/projectFiles/${r.renameFile}">
+                           <img src="/projectFiles/${r.renameFile}" width="430px" height="300px">
                         </div>
                         </c:if>
                     </div>

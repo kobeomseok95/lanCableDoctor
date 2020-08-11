@@ -1,10 +1,13 @@
 package com.kh.landocProject.dmypage.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -37,6 +41,8 @@ public class DmyPageController {
 	@Autowired
 	DmyPageService dMypageService;
 	
+	// 사진 저장 폴더
+	private final String filePath = "C:\\lanCableDoctorProject\\files\\";
 	
 	@RequestMapping(value="doctorMypage.do")
 	public String dMyPage() {
@@ -184,14 +190,33 @@ public class DmyPageController {
 	}
 	
 	@RequestMapping(value="drPdReviewInsert.do")
-	public ModelAndView pdReviewInsert(ModelAndView mv,HttpServletResponse response,HttpSession session,DPdReview review,@RequestParam(value="orderNo") int orderNo, @RequestParam(value="pdNo") int pdNo, @RequestParam(value="pdReview") String pdReviewContent) throws IOException, DmypageException {
+	public ModelAndView pdReviewInsert(ModelAndView mv,HttpServletResponse response,HttpSession session,
+			DPdReview review,
+			HttpServletRequest request,
+			@RequestParam(value="orderNo") int orderNo,
+			@RequestParam(value="pdNo") int pdNo,
+			@RequestParam(value="pdReview") String pdReviewContent,
+			@RequestParam(value="pdReviewImg",required = false) MultipartFile file) throws IOException, DmypageException {
 		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 		String drNo =loginClient.getDrNo();
-		review.setdNo(drNo);
-		review.setOrderNo(orderNo);
-		review.setPdNo(pdNo);
-		review.setPdReviewContent(pdReviewContent);
 		
+		if(!file.getOriginalFilename().equals("")) {
+			  String renameFileName = saveFile(file,request);
+			  review.setdNo(drNo);
+			  review.setOrderNo(orderNo);
+			  review.setPdNo(pdNo);
+			  review.setPdReviewContent(pdReviewContent);
+			  review.setOriginFile(file.getOriginalFilename());
+			  review.setRenameFile(renameFileName);
+			  
+		}else {
+			  review.setdNo(drNo);
+			  review.setOrderNo(orderNo);
+			  review.setPdNo(pdNo);
+			  review.setPdReviewContent(pdReviewContent);
+			  review.setOriginFile(null);
+			  review.setRenameFile(null);
+		}
 		int result = dMypageService.pdReviewInsert(review);
 		int result2 = dMypageService.updateOrderStatus(review);
 		if(result>0 && result2>0) {
@@ -326,12 +351,33 @@ public class DmyPageController {
 		}
 		
 		@RequestMapping(value="drUpdateReview.do")
-		public ModelAndView updateReviewInsert(ModelAndView mv,HttpServletResponse response,HttpSession session,DPdReview review,@RequestParam(value="orderNo") int orderNo, @RequestParam(value="pdReview") String pdReviewContent) throws IOException,DmypageException  {
+		public ModelAndView updateReviewInsert(ModelAndView mv,HttpServletRequest request,HttpServletResponse response,HttpSession session,
+				DPdReview review,@RequestParam(value="orderNo") int orderNo, 
+				@RequestParam(value="pdReview") String pdReviewContent,
+				@RequestParam(value="pdReviewImg",required = false) MultipartFile file) throws IOException,DmypageException  {
 			DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 			String drNo =loginClient.getDrNo();
 			review.setdNo(drNo);
 			review.setOrderNo(orderNo);
-			review.setPdReviewContent(pdReviewContent);
+			String rename = dMypageService.selectPdReviewPhoto(review);
+			if(rename!=null) {
+				deleteFile(rename);
+			}
+			if(!file.getOriginalFilename().equals("")){
+				
+				String renameFile = saveFile(file, request);
+				review.setRenameFile(renameFile);
+				review.setOriginFile(file.getOriginalFilename());
+				review.setdNo(drNo);
+				review.setOrderNo(orderNo);
+				review.setPdReviewContent(pdReviewContent);
+			}else {
+				review.setRenameFile(null);
+				review.setOriginFile(null);
+				review.setdNo(drNo);
+				review.setOrderNo(orderNo);
+				review.setPdReviewContent(pdReviewContent);
+			}
 			int result= dMypageService.updateReviewInsert(review);
 			if(result >0) {
 				  response.setContentType("text/html; charset=UTF-8");
@@ -405,4 +451,46 @@ public class DmyPageController {
 			
 			return mv;
 		}
+		
+		public String saveFile(MultipartFile file, HttpServletRequest request) {
+
+		      
+		      File folder = new File(filePath);
+		      
+		      if(!folder.exists()) {
+		         folder.mkdirs();
+		      }
+		      
+		      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		      String originFileName = file.getOriginalFilename();
+		      String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." + originFileName.substring(originFileName.lastIndexOf(".")+1);
+		      
+		      String saveFiles = filePath + renameFileName;
+		      
+		      
+		      try {
+		         file.transferTo(new File(saveFiles));   // 이 때 파일이 저장
+		         
+		      } catch (IllegalStateException e) {
+		         
+		         e.printStackTrace();
+		      } catch (IOException e) {
+		         
+		         e.printStackTrace();
+		      }
+		      
+		      return renameFileName;
+		   }
+		 
+		 
+		 
+		 
+			public void deleteFile(String fileName) {
+				
+				File f = new File(filePath + fileName);
+				
+				if(f.exists()) {
+					f.delete();
+				}
+			}
 }

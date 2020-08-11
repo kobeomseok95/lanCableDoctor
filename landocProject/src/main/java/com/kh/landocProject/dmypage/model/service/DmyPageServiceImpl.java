@@ -157,6 +157,12 @@ public class DmyPageServiceImpl implements DmyPageService{
 		// TODO Auto-generated method stub
 		return dMypageDao.orderCancel(order);
 	}
+
+	@Override
+	public String selectPdReviewPhoto(DPdReview review) {
+		
+		return dMypageDao.selectPdReviewPhoto(review);
+	}
 	
 	
 	
