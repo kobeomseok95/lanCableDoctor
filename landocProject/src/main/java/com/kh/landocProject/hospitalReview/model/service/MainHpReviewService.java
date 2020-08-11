@@ -1,7 +1,9 @@
 package com.kh.landocProject.hospitalReview.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 import com.kh.landocProject.hospitalQna.model.vo.MainHpQnA;
@@ -35,6 +37,9 @@ public interface MainHpReviewService {
    ArrayList<MainHpQnA> selectHpQna(Integer hpNo);
 
    int selectQnaNum(Integer hpNo);
+
+   ArrayList<HpReview> selectHpReviewList(HashMap<String, Integer> map, PageInfo page);
+
 
 
 

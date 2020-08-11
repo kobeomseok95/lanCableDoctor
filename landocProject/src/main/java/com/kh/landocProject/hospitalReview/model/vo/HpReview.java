@@ -15,6 +15,7 @@ public class HpReview implements Serializable{
    private int hpReNo;
    private String cNo;
    private String cNickName;
+   private String cProfile;
    private int hpNo;
    private int hpCateCode;
    private String hpReTitle;
@@ -37,14 +38,15 @@ public class HpReview implements Serializable{
    public HpReview() {
    }
 
-public HpReview(int rowNum, int hpReNo, String cNo, String cNickName, int hpNo, int hpCateCode, String hpReTitle,
-		String hpReContent, Date hpReDate, String like, double avgRate, double explanation, double kindness,
-		double waitingTime, double trResult, double sanitary, double price, String status, double count,
-		String originFile, String renameFile, String filePath) {
+public HpReview(int rowNum, int hpReNo, String cNo, String cNickName, String cProfile, int hpNo, int hpCateCode,
+		String hpReTitle, String hpReContent, Date hpReDate, String like, double avgRate, double explanation,
+		double kindness, double waitingTime, double trResult, double sanitary, double price, String status,
+		double count, String originFile, String renameFile, String filePath) {
 	this.rowNum = rowNum;
 	this.hpReNo = hpReNo;
 	this.cNo = cNo;
 	this.cNickName = cNickName;
+	this.cProfile = cProfile;
 	this.hpNo = hpNo;
 	this.hpCateCode = hpCateCode;
 	this.hpReTitle = hpReTitle;
@@ -95,6 +97,14 @@ public String getcNickName() {
 
 public void setcNickName(String cNickName) {
 	this.cNickName = cNickName;
+}
+
+public String getcProfile() {
+	return cProfile;
+}
+
+public void setcProfile(String cProfile) {
+	this.cProfile = cProfile;
 }
 
 public int getHpNo() {
@@ -247,14 +257,15 @@ public static long getSerialversionuid() {
 
 @Override
 public String toString() {
-	return "HpReview [rowNum=" + rowNum + ", hpReNo=" + hpReNo + ", cNo=" + cNo + ", cNickName=" + cNickName + ", hpNo="
-			+ hpNo + ", hpCateCode=" + hpCateCode + ", hpReTitle=" + hpReTitle + ", hpReContent=" + hpReContent
-			+ ", hpReDate=" + hpReDate + ", like=" + like + ", avgRate=" + avgRate + ", explanation=" + explanation
-			+ ", kindness=" + kindness + ", waitingTime=" + waitingTime + ", trResult=" + trResult + ", sanitary="
-			+ sanitary + ", price=" + price + ", status=" + status + ", count=" + count + ", originFile=" + originFile
-			+ ", renameFile=" + renameFile + ", filePath=" + filePath + "]";
+	return "HpReview [rowNum=" + rowNum + ", hpReNo=" + hpReNo + ", cNo=" + cNo + ", cNickName=" + cNickName
+			+ ", cProfile=" + cProfile + ", hpNo=" + hpNo + ", hpCateCode=" + hpCateCode + ", hpReTitle=" + hpReTitle
+			+ ", hpReContent=" + hpReContent + ", hpReDate=" + hpReDate + ", like=" + like + ", avgRate=" + avgRate
+			+ ", explanation=" + explanation + ", kindness=" + kindness + ", waitingTime=" + waitingTime + ", trResult="
+			+ trResult + ", sanitary=" + sanitary + ", price=" + price + ", status=" + status + ", count=" + count
+			+ ", originFile=" + originFile + ", renameFile=" + renameFile + ", filePath=" + filePath + "]";
 }
 
-	
+
+
 	   
 	}

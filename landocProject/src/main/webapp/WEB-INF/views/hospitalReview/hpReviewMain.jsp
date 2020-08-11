@@ -149,7 +149,16 @@ img {
                             </div>
     
                             <div class="d-flex align-items-start color49 border-bottom pb-3">
-                            	 <c:if test="${hr.avgRate ge 0 && hr.avgRate lt 1}">
+			                            	<c:if test="${hr.avgRate eq 'NaN' }">
+			                            			<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image"> 
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+			                            	
+			                            	
+			                            	</c:if>
+                            	 			<c:if test="${hr.avgRate ge 0 && hr.avgRate lt 1}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -235,9 +244,15 @@ img {
                             	
                                 <div class="ml-1" style="letter-spacing: -0.5px;">
                                 
-                                   ${hr.avgRate }&nbsp;
-                                    (리뷰 ${reviewNum })
-                                
+	                                <c:if test="${hr.avgRate eq 'NaN' }">
+	                                	0&nbsp;
+	                                    (리뷰 ${reviewNum })
+	                                </c:if>
+	                                
+	                                <c:if test="${hr.avgRate ne 'NaN' }">
+	                                   ${hr.avgRate }&nbsp;
+	                                    (리뷰 ${reviewNum })
+	                                </c:if>
                                 </div>
                             </div>
     
@@ -258,7 +273,13 @@ img {
                             
                             <div class="color49 mt-2" style="font-size: 14px;font-weight: 300;letter-spacing: -0.2px;">
                                <i class="far fa-sticky-note" style="color:grey;"></i>&nbsp;
-                                ${hp.hpComment }
+                               <c:if test="${empty hp.hpComment }">
+                               		병원에서 작성한 소개가 없습니다.
+                               </c:if>
+                               
+                               <c:if test="${!empty hp.hpComment }">
+                               		${hp.hpComment }
+                               </c:if>
                                 
                             </div>
                             
@@ -359,7 +380,7 @@ img {
                    <c:if test="${!empty qnaList }">
                     <div class="d-flex justify-content-between align-items-center m-3">
                         <div style="font-weight: bold;letter-spacing: -0.4px;">
-                          &nbsp;  Q&amp;A <b style="color: #4c1192;">${qnaNum }</b>
+                          &nbsp;  Q&amp;A <b style="color: #007ee5;">${qnaNum }</b>
                         </div>
                         <div>
                             <a href="#qnadetailinfo" style="color: #494949;font-size: 12px;">
@@ -450,11 +471,11 @@ img {
                         </li>
                         <li role="presentation" class="nav-item">
                             <a class="nav-link active m-0 border-top-0 border-left-0 border-right-0 rounded-0 h-100" 
-                            href="#reviewdetailinfo" role="tab" style="color: #007ee5; background-color: white; font-weight: 600; border-bottom: 2px solid #007ee5; font-size: 18px;">리뷰 (107)</a>
+                            href="#reviewdetailinfo" role="tab" style="color: #007ee5; background-color: white; font-weight: 600; border-bottom: 2px solid #007ee5; font-size: 18px;">리뷰 (${reviewNum })</a>
                         </li>
                         <li role="presentation" class="nav-item">
                             <a class="nav-link active m-0 border-top-0 border-left-0 border-right-0 rounded-0 h-100" 
-                            href="#qnadetailinfo" role="tab" style="color: #007ee5; background-color: white; font-weight: 600; border-bottom: 2px solid #007ee5; font-size: 18px;">Q&amp;A (4)</a>
+                            href="#qnadetailinfo" role="tab" style="color: #007ee5; background-color: white; font-weight: 600; border-bottom: 2px solid #007ee5; font-size: 18px;">Q&amp;A (${qnaNum })</a>
                         </li>
                     </ul>
                 </div>
@@ -515,6 +536,7 @@ img {
                         
                     </div>
     
+    				<!-- ****************************************************************************************************************** -->
                     <!--지도 api활용 부분-->
                     <!--location-box -->
                    
@@ -576,9 +598,19 @@ img {
                                    		 별점 평균
                                 </div>
                                 <div style="letter-spacing: -1.05px;text-align: center;color: #9b9b9b;font-size: 18px;" class="mb-2">
-                                    <b style="letter-spacing:-2.33px; font-size: 40px; font-weight: bold;color: #000000;">
-                                        ${hr.avgRate }
-                                    </b> / 5
+                                    <c:if test="${hr.avgRate ne 'NaN' }">
+	                                    <b style="letter-spacing:-2.33px; font-size: 40px; font-weight: bold;color: #000000;">
+	                                        ${hr.avgRate }
+	                                    </b> / 5
+                                    </c:if>
+                                    
+                                    <c:if test="${hr.avgRate eq 'NaN' }">
+	                                    <b style="letter-spacing:-2.33px; font-size: 40px; font-weight: bold;color: #000000;">
+	                                        0
+	                                    </b> / 5
+                                    </c:if>
+                                    
+                                    
                                 </div>
                                 <div class="row border-top pt-2">
                                     <div class="col d-flex align-items-end justify-content-center" style="color: #007ee5;font-size:14px;font-weight: bold">
@@ -608,7 +640,16 @@ img {
                                     <div class="row my-1">
                                         <div class="col-5 p-0 pl-4 d-flex align-items-center justify-content-start" style="letter-spacing: -0.6px;font-size: 12px">자세한 설명</div>
                                         <div class="col-7 p-0">
-                                    
+                                    		
+                                    		<c:if test="${hr.explanation eq 'NaN'}">
+                                    				<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image"> 
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                    		</c:if>
+                                    		
+                                    		
                                             <c:if test="${hr.explanation ge 0 && hr.explanation lt 1}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -703,6 +744,14 @@ img {
                                     <div class="row my-1">
                                         <div class="col-5 p-0 pl-4 d-flex align-items-center justify-content-start" style="letter-spacing: -0.6px;font-size: 12px">적절한 금액</div>
                                         <div class="col-7 p-0">
+                                        	<c:if test="${hr.price eq 'NaN'}">
+                                    				<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image"> 
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                    		</c:if>
+                                        	
                                         	<c:if test="${hr.price ge 0 && hr.price lt 1}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -796,6 +845,16 @@ img {
                                     <div class="row my-1">
                                         <div class="col-5 p-0 pl-4 d-flex align-items-center justify-content-start" style="letter-spacing: -0.6px;font-size: 12px">치료후 결과</div>
                                         <div class="col-7 p-0">
+                                        
+                                        	<c:if test="${hr.trResult eq 'NaN'}">
+                                    				<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image"> 
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                    		</c:if>
+                                        
+                                        
                                         	<c:if test="${hr.trResult ge 0 && hr.trResult lt 1}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -894,6 +953,15 @@ img {
                                     <div class="row my-1">
                                         <div class="col-5 p-0 pl-4 d-flex align-items-center justify-content-start" style="letter-spacing: -0.6px;font-size: 12px">직원의 친절</div>
                                         <div class="col-7 p-0">
+                                        	
+                                        	<c:if test="${hr.kindness eq 'NaN'}">
+                                    				<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image"> 
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                    		</c:if>
+                                        
                                         	<c:if test="${hr.kindness ge 0 && hr.kindness lt 1}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -986,6 +1054,15 @@ img {
                                     <div class="row my-1">
                                         <div class="col-5 p-0 pl-4 d-flex align-items-center justify-content-start" style="letter-spacing: -0.6px;font-size: 12px">대기시간</div>
                                         <div class="col-7 p-0">
+                                        
+                                        	<c:if test="${hr.waitingTime eq 'NaN'}">
+                                    				<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image"> 
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                    		</c:if>
+                                        
                                         	<c:if test="${hr.waitingTime ge 0 && hr.waitingTime lt 1}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -1077,6 +1154,15 @@ img {
                                     <div class="row my-1">
                                         <div class="col-5 p-0 pl-4 d-flex align-items-center justify-content-start" style="letter-spacing: -0.6px;font-size: 12px">청결함</div>
                                         <div class="col-7 p-0">
+                                        	
+                                        	<c:if test="${hr.sanitary eq 'NaN'}">
+                                    				<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image"> 
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                                    <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
+                                    		</c:if>
+                                        
                                         	<c:if test="${hr.sanitary ge 0 && hr.sanitary lt 1}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -1204,10 +1290,10 @@ img {
                                 		기본 정렬
                               </button>
                               <div class="dropdown-menu" style="font-size:13px;">
-                                <a class="dropdown-item" href="#">기본 정렬</a>
-                                <a class="dropdown-item" href="#">최신 순서</a>
-                                <a class="dropdown-item" href="#">평점 높은 순서</a>
-                                <a class="dropdown-item" href="#">평점 낮은 순서</a>  
+                                <a class="dropdown-item" href="mainHpReviewDetail.do?orderBy=1&currentPage=1&hpNo=${hp.hpNo }">기본 정렬</a>
+                                <a class="dropdown-item" href="mainHpReviewDetail.do?orderBy=2&currentPage=1&hpNo=${hp.hpNo }">최신 순서</a>
+                                <a class="dropdown-item" href="mainHpReviewDetail.do?orderBy=3&currentPage=1&hpNo=${hp.hpNo }">평점 높은 순서</a>
+                                <a class="dropdown-item" href="mainHpReviewDetail.do?orderBy=4&currentPage=1&hpNo=${hp.hpNo }">평점 낮은 순서</a>  
                               </div>
                             </div>
                         </div>
@@ -1431,54 +1517,14 @@ img {
                          
 
                         </div>
-						<div>
-							<button class="btn btn-blackcontent w-100 mt-3 p-2 view-qna" style="font-size: 18px; background-color: #007ee5; color: white;" 
-                                onclick="javascript:moreList(this)" id="addListBtn" value="1">
-                                    	리뷰 더 보기
-                                </button>
-						
+						<div class="pagination">
+							
 						
 						</div>                        
                 </div>
                 
                 <script>
-                	function moreList(btn){
-                		console.log("moreList에서 받은 매개변수 : " + btn);
-                		console.log("moreList 매개변수로 들어온 버튼 객체의 value = 페이징 : " + btn.value);
-                		
-                		$.ajax({
-                			url:"hpReviewList.do",
-                			type:"POST",
-                			dataType:"JSON",
-                			data:{numberOfRequest : btn.value},
-                			success:function(data){
-                				
-                				
-                				
-                				
-                				
-                				
-                				
-                			},
-                			error:function(request, status, errorData){
-                                alert("error code: " + request.status + "\n"
-                                        +"message: " + request.responseText
-                                        +"error: " + errorData);
-                             }
-                			
-                		})
-                		
-                		
-                		
-                		
-                		
-                		
-                		
-                	}
-                
-                
-                
-                
+                	
                 
                 </script>
                 

@@ -1,10 +1,12 @@
 package com.kh.landocProject.hospitalReview.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 import com.kh.landocProject.hospitalQna.model.vo.MainHpQnA;
@@ -96,6 +98,12 @@ public class MainHpReviewServiceImpl implements MainHpReviewService{
 	public int selectQnaNum(Integer hpNo) {
 		
 		return MainHpReDao.selectQnaNum(hpNo);
+	}
+
+	@Override
+	public ArrayList<HpReview> selectHpReviewList(HashMap<String, Integer> map, PageInfo page) {
+		
+		return MainHpReDao.selectHpReviewList(map, page);
 	}
    
    

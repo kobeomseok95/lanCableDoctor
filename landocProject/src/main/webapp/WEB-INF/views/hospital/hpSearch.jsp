@@ -240,8 +240,10 @@
    <script>
    		$(".detailHpReview").click(function(){
    			var hpNo = $(this).children().children().children().children('.hpNo').val();
-   			console.log(hpNo);
-   			location.href="mainHpReviewDetail.do?hpNo=" + hpNo;
+   			var orderBy = "1";
+   			var currentPage = "1";
+   			
+   			location.href="mainHpReviewDetail.do?hpNo=" + hpNo +"&orderBy=" + orderBy +"&currentPage=" + currentPage;
    		})
    
    </script>

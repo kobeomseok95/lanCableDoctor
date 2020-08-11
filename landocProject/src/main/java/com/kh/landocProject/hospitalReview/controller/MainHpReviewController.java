@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
+import com.kh.landocProject.common.Pagination;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 import com.kh.landocProject.hospitalQna.model.vo.MainHpQnA;
@@ -109,22 +112,7 @@ public class MainHpReviewController {
          hpRe.setHpCateCode(hpCateCode);
          hpRe.setHpReContent(comment);   
          hpRe.setLike(suggest);
-         
-//         int kindnessIn = 0;
-//         int sanitaryIn = 0;
-//         int explanationIn = 0;
-//         int waitingTimeIn = 0;
-//         int priceIn = 0;
-//         int resultIn = 0;
-//         
-//         
-//         kindnessIn = Integer.parseInt(String.valueOf(Math.round(kindness)));
-//         sanitaryIn = Integer.parseInt(String.valueOf(Math.round(sanitary)));
-//         explanationIn = Integer.parseInt(String.valueOf(Math.round(explanation)));
-//         waitingTimeIn = Integer.parseInt(String.valueOf(Math.round(waitingTime)));
-//         priceIn = Integer.parseInt(String.valueOf(Math.round(price)));
-//         resultIn = Integer.parseInt(String.valueOf(Math.round(result)));
-         
+  
          
          double avg = (kindness + sanitary + explanation + price + trResult)/5;
          hpRe.setAvgRate(avg);
@@ -192,8 +180,10 @@ public class MainHpReviewController {
    
    // 메인 병원 리뷰 페이지 병원 정보 가져오기
    @RequestMapping("mainHpReviewDetail.do")
-   public ModelAndView mainHpReviewDetail(ModelAndView mv, MainHp hp, HpReview hr, MainHpQnA qna,
-		   						@RequestParam("hpNo") Integer hpNo) {
+   public ModelAndView mainHpReviewDetail(ModelAndView mv, MainHp hp, HpReview hr, MainHpQnA qna, HashMap<String, Integer> map,
+		   						@RequestParam("hpNo") Integer hpNo,
+		   						@RequestParam("orderBy") Integer orderBy,
+		   						@RequestParam("currentPage") Integer currentPage) {
 	   
 //	   System.out.println("controller에서 hpNo : " + hpNo);
 	   
@@ -284,9 +274,16 @@ public class MainHpReviewController {
 	   hr.setPrice(totalPrice);
 	   
 	   
+	   // 병원 리뷰 페이징 처리
+	   PageInfo page = Pagination.getHpReviewPageInfo(currentPage, reviewNum);
+	   map.put("hpNo", hpNo);
+	   map.put("orderBy", orderBy);
+	   
+	   ArrayList<HpReview> hpReList = MainHpReService.selectHpReviewList(map, page);
+//	   System.out.println("controller에서 hpReList : " + hpReList);
+	   
 	   // 병원 QNA
 	   int qnaNum = MainHpReService.selectQnaNum(hpNo);
-	   
 	   ArrayList<MainHpQnA> qnaList = MainHpReService.selectHpQna(hpNo);
 //	   System.out.println("controller에서 qnaList : "  + qnaList);
 	   
@@ -303,7 +300,7 @@ public class MainHpReviewController {
 		   mv.addObject("badNum", badNum);
 		   mv.addObject("qnaNum", qnaNum);
 		   mv.addObject("qnaList", qnaList);
-		   mv.addObject("hrList", hrList);
+		   mv.addObject("hpReList", hpReList);
 		   
 		   mv.setViewName("hospitalReview/hpReviewMain");
 		   

@@ -1,11 +1,14 @@
 package com.kh.landocProject.hospitalReview.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 import com.kh.landocProject.hospitalQna.model.vo.MainHpQnA;
@@ -98,6 +101,15 @@ public class MainHpReviewDao {
 	public int selectQnaNum(Integer hpNo) {
 		
 		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectQnaNum", hpNo);
+	}
+
+
+	public ArrayList<HpReview> selectHpReviewList(HashMap<String, Integer> map, PageInfo page) {
+		
+		int offset = (page.getCurrentPage()-1) * page.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, page.getBoardLimit());
+		
+		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpReviewList", map, rowBounds);
 	}
 	
 	
