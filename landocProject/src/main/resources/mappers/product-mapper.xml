@@ -26,6 +26,9 @@
 		<result property="comment" column="DRRM_COMMENT" />
 		<result property="drNo" column="DR_NO" />
 		<result property="drName" column="DR_NAME" />
+		<result property="profileFileName" column="PRO_RENAME" />
+		<result property="hpNo" column="HP_NO" />
+		<result property="submitDate" column="DRRM_SUBMITDATE" />
 	</resultMap>
 	
 	<resultMap type="ProductPhoto" id="productPhotos">
@@ -57,6 +60,7 @@
 		<result property="cNickname" column="C_NICKNAME" />
 		<result property="drNo" column="DR_NO" />
 		<result property="drName" column="DR_NAME" />
+		<result property="submitDate" column="PDR_SUBMITDATE" />
 	</resultMap>
 	
 	<sql id="sortFormula">
@@ -213,11 +217,12 @@
 	</select>
 	
 	<select id="getProductReviews" parameterType="_int" resultMap="productReviews">
-		SELECT B.PDREVIEW_NO, B.PDREVIEW_CONTENT, B.DR_NO, G.DR_NAME, B.C_NO, H.C_NICKNAME
+		SELECT B.PDREVIEW_NO, B.PDREVIEW_CONTENT, B.DR_NO, G.DR_NAME, B.C_NO, H.C_NICKNAME, B.PDR_SUBMITDATE
 		FROM PRODUCTREVIEW B
 		LEFT JOIN DRCLIENT G ON G.DR_NO = B.DR_NO
 		LEFT JOIN CLIENT H ON H.C_NO = B.C_NO
 		WHERE B.PD_NO = #{pdNo}
+		ORDER BY B.PDR_SUBMITDATE DESC
 	</select>
 	
 	<select id="getProductQnas" parameterType="_int" resultMap="productQnas">
@@ -232,10 +237,13 @@
 	</select>
 	
 	<select id="getProductRecommends" parameterType="_int" resultMap="drProductRecommends">
-		SELECT D.DRRM_NO, D.DRRM_COMMENT, D.DR_NO, K.DR_NAME
+		SELECT D.DRRM_NO, D.DRRM_COMMENT, D.DR_NO, K.DR_NAME, 
+		K.HP_NO, P.PRO_RENAME, D.DRRM_SUBMITDATE
 		FROM DRRECOMMEND D
 		JOIN DRCLIENT K ON K.DR_NO = D.DR_NO
+		LEFT JOIN PROFILEPHOTO P ON P.DR_NO = D.DR_NO
 		WHERE D.PD_NO = #{pdNo}
+		ORDER BY DRRM_SUBMITDATE DESC
 	</select>
 	
 	<select id="getReviewCount" parameterType="_int" resultType="_int">

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.landocProject.dmypage.model.vo.DrProductRecommends;
 import com.kh.landocProject.product.model.service.ProductService;
 import com.kh.landocProject.product.model.vo.Product;
@@ -130,6 +132,33 @@ public class mainProductController {
 		return mv;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "getAsyncRecommends.do", method=RequestMethod.GET)
+	public HashMap<String, Object> getAsyncRecommends(@RequestParam int pdNo,
+																							@RequestParam int pageNo){
+		int recommendCount = productServiceImpl.getRecommendCount(pdNo);
+		ProductDetailPagination page = ProductDetailPagination.getPagination(pageNo, recommendCount);
+		List<DrProductRecommends> list = productServiceImpl.getProductRecommends(pdNo, page);
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("page", page);
+		data.put("list", list);
+		data.put("recommendCount", recommendCount);
+		return data;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getAsyncReviews.do", method=RequestMethod.GET)
+	public HashMap<String, Object> getAsyncReviews(@RequestParam int pdNo,
+																			@RequestParam int pageNo){
+		int reviewCount = productServiceImpl.getReviewCount(pdNo);
+		ProductDetailPagination page = ProductDetailPagination.getPagination(pageNo, reviewCount);
+		List<ProductReview> list = productServiceImpl.getProductReviews(pdNo, page);
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("page", page);
+		data.put("list", list);
+		data.put("reviewCount", reviewCount);
+		return data;
+	}
 }
 
 
