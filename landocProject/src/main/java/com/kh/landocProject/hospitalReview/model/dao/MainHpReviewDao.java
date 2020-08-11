@@ -6,6 +6,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.hospital.model.vo.HpTime;
+import com.kh.landocProject.hospital.model.vo.MainHp;
+import com.kh.landocProject.hospitalQna.model.vo.MainHpQnA;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 import com.kh.landocProject.hospitalReview.model.vo.SearchHp;
 
@@ -36,4 +39,69 @@ public class MainHpReviewDao {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpCate", hpName);
 	}
+
+
+	public MainHp selectHpBasicInfo(Integer hpNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectHpBasicInfo", hpNo);
+	}
+
+
+	public ArrayList<MainHp> selectHpPics(Integer hpNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpPics", hpNo);
+	}
+
+
+	public ArrayList<HpTime> selectHpTime(Integer hpNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpTime", hpNo);
+	}
+
+
+	public int selectLikeNum(Integer hpNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectLikeNum", hpNo);
+	}
+
+
+	public ArrayList<HpReview> selectHpReview(Integer hpNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpReview", hpNo);
+	}
+
+
+	public int selectReviewNum(Integer hpNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectReviewNum", hpNo);
+	}
+
+
+	public int selectSmileNum(Integer hpNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectSmileNum", hpNo);
+	}
+
+
+	public int selectBadNum(Integer hpNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectBadNum", hpNo);
+	}
+
+
+	public ArrayList<MainHpQnA> selectHpQna(Integer hpNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpQna", hpNo);
+	}
+
+
+	public int selectQnaNum(Integer hpNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectQnaNum", hpNo);
+	}
+	
+	
+	
+	
+	
 }

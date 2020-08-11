@@ -109,7 +109,7 @@
                   <c:if test="${not empty hp}">
                   <c:forEach var="h" items="${hp}">
                   
-                     <div class="doctor-total-box border-bottom" id="hpInfo" onmouseenter="hpover('${h.hpAddress}')" 
+                     <div class="doctor-total-box border-bottom detailHpReview" id="hpInfo" onmouseenter="hpover('${h.hpAddress}')" 
                       onmouseleave="hpout('${h.hpAddress}')">
 
                         <a href="#" style="color: inherit; text-decoration: none;" >
@@ -118,7 +118,7 @@
                               <div class="row px-3">
 
 								<!-- 희지 병원 리뷰 디테일 페이지로 넘어가기 위한 input hidden태그 -->
-								<input type="hidden" value="${h.hpNo }" id="hpNo">
+								<input type="hidden" value="${h.hpNo }" class="hpNo">
                                  <div class="col-3 profile-doctor-image-box p-0">
 
 
@@ -238,8 +238,9 @@
    
    <!-- 희지 병원 리뷰 상세페이지 넘어가는 script -->
    <script>
-   		$("#hpInfo").click(function(){
-   			var hpNo = $("#hpNo").val();
+   		$(".detailHpReview").click(function(){
+   			var hpNo = $(this).children().children().children().children('.hpNo').val();
+   			console.log(hpNo);
    			location.href="mainHpReviewDetail.do?hpNo=" + hpNo;
    		})
    

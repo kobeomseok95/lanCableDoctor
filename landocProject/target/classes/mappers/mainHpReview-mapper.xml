@@ -13,6 +13,88 @@
   </resultMap>
   
   
+  <resultMap type="MainHp" id="HpReviewResultSet">
+  		<id property="hpNo" column="HP_NO"/>
+	  	<result property="hpName" column="HP_NAME"/>
+	  	<result property="hpPhone" column="HP_PHONE"/>
+	  	<result property="hpPostCode" column="HP_POSTCODE"/>
+	  	<result property="hpAddress" column="HP_ADDRESS"/>
+	  	<result property="hpx" column="HP_X"/>
+	  	<result property="hpy" column="HP_Y"/>
+	  	<result property="hpAvgRate" column="HP_AVG_RATE"/>
+	  	<result property="hpReCount" column="HP_REVIEW"/>
+	  	<result property="hpComment" column="HP_COMMENT"/>
+	  	<result property="hpStatus" column="HP_STATUS"/>
+	  	<result property="hpCateCode" column="HPCATE_CODE"/>
+	  	<result property="hpCateName" column="HPCATE_NAME"/>
+	  	<result property="drHpNo" column="DRHP_NO"/>
+	  	<result property="originFileName" column="DRHP_ORIGIN"/>
+	  	<result property="renameFileName" column="DRHP_RENAME"/>
+	  	<result property="filePath" column="DRHP_FILEPATH"/>
+	  	<result property="phCode" column="PH_CODE"/>
+	  	<result property="hpDay" column="HP_DAY"/>
+	  	<result property="hpOpenTime" column="HP_OPEN_TIME"/>
+	  	<result property="hpCloseTime" column="HP_CLOSE_TIME"/>
+  </resultMap>
+  
+  
+  <resultMap type="MainHp" id="HpReviewResultSet2">
+  		<id property="hpNo" column="HP_NO"/>
+  		<result property="originFileName" column="DRHP_ORIGIN"/>
+	  	<result property="renameFileName" column="DRHP_RENAME"/>
+	  	<result property="phCode" column="PH_CODE"/>
+  </resultMap>
+  
+  
+  <resultMap type="HpTime" id="HpReviewResultSet3">
+  		<id property="hpNo" column="HP_UNIQUENO"/>
+  		<result property="day" column="HP_DAY"/>
+  		<result property="openTime" column="HP_OPEN_TIME"/>
+  		<result property="closeTime" column="HP_CLOSE_TIME"/>
+  </resultMap>
+  
+  
+  <resultMap type="HpReview" id="HpReviewResultSet4">
+  		<id property="hpReNo" column="HP_RE_NO"/>
+  		<result property="hpNo" column="HP_NO"/>
+  		<result property="cNo" column="C_NO"/>
+  		<result property="cNickName" column="C_NICKNAME"/>
+  		<result property="hpReTitle" column="HP_RE_TITLE"/>
+  		<result property="hpReContent" column="HP_RE_CONTENT"/>
+  		<result property="hpReDate" column="HP_RE_DATE"/>
+  		<result property="like" column="LIKE_YN"/>
+  		<result property="avgRate" column="HP_RE_AVG_RATE"/>
+  		<result property="explanation" column="DETAIL_EXPLANATION"/>
+  		<result property="kindness" column="STAFF_KIND"/>
+  		<result property="waitingTime" column="WAITING_TIME"/>
+  		<result property="trResult" column="TREATMENT_RESULT"/>
+  		<result property="sanitary" column="CLEANLINESS"/>
+  		<result property="price" column="PRICE"/>
+  		<result property="status" column="RECEIPT_YN"/>
+  		<result property="count" column="HP_RE_COUNT"/>
+  </resultMap>
+  
+  
+  <resultMap type="hpQna" id="HpQnaResultSet">
+  		<id property="hpQnANo" column="HP_QNA_NO"/>
+  		<result property="qnaTitle" column="HP_QNA_TITLE"/>
+  		<result property="qnaDate" column="HP_QNA_DATE"/>
+  		<result property="qnaReDate" column="HP_QNA_REDATE"/>
+  		<result property="reply" column="HP_QNA_REPLY"/>
+  		<result property="yn" column="HP_QNA_YN"/>
+  		<result property="cNo" column="C_NO"/>
+  		<result property="cNickName" column="C_NICKNAME"/>
+  		<result property="drNo" column="DR_NO"/>
+  		<result property="drName" column="DR_NAME"/>
+  		<result property="drProfile" column="DR_PROFILE"/>
+  		<result property="hpNo" column="HP_NO"/>
+  		
+  </resultMap>
+  
+  
+  
+  
+  
   
   
   <!-- 병원 모달창 검색 결과 쿼리문 -->
@@ -63,6 +145,102 @@
   
   </insert>
   
+  
+  
+  <!-- 병원 기본 정보 select -->
+  <select id="selectHpBasicInfo" parameterType="_int" resultMap="HpReviewResultSet">
+  	SELECT HP_NO, HP_NAME, HP_PHONE, HP_POSTCODE, HP_ADDRESS, HP_X, HP_Y, HP_AVG_RATE, HP_REVIEW, HP_COMMENT, HP_STATUS
+  	FROM HOSPITAL
+  	WHERE HP_NO=#{hpNo}
+  </select>
+  
+  
+  
+  <!-- 병원 사진 select -->
+  <select id="selectHpPics" parameterType="_int" resultMap="HpReviewResultSet2">
+  	SELECT HP_NO, DRHP_ORIGIN, DRHP_RENAME, PH_CODE
+  	FROM DRHPPHOTO
+  	WHERE HP_NO=#{hpNo}
+  		AND PH_CODE=4
+  </select>
+  
+  
+  
+  <!-- 병원 영업시간 select -->
+  <select id="selectHpTime" parameterType="_int" resultMap="HpReviewResultSet3">
+  	SELECT HP_UNIQUENO, HP_DAY, HP_OPEN_TIME, HP_CLOSE_TIME
+  	FROM HPTIME
+  	WHERE HP_UNIQUENO=#{hpNo}
+  </select>
+  
+  
+  
+  <!-- 병원 찜 숫자 -->
+  <select id="selectLikeNum" parameterType="_int" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM HPLIKE
+  	WHERE HP_NO=#{hpNo}
+  </select>
+  
+  
+  
+  <!-- 해당 병원 리뷰 수 -->
+  <select id="selectReviewNum" parameterType="_int" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM HPREVIEW
+  	WHERE HP_NO=#{hpNo}
+  </select>
+  
+  
+  <!-- 해당 병원 좋아요 수 -->
+  <select id="selectSmileNum" parameterType="_int" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM HPREVIEW
+  	WHERE HP_NO=#{hpNo}
+  		AND LIKE_YN='Y'
+  </select>
+  
+  
+  <!-- 해당 병원 싫어요 수 -->
+  <select id="selectBadNum" parameterType="_int" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM HPREVIEW
+  	WHERE HP_NO=#{hpNo}
+  		AND LIKE_YN='N'
+  </select>
+  
+  
+  
+  
+  <!-- 병원 리뷰 -->
+  <select id="selectHpReview" parameterType="_int" resultMap="HpReviewResultSet4">
+  		SELECT HP_RE_NO, HP_NO,HR.C_NO, C.C_NICKNAME, HP_RE_TITLE, HP_RE_CONTENT, HP_RE_DATE, LIKE_YN, HP_RE_AVG_RATE, 
+  				DETAIL_EXPLANATION, STAFF_KIND, WAITING_TIME, TREATMENT_RESULT, CLEANLINESS, PRICE, RECEIPT_YN, HP_RE_COUNT
+		FROM HPREVIEW HR
+		    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
+		WHERE HP_NO=#{hpNo}
+  </select>
+  
+  
+  
+  <!-- 병원 qna -->
+  <select id="selectHpQna" parameterType="_int" resultMap="HpQnaResultSet">
+  		SELECT HP_QNA_NO, HP_QNA_TITLE, HP_QNA_DATE, HP_QNA_REDATE, HP_QNA_REPLY, HP_QNA_YN, HQ.C_NO, C.C_NICKNAME, 
+        HQ.DR_NO, D.DR_NAME, D.DR_PROFILE, HQ.HP_NO
+		FROM HPQNA HQ
+		    JOIN CLIENT C ON(HQ.C_NO = C.C_NO)
+		    JOIN DRCLIENT D ON(HQ.DR_NO = D.DR_NO)
+		WHERE HQ.HP_NO=#{hpNo}
+		ORDER BY HP_QNA_DATE DESC
+  </select>
+  
+  
+  <!-- 병원 qna number count -->
+  <select id="selectQnaNum" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM HPQNA
+  		WHERE HP_NO=#{hpNo}
+  </select>
   
   
   

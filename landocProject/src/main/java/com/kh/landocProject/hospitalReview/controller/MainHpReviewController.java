@@ -18,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
+import com.kh.landocProject.hospitalQna.model.vo.MainHpQnA;
 import com.kh.landocProject.hospitalReview.model.service.MainHpReviewService;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 import com.kh.landocProject.hospitalReview.model.vo.SearchHp;
@@ -190,18 +192,126 @@ public class MainHpReviewController {
    
    // 메인 병원 리뷰 페이지 병원 정보 가져오기
    @RequestMapping("mainHpReviewDetail.do")
-   public ModelAndView mainHpReviewDetail(ModelAndView mv, MainHp hp,
+   public ModelAndView mainHpReviewDetail(ModelAndView mv, MainHp hp, HpReview hr, MainHpQnA qna,
 		   						@RequestParam("hpNo") Integer hpNo) {
 	   
 //	   System.out.println("controller에서 hpNo : " + hpNo);
 	   
+	   // 병원 기본 정보
+	   hp = MainHpReService.selectHpBasicInfo(hpNo);
+//	   System.out.println("controller에서 hp : " + hp);
+	   
+	   // 병원 기본 사진
+	   ArrayList<MainHp> picList = MainHpReService.selectHpPics(hpNo);
+//	   System.out.println("controller에서 picList : " + picList);
+	   
+	   // 병원 영업시간
+	   ArrayList<HpTime> timeList = MainHpReService.selectHpTime(hpNo);
+//	   System.out.println("controller에서 timeList : " + timeList);
+	   
+	   // 해당 병원 찜 숫자
+	   int likeNum = MainHpReService.selectLikeNum(hpNo);
+	   
+	   
+	   // 해당 병원 리뷰 수
+	   int reviewNum = MainHpReService.selectReviewNum(hpNo);
+	   
+	   
+	   // 해당 병원 좋아요 수
+	   int smileNum =  MainHpReService.selectSmileNum(hpNo);
+	   
+	   
+	   // 해당 병원 싫어요 수
+	   int badNum = MainHpReService.selectBadNum(hpNo);
+	   
+	   // 전체 리뷰 
+	   ArrayList<HpReview> hrList = MainHpReService.selectHpReview(hpNo);
+	   
+	   double avgRate = 0;
+	   for(HpReview list : hrList) {
+		   avgRate += list.getAvgRate(); 
+	   }
+	   double totalAvgRate = Math.floor((avgRate / reviewNum)*100/100.0);
+//	   System.out.println("controller에서  평균 리뷰 점수  : " + totalRate);
+	
+	   
+	   double explanation = 0;
+	   for(HpReview list : hrList) {
+		   explanation += list.getExplanation(); 
+	   }
+	   double totalExplanation = Math.floor((explanation / reviewNum)*100/100.0);
+	   
+	   double kindness = 0;
+	   for(HpReview list : hrList) {
+		   kindness += list.getKindness(); 
+	   }
+	   double totalKindness = Math.floor((kindness / reviewNum)*100/100.0);
+	   
+	   double waitingTime = 0;
+	   for(HpReview list : hrList) {
+		   waitingTime  += list.getKindness(); 
+	   }
+	   double totalWaitingTime = Math.floor((waitingTime / reviewNum)*100/100.0);
+	   
+	   
+	   double trResult = 0;
+	   for(HpReview list : hrList) {
+		   trResult  += list.getKindness(); 
+	   }
+	   double totalTrResult = Math.floor((trResult / reviewNum)*100/100.0);
+	   
+	   
+	   double sanitary = 0;
+	   for(HpReview list : hrList) {
+		   sanitary  += list.getKindness(); 
+	   }
+	   double totalSanitary = Math.floor((sanitary / reviewNum)*100/100.0);
+	   
+	   
+	   double price = 0;
+	   for(HpReview list : hrList) {
+		   price  += list.getKindness(); 
+	   }
+	   double totalPrice = Math.floor((price / reviewNum)*100/100.0);
+	   
+	
+	   hr.setAvgRate(totalAvgRate);
+	   hr.setExplanation(totalExplanation);
+	   hr.setKindness(totalKindness);
+	   hr.setWaitingTime(totalWaitingTime);
+	   hr.setTrResult(totalTrResult);
+	   hr.setSanitary(totalSanitary);
+	   hr.setPrice(totalPrice);
+	   
+	   
+	   // 병원 QNA
+	   int qnaNum = MainHpReService.selectQnaNum(hpNo);
+	   
+	   ArrayList<MainHpQnA> qnaList = MainHpReService.selectHpQna(hpNo);
+//	   System.out.println("controller에서 qnaList : "  + qnaList);
 	   
 	   
 	   
+	   if(hp != null && picList != null && timeList != null) {
+		   mv.addObject("hp", hp);
+		   mv.addObject("picList", picList);
+		   mv.addObject("timeList", timeList);
+		   mv.addObject("likeNum", likeNum);
+		   mv.addObject("reviewNum", reviewNum);
+		   mv.addObject("hr", hr);
+		   mv.addObject("smileNum", smileNum);
+		   mv.addObject("badNum", badNum);
+		   mv.addObject("qnaNum", qnaNum);
+		   mv.addObject("qnaList", qnaList);
+		   mv.addObject("hrList", hrList);
+		   
+		   mv.setViewName("hospitalReview/hpReviewMain");
+		   
+	   }else {
+		   System.out.println("병원 기본 정보 select 실패!");
+	   }
 	   
-	   
-	   
-	   return null;
+	   return mv;
    }
    
    
@@ -221,4 +331,8 @@ public class MainHpReviewController {
    
    
    
-}
+   
+   }
+   
+   
+   

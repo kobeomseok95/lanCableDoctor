@@ -1,6 +1,7 @@
 package com.kh.landocProject.hospitalReview.model.vo;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class HpReview implements Serializable{
 
@@ -13,10 +14,12 @@ public class HpReview implements Serializable{
    private int rowNum;
    private int hpReNo;
    private String cNo;
+   private String cNickName;
    private int hpNo;
    private int hpCateCode;
    private String hpReTitle;
    private String hpReContent;
+   private Date hpReDate;
    private String like;
    private double avgRate;
    private double explanation;
@@ -25,6 +28,7 @@ public class HpReview implements Serializable{
    private double trResult;
    private double sanitary;
    private double price;
+   private String status;
    private double count;
    private String originFile;
    private String renameFile;
@@ -33,69 +37,19 @@ public class HpReview implements Serializable{
    public HpReview() {
    }
 
-   public HpReview(int hpReNo, String cNo, int hpNo, String hpReTitle, String hpReContent, String like, double avgRate,
-         double explanation, double kindness, double waitingTime, double trResult, double sanitary, double price,
-         double count, String originFile, String renameFile, String filePath) {
-      this.hpReNo = hpReNo;
-      this.cNo = cNo;
-      this.hpNo = hpNo;
-      this.hpReTitle = hpReTitle;
-      this.hpReContent = hpReContent;
-      this.like = like;
-      this.avgRate = avgRate;
-      this.explanation = explanation;
-      this.kindness = kindness;
-      this.waitingTime = waitingTime;
-      this.trResult = trResult;
-      this.sanitary = sanitary;
-      this.price = price;
-      this.count = count;
-      this.originFile = originFile;
-      this.renameFile = renameFile;
-      this.filePath = filePath;
-   }
-
-   
-   
-   
-   public HpReview(int hpReNo, String cNo, int hpNo, int hpCateCode, String hpReTitle, String hpReContent, String like,
-		double avgRate, double explanation, double kindness, double waitingTime, double trResult, double sanitary,
-		double price, double count, String originFile, String renameFile, String filePath) {
-	this.hpReNo = hpReNo;
-	this.cNo = cNo;
-	this.hpNo = hpNo;
-	this.hpCateCode = hpCateCode;
-	this.hpReTitle = hpReTitle;
-	this.hpReContent = hpReContent;
-	this.like = like;
-	this.avgRate = avgRate;
-	this.explanation = explanation;
-	this.kindness = kindness;
-	this.waitingTime = waitingTime;
-	this.trResult = trResult;
-	this.sanitary = sanitary;
-	this.price = price;
-	this.count = count;
-	this.originFile = originFile;
-	this.renameFile = renameFile;
-	this.filePath = filePath;
-	}
-	
-   
-   
-   
-   
-   
-	public HpReview(int rowNum, int hpReNo, String cNo, int hpNo, int hpCateCode, String hpReTitle, String hpReContent,
-		String like, double avgRate, double explanation, double kindness, double waitingTime, double trResult,
-		double sanitary, double price, double count, String originFile, String renameFile, String filePath) {
+public HpReview(int rowNum, int hpReNo, String cNo, String cNickName, int hpNo, int hpCateCode, String hpReTitle,
+		String hpReContent, Date hpReDate, String like, double avgRate, double explanation, double kindness,
+		double waitingTime, double trResult, double sanitary, double price, String status, double count,
+		String originFile, String renameFile, String filePath) {
 	this.rowNum = rowNum;
 	this.hpReNo = hpReNo;
 	this.cNo = cNo;
+	this.cNickName = cNickName;
 	this.hpNo = hpNo;
 	this.hpCateCode = hpCateCode;
 	this.hpReTitle = hpReTitle;
 	this.hpReContent = hpReContent;
+	this.hpReDate = hpReDate;
 	this.like = like;
 	this.avgRate = avgRate;
 	this.explanation = explanation;
@@ -104,176 +58,202 @@ public class HpReview implements Serializable{
 	this.trResult = trResult;
 	this.sanitary = sanitary;
 	this.price = price;
+	this.status = status;
 	this.count = count;
 	this.originFile = originFile;
 	this.renameFile = renameFile;
 	this.filePath = filePath;
 }
 
-	public int getRowNum() {
-		return rowNum;
-	}
+public int getRowNum() {
+	return rowNum;
+}
 
-	public void setRowNum(int rowNum) {
-		this.rowNum = rowNum;
-	}
+public void setRowNum(int rowNum) {
+	this.rowNum = rowNum;
+}
 
-	public int getHpReNo() {
-		return hpReNo;
-	}
+public int getHpReNo() {
+	return hpReNo;
+}
 
-	public void setHpReNo(int hpReNo) {
-		this.hpReNo = hpReNo;
-	}
+public void setHpReNo(int hpReNo) {
+	this.hpReNo = hpReNo;
+}
 
-	public String getcNo() {
-		return cNo;
-	}
+public String getcNo() {
+	return cNo;
+}
 
-	public void setcNo(String cNo) {
-		this.cNo = cNo;
-	}
+public void setcNo(String cNo) {
+	this.cNo = cNo;
+}
 
-	public int getHpNo() {
-		return hpNo;
-	}
+public String getcNickName() {
+	return cNickName;
+}
 
-	public void setHpNo(int hpNo) {
-		this.hpNo = hpNo;
-	}
+public void setcNickName(String cNickName) {
+	this.cNickName = cNickName;
+}
 
-	public int getHpCateCode() {
-		return hpCateCode;
-	}
+public int getHpNo() {
+	return hpNo;
+}
 
-	public void setHpCateCode(int hpCateCode) {
-		this.hpCateCode = hpCateCode;
-	}
+public void setHpNo(int hpNo) {
+	this.hpNo = hpNo;
+}
 
-	public String getHpReTitle() {
-		return hpReTitle;
-	}
+public int getHpCateCode() {
+	return hpCateCode;
+}
 
-	public void setHpReTitle(String hpReTitle) {
-		this.hpReTitle = hpReTitle;
-	}
+public void setHpCateCode(int hpCateCode) {
+	this.hpCateCode = hpCateCode;
+}
 
-	public String getHpReContent() {
-		return hpReContent;
-	}
+public String getHpReTitle() {
+	return hpReTitle;
+}
 
-	public void setHpReContent(String hpReContent) {
-		this.hpReContent = hpReContent;
-	}
+public void setHpReTitle(String hpReTitle) {
+	this.hpReTitle = hpReTitle;
+}
 
-	public String getLike() {
-		return like;
-	}
+public String getHpReContent() {
+	return hpReContent;
+}
 
-	public void setLike(String like) {
-		this.like = like;
-	}
+public void setHpReContent(String hpReContent) {
+	this.hpReContent = hpReContent;
+}
 
-	public double getAvgRate() {
-		return avgRate;
-	}
+public Date getHpReDate() {
+	return hpReDate;
+}
 
-	public void setAvgRate(double avgRate) {
-		this.avgRate = avgRate;
-	}
+public void setHpReDate(Date hpReDate) {
+	this.hpReDate = hpReDate;
+}
 
-	public double getExplanation() {
-		return explanation;
-	}
+public String getLike() {
+	return like;
+}
 
-	public void setExplanation(double explanation) {
-		this.explanation = explanation;
-	}
+public void setLike(String like) {
+	this.like = like;
+}
 
-	public double getKindness() {
-		return kindness;
-	}
+public double getAvgRate() {
+	return avgRate;
+}
 
-	public void setKindness(double kindness) {
-		this.kindness = kindness;
-	}
+public void setAvgRate(double avgRate) {
+	this.avgRate = avgRate;
+}
 
-	public double getWaitingTime() {
-		return waitingTime;
-	}
+public double getExplanation() {
+	return explanation;
+}
 
-	public void setWaitingTime(double waitingTime) {
-		this.waitingTime = waitingTime;
-	}
+public void setExplanation(double explanation) {
+	this.explanation = explanation;
+}
 
-	public double getTrResult() {
-		return trResult;
-	}
+public double getKindness() {
+	return kindness;
+}
 
-	public void setTrResult(double trResult) {
-		this.trResult = trResult;
-	}
+public void setKindness(double kindness) {
+	this.kindness = kindness;
+}
 
-	public double getSanitary() {
-		return sanitary;
-	}
+public double getWaitingTime() {
+	return waitingTime;
+}
 
-	public void setSanitary(double sanitary) {
-		this.sanitary = sanitary;
-	}
+public void setWaitingTime(double waitingTime) {
+	this.waitingTime = waitingTime;
+}
 
-	public double getPrice() {
-		return price;
-	}
+public double getTrResult() {
+	return trResult;
+}
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+public void setTrResult(double trResult) {
+	this.trResult = trResult;
+}
 
-	public double getCount() {
-		return count;
-	}
+public double getSanitary() {
+	return sanitary;
+}
 
-	public void setCount(double count) {
-		this.count = count;
-	}
+public void setSanitary(double sanitary) {
+	this.sanitary = sanitary;
+}
 
-	public String getOriginFile() {
-		return originFile;
-	}
+public double getPrice() {
+	return price;
+}
 
-	public void setOriginFile(String originFile) {
-		this.originFile = originFile;
-	}
+public void setPrice(double price) {
+	this.price = price;
+}
 
-	public String getRenameFile() {
-		return renameFile;
-	}
+public String getStatus() {
+	return status;
+}
 
-	public void setRenameFile(String renameFile) {
-		this.renameFile = renameFile;
-	}
+public void setStatus(String status) {
+	this.status = status;
+}
 
-	public String getFilePath() {
-		return filePath;
-	}
+public double getCount() {
+	return count;
+}
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
+public void setCount(double count) {
+	this.count = count;
+}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+public String getOriginFile() {
+	return originFile;
+}
 
-	@Override
-	public String toString() {
-		return "HpReview [rowNum=" + rowNum + ", hpReNo=" + hpReNo + ", cNo=" + cNo + ", hpNo=" + hpNo + ", hpCateCode="
-				+ hpCateCode + ", hpReTitle=" + hpReTitle + ", hpReContent=" + hpReContent + ", like=" + like
-				+ ", avgRate=" + avgRate + ", explanation=" + explanation + ", kindness=" + kindness + ", waitingTime="
-				+ waitingTime + ", trResult=" + trResult + ", sanitary=" + sanitary + ", price=" + price + ", count="
-				+ count + ", originFile=" + originFile + ", renameFile=" + renameFile + ", filePath=" + filePath + "]";
-	}
+public void setOriginFile(String originFile) {
+	this.originFile = originFile;
+}
+
+public String getRenameFile() {
+	return renameFile;
+}
+
+public void setRenameFile(String renameFile) {
+	this.renameFile = renameFile;
+}
+
+public String getFilePath() {
+	return filePath;
+}
+
+public void setFilePath(String filePath) {
+	this.filePath = filePath;
+}
+
+public static long getSerialversionuid() {
+	return serialVersionUID;
+}
+
+@Override
+public String toString() {
+	return "HpReview [rowNum=" + rowNum + ", hpReNo=" + hpReNo + ", cNo=" + cNo + ", cNickName=" + cNickName + ", hpNo="
+			+ hpNo + ", hpCateCode=" + hpCateCode + ", hpReTitle=" + hpReTitle + ", hpReContent=" + hpReContent
+			+ ", hpReDate=" + hpReDate + ", like=" + like + ", avgRate=" + avgRate + ", explanation=" + explanation
+			+ ", kindness=" + kindness + ", waitingTime=" + waitingTime + ", trResult=" + trResult + ", sanitary="
+			+ sanitary + ", price=" + price + ", status=" + status + ", count=" + count + ", originFile=" + originFile
+			+ ", renameFile=" + renameFile + ", filePath=" + filePath + "]";
+}
 
 	
 	   
