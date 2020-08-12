@@ -6,9 +6,8 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale.Category;
+import java.util.HashMap;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,17 +75,17 @@ public class cMypageController {
 	
 	@RequestMapping(value="pdReview.do")
 	public ModelAndView pdReviewList(ModelAndView mv, HttpSession session,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCountReview();
+		int listCount = cmService.getListCountReview(cNo);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		ArrayList<PdReview> list = cmService.selectPdReviewList(cNo,pi);
 		if(list!=null) {
 			mv.addObject("pdReviewList",list);
@@ -100,18 +99,20 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="myOrderList.do")
-	public ModelAndView myOrderList(ModelAndView mv,HttpSession session,@RequestParam(value="page", required=false) Integer page) {
+	public ModelAndView myOrderList(ModelAndView mv,HttpSession session, @RequestParam(value="page", required=false) Integer page) {
 		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		
-		int listCount = cmService.getListCountOrderList();
+		HashMap<String,Object> order = new HashMap<String, Object>();
+		order.put("ostate","orderList");
+		order.put("cNo",cNo);
+		int listCount = cmService.getListCountOrderList(order);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		ArrayList<OrderList> list = cmService.selectOrderList(cNo,pi);
 		
 		if(list!=null) {
@@ -140,17 +141,20 @@ public class cMypageController {
 	
 	@RequestMapping(value="dateSearch.do")
 	public ModelAndView orderListDateSearch(HttpSession session,ModelAndView mv,@RequestParam(value="date") String date, OrderList order,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		
-		int listCount = cmService.getListCountOrderList();
+		HashMap<String,Object> search = new HashMap<String, Object>();
+		search.put("search","dateSearch");
+		search.put("cNo",cNo);
+		search.put("date",date);
+		int listCount = cmService.getListCountSearchOrderList(search);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		order.setcNo(cNo);
 		order.setDate(date);
 		ArrayList<OrderList> list = cmService.orderListDateSearch(order,pi);
@@ -168,17 +172,22 @@ public class cMypageController {
 	
 	@RequestMapping(value="dateSearch2.do")
 	public ModelAndView orderListDateSearch2(HttpSession session,ModelAndView mv,@RequestParam(value="startDate") Date startDate, @RequestParam(value="endDate") Date endDate, OrderList order,@RequestParam(value="page", required=false) Integer page) throws cMypageException{
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCountOrderList();
+		HashMap<String,Object> search = new HashMap<String, Object>();
+		search.put("search","dateSearch");
+		search.put("cNo",cNo);
+		search.put("CalendarDate1",startDate);
+		search.put("CalendarDate2",endDate);
+		int listCount = cmService.getListCountSearchOrderList2(search);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		order.setcNo(cNo);
 		order.setCalendarDate1(startDate);
 		order.setCalendarDate2(endDate);
@@ -253,18 +262,18 @@ public class cMypageController {
 	@RequestMapping(value="orderQnaList.do")
 	public ModelAndView orderQnaList(HttpSession session, ModelAndView mv,OrderQna qna,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
 		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCountOrderQna();
+		int listCount = cmService.getListCountOrderQna(cNo);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
 		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		
 		
 		ArrayList<OrderQna> qnaY = cmService.orderQnaListY(cNo,pi);
@@ -282,17 +291,19 @@ public class cMypageController {
 	
 	@RequestMapping(value="myOrderCancelList.do")
 	public ModelAndView orderCancelList(HttpSession session, ModelAndView mv,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		
-		int listCount = cmService.getListCountOrderList();
+		HashMap<String,Object> order = new HashMap<String, Object>();
+		order.put("ostate","cancelList");
+		order.put("cNo",cNo);
+		int listCount = cmService.getListCountOrderList(order);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
-		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		
 		ArrayList<OrderList> list = cmService.orderCancelList(cNo,pi);
 		if(list!=null) {

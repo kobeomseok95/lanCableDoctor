@@ -1,6 +1,7 @@
 package com.kh.landocProject.cmypage.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
@@ -38,13 +39,13 @@ public interface cMypageService {
 	int orderQnaInsert(OrderQna qna);
 
 	// 리뷰 수
-	int getListCountReview();
+	int getListCountReview(String cNo);
 
 	// 주문 수
-	int getListCountOrderList();
+	int getListCountOrderList(HashMap<String,Object> order);
 
 	// 주문 qna 수
-	int getListCountOrderQna();
+	int getListCountOrderQna(String cNo);
 
 	PdReview updateReview(PdReview review);
 
@@ -65,6 +66,10 @@ public interface cMypageService {
 	int orderCancel(OrderList order);
 
 	String selectPdReviewPhoto(PdReview review);
+
+	int getListCountSearchOrderList(HashMap<String, Object> search);
+
+	int getListCountSearchOrderList2(HashMap<String, Object> search);
 
 	
 
