@@ -20,14 +20,15 @@ public class ProductQna implements Serializable {
 	private String cNickname;
 	private String drNo;
 	private String drName;
+	private String secretStatus;
+	private String secretPwd;
 	
 	public ProductQna() {
 	}
-
 	
-
 	public ProductQna(int pdNo, int rno, int pdqNo, String title, String content, Date submitDate, String status,
-			String answerContent, String cNo, String cNickname, String drNo, String drName) {
+			String answerContent, String cNo, String cNickname, String drNo, String drName, String secretStatus,
+			String secretPwd) {
 		this.pdNo = pdNo;
 		this.rno = rno;
 		this.pdqNo = pdqNo;
@@ -40,9 +41,9 @@ public class ProductQna implements Serializable {
 		this.cNickname = cNickname;
 		this.drNo = drNo;
 		this.drName = drName;
+		this.secretStatus = secretStatus;
+		this.secretPwd = secretPwd;
 	}
-
-
 
 	public int getPdNo() {
 		return pdNo;
@@ -144,13 +145,28 @@ public class ProductQna implements Serializable {
 		this.rno = rno;
 	}
 
+	public String getSecretStatus() {
+		return secretStatus;
+	}
 
+	public void setSecretStatus(String secretStatus) {
+		this.secretStatus = secretStatus;
+	}
+
+	public String getSecretPwd() {
+		return secretPwd;
+	}
+
+	public void setSecretPwd(String secretPwd) {
+		this.secretPwd = secretPwd;
+	}
 
 	@Override
 	public String toString() {
 		return "ProductQna [pdNo=" + pdNo + ", rno=" + rno + ", pdqNo=" + pdqNo + ", title=" + title + ", content="
 				+ content + ", submitDate=" + submitDate + ", status=" + status + ", answerContent=" + answerContent
-				+ ", cNo=" + cNo + ", cNickname=" + cNickname + ", drNo=" + drNo + ", drName=" + drName + "]";
+				+ ", cNo=" + cNo + ", cNickname=" + cNickname + ", drNo=" + drNo + ", drName=" + drName
+				+ ", secretStatus=" + secretStatus + ", secretPwd=" + secretPwd + "]";
 	}
 	
 }
