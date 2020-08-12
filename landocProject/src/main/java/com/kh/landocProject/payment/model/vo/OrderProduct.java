@@ -2,7 +2,7 @@ package com.kh.landocProject.payment.model.vo;
 
 import java.io.Serializable;
 
-public class OrderPay implements Serializable{
+public class OrderProduct implements Serializable{
 
 	/**
 	 * 
@@ -12,9 +12,9 @@ public class OrderPay implements Serializable{
 	private int pdNo;
 	private int orderNo;
 	private int opCount;
-	protected OrderPay() {
+	protected OrderProduct() {
 	}
-	protected OrderPay(int pdNo, int orderNo, int opCount) {
+	protected OrderProduct(int pdNo, int orderNo, int opCount) {
 		this.pdNo = pdNo;
 		this.orderNo = orderNo;
 		this.opCount = opCount;
@@ -42,7 +42,7 @@ public class OrderPay implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "OrderPay [pdNo=" + pdNo + ", orderNo=" + orderNo + ", opCount=" + opCount + "]";
+		return "OrderProduct [pdNo=" + pdNo + ", orderNo=" + orderNo + ", opCount=" + opCount + "]";
 	}
 	
 	

@@ -5,15 +5,13 @@
 <%@ page import="com.kh.landocProject.payment.model.vo.PayProduct" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%
-	MemberPay pay = (MemberPay)request.getAttribute("payClientSelect");
-	int point = pay.getPoint();
+
 	PayProduct pro = (PayProduct)request.getAttribute("selectPro");
-	DecimalFormat formatter = new DecimalFormat("###,###");
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>일반 회원정보</title>
+<title>결제</title>
 <meta charset="UTF-8">
 <meta name="description" content="SolMusic HTML Template">
 <meta name="keywords" content="music, html">
@@ -50,9 +48,9 @@
 
 <style>
     .p{text-align: center; padding-top: 30px; padding-bottom: 40px;}
-	.pa{border-bottom: 1px solid black; border-top: 1px solid black; height: 130px; width: 600px;}
-	.pay{padding-top: 15px; width: 600px;}
-	.payD{width: 150px;display: inline-block;}
+	.pa{border-bottom: 1px solid black; border-top: 1px solid black; height: 130px; width: 700px;}
+	.pay{padding-top: 15px; width: 800px;}
+	.payD{width: 110px;display: inline-block;}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -73,93 +71,198 @@
 				<h3>주문/결제</h3>
 			</div>
 			<div>
-				<span>제품정보</span>
+				<strong>제품정보</strong>
 				<div class="pa">
 					<div class="pay">
 						<div class="payD">
-							<img src="../../KakaoTalk_20200702_150917241.png" width="100px" height="100px" style="margin-left: 10px; border: 1px solid black;">
+							<img src="/projectFiles/${selectPro.thumbnail }" width="100px" height="100px" style="margin-left: 10px; border: 1px solid black;">
 						</div>
-						<div style="display: inline-block;">
-							<span>${selectPro.pdName }</span><span style="margin-left: 20px;">${selectPro.sellPrice }</span> <span style="margin-left: 20px;">x</span> <span style="margin-left: 20px;">1 </span> <span style="margin-left: 20px;">=</span> <span style="margin-left: 20px;">58,000원</span>
+						<div style="display: inline-block; text-align:center">
+							<span>${selectPro.pdName }</span><span style="margin-left: 10px; font-size:20px;" id="originPrice" class="price">${selectPro.sellPrice }</span> <span style="margin-left: 10px; font-size:20px;">x</span> <span style="margin-left: 20px; font-size:20px;" class="price">${productCount }</span> <span style="margin-left: 10px;" >=</span> <span style="margin-left: 10px; font-size:20px;" class="price">${selectPro.sellPrice * productCount}</span>
 						</div>
 					</div>
 				</div>
-				<form>	
-					<div style="margin-top: 30px; background-color: #e5f2fc; width: 600px; height: 600px; border-radius: 7px; display: inline-block; position: relative;">
-						<div style="padding-left: 20px; padding-top: 20px; width: 600px;">
-							<h4 style="color: black;">주문자 정보</h4>
+				<c:choose>
+					<c:when test="${!empty loginClient3 && empty loginDrClient3}">
+						<form id="payment" action="paySuccessView.do">	
+							<div style="margin-top: 30px; background-color: #e5f2fc; width: 700px; height: 600px; border-radius: 7px; display: inline-block; position: relative;">
+								<div style="padding-left: 20px; padding-top: 20px; width: 700px;">
+									<h4 style="color: black;">주문자 정보</h4>
+								</div>
+								<div style="border: 1px solid #e5f2fc; margin-top: 25px; margin-left: 20px; width: 660px; border-radius: 7px; background-color: white;">
+									<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+										<label style="margin-left:20px">주문자명</label><input type="text" value="${loginClient3.userName }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+										<input type="hidden" name="cNo" value="${loginClient3.cNo }">
+										<input type="hidden" name="pdNo" value="${selectPro.pdNo }">
+										<input type="hidden" name="opCount" value="${productCount }">
+										<input type="hidden" name="pdName" value="${selectPro.pdName }">
+										<input type="hidden" name="sellPrice" value="${selectPro.sellPrice }">
+									</div>
+									<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+										<label style="margin-left:20px">연락처</label><input type="text" value="${loginClient3.phone }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+									</div>
+									<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+										<label style="margin-left:20px">이메일</label><input type="text" value="${loginClient3.email }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+									</div>
+									<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+										<label style="margin-left:20px">우편번호</label><input type="text" value="${loginClient3.post }" name="post" id="post" style="width: 250px; margin-left: 143px; height:35px; border: 1px solid lightgray;" readonly> 
+										<input type="button" value="검색" style="float: right; margin-right: 10px; width: 130px; height:35px ; color: black; background-color: #e5f2fc; border: 0px; border-radius: 3px;">
+									</div>
+									<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+										<label style="margin-left:20px">도로명 주소</label><input type="text" value="${address1 }" id="address1" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+									</div>
+									<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;">
+										<label style="margin-left:20px">상세 주소</label><input type="text" value="${address2 }" id="address2"style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+									</div>
+									<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;" >
+										<label style="margin-left:20px">남기실 말</label><select name="paymentComment" style="float:right; margin-right:10px; width:400px; border: 1px solid lightgray; height:35px;" required="required" >
+																			<option value="없음">남기실말</option>
+																			<option value="배송전 연락 바랍니다.">배송전 연락 바랍니다.</option>
+																			<option value="집앞에 놓고가세요.">집앞에 놓고가세요.</option>
+																			<option value="경비실에 맡겨주세요.">경비실에 맡겨주세요.</option>
+																			<option value="주의해서 가져다 주세요.">주의해서 가져다 주세요.</option>
+																		</select>
+									</div>
+								</div>
+							</div>
+							<div style="margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 530px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white;" >
+								<div style="border: 1px solid white; background-color: white; margin: 10px; height: 300px; border-radius: 7px;">
+									<div style="width : 375px; height:300px; padding:10px;">
+										<div style="margin-bottom:25px;margin-top:20px;">
+											<strong>총 주문 금액</strong>
+				                            <span style="float:right;" class="price" id="allPrice"></span>
+				                            <input type="hidden" name="allPrice" value=${selectPro.sellPrice * productCount}>
+			                            </div>
+		                            	<div style="margin-bottom:25px;">
+											<strong>할인 금액</strong>
+				                            <span style="float:right;" class="price" id="discountPrice">${selectPro.discount }</span><br>
+				                            <input type="hidden" name="discountPrice" value=${selectPro.discount }>
+			                            </div>
+		                            	<div style="margin-bottom:25px;">
+											<strong>포인트</strong>
+				                            <span style="float:right;"><input type="text" class="price" id="minusPoint" name="usePoint" style="width:100px;" value=0></span><br>
+				                            
+			                            </div>
+			                            <div style="margin-bottom:25px;">
+											<strong>보유포인트</strong>
+				                            <input type="text" style="float:right; width:100px; border:none" id="point" class="price" value=${loginClient3.point } readonly><br>
+				                            
+			                            </div>
+			                            <hr>
+			                            <div style="margin-bottom:25px;">
+											<strong>총 결제 금액</strong>
+				                            <span style="float:right;" id="payPrice" class="price">원</span><br>
+				                            <input type="hidden" name="amountPrice" value=0>
+			                            </div>
+									</div>
+								</div>
+								<div style="margin: 20px; margin-top: 30px;">
+									<h5>결제 수단</h5>
+									<hr>
+								</div>
+								<div style="margin-left: 20px; margin-right: 20px;">
+									<label style="margin-right: 100px;"><input type="radio" name="pay" style="margin-right: 10px;" disabled>신용카드</label>
+									<label><input type="radio" name="pay" style="margin-right: 10px;" disabled>가상계좌</label>
+									<label style="margin-right: 52px;"><input name="pay" type="radio" style="margin-right: 10px;" disabled>실시간계좌이체</label>
+									<label><input type="radio" name="pay" style="margin-right: 10px;" checked>카카오페이</label>
+								</div> 
+								
+								<div style="margin: 10px; text-align: center;">
+								<button type="button" id="pay" style="width: 100px; height: 40px; margin-right: 50px; border-radius: 5px; border: 0px; background-color:#007ee5; color: white;">결제</button>
+								<button type="button"  style="width: 100px; height: 40px; border-radius: 5px; border: 0px; background-color:#007ee5; color: white;">취소</button>
+								</div>
+							</div>
+						</form>
+					</c:when>
+					<c:when test="${empty loginClient3 && !empty loginDrClient3}">
+					<form id="payment" action="paySuccessView.do">	
+						<div style="margin-top: 30px; background-color: #e5f2fc; width: 700px; height: 600px; border-radius: 7px; display: inline-block; position: relative;">
+							<div style="padding-left: 20px; padding-top: 20px; width: 700px;">
+								<h4 style="color: black;">주문자 정보</h4>
+							</div>
+							<div style="border: 1px solid #e5f2fc; margin-top: 25px; margin-left: 20px; width: 660px; border-radius: 7px; background-color: white;">
+								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+									<label style="margin-left:20px">주문자명</label><input id ="userName" type="text" value="${loginDrClient3.userName }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+									<input type="hidden" name="drNo" value="${loginDrClient3.drNo }">
+										<input type="hidden" name="pdNo" value="${selectPro.pdNo }">
+										<input type="hidden" name="opCount" value="${productCount }">
+										<input type="hidden" name="pdName" value="${selectPro.pdName }">
+										<input type="hidden" name="sellPrice" value="${selectPro.sellPrice }">
+								</div>
+								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+									<label style="margin-left:20px">연락처</label><input id ="phone" type="text" value="${loginDrClient3.phone }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+								</div>
+								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+									<label style="margin-left:20px">이메일</label><input id ="email" type="text" value="${loginDrClient3.email }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+								</div>
+								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+									<label style="margin-left:20px">우편번호</label><input type="text" value="${loginDrClient3.post }" name="post" value="" id="post" style="width: 250px; margin-left: 143px; height:35px; border: 1px solid lightgray;" readonly> 
+									<input type="button" value="검색" style="float: right; margin-right: 10px; width: 130px; height:35px ; color: black; background-color: #e5f2fc; border: 0px; border-radius: 3px;">
+								</div>
+								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
+									<label style="margin-left:20px">도로명 주소</label><input  type="text" value="${address4 }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+								</div>
+								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;">
+									<label style="margin-left:20px">상세 주소</label><input type="text" value="${address5 }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+								</div>
+								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;" >
+									<label style="margin-left:20px">남기실 말</label><select name="paymentComment" style="float:right; margin-right:10px; width:400px; border: 1px solid lightgray; height:35px;">
+																		<option value="없음">남기실말</option>
+																		<option value="배송전연락바랍니다.">배송전 연락 바랍니다.</option>
+																		<option value="집앞에놓고가세요.">집앞에 놓고가세요.</option>
+																		<option value="경비실에맡겨주세요.">경비실에 맡겨주세요.</option>
+																		<option value="주의해서가져다주세요.">주의해서 가져다 주세요.</option>
+																	</select>
+								</div>
+							</div>
 						</div>
-						<div style="border: 1px solid #e5f2fc; margin-top: 25px; margin-left: 20px; width: 560px; border-radius: 7px; background-color: white;">
-							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>주문자명</label><input type="text" value="${payClientSelect.userName }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+						<div style="margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 530px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white;" >
+							<div style="border: 1px solid white; background-color: white; margin: 10px; height: 300px; border-radius: 7px;">
+								<div style="width : 375px; height:300px; padding:10px;">
+									<div style="margin-bottom:25px;margin-top:20px;">
+										<strong>총 주문 금액</strong>
+			                            <span style="float:right;" class="price" id="allPrice"></span>
+			                                  <input type="hidden" name="allPrice" value=${selectPro.sellPrice * productCount}>
+		                            </div>
+	                            	<div style="margin-bottom:25px;">
+										<strong>할인 금액</strong>
+			                            <span style="float:right;" class="price" id="discountPrice">${selectPro.discount }</span><br>
+			                            <input type="hidden" name="discountPrice" value=${selectPro.discount }>
+		                            </div>
+	                            	<div style="margin-bottom:25px;">
+										<strong>포인트</strong>
+			                            <span style="float:right;"><input type="text" class="price" id="minusPoint" name="usePoint" style="width:100px;" value=0></span><br>
+		                            </div>
+		                            <div style="margin-bottom:25px;">
+										<strong>보유포인트</strong>
+			                            <input type="text" style="float:right; width:100px; border:none" id="point" class="price" value=${loginDrClient3.point } readonly><br>
+		                            </div>
+		                            <hr>
+		                            <div style="margin-bottom:25px;">
+										<strong>총 결제 금액</strong>
+			                            <span style="float:right;" id="payPrice" class="price">원</span><br>
+			                            <input type="hidden" name="amountPrice" value=0>
+		                            </div>
+								</div>
 							</div>
-							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>연락처</label><input type="text" value="${payClientSelect.phone }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
-							</div>
-							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>이메일</label><input type="text" value="${payClientSelect.email }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
-							</div>
-							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>우편번호</label><input type="text" value="${payClientSelect.post }" name="post" value="" id="post" style="width: 250px; margin-left: 65px; height:35px; border: 1px solid lightgray;" readonly> 
-								<input type="button" value="검색" style="float: right; margin-right: 10px; width: 130px; height:35px ; color: black; background-color: #e5f2fc; border: 0px; border-radius: 3px;">
-							</div>
-							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-								<label>도로명 주소</label><input type="text" value="${address1 }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
-							</div>
-							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;">
-								<label>상세 주소</label><input type="text" value="${address2 }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
-							</div>
-							<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;" >
-								<label>남기실 말</label><select name="talk" style="float:right; margin-right:10px; width:400px; border: 1px solid lightgray; height:35px;">
-																	<option value="">남기실말</option>
-																	<option value="배송전 연락 바랍니다.">배송전 연락 바랍니다.</option>
-																	<option value="집앞에 놓고가세요.">집앞에 놓고가세요.</option>
-																	<option value="경비실에 맡겨주세요.">경비실에 맡겨주세요.</option>
-																	<option value="주의해서 가져다 주세요.">주의해서 가져다 주세요.</option>
-																</select>
-							</div>
-						</div>
-					</div>
-					<div style="margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 530px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white;" >
-						<div style="border: 1px solid white; background-color: white; margin: 10px; height: 300px; border-radius: 7px;">
-							<div style="margin-left: 10px; margin-top: 10px; width: 180px; display: inline-block; position: relative;">
-								<div>총 주문금액</div><br>
-								<span>할인금액</span><br><br>
-								<span>포인트</span><br>
-								<span>보유포인트 : ${payClientSelect.point }점</span>
-								<br>
+							<div style="margin: 20px; margin-top: 30px;">
+								<h5>결제 수단</h5>
 								<hr>
-								<br>
-								<h6>총 결제금액</h6><br>
-								<h6>적립금</h6>
 							</div>
-							<div style="margin-right: 10px; margin-top: 10px; width: 180px; display: inline-block; position: absolute; text-align: right;">
-								<div id="totalOrder" style="padding-top: 0px; margin-top: 0px" >qweqwe</div>
-								<div id="sales" style="padding-top:20px">${selectPro.discount }</div><br><br>
-								<input type="text" style="width: 100px; height: 20px;" id="minusPoint" value="0"><span>원</span><br>
-								<span style="font-size: 10px;">(포인트는 5000점부터 사용가능)</span><br>
-								<hr>
-								<br>
-								<div id="resultPrice1"></div><br>
-								<label id="point">적립금</label>
+							<div style="margin-left: 20px; margin-right: 20px;">
+								<label style="margin-right: 100px;"><input type="radio" name="pay" style="margin-right: 10px;" disabled>신용카드</label>
+								<label><input type="radio" name="pay" style="margin-right: 10px;" disabled>가상계좌</label>
+								<label style="margin-right: 52px;"><input name="pay" type="radio" style="margin-right: 10px;" disabled>실시간계좌이체</label>
+								<label><input type="radio" name="pay" style="margin-right: 10px;" checked readonly value="카카오페이">카카오페이</label>
+							</div>
+							<div style="margin: 10px; text-align: center;">
+								<button type="button" id="pay" style="width: 100px; height: 40px; margin-right: 50px; border-radius: 5px; border: 0px; background-color:#007ee5; color: white;">결제</button>
+								<button type="button"  style="width: 100px; height: 40px; border-radius: 5px; border: 0px; background-color:#007ee5; color: white;">취소</button>
 							</div>
 						</div>
-						<div style="margin: 20px; margin-top: 30px;">
-							<h5>결제 수단</h5>
-							<hr>
-						</div>
-						<div style="margin-left: 20px; margin-right: 20px;">
-							<label style="margin-right: 100px;"><input type="radio" name="pay" style="margin-right: 10px;" disabled>신용카드</label>
-							<label><input type="radio" name="pay" style="margin-right: 10px;" disabled>가상계좌</label>
-							<label style="margin-right: 52px;"><input name="pay" type="radio" style="margin-right: 10px;" disabled>실시간계좌이체</label>
-							<label><input type="radio" name="pay" style="margin-right: 10px;" checked>카카오페이</label>
-						</div>
-						<div style="margin: 10px; text-align: center;">
-							<input type="submit" value="결제" style="width: 100px; height: 40px; margin-right: 50px; border-radius: 5px; border: 0px; background-color:#007ee5; color: white;">
-							<input type="button" value="취소" style="width: 100px; height: 40px; border-radius: 5px; border: 0px; background-color:#007ee5; color: white;">
-						</div>
-					</div>
-				</form>
+					</form>
+				</c:when>
+				</c:choose>
 			</div>
 		</div>
 	</div>
@@ -177,46 +280,82 @@
 		src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
-
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	
+	<script>
+		  function numberWithCommas(x) {
+			    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+	$(function(){
+		 
+		 $("[data-toggle='popover']").popover();
+        	//numberWithCommas
+         
+        	//$('.price').text(numberWithCommas($(this).text()));
+			$('.price').each(function(index, item){
+				$(this).text(numberWithCommas($(this).text()));
+			});
+			
+		
+	
+			
+       	var point = $("#point").val();
+		var tp="${selectPro.sellPrice * productCount}";
+			$("#allPrice").text(numberWithCommas(tp) + "원");
+   		var dd = tp - $("#discountPrice").text();
+   		$("#payPrice").text(numberWithCommas(dd) + "원");
+   		
+   
+         $("#minusPoint").blur(function(){
+         	if(Number($(this).val()) > Number(point)){
+         		alert("사용가능한 적립금을 초과하였습니다.");
+         		$(this).focus().val('');
+         	}else if(Number($(this).val()) <= Number(point)){
+  		   		var amount = $(this).val();
+		   		var discountPrice = $("#discountPrice").text();
+         		$("#payPrice").text(numberWithCommas(tp - amount - discountPrice) + "원");
+         		
+         	}
+         	if($(this).val() == ''){
+   				$(this).val(0);
+   			}
+         });
+	}) 
+	
+	</script>
+	<!-- 카카오 페이 -->
 	<script>
 		$(function(){
-			var total = $("#totalOrder").val() - $("#sales").val();
-			$("#totalOder").keyUp(function(){
-					var totalPay = total - $("minusPoint").val();
+			 var IMP=window.IMP;
+	         IMP.init('imp96869960'); 
+			$("#pay").on("click",function(){
+				var payPrice = $("#payPrice").text();
+				var email = $("#email").val();
+				var name = $("#userName").val();
+				var phone = $("#phone").val();
+				var address = $("#address1").val() + $("#address2").val();
+				var post = $("#post").val();
+				IMP.request_pay({
+					pg: 'kakaopay',
+					pay_method : 'card',
+					merchant_uid : 'merchant_' + new Date().getTime(),
+					name : 'landoc',
+					amount : payPrice,
+					buyer_name : 'name',
+					buyer_tel : 'phone',
+					buyer_addr : address,
+					buyer_postcode :post,
+				},function(rsp){
+					if(rsp.success){
+						$("#payment").submit();
+					}else{
+						alert("실패");
+					}
 					
-					$("#totalPay").val(totalPay);
-					
-				})
-			});
-				
-			
-	</script>
-	<script>
-	$(function(){
-		 $("#rcv_name").focus();
-         
-               var tp = 58000*2 ;
-               $("#resultPrice").text(tp+"원");
-               $("#expt_price").val(tp);
-               $("#resultPrice1").text(tp+"원");
-         var result;
-		
-		$("#minusPoint").blur(function(){
-			if($(this).val() > <%=point%>){
-				alert("사용가능한 적립금을 초과하였습니다.");
-			}else if($(this).val() <= <%=point%>){
-				var pu = $("minusPoint").val();
-				result = tp-pu;
-				$("#resultPrice").text(result + "원");
-				$("#exptPrice").val(result);
-				$("#resultPrice1").text(result + "원");
-			}
+				});
+			})
 		})
-	})
+		
 	</script>
-
 	
-</body>
-
-
 </html>

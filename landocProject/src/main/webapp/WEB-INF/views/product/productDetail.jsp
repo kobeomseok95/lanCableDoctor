@@ -146,7 +146,7 @@
                                     <button class="btn btn-default goCart">
                                         <h5>장바구니</h5>	<!-- 일단 내비둠 -->
                                     </button>
-                                    <button class="btn btn-default goPurchase">
+                                    <button class="btn btn-default goPurchase" onclick="pay();">
                                         <h5>구매하기</h5>	<!-- 일단 내비둠 -->
                                     </button>
                                 </li>
@@ -642,6 +642,12 @@
 				$(this).text(numberWithCommas($(this).text()));
 			});
         });	//end of jquery
+    </script>
+    <script>
+    	function pay(){
+    		
+    		location.href='payView.do?pdName=' + '${product.pdName}' + '&pdNo=' + '${product.pdNo} ' + '&productCount=' + $("#productCount").val() ;
+    	}
     </script>
 </body>
 

@@ -16,6 +16,7 @@ public class PayProduct implements Serializable{
 	private int sellPrice;
 	private String thumbnail;
 	private int ctCode;
+	private int productCount;
 	protected PayProduct() {
 	}
 	protected PayProduct(int pdNo, String pdName, int originPrice, int discount, int sellPrice, String thumbnail,
@@ -27,6 +28,18 @@ public class PayProduct implements Serializable{
 		this.sellPrice = sellPrice;
 		this.thumbnail = thumbnail;
 		this.ctCode = ctCode;
+	}
+	
+	protected PayProduct(int pdNo, String pdName, int originPrice, int discount, int sellPrice, String thumbnail,
+			int ctCode, int productCount) {
+		this.pdNo = pdNo;
+		this.pdName = pdName;
+		OriginPrice = originPrice;
+		this.discount = discount;
+		this.sellPrice = sellPrice;
+		this.thumbnail = thumbnail;
+		this.ctCode = ctCode;
+		this.productCount = productCount;
 	}
 	public int getPdNo() {
 		return pdNo;
@@ -70,13 +83,21 @@ public class PayProduct implements Serializable{
 	public void setCtCode(int ctCode) {
 		this.ctCode = ctCode;
 	}
+	
+	public int getProductCount() {
+		return productCount;
+	}
+	public void setProductCount(int productCount) {
+		this.productCount = productCount;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
 		return "PayProduct [pdNo=" + pdNo + ", pdName=" + pdName + ", OriginPrice=" + OriginPrice + ", discount="
-				+ discount + ", sellPrice=" + sellPrice + ", thumbnail=" + thumbnail + ", ctCode=" + ctCode + "]";
+				+ discount + ", sellPrice=" + sellPrice + ", thumbnail=" + thumbnail + ", ctCode=" + ctCode
+				+ ", productCount=" + productCount + "]";
 	}
 	
 	

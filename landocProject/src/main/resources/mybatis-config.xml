@@ -48,6 +48,9 @@
 		<typeAlias type="com.kh.landocProject.payment.model.vo.MemberPay" alias="MemberPay" />
 		<typeAlias type="com.kh.landocProject.payment.model.vo.PayProduct" alias="PayProduct" />
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrProductRecommends" alias="DrProductRecommends" />
+		<typeAlias type="com.kh.landocProject.payment.model.vo.Payment" alias="Payment" />
+		<typeAlias type="com.kh.landocProject.payment.model.vo.OrderMg" alias="OrderMg" />
+		<typeAlias type="com.kh.landocProject.payment.model.vo.OrderProduct" alias="OrderProduct" />
 
 	</typeAliases>
 
