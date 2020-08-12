@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="payMapper">
+	<resultMap type="MemberPay" id="ClientResultMap">
+		<id property="cNo" column="C_NO"/>
+		<result property="userName" column="C_NAME"/>
+		<result property="phone" column="C_PHONE"/>
+		<result property="email" column="C_EMAIL"/>
+		<result property="point" column="C_POINT"/>
+		<result property="address" column="C_ADDRESS"/>
+		<result property="post" column="C_POSTCODE"/>
+	</resultMap>
+	
+	<resultMap type="MemberPay" id="DrClientResultMap">
+		<id property="drNo" column="DR_NO"/>
+		<result property="userName" column="DR_NAME"/>
+		<result property="phone" column="DR_PHONE"/>
+		<result property="email" column="DR_EMAIL"/>
+		<result property="point" column="DR_POINT"/>
+		<result property="address" column="DR_ADDRESS"/>
+		<result property="post" column="DR_POSTCODE"/>
+	</resultMap>
+	
+	<resultMap type="PayProduct" id="payProduct">
+		<id property="pdNo" column="PD_NO"/>
+		<result property="pdName" column="PD_NAME"/>
+		<result property="OriginPrice" column="ORIGIN_PRICE"/>
+		<result property="discount" column="DISCOUNT"/>
+		<result property="sellPrice" column="SELL_PRICE"/>
+		<result property="thumbnail" column="THUMBNAIL"/>
+		<result property="ctCode" column="CT_CODE"/>
+	</resultMap>
+	<!-- 로그인 정보 -->
+	<select id="loginClient3" parameterType="MemberPay" resultMap="ClientResultMap">
+		SELECT C_NO, C_NAME, C_POINT, C_ADDRESS, C_POSTCODE, C_EMAIL, C_PHONE
+		FROM CLIENT
+		WHERE C_NO = #{cNo}
+	</select>
+	<!-- 로그인 정보 -->
+	<select id="loginDrClient3" parameterType="MemberPay" resultMap="DrClientResultMap">
+		SELECT DR_NO, DR_NAME, DR_POINT, DR_ADDRESS, DR_POSTCODE, DR_EMAIL, DR_PHONE
+		FROM DRCLIENT
+		WHERE DR_NO = #{drNo}
+	</select>
+	<!-- 선택한 상품정보 -->
+	<select id="selectPro" parameterType="PayProduct" resultMap="payProduct">
+		SELECT PD_NO, PD_NAME, ORIGIN_PRICE, DISCOUNT, SELL_PRICE, THUMBNAIL, CT_CODE
+		FROM PRODUCT
+		WHERE PD_NO = #{pdNo}
+	</select>
+	<!-- 포인트 사용시 -->
+	<insert id="insertPayment" parameterType="Payment">
+		INSERT INTO PAYMENT
+		VALUES(SEQ_ORDER_NO.NEXTVAL, SYSDATE, #{amountPrice}, '카카오페이', #{paymentComment}, #{usePoint}, SYSDATE, #{cNo}, #{drNo})
+	</insert>
+	<!-- 포인트 사용안할시 -->
+	<insert id="insertPayment1" parameterType="Payment">
+		INSERT INTO PAYMENT
+		VALUES(SEQ_ORDER_NO.NEXTVAL, SYSDATE, #{amountPrice}, '카카오페이', #{paymentComment}, #{usePoint}, null, #{cNo}, #{drNo})
+	</insert>
+	<!-- 주문관리 -->
+	<insert id="insertOrderMg" parameterType="OrderMg">
+		INSERT INTO ORDERMG
+		VALUES(SEQ_ORDERMG_NO.NEXTVAL, #{cNo}, #{drNo}, 2)
+	</insert>
+	<!-- 상품 주문 -->
+	<insert id="insertOrderPro" parameterType="OrderProduct">
+		INSERT INTO ORDERPRODUCT
+		VALUES(#{pdNo}, SEQ_ORDERPRO_NO.NEXTVAL, #{opCount})
+	</insert>
+	<!-- 일반회원 포인트 차감 -->
+	<update id="updateC" parameterType="Payment">
+		UPDATE CLIENT
+		SET C_POINT = C_POINT - #{usePoint}
+		WHERE C_NO = #{cNo}
+	</update>
+	<!-- 의사회원 포인트 차감 -->
+	<update id="updateDr" parameterType="Payment">
+		UPDATE DRCLIENT
+		SET DR_POINT = DR_POINT - #{usePoint}
+		WHERE DR_NO = #{drNo}
+	</update>
+</mapper>

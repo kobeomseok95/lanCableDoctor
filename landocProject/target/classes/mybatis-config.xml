@@ -45,7 +45,13 @@
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DOrderList" alias="DOrderList" />
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DOrderQna" alias="DOrderQna" />
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrMypagePoint" alias="DrMypagePoint" />
+		<typeAlias type="com.kh.landocProject.payment.model.vo.MemberPay" alias="MemberPay" />
+		<typeAlias type="com.kh.landocProject.payment.model.vo.PayProduct" alias="PayProduct" />
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrProductRecommends" alias="DrProductRecommends" />
+		<typeAlias type="com.kh.landocProject.payment.model.vo.Payment" alias="Payment" />
+		<typeAlias type="com.kh.landocProject.payment.model.vo.OrderMg" alias="OrderMg" />
+		<typeAlias type="com.kh.landocProject.payment.model.vo.OrderProduct" alias="OrderProduct" />
+
 	</typeAliases>
 
 
@@ -64,5 +70,6 @@
 		<mapper resource="/mappers/adminDrClient-mapper.xml"/>
      	<mapper resource="/mappers/product-mapper.xml"/>
      	<mapper resource="/mappers/dMypage-mapper.xml" />
+     	<mapper resource="/mappers/pay-mapper.xml" />
 	</mappers>
 </configuration>
