@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.landocProject.dmypage.model.vo.DrProductRecommends;
 import com.kh.landocProject.product.model.service.ProductService;
 import com.kh.landocProject.product.model.vo.Product;
@@ -130,6 +132,89 @@ public class mainProductController {
 		return mv;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "getAsyncRecommends.do", method=RequestMethod.GET)
+	public HashMap<String, Object> getAsyncRecommends(@RequestParam int pdNo,
+																							@RequestParam int pageNo){
+		int recommendCount = productServiceImpl.getRecommendCount(pdNo);
+		ProductDetailPagination page = ProductDetailPagination.getPagination(pageNo, recommendCount);
+		List<DrProductRecommends> list = productServiceImpl.getProductRecommends(pdNo, page);
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("page", page);
+		data.put("list", list);
+		data.put("recommendCount", recommendCount);
+		return data;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getAsyncReviews.do", method=RequestMethod.GET)
+	public HashMap<String, Object> getAsyncReviews(@RequestParam int pdNo,
+																			@RequestParam int pageNo){
+		int reviewCount = productServiceImpl.getReviewCount(pdNo);
+		ProductDetailPagination page = ProductDetailPagination.getPagination(pageNo, reviewCount);
+		List<ProductReview> list = productServiceImpl.getProductReviews(pdNo, page);
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("page", page);
+		data.put("list", list);
+		data.put("reviewCount", reviewCount);
+		return data;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getAsyncQnas.do", method=RequestMethod.GET)
+	public HashMap<String, Object> getAsyncQnas(@RequestParam int pdNo,
+																		@RequestParam int pageNo){
+		int qnaCount = productServiceImpl.getQnaCount(pdNo);
+		ProductDetailPagination page = ProductDetailPagination.getPagination(pageNo, qnaCount);
+		List<ProductQna> list = productServiceImpl.getProductQnas(pdNo, page);
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("page", page);
+		data.put("list", list);
+		data.put("qnaCount", qnaCount);
+		return data;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="getpdqAnswer.do", method=RequestMethod.POST)
+	public HashMap<String, Object> getpdqAnswer (@RequestParam int pdqNo,
+																			@RequestParam String pdqPwd){
+		ProductQna qna = productServiceImpl.getAnswer(pdqNo);
+		HashMap<String, Object> data = new HashMap<>();
+		if( (pdqPwd.equals("") || pdqPwd.equals(qna.getSecretPwd())) && qna.getStatus().equals("Y") ) {
+			data.put("result", "ok");
+			data.put("qna", qna);
+			return data;
+		}
+		else if( (pdqPwd.equals("") || pdqPwd.equals(qna.getSecretPwd())) && qna.getStatus().equals("N") ) {
+			data.put("result", "wait");
+			return data;
+		}
+		else {
+			data.put("result", "fail");
+			return data;
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="insertProductQna.do", method=RequestMethod.POST)
+	public String insertProductQna(ProductQna qna) {
+		int result = 0;
+		if( qna.getSecretPwd().equals("") ) {
+			qna.setSecretStatus("N");
+		}
+		else {
+			qna.setSecretStatus("Y");
+		}
+		
+		result = productServiceImpl.insertQna(qna);
+
+		if(result > 0) {
+			return "ok";
+		}
+		else{
+			return "fail";
+		}
+	}
 }
 
 

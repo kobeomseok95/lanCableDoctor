@@ -1849,7 +1849,6 @@ div >  .btn-default{
 	color: white;
 	width: 40%;
 }
-
 /* askDrSearch.html */
 .searchDrImage{
 	width: 150px;
@@ -2006,6 +2005,16 @@ h5 > a {
 #child{
     display: inline-block;
     margin: 57px;
+}
+.qnaFormBtn{
+	background-color: #0071ce;
+	color: white;
+}
+.pwdHide{
+	display: none;
+}
+.pwdShow{
+	display: block;
 }
 /* cart.html */
 #allProduct{

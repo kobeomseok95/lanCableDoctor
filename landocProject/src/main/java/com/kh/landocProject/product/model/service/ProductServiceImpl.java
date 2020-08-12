@@ -92,4 +92,14 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.updateViewCount(pdNo);
 	}
 
+	@Override
+	public ProductQna getAnswer(int pdqNo) {
+		return productDao.getAnswer(pdqNo);
+	}
+
+	@Override
+	public int insertQna(ProductQna qna) {
+		return productDao.insertQna(qna);
+	}
+
 }
