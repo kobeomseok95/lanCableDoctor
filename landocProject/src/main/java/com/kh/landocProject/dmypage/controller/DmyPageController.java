@@ -277,17 +277,19 @@ public class DmyPageController {
 	
 	@RequestMapping(value="drMyOrderCancelList.do")
 	public ModelAndView orderCancelList(HttpSession session, ModelAndView mv,@RequestParam(value="page", required=false) Integer page) throws  DmypageException {
+		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo =loginClient.getDrNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		
-		int listCount = dMypageService.getListCountOrderList();
+		HashMap<String,Object> order = new HashMap<String, Object>();
+		order.put("ostate","cancelList");
+		order.put("drNo",drNo);
+		int listCount = dMypageService.getListCountOrderList(order);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
-		String drNo =loginClient.getDrNo();
 		
 		ArrayList<DOrderList> list = dMypageService.orderCancelList(drNo,pi);
 		if(list!=null) {
