@@ -251,7 +251,14 @@
 		FROM HPREVIEW HR
 		    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
 		WHERE HP_NO=#{hpNo}
-  		<choose>
+		<if test="!keyword.equals('none')">
+			AND HP_RE_CONTENT LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="keyword.equals('none')">
+			
+		</if>
+		
+		<choose>
   			<when test="orderBy == 1">
   				ORDER BY HP_RE_DATE DESC
   			</when>
@@ -271,17 +278,44 @@
   		</choose>
   </select>
   
+
+  <!-- 좋아요 -->
+  <delete id="deleteHpLike" parameterType="hpLike">
+  	DELETE FROM HPLIKE
+  	WHERE HP_NO=#{hpNo}
+  		AND C_NO=#{cNo}
+  
+  </delete>
+  
+  <insert id="insertHpLike" parameterType="hpLike">
+  	INSERT INTO HPLIKE
+  	VALUES(SEQ_HPLIKE.NEXTVAL
+  			, #{cNo}
+  			, 'D00'
+  			, #{hpNo})
+  </insert>
+  
+  <select id="selectMyHpLikeCount" parameterType="hpLike" resultType="_int">
+  	
+  	
+  	
+  	SELECT COUNT(*)
+  	FROM HPLIKE
+  	<if test="cNo.equals('none')">
+  	WHERE HP_NO=#{hpNo}
+  	</if>
+  	<if test="!cNo.equals('none')">
+  	WHERE C_NO=#{cNo}
+  		AND HP_NO=#{hpNo}
+  	</if>
+  	
+  </select>
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  <select id="selectHpLikeCount" parameterType="_int" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM HPLIKE
+  	WHERE HP_NO=#{hpNo}
+  </select>
   
 </mapper>

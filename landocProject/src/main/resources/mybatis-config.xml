@@ -47,7 +47,7 @@
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrMypagePoint" alias="DrMypagePoint" />
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrProductRecommends" alias="DrProductRecommends" />
 		<typeAlias type="com.kh.landocProject.hospitalQna.model.vo.MainHpQnA" alias="hpQna" />
-		
+		<typeAlias type="com.kh.landocProject.hospitalReview.model.vo.HpLike" alias="hpLike" />
 	</typeAliases>
 
 

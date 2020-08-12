@@ -11,6 +11,7 @@ import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 import com.kh.landocProject.hospitalQna.model.vo.MainHpQnA;
 import com.kh.landocProject.hospitalReview.model.dao.MainHpReviewDao;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 import com.kh.landocProject.hospitalReview.model.vo.SearchHp;
 
@@ -101,10 +102,36 @@ public class MainHpReviewServiceImpl implements MainHpReviewService{
 	}
 
 	@Override
-	public ArrayList<HpReview> selectHpReviewList(HashMap<String, Integer> map, PageInfo page) {
+	public ArrayList<HpReview> selectHpReviewList(HashMap<String, Object> map, PageInfo page) {
 		
 		return MainHpReDao.selectHpReviewList(map, page);
 	}
+
+	@Override
+	public int deleteHpLike(HpLike hl) {
+		
+		return MainHpReDao.deleteHpLike(hl);
+	}
+
+	@Override
+	public int insertHpLike(HpLike hl) {
+		
+		return MainHpReDao.insertHpLike(hl);
+	}
+
+	@Override
+	public int selectMyHpLikeCount(HpLike hl) {
+		
+		return MainHpReDao.selectMyHpLikeCount(hl);
+	}
+
+	@Override
+	public int selectHpLikeCount(Integer hpNo) {
+		
+		return MainHpReDao.selectHpLikeCount(hpNo);
+	}
+
+	
    
    
    

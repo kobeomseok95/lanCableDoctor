@@ -12,6 +12,7 @@ import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 import com.kh.landocProject.hospitalQna.model.vo.MainHpQnA;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 import com.kh.landocProject.hospitalReview.model.vo.SearchHp;
 
@@ -104,12 +105,36 @@ public class MainHpReviewDao {
 	}
 
 
-	public ArrayList<HpReview> selectHpReviewList(HashMap<String, Integer> map, PageInfo page) {
+	public ArrayList<HpReview> selectHpReviewList(HashMap<String, Object> map, PageInfo page) {
 		
 		int offset = (page.getCurrentPage()-1) * page.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, page.getBoardLimit());
 		
 		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.selectHpReviewList", map, rowBounds);
+	}
+
+
+	public int deleteHpLike(HpLike hl) {
+		
+		return sqlSessionTemplate.delete("MainHpReviewMapper.deleteHpLike", hl);
+	}
+
+
+	public int insertHpLike(HpLike hl) {
+		
+		return sqlSessionTemplate.insert("MainHpReviewMapper.insertHpLike", hl);
+	}
+
+
+	public int selectMyHpLikeCount(HpLike hl) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectMyHpLikeCount", hl);
+	}
+
+
+	public int selectHpLikeCount(Integer hpNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectHpLikeCount", hpNo);
 	}
 	
 	

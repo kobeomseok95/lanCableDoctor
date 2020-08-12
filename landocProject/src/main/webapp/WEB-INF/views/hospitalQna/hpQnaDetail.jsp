@@ -181,7 +181,7 @@
                             </c:if>
                             
                             
-                            <c:if test="${!empty loginClient || empty loginDrClient }">
+                            <c:if test="${!empty loginClient && empty loginDrClient }">
 	                            <button type="submit" class="btn btn-mdd w-100 p-3 my-2" style="color:white;font-size: 18px;font-weight: bold;letter-spacing: -0.5px;background-color: #007ee5;">
 	                                	${hpName } 질문하기
 	                            </button>

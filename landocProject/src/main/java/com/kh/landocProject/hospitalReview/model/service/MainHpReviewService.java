@@ -7,6 +7,7 @@ import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 import com.kh.landocProject.hospitalQna.model.vo.MainHpQnA;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 import com.kh.landocProject.hospitalReview.model.vo.SearchHp;
 
@@ -38,7 +39,20 @@ public interface MainHpReviewService {
 
    int selectQnaNum(Integer hpNo);
 
-   ArrayList<HpReview> selectHpReviewList(HashMap<String, Integer> map, PageInfo page);
+   ArrayList<HpReview> selectHpReviewList(HashMap<String, Object> map, PageInfo page);
+
+   int deleteHpLike(HpLike hl);
+
+   int insertHpLike(HpLike hl);
+
+   int selectMyHpLikeCount(HpLike hl);
+
+   int selectHpLikeCount(Integer hpNo);
+
+
+
+
+
 
 
 
