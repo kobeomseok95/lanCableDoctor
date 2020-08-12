@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,17 +53,17 @@ public class DmyPageController {
 	
 	@RequestMapping(value="drPdReview.do")
 	public ModelAndView pdReviewList(ModelAndView mv, HttpSession session,@RequestParam(value="page", required=false) Integer page) throws DmypageException {
+		
+		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo =loginClient.getDrNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = dMypageService.getListCountReview();
+		int listCount = dMypageService.getListCountReview(drNo);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
-		
-		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
-		String drNo =loginClient.getDrNo();
 		ArrayList<DPdReview> list = dMypageService.selectPdReviewList(drNo,pi);
 		if(list!=null) {
 			mv.addObject("pdReviewList",list);
@@ -78,16 +79,20 @@ public class DmyPageController {
 	@RequestMapping(value="drMyOrderList.do")
 	public ModelAndView myOrderList(ModelAndView mv,HttpSession session,@RequestParam(value="page", required=false) Integer page) {
 		
+		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo =loginClient.getDrNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = dMypageService.getListCountOrderList();
+		HashMap<String,Object> order = new HashMap<String, Object>();
+		order.put("ostate","orderList");
+		order.put("drNo",drNo);
+		
+		int listCount = dMypageService.getListCountOrderList(order);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
-		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
-		String drNo =loginClient.getDrNo();
 		ArrayList<DOrderList> list = dMypageService.selectOrderList(drNo,pi);
 		System.out.println(list);
 		if(list!=null) {
@@ -116,17 +121,20 @@ public class DmyPageController {
 	
 	@RequestMapping(value="drDateSearch.do")
 	public ModelAndView orderListDateSearch(HttpSession session,ModelAndView mv,@RequestParam(value="date") String date, DOrderList order,@RequestParam(value="page", required=false) Integer page) throws DmypageException  {
+		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo =loginClient.getDrNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		
-		int listCount = dMypageService.getListCountOrderList();
+		HashMap<String,Object> search = new HashMap<String, Object>();
+		search.put("search","dateSearch");
+		search.put("drNo",drNo);
+		search.put("date",date);
+		int listCount = dMypageService.getListCountSearchOrderList(search);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
-		String drNo =loginClient.getDrNo();
 		order.setDrNo(drNo);
 		order.setDate(date);
 		ArrayList<DOrderList> list = dMypageService.orderListDateSearch(order,pi);
@@ -144,17 +152,21 @@ public class DmyPageController {
 	
 	@RequestMapping(value="drDateSearch2.do")
 	public ModelAndView orderListDateSearch2(HttpSession session,ModelAndView mv,@RequestParam(value="startDate") Date startDate, @RequestParam(value="endDate") Date endDate, DOrderList order,@RequestParam(value="page", required=false) Integer page) throws DmypageException {
+		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo =loginClient.getDrNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		
-		int listCount = dMypageService.getListCountOrderList();
+		HashMap<String,Object> search = new HashMap<String, Object>();
+		search.put("search","dateSearch");
+		search.put("drNo",drNo);
+		search.put("CalendarDate1",startDate);
+		search.put("CalendarDate2",endDate);
+		int listCount = dMypageService.getListCountSearchOrderList2(search);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
-		String drNo =loginClient.getDrNo();
 		order.setDrNo(drNo);
 		order.setCalendarDate1(startDate);
 		order.setCalendarDate2(endDate);
@@ -236,18 +248,18 @@ public class DmyPageController {
 	@RequestMapping(value="drOrderQnaList.do")
 	public ModelAndView orderQnaList(HttpSession session, ModelAndView mv,DOrderQna qna,@RequestParam(value="page", required=false) Integer page) throws  DmypageException {
 		
+		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo =loginClient.getDrNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = dMypageService.getListCountOrderQna();
+		int listCount = dMypageService.getListCountOrderQna(drNo);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
 		
-		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
-		String drNo =loginClient.getDrNo();
 		
 		
 		ArrayList<DOrderQna> qnaY = dMypageService.orderQnaListY(drNo,pi);
