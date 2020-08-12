@@ -282,6 +282,7 @@
 		SELECT 
 		    PDQ_TITLE,
 			PDQ_CONTENT,
+			PDQ_ANSWERSTATUS,
 			PDQ_ANSWERCONTENT,
 		    SECRETPASSWORD
 		FROM 
@@ -291,21 +292,23 @@
 	</select>
 	
 	<insert id="insertQna" parameterType="ProductQna">
-	INSERT INTO PRODUCTQNA
-	VALUES(
-	    SEQ_PRODUCTQNA.NEXTVAL,
-	    #{title},
-	    #{content},
-	    SYSDATE,
-	    'N',
-	    NULL,
-	    #{pdNo},
-	    #{cNo},
-	    #{drNo},
-	    #{secretStatus},
-	    #{secretPwd}
-	)
+		INSERT INTO PRODUCTQNA
+		VALUES(
+		    SEQ_PRODUCTQNA.NEXTVAL,
+		    #{title},
+		    #{content},
+		    SYSDATE,
+		    'N',
+		    NULL,
+		    #{pdNo},
+		    #{cNo},
+		    #{drNo},
+		    #{secretStatus},
+		    #{secretPwd}
+		)
 	</insert>
+	
+	
 </mapper>
 
 

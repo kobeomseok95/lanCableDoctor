@@ -180,14 +180,19 @@ public class mainProductController {
 																			@RequestParam String pdqPwd){
 		ProductQna qna = productServiceImpl.getAnswer(pdqNo);
 		HashMap<String, Object> data = new HashMap<>();
-		if(pdqPwd.equals(qna.getSecretPwd())) {
+		if( (pdqPwd.equals("") || pdqPwd.equals(qna.getSecretPwd())) && qna.getStatus().equals("Y") ) {
 			data.put("result", "ok");
 			data.put("qna", qna);
+			return data;
+		}
+		else if( (pdqPwd.equals("") || pdqPwd.equals(qna.getSecretPwd())) && qna.getStatus().equals("N") ) {
+			data.put("result", "wait");
+			return data;
 		}
 		else {
 			data.put("result", "fail");
+			return data;
 		}
-		return data;
 	}
 	
 	@ResponseBody

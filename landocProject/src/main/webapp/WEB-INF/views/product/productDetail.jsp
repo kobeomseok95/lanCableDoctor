@@ -33,6 +33,11 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+	<style>
+	.qTitle{
+		cursor : pointer;
+	}
+	</style>
 </head>
 
 <body>
@@ -584,7 +589,7 @@
         		var $labelOne = $('<label for="qnaTitle"></label>');
         		$labelOne.text("제목");
         		var $inputOne = $('<input id="qnaTitle" type="text" style="width: 90%; float:right;" disabled />');
-        		$inputOne.val(qna.title);	//해당 게시글 제목
+        		$inputOne.val(qna.title);	
         		$fgOne.append($labelOne);
         		$fgOne.append($inputOne);
         		$modalBody.append($fgOne);
@@ -618,36 +623,70 @@
         	}
         	
         	$(document).on('click', '.qnaFormBtn', function(){
-        		var pdqNo = $(this).parent().parent().prev().find('input[name=pdqNo]').val();
-        		var pdqPwd = $(this).prev().val();
-        		
-        		var qForm = {
-        				pdqNo : pdqNo,
-        				pdqPwd : pdqPwd
-        		}
-        		$.ajax({
-        			type : 'POST',
-        			data : qForm,
-        			url : 'getpdqAnswer.do',
-        			success : function(data){
-        				if(data.result === "ok"){
-        					createModal(data.qna);
-        					$('#caBtn').trigger("click");
-        				}
-        				else{
-        					alert("해당 게시글의 비밀번호가 맞지 않습니다.");
-        				}
-        			},
-        			error:function(request, status, errorData){
-	                    alert("error code: " + request.status + "\n"
-	                            +"message: " + request.responseText
-	                            +"error: " + errorData);
-	               	}
-        		});
+       			var pdqNo = $(this).parent().parent().prev().find('input[name=pdqNo]').val();
+           		var pdqPwd = $(this).prev().val();
+           		var qForm = {
+           				pdqNo : pdqNo,
+           				pdqPwd : pdqPwd
+           		}
+           		$.ajax({
+           			type : 'POST',
+           			data : qForm,
+           			url : 'getpdqAnswer.do',
+           			success : function(data){
+           				if(data.result === "ok"){
+           					createModal(data.qna);
+           					$('#caBtn').trigger("click");
+           				}
+           				else if(data.result === "wait"){
+           					alert("해당 문의글은 아직 답변이 없습니다.");
+           				}
+           				else{
+           					alert("해당 게시글의 비밀번호가 맞지 않습니다.");
+           				}
+           			},
+           			error:function(request, status, errorData){
+   	                    alert("error code: " + request.status + "\n"
+   	                            +"message: " + request.responseText
+   	                            +"error: " + errorData);
+   	               	}
+      			});
+           		$(this).prev().val('');
+				$(this).parent().prev().trigger("click");
         	});
         	
         	$(document).on('click', '.qTitle', function(){
-        		$(this).siblings('.qnaPwd').toggle();
+        		if($(this).siblings('.qnaPwd').length){
+        			$(this).siblings('.qnaPwd').toggle();
+        		}
+        		else{
+        			if($(this).parent().next().next().next().text().trim() === "답변대기"){
+        				alert("해당 문의글은 아직 답변이 없습니다");
+        			}
+        			else{
+	        			var pdqNo = $(this).parent().prev().find('input[name=pdqNo]').val();
+						
+	        			$.ajax({
+	        				type : 'POST',
+	        				url : 'getpdqAnswer.do',
+	        				data : {
+	        					pdqNo : pdqNo,
+	        					pdqPwd : ""
+	        				},
+	        				success : function(data){
+	        					if(data.result === "ok"){
+	            					createModal(data.qna);
+	            					$('#caBtn').trigger("click");
+	            				}
+	        				},
+	        				error:function(request, status, errorData){
+	    	                    alert("error code: " + request.status + "\n"
+	    	                            +"message: " + request.responseText
+	    	                            +"error: " + errorData);
+	    	               	}
+	        			});
+        			}
+        		}
         	});
         	
         	function qnaHTML(data){
