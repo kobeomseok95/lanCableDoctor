@@ -39,6 +39,12 @@
 			width: 50px;
 			height: 30px;
 		}
+		.popover{
+			width: 150px;
+		}
+		.popover #popoverHide{
+			float: right ! important;
+		}
 	</style>
 </head>
 
@@ -166,18 +172,24 @@
 									<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>
 								</c:if>
 								<c:if test="${!empty replys.profileRename }">
-									<img class="rounded-circle" src="#" style="width: 70px; height: 80px;" />
+									<c:set var="fullPath" value="/projectFiles/${replys.profileRename }" />
+									<img class="rounded-circle" src="${fullPath }" style="width: 70px; height: 80px;" />
 								</c:if>
 								</td>
 								<td>
 									<input type="hidden" class="drNo" value="${replys.drClientNo }" />
-									<div data-toggle="popover" data-html="true" title="선생님 정보"
-										data-content="
-										<a href='#'>프로필</a>
-										<br>
-										<a href='#'>여기는 병원이름</a>
-										">
-										${replys.drName}
+									<div data-toggle="popover"
+											data-html="true"
+											title="
+												<span>상세정보</span> 
+												<a id='popoverHide'>
+													<i class='fas fa-times fa-1x'></i>
+												</a>"
+											data-content="
+												<a href='#'>선생님 프로필</a>
+												<br>
+												<a href='mainHpReviewDetail.do?hpNo=${replys.hpNo }'>${replys.hpName }</a>">
+									${replys.drName}
 									</div>
 								</td>
 								<td>
@@ -208,7 +220,7 @@
 											<input type="hidden" name="adrNo" value="${replys.adrNo }" />
 										</button>
 									</c:when>
-									<c:when test="${askDrBoardDetail.chooseStatus eq 'N' && loginClient.memberNo ne askDrBoardDetail.nickname && loginDrClient.drNo ne replys.drClientNo }">
+									<c:when test="${askDrBoardDetail.chooseStatus eq 'N' && loginClient.nickName ne askDrBoardDetail.nickname && loginDrClient.drNo ne replys.drClientNo }">
 									<!-- 공란 -->
 									</c:when>
 								</c:choose>
@@ -264,7 +276,13 @@
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 	<script>
 		$(function(){
-			$("[data-toggle='popover']").popover();
+			$(document).on('click', 'td div', function(){
+				$("[data-toggle='popover']").popover();				
+			});
+			
+			$(document).on("click", "#popoverHide", function(){
+				$("[data-toggle='popover']").popover('hide');
+			});
 			
 			$("#deleteAskDrBoard").on("click", function(){
 				if(confirm("해당 게시글을 삭제하시겠습니까? 채택된 게시글은 삭제할 수 없습니다.")){
@@ -425,7 +443,10 @@
 						var $tdTwo = $("<td></td>");
 						var $inputDrno = $('<input type="hidden" class="drNo" />');
 						$inputDrno.val(list[i].drClientNo);
-						var $tdTwoInDiv = $("<div data-toggle='popover' data-html='true' title='선생님 정보' data-content='<a href='#'>프로필</a> <br> <a href='#'>여기는 병원이름</a>'></div>");
+						var $tdTwoInDiv = $('<div data-toggle="popover" data-html="true"></div>');
+						$tdTwoInDiv.attr("title", "<span>상세정보</span><a id='popoverHide'><i class='fas fa-times fa-1x'></i></a>");
+						$tdTwoInDiv.attr("data-content", "<a href='#'>선생님 프로필</a><br><a href='mainHpReviewDetail.do?hpNo=" + list[i].hpNo + "'>" + list[i].hpName + "</a>");
+						
 						$tdTwoInDiv.text(list[i].drName);
 						$tdTwo.append($inputDrno);
 						$tdTwo.append($tdTwoInDiv);
