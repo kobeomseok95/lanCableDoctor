@@ -63,6 +63,8 @@
 		<result property="drNo" column="DR_NO" />
 		<result property="drName" column="DR_NAME" />
 		<result property="submitDate" column="PDR_SUBMITDATE" />
+		<result property="clientProfile" column="CLIENT_PROFILE" />
+		<result property="drProfile" column="DR_PROFILE" />
 	</resultMap>
 	
 	<sql id="sortFormula">
@@ -219,12 +221,19 @@
 	</select>
 	
 	<select id="getProductReviews" parameterType="_int" resultMap="productReviews">
-		SELECT B.PDREVIEW_NO, B.PDREVIEW_CONTENT, B.DR_NO, G.DR_NAME, B.C_NO, H.C_NICKNAME, B.PDR_SUBMITDATE
-		FROM PRODUCTREVIEW B
-		LEFT JOIN DRCLIENT G ON G.DR_NO = B.DR_NO
-		LEFT JOIN CLIENT H ON H.C_NO = B.C_NO
-		WHERE B.PD_NO = #{pdNo}
-		ORDER BY B.PDR_SUBMITDATE DESC
+		SELECT 
+		    B.PDREVIEW_NO, B.PDREVIEW_CONTENT, B.DR_NO, G.DR_NAME, B.C_NO, H.C_NICKNAME, B.PDR_SUBMITDATE,
+		    I.PRO_RENAME AS "CLIENT_PROFILE", J.PRO_RENAME AS "DR_PROFILE"
+		FROM 
+		    PRODUCTREVIEW B
+		    LEFT JOIN DRCLIENT G ON G.DR_NO = B.DR_NO
+		    LEFT JOIN CLIENT H ON H.C_NO = B.C_NO
+		    LEFT JOIN PROFILEPHOTO I ON B.C_NO = I.C_NO
+		    LEFT JOIN PROFILEPHOTO J ON B.DR_NO = J.DR_NO
+		WHERE 
+		    B.PD_NO = #{pdNo}
+		ORDER BY 
+		    B.PDR_SUBMITDATE DESC
 	</select>
 	
 	<select id="getProductQnas" parameterType="_int" resultMap="productQnas">
