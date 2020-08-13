@@ -36,11 +36,21 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<style>
+<style>
 	.qTitle{
 		cursor : pointer;
 	}
-	</style>
+	.popover{
+		width: 150px;
+	}
+	.popover #popoverHide{
+		float: right ! important;
+		cursor : pointer;
+	}
+	.nameTd{
+		cursor : pointer;
+	}
+</style>
 </head>
 
 <body>
@@ -221,11 +231,21 @@
                                     <img src="/projectFiles/${rec.profileFileName }" />
                                     </c:if>
                                 </td>
-                                <td>
-                                    <div data-toggle="popover" data-html="true" title="선생님 정보"
-                                        data-content="<a href='#'>프로필</a> <br> <a href='#'>여기는 병원이름</a>">
-                                        ${rec.drName }
-                                    </div>
+                                <td class="nameTd">
+                                    <div data-toggle="popover"
+										data-html="true"
+										title="
+										<span>상세정보</span> 
+										<a id='popoverHide'>
+											<i class='fas fa-times fa-1x'></i>
+										</a>"
+										data-content="
+										<a href='#'>선생님 프로필</a>
+										<br>
+										<a href='mainHpReviewDetail.do?hpNo=${rec.hpNo }'>${rec.hpName }</a>"
+										>
+										${rec.drName}
+									</div>
                                 </td>
                                 <td>${rec.comment }</td>
                                 <td>${rec.submitDate }</td>
@@ -274,7 +294,6 @@
         </div>
         <br>
         <!-- recommend end -->
-
 
 
 
@@ -474,12 +493,25 @@
                         			<img src="/projectFiles/${review.drProfile }" />
                         		</c:if>
                         		<c:if test="${!empty review.cNo && empty review.drNo && !empty review.clientProfile }">
-                        			<img src="/projectFiles/${rec.clientProfile }" />
+                        			<img src="/projectFiles/${review.clientProfile }" />
                         		</c:if>
                         		</td>
-                        		<td>
+                        		<td class="nameTd">
                         			<c:if test="${empty review.cNo && !empty review.drNo }">
-                        			${review.drName }
+                                    <div data-toggle="popover"
+										data-html="true"
+										title="
+										<span>상세정보</span> 
+										<a id='popoverHide'>
+											<i class='fas fa-times fa-1x'></i>
+										</a>"
+										data-content="
+										<a href='#'>선생님 프로필</a>
+										<br>
+										<a href='mainHpReviewDetail.do?hpNo=${review.hpNo }'>${review.hpName }</a>"
+										>
+										${review.drName}
+									</div>
                         			</c:if>
                         			<c:if test="${!review.cNo && empty review.drNo }">
                         			${review.cNickname }
@@ -539,6 +571,14 @@
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
     <script>
         $(function () {
+        	$(document).on('click', 'td div', function(){
+				$("[data-toggle='popover']").popover();				
+			});
+			
+			$(document).on("click", "#popoverHide", function(){
+				$("[data-toggle='popover']").popover('hide');
+			});
+			
         	$('#goQnA').on('shown.bs.modal', function () {
 				$("#qnaSecret").on('change', function(){
 					if($(this).is(":checked") === true){
@@ -941,12 +981,13 @@
             		}
             		$tr.append($tdProfile);
             		
-            		/* 병원프로필 완료되면 바로 매핑 */
             		if( list[i].drNo && !list[i].cNo ){
-	            		var $tdDr = $('<td></td>');
-	            		var $tdPopover = $('<div data-toggle="popover" data-html="true" title="선생님 정보" data-content="<a href="#">프로필</a> <br> <a href="#">여기는 병원이름</a>"></div>');
-	            		$tdPopover.text(list[i].drName);
-	            		$tdDr.append($tdPopover);
+	            		var $tdDr = $('<td class="nameTd"></td>');
+	            		var $tdTwoInDiv = $('<div data-toggle="popover" data-html="true"></div>');
+						$tdTwoInDiv.attr("title", "<span>상세정보</span><a id='popoverHide'><i class='fas fa-times fa-1x'></i></a>");
+						$tdTwoInDiv.attr("data-content", "<a href='#'>선생님 프로필</a><br><a href='mainHpReviewDetail.do?hpNo=" + list[i].hpNo + "'>" + list[i].hpName + "</a>");
+						$tdTwoInDiv.text(list[i].drName);
+	            		$tdDr.append($tdTwoInDiv);
 	            		$tr.append($tdDr);
             		}
             		else if( !list[i].drNo && list[i].cNo ){
@@ -1038,34 +1079,38 @@
 	       			$("#recPagination").append($liTwo);        			
         		}
     			
+            	var list = data.list;
             	$("#recCount").text("선생님들의 추천평(" + data.recommendCount + ")");
             	$("#recBody").html('');
-            	for(var i = 0; i < data.list.length; i++){
+            	
+            	for(var i = 0; i < list.length; i++){
             		var $tr = $('<tr></tr>');
             		var $tdProfile = $('<td></td>');
-            		if( !data.list[i].profileFileName ){
+            		if( !list[i].profileFileName ){
             			var $fa = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
             			$tdProfile.append($fa);
             		}
             		else{
             			var $img = $('<img />');
-            			$img.attr("src", data.list[i].profileFileName);
+            			$img.attr("src", list[i].profileFileName);
             			$tdProfile.append($img);
             		}
             		$tr.append($tdProfile);
             		
-            		var $tdDr = $('<td></td>');
-            		var $tdPopover = $('<div data-toggle="popover" data-html="true" title="선생님 정보" data-content="<a href="#">프로필</a> <br> <a href="#">여기는 병원이름</a>"></div>');
-            		$tdPopover.text(data.list[i].drName);
-            		$tdDr.append($tdPopover);
+            		var $tdDr = $('<td class="nameTd"></td>');
+            		var $tdTwoInDiv = $('<div data-toggle="popover" data-html="true"></div>');
+					$tdTwoInDiv.attr("title", "<span>상세정보</span><a id='popoverHide'><i class='fas fa-times fa-1x'></i></a>");
+					$tdTwoInDiv.attr("data-content", "<a href='#'>선생님 프로필</a><br><a href='mainHpReviewDetail.do?hpNo=" + list[i].hpNo + "'>" + list[i].hpName + "</a>");
+					$tdTwoInDiv.text(list[i].drName);
+					$tdDr.append($tdTwoInDiv);
             		$tr.append($tdDr);
             		
             		var $tdContent = $('<td></td>');
-            		$tdContent.text(data.list[i].comment);
+            		$tdContent.text(list[i].comment);
             		$tr.append($tdContent);
             		
             		var $tdSubmitDate = $('<td></td>');
-            		$tdSubmitDate.text(getFormatDate(new Date(data.list[i].submitDate)));
+            		$tdSubmitDate.text(getFormatDate(new Date(list[i].submitDate)));
             		$tr.append($tdSubmitDate);
             		
             		$("#recBody").append($tr);
