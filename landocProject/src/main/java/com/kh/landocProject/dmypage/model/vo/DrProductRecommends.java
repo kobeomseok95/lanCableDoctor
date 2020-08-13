@@ -9,12 +9,13 @@ public class DrProductRecommends {
 	private String drNo;
 	private String drName;
 	private String profileFileName;
-	private String hpNo;
+	private int hpNo;
+	private String hpName;
 	private Date submitDate;
 	public DrProductRecommends() {
 	}
 	public DrProductRecommends(int drrmNo, String comment, int pdNo, String drNo, String drName, String profileFileName,
-			String hpNo, Date submitDate) {
+			int hpNo, String hpName, Date submitDate) {
 		this.drrmNo = drrmNo;
 		this.comment = comment;
 		this.pdNo = pdNo;
@@ -22,6 +23,7 @@ public class DrProductRecommends {
 		this.drName = drName;
 		this.profileFileName = profileFileName;
 		this.hpNo = hpNo;
+		this.hpName = hpName;
 		this.submitDate = submitDate;
 	}
 	public int getDrrmNo() {
@@ -60,10 +62,10 @@ public class DrProductRecommends {
 	public void setProfileFileName(String profileFileName) {
 		this.profileFileName = profileFileName;
 	}
-	public String getHpNo() {
+	public int getHpNo() {
 		return hpNo;
 	}
-	public void setHpNo(String hpNo) {
+	public void setHpNo(int hpNo) {
 		this.hpNo = hpNo;
 	}
 	public Date getSubmitDate() {
@@ -72,10 +74,17 @@ public class DrProductRecommends {
 	public void setSubmitDate(Date submitDate) {
 		this.submitDate = submitDate;
 	}
+	public String getHpName() {
+		return hpName;
+	}
+	public void setHpName(String hpName) {
+		this.hpName = hpName;
+	}
+
 	@Override
 	public String toString() {
 		return "DrProductRecommends [drrmNo=" + drrmNo + ", comment=" + comment + ", pdNo=" + pdNo + ", drNo=" + drNo
-				+ ", drName=" + drName + ", profileFileName=" + profileFileName + ", hpNo=" + hpNo + ", submitDate="
-				+ submitDate + "]";
+				+ ", drName=" + drName + ", profileFileName=" + profileFileName + ", hpNo=" + hpNo + ", hpName="
+				+ hpName + ", submitDate=" + submitDate + "]";
 	}
 }
