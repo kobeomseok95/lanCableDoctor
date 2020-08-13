@@ -16,13 +16,19 @@ public class ProductReview implements Serializable {
 	private String cNickname;
 	private String drNo;
 	private String drName;
+	private int hpNo;
+	private String hpName;
 	private Date submitDate;
+	private String clientProfile;
+	private String drProfile;
+	private String reviewFile;
 	
 	public ProductReview() {
 	}
-
+	
 	public ProductReview(int pdNo, int reviewNo, String content, int orderNo, String cNo, String cNickname, String drNo,
-			String drName, Date submitDate) {
+			String drName, int hpNo, String hpName, Date submitDate, String clientProfile, String drProfile,
+			String reviewFile) {
 		this.pdNo = pdNo;
 		this.reviewNo = reviewNo;
 		this.content = content;
@@ -31,10 +37,13 @@ public class ProductReview implements Serializable {
 		this.cNickname = cNickname;
 		this.drNo = drNo;
 		this.drName = drName;
+		this.hpNo = hpNo;
+		this.hpName = hpName;
 		this.submitDate = submitDate;
+		this.clientProfile = clientProfile;
+		this.drProfile = drProfile;
+		this.reviewFile = reviewFile;
 	}
-
-
 
 	public int getPdNo() {
 		return pdNo;
@@ -111,12 +120,52 @@ public class ProductReview implements Serializable {
 	public void setSubmitDate(Date submitDate) {
 		this.submitDate = submitDate;
 	}
+	
+	public String getClientProfile() {
+		return clientProfile;
+	}
+
+	public void setClientProfile(String clientProfile) {
+		this.clientProfile = clientProfile;
+	}
+
+	public String getDrProfile() {
+		return drProfile;
+	}
+
+	public void setDrProfile(String drProfile) {
+		this.drProfile = drProfile;
+	}
+
+	public int getHpNo() {
+		return hpNo;
+	}
+
+	public void setHpNo(int hpNo) {
+		this.hpNo = hpNo;
+	}
+
+	public String getHpName() {
+		return hpName;
+	}
+
+	public void setHpName(String hpName) {
+		this.hpName = hpName;
+	}
+	
+	public String getReviewFile() {
+		return reviewFile;
+	}
+
+	public void setReviewFile(String reviewFile) {
+		this.reviewFile = reviewFile;
+	}
 
 	@Override
 	public String toString() {
 		return "ProductReview [pdNo=" + pdNo + ", reviewNo=" + reviewNo + ", content=" + content + ", orderNo="
 				+ orderNo + ", cNo=" + cNo + ", cNickname=" + cNickname + ", drNo=" + drNo + ", drName=" + drName
-				+ ", submitDate=" + submitDate + "]";
+				+ ", hpNo=" + hpNo + ", hpName=" + hpName + ", submitDate=" + submitDate + ", clientProfile="
+				+ clientProfile + ", drProfile=" + drProfile + ", reviewFile=" + reviewFile + "]";
 	}
-	
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MainHpQnaMapper">
+
+	<resultMap type="hpQna" id="HpQnaResultMap">
+		<id property="hpQnANo" column="HP_QNA_NO"/>
+		<result property="qnaTitle" column="HP_QNA_TITLE"/>
+		<result property="qnaDate" column="HP_QNA_DATE"/>
+		<result property="qnaReDate" column="HP_QNA_REDATE"/>
+		<result property="reply" column="HP_QNA_REPLY"/>
+		<result property="yn" column="HP_QNA_YN"/>
+		<result property="cNo" column="C_NO"/>
+		<result property="cNickName" column="C_NICKNAME"/>
+		<result property="drNo" column="DR_NO"/>
+		<result property="drName" column="DR_NAME"/>
+		<result property="drProfile" column="DR_PROFILE"/>
+		<result property="hpNo" column="HP_NO"/>
+	</resultMap>
+	
+	
+	<select id="selectHpQna" parameterType="_int" resultMap="HpQnaResultMap">
+		SELECT HP_QNA_NO, HP_QNA_TITLE, HP_QNA_DATE, HP_QNA_REDATE, HP_QNA_REPLY, HP_QNA_YN, HQ.C_NO, C.C_NICKNAME, 
+        		HQ.DR_NO, D.DR_NAME, HQ.HP_NO, D.DR_PROFILE
+		FROM HPQNA HQ
+		    JOIN CLIENT C ON(HQ.C_NO = C.C_NO)
+		    JOIN DRCLIENT D ON(HQ.DR_NO = D.DR_NO)
+		WHERE HQ.HP_NO=#{hpNo}
+		ORDER BY HP_QNA_DATE DESC    
+	</select>
+	
+	
+	<select id="selectHpQnaCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM HPQNA
+		WHERE HP_NO=#{hpNo}
+	</select>
+	
+	
+	<insert id="insertHpQna" parameterType="hpQna">
+		INSERT INTO HPQNA
+		VALUES(SEQ_HPQNA.NEXTVAL
+				, #{qnaTitle}
+				, SYSDATE
+				, '20/01/01'
+				, 'NOT YET'
+				, 'N'
+				, 'D00'
+				, #{cNo}
+				, #{hpNo}
+			)
+	
+	</insert>
+  
+</mapper>

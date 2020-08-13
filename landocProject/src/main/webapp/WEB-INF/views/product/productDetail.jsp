@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%
+	String msg = (String)request.getAttribute("msg");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -33,11 +36,21 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<style>
+<style>
 	.qTitle{
 		cursor : pointer;
 	}
-	</style>
+	.popover{
+		width: 150px;
+	}
+	.popover #popoverHide{
+		float: right ! important;
+		cursor : pointer;
+	}
+	.nameTd{
+		cursor : pointer;
+	}
+</style>
 </head>
 
 <body>
@@ -53,8 +66,8 @@
 
 
         <!-- menu -->
-        <div class="product-menu">
-            <div class="row">
+        <div class="product-menu mb-5">
+            <div class="row mt-4 mb-5">
                 <div class="col-lg-2"></div>
                 <div class="col-lg-8">
                     <div class="product-search">
@@ -91,14 +104,14 @@
             <div class="row mt-5">
                 <div class="col-lg-7">
                 	<c:set var="fullPath" value="/projectFiles/${photos[0].fileName }" />
-                    <img src="${fullPath }" style="width: 600px; height: 600px;" />
+                    <img src="${fullPath }" style="width: 600px; height: 100%;" />
                 </div>
                 <div class="col-lg-5">
                     <h3 class="mb-4">${product.pdName }</h3>
                     <p>${product.subExplicate }</p>
                     <div>
                         <ul class="list-group">
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">판매금액</span>
                                 <span class="price" style="float: right;">
                                 	<c:if test="${product.originPrice eq product.sellPrice }">
@@ -110,19 +123,19 @@
                                     <strong class="price">${product.sellPrice }원</strong>
                                 </span>
                             </li>
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">내용량</span>
                                 <span style="float: right;">${product.volume }</span>
                             </li>
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">섭취방법</span>
                                 <span style="float: right;">${product.drugWay }</span>
                             </li>
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">유통기한</span>
                                 <span style="float: right;">${product.shelflife }</span>
                             </li>
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">추천수</span>
                                 <span style="float: right;">${recommendCount } </span>
                             </li>
@@ -149,10 +162,10 @@
                                 </li>
                                 <li class="list-group-item border-0">
                                     <button class="btn btn-default goCart">
-                                        <h5>장바구니</h5>	<!-- 일단 내비둠 -->
+                                        <h5>장바구니</h5>
                                     </button>
                                     <button class="btn btn-default goPurchase" onclick="pay();">
-                                        <h5>구매하기</h5>	<!-- 일단 내비둠 -->
+                                        <h5>구매하기</h5>
                                     </button>
                                 </li>
                             </ul>
@@ -163,12 +176,10 @@
         </div>
         <!-- product-detail end -->
 
-        <br><br>
-
         <!-- product-tabs -->
-        <div class="product-tabs">
+        <div class="product-tabs"  style="margin-top:40px;">
             <!-- Here's all it takes to make this navigation bar. -->
-            <div id="product-tabs">
+            <div id="product-tabs" style="padding-top:40px;">
                 <ul>
                     <li><a href="#product-images">제품상세</a></li>
                     <li><a href="#doctors-comments">추천평(${recommendCount })</a></li>
@@ -183,7 +194,7 @@
 
 
         <!-- product-image -->
-        <div id="product-images" class="product-images">
+        <div id="product-images" class="product-images" style="margin-bottom:10px;">
         	<c:set var="detailImg" value="/projectFiles/${photos[1].fileName }" />
             <img src="${detailImg }" style="width: 100%;" />	<!--  height: 1200px; -->
         </div>
@@ -218,12 +229,21 @@
                                     <img src="/projectFiles/${rec.profileFileName }" />
                                     </c:if>
                                 </td>
-                                <td>
-                                <!-- ${rec.drNo}, ${rec.hpNo} -->
-                                    <div data-toggle="popover" data-html="true" title="선생님 정보"
-                                        data-content="<a href='#'>프로필</a> <br> <a href='#'>여기는 병원이름</a>">
-                                        ${rec.drName }
-                                    </div>
+                                <td class="nameTd">
+                                    <div data-toggle="popover"
+										data-html="true"
+										title="
+										<span>상세정보</span> 
+										<a id='popoverHide'>
+											<i class='fas fa-times fa-1x'></i>
+										</a>"
+										data-content="
+										<a href='#'>선생님 프로필</a>
+										<br>
+										<a href='mainHpReviewDetail.do?hpNo=${rec.hpNo }'>${rec.hpName }</a>"
+										>
+										${rec.drName}
+									</div>
                                 </td>
                                 <td>${rec.comment }</td>
                                 <td>${rec.submitDate }</td>
@@ -232,7 +252,7 @@
                         	</c:if>
                         	<c:if test="${empty recommends }">
                         	<tr>
-                        		<td colspan='4'>
+                        		<td colspan='4' style="text-align: center;">
                         			'해당 상품의 추천평이 없습니다.'
                         		</td>
                         	</tr>
@@ -257,11 +277,13 @@
                         		</c:if>
                         	</c:forEach>
                             <!-- >> -->
+                            <c:if test="${recommendPage.endPage ne 1 && recommendPage.endPage ne 0 }">
                             <li class="page-item">
 		                        <a class="page-link" aria-label="Next">
 	                                <span class="recPageNo" aria-hidden="true">Next</span>
 	                            </a>
                             </li>
+                            </c:if>
                         </ul>
                     </nav>
                 </div>
@@ -270,7 +292,6 @@
         </div>
         <br>
         <!-- recommend end -->
-
 
 
 
@@ -304,7 +325,9 @@
                         <tbody id="qBody">
                         	<c:if test="${empty qnas }">
                         	<tr>
-                                <td colspan='5'>'해당 상품에 질문이 없습니다'</td>
+                                <td colspan='5' style="text-align: center;">
+                                	'해당 상품에 질문이 없습니다'
+                                </td>
                             </tr>
                         	</c:if>
                         	<c:if test="${!empty qnas }">
@@ -370,12 +393,14 @@
                         	<li class="page-item"><a class="page-link qPageNo">${p }</a></li>	
                         		</c:if>
                         	</c:forEach>
-                            <!-- >> -->
+                        	
+                            <c:if test="${qnaPage.endPage ne 1 && qnaPage.endPage ne 0}">
                             <li class="page-item">
 								<a class="page-link" aria-label="Next">
 	                                <span class="qPageNo" aria-hidden="true">Next</span>
 	                            </a>
                             </li>
+                            </c:if>
                         </ul>
                     </nav>
                 </div>
@@ -439,31 +464,72 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th colspan="2" style="width: 23%">작성자</th>
-                                <th style="width: 62%">내용</th>
-                                <th style="width: 15%">작성날짜</th>
+                                <th colspan="2" style="width: 23%; text-align: center;">작성자</th>
+                                <th style="width: 62%; text-align: center;">내용</th>
+                                <th style="width: 15%; text-align: center;">작성날짜</th>
                             </tr>
                         </thead>
                         <tbody id="revBody">
                         	<c:if test="${empty reviews }">
                        		<tr>
-                       			<td colspan='4'>'해당 상품의 리뷰가 없습니다'</td>
+                       			<td colspan='4' style="text-align: center;">
+                       				'해당 상품의 리뷰가 없습니다'
+                       			</td>
                        		</tr>
                         	</c:if>
                         	<c:if test="${!empty reviews }">
                         	<c:forEach var="review" items="${reviews }">
                         	<tr>
-                        		<td><!-- 이미지 --></td>
                         		<td>
+                        		<c:if test="${empty review.cNo && !empty review.drNo && empty review.drProfile }">
+                        			<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>
+                        		</c:if>
+                        		<c:if test="${!empty review.cNo && empty review.drNo && empty review.clientProfile }">
+                        			<i class="fas fa-user fa-5x" style="color: #b3b7ba;"></i>
+                        		</c:if>
+                        		<c:if test="${empty review.cNo && !empty review.drNo && !empty review.drProfile }">
+                        			<img src="/projectFiles/${review.drProfile }" />
+                        		</c:if>
+                        		<c:if test="${!empty review.cNo && empty review.drNo && !empty review.clientProfile }">
+                        			<img src="/projectFiles/${review.clientProfile }" />
+                        		</c:if>
+                        		</td>
+                        		<td class="nameTd">
                         			<c:if test="${empty review.cNo && !empty review.drNo }">
-                        			${review.drName }
+                                    <div data-toggle="popover"
+										data-html="true"
+										title="
+										<span>상세정보</span> 
+										<a id='popoverHide'>
+											<i class='fas fa-times fa-1x'></i>
+										</a>"
+										data-content="
+										<a href='#'>선생님 프로필</a>
+										<br>
+										<a href='mainHpReviewDetail.do?hpNo=${review.hpNo }'>${review.hpName }</a>"
+										>
+										${review.drName}
+									</div>
                         			</c:if>
                         			<c:if test="${!review.cNo && empty review.drNo }">
                         			${review.cNickname }
                         			</c:if>
 								</td>
-                        		<td>${review.content }</td>
-                        		<td>${review.submitDate }</td>
+                        		<td>
+                       				<c:if test="${!empty review.reviewFile }">
+                        			<div class="reviewPhoto mb-4">
+                       					<c:set var="reviewImg" value="/projectFiles/${review.reviewFile }" />
+                        				<img src="${reviewImg }" />
+                        			</div>
+                       				</c:if>
+                        				<c:if test="${empty review.reviewFile }"></c:if>
+                        			<div class="reviewContent">
+                        				${review.content }
+                        			</div>
+                        		</td>
+                        		<td class="submitDate">
+                        			${review.submitDate }
+                        		</td>
                         	</tr>
                         	</c:forEach>
                         	</c:if>
@@ -483,12 +549,13 @@
 		                        	<li class="page-item"><a class="page-link revPageNo">${p }</a></li>	
 		                        		</c:if>
 		                        	</c:forEach>
-		                            <!-- >> -->
+		                            <c:if test="${reviewPage.endPage ne 1 && reviewPage.endPage ne 0}">
 		                            <li class="page-item">
 				                        <a class="page-link" aria-label="Next">
 			                                <span class="revPageNo" aria-hidden="true">Next</span>
 			                            </a>
 		                            </li>
+		                            </c:if>
 		                        </ul>
 		                    </nav>
 		                </div>
@@ -515,17 +582,27 @@
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
     <script>
         $(function () {
+        	$(document).on('click', 'td div', function(){
+				$("[data-toggle='popover']").popover();				
+			});
+			
+			$(document).on("click", "#popoverHide", function(){
+				$("[data-toggle='popover']").popover('hide');
+			});
+			
         	$('#goQnA').on('shown.bs.modal', function () {
 				$("#qnaSecret").on('change', function(){
 					if($(this).is(":checked") === true){
 						$("#togglePwd").show();
 					}
 					else{
+						$("#secretPwd").val('');
 						$("#togglePwd").hide();
 					}
 				});
         	});
         	
+        	/* 모달에서 Q&A 제출 */
         	$('#submitModal').on('click', function(){
 				var title = $("#qnaTitle").val();
 				var content = $("#qnaContent").val();
@@ -546,7 +623,31 @@
 					success : function(data){
 						if(data === "ok"){
 							alert("질문이 작성되었습니다.");
-							$("#qCurPage").click();
+							
+							if($("#qCurPage").length){
+								$("#qCurPage").click();
+							}
+							else{
+				        		var pageForm = {
+				            			pdNo : "${product.pdNo}",
+				            			pageNo : 1
+				            	}
+				            	$.ajax({
+				            		type:'get',
+				            		data:pageForm,
+				            		dataType:'JSON',
+				            		url:"getAsyncQnas.do",
+				            		success: function(data){
+				            			qnaHTML(data);
+				            		},
+				            		error:function(request, status, errorData){
+					                    alert("error code: " + request.status + "\n"
+					                            +"message: " + request.responseText
+					                            +"error: " + errorData);
+					               	}
+				            	});
+							}
+							
 							$("#closeQnaModal").click();
 						}
 						else{
@@ -694,7 +795,7 @@
         		var list = data.list;
         		
         		$("#qPagination").html('');
-        		if(page.currentPage !== 1){
+        		if(page.currentPage !== 1 && page.endPage !== 1){
 	       			var $liOne = $('<li class="page-item"></li>');
 	       			var $a = $('<a class="page-link" aria-label="Previous"></a>');
 	       			var $span = $('<span class="qPageNo" aria-hidden="true"></span>');
@@ -718,7 +819,7 @@
        				$("#qPagination").append($li);
         		}
         		
-        		if(page.currentPage !== page.maxPage){
+        		if(page.currentPage !== page.maxPage && page.endPage !== 1){
 	   				var $liTwo = $('<li class="page-item"></li>');
 	       			var $a = $('<a class="page-link" aria-label="Next"></a>');
 	       			var $span = $('<span class="qPageNo" aria-hidden="true"></span>');
@@ -869,26 +970,35 @@
             	var list = data.list;
             	
             	for(var i = 0; i < list.length; i++){
-            		/* 의사일경우, 회원일경우 생각 잘하기! */
             		var $tr = $('<tr></tr>');
             		var $tdProfile = $('<td></td>');
-            		if( !list[i].profileFileName ){
-            			var $fa = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
-            			$tdProfile.append($fa);
+            		if( list[i].drNo && !list[i].cNo && !list[i].drProfile ){
+            			var $icon = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
+            			$tdProfile.append($icon);
             		}
-            		else{
+            		else if( !list[i].drNo && list[i].cNo && !list[i].clientProfile ){
+            			var $icon = $('<i class="fas fa-user fa-5x" style="color: #b3b7ba;"></i>');
+            			$tdProfile.append($icon);
+            		}
+            		else if( list[i].drNo && !list[i].cNo && list[i].drProfile ){
             			var $img = $('<img />');
-            			$img.attr("src", list[i].profileFileName);
+            			$img.attr('src', '/projectFiles/' + list[i].drProfile);
+            			$tdProfile.append($img);
+            		}
+            		else if( !list[i].drNo && list[i].cNo && list[i].clientProfile ){
+            			var $img = $('<img />');
+            			$img.attr('src', '/projectFiles/' + list[i].clientProfile);
             			$tdProfile.append($img);
             		}
             		$tr.append($tdProfile);
             		
-            		/* 병원프로필 완료되면 바로 매핑 */
             		if( list[i].drNo && !list[i].cNo ){
-	            		var $tdDr = $('<td></td>');
-	            		var $tdPopover = $('<div data-toggle="popover" data-html="true" title="선생님 정보" data-content="<a href="#">프로필</a> <br> <a href="#">여기는 병원이름</a>"></div>');
-	            		$tdPopover.text(list[i].drName);
-	            		$tdDr.append($tdPopover);
+	            		var $tdDr = $('<td class="nameTd"></td>');
+	            		var $tdTwoInDiv = $('<div data-toggle="popover" data-html="true"></div>');
+						$tdTwoInDiv.attr("title", "<span>상세정보</span><a id='popoverHide'><i class='fas fa-times fa-1x'></i></a>");
+						$tdTwoInDiv.attr("data-content", "<a href='#'>선생님 프로필</a><br><a href='mainHpReviewDetail.do?hpNo=" + list[i].hpNo + "'>" + list[i].hpName + "</a>");
+						$tdTwoInDiv.text(list[i].drName);
+	            		$tdDr.append($tdTwoInDiv);
 	            		$tr.append($tdDr);
             		}
             		else if( !list[i].drNo && list[i].cNo ){
@@ -898,10 +1008,19 @@
             		}
             		
             		var $tdContent = $('<td></td>');
-            		$tdContent.text(list[i].content);
+            		if( list[i].reviewFile ){
+            			var $divImg = $('<div class="reviewPhoto mb-4"></div>');
+            			var $reviewImg = $('<img />');
+            			$reviewImg.attr("src", "/projectFiles/" + list[i].reviewFile);
+            			$divImg.append($reviewImg);
+            			$tdContent.append($divImg);
+            		}
+            		var $divContent = $('<div class="reviewContent"></div>');
+            		$divContent.text(list[i].content);
+            		$tdContent.append($divContent);
             		$tr.append($tdContent);
             		
-            		var $tdSubmitDate = $('<td></td>');
+            		var $tdSubmitDate = $('<td class="submitDate"></td>');
             		$tdSubmitDate.text(getFormatDate(new Date(list[i].submitDate)));
             		$tr.append($tdSubmitDate);
             		
@@ -980,34 +1099,38 @@
 	       			$("#recPagination").append($liTwo);        			
         		}
     			
+            	var list = data.list;
             	$("#recCount").text("선생님들의 추천평(" + data.recommendCount + ")");
             	$("#recBody").html('');
-            	for(var i = 0; i < data.list.length; i++){
+            	
+            	for(var i = 0; i < list.length; i++){
             		var $tr = $('<tr></tr>');
             		var $tdProfile = $('<td></td>');
-            		if( !data.list[i].profileFileName ){
+            		if( !list[i].profileFileName ){
             			var $fa = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
             			$tdProfile.append($fa);
             		}
             		else{
             			var $img = $('<img />');
-            			$img.attr("src", data.list[i].profileFileName);
+            			$img.attr("src", list[i].profileFileName);
             			$tdProfile.append($img);
             		}
             		$tr.append($tdProfile);
             		
-            		var $tdDr = $('<td></td>');
-            		var $tdPopover = $('<div data-toggle="popover" data-html="true" title="선생님 정보" data-content="<a href="#">프로필</a> <br> <a href="#">여기는 병원이름</a>"></div>');
-            		$tdPopover.text(data.list[i].drName);
-            		$tdDr.append($tdPopover);
+            		var $tdDr = $('<td class="nameTd"></td>');
+            		var $tdTwoInDiv = $('<div data-toggle="popover" data-html="true"></div>');
+					$tdTwoInDiv.attr("title", "<span>상세정보</span><a id='popoverHide'><i class='fas fa-times fa-1x'></i></a>");
+					$tdTwoInDiv.attr("data-content", "<a href='#'>선생님 프로필</a><br><a href='mainHpReviewDetail.do?hpNo=" + list[i].hpNo + "'>" + list[i].hpName + "</a>");
+					$tdTwoInDiv.text(list[i].drName);
+					$tdDr.append($tdTwoInDiv);
             		$tr.append($tdDr);
             		
             		var $tdContent = $('<td></td>');
-            		$tdContent.text(data.list[i].comment);
+            		$tdContent.text(list[i].comment);
             		$tr.append($tdContent);
             		
             		var $tdSubmitDate = $('<td></td>');
-            		$tdSubmitDate.text(getFormatDate(new Date(data.list[i].submitDate)));
+            		$tdSubmitDate.text(getFormatDate(new Date(list[i].submitDate)));
             		$tr.append($tdSubmitDate);
             		
             		$("#recBody").append($tr);
@@ -1072,7 +1195,7 @@
 			
 			$("#searchProduct").keyup(function(){
 				if($(this).val() !== ""){
-					$("#suggestProduct").css("display", "block");	//먼저할까 나중에할까
+					$("#suggestProduct").css("display", "block");
 					$.ajax({
 						type : 'GET',
 						url : 'suggestProduct.do',
@@ -1138,10 +1261,12 @@
 			$('.price').each(function(index, item){
 				$(this).text(numberWithCommas($(this).text()));
 			});
-        });	//end of jquery
+        });//end of jquery
+        
         function numberWithCommas(x) {
 		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
+        
         function getFormatDate(date){
             var year = date.getFullYear();              
             var month = (1 + date.getMonth());          
@@ -1156,6 +1281,12 @@
     		
     		location.href='payView.do?pdName=' + '${product.pdName}' + '&pdNo=' + '${product.pdNo} ' + '&productCount=' + $("#productCount").val() ;
     	}
+    </script>
+    
+    <script>
+    	<%if(msg != null){%>
+        	 alert("<%=msg%>");
+      	<%}%>
     </script>
 </body>
 

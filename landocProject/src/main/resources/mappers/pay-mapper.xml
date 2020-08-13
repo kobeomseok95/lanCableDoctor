@@ -29,6 +29,7 @@
 		<result property="sellPrice" column="SELL_PRICE"/>
 		<result property="thumbnail" column="THUMBNAIL"/>
 		<result property="ctCode" column="CT_CODE"/>
+		<result property="pdpRename" column="PDP_RENAME"/>
 	</resultMap>
 	
 	<resultMap type="Cart" id="cartMap">
@@ -57,9 +58,11 @@
 	</select>
 	<!-- 선택한 상품정보 -->
 	<select id="selectPro" parameterType="PayProduct" resultMap="payProduct">
-		SELECT PD_NO, PD_NAME, ORIGIN_PRICE, DISCOUNT, SELL_PRICE, THUMBNAIL, CT_CODE
-		FROM PRODUCT
-		WHERE PD_NO = #{pdNo}
+		SELECT P.PD_NO, PD_NAME, ORIGIN_PRICE, DISCOUNT, SELL_PRICE, THUMBNAIL, CT_CODE, PDP_RENAME
+		FROM PRODUCT P
+		LEFT JOIN PRODUCTPHOTO PP ON(P.PD_NO = PP.PD_NO) 
+		WHERE P.PD_NO = #{pdNo}
+		AND PDP_TYPE = 0
 	</select>
 	<!-- 포인트 사용시 -->
 	<insert id="insertPayment" parameterType="Payment">

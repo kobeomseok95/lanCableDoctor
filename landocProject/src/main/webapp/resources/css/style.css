@@ -2016,6 +2016,17 @@ h5 > a {
 .pwdShow{
 	display: block;
 }
+.reviewPhoto > img{
+	width: 100px;
+	height: 100px;
+}
+td, td *{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight: bold;
+}
+.submitDate{
+	text-align: center;
+}
 /* cart.html */
 #allProduct{
 	width: 20px;
