@@ -82,6 +82,7 @@ public class PaymentController {
 			@RequestParam(value="count") List<Integer> listCount
 			) throws PaymentException{
 		
+		
 		System.out.println("listDisCount:"+listDiscount);
 		System.out.println("listSellPrice:"+listSellPrice);
 		System.out.println("cartNo:"+listCartNo);
