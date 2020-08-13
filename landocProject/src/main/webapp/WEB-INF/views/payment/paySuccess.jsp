@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="com.kh.landocProject.payment.model.vo.MemberPay" %>
-<%@ page import="com.kh.landocProject.payment.model.vo.PayProduct" %>
-<%@ page import="java.text.DecimalFormat" %>
-<%
 
-	PayProduct pro = (PayProduct)request.getAttribute("selectPro");
-%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -89,13 +83,20 @@
 	</div>
 
     <div class="resultDiv1">
-        <button type="button" class="resultBtn">메인으로</button>
+        <button type="button" class="resultBtn" onclick="home();">메인으로</button>
 	</div>
+	<c:if test="${cNo != null && drNo == null }">
 	<div class="resultDiv">
-        <button type="button" class="resultBtn">마이페이지</button>
+        <button type="button" class="resultBtn" onclick="cMyPage();">마이페이지</button>
 	</div>
+	</c:if>
+	<c:if test="${cNo == null && drNo != null }">
+	<div class="resultDiv">
+        <button type="button" class="resultBtn" onclick="dMyPage();">마이페이지</button>
+	</div>
+	</c:if>
 	<div class="resultDiv2">
-        <button type="button" class="resultBtn">상품 더보기</button>
+        <button type="button" class="resultBtn" onclick="product();">상품 더보기</button>
     </div>
     
 
@@ -115,8 +116,22 @@
 
 	
 	<script>
-	
+		function home(){
+			location.href="home.do";
+		}
+		
+		function cMyPage(){
+			location.href="clientMypage.do";
+		}
+		
+		function dMyPage(){
+			location.href="doctorMypage.do";
+		}
+		
+		function product(){
+			location.href='productIndex.do?sortNo=' + 1 + '&pageNo=' + 1 + '&categoryNo=' + 7;
+		}
 	</script>
-	
+
 	
 </html>

@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%
+	String msg = (String)request.getAttribute("msg");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -1213,6 +1216,12 @@
     		
     		location.href='payView.do?pdName=' + '${product.pdName}' + '&pdNo=' + '${product.pdNo} ' + '&productCount=' + $("#productCount").val() ;
     	}
+    </script>
+    
+    <script>
+    	<%if(msg != null){%>
+        	 alert("<%=msg%>");
+      	<%}%>
     </script>
 </body>
 

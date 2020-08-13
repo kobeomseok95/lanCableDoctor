@@ -51,13 +51,14 @@
 	.pa{border-bottom: 1px solid black; border-top: 1px solid black; height: 130px; width: 700px;}
 	.pay{padding-top: 15px; width: 800px;}
 	.payD{width: 110px;display: inline-block;}
+	#originPrice{margin-left: 10px; font-size:20px;}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 
 <body>
-	<link rel="stylesheet" type="text/css"
-		href="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/customer_web/style.css">
+	<!-- <link rel="stylesheet" type="text/css"
+		href="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/customer_web/style.css"> -->
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -75,10 +76,10 @@
 				<div class="pa">
 					<div class="pay">
 						<div class="payD">
-							<img src="/projectFiles/${selectPro.thumbnail }" width="100px" height="100px" style="margin-left: 10px; border: 1px solid black;">
+							<img src="/projectFiles/${selectPro.pdpRename }" width="100px" height="100px" style="margin-left: 10px; border: 1px solid black;">
 						</div>
 						<div style="display: inline-block; text-align:center">
-							<span>${selectPro.pdName }</span><span style="margin-left: 10px; font-size:20px;" id="originPrice" class="price">${selectPro.sellPrice }</span> <span style="margin-left: 10px; font-size:20px;">x</span> <span style="margin-left: 20px; font-size:20px;" class="price">${productCount }</span> <span style="margin-left: 10px;" >=</span> <span style="margin-left: 10px; font-size:20px;" class="price">${selectPro.sellPrice * productCount}</span>
+							<span>${selectPro.pdName }</span><span id="originPrice" class="price">${selectPro.sellPrice }</span> <span >x</span> <span style="margin-left: 20px; font-size:20px;" class="price">${productCount }</span> <span style="margin-left: 10px;" >=</span> <span style="margin-left: 10px; font-size:20px;" class="price">${selectPro.sellPrice * productCount}</span>
 						</div>
 					</div>
 				</div>
@@ -161,10 +162,10 @@
 									<hr>
 								</div>
 								<div style="margin-left: 20px; margin-right: 20px;">
-									<label style="margin-right: 100px;"><input type="radio" name="pay" style="margin-right: 10px;" disabled>신용카드</label>
-									<label><input type="radio" name="pay" style="margin-right: 10px;" disabled>가상계좌</label>
+									<label style="margin-right: 100px;"><input type="radio" name="pay" style="margin-right: 10px;" disabled id="cradit">신용카드</label>
+									<label><input type="radio" name="pay" style="margin-right: 10px;" >가상계좌</label>
 									<label style="margin-right: 52px;"><input name="pay" type="radio" style="margin-right: 10px;" disabled>실시간계좌이체</label>
-									<label><input type="radio" name="pay" style="margin-right: 10px;" checked>카카오페이</label>
+									<label><input type="radio" name="pay" style="margin-right: 10px;" checked readonly>카카오페이</label>
 								</div> 
 								
 								<div style="margin: 10px; text-align: center;">
@@ -174,6 +175,8 @@
 							</div>
 						</form>
 					</c:when>
+					
+					
 					<c:when test="${empty loginClient3 && !empty loginDrClient3}">
 					<form id="payment" action="paySuccessView.do">	
 						<div style="margin-top: 30px; background-color: #e5f2fc; width: 700px; height: 600px; border-radius: 7px; display: inline-block; position: relative;">
@@ -255,6 +258,7 @@
 								<label style="margin-right: 52px;"><input name="pay" type="radio" style="margin-right: 10px;" disabled>실시간계좌이체</label>
 								<label><input type="radio" name="pay" style="margin-right: 10px;" checked readonly value="카카오페이">카카오페이</label>
 							</div>
+							
 							<div style="margin: 10px; text-align: center;">
 								<button type="button" id="pay" style="width: 100px; height: 40px; margin-right: 50px; border-radius: 5px; border: 0px; background-color:#007ee5; color: white;">결제</button>
 								<button type="button"  style="width: 100px; height: 40px; border-radius: 5px; border: 0px; background-color:#007ee5; color: white;">취소</button>

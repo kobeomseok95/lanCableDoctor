@@ -96,7 +96,7 @@ public class mainProductController {
 	
 	@RequestMapping(value="productDetail.do", method=RequestMethod.GET)
 	public ModelAndView productDetail(ModelAndView mv,
-										@RequestParam int pdNo) {
+										@RequestParam int pdNo, String msg) {
 		int viewCount = productServiceImpl.updateViewCount(pdNo);
 		if(viewCount <= 0) {
 			return null;
@@ -129,6 +129,7 @@ public class mainProductController {
 		mv.addObject("reviewCount", reviewCount);
 		mv.addObject("qnaCount", qnaCount);
 		mv.addObject("recommendCount", recommendCount);
+		mv.addObject("msg", msg);
 		return mv;
 	}
 	

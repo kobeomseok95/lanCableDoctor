@@ -1,5 +1,9 @@
 package com.kh.landocProject.payment.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
@@ -31,7 +34,7 @@ public class PaymentController {
 	}
 	
 	@RequestMapping(value = "payView.do", method = RequestMethod.GET)
-	public String payView(Model model,Integer pdNo, String pdName, HttpSession session, String productCount) {
+	public String payView(Model model,Integer pdNo, String pdName, HttpSession session, String productCount, HttpServletResponse response_equals) throws IOException {
 //		System.out.println(pdName);
 //		System.out.println(productCount);
 //		System.out.println("pdNo : " + pdNo);
@@ -73,14 +76,21 @@ public class PaymentController {
 				model.addAttribute("address5", address5);
 			}
 		}else {
-			System.out.println("안됌");
+//			response_equals.setContentType("text/html; charset=UTF-8");
+//			PrintWriter out_equals = response_equals.getWriter();
+//			out_equals.println("<script>alert('로그인 후 구입이 가능합니다.');</script>");
+//			out_equals.flush();
+			String msg = "로그인 후 구입이 가능합니다.";
+			model.addAttribute("msg", msg);
+			model.addAttribute("pdNo", pdNo);
+			return "redirect:productDetail.do";
 		}
 		
 		return "payment/pay";
 	}
 	
 	@RequestMapping(value="paySuccessView.do",method=RequestMethod.GET )
-	public String paySuccessView(OrderProduct op, OrderMg or, Payment p,String drNo, String cNo, String opCount, Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice, String paymentComment){
+	public String paySuccessView(Model model, OrderProduct op, OrderMg or, Payment p,String drNo, String cNo, String opCount, Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice, String paymentComment){
 		
 //		System.out.println(usePoint);
 //		System.out.println(p);
@@ -111,6 +121,8 @@ public class PaymentController {
 					int updateDr = payService.updateDr(p);
 				}
 //				System.out.println("성공!!");
+				model.addAttribute("cNo", cNo);
+				model.addAttribute("drNo", drNo);
 				return "payment/paySuccess";
 				
 			}else {
