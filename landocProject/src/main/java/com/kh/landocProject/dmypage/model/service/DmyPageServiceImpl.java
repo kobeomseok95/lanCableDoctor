@@ -11,6 +11,9 @@ import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
 import com.kh.landocProject.dmypage.model.vo.DPdReview;
 import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
+import com.kh.landocProject.dmypage.model.vo.DrProfile;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
+import com.kh.landocProject.member.model.vo.DrClient;
 
 @Service("dMypageService")
 public class DmyPageServiceImpl implements DmyPageService{
@@ -156,6 +159,48 @@ public class DmyPageServiceImpl implements DmyPageService{
 	public int orderCancel(DOrderList order) {
 		// TODO Auto-generated method stub
 		return dMypageDao.orderCancel(order);
+	}
+
+	@Override
+	public String selectDrProfile(String drNo) {
+		
+		return dMypageDao.selectDrProfile(drNo);
+	}
+
+	@Override
+	public DrProfile selectOneDr(String replyDrNo) {
+		
+		return dMypageDao.selectOneDr(replyDrNo);
+	}
+
+	@Override
+	public int selectMyDrLikeCount(HpLike hl) {
+		
+		return dMypageDao.selectMyDrLikeCount(hl);
+	}
+
+	@Override
+	public int deleteDrLike(HpLike hl) {
+		
+		return dMypageDao.deleteDrLike(hl);
+	}
+
+	@Override
+	public int insertDrLike(HpLike hl) {
+		
+		return dMypageDao.insertDrLike(hl);
+	}
+
+	@Override
+	public int selectDrLikeCount(String drNo) {
+		
+		return dMypageDao.selectDrLikeCount(drNo);
+	}
+
+	@Override
+	public int selectLikeCount(String drNo) {
+		
+		return dMypageDao.selectLikeCount(drNo);
 	}
 	
 	

@@ -12,6 +12,9 @@ import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
 import com.kh.landocProject.dmypage.model.vo.DPdReview;
 import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
+import com.kh.landocProject.dmypage.model.vo.DrProfile;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
+import com.kh.landocProject.member.model.vo.DrClient;
 
 @Repository("dMypageDao")
 public class DmyPageDao {
@@ -150,6 +153,41 @@ public class DmyPageDao {
 	public int orderCancel(DOrderList order) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.update("dMypage.orderCancelUpdate", order);
+	}
+
+	public String selectDrProfile(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectDrProfile", drNo);
+	}
+
+	public DrProfile selectOneDr(String replyDrNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectOneDr", replyDrNo);
+	}
+
+	public int selectMyDrLikeCount(HpLike hl) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectMyDrLikeCount", hl);
+	}
+
+	public int deleteDrLike(HpLike hl) {
+		
+		return sqlSessionTemplate.delete("dMypage.deleteDrLike", hl);
+	}
+
+	public int insertDrLike(HpLike hl) {
+		
+		return sqlSessionTemplate.insert("dMypage.insertDrLike", hl);
+	}
+
+	public int selectDrLikeCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectDrLikeCount", drNo);
+	}
+
+	public int selectLikeCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectLikeCount", drNo);
 	}
 	
 	

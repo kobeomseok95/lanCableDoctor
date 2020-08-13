@@ -186,7 +186,7 @@
 													<i class='fas fa-times fa-1x'></i>
 												</a>"
 											data-content="
-												<a href='#'>선생님 프로필</a>
+												<a href='checkDrProfile.do?replyDrNo=${replys.drClientNo }'>선생님 프로필</a>
 												<br>
 												<a href='mainHpReviewDetail.do?hpNo=${replys.hpNo }'>${replys.hpName }</a>">
 									${replys.drName}

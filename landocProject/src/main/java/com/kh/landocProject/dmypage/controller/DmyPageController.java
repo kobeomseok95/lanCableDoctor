@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,14 +22,14 @@ import com.google.gson.JsonIOException;
 import com.kh.landocProject.cmypage.model.Exception.cMypageException;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePagination;
-import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
-import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.dmypage.exception.DmypageException;
 import com.kh.landocProject.dmypage.model.service.DmyPageService;
 import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
 import com.kh.landocProject.dmypage.model.vo.DPdReview;
 import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
+import com.kh.landocProject.dmypage.model.vo.DrProfile;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 
@@ -37,11 +39,20 @@ public class DmyPageController {
 	@Autowired
 	DmyPageService dMypageService;
 	
-	
 	@RequestMapping(value="doctorMypage.do")
-	public String dMyPage() {
+	public ModelAndView dMyPage(HttpSession session, ModelAndView mv, DrClient dr) {
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+
+		String drNo = loginDrClient.getDrNo();
+		String drProfile = dMypageService.selectDrProfile(drNo);
 		
-		return "mypage/dMyPageWork";
+		dr.setUserName(loginDrClient.getUserName());
+		dr.setEmail(loginDrClient.getEmail());
+		dr.setProRename(drProfile);
+		
+		mv.addObject("dr", dr);
+		mv.setViewName("mypage/dMyPageWork");
+		return mv;
 	}
 	
 	@RequestMapping(value="drPdReview.do")
@@ -405,4 +416,98 @@ public class DmyPageController {
 			
 			return mv;
 		}
+		
+	@RequestMapping(value="checkDrProfile.do", method=RequestMethod.GET)
+	public ModelAndView checkDrProfile(HttpSession session, ModelAndView mv, DrProfile dp, HpLike hl,
+										@RequestParam(value="replyDrNo", required=false) String replyDrNo) {
+	
+		int likeCount = 0;
+		
+		// 의사가 로그인해서 마이페이지 프로필 확인 들어갈 경우
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo = "";
+		
+		if(loginDrClient != null) {
+			drNo = loginDrClient.getDrNo();
+			dp = dMypageService.selectOneDr(drNo);
+			
+			// 의사 좋아요 수
+			likeCount = dMypageService.selectLikeCount(drNo);
+			
+			
+		}
+
+		// 일반 회원이 로그인해서 의사에게 물어봐 답변 의사 프로필 들어갈 경우
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo = "";
+		int heart = 0;
+		
+		if(loginClient != null) {
+			cNo = loginClient.getcNo();
+			dp = dMypageService.selectOneDr(replyDrNo);
+			
+			// 의사 좋아요 수
+			likeCount = dMypageService.selectLikeCount(replyDrNo);
+			
+			hl.setcNo(cNo);
+			hl.setdNo(replyDrNo);
+			heart = dMypageService.selectMyDrLikeCount(hl);
+			
+		}else {
+			cNo = "none";
+			heart = 0;
+		}
+		
+	
+		
+		
+		
+		mv.addObject("dp", dp);
+		mv.addObject("cNo", cNo);
+		mv.addObject("heart", heart);
+		mv.addObject("likeCount", likeCount);
+		mv.setViewName("mypage/drMypageProfile");
+		
+		return mv;
+	}
+		
+	@RequestMapping(value="likeDr.do", method=RequestMethod.POST, produces = "application/json")
+	public void likeDr(HttpServletResponse response, HpLike hl, HashMap<String, Integer> map,
+					@RequestParam("heart") Integer heart, 
+					@RequestParam("drNo") String drNo,
+					@RequestParam("cNo") String cNo) throws JsonIOException, IOException {
+		
+		hl.setcNo(cNo);
+		hl.setdNo(drNo);
+		
+		if(heart >=1) {
+			dMypageService.deleteDrLike(hl);
+			heart = 0;
+		}else {
+			dMypageService.insertDrLike(hl);
+			heart = 1;
+		}
+		
+		int drLikeCount = dMypageService.selectDrLikeCount(drNo);
+		
+		map.put("heart", heart);
+		map.put("drLikeCount", drLikeCount);
+		
+		Gson gson = new Gson();
+		
+		gson.toJson(map, response.getWriter());
+		
+	}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }

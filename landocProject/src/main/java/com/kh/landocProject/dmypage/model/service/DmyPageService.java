@@ -7,6 +7,9 @@ import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
 import com.kh.landocProject.dmypage.model.vo.DPdReview;
 import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
+import com.kh.landocProject.dmypage.model.vo.DrProfile;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
+import com.kh.landocProject.member.model.vo.DrClient;
 
 public interface DmyPageService {
 	ArrayList<DPdReview> selectPdReviewList(String drNo, CMypagePageInfo pi);
@@ -57,4 +60,18 @@ public interface DmyPageService {
 	int listCountPointList(String drNo);
 
 	int orderCancel(DOrderList order);
+
+	String selectDrProfile(String drNo);
+
+	DrProfile selectOneDr(String replyDrNo);
+
+	int selectMyDrLikeCount(HpLike hl);
+
+	int deleteDrLike(HpLike hl);
+
+	int insertDrLike(HpLike hl);
+
+	int selectDrLikeCount(String drNo);
+
+	int selectLikeCount(String drNo);
 }

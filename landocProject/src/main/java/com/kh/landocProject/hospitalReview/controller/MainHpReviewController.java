@@ -279,9 +279,7 @@ public class MainHpReviewController {
 			hl.setHpNo(hpNo);
 			heart = MainHpReService.selectMyHpLikeCount(hl);
 		}
-		
-//		System.out.println("controller에서 heart : " + heart);
-		
+
 		if (hp != null && picList != null && timeList != null) {
 			mv.addObject("hp", hp);
 			mv.addObject("picList", picList);

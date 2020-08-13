@@ -66,6 +66,27 @@
 		
 	</resultMap>
 
+	<resultMap type="DrProfile" id="DrProfileMap">
+		<id property="drNo" column="DR_NO"/> 
+		<result property="drName" column="DR_NAME"/>
+		<result property="hpNo" column="HP_NO"/>
+		<result property="hpName" column="HP_NAME"/>
+		<result property="hpCateCode" column="HPCATE_CODE"/>
+		<result property="hpCateName" column="HPCATE_NAME"/>
+		<result property="drEmail" column="DR_EMAIL"/>
+		<result property="likeNum" column="DR_LIKE"/>
+		<result property="dislikeNum" column="DR_DISLIKE"/>
+		<result property="proRename" column="PRO_RENAME"/>
+		<result property="adNo" column="AD_NO"/>
+		<result property="chooseStatus" column="AD_CHOOSESTATUS"/>
+		<result property="drCommentNo" column="DR_COMMENT_NO"/>
+		<result property="drCommentDate" column="DR_COMMENT_DATE"/>
+		<result property="drComment" column="DR_COMMENT"/>		
+	</resultMap>
+
+
+
+
 
 	<select id="pdReviewList" parameterType="string" resultMap="pdReviewListMap">
 		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO, PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO,PR.DR_NO
@@ -326,4 +347,65 @@
 	<update id="orderCancelUpdate" parameterType="DOrderList">
 		UPDATE ORDERMG SET O_CODE=#{oCode} WHERE ORDER_NO=#{orderNo}
 	</update>
+	
+	
+	<select id="selectDrProfile" parameterType="string" resultType="string">
+		SELECT PRO_RENAME
+		FROM PROFILEPHOTO
+		WHERE DR_NO=#{drNo}
+	</select>
+	
+	
+	<!-- 희지! -->
+	<select id="selectOneDr" parameterType="string" resultMap="DrProfileMap">
+		SELECT D.DR_NO, D.DR_NAME, D.HP_NO, HP.HP_NAME, D.HPCATE_CODE, HG.HPCATE_NAME,
+		    DR_EMAIL, DR_LIKE, DR_DISLIKE, PRO_RENAME
+		FROM DRCLIENT D
+		JOIN HOSPITAL HP ON(D.HP_NO = HP.HP_NO)
+		JOIN HPCATEGORY HG ON(D.HPCATE_CODE = HG.HPCATE_CODE) 
+		JOIN PROFILEPHOTO PH ON(D.DR_NO = PH.DR_NO)
+		WHERE D.DR_NO=#{replyDrNo}
+	</select>
+	
+	
+	<select id="selectMyDrLikeCount" parameterType="hpLike" resultType="_int">
+		SELECT COUNT(*)
+		FROM HPLIKE
+		<if test="cNo.equals('none')">
+		WHERE DR_NO=#{dNo}
+		</if>
+		<if test="!cNo.equals('none')">
+		WHERE C_NO=#{cNo}
+			AND DR_NO=#{dNo}
+		</if>
+	</select>
+	
+	<delete id="deleteDrLike" parameterType="hpLike">
+		DELETE FROM HPLIKE
+		WHERE DR_NO=#{dNo}
+			AND C_NO=#{cNo}
+	</delete>
+	
+	<insert id="insertDrLike" parameterType="hpLike">
+		INSERT INTO HPLIKE
+		VALUES(SEQ_HPLIKE.NEXTVAL
+				, #{cNo}
+				, #{dNo}
+				, NULL)
+	</insert>
+	
+	<select id="selectDrLikeCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM HPLIKE
+		WHERE DR_NO=#{dNo}	
+	</select>
+	
+	<select id="selectLikeCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM HPLIKE
+		WHERE DR_NO=#{drNo}
+	</select>
+	
+	
+	
 </mapper>

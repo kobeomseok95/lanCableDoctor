@@ -45,8 +45,6 @@ public class MainHpController {
 		return "hospital/modifyHospital";
 	}
 	
-	
-	
 	// 병원 수정 페이지(데이터 불러오기)
 	@RequestMapping("editHp.do")
 	public ModelAndView editHp(HttpSession session, ModelAndView mv, MainHp hp, MainHp hpBasic,
@@ -157,11 +155,8 @@ public class MainHpController {
 			beDrResult = mainHpService.insertBeDrPic(mainHp);
 		}
 		
-		
 		// 3. 병원 테이블 수정 승인 상태 -> 'N'으로 UPDATE
 		int hpApproval = mainHpService.updateApproval(hpNo);
-		
-		
 		
 		if(beBasicInfo >0 && beEmpResult>0 && beIdResult>0 && beDrResult>0 && hpApproval>0) {
 			String basicHpInfoMsg ="ok";
@@ -169,23 +164,7 @@ public class MainHpController {
 			return "redirect:editHp.do";
 			
 		}
-		
-		
-		//-------------------------------------------------------------------------------
-		
-//		// 기존 등록 된 사진들을 지워주기 위해 각 사진들의 rename을 DB에서 가지고 오기
-//		ArrayList<MainHp> renameList = mainHpService.selectRenameList(hpNo);
-////		System.out.println("controller에서 renameList : " + renameList);
-//		
-//		// 기존 등록 된 사진들 삭제
-//		if(renameList.size() != 0) {
-//			for(MainHp hp:renameList) {
-//				String hpRename = hp.getRenameFileName();
-////			System.out.println(hp.getRenameFileName());
-//				deleteFile(hpRename);
-//			}
-//		}
-			
+
 		return "home";
 	}
 
@@ -193,8 +172,6 @@ public class MainHpController {
 	@RequestMapping(value="hpSearch.do")
 	public ModelAndView hpSearch(ModelAndView mv, HttpSession session,HpSearch hp,@RequestParam(value="area") String area, @RequestParam(value="hpSearch") String hpTitle) throws MainHpException{
 		  
-	      
-	   
 	      String[] hpNameSplit = hpTitle.split("");
 	      String hpNameLike ="";
 	      for(int i =0; i<hpNameSplit.length;i++) {
@@ -311,25 +288,6 @@ public class MainHpController {
 		int insertNewPhoto = 0;
 		
 		if(deleteResult >= 0) {
-		
-			
-//		Iterator<String> files = request.getFileNames();
-//		while(files.hasNext()) {
-//			String uploadFile = files.next();
-//			
-//			MultipartFile mFile = request.getFile(uploadFile);
-//			System.out.println("controller에서 mFile : " + mFile);
-//			
-//		}
-		
-	
-//		System.out.println("controller에서 다중 사진 : " + file);
-
-//		List<MultipartFile> fileList = request.getFiles("hpPics");
-//		System.out.println("controller에서 fileList : " + fileList);
-		
-			
-			// 새로운 사진 파일을 서버에 저장 및 DB에 경로 저장
 			
 			for(MultipartFile mf : file) {
 				String originalFileName = mf.getOriginalFilename();
@@ -355,7 +313,6 @@ public class MainHpController {
 					e.printStackTrace();
 				}
 			}
-			
 		}
 		
 		if(insertNewPhoto>0) {
@@ -372,16 +329,12 @@ public class MainHpController {
 	@RequestMapping(value="hpTimeEdit.do",  method=RequestMethod.POST)
 	public String hpTimeEdit(HpTime ht, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		
-//		System.out.println("htList : " + ht.getHpTimeList());
-		
 		List<HpTime> hpTimeList = ht.getHpTimeList();
 		int result = 0;
 	
 		if(hpTimeList.size() != 0) {
 			for(HpTime ht2 : hpTimeList) {
-//				System.out.println(ht2);
 				result = mainHpService.updateHptime(ht2);
-//				System.out.println("controller에서 result : " + result);
 			}
 		}
 		
@@ -416,8 +369,5 @@ public class MainHpController {
 			System.out.println("병원 소개 업데이트 실패!");
 			return "home";
 		}
-		
 	}
-	
-	
 }
