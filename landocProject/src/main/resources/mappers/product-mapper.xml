@@ -68,6 +68,7 @@
 		<result property="drProfile" column="DR_PROFILE" />
 		<result property="hpNo" column="HP_NO" />
 		<result property="hpName" column="HP_NAME" />
+		<result property="reviewFile" column="PRP_RENAME"/>
 	</resultMap>
 	
 	<sql id="sortFormula">
@@ -225,8 +226,8 @@
 	
 	<select id="getProductReviews" parameterType="_int" resultMap="productReviews">
 		SELECT 
-		    B.PDREVIEW_NO, B.PDREVIEW_CONTENT, B.DR_NO, G.DR_NAME, B.C_NO, H.C_NICKNAME, B.PDR_SUBMITDATE,
-		    I.PRO_RENAME AS "CLIENT_PROFILE", J.PRO_RENAME AS "DR_PROFILE", G.HP_NO, K.HP_NAME
+		    B.PDREVIEW_NO, B.PDREVIEW_CONTENT, B.DR_NO, G.DR_NAME, B.C_NO, H.C_NICKNAME, B.PDR_SUBMITDATE, B.PD_NO,
+		    I.PRO_RENAME AS "CLIENT_PROFILE", J.PRO_RENAME AS "DR_PROFILE", G.HP_NO, K.HP_NAME, B.PRP_RENAME
 		FROM 
 		    PRODUCTREVIEW B
 		    LEFT JOIN DRCLIENT G ON G.DR_NO = B.DR_NO
