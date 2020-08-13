@@ -466,9 +466,9 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th colspan="2" style="width: 23%">작성자</th>
-                                <th style="width: 62%">내용</th>
-                                <th style="width: 15%">작성날짜</th>
+                                <th colspan="2" style="width: 23%; text-align: center;">작성자</th>
+                                <th style="width: 62%; text-align: center;">내용</th>
+                                <th style="width: 15%; text-align: center;">작성날짜</th>
                             </tr>
                         </thead>
                         <tbody id="revBody">
@@ -517,8 +517,21 @@
                         			${review.cNickname }
                         			</c:if>
 								</td>
-                        		<td>${review.content }</td>
-                        		<td>${review.submitDate }</td>
+                        		<td>
+                       				<c:if test="${!empty review.reviewFile }">
+                        			<div class="reviewPhoto mb-4">
+                       					<c:set var="reviewImg" value="/projectFiles/${review.reviewFile }" />
+                        				<img src="${reviewImg }" />
+                        			</div>
+                       				</c:if>
+                        				<c:if test="${empty review.reviewFile }"></c:if>
+                        			<div class="reviewContent">
+                        				${review.content }
+                        			</div>
+                        		</td>
+                        		<td class="submitDate">
+                        			${review.submitDate }
+                        		</td>
                         	</tr>
                         	</c:forEach>
                         	</c:if>
@@ -997,10 +1010,19 @@
             		}
             		
             		var $tdContent = $('<td></td>');
-            		$tdContent.text(list[i].content);
+            		if( list[i].reviewFile ){
+            			var $divImg = $('<div class="reviewPhoto mb-4"></div>');
+            			var $reviewImg = $('<img />');
+            			$reviewImg.attr("src", "/projectFiles/" + list[i].reviewFile);
+            			$divImg.append($reviewImg);
+            			$tdContent.append($divImg);
+            		}
+            		var $divContent = $('<div class="reviewContent"></div>');
+            		$divContent.text(list[i].content);
+            		$tdContent.append($divContent);
             		$tr.append($tdContent);
             		
-            		var $tdSubmitDate = $('<td></td>');
+            		var $tdSubmitDate = $('<td class="submitDate"></td>');
             		$tdSubmitDate.text(getFormatDate(new Date(list[i].submitDate)));
             		$tr.append($tdSubmitDate);
             		
