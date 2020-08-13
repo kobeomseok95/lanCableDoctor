@@ -25,7 +25,7 @@ public class PaymentDao {
 
 	public ArrayList<Cart> selectCartList(String cNo) {
 		
-		return (ArrayList)sqlSessionTemplate.selectList(".selectCartList",cNo);
+		return (ArrayList)sqlSessionTemplate.selectList("payMapper.selectCartList",cNo);
 	}
 
 	public MemberPay loginClient3(String cNo) {

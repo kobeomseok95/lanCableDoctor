@@ -1,14 +1,20 @@
 package com.kh.landocProject.payment.controller;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
+import com.kh.landocProject.payment.model.exception.PaymentException;
 import com.kh.landocProject.payment.model.service.PaymentService;
 import com.kh.landocProject.payment.model.vo.Cart;
 import com.kh.landocProject.payment.model.vo.MemberPay;
@@ -25,13 +31,66 @@ public class PaymentController {
 	PaymentService payService;
 	
 	@RequestMapping(value="clientCart.do",method=RequestMethod.GET )
-	public String clientCart(HttpSession session){
+	public ModelAndView clientCart(ModelAndView mv,HttpSession session) throws PaymentException{
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		ArrayList<Cart> cart = payService.selectCartList(cNo);
 		
-		return "payment/clientCart";
+		if(cart!=null) {
+			mv.addObject("cart",cart);
+			mv.setViewName("payment/clientCart");
+		}else {
+			throw new PaymentException("장바구니 조회 실패");
+		}
+		return mv;
 	}
+	
+	@RequestMapping("selectOrder.do")
+	public ModelAndView selectOrder(ModelAndView mv,
+			HttpSession session,
+			@RequestParam(value="listOriginPrice") List<Integer> listOriginPrice,
+			@RequestParam(value="listDiscount") List<Integer> listDiscount,
+			@RequestParam(value="listSellPrice") List<Integer> listSellPrice,
+			@RequestParam(value="listCartNo") List<Integer> listCartNo,
+			@RequestParam(value="listPdName") List<String> listPdName,
+			@RequestParam(value="listPdNo") List<Integer> listPdNo,
+			@RequestParam(value="listCount") List<Integer> listCount
+			) throws PaymentException{
+		
+		System.out.println("listDisCount:"+listDiscount);
+		System.out.println("listSellPrice:"+listSellPrice);
+		System.out.println("cartNo:"+listCartNo);
+		System.out.println("listPdName:"+listPdName);
+		System.out.println(" listPdNo:"+ listPdNo);
+		System.out.println("originPrice:"+listOriginPrice);
+		System.out.println("listCount:"+listCount);
+		return mv;
+	}
+	
+	@RequestMapping("allOrder.do")
+	public ModelAndView allOrder(ModelAndView mv,
+			HttpSession session,
+			@RequestParam(value="originPrice") List<Integer> listOriginPrice,
+			@RequestParam(value="discount") List<Integer> listDiscount,
+			@RequestParam(value="sellPrice") List<Integer> listSellPrice,
+			@RequestParam(value="cartNo") List<Integer> listCartNo,
+			@RequestParam(value="pdName") List<String> listPdName,
+			@RequestParam(value="pdNo") List<Integer> listPdNo,
+			@RequestParam(value="count") List<Integer> listCount
+			) throws PaymentException{
+		
+		System.out.println("listDisCount:"+listDiscount);
+		System.out.println("listSellPrice:"+listSellPrice);
+		System.out.println("cartNo:"+listCartNo);
+		System.out.println("listPdName:"+listPdName);
+		System.out.println(" listPdNo:"+ listPdNo);
+		System.out.println("originPrice:"+listOriginPrice);
+		System.out.println("listCount:"+listCount);
+		return mv;
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "payView.do", method = RequestMethod.GET)
 	public String payView(Model model,Integer pdNo, String pdName, HttpSession session, String productCount) {
