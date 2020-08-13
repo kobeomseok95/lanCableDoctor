@@ -20,12 +20,15 @@ public class AskDrReply implements Serializable{
 	private int depthNo;
 	private String profileRename;
 	private String drName;
+	private int hpNo;
+	private String hpName;
 	
 	public AskDrReply() {
 	}
 
 	public AskDrReply(int adrNo, int bNo, String drClientNo, Date replyDate, String content, String chooseStatus,
-			int parentNo, int orderNo, int groupNo, int depthNo, String profileRename, String drName) {
+			int parentNo, int orderNo, int groupNo, int depthNo, String profileRename, String drName, int hpNo,
+			String hpName) {
 		this.adrNo = adrNo;
 		this.bNo = bNo;
 		this.drClientNo = drClientNo;
@@ -38,6 +41,8 @@ public class AskDrReply implements Serializable{
 		this.depthNo = depthNo;
 		this.profileRename = profileRename;
 		this.drName = drName;
+		this.hpNo = hpNo;
+		this.hpName = hpName;
 	}
 
 	public int getAdrNo() {
@@ -139,14 +144,28 @@ public class AskDrReply implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public int getHpNo() {
+		return hpNo;
+	}
+
+	public void setHpNo(int hpNo) {
+		this.hpNo = hpNo;
+	}
+	
+	public String getHpName() {
+		return hpName;
+	}
+
+	public void setHpName(String hpName) {
+		this.hpName = hpName;
+	}
 
 	@Override
 	public String toString() {
 		return "AskDrReply [adrNo=" + adrNo + ", bNo=" + bNo + ", drClientNo=" + drClientNo + ", replyDate=" + replyDate
 				+ ", content=" + content + ", chooseStatus=" + chooseStatus + ", parentNo=" + parentNo + ", orderNo="
 				+ orderNo + ", groupNo=" + groupNo + ", depthNo=" + depthNo + ", profileRename=" + profileRename
-				+ ", drName=" + drName + "]";
+				+ ", drName=" + drName + ", hpNo=" + hpNo + ", hpName=" + hpName + "]";
 	}
-
-	
 }

@@ -460,7 +460,20 @@
                         	<c:if test="${!empty reviews }">
                         	<c:forEach var="review" items="${reviews }">
                         	<tr>
-                        		<td><!-- 이미지 --></td>
+                        		<td>
+                        		<c:if test="${empty review.cNo && !empty review.drNo && empty review.drProfile }">
+                        			<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>
+                        		</c:if>
+                        		<c:if test="${!empty review.cNo && empty review.drNo && empty review.clientProfile }">
+                        			<i class="fas fa-user fa-5x" style="color: #b3b7ba;"></i>
+                        		</c:if>
+                        		<c:if test="${empty review.cNo && !empty review.drNo && !empty review.drProfile }">
+                        			<img src="/projectFiles/${review.drProfile }" />
+                        		</c:if>
+                        		<c:if test="${!empty review.cNo && empty review.drNo && !empty review.clientProfile }">
+                        			<img src="/projectFiles/${rec.clientProfile }" />
+                        		</c:if>
+                        		</td>
                         		<td>
                         			<c:if test="${empty review.cNo && !empty review.drNo }">
                         			${review.drName }
@@ -905,13 +918,22 @@
             	for(var i = 0; i < list.length; i++){
             		var $tr = $('<tr></tr>');
             		var $tdProfile = $('<td></td>');
-            		if( !list[i].profileFileName ){
-            			var $fa = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
-            			$tdProfile.append($fa);
+            		if( list[i].drNo && !list[i].cNo && !list[i].drProfile ){
+            			var $icon = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
+            			$tdProfile.append($icon);
             		}
-            		else{
+            		else if( !list[i].drNo && list[i].cNo && !list[i].clientProfile ){
+            			var $icon = $('<i class="fas fa-user fa-5x" style="color: #b3b7ba;"></i>');
+            			$tdProfile.append($icon);
+            		}
+            		else if( list[i].drNo && !list[i].cNo && list[i].drProfile ){
             			var $img = $('<img />');
-            			$img.attr("src", list[i].profileFileName);
+            			$img.attr('src', '/projectFiles/' + list[i].drProfile);
+            			$tdProfile.append($img);
+            		}
+            		else if( !list[i].drNo && list[i].cNo && list[i].clientProfile ){
+            			var $img = $('<img />');
+            			$img.attr('src', '/projectFiles/' + list[i].clientProfile);
             			$tdProfile.append($img);
             		}
             		$tr.append($tdProfile);
