@@ -107,7 +107,7 @@
 								</div>
 								<div class="p3">
 									<div class="p4">
-										<label style="margin-left:20px">주문자명</label><input type="text" value="${loginClient3.userName }" class="pInput" readonly>
+										<label class="p4Label">주문자명</label><input type="text" value="${loginClient3.userName }" class="pInput" readonly>
 										<input type="hidden" name="cNo" value="${loginClient3.cNo }">
 										<input type="hidden" name="pdNo" value="${selectPro.pdNo }">
 										<input type="hidden" name="opCount" value="${productCount }">
@@ -194,37 +194,37 @@
 					
 					<c:when test="${empty loginClient3 && !empty loginDrClient3}">
 					<form id="payment" action="paySuccessView.do">	
-						<div style="margin-top: 30px; background-color: #e5f2fc; width: 700px; height: 600px; border-radius: 7px; display: inline-block; position: relative;">
-							<div style="padding-left: 20px; padding-top: 20px; width: 700px;">
+						<div class="p1">
+							<div class="p2">
 								<h4 style="color: black;">주문자 정보</h4>
 							</div>
-							<div style="border: 1px solid #e5f2fc; margin-top: 25px; margin-left: 20px; width: 660px; border-radius: 7px; background-color: white;">
-								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-									<label style="margin-left:20px">주문자명</label><input id ="userName" type="text" value="${loginDrClient3.userName }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+							<div class="p3">
+								<div class="p4">
+									<label style="margin-left:20px">주문자명</label><input id ="userName" type="text" value="${loginDrClient3.userName }" class="pInput" readonly>
 									<input type="hidden" name="drNo" value="${loginDrClient3.drNo }">
 										<input type="hidden" name="pdNo" value="${selectPro.pdNo }">
 										<input type="hidden" name="opCount" value="${productCount }">
 										<input type="hidden" name="pdName" value="${selectPro.pdName }">
 										<input type="hidden" name="sellPrice" value="${selectPro.sellPrice }">
 								</div>
-								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-									<label style="margin-left:20px">연락처</label><input id ="phone" type="text" value="${loginDrClient3.phone }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+								<div class="p4">
+									<label class="p4Label">연락처</label><input id ="phone" type="text" value="${loginDrClient3.phone }" class="pInput" readonly>
 								</div>
-								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-									<label style="margin-left:20px">이메일</label><input id ="email" type="text" value="${loginDrClient3.email }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+								<div class="p4">
+									<label class="p4Label">이메일</label><input id ="email" type="text" value="${loginDrClient3.email }" class="pInput" readonly>
 								</div>
-								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-									<label style="margin-left:20px">우편번호</label><input type="text" value="${loginDrClient3.post }" name="post" value="" id="post" style="width: 250px; margin-left: 143px; height:35px; border: 1px solid lightgray;" readonly> 
-									<input type="button" value="검색" style="float: right; margin-right: 10px; width: 130px; height:35px ; color: black; background-color: #e5f2fc; border: 0px; border-radius: 3px;">
+								<div class="p4">
+									<label class="p4Label">우편번호</label><input type="text" value="${loginDrClient3.post }" name="post" value="" id="post" class="pInput1" readonly> 
+									<input type="button" class="search" value="검색">
 								</div>
-								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;">
-									<label style="margin-left:20px">도로명 주소</label><input  type="text" value="${address4 }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+								<div class="p4">
+									<label class="p4Label">도로명 주소</label><input  type="text" value="${address4 }" class="pInput" readonly>
 								</div>
-								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;">
-									<label style="margin-left:20px">상세 주소</label><input type="text" value="${address5 }" style="float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;" readonly>
+								<div class="p4">
+									<label class="p4Label">상세 주소</label><input type="text" value="${address5 }" class="pInput" readonly>
 								</div>
-								<div style="border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; margin-bottom: 20px; height: 50px;" >
-									<label style="margin-left:20px">남기실 말</label><select name="paymentComment" style="float:right; margin-right:10px; width:400px; border: 1px solid lightgray; height:35px;">
+								<div class="p4">
+									<label class="p4Label">남기실 말</label><select name="paymentComment" class="pInput">
 																		<option value="없음">남기실말</option>
 																		<option value="배송전연락바랍니다.">배송전 연락 바랍니다.</option>
 																		<option value="집앞에놓고가세요.">집앞에 놓고가세요.</option>
@@ -234,29 +234,29 @@
 								</div>
 							</div>
 						</div>
-						<div style="margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 530px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white;" >
-							<div style="border: 1px solid white; background-color: white; margin: 10px; height: 300px; border-radius: 7px;">
-								<div style="width : 375px; height:300px; padding:10px;">
-									<div style="margin-bottom:25px;margin-top:20px;">
+						<div class="p5" >
+							<div class="p6">
+								<div class="p7">
+									<div class="p8">
 										<strong>총 주문 금액</strong>
 			                            <span style="float:right;" class="price" id="allPrice"></span>
 			                                  <input type="hidden" name="allPrice" value=${selectPro.sellPrice * productCount}>
 		                            </div>
-	                            	<div style="margin-bottom:25px;">
+	                            	<div class="p9">
 										<strong>할인 금액</strong>
 			                            <span style="float:right;" class="price" id="discountPrice">${selectPro.discount }</span><br>
 			                            <input type="hidden" name="discountPrice" value=${selectPro.discount }>
 		                            </div>
-	                            	<div style="margin-bottom:25px;">
+	                            	<div class="p9">
 										<strong>포인트</strong>
 			                            <span style="float:right;"><input type="text" class="price" id="minusPoint" name="usePoint" style="width:100px;" value=0></span><br>
 		                            </div>
-		                            <div style="margin-bottom:25px;">
+		                            <div class="p9">
 										<strong>보유포인트</strong>
 			                            <input type="text" style="float:right; width:100px; border:none" id="point" class="price" value=${loginDrClient3.point } readonly><br>
 		                            </div>
 		                            <hr>
-		                            <div style="margin-bottom:25px;">
+		                            <div class="p9">
 										<strong>총 결제 금액</strong>
 			                            <span style="float:right;" id="payPrice" class="price">원</span><br>
 			                            <input type="hidden" name="amountPrice" value=0>

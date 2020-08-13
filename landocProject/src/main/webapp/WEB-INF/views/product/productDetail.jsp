@@ -66,8 +66,8 @@
 
 
         <!-- menu -->
-        <div class="product-menu">
-            <div class="row">
+        <div class="product-menu mb-5">
+            <div class="row mt-4 mb-5">
                 <div class="col-lg-2"></div>
                 <div class="col-lg-8">
                     <div class="product-search">
@@ -104,14 +104,14 @@
             <div class="row mt-5">
                 <div class="col-lg-7">
                 	<c:set var="fullPath" value="/projectFiles/${photos[0].fileName }" />
-                    <img src="${fullPath }" style="width: 600px; height: 600px;" />
+                    <img src="${fullPath }" style="width: 600px; height: 100%;" />
                 </div>
                 <div class="col-lg-5">
                     <h3 class="mb-4">${product.pdName }</h3>
                     <p>${product.subExplicate }</p>
                     <div>
                         <ul class="list-group">
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">판매금액</span>
                                 <span class="price" style="float: right;">
                                 	<c:if test="${product.originPrice eq product.sellPrice }">
@@ -123,19 +123,19 @@
                                     <strong class="price">${product.sellPrice }원</strong>
                                 </span>
                             </li>
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">내용량</span>
                                 <span style="float: right;">${product.volume }</span>
                             </li>
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">섭취방법</span>
                                 <span style="float: right;">${product.drugWay }</span>
                             </li>
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">유통기한</span>
                                 <span style="float: right;">${product.shelflife }</span>
                             </li>
-                            <li class="list-group-item border-0">
+                            <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">추천수</span>
                                 <span style="float: right;">${recommendCount } </span>
                             </li>
@@ -176,12 +176,10 @@
         </div>
         <!-- product-detail end -->
 
-        <br><br>
-
         <!-- product-tabs -->
-        <div class="product-tabs">
+        <div class="product-tabs"  style="margin-top:40px;">
             <!-- Here's all it takes to make this navigation bar. -->
-            <div id="product-tabs">
+            <div id="product-tabs" style="padding-top:40px;">
                 <ul>
                     <li><a href="#product-images">제품상세</a></li>
                     <li><a href="#doctors-comments">추천평(${recommendCount })</a></li>
@@ -196,7 +194,7 @@
 
 
         <!-- product-image -->
-        <div id="product-images" class="product-images">
+        <div id="product-images" class="product-images" style="margin-bottom:10px;">
         	<c:set var="detailImg" value="/projectFiles/${photos[1].fileName }" />
             <img src="${detailImg }" style="width: 100%;" />	<!--  height: 1200px; -->
         </div>

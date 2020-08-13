@@ -45,7 +45,7 @@ public class PaymentController {
 		if(loginClient != null && loginDrClient == null) {
 			String cNo = loginClient.getcNo();
 			MemberPay loginClient3 = payService.loginClient3(cNo);
-			String[] address = loginClient3.getAddress().split(", \\(");
+			String[] address = loginClient3.getAddress().split(" / ");
 			PayProduct selectPro = payService.selectPro(pdNo);
 			String address1 = address[0];
 			String address2 = address[1];
@@ -64,7 +64,7 @@ public class PaymentController {
 //			System.out.println("loginDrClient3 : " +loginDrClient3);
 			PayProduct selectPro = payService.selectPro(pdNo);
 			
-			String[] address3 = loginDrClient3.getAddress().split(", \\(");
+			String[] address3 = loginDrClient3.getAddress().split(" / ");
 			
 			String address4 = address3[0];
 			String address5 = address3[1];

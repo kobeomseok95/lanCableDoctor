@@ -240,8 +240,8 @@
 						data-validate="영소문,숫자 4~20글자로 입력가능합니다.">
 						<input class="input100" type="text" name="userId" id="userId">
 						<span class="focus-input100" data-placeholder="아이디"></span>
-						<span class="focus-input100 guide NO" id="NO" data-placeholder="NO!!" style="margin-left:90%; width:50%; display:none"></span>
-						<span class="focus-input100 guide OK" id="OK"data-placeholder="OK!!" style="margin-left:90%; width:50%; display:none"></span>
+						<span class="focus-input100 guide NO" id="NO" data-placeholder="사용이 불가능합니다." style="margin-left:70%; width:50%; display:none"></span>
+						<span class="focus-input100 guide OK" id="OK"data-placeholder="사용이 가능합니다." style="margin-left:73%; width:50%; display:none"></span>
 						<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0">
 					</div>
 
