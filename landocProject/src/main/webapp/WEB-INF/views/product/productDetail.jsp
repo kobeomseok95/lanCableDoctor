@@ -152,10 +152,10 @@
                                 </li>
                                 <li class="list-group-item border-0">
                                     <button class="btn btn-default goCart">
-                                        <h5>장바구니</h5>	<!-- 일단 내비둠 -->
+                                        <h5>장바구니</h5>
                                     </button>
                                     <button class="btn btn-default goPurchase" onclick="pay();">
-                                        <h5>구매하기</h5>	<!-- 일단 내비둠 -->
+                                        <h5>구매하기</h5>
                                     </button>
                                 </li>
                             </ul>
@@ -222,7 +222,6 @@
                                     </c:if>
                                 </td>
                                 <td>
-                                <!-- ${rec.drNo}, ${rec.hpNo} -->
                                     <div data-toggle="popover" data-html="true" title="선생님 정보"
                                         data-content="<a href='#'>프로필</a> <br> <a href='#'>여기는 병원이름</a>">
                                         ${rec.drName }
@@ -235,7 +234,7 @@
                         	</c:if>
                         	<c:if test="${empty recommends }">
                         	<tr>
-                        		<td colspan='4'>
+                        		<td colspan='4' style="text-align: center;">
                         			'해당 상품의 추천평이 없습니다.'
                         		</td>
                         	</tr>
@@ -260,11 +259,13 @@
                         		</c:if>
                         	</c:forEach>
                             <!-- >> -->
+                            <c:if test="${recommendPage.endPage ne 1 && recommendPage.endPage ne 0 }">
                             <li class="page-item">
 		                        <a class="page-link" aria-label="Next">
 	                                <span class="recPageNo" aria-hidden="true">Next</span>
 	                            </a>
                             </li>
+                            </c:if>
                         </ul>
                     </nav>
                 </div>
@@ -307,7 +308,9 @@
                         <tbody id="qBody">
                         	<c:if test="${empty qnas }">
                         	<tr>
-                                <td colspan='5'>'해당 상품에 질문이 없습니다'</td>
+                                <td colspan='5' style="text-align: center;">
+                                	'해당 상품에 질문이 없습니다'
+                                </td>
                             </tr>
                         	</c:if>
                         	<c:if test="${!empty qnas }">
@@ -373,12 +376,14 @@
                         	<li class="page-item"><a class="page-link qPageNo">${p }</a></li>	
                         		</c:if>
                         	</c:forEach>
-                            <!-- >> -->
+                        	
+                            <c:if test="${qnaPage.endPage ne 1 && qnaPage.endPage ne 0}">
                             <li class="page-item">
 								<a class="page-link" aria-label="Next">
 	                                <span class="qPageNo" aria-hidden="true">Next</span>
 	                            </a>
                             </li>
+                            </c:if>
                         </ul>
                     </nav>
                 </div>
@@ -450,13 +455,28 @@
                         <tbody id="revBody">
                         	<c:if test="${empty reviews }">
                        		<tr>
-                       			<td colspan='4'>'해당 상품의 리뷰가 없습니다'</td>
+                       			<td colspan='4' style="text-align: center;">
+                       				'해당 상품의 리뷰가 없습니다'
+                       			</td>
                        		</tr>
                         	</c:if>
                         	<c:if test="${!empty reviews }">
                         	<c:forEach var="review" items="${reviews }">
                         	<tr>
-                        		<td><!-- 이미지 --></td>
+                        		<td>
+                        		<c:if test="${empty review.cNo && !empty review.drNo && empty review.drProfile }">
+                        			<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>
+                        		</c:if>
+                        		<c:if test="${!empty review.cNo && empty review.drNo && empty review.clientProfile }">
+                        			<i class="fas fa-user fa-5x" style="color: #b3b7ba;"></i>
+                        		</c:if>
+                        		<c:if test="${empty review.cNo && !empty review.drNo && !empty review.drProfile }">
+                        			<img src="/projectFiles/${review.drProfile }" />
+                        		</c:if>
+                        		<c:if test="${!empty review.cNo && empty review.drNo && !empty review.clientProfile }">
+                        			<img src="/projectFiles/${rec.clientProfile }" />
+                        		</c:if>
+                        		</td>
                         		<td>
                         			<c:if test="${empty review.cNo && !empty review.drNo }">
                         			${review.drName }
@@ -486,12 +506,13 @@
 		                        	<li class="page-item"><a class="page-link revPageNo">${p }</a></li>	
 		                        		</c:if>
 		                        	</c:forEach>
-		                            <!-- >> -->
+		                            <c:if test="${reviewPage.endPage ne 1 && reviewPage.endPage ne 0}">
 		                            <li class="page-item">
 				                        <a class="page-link" aria-label="Next">
 			                                <span class="revPageNo" aria-hidden="true">Next</span>
 			                            </a>
 		                            </li>
+		                            </c:if>
 		                        </ul>
 		                    </nav>
 		                </div>
@@ -524,11 +545,13 @@
 						$("#togglePwd").show();
 					}
 					else{
+						$("#secretPwd").val('');
 						$("#togglePwd").hide();
 					}
 				});
         	});
         	
+        	/* 모달에서 Q&A 제출 */
         	$('#submitModal').on('click', function(){
 				var title = $("#qnaTitle").val();
 				var content = $("#qnaContent").val();
@@ -549,7 +572,31 @@
 					success : function(data){
 						if(data === "ok"){
 							alert("질문이 작성되었습니다.");
-							$("#qCurPage").click();
+							
+							if($("#qCurPage").length){
+								$("#qCurPage").click();
+							}
+							else{
+				        		var pageForm = {
+				            			pdNo : "${product.pdNo}",
+				            			pageNo : 1
+				            	}
+				            	$.ajax({
+				            		type:'get',
+				            		data:pageForm,
+				            		dataType:'JSON',
+				            		url:"getAsyncQnas.do",
+				            		success: function(data){
+				            			qnaHTML(data);
+				            		},
+				            		error:function(request, status, errorData){
+					                    alert("error code: " + request.status + "\n"
+					                            +"message: " + request.responseText
+					                            +"error: " + errorData);
+					               	}
+				            	});
+							}
+							
 							$("#closeQnaModal").click();
 						}
 						else{
@@ -697,7 +744,7 @@
         		var list = data.list;
         		
         		$("#qPagination").html('');
-        		if(page.currentPage !== 1){
+        		if(page.currentPage !== 1 && page.endPage !== 1){
 	       			var $liOne = $('<li class="page-item"></li>');
 	       			var $a = $('<a class="page-link" aria-label="Previous"></a>');
 	       			var $span = $('<span class="qPageNo" aria-hidden="true"></span>');
@@ -721,7 +768,7 @@
        				$("#qPagination").append($li);
         		}
         		
-        		if(page.currentPage !== page.maxPage){
+        		if(page.currentPage !== page.maxPage && page.endPage !== 1){
 	   				var $liTwo = $('<li class="page-item"></li>');
 	       			var $a = $('<a class="page-link" aria-label="Next"></a>');
 	       			var $span = $('<span class="qPageNo" aria-hidden="true"></span>');
@@ -872,16 +919,24 @@
             	var list = data.list;
             	
             	for(var i = 0; i < list.length; i++){
-            		/* 의사일경우, 회원일경우 생각 잘하기! */
             		var $tr = $('<tr></tr>');
             		var $tdProfile = $('<td></td>');
-            		if( !list[i].profileFileName ){
-            			var $fa = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
-            			$tdProfile.append($fa);
+            		if( list[i].drNo && !list[i].cNo && !list[i].drProfile ){
+            			var $icon = $('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
+            			$tdProfile.append($icon);
             		}
-            		else{
+            		else if( !list[i].drNo && list[i].cNo && !list[i].clientProfile ){
+            			var $icon = $('<i class="fas fa-user fa-5x" style="color: #b3b7ba;"></i>');
+            			$tdProfile.append($icon);
+            		}
+            		else if( list[i].drNo && !list[i].cNo && list[i].drProfile ){
             			var $img = $('<img />');
-            			$img.attr("src", list[i].profileFileName);
+            			$img.attr('src', '/projectFiles/' + list[i].drProfile);
+            			$tdProfile.append($img);
+            		}
+            		else if( !list[i].drNo && list[i].cNo && list[i].clientProfile ){
+            			var $img = $('<img />');
+            			$img.attr('src', '/projectFiles/' + list[i].clientProfile);
             			$tdProfile.append($img);
             		}
             		$tr.append($tdProfile);
@@ -1075,7 +1130,7 @@
 			
 			$("#searchProduct").keyup(function(){
 				if($(this).val() !== ""){
-					$("#suggestProduct").css("display", "block");	//먼저할까 나중에할까
+					$("#suggestProduct").css("display", "block");
 					$.ajax({
 						type : 'GET',
 						url : 'suggestProduct.do',
@@ -1141,10 +1196,12 @@
 			$('.price').each(function(index, item){
 				$(this).text(numberWithCommas($(this).text()));
 			});
-        });	//end of jquery
+        });//end of jquery
+        
         function numberWithCommas(x) {
 		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
+        
         function getFormatDate(date){
             var year = date.getFullYear();              
             var month = (1 + date.getMonth());          

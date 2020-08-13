@@ -17,12 +17,14 @@ public class ProductReview implements Serializable {
 	private String drNo;
 	private String drName;
 	private Date submitDate;
+	private String clientProfile;
+	private String drProfile;
 	
 	public ProductReview() {
 	}
-
+	
 	public ProductReview(int pdNo, int reviewNo, String content, int orderNo, String cNo, String cNickname, String drNo,
-			String drName, Date submitDate) {
+			String drName, Date submitDate, String clientProfile, String drProfile) {
 		this.pdNo = pdNo;
 		this.reviewNo = reviewNo;
 		this.content = content;
@@ -32,9 +34,9 @@ public class ProductReview implements Serializable {
 		this.drNo = drNo;
 		this.drName = drName;
 		this.submitDate = submitDate;
+		this.clientProfile = clientProfile;
+		this.drProfile = drProfile;
 	}
-
-
 
 	public int getPdNo() {
 		return pdNo;
@@ -111,12 +113,27 @@ public class ProductReview implements Serializable {
 	public void setSubmitDate(Date submitDate) {
 		this.submitDate = submitDate;
 	}
+	
+	public String getClientProfile() {
+		return clientProfile;
+	}
+
+	public void setClientProfile(String clientProfile) {
+		this.clientProfile = clientProfile;
+	}
+
+	public String getDrProfile() {
+		return drProfile;
+	}
+
+	public void setDrProfile(String drProfile) {
+		this.drProfile = drProfile;
+	}
 
 	@Override
 	public String toString() {
 		return "ProductReview [pdNo=" + pdNo + ", reviewNo=" + reviewNo + ", content=" + content + ", orderNo="
 				+ orderNo + ", cNo=" + cNo + ", cNickname=" + cNickname + ", drNo=" + drNo + ", drName=" + drName
-				+ ", submitDate=" + submitDate + "]";
+				+ ", submitDate=" + submitDate + ", clientProfile=" + clientProfile + ", drProfile=" + drProfile + "]";
 	}
-	
 }

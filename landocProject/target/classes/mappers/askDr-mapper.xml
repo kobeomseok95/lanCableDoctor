@@ -46,6 +46,8 @@
 		<result property="depthNo" column="ADR_DEPTHNO" />
 		<result property="profileRename" column="PRO_RENAME" />
 		<result property="drName" column="DR_NAME" />
+		<result property="hpNo" column="HP_NO" />
+		<result property="hpName" column="HP_NAME" />
 	</resultMap>
 
 	<resultMap type="searchDrClient" id="searchDrClient">
@@ -349,13 +351,14 @@
 		    ADR.ADR_NO,
 		    ADR.ADR_CONTENT,
 		    ADR.ADR_REPLYDATE,
-		    ADR.ADR_CHOOSESTATUS
+		    ADR.ADR_CHOOSESTATUS,
+		    DR.HP_NO,
+		    H.HP_NAME
 		FROM 
 		    ASKDRREPLY ADR
-		    LEFT JOIN
-		        DRCLIENT DR ON ( DR.DR_NO = ADR.DR_NO )
-		    LEFT JOIN
-		        PROFILEPHOTO PP ON ( DR.DR_NO = PP.DR_NO )
+		    LEFT JOIN DRCLIENT DR ON ( DR.DR_NO = ADR.DR_NO )
+		    LEFT JOIN PROFILEPHOTO PP ON ( DR.DR_NO = PP.DR_NO )
+		    LEFT JOIN HOSPITAL H ON ( DR.HP_NO = H.HP_NO )
 		WHERE 
 		    ADR.AD_NO = #{bNo}
 		ORDER BY
