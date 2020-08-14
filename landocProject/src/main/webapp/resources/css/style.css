@@ -2016,6 +2016,17 @@ h5 > a {
 .pwdShow{
 	display: block;
 }
+.reviewPhoto > img{
+	width: 100px;
+	height: 100px;
+}
+td, td *{
+	font-family: "campton", "Apple SD Gothic Neo", NanumBarunGothic, "나눔바른고딕", Malgun Gothic, "맑은 고딕", dotum, sans-serif;
+	font-weight: 550;
+}
+.submitDate{
+	text-align: center;
+}
 /* cart.html */
 #allProduct{
 	width: 20px;
