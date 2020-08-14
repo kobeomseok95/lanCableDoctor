@@ -44,6 +44,10 @@
 		}
 		.popover #popoverHide{
 			float: right ! important;
+			cursor : pointer;
+		}
+		.nameTd{
+			cursor : pointer;
 		}
 	</style>
 </head>
@@ -176,7 +180,7 @@
 									<img class="rounded-circle" src="${fullPath }" style="width: 70px; height: 80px;" />
 								</c:if>
 								</td>
-								<td>
+								<td class="nameTd">
 									<input type="hidden" class="drNo" value="${replys.drClientNo }" />
 									<div data-toggle="popover"
 											data-html="true"
@@ -440,7 +444,7 @@
 							$tdOne.append($profile);
 						}
 						
-						var $tdTwo = $("<td></td>");
+						var $tdTwo = $("<td class='nameTd'></td>");
 						var $inputDrno = $('<input type="hidden" class="drNo" />');
 						$inputDrno.val(list[i].drClientNo);
 						var $tdTwoInDiv = $('<div data-toggle="popover" data-html="true"></div>');

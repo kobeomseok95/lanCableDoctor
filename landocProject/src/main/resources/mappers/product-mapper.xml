@@ -28,6 +28,7 @@
 		<result property="drName" column="DR_NAME" />
 		<result property="profileFileName" column="PRO_RENAME" />
 		<result property="hpNo" column="HP_NO" />
+		<result property="hpName" column="HP_NAME"/>
 		<result property="submitDate" column="DRRM_SUBMITDATE" />
 	</resultMap>
 	
@@ -65,6 +66,9 @@
 		<result property="submitDate" column="PDR_SUBMITDATE" />
 		<result property="clientProfile" column="CLIENT_PROFILE" />
 		<result property="drProfile" column="DR_PROFILE" />
+		<result property="hpNo" column="HP_NO" />
+		<result property="hpName" column="HP_NAME" />
+		<result property="reviewFile" column="PRP_RENAME"/>
 	</resultMap>
 	
 	<sql id="sortFormula">
@@ -222,14 +226,15 @@
 	
 	<select id="getProductReviews" parameterType="_int" resultMap="productReviews">
 		SELECT 
-		    B.PDREVIEW_NO, B.PDREVIEW_CONTENT, B.DR_NO, G.DR_NAME, B.C_NO, H.C_NICKNAME, B.PDR_SUBMITDATE,
-		    I.PRO_RENAME AS "CLIENT_PROFILE", J.PRO_RENAME AS "DR_PROFILE"
+		    B.PDREVIEW_NO, B.PDREVIEW_CONTENT, B.DR_NO, G.DR_NAME, B.C_NO, H.C_NICKNAME, B.PDR_SUBMITDATE, B.PD_NO,
+		    I.PRO_RENAME AS "CLIENT_PROFILE", J.PRO_RENAME AS "DR_PROFILE", G.HP_NO, K.HP_NAME, B.PRP_RENAME
 		FROM 
 		    PRODUCTREVIEW B
 		    LEFT JOIN DRCLIENT G ON G.DR_NO = B.DR_NO
 		    LEFT JOIN CLIENT H ON H.C_NO = B.C_NO
 		    LEFT JOIN PROFILEPHOTO I ON B.C_NO = I.C_NO
 		    LEFT JOIN PROFILEPHOTO J ON B.DR_NO = J.DR_NO
+		    LEFT JOIN HOSPITAL K ON G.HP_NO = K.HP_NO
 		WHERE 
 		    B.PD_NO = #{pdNo}
 		ORDER BY 
@@ -255,12 +260,16 @@
 	
 	<select id="getProductRecommends" parameterType="_int" resultMap="drProductRecommends">
 		SELECT D.DRRM_NO, D.DRRM_COMMENT, D.DR_NO, K.DR_NAME, 
-		K.HP_NO, P.PRO_RENAME, D.DRRM_SUBMITDATE
-		FROM DRRECOMMEND D
-		JOIN DRCLIENT K ON K.DR_NO = D.DR_NO
-		LEFT JOIN PROFILEPHOTO P ON P.DR_NO = D.DR_NO
-		WHERE D.PD_NO = #{pdNo}
-		ORDER BY DRRM_SUBMITDATE DESC
+				K.HP_NO, P.PRO_RENAME, D.DRRM_SUBMITDATE, H.HP_NAME
+		FROM 
+		    DRRECOMMEND D
+		    JOIN DRCLIENT K ON K.DR_NO = D.DR_NO
+		    LEFT JOIN PROFILEPHOTO P ON P.DR_NO = D.DR_NO
+		    JOIN HOSPITAL H ON K.HP_NO = H.HP_NO
+		WHERE 
+		    D.PD_NO = #{pdNo}
+		ORDER BY 
+		    DRRM_SUBMITDATE DESC
 	</select>
 	
 	<select id="getReviewCount" parameterType="_int" resultType="_int">

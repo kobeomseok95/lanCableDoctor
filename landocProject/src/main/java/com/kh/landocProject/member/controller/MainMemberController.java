@@ -175,7 +175,7 @@ public class MainMemberController {
 
 		c.setUserPwd(encPwd);
 
-		c.setAddress(address1 + "," + address2);
+		c.setAddress(address1 + " / " + address2);
 
 		int result = mService.joinClient(c);
 		
@@ -389,7 +389,7 @@ public class MainMemberController {
 
 		d.setUserPwd(encPwd);
 
-		d.setAddress(address1 + "," + address2);
+		d.setAddress(address1 + " / " + address2);
 
 		// 난수 생성_start
 		StringBuffer temp = new StringBuffer();

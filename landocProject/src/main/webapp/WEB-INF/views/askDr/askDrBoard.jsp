@@ -158,59 +158,66 @@
 			<div class="row">
 				<div class="col-lg-1 col-sm-1"></div>
 				<div class="col-lg-10 col-sm-10" style="text-align: center;">
-					<nav>
-						<!-- 이전버튼 -->
-						<c:if test="${page.currentPage eq 1 }">
-							&laquo;
-						</c:if>
-						<c:if test="${page.currentPage gt 1 }">
-							<c:url var="blistBack" value="askDrBoard.do">
-								<c:param name="category" value="${categoryNo }" />
-								<c:param name="pageNo" value="${page.currentPage -1  }" />
-								<c:if test="${choosed eq 'Y' }">
-								<c:param name="choosed" value="${choosed }" />
-								</c:if>
-							</c:url>
-						<button class="btn btn-md"
-							onclick="location.href='${blistBack }'">&laquo;</button>
-						</c:if>
-						&nbsp;&nbsp;
-						
-						<!-- 페이지 넘버링 -->
-						<c:forEach var="p" begin="${page.startPage }" end="${page.endPage }">
-							<c:if test="${p eq page.currentPage }">
-								<button class="btn btn-md" onclick="location.href='#'">${p }</button>
-								&nbsp;&nbsp;
-							</c:if>
-							<c:if test="${p ne page.currentPage }">
-								<c:url var="askDrBoardPages" value="askDrBoard.do">
-									<c:param name="category" value="${categoryNo }" />
-									<c:param name="pageNo" value="${p}" />
-									<c:if test="${choosed eq 'Y' }">
-									<c:param name="choosed" value="${choosed }" />
-									</c:if>
-								</c:url>
-								<button class="btn btn-md" onclick="location.href='${askDrBoardPages}'">${p }</button>
-								&nbsp;&nbsp;
-							</c:if>
-						</c:forEach>
-
-						<!-- 다음버튼 -->
-						<c:if test="${page.currentPage eq page.maxPage }">
-						&raquo;
-						</c:if>
-						<c:if test="${page.currentPage lt page.maxPage }">
-							<c:url var="blistFront" value="askDrBoard.do">
-								<c:param name="category" value="${categoryNo }" />
-								<c:param name="pageNo" value="${page.currentPage + 1 }" />
-								<c:if test="${choosed eq 'Y' }">
-								<c:param name="choosed" value="${choosed }" />
-								</c:if>
-							</c:url>
-							<button class="btn btn-md" onclick="location.href='${blistFront }'">&raquo;</button>
-						</c:if>
-						&nbsp;&nbsp;
-					</nav>
+					<div class="pagination">
+		                <div style="float:none; margin:0 auto">
+		                    <nav aria-label="Page navigation example">
+		                        <ul class="pagination">       
+		                        	<!-- Prev -->
+		                        	<c:if test="${page.currentPage ne 1 && page.endPage ne 0 }" >
+		                        	<li class="page-item">
+										<c:url var="blistBack" value="askDrBoard.do">
+											<c:param name="category" value="${categoryNo }" />
+											<c:param name="pageNo" value="${page.currentPage -1  }" />
+											<c:if test="${choosed eq 'Y' }">
+											<c:param name="choosed" value="${choosed }" />
+											</c:if>
+										</c:url>
+		                        		<a class="page-link" aria-label="Prev" href="${blistBack }">
+			                                <span aria-hidden="true">Prev</span>
+			                            </a>
+		                        	</li>
+		                             </c:if>
+		                             
+		                         	<!-- Numbers -->
+		                            <c:forEach var="p" begin="${page.startPage }" end="${page.endPage }">
+		                            	<c:if test="${p eq page.currentPage }">
+		                            	<li class="page-item">
+		                            		<a class="page-link" style="color: #a82400;" href="#">${p }</a>
+		                            	</li>
+		                            	</c:if>
+		                            	<c:if test="${p ne page.currentPage }">
+		                            	<li class="page-item">
+											<c:url var="askDrBoardPages" value="askDrBoard.do">
+												<c:param name="category" value="${categoryNo }" />
+												<c:param name="pageNo" value="${p}" />
+												<c:if test="${choosed eq 'Y' }">
+												<c:param name="choosed" value="${choosed }" />
+												</c:if>
+											</c:url>
+		                            		<a class="page-link" href="${askDrBoardPages }">${p }</a>
+		                            	</li>
+		                            	</c:if>
+		                            </c:forEach>
+		                             
+		                            <!-- Next --> 
+	                             	<c:if test="${page.currentPage ne page.maxPage && page.maxPage ne 0 }" >
+		                            <li class="page-item">
+										<c:url var="blistFront" value="askDrBoard.do">
+											<c:param name="category" value="${categoryNo }" />
+											<c:param name="pageNo" value="${page.currentPage + 1 }" />
+											<c:if test="${choosed eq 'Y' }">
+											<c:param name="choosed" value="${choosed }" />
+											</c:if>
+										</c:url>
+		                        		<a class="page-link" aria-label="Prev" href="${blistFront }">
+			                                <span aria-hidden="true">Next</span>
+		                            	</a>
+		                        	</li>
+	                             	</c:if>
+		                        </ul>
+		                    </nav>
+		                </div>
+		            </div>
 				</div>
 				<div class="col-lg-1 col-sm-1"></div>
 			</div>
@@ -332,65 +339,72 @@
 			<div class="row">
 				<div class="col-lg-1 col-sm-1"></div>
 				<div class="col-lg-10 col-sm-10" style="text-align: center;">
-					<nav>
-						<!-- 이전버튼 -->
-						<c:if test="${page.currentPage eq 1 }">
-							&laquo;
-						</c:if>
-						<c:if test="${page.currentPage gt 1 }">
-							<c:url var="blistBack" value="askDrBoardSearch.do">
-								<c:param name="category" value="${categoryNo }" />
-								<c:param name="pageNo" value="${page.currentPage -1  }" />
-								<c:param name="searchBoardOption" value="${searchBoardOption }" />
-								<c:param name="searchBoardContent" value="${searchBoardContent}" />
-								<c:if test="${choosed eq 'Y' }">
-								<c:param name="choosed" value="${choosed }" />
-								</c:if>
-							</c:url>
-							<button class="btn btn-md"
-								onclick="location.href='${blistBack }'">&laquo;</button>
-						</c:if>
-						&nbsp;&nbsp;
-						
-						<!-- 페이지 넘버링 -->
-						<c:forEach var="p" begin="${page.startPage }" end="${page.endPage }">
-							<c:if test="${p eq page.currentPage }">
-								<button class="btn btn-md" onclick="location.href='#'">${p }</button>
-								&nbsp;&nbsp;
-							</c:if>
-							<c:if test="${p ne page.currentPage }">
-								<c:url var="askDrBoardPages" value="askDrBoardSearch.do">
-									<c:param name="category" value="${categoryNo }" />
-									<c:param name="pageNo" value="${p}" />
-									<c:param name="searchBoardOption" value="${searchBoardOption }" />
-									<c:param name="searchBoardContent" value="${searchBoardContent}" />
-									<c:if test="${choosed eq 'Y' }">
-									<c:param name="choosed" value="${choosed }" />
-									</c:if>
-								</c:url>
-								<button class="btn btn-md" onclick="location.href='${askDrBoardPages}'">${p }</button>
-								&nbsp;&nbsp;
-							</c:if>
-						</c:forEach>
-
-						<!-- 다음버튼 -->
-						<c:if test="${page.currentPage eq page.maxPage }">
-						&raquo;
-						</c:if>
-						<c:if test="${page.currentPage lt page.maxPage }">
-							<c:url var="blistFront" value="askDrBoardSearch.do">
-								<c:param name="category" value="${categoryNo }" />
-								<c:param name="pageNo" value="${page.currentPage + 1 }" />
-								<c:param name="searchBoardOption" value="${searchBoardOption }" />
-								<c:param name="searchBoardContent" value="${searchBoardContent}" />
-								<c:if test="${choosed eq 'Y' }">
-								<c:param name="choosed" value="${choosed }" />
-								</c:if>
-							</c:url>
-							<button class="btn btn-md" onclick="location.href='${blistFront }'">&raquo;</button>
-						</c:if>
-						&nbsp;&nbsp;
-					</nav>
+					<div class="pagination">
+		                <div style="float:none; margin:0 auto">
+		                    <nav aria-label="Page navigation example">
+		                        <ul class="pagination">       
+		                        	<!-- Prev -->
+		                        	<c:if test="${page.currentPage ne 1 && page.endPage ne 0 }" >
+		                        	<li class="page-item">
+		                        		<c:url var="blistBack" value="askDrBoardSearch.do">
+											<c:param name="category" value="${categoryNo }" />
+											<c:param name="pageNo" value="${page.currentPage -1  }" />
+											<c:param name="searchBoardOption" value="${searchBoardOption }" />
+											<c:param name="searchBoardContent" value="${searchBoardContent}" />
+											<c:if test="${choosed eq 'Y' }">
+											<c:param name="choosed" value="${choosed }" />
+											</c:if>
+										</c:url>
+		                        		<a class="page-link" aria-label="Prev" href="${blistBack }">
+			                                <span aria-hidden="true">Prev</span>
+			                            </a>
+		                        	</li>
+		                             </c:if>
+		                             
+		                         	<!-- Numbers -->
+		                            <c:forEach var="p" begin="${page.startPage }" end="${page.endPage }">
+		                            	<c:if test="${p eq page.currentPage }">
+		                            	<li class="page-item">
+		                            		<a class="page-link" style="color: #a82400;" href="#">${p }</a>
+		                            	</li>
+		                            	</c:if>
+		                            	<c:if test="${p ne page.currentPage }">
+		                            	<li class="page-item">
+		                            		<c:url var="askDrBoardPages" value="askDrBoardSearch.do">
+												<c:param name="category" value="${categoryNo }" />
+												<c:param name="pageNo" value="${p}" />
+												<c:param name="searchBoardOption" value="${searchBoardOption }" />
+												<c:param name="searchBoardContent" value="${searchBoardContent}" />
+												<c:if test="${choosed eq 'Y' }">
+												<c:param name="choosed" value="${choosed }" />
+												</c:if>
+											</c:url>
+		                            		<a class="page-link" href="${askDrBoardPages }">${p }</a>
+		                            	</li>
+		                            	</c:if>
+		                            </c:forEach>
+		                             
+		                            <!-- Next --> 
+	                             	<c:if test="${page.currentPage ne page.maxPage && page.maxPage ne 0 }" >
+		                            <li class="page-item">
+		                        		<c:url var="blistFront" value="askDrBoardSearch.do">
+											<c:param name="category" value="${categoryNo }" />
+											<c:param name="pageNo" value="${page.currentPage + 1 }" />
+											<c:param name="searchBoardOption" value="${searchBoardOption }" />
+											<c:param name="searchBoardContent" value="${searchBoardContent}" />
+											<c:if test="${choosed eq 'Y' }">
+											<c:param name="choosed" value="${choosed }" />
+											</c:if>
+										</c:url>
+		                        		<a class="page-link" aria-label="Prev" href="${blistFront }">
+			                                <span aria-hidden="true">Next</span>
+		                            	</a>
+		                        	</li>
+	                             	</c:if>
+		                        </ul>
+		                    </nav>
+		                </div>
+		            </div>
 				</div>
 				<div class="col-lg-1 col-sm-1"></div>
 			</div>
