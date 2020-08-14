@@ -189,6 +189,16 @@ public class DmyPageDao {
 		
 		return sqlSessionTemplate.selectOne("dMypage.selectLikeCount", drNo);
 	}
+
+	public int selectReplyCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectReplyCount",drNo);
+	}
+
+	public int selectChosenReplyCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectChosenReplyCount", drNo);
+	}
 	
 	
 	

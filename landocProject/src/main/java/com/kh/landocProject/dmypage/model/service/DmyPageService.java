@@ -74,4 +74,8 @@ public interface DmyPageService {
 	int selectDrLikeCount(String drNo);
 
 	int selectLikeCount(String drNo);
+
+	int selectReplyCount(String drNo);
+
+	int selectChosenReplyCount(String drNo);
 }

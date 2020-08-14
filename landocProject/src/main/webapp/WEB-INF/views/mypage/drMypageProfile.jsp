@@ -99,11 +99,11 @@
                
                <div class="col-lg-7 mt-3" style="text-align:left;">
                		<span class="title">답변 수</span>
-                  <span class="content pl-2">30?</span>
+                  <span class="content pl-2">${replyCount }</span>
                </div>
                <div class="col-lg-4 mt-3" style="text-align:left;">
                  <span class="title">채택된 답변 수</span>
-                 <span class="content pl-2">30?</span>
+                 <span class="content pl-2">${chosenReplyCount }</span>
                </div>
               
             </div>
@@ -116,11 +116,11 @@
 					  <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
 					</div> -->
                			<div style="float:left;">
-  						<span class="title">채택률</span>
+  						<span class="title">채택률(${chosenPer }%)</span>
   						</div>
   						<div class="progress" style="height:30px; width:100%; float:left; margin-top:10px;">
 	  						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
-	  								aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">75%
+	  								aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${chosenPer}%;">${chosenPer }%
 	  						</div>
 						</div>
   					

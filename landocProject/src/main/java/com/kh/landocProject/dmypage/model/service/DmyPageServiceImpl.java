@@ -202,6 +202,18 @@ public class DmyPageServiceImpl implements DmyPageService{
 		
 		return dMypageDao.selectLikeCount(drNo);
 	}
+
+	@Override
+	public int selectReplyCount(String drNo) {
+		
+		return dMypageDao.selectReplyCount(drNo);
+	}
+
+	@Override
+	public int selectChosenReplyCount(String drNo) {
+		
+		return dMypageDao.selectChosenReplyCount(drNo);
+	}
 	
 	
 	

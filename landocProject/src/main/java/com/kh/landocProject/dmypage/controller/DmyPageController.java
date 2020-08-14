@@ -418,10 +418,13 @@ public class DmyPageController {
 		}
 		
 	@RequestMapping(value="checkDrProfile.do", method=RequestMethod.GET)
-	public ModelAndView checkDrProfile(HttpSession session, ModelAndView mv, DrProfile dp, HpLike hl,
+	public ModelAndView checkDrProfile(HttpSession session, ModelAndView mv, DrProfile dp, HpLike hl, 
 										@RequestParam(value="replyDrNo", required=false) String replyDrNo) {
 	
 		int likeCount = 0;
+		int replyCount = 0;
+		int chosenReplyCount = 0;
+		double chosenPer = 0;
 		
 		// 의사가 로그인해서 마이페이지 프로필 확인 들어갈 경우
 		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
@@ -433,8 +436,14 @@ public class DmyPageController {
 			
 			// 의사 좋아요 수
 			likeCount = dMypageService.selectLikeCount(drNo);
-			
-			
+			replyCount = dMypageService.selectReplyCount(drNo);
+			chosenReplyCount = dMypageService.selectChosenReplyCount(drNo);
+			if(chosenReplyCount == 0) {
+				chosenPer = 0.0; 
+			}else {
+				double chosenPer1 = ((double)chosenReplyCount/replyCount)*100 ;
+				chosenPer = Math.round(chosenPer1 *100)/ 100.0;
+			}
 		}
 
 		// 일반 회원이 로그인해서 의사에게 물어봐 답변 의사 프로필 들어갈 경우
@@ -448,6 +457,14 @@ public class DmyPageController {
 			
 			// 의사 좋아요 수
 			likeCount = dMypageService.selectLikeCount(replyDrNo);
+			replyCount = dMypageService.selectReplyCount(replyDrNo);
+			chosenReplyCount = dMypageService.selectChosenReplyCount(replyDrNo);
+			if(chosenReplyCount == 0) {
+				chosenPer = 0.0; 
+			}else {
+				double chosenPer1 = ((double)chosenReplyCount/replyCount)*100 ;
+				chosenPer = Math.round(chosenPer1 *100)/ 100.0;
+			}
 			
 			hl.setcNo(cNo);
 			hl.setdNo(replyDrNo);
@@ -458,14 +475,13 @@ public class DmyPageController {
 			heart = 0;
 		}
 		
-	
-		
-		
-		
 		mv.addObject("dp", dp);
 		mv.addObject("cNo", cNo);
 		mv.addObject("heart", heart);
 		mv.addObject("likeCount", likeCount);
+		mv.addObject("replyCount", replyCount);
+		mv.addObject("chosenReplyCount", chosenReplyCount);
+		mv.addObject("chosenPer", chosenPer);
 		mv.setViewName("mypage/drMypageProfile");
 		
 		return mv;

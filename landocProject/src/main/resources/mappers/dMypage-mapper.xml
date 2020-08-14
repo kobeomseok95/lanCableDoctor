@@ -406,6 +406,37 @@
 		WHERE DR_NO=#{drNo}
 	</select>
 	
+	<select id="selectReplyCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM ASKDRREPLY
+		WHERE DR_NO=#{drNo}
+	</select>
+	
+	<select id="selectChosenReplyCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM ASKDRREPLY
+		WHERE DR_NO=#{drNo}
+			AND ADR_CHOOSESTATUS='Y'
+	
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 </mapper>
