@@ -30,10 +30,11 @@ public class Product implements Serializable{
 	List<DrProductRecommends> recommends;
 	public Product() {
 	}
+	
 	public Product(int pdNo, String pdName, int originPrice, int discountPer, int sellPrice, String volume,
 			String subExplicate, String drugWay, Date shelflife, int recommendCount, int categoryCode,
-			String categoryName, int viewCount, List<ProductPhoto> photos, List<ProductQna> qnas,
-			List<ProductReview> reviews, List<DrProductRecommends> recommends) {
+			String categoryName, int viewCount, List<ProductPhoto> photos,
+			List<ProductQna> qnas, List<ProductReview> reviews, List<DrProductRecommends> recommends) {
 		this.pdNo = pdNo;
 		this.pdName = pdName;
 		this.originPrice = originPrice;
@@ -52,6 +53,7 @@ public class Product implements Serializable{
 		this.reviews = reviews;
 		this.recommends = recommends;
 	}
+
 	public int getPdNo() {
 		return pdNo;
 	}
@@ -163,6 +165,7 @@ public class Product implements Serializable{
 				+ discountPer + ", sellPrice=" + sellPrice + ", volume=" + volume + ", subExplicate=" + subExplicate
 				+ ", drugWay=" + drugWay + ", shelflife=" + shelflife + ", recommendCount=" + recommendCount
 				+ ", categoryCode=" + categoryCode + ", categoryName=" + categoryName + ", viewCount=" + viewCount
-				+ ", photos=" + photos + ", qnas=" + qnas + ", reviews=" + reviews + ", recommends=" + recommends + "]";
+				+ ", thumbnail=" + ", photos=" + photos + ", qnas=" + qnas
+				+ ", reviews=" + reviews + ", recommends=" + recommends + "]";
 	}
 }

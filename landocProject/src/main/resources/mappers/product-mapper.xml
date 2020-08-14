@@ -112,9 +112,21 @@
 			COUNT(*) 
 		FROM 
 			PRODUCT
-		<if test="categoryNo != 7">
+		<if test="categoryNo != 7 and condition == null">
 		WHERE
 			CT_CODE = #{categoryNo}
+		</if>
+		<if test="condition != null and condition == 1">
+		WHERE
+			PD_NO = #{keyword}
+		</if>
+		<if test="condition != null and condition == 2">
+		WHERE
+			CT_CODE = #{keyword}
+		</if>
+		<if test="condition != null and condition == 3">
+		WHERE
+			PD_NAME = #{keyword}
 		</if>
 	</select>
 	
@@ -326,8 +338,69 @@
 		)
 	</insert>
 	
+	<select id="getAdminProducts" parameterType="hashMap" resultMap="product">
+		SELECT 
+		    *    
+		FROM
+		    PRODUCT A
+		    JOIN PCATEGORY B ON A.CT_CODE = B.CT_CODE
+		<if test="condition != null and condition == 1">
+		WHERE
+			A.PD_NO = #{keyword}
+		</if>
+		<if test="condition != null and condition == 2">
+		WHERE
+			A.CT_CODE = #{keyword}
+		</if>
+		<if test="condition != null and condition == 3">
+		WHERE
+			A.PD_NAME LIKE '%' || #{keyword} || '%'
+		</if>
+		ORDER BY
+			PD_UPLOADDATE DESC
+	</select>
+	
+	<insert id="insertProduct" parameterType="Product">
+		INSERT INTO PRODUCT
+		VALUES(
+			SEQ_PRODUCT.NEXTVAL,
+			#{pdName},
+			#{originPrice},
+			#{discountPer},
+			#{sellPrice},
+			#{volume},
+			#{subExplicate},
+			#{drugWay},
+			#{shelflife},
+			0,null,null,
+			#{categoryCode},
+			0,
+			SYSDATE
+		)
+	</insert>
+	
+	<insert id="insertProductPhoto" parameterType="ProductPhoto">
+		INSERT INTO PRODUCTPHOTO
+		VALUES(
+			SEQ_PRODUCTPHOTO.NEXTVAL,
+			SEQ_PRODUCT.CURRVAL,
+			#{fileName},
+			#{filePath},
+			#{photoType}
+		)
+	</insert>
 	
 </mapper>
+
+
+
+
+
+
+
+
+
+
 
 
 
