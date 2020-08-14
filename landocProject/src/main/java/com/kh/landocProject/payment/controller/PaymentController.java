@@ -99,7 +99,7 @@ public class PaymentController {
 //		System.out.println(paymentComment);
 //		System.out.println(opCount);
 //		System.out.println(cNo);
-//		p.setAmountPrice(allPrice - discountPrice - usePoint);
+		p.setAmountPrice(allPrice - discountPrice - usePoint);
 			
 			
 			

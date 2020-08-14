@@ -60,8 +60,8 @@
 	.pInput1{width: 250px; margin-left: 143px; height:35px; border: 1px solid lightgray;}
 	.search{float: right; margin-right: 10px; width: 130px; height:35px ; color: black; background-color: #e5f2fc; border: 0px; border-radius: 3px;}
 	.p4Label{margin-left:20px}
-	.p5{margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 530px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white;}
-	.p6{border: 1px solid white; background-color: white; margin: 10px; height: 300px; border-radius: 7px;}
+	.p5{margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 600px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white;}
+	.p6{border: 1px solid white; background-color: white; margin: 10px; height: 350px; border-radius: 7px;}
 	.p7{width : 375px; height:300px; padding:10px;}
 	.p8{margin-bottom:25px;margin-top:20px;}
 	.p9{margin-bottom:25px;}
@@ -94,7 +94,7 @@
 							<img src="/projectFiles/${selectPro.pdpRename }" width="100px" height="100px" style="margin-left: 10px; border: 1px solid black;">
 						</div>
 						<div style="display: inline-block; text-align:center">
-							<span>${selectPro.pdName }</span><span id="originPrice" class="product price">${selectPro.sellPrice }</span> <span style="margin-left:10px;">x</span> <span class="product price">${productCount }</span> <span style="margin-left: 10px;" >=</span> <span  class="product price">${selectPro.sellPrice * productCount}</span>
+							<span>${selectPro.pdName }</span><span id="originPrice" class="product price">${selectPro.originPrice }</span> <span style="margin-left:10px;">x</span> <span class="product price">${productCount }</span> <span style="margin-left: 10px;" >=</span> <span  class="product price">${selectPro.originPrice * productCount}</span>
 						</div>
 					</div>
 				</div>
@@ -145,26 +145,25 @@
 								<div class="p6">
 									<div class="p7">
 										<div class="p8">
-											<strong>총 주문 금액</strong>
+											<strong>주문 금액</strong>
 				                            <span style="float:right;" class="price" id="allPrice"></span>
-				                            <input type="hidden" name="allPrice" value=${selectPro.sellPrice * productCount}>
+				                            <input type="hidden" name="allPrice" value=${selectPro.originPrice * productCount}>
 			                            </div>
 		                            	<div class="p9">
 											<strong>할인 금액</strong>
-				                            <span style="float:right;" class="price" id="discountPrice">${selectPro.discount }</span><br>
-				                            <input type="hidden" name="discountPrice" value=${selectPro.discount }>
+				                            <span style="float:right;" class="price" id="discountPrice">${(selectPro.originPrice - selectPro.sellPrice) * productCount}원</span><br>
+				                            <input type="hidden" name="discountPrice" value=${(selectPro.originPrice - selectPro.sellPrice) * productCount}>
 			                            </div>
 		                            	<div class="p9">
-											<strong>포인트</strong>
+											<strong>사용 포인트</strong>
 				                            <span style="float:right;"><input type="text" class="price" id="minusPoint" name="usePoint" style="width:100px;" value=0></span><br>
-				                            
 			                            </div>
-			                            <div class="p9">
-											<strong>보유포인트</strong>
-				                            <input type="text" style="float:right; width:100px; border:none" id="point" class="price" value=${loginClient3.point } readonly><br>
-				                            
-			                            </div>
+				                          <div style="font-size:15px; float:right;"><span >보유 포인트 : </span><span id="point">${loginClient3.point }</span></div><br>
 			                            <hr>
+			                            <div class="p9">
+										<strong>총 할인된 금액</strong>
+			                           <span id="salesPrice" class="price" style="float:right">${(selectPro.originPrice - selectPro.sellPrice) * productCount}원</span><br>
+		                            </div>
 			                            <div class="p9">
 											<strong>총 결제 금액</strong>
 				                            <span style="float:right;" id="payPrice" class="price">원</span><br>
@@ -183,7 +182,7 @@
 									<label><input type="radio" name="pay" style="margin-right: 10px;" checked readonly>카카오페이</label>
 								</div> 
 								
-								<div style="margin: 10px; text-align: center;">
+								<div style="margin: 35px; text-align: center;">
 								<button type="button" id="pay" class="payBtn">결제</button>
 								<button type="button" class="noPay" >취소</button>
 								</div>
@@ -238,28 +237,31 @@
 							<div class="p6">
 								<div class="p7">
 									<div class="p8">
-										<strong>총 주문 금액</strong>
+										<strong>주문 금액</strong>
 			                            <span style="float:right;" class="price" id="allPrice"></span>
-			                                  <input type="hidden" name="allPrice" value=${selectPro.sellPrice * productCount}>
+			                                  <input type="hidden" name="allPrice" value=${selectPro.originPrice * productCount}>
 		                            </div>
 	                            	<div class="p9">
 										<strong>할인 금액</strong>
-			                            <span style="float:right;" class="price" id="discountPrice">${selectPro.discount }</span><br>
-			                            <input type="hidden" name="discountPrice" value=${selectPro.discount }>
+			                            <span style="float:right;" class="price" id="discountPrice">${(selectPro.originPrice - selectPro.sellPrice) * productCount}원</span><br>
+			                            <input type="hidden" name="discountPrice" value=${(selectPro.originPrice - selectPro.sellPrice) * productCount}>
 		                            </div>
 	                            	<div class="p9">
-										<strong>포인트</strong>
-			                            <span style="float:right;"><input type="text" class="price" id="minusPoint" name="usePoint" style="width:100px;" value=0></span><br>
+										<strong>사용 포인트</strong>
+			                            <span style="float:right;"><input type="text" class="price" id="minusPoint" name="usePoint" style="width:100px; text-align:right" value=0></span><br>
 		                            </div>
-		                            <div class="p9">
-										<strong>보유포인트</strong>
-			                            <input type="text" style="float:right; width:100px; border:none" id="point" class="price" value=${loginDrClient3.point } readonly><br>
-		                            </div>
+		                            <div style="font-size:15px; float:right;"><span >보유 포인트 : </span><span id="point">${loginDrClient3.point }</span></div><br>
+		                            
+			                            
 		                            <hr>
+		                            <div class="p9">
+										<strong>총 할인된 금액</strong>
+			                           <span id="salesPrice" class="price" style="float:right">${(selectPro.originPrice - selectPro.sellPrice) * productCount}원</span><br>
+		                            </div>
 		                            <div class="p9">
 										<strong>총 결제 금액</strong>
 			                            <span style="float:right;" id="payPrice" class="price">원</span><br>
-			                            <input type="hidden" name="amountPrice" value=0>
+			                            <input type="hidden" name="amountPrice" value=0 id="amountPrice">
 		                            </div>
 								</div>
 							</div>
@@ -274,7 +276,7 @@
 								<label><input type="radio" name="pay" style="margin-right: 10px;" checked readonly value="카카오페이">카카오페이</label>
 							</div>
 							
-							<div style="margin: 10px; text-align: center;">
+							<div style="margin: 35px; text-align: center;">
 								<button type="button" id="pay" class="payBtn">결제</button>
 								<button type="button" class="noPay">취소</button>
 							</div>
@@ -316,13 +318,16 @@
 			});
 			
 		
-	
+		
 			
-       	var point = $("#point").val();
-		var tp="${selectPro.sellPrice * productCount}";
+       	var point = $("#point").text();
+		var tp="${selectPro.originPrice * productCount}";
+		var pp = "${(selectPro.originPrice - selectPro.sellPrice) * productCount}";
 			$("#allPrice").text(numberWithCommas(tp) + "원");
-   		var dd = tp - $("#discountPrice").text();
+   		var dd = tp - pp;
    		$("#payPrice").text(numberWithCommas(dd) + "원");
+   		
+   		
    		
    
          $("#minusPoint").blur(function(){
@@ -332,12 +337,17 @@
          	}else if(Number($(this).val()) <= Number(point)){
   		   		var amount = $(this).val();
 		   		var discountPrice = $("#discountPrice").text();
-         		$("#payPrice").text(numberWithCommas(tp - amount - discountPrice) + "원");
-         		
+         		$("#payPrice").text(numberWithCommas(tp - amount - pp) + "원");
+         		$("#salesPrice").text(numberWithCommas(Number(pp) + Number(amount) + "원"));
+         		/* var ee = $("#payPrice").text();
+         		$("#amountPrice").val(ee);
+         		alert($("#amountPrice").val(ee)); */
+        		
          	}
          	if($(this).val() == ''){
    				$(this).val(0);
    			}
+         
          });
 	}) 
 	

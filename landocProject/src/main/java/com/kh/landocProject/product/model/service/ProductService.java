@@ -1,5 +1,6 @@
 package com.kh.landocProject.product.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import com.kh.landocProject.product.model.vo.ProductDetailPagination;
 import com.kh.landocProject.product.model.vo.ProductPagination;
 import com.kh.landocProject.product.model.vo.ProductPhoto;
 import com.kh.landocProject.product.model.vo.ProductQna;
+import com.kh.landocProject.product.model.vo.ProductRecommand;
 import com.kh.landocProject.product.model.vo.ProductReview;
 
 public interface ProductService {
@@ -44,4 +46,8 @@ public interface ProductService {
 	ProductQna getAnswer(int pdqNo);
 
 	int insertQna(ProductQna qna);
+
+	List<Product> proRecommand(HashMap<String, Integer> param);
+
+
 }

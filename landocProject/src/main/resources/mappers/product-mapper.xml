@@ -70,6 +70,26 @@
 		<result property="hpName" column="HP_NAME" />
 	</resultMap>
 	
+	<resultMap type="ProductRecommand" id="proRecommand">
+		<id property="categoryNo" column="CT_NO"/>
+		<result property="pdNo" column="PD_NO"/>
+		<result property="originPrice" column="ORIGIN_PRICE"/>
+		<result property="sellPrice" column="SELL_PRICE"/>
+		<result property="volume" column="VOLUME"/>
+		<result property="pdpRename" column="PDP_RENAME"/>
+		<result property="pdName" column="PD_NAME"/>
+		<result property="discount" column="DISCOUNT"/>
+		
+	</resultMap>
+	
+	<resultMap type="DrComment" id="drComment">
+		<id property="drCommentNo" column="DR_COMMENT_NO"/>
+		<result property="drCommentDate" column="DR_COMMENT_DATE"/>
+		<result property="drComment" column="DR_COMMENT"/>
+		<result property="cNo" column = "C_NO"/>
+		<result property="drNo" column = "DR_NO"/>
+	</resultMap>
+	
 	<sql id="sortFormula">
 		<choose>
 			<when test="sortNo == 1">
@@ -324,6 +344,16 @@
 		    #{secretPwd}
 		)
 	</insert>
+	
+	<select id="proRecommand" parameterType="hashMap" resultMap="proRecommand">
+		SELECT A.PD_NO, A.PD_NAME, A.ORIGIN_PRICE, A.SELL_PRICE, A.VOLUME, C.PDP_RENAME, A.CT_CODE, A.DISCOUNT
+		FROM PRODUCT A
+		    JOIN PCATEGORY B ON (A.CT_CODE = B.CT_CODE)
+		    JOIN PRODUCTPHOTO C ON (A.PD_NO = C.PD_NO)
+		WHERE
+		    C.PDP_TYPE = 0
+		    <include refid="categoryFormula" />
+	</select>
 	
 	
 </mapper>
