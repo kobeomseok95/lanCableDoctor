@@ -39,5 +39,15 @@ public class AdminProductServiceImpl implements AdminProductService{
 		return adminProductDao.insertProductPhoto(pt);
 	}
 
+	@Override
+	public List<String> getProductFileNames(int pdNo) {
+		return adminProductDao.getProductFileNames(pdNo);
+	}
+
+	@Override
+	public int deleteProduct(int pdNo) {
+		return adminProductDao.deleteProduct(pdNo);
+	}
+
 	
 }

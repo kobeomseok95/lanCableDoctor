@@ -19,6 +19,10 @@ public interface AdminProductService {
 
 	int insertProductPhoto(ProductPhoto pt);
 
+	List<String> getProductFileNames(int pdNo);
+
+	int deleteProduct(int pdNo);
+
 	
 
 }

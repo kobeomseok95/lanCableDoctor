@@ -133,6 +133,32 @@ public class ProductController {
 		return photoList;
 	}
 
+	@RequestMapping(value="deleteProduct.do", method=RequestMethod.POST)
+	public String deleteProduct(@RequestParam int pdNo,
+											RedirectAttributes ra) {
+		List<String> fileNames = adminProductImpl.getProductFileNames(pdNo);
+		productFileDetele(fileNames);
+		int result = adminProductImpl.deleteProduct(pdNo);
+
+		if(result > 0) {
+			ra.addAttribute("pageNo", 1);
+			ra.addAttribute("boardType", 1);
+			return "redirect:productManage.do";
+		}
+		else {
+			return "";
+		}
+	}
+	
+	private void productFileDetele(List<String> fileNames) {
+		for(String s : fileNames) {
+			File file = new File(filePath + s);
+			if( file.exists() ) {
+				file.delete();
+			}
+		}
+	}
+
 	@RequestMapping("productDetail.do")
 	public String productDetail() {
 		return "admin/product/productDetail";

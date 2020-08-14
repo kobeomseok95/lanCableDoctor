@@ -38,6 +38,14 @@ public class AdminProductDao {
 		return sqlSessionTemplate.insert("productMapper.insertProductPhoto", pt);
 	}
 
+	public List<String> getProductFileNames(int pdNo) {
+		return sqlSessionTemplate.selectList("productMapper.getProductFileNames", pdNo);
+	}
+
+	public int deleteProduct(int pdNo) {
+		return sqlSessionTemplate.update("productMapper.deleteProduct", pdNo);
+	}
+
 	
 
 }

@@ -88,7 +88,7 @@
             	<c:if test="${!empty products }">
             		<c:forEach var="product" items="${products }">
             <tr>
-           		<td>${product.pdNo }</td>
+           		<td class="pdNo">${product.pdNo }</td>
            		<td>${product.categoryCode }</td>
            		<td>${product.categoryName }</td>
            		<td>${product.pdName }</td>
@@ -97,7 +97,7 @@
            		<td class="price">${product.sellPrice }</td>
            		<td>
            			<button onclick="goUpdate();">수정하기</button>
-                    <button onclick="goDelete();">삭제하기</button>
+                    <button class="deleteProduct">삭제하기</button>
            		</td>
             </tr>
             		</c:forEach>
@@ -197,7 +197,7 @@
            		<td class="price">${product.sellPrice }</td>
            		<td>
            			<button onclick="goUpdate();">수정하기</button>
-                    <button onclick="goDelete();">삭제하기</button>
+                    <button class="deleteProduct">삭제하기</button>
            		</td>
             </tr>
             		</c:forEach>
@@ -303,7 +303,22 @@
         			$("#searchForm").submit();
         		}
         	});
-        });
+        	
+        	$('.deleteProduct').on('click', function(){
+        		if(confirm("삭제하시겠습니까?")){
+	        		var pdNo = $(this).parent().siblings('.pdNo').text();
+	        		
+	        		var $deleteForm = $('<form action="deleteProduct.do" method="POST"></form>');
+	        		var $input = $('<input name="pdNo" type="hidden" />');
+	        		$input.attr("value", pdNo);
+	        		$deleteForm.append($input);
+	        		$('body').append($deleteForm);
+	        		$deleteForm.submit();
+	        		alert("삭제되었습니다.");
+        		}
+        		else return false;
+        	});
+        });	//end of jquery
     </script>
 
 
