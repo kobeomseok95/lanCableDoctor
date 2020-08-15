@@ -86,7 +86,7 @@
         }
         
         function goProduct(){
-           location.href="productManage.do";
+           location.href="productManage.do?pageNo=1&boardType=1";
         }
         
         function goProductQnA(){

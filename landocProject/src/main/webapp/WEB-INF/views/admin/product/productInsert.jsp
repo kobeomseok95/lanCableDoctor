@@ -22,7 +22,7 @@
         #contentTb button:hover{background-color: #007ee5; color: white;}
       #contentTb input{width:95%; border:none;}`
       
-      #prCate{width:98%; height:40px; font-size:18px;margin:0}
+      #categoryCode{width:98%; height:40px; font-size:18px;margin:0}
       #volumn{width:30%; height:25px; font-size:15px;}
       #contentTb input[type=file]{height:50px;}
 
@@ -46,21 +46,19 @@
         <h3>신규 상품 추가</h3>
 
         <!--테이블 부분-->
-        <form id="createProduct" action="#" method="post">
+        <form id="createProduct" action="insertProduct.do" method="post" enctype="multipart/form-data">
             <table id="contentTb">
                 <tr>
-                
                     <th class="firstLine cate">상품 카테고리</th>
                     <td>
                        <div style="width:100%;float:left;">
-                        <select id="prCate">
-                            <option>--------</option>
-                            <option>종합건강</option>
-                            <option>눈건강</option>
-                            <option>장건강</option>
-                            <option>피로개선</option>
-                            <option>피부건강</option>
-                            <option>뼈 & 관절건강</option>
+                        <select id="categoryCode" name="categoryCode">
+                            <option value="1">종합건강</option>
+                            <option value="2">눈건강</option>
+                            <option value="4">장건강</option>
+                            <option value="5">피로개선</option>
+                            <option value="6">피부건강</option>
+                            <option value="3">뼈 & 관절건강</option>
                         </select>
                         </div>
                     </td>
@@ -68,65 +66,84 @@
                 <tr>
                     <th class="firstLine">상품명</th>
                     <td>
-                        <input type="text" name="productName" />
-                    </td>
-                </tr>
-                <tr>
-                    <th class="firstLine">상품수량</th>
-                    <td>
-                        <input type="number" name="productQunatity" />
+                        <input type="text" name="pdName" />
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">상품 부연 설명</th>
                     <td>
-                        <input type="text" name="productExplain" />
+                        <input type="text" name="subExplicate" />
                     </td>
                 </tr>
                 <tr>
-                    <th class="firstLine">상품 정가</th>
+                    <th class="firstLine">정가</th>
                     <td>
                     <div style="width:100%;float:left;">
-                        <input type="number" name="productPrice" style="width:15%"/> 원
+                        <input id="originPrice" type="number" name="originPrice" style="width:15%"
+                        value="0" min="0" /> 원
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="firstLine">할인율</th>
+                    <td>
+                    <div style="width:100%;float:left;">
+                        <input id="discountPer" type="number" name="discountPer" style="width:15%"
+                        value="0" min="0" max="100"/> %
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="firstLine">판매가격</th>
+                    <td>
+                    <div style="width:100%;float:left;">
+                        <input id="sellPrice" type="number" name="sellPrice" style="width:15%"
+                        value="0" min="0"/> 원
                     </div>
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">용량</th>
                     <td>
-                        <input type="number" name="productCapacity1" style="width:15%"/>
-                        <select id="volumn">
-                            <option>mg</option>
-                            <option>IU</option>
-                            <option>μg</option>
-                            <option>ug</option>
-                            <option>mcg</option>
+                        <input type="text" name="volume" style="width:15%"/>
+                        <select id="volumn" name="volumeUnit">
+                            <option value="mg">mg</option>
+                            <option value="IU">IU</option>
+                            <option value="μg">μg</option>
+                            <option value="ug">ug</option>
+                            <option value="mcg">mcg</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">섭취방법</th>
                     <td>
-                        <input type="text" name="productHowToEat" />
+                        <input type="text" name="drugWay" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="firstLine">유통기한</th>
+                    <td>
+                        <input type="date" name="shelflife" />
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">썸네일 이미지</th>
                     <td>
-                        <input type="file" name="productThumbnail" />
+                        <input type="file" name="thumbnail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">상세 설명 이미지</th>
                     <td>
-                        <input type="file" name="productDetailImage" />
+                        <input type="file" name="detail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
                     </td>
                 </tr>
             </table>
-            
+            <!-- 학원에서 상품 추가, 삭제하기! -->
              <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
-                <button type="sumbit" onclick="goModify();">등록하기</button>
+                <button type="submit">등록하기</button>
                 <button type="button" onclick="goBack();">뒤로가기</button>
             </div>
                
@@ -136,16 +153,52 @@
 
 
      <script>
-     
-        // 테이블 한 줄 hover효과 주는 function
-        $("#contentTb td").mouseenter(function () {
-            $(this).parent().css({ "background": "lightgrey" });
-        }).mouseout(function () {
-            $(this).parent().css({ "background": "white" });
-        });
-
+     	$(function(){
+	        // 테이블 한 줄 hover효과 주는 function
+	        $("#contentTb td").mouseenter(function () {
+	            $(this).parent().css({ "background": "lightgrey" });
+	        }).mouseout(function () {
+	            $(this).parent().css({ "background": "white" });
+	        });
+			
+	        $("#discountPer").on('change', function(){
+	        	var op = $("#originPrice").val();
+	        	var dp = $(this).val();
+	        	
+	        	$("#sellPrice").val( parseInt(Number( (100 - dp) / 100 * op )) );
+	        	
+	        	if( Number($("#sellPrice").val()) < 0 )
+	        		$("#sellPrice").val('0');
+	        });
+	        $("#originPrice").on('change', function(){
+	        	var op = $(this).val();
+	        	var dp = $("#discountPer").val();
+	        	
+	        	$("#sellPrice").val(Number( (100 - dp) / 100 * op ));
+	        	
+	        	if( Number($("#sellPrice").val()) < 0 )
+	        		$("#sellPrice").val('0');
+	        });
+     	});//end of jquery
+     	
+     	 function fileCheck(obj){
+     		pathpoint = obj.value.lastIndexOf('.');
+     		filepoint = obj.value.substring(pathpoint + 1, obj.length);
+     		filetype = filepoint.toLowerCase();
+     		
+     		if( filetype == 'jpg' || filetype == 'gif' || filetype == 'png' || 
+     				filetype == 'jpeg' || filetype == 'bmp' ){
+     			//정상
+     		}
+     		else{
+     			alert('이미지 파일만 선택할 수 있습니다.');
+     			parentObj = obj.parentNode;
+     			node = parentObj.replaceChild(obj.cloneNode(true), obj);
+     			return false;
+     		}
+     	}
     </script>
-
+	
 
 </body>
 

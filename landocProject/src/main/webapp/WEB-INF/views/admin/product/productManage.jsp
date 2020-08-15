@@ -28,8 +28,8 @@
         #searchArea select{width: 150px; height: 32px; font-weight: 600;}
         #searchArea{height: 60px;}
         #searchArea input{height: 26px; width: 300px;}   
-        #searchArea button{height: 35px; width: 120px; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
-        #searchArea button:hover{background-color:  #007ee5; color: white;}
+        #searchArea button, #goProduct{height: 35px; width: 120px; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
+        #searchArea button:hover, #goProduct:hover{background-color:  #007ee5; color: white;}
      
         /* td  */
         td > button {width: 300px;}
@@ -45,19 +45,24 @@
    <jsp:include page="../../common/adminSide.jsp"/>
 
     <!--여기서 부터 왼쪽 영역 contentArea-->
+    <c:if test="${boardType eq 1 }">
     <div id="contentArea">
         <h3>판매 상품 관리</h3>
 
         <!--검색 창 부분-->
         <div id="searchArea">
-            <select id="searchCondition" name="searchCondition">
-                <option>상품코드</option>
-                <option>상품명</option>
-                <option>게시글 제목</option>
-            </select>
-            <input type="text" value="">
-            <button type="button">검색하기</button>
-            <button type="button" onclick="goProductInsert();">상품 신규 등록</button>
+        	<form id="searchForm" action="productManage.do" method="GET">
+	            <select id="condition" name="condition">
+	                <option value="1">상품 코드</option>
+	                <option value="2">카테고리 코드</option>
+	                <option value="3">상품명</option>
+	            </select>
+	            <input id="keyword" name="keyword" type="text" />
+	            <input type="hidden" name="pageNo" value="1" />
+	            <input type="hidden" name="boardType" value="2" />
+	            <button id="searchProduct" type="button">검색하기</button>
+            	<button type="button" onclick="goProductInsert();">상품 신규 등록</button>
+            </form>
         </div>
 
         
@@ -65,50 +70,196 @@
         <table id="contentTb">
             <tr>
                 <th class="firstLine">상품코드</th>
-                <th class="firstLine">카테고리 이름</th>
                 <th class="firstLine">카테고리 코드</th>
-                <th class="firstLine">제조회사</th>
+                <th class="firstLine">카테고리 이름</th>
                 <th class="firstLine">상품명</th>
-                <th class="firstLine">가격</th>
+                <th class="firstLine">상품가격</th>
                 <th class="firstLine">할인율</th>
-                <th class="firstLine">현재수량</th>
+                <th class="firstLine">판매가격</th>
                 <th class="firstLine"></th>
             </tr>
+            	<c:if test="${empty products }">
             <tr>
-                <td>P1231</td>
-                <td>???</td>
-                <td>???</td>
-                <td>게보린만든곳</td>
-                <td>게보린</td>
-                <td>10,000</td>
-                <td>0%</td>
-                <td><input type="number" value="100" style="width:60px;" /></td>
-                <td>
-                    <button onclick="goUpdate();">수정하기</button>
-                    <button onclick="goDelete();">삭제하기</button>
-                </td>
+            	<td colspan='8' style='text-align: center;'>
+            		상품이 없습니다.
+            	</td>
             </tr>
+            	</c:if>
+            	<c:if test="${!empty products }">
+            		<c:forEach var="product" items="${products }">
+            <tr>
+           		<td class="pdNo">${product.pdNo }</td>
+           		<td>${product.categoryCode }</td>
+           		<td>${product.categoryName }</td>
+           		<td>${product.pdName }</td>
+           		<td class="price">${product.originPrice }</td>
+           		<td>${product.discountPer } % </td>
+           		<td class="price">${product.sellPrice }</td>
+           		<td>
+           			<button onclick="goUpdate();">수정하기</button>
+                    <button class="deleteProduct">삭제하기</button>
+           		</td>
+            </tr>
+            		</c:forEach>
+            	</c:if>
         </table>
 
         <br><br>
         <div class="pagination">
-            <a href="#">&laquo;</a>
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">&raquo;</a>
+        <c:if test="${!empty page }">
+	        <c:if test="${page.currentPage ne 1 }">
+	        	<c:url var="pageBack" value="productManage.do">
+	        		<c:param name="pageNo" value="${page.currentPage - 1 }" />
+	        		<c:param name="boardType" value="1" />
+	        	</c:url>
+	            <a href="${pageBack }">&laquo;</a>
+	        </c:if>
+	        
+	        <c:forEach var="p" begin="${page.startPage }" end="${page.endPage }">
+	       		<c:if test="${page.currentPage eq p}">
+	       		<a href="#" style="color: red;">${p }</a>
+	       		</c:if>
+	       		<c:if test="${page.currentPage ne p}">
+	       			<c:url var="goPage" value="productManage.do">
+	        			<c:param name="pageNo" value="${p }" />
+	        		<c:param name="boardType" value="1" />
+	        		</c:url>
+	       		<a href="${goPage }">${p }</a>
+	       		</c:if> 
+	        </c:forEach>
+	        
+	        <c:if test="${page.currentPage ne page.maxPage }">
+	            <c:url var="pageFront" value="productManage.do">
+	        		<c:param name="pageNo" value="${page.currentPage + 1 }" />
+	        		<c:param name="boardType" value="1" />
+	        	</c:url>
+	            <a href="${pageFront }">&raquo;</a>        
+	        </c:if>
+        </c:if>
+        <c:if test="${empty page || page.maxPage eq 1 }"></c:if>
         </div>
+	<br><br><br><br><br><br><br><br><br><br>
     </div>
-
-
-    <script>
+    </c:if>
     
+    <c:if test="${boardType eq 2 }">
+    <div id="contentArea">
+        <h3>판매 상품 관리</h3>
+
+        <!--검색 창 부분-->
+        <div id="searchArea">
+        	<form id="searchForm" action="productManage.do" method="GET">
+	            <select id="condition" name="condition">
+	                <option value="1" 
+	                <c:if test='${param["condition"] eq 1 }'>selected</c:if>>상품 코드</option>
+	                <option value="2"
+	                <c:if test='${param["condition"] eq 2 }'>selected</c:if>>카테고리 코드</option>
+	                <option value="3"
+	                <c:if test='${param["condition"] eq 3 }'>selected</c:if>>상품명</option>
+	            </select>
+	            <input id="keyword" name="keyword" type="text" value="${param['keyword'] }" />
+	            <input type="hidden" name="pageNo" value="1" />
+	            <input type="hidden" name="boardType" value="2" />
+	            <button id="searchProduct" type="button">검색하기</button>
+            	<button type="button" onclick="goProductInsert();">상품 신규 등록</button>
+            </form>
+        </div>
+
+        
+        <!--테이블 부분-->
+        <table id="contentTb">
+            <tr>
+                <th class="firstLine">상품코드</th>
+                <th class="firstLine">카테고리 코드</th>
+                <th class="firstLine">카테고리 이름</th>
+                <th class="firstLine">상품명</th>
+                <th class="firstLine">상품가격</th>
+                <th class="firstLine">할인율</th>
+                <th class="firstLine">판매가격</th>
+                <th class="firstLine"></th>
+            </tr>
+            	<c:if test="${empty products }">
+            <tr>
+            	<td colspan='8' style='text-align: center;'>
+            		상품이 없습니다.
+            	</td>
+            </tr>
+            	</c:if>
+            	<c:if test="${!empty products }">
+            		<c:forEach var="product" items="${products }">
+            <tr>
+           		<td class="pdNo">${product.pdNo }</td>
+           		<td>${product.categoryCode }</td>
+           		<td>${product.categoryName }</td>
+           		<td>${product.pdName }</td>
+           		<td class="price">${product.originPrice }</td>
+           		<td>${product.discountPer } % </td>
+           		<td class="price">${product.sellPrice }</td>
+           		<td>
+           			<button onclick="goUpdate();">수정하기</button>
+                    <button class="deleteProduct">삭제하기</button>
+           		</td>
+            </tr>
+            		</c:forEach>
+            	</c:if>
+        </table>
+        
+        
+        <br><br>
+		<button id="goProduct" onclick="goProduct();" >초기상태로</button>
+		
+        <br><br>
+        <div class="pagination">
+        <c:if test="${!empty page }">
+	        <c:if test="${page.currentPage ne 1 }">
+	        	<c:url var="pageBack" value="productManage.do">
+	        		<c:param name="pageNo" value="${page.currentPage - 1 }" />
+	        		<c:param name="boardType" value="2" />
+	        		<c:param name="condition" value="${param['condition'] }" />
+	        		<c:param name="keyword" value="${param['keyword'] }" />
+	        	</c:url>
+	            <a href="${pageBack }">&laquo;</a>
+	        </c:if>
+	        
+	        <c:forEach var="p" begin="${page.startPage }" end="${page.endPage }">
+	       		<c:if test="${page.currentPage eq p}">
+	       		<a href="#" style="color: red;">${p }</a>
+	       		</c:if>
+	       		<c:if test="${page.currentPage ne p}">
+	       			<c:url var="goPage" value="productManage.do">
+	        			<c:param name="pageNo" value="${p }" />
+	        			<c:param name="boardType" value="2" />
+		        		<c:param name="condition" value="${param['condition'] }" />
+		        		<c:param name="keyword" value="${param['keyword'] }" />
+	        		</c:url>
+	       		<a href="${goPage }">${p }</a>
+	       		</c:if> 
+	        </c:forEach>
+	        
+	        <c:if test="${page.currentPage ne page.maxPage && page.endPage ne 0 }">
+	            <c:url var="pageFront" value="productManage.do">
+	        		<c:param name="pageNo" value="${page.currentPage + 1 }" />
+	        		<c:param name="boardType" value="2" />
+	        		<c:param name="condition" value="${param['condition'] }" />
+	        		<c:param name="keyword" value="${param['keyword'] }" />
+	        	</c:url>
+	            <a href="${pageFront }">&raquo;</a>        
+	        </c:if>
+        </c:if>
+        <c:if test="${empty page || page.maxPage eq 1 }"></c:if>
+        </div>
+	<br><br><br><br><br><br><br><br><br><br>
+    </div>
+    </c:if>
+    
+    
+    <script>
+	    function goProduct(){
+	    	location.href="productManage.do?pageNo=1&boardType=1";
+	    }
 
         function goProductInsert(){
-            location.href="productInsert.do";
+            location.href="goProductInsert.do";
         }
 
         function goUpdate(){
@@ -122,7 +273,52 @@
         }).mouseout(function(){
             $(this).parent().css({"background" : "white"});
         });
-      
+        
+        function numberWithCommas(x) {
+		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+        
+        $(function(){
+        	$('.price').each(function(index, item){
+        		$(this).text(numberWithCommas($(this).text()));
+        	});
+        	
+        	$("#searchProduct").on({
+	       		click : function(){
+	       			if( $("#keyword").val().length < 2 && $("#condition option:selected").val() === "3" ){
+	       				alert("검색어를 2글자 이상 입력해주세요.");
+	       			}
+	       			else{
+	       				$("#searchForm").submit();
+	       			}
+	       		}
+        	});
+        	
+        	$('body').keydown(function(key){
+        		if( key.keyCode === 13 && $("#keyword").val().length < 2 && $("#condition option:selected").val() === "3"){
+        			alert("검색어를 2글자 이상 입력해주세요.");
+        			return false;
+        		}
+        		else if( key.keyCode === 13 && $("#keyword").val().length >= 2 && $("#condition option:selected").val() === "3" ){
+        			$("#searchForm").submit();
+        		}
+        	});
+        	
+        	$('.deleteProduct').on('click', function(){
+        		if(confirm("삭제하시겠습니까?")){
+	        		var pdNo = $(this).parent().siblings('.pdNo').text();
+	        		
+	        		var $deleteForm = $('<form action="deleteProduct.do" method="POST"></form>');
+	        		var $input = $('<input name="pdNo" type="hidden" />');
+	        		$input.attr("value", pdNo);
+	        		$deleteForm.append($input);
+	        		$('body').append($deleteForm);
+	        		$deleteForm.submit();
+	        		alert("삭제되었습니다.");
+        		}
+        		else return false;
+        	});
+        });	//end of jquery
     </script>
 
 
