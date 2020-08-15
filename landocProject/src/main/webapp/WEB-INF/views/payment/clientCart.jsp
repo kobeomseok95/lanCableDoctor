@@ -85,6 +85,7 @@
                         <td class="tdPrice">
                             <h5>${c.pdName}</h5>
                             <h5 id="originPrice${status.index}" class="originPrice">${c.originPrice}</h5>
+                            <input type="hidden" id="renameFile${status.index}" name="renameFile" class="renameFile" value="${c.renameFile}">
                             <input type="hidden" id="originPrice2${status.index}" name="originPrice" class="originPrice" value="${c.originPrice}">
                             <input type="hidden" id="discount${status.index}" name="discount" class="discount" value="${c.discount}">
                             <input type="hidden" id="sellPrice${status.index}" name="sellPrice" class="sellPrice" value="${c.sellPrice}">
@@ -97,7 +98,7 @@
 	                        <input type="text" style="width:50px;" class="count" name="count" id="count${status.index}" value="${c.cartCount}">
 	                        <button type="button" onclick="plusCount(${status.index})">+</button>
                         </td>
-                        <td><button class="btn btn-sm " style="background-color: #4d7ca2c2;color:white;">삭제하기</button></td>
+                        <td><button class="btn btn-sm " type="button" style="background-color: #4d7ca2c2;color:white;">삭제하기</button></td>
                       
                     </tr>
                     </c:forEach>
@@ -180,6 +181,7 @@
     		var listCartNo = new Array();
     		var listPdName = new Array();
     		var listPdNo = new Array();
+    		var listRenameFile = new Array();
     		if($("input[name=cartCheck]:checked").length==0){
     			alert("상품을 선택하세요");
     		}else{
@@ -194,11 +196,12 @@
     				listPdName.push($("#pdName"+i).val());
     				listPdNo.push($("#pdNo"+i).val());
     				listCount2.push($("#count"+i).val());
+    				listRenameFile.push($("#renameFile"+i).val());
     			
     			};
     		}
     			location.href="selectOrder.do?listOriginPrice="+listOriginPrice2+"&listDiscount="+listDiscount2+"&listSellPrice="+listSellPrice2
-    					+"&listCartNo="+listCartNo+"&listPdName="+listPdName+"&listPdNo="+listPdNo+"&listCount="+listCount2;
+    					+"&listCartNo="+listCartNo+"&listPdName="+listPdName+"&listPdNo="+listPdNo+"&listCount="+listCount2+"&listRenameFile="+listRenameFile;
     		}
     	}
     	 
@@ -265,7 +268,7 @@
     	
     	$(function(){
     		
-    		/* 정보 : 상품금액*/
+    		/* 상품금액 정보*/
     		for(var i=0;i<listOriginPrice.length;i++){
 	    		var originPrice=listOriginPrice[i]
 	    		var originPriceComma = addComma(originPrice);

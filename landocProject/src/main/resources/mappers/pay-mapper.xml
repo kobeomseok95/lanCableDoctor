@@ -113,4 +113,12 @@
 		AND PH.PDP_TYPE=0
 	</select>
 	
+	<insert id="cartInsert" parameterType="hashMap">
+		INSERT INTO CART VALUES(SEQ_CART.NEXTVAL,#{count},null,#{cNo},#{pdNo})
+	</insert>
+	
+	<update id="cartUpdate" parameterType="hashMap">
+		UPDATE CART SET CART_COUNT=#{count}+#{cartCount} WHERE C_NO=#{cNo} AND PD_NO=#{pdNo}
+	</update>
+	
 </mapper>

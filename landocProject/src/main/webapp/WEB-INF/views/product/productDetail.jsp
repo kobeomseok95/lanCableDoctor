@@ -162,8 +162,14 @@
                                 </li>
                                 <li class="list-group-item border-0">
                                     <button class="btn btn-default goCart">
-                                        <h5>장바구니</h5>
+                                        <h5 onclick="cart();">장바구니</h5>
                                     </button>
+                                    <script type="text/javascript">
+                                    	function cart(){
+                                    		var count=$("#productCount").val();                  
+                                    		location.href="cartInsert.do?pdNo="+${product.pdNo}+"&count="+count;
+                                    	}
+                                    </script>
                                     <button class="btn btn-default goPurchase" onclick="pay();">
                                         <h5>구매하기</h5>
                                     </button>

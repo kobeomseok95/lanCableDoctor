@@ -1,6 +1,7 @@
 package com.kh.landocProject.payment.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,16 @@ public class PaymentDao {
 	public int updateDr(Payment p) {
 	
 		return sqlSessionTemplate.update("payMapper.updateDr",p);
+	}
+
+	public int cartInsert(HashMap<String, Object> cart) {
+		
+		return sqlSessionTemplate.insert("payMapper.cartInsert",cart);
+	}
+
+	public int cartUpdate(HashMap<String, Object> cart) {
+	
+		return sqlSessionTemplate.update("payMapper.cartUpdate",cart);
 	}
 
 

@@ -1,6 +1,8 @@
 package com.kh.landocProject.payment.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.kh.landocProject.payment.model.vo.Cart;
 import com.kh.landocProject.payment.model.vo.MemberPay;
 import com.kh.landocProject.payment.model.vo.OrderMg;
@@ -31,6 +33,10 @@ public interface PaymentService {
 	int updateC(Payment p);
 
 	int updateDr(Payment p);
+
+	int cartInsert(HashMap<String, Object> cart);
+
+	int cartUpdate(HashMap<String, Object> cart);
 
 
 

@@ -1,5 +1,6 @@
 package com.kh.landocProject.payment.controller;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +50,68 @@ public class PaymentController {
 		return mv;
 	}
 	
+	@RequestMapping("cartInsert")
+	public ModelAndView cartInsert(HttpServletResponse response,HttpSession session,ModelAndView mv,@RequestParam(value="count")int count,
+			@RequestParam(value="pdNo") Integer pdNo) throws PaymentException, IOException{
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+	
+		HashMap<String,Object> cart = new HashMap<String, Object>();
+		ArrayList<Cart> list = payService.selectCartList(cNo);
+		int result=0;
+		int update =0;
+		String msg="";
+		boolean flag= false;
+		for(int i=0; i<list.size(); i++){
+			
+			if(list.get(i).getPdNo()==pdNo){
+				cart.put("cartCount", list.get(i).getCartCount());
+				cart.put("count", count);
+				cart.put("pdNo", pdNo);
+				cart.put("cNo", cNo);
+				if(list.get(i).getCartCount()+count>5){
+					 msg="해당 상품 장바구니 수량을 초과하였습니다.(최대 5개)";
+					 mv.addObject("msg",msg);
+					 mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+			         flag=true;
+			         break;
+				}
+		
+				update = payService.cartUpdate(cart);
+				
+				if(update>0){
+					msg= "장바구니에 담겼습니다.";
+					mv.addObject("msg",msg);
+					mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+			         flag= true;
+			         break;
+				}else{
+					throw new PaymentException("장바구니 담기실패");
+					
+				}	
+			} 		 
+		}
+		
+		if(flag!= true){
+			cart.put("count", count);
+			cart.put("pdNo", pdNo);
+			cart.put("cNo", cNo);
+			result = payService.cartInsert(cart);
+			if(result!=0) {
+			msg= "장바구니에 담겼습니다.";
+			mv.addObject("msg",msg);
+			mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+			
+			}else {
+				throw new PaymentException("장바구니 담기실패");
+			}
+		}
+		
+	 return mv;
+		
+	}
+	
+	
 	@RequestMapping("selectOrder.do")
 	public ModelAndView selectOrder(ModelAndView mv,
 			HttpSession session,
@@ -57,16 +121,28 @@ public class PaymentController {
 			@RequestParam(value="listCartNo") List<Integer> listCartNo,
 			@RequestParam(value="listPdName") List<String> listPdName,
 			@RequestParam(value="listPdNo") List<Integer> listPdNo,
-			@RequestParam(value="listCount") List<Integer> listCount
+			@RequestParam(value="listCount") List<Integer> listCount,
+			@RequestParam(value="listRenameFile") List<String> listRenameFile,
+			ArrayList<Cart> cart
 			) throws PaymentException{
 		
-		System.out.println("listDisCount:"+listDiscount);
-		System.out.println("listSellPrice:"+listSellPrice);
-		System.out.println("cartNo:"+listCartNo);
-		System.out.println("listPdName:"+listPdName);
-		System.out.println(" listPdNo:"+ listPdNo);
-		System.out.println("originPrice:"+listOriginPrice);
-		System.out.println("listCount:"+listCount);
+		
+		int allPrice =0;	// 총 결제금액
+		int allDiscount=0;	// 총 할인금액
+		for(int i =0; i<listOriginPrice.size();i++) {
+			
+			cart.add(new Cart(listCartNo.get(i),listRenameFile.get(i), listPdNo.get(i),listPdName.get(i),listCount.get(i),null, null, listOriginPrice.get(i), listDiscount.get(i),listSellPrice.get(i) ));
+			allPrice +=listSellPrice.get(i)*listCount.get(i);
+			allDiscount +=listOriginPrice.get(i)*listDiscount.get(i)/100*listCount.get(i);
+		
+		}
+		
+		
+		
+		System.out.println("allPrice:"+allPrice);
+		System.out.println("allDiscount:"+allDiscount);
+		System.out.println("array:"+cart);
+	
 		return mv;
 	}
 	
@@ -79,17 +155,25 @@ public class PaymentController {
 			@RequestParam(value="cartNo") List<Integer> listCartNo,
 			@RequestParam(value="pdName") List<String> listPdName,
 			@RequestParam(value="pdNo") List<Integer> listPdNo,
-			@RequestParam(value="count") List<Integer> listCount
+			@RequestParam(value="count") List<Integer> listCount,
+			@RequestParam(value="renameFile") List<String> listRenameFile,
+			ArrayList<Cart> cart
 			) throws PaymentException{
 		
+		int allPrice =0;	// 총 결제금액
+		int allDiscount=0;	// 총 할인금액
+		for(int i =0; i<listOriginPrice.size();i++) {
+			cart.add(new Cart(listCartNo.get(i),listRenameFile.get(i), listPdNo.get(i),listPdName.get(i),listCount.get(i),null, null, listOriginPrice.get(i), listDiscount.get(i),listSellPrice.get(i) ));
+			allPrice +=listSellPrice.get(i)*listCount.get(i);
+			allDiscount +=listOriginPrice.get(i)*listDiscount.get(i)/100*listCount.get(i);
 		
-		System.out.println("listDisCount:"+listDiscount);
-		System.out.println("listSellPrice:"+listSellPrice);
-		System.out.println("cartNo:"+listCartNo);
-		System.out.println("listPdName:"+listPdName);
-		System.out.println(" listPdNo:"+ listPdNo);
-		System.out.println("originPrice:"+listOriginPrice);
-		System.out.println("listCount:"+listCount);
+		}
+		
+		
+		System.out.println("allPrice:"+allPrice);
+		System.out.println("allDiscount:"+allDiscount);
+		System.out.println("array:"+cart);
+		
 		return mv;
 	}
 	
