@@ -1,6 +1,7 @@
 package com.kh.landocProject.cmypage.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -102,21 +103,21 @@ public class cMypageServiceImpl implements cMypageService {
 	
 	// 리뷰 수
 	@Override
-	public int getListCountReview() {
+	public int getListCountReview(String cNo) {
 
-		return cmDao.getListCountReview();
+		return cmDao.getListCountReview(cNo);
 	}
 
 	@Override
-	public int getListCountOrderList() {
+	public int getListCountOrderList(HashMap<String,Object> order) {
 		
-		return cmDao.getListCountOrderList();
+		return cmDao.getListCountOrderList(order);
 	}
 
 	@Override
-	public int getListCountOrderQna() {
+	public int getListCountOrderQna(String cNo) {
 		
-		return cmDao.getListCountOrderQna();
+		return cmDao.getListCountOrderQna(cNo);
 	}
 
 	@Override
@@ -171,6 +172,24 @@ public class cMypageServiceImpl implements cMypageService {
 	public int orderCancel(OrderList order) {
 		
 		return cmDao.orderCancel(order);
+	}
+
+	@Override
+	public String selectPdReviewPhoto(PdReview review) {
+		
+		return cmDao.selectPdReviewPhoto(review);
+	}
+
+	@Override
+	public int getListCountSearchOrderList(HashMap<String, Object> search) {
+		
+		return cmDao.getListCountSearchOrderList(search);
+	}
+
+	@Override
+	public int getListCountSearchOrderList2(HashMap<String, Object> search) {
+		
+		return cmDao.getListCountSearchOrderList2(search);
 	}
 
 

@@ -1,12 +1,13 @@
 package com.kh.landocProject.cmypage.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale.Category;
+import java.util.HashMap;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -40,6 +42,9 @@ public class cMypageController {
 	@Autowired
 	private cMypageService cmService;
 	
+	// 사진 저장 폴더
+	private final String filePath = "C:\\lanCableDoctorProject\\files\\";
+	
 	@RequestMapping(value="clientMypage.do", method=RequestMethod.GET)
 	public String mypageWorkjsp() {
 		
@@ -53,7 +58,7 @@ public class cMypageController {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		ArrayList<LikeHp> list = cmService.selectList(cNo);
-	System.out.println(list);
+
 		int listCount = cmService.selectCount(cNo);
 		if(list!=null) {
 			  mv.addObject("likeHplist",list); 
@@ -70,17 +75,17 @@ public class cMypageController {
 	
 	@RequestMapping(value="pdReview.do")
 	public ModelAndView pdReviewList(ModelAndView mv, HttpSession session,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCountReview();
+		int listCount = cmService.getListCountReview(cNo);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		ArrayList<PdReview> list = cmService.selectPdReviewList(cNo,pi);
 		if(list!=null) {
 			mv.addObject("pdReviewList",list);
@@ -94,18 +99,20 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="myOrderList.do")
-	public ModelAndView myOrderList(ModelAndView mv,HttpSession session,@RequestParam(value="page", required=false) Integer page) {
+	public ModelAndView myOrderList(ModelAndView mv,HttpSession session, @RequestParam(value="page", required=false) Integer page) {
 		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		
-		int listCount = cmService.getListCountOrderList();
+		HashMap<String,Object> order = new HashMap<String, Object>();
+		order.put("ostate","orderList");
+		order.put("cNo",cNo);
+		int listCount = cmService.getListCountOrderList(order);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		ArrayList<OrderList> list = cmService.selectOrderList(cNo,pi);
 		
 		if(list!=null) {
@@ -134,17 +141,20 @@ public class cMypageController {
 	
 	@RequestMapping(value="dateSearch.do")
 	public ModelAndView orderListDateSearch(HttpSession session,ModelAndView mv,@RequestParam(value="date") String date, OrderList order,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		
-		int listCount = cmService.getListCountOrderList();
+		HashMap<String,Object> search = new HashMap<String, Object>();
+		search.put("search","dateSearch");
+		search.put("cNo",cNo);
+		search.put("date",date);
+		int listCount = cmService.getListCountSearchOrderList(search);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		order.setcNo(cNo);
 		order.setDate(date);
 		ArrayList<OrderList> list = cmService.orderListDateSearch(order,pi);
@@ -162,17 +172,22 @@ public class cMypageController {
 	
 	@RequestMapping(value="dateSearch2.do")
 	public ModelAndView orderListDateSearch2(HttpSession session,ModelAndView mv,@RequestParam(value="startDate") Date startDate, @RequestParam(value="endDate") Date endDate, OrderList order,@RequestParam(value="page", required=false) Integer page) throws cMypageException{
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCountOrderList();
+		HashMap<String,Object> search = new HashMap<String, Object>();
+		search.put("search","dateSearch");
+		search.put("cNo",cNo);
+		search.put("CalendarDate1",startDate);
+		search.put("CalendarDate2",endDate);
+		int listCount = cmService.getListCountSearchOrderList2(search);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		order.setcNo(cNo);
 		order.setCalendarDate1(startDate);
 		order.setCalendarDate2(endDate);
@@ -207,14 +222,27 @@ public class cMypageController {
 		
 	}
 	@RequestMapping(value="pdReviewInsert.do")
-	public ModelAndView pdReviewInsert(ModelAndView mv,HttpServletResponse response,HttpSession session,PdReview review,@RequestParam(value="orderNo") int orderNo, @RequestParam(value="pdNo") int pdNo, @RequestParam(value="pdReview") String pdReviewContent) throws IOException, cMypageException {
+	public ModelAndView pdReviewInsert(ModelAndView mv,HttpServletRequest request, HttpServletResponse response,HttpSession session,PdReview review,@RequestParam(value="orderNo") int orderNo, @RequestParam(value="pdNo") int pdNo,
+			@RequestParam(value="pdReview") String pdReviewContent,@RequestParam(value="pdReviewImg",required = false) MultipartFile file) throws IOException, cMypageException {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
-		review.setcNo(cNo);
-		review.setOrderNo(orderNo);
-		review.setPdNo(pdNo);
-		review.setPdReviewContent(pdReviewContent);
-		
+		if(!file.getOriginalFilename().equals("")) {
+			  String renameFileName = saveFile(file,request);
+			  review.setcNo(cNo);
+			  review.setOrderNo(orderNo);
+			  review.setPdNo(pdNo);
+			  review.setPdReviewContent(pdReviewContent);
+			  review.setOriginFile(file.getOriginalFilename());
+			  review.setRenameFile(renameFileName);
+			  
+		}else {
+			  review.setcNo(cNo);
+			  review.setOrderNo(orderNo);
+			  review.setPdNo(pdNo);
+			  review.setPdReviewContent(pdReviewContent);
+			  review.setOriginFile(null);
+			  review.setRenameFile(null);
+		}
 		int result = cmService.pdReviewInsert(review);
 		int result2 = cmService.updateOrderStatus(review);
 		if(result>0 && result2>0) {
@@ -234,18 +262,18 @@ public class cMypageController {
 	@RequestMapping(value="orderQnaList.do")
 	public ModelAndView orderQnaList(HttpSession session, ModelAndView mv,OrderQna qna,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
 		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = cmService.getListCountOrderQna();
+		int listCount = cmService.getListCountOrderQna(cNo);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
 		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		
 		
 		ArrayList<OrderQna> qnaY = cmService.orderQnaListY(cNo,pi);
@@ -263,17 +291,19 @@ public class cMypageController {
 	
 	@RequestMapping(value="myOrderCancelList.do")
 	public ModelAndView orderCancelList(HttpSession session, ModelAndView mv,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		
-		int listCount = cmService.getListCountOrderList();
+		HashMap<String,Object> order = new HashMap<String, Object>();
+		order.put("ostate","cancelList");
+		order.put("cNo",cNo);
+		int listCount = cmService.getListCountOrderList(order);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
-		
-		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
 		
 		ArrayList<OrderList> list = cmService.orderCancelList(cNo,pi);
 		if(list!=null) {
@@ -345,12 +375,34 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="updateReview.do")
-	public ModelAndView updateReviewInsert(ModelAndView mv,HttpServletResponse response,HttpSession session,PdReview review,@RequestParam(value="orderNo") int orderNo, @RequestParam(value="pdReview") String pdReviewContent) throws IOException, cMypageException  {
+	public ModelAndView updateReviewInsert(ModelAndView mv,HttpServletRequest request, HttpServletResponse response,HttpSession session,PdReview review,
+			@RequestParam(value="orderNo") int orderNo, 
+			@RequestParam(value="pdReview") String pdReviewContent,
+			@RequestParam(value="pdReviewImg",required = false) MultipartFile file) throws IOException, cMypageException  {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
+		
 		review.setcNo(cNo);
 		review.setOrderNo(orderNo);
-		review.setPdReviewContent(pdReviewContent);
+		String rename = cmService.selectPdReviewPhoto(review);
+		if(rename!=null) {
+			deleteFile(rename);
+		}
+		if(!file.getOriginalFilename().equals("")){
+			
+			String renameFile = saveFile(file, request);
+			review.setRenameFile(renameFile);
+			review.setOriginFile(file.getOriginalFilename());
+			review.setcNo(cNo);
+			review.setOrderNo(orderNo);
+			review.setPdReviewContent(pdReviewContent);
+		}else {
+			review.setRenameFile(null);
+			review.setOriginFile(null);
+			review.setcNo(cNo);
+			review.setOrderNo(orderNo);
+			review.setPdReviewContent(pdReviewContent);
+		}
 		int result= cmService.updateReviewInsert(review);
 		if(result >0) {
 			  response.setContentType("text/html; charset=UTF-8");
@@ -424,4 +476,47 @@ public class cMypageController {
 		
 		return mv;
 	}
+	
+	
+	 public String saveFile(MultipartFile file, HttpServletRequest request) {
+
+	      
+	      File folder = new File(filePath);
+	      
+	      if(!folder.exists()) {
+	         folder.mkdirs();
+	      }
+	      
+	      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	      String originFileName = file.getOriginalFilename();
+	      String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." + originFileName.substring(originFileName.lastIndexOf(".")+1);
+	      
+	      String saveFiles = filePath + renameFileName;
+	      
+	      
+	      try {
+	         file.transferTo(new File(saveFiles));   // 이 때 파일이 저장
+	         
+	      } catch (IllegalStateException e) {
+	         
+	         e.printStackTrace();
+	      } catch (IOException e) {
+	         
+	         e.printStackTrace();
+	      }
+	      
+	      return renameFileName;
+	   }
+	 
+	 
+	 
+	 
+		public void deleteFile(String fileName) {
+			
+			File f = new File(filePath + fileName);
+			
+			if(f.exists()) {
+				f.delete();
+			}
+		}
 }

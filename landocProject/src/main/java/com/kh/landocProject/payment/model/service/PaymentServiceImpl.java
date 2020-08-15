@@ -1,14 +1,19 @@
 package com.kh.landocProject.payment.model.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.landocProject.payment.model.dao.PaymentDao;
+import com.kh.landocProject.payment.model.vo.Cart;
 import com.kh.landocProject.payment.model.vo.MemberPay;
 import com.kh.landocProject.payment.model.vo.OrderMg;
 import com.kh.landocProject.payment.model.vo.OrderProduct;
 import com.kh.landocProject.payment.model.vo.PayProduct;
 import com.kh.landocProject.payment.model.vo.Payment;
+
 
 @Service("payService")
 public class PaymentServiceImpl implements PaymentService{
@@ -17,6 +22,12 @@ public class PaymentServiceImpl implements PaymentService{
 	PaymentDao payDao;
 
 	@Override
+
+	public ArrayList<Cart> selectCartList(String cNo) {
+		
+		return payDao.selectCartList(cNo);
+	}
+
 	public MemberPay loginClient3(String cNo) {
 		
 		return payDao.loginClient3(cNo);
@@ -70,7 +81,18 @@ public class PaymentServiceImpl implements PaymentService{
 		return payDao.updateDr(p);
 	}
 
+	@Override
+	public int cartInsert(HashMap<String, Object> cart) {
+		
+		return payDao.cartInsert(cart);
+	}
+
+	@Override
+	public int cartUpdate(HashMap<String, Object> cart) {
+		
+		return payDao.cartUpdate(cart);
+	}
 
 
-	
+
 }

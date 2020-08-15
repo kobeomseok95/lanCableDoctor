@@ -1,8 +1,14 @@
 package com.kh.landocProject.payment.model.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+
+import com.kh.landocProject.payment.model.vo.Cart;
 
 import com.kh.landocProject.payment.model.vo.MemberPay;
 import com.kh.landocProject.payment.model.vo.OrderMg;
@@ -10,11 +16,18 @@ import com.kh.landocProject.payment.model.vo.OrderProduct;
 import com.kh.landocProject.payment.model.vo.PayProduct;
 import com.kh.landocProject.payment.model.vo.Payment;
 
+
 @Repository("payDao")
 public class PaymentDao {
 
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
+
+
+	public ArrayList<Cart> selectCartList(String cNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("payMapper.selectCartList",cNo);
+	}
 
 	public MemberPay loginClient3(String cNo) {
 		
@@ -60,6 +73,17 @@ public class PaymentDao {
 	
 		return sqlSessionTemplate.update("payMapper.updateDr",p);
 	}
+
+	public int cartInsert(HashMap<String, Object> cart) {
+		
+		return sqlSessionTemplate.insert("payMapper.cartInsert",cart);
+	}
+
+	public int cartUpdate(HashMap<String, Object> cart) {
+	
+		return sqlSessionTemplate.update("payMapper.cartUpdate",cart);
+	}
+
 
 
 }

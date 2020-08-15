@@ -41,9 +41,21 @@
    <![endif]-->
 
 <style>
-.checked {
-	color: orange;
-}
+	.checked {color: orange;}
+
+	.btn-file input[type=file] {
+                           top: 0;
+                           left: 0;
+                           min-width: 100%;
+                           min-height: 100%;
+                           text-align: right;
+                           opacity: 0;
+                           background: none repeat scroll 0 0 transparent;
+                           cursor: inherit;
+                           display: block;
+                           position: absolute;} 
+                           
+     .btn-block{background-color: #007ee5; position: relative;}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -79,7 +91,7 @@
 
 
 				<form id="review" action="drPdReviewInsert.do"
-					method="post">
+					method="post" enctype="multipart/form-data" >
 
 					<input type="hidden" name="orderNo" value="${orderDetail.orderNo}">
 					<input type="hidden" name="pdNo" value="${orderDetail.pdNo}">
@@ -181,6 +193,28 @@
 											name="pdReview" placeholder="상품을 복용한 후기를 적어주세요 (20자 이상)"
 											onkeyup="textCounter(this, 'counter', 20);"
 											required="required">${review.pdReviewContent}</textarea>
+							  <!-- 이미지 자료 첨부 미리보기 -->
+							  <c:if test="${review.renameFile eq null}">
+							  <span id="remove" style="display: none;">X</span>
+							  </c:if>
+							  <c:if test="${review.renameFile ne null}">
+							  <span id="remove" >X</span>
+							  </c:if>
+							  <div class="file-preview" id="thumb-receipt">
+							  <c:if test="${review.renameFile eq null}">
+			                     <img id="preView" name="preView">
+			               	  </c:if>
+			               	  <c:if test="${review.renameFile ne null}">
+			                     <img id="preView" name="preView" src="/projectFiles/${review.renameFile}" width="600px" height="300px">
+			               	  </c:if>
+			                  </div>		
+			                  <!-- 이미지 첨부 버튼 -->		 
+			                  <div tabindex="500" class="btn btn-blackcontent btn-block p-3 btn-file" style="background-color:#0071ce" id="test">
+			                  
+			                     <span style="font-size: 18px; color: white;">사진 첨부하기</span>
+			                     <input id="receipt_image" name="pdReviewImg" type="file" style="opacity: 0; " >
+			                  </div>		
+										
 										<div class="mt-1"
 											style="font-size: 14px; text-align: right; color: #494949; letter-spacing: -0.6px;">
 											(<span id="counter">0</span>자, 최소 20자 이상)
@@ -190,7 +224,41 @@
                                 {
                                     $('#' + field2).text(field.value.length);
                                 }
+  // x누르면 파일 사라지는 함수
                                 
+                                
+                                $(function(){
+                                   $("#remove").on("click",function(){
+                                      $("#preView").removeAttr("src");
+                                      $("#preView").removeAttr("width");
+                                      $("#preView").removeAttr("height");
+                                      $(this).hide();
+                                      });
+                                   })
+
+                                
+                                // 미리보기 영역에 이미지 하나만 나오게 하는 함수
+                                  function readUploadImage1(inputObject){
+                                       if(inputObject.files && inputObject.files[0]){
+                                          if(!(/image/i).test(inputObject.files[0].type)){
+                                             alert("이미지 파일을 선택해 주세요");
+                                             return false;
+                                          }
+                                          
+                                          var reader = new FileReader();
+                                          
+                                          reader.onload = function(e){
+                                             $("#preView").attr("src", e.target.result);
+                                             $("#preView").attr("width", "600px").attr("height","300px");
+                                          }
+                                          reader.readAsDataURL(inputObject.files[0]);
+                                       }        
+                                  }
+                                            
+                                  $("#receipt_image").change(function(){
+                                     $("#remove").show();
+                                     readUploadImage1(this);
+                                  }) 
                                 
                             </script>
 									</div>

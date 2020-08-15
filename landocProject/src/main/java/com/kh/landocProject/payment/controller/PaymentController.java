@@ -1,4 +1,7 @@
 package com.kh.landocProject.payment.controller;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,19 +10,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
+import com.kh.landocProject.payment.model.exception.PaymentException;
 import com.kh.landocProject.payment.model.service.PaymentService;
+import com.kh.landocProject.payment.model.vo.Cart;
 import com.kh.landocProject.payment.model.vo.MemberPay;
 import com.kh.landocProject.payment.model.vo.OrderMg;
 import com.kh.landocProject.payment.model.vo.OrderProduct;
 import com.kh.landocProject.payment.model.vo.PayProduct;
 import com.kh.landocProject.payment.model.vo.Payment;
+
 
 @Controller
 public class PaymentController {
@@ -28,10 +36,149 @@ public class PaymentController {
 	PaymentService payService;
 	
 	@RequestMapping(value="clientCart.do",method=RequestMethod.GET )
-	public String clientCart(){
+	public ModelAndView clientCart(ModelAndView mv,HttpSession session) throws PaymentException{
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+		ArrayList<Cart> cart = payService.selectCartList(cNo);
 		
-		return "payment/clientCart";
+		if(cart!=null) {
+			mv.addObject("cart",cart);
+			mv.setViewName("payment/clientCart");
+		}else {
+			throw new PaymentException("장바구니 조회 실패");
+		}
+		return mv;
 	}
+	
+	@RequestMapping("cartInsert")
+	public ModelAndView cartInsert(HttpServletResponse response,HttpSession session,ModelAndView mv,@RequestParam(value="count")int count,
+			@RequestParam(value="pdNo") Integer pdNo) throws PaymentException, IOException{
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo =loginClient.getcNo();
+	
+		HashMap<String,Object> cart = new HashMap<String, Object>();
+		ArrayList<Cart> list = payService.selectCartList(cNo);
+		int result=0;
+		int update =0;
+		String msg="";
+		boolean flag= false;
+		for(int i=0; i<list.size(); i++){
+			
+			if(list.get(i).getPdNo()==pdNo){
+				cart.put("cartCount", list.get(i).getCartCount());
+				cart.put("count", count);
+				cart.put("pdNo", pdNo);
+				cart.put("cNo", cNo);
+				if(list.get(i).getCartCount()+count>5){
+					 msg="해당 상품 장바구니 수량을 초과하였습니다.(최대 5개)";
+					 mv.addObject("msg",msg);
+					 mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+			         flag=true;
+			         break;
+				}
+		
+				update = payService.cartUpdate(cart);
+				
+				if(update>0){
+					msg= "장바구니에 담겼습니다.";
+					mv.addObject("msg",msg);
+					mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+			         flag= true;
+			         break;
+				}else{
+					throw new PaymentException("장바구니 담기실패");
+					
+				}	
+			} 		 
+		}
+		
+		if(flag!= true){
+			cart.put("count", count);
+			cart.put("pdNo", pdNo);
+			cart.put("cNo", cNo);
+			result = payService.cartInsert(cart);
+			if(result!=0) {
+			msg= "장바구니에 담겼습니다.";
+			mv.addObject("msg",msg);
+			mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+			
+			}else {
+				throw new PaymentException("장바구니 담기실패");
+			}
+		}
+		
+	 return mv;
+		
+	}
+	
+	
+	@RequestMapping("selectOrder.do")
+	public ModelAndView selectOrder(ModelAndView mv,
+			HttpSession session,
+			@RequestParam(value="listOriginPrice") List<Integer> listOriginPrice,
+			@RequestParam(value="listDiscount") List<Integer> listDiscount,
+			@RequestParam(value="listSellPrice") List<Integer> listSellPrice,
+			@RequestParam(value="listCartNo") List<Integer> listCartNo,
+			@RequestParam(value="listPdName") List<String> listPdName,
+			@RequestParam(value="listPdNo") List<Integer> listPdNo,
+			@RequestParam(value="listCount") List<Integer> listCount,
+			@RequestParam(value="listRenameFile") List<String> listRenameFile,
+			ArrayList<Cart> cart
+			) throws PaymentException{
+		
+		
+		int allPrice =0;	// 총 결제금액
+		int allDiscount=0;	// 총 할인금액
+		for(int i =0; i<listOriginPrice.size();i++) {
+			
+			cart.add(new Cart(listCartNo.get(i),listRenameFile.get(i), listPdNo.get(i),listPdName.get(i),listCount.get(i),null, null, listOriginPrice.get(i), listDiscount.get(i),listSellPrice.get(i) ));
+			allPrice +=listSellPrice.get(i)*listCount.get(i);
+			allDiscount +=listOriginPrice.get(i)*listDiscount.get(i)/100*listCount.get(i);
+		
+		}
+		
+		
+		
+		System.out.println("allPrice:"+allPrice);
+		System.out.println("allDiscount:"+allDiscount);
+		System.out.println("array:"+cart);
+	
+		return mv;
+	}
+	
+	@RequestMapping("allOrder.do")
+	public ModelAndView allOrder(ModelAndView mv,
+			HttpSession session,
+			@RequestParam(value="originPrice") List<Integer> listOriginPrice,
+			@RequestParam(value="discount") List<Integer> listDiscount,
+			@RequestParam(value="sellPrice") List<Integer> listSellPrice,
+			@RequestParam(value="cartNo") List<Integer> listCartNo,
+			@RequestParam(value="pdName") List<String> listPdName,
+			@RequestParam(value="pdNo") List<Integer> listPdNo,
+			@RequestParam(value="count") List<Integer> listCount,
+			@RequestParam(value="renameFile") List<String> listRenameFile,
+			ArrayList<Cart> cart
+			) throws PaymentException{
+		
+		int allPrice =0;	// 총 결제금액
+		int allDiscount=0;	// 총 할인금액
+		for(int i =0; i<listOriginPrice.size();i++) {
+			cart.add(new Cart(listCartNo.get(i),listRenameFile.get(i), listPdNo.get(i),listPdName.get(i),listCount.get(i),null, null, listOriginPrice.get(i), listDiscount.get(i),listSellPrice.get(i) ));
+			allPrice +=listSellPrice.get(i)*listCount.get(i);
+			allDiscount +=listOriginPrice.get(i)*listDiscount.get(i)/100*listCount.get(i);
+		
+		}
+		
+		
+		System.out.println("allPrice:"+allPrice);
+		System.out.println("allDiscount:"+allDiscount);
+		System.out.println("array:"+cart);
+		
+		return mv;
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "payView.do", method = RequestMethod.GET)
 	public String payView(Model model,Integer pdNo, String pdName, HttpSession session, String productCount, HttpServletResponse response_equals) throws IOException {
