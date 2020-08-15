@@ -125,8 +125,14 @@
                      <div class="col-9">
                         <div class="color49 toast-message mb-4" style="font-size: 14px;">
                            ${r.pdReviewContent}</div>
-
-                     </div>
+                         
+                        <c:if test="${r.renameFile ne null}">
+						<div class="color49 toast-message mb-4" style="font-size: 14px;">
+                           <img src="/projectFiles/${r.renameFile}" width="430px" height="300px">
+                        </div>
+                        </c:if>
+                    </div>
+                    	
                   </div>
 
                   <div style="float: right;">

@@ -1,8 +1,6 @@
 package com.kh.landocProject.cmypage.model.vo;
 
-import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
-
-public class CMypagePagination {
+public class CMypagePagination{
 	public static CMypagePageInfo getPageInfo(int currentPage,int listCount) {
 		CMypagePageInfo pi = null;
 		
@@ -13,7 +11,7 @@ public class CMypagePagination {
 		
 		int boardLimit = 5;
 		
-		maxPage = (int)((double)listCount/boardLimit+0.9)-1;
+		maxPage = (int)((double)listCount/boardLimit+0.9);
 		
 		startPage = (int)(((double)currentPage/pageLimit + 0.9)-1)*pageLimit+1;
 		

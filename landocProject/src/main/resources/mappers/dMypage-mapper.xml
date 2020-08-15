@@ -13,6 +13,8 @@
 		<result property="pdName" column="PD_NAME"/>
 		<result property="pdReviewNo" column="PDREVIEW_NO"/>
 		<result property="dNo" column="DR_NO"/>
+		<result property="originFile" column="PRP_ORIGINAL"/>
+		<result property="renameFile" column="PRP_RENAME"/>
 	</resultMap>
 
 	<resultMap type="DOrderList" id="orderListMap">
@@ -68,7 +70,7 @@
 
 
 	<select id="pdReviewList" parameterType="string" resultMap="pdReviewListMap">
-		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO, PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO,PR.DR_NO
+		SELECT PR.PDREVIEW_CONTENT, PR.ORDER_NO, PR.PD_NO, PA.ORDER_DATE,PD.PD_NAME,PR.PDREVIEW_NO,PR.DR_NO,PR.PRP_RENAME
 		FROM PRODUCTREVIEW PR
 		JOIN
 		PAYMENT PA ON(PR.ORDER_NO=PA.ORDER_NO)
@@ -168,7 +170,7 @@
 	<insert id="pdReviewInsert" parameterType="DPdReview">
 		INSERT INTO
 		PRODUCTREVIEW
-		VALUES(SEQ_PDREVIEW.NEXTVAL,#{pdReviewContent},#{orderNo},#{pdNo},NULL,#{dNo})
+		VALUES(SEQ_PDREVIEW.NEXTVAL,#{pdReviewContent},#{orderNo},#{pdNo},NULL,#{dNo},SYSDATE,#{originFile},#{renameFile})
 	</insert>
 
 	<update id="updateOStatus" parameterType="DPdReview">
@@ -224,17 +226,58 @@
 		VALUES(SEQ_ORDERQNA.NEXTVAL,#{orderNo},#{oqnaTitle},#{oqnaContent},SYSDATE,'N',NULL)
 	</insert>
 
-	<select id="pdReviewListCount" resultType="_int">
+	<select id="pdReviewListCount" resultType="_int" parameterType="string">
 		SELECT COUNT(*) FROM
 		PRODUCTREVIEW
+		WHERE DR_NO=#{dNo}
 	</select>
 	
 	<select id="orderListCount" resultType="_int">
-		SELECT COUNT(*) FROM PAYMENT
+		SELECT COUNT(*) 
+		FROM PAYMENT PA
+		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		WHERE PA.DR_NO=#{drNo}
+		<if test='ostate == "orderList"'>
+		AND OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE =14
+		</if>
+		<if test='ostate == "cancelList"'>
+		AND OM.O_CODE BETWEEN 6
+		AND 13
+		</if>
+	</select>
+	
+	<select id="getListCountSearchOrderList" resultType="_int" parameterType="hashMap">
+		SELECT COUNT(*) 
+		FROM PAYMENT PA
+		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		WHERE PA.DR_NO=#{drNo}
+		AND OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE =14
+		<if test='date=="today"'>AND TRUNC(SYSDATE) - PA.ORDER_DATE =0</if>
+		<if test='date=="weeks"'>AND 7>=TRUNC(SYSDATE)-PA.ORDER_DATE </if>
+		<if test='date=="onemonth"'>AND 30>=TRUNC(SYSDATE) - PA.ORDER_DATE </if>
+		<if test='date=="threemonth"'>AND 90>= TRUNC(SYSDATE) - PA.ORDER_DATE </if>
+		<if test='date=="sixmonth"'>AND 180>= TRUNC(SYSDATE) - PA.ORDER_DATE </if>
+	</select>
+	
+	<select id="getListCountSearchOrderList2" resultType="_int" parameterType="hashMap">
+		SELECT COUNT(*) 
+		FROM PAYMENT PA
+		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		WHERE PA.DR_NO=#{drNo}
+		AND OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE =14
+		AND PA.ORDER_DATE BETWEEN #{calendarDate1} AND
+		#{calendarDate2}
 	</select>
 	
 	<select id="orderQnaListCount" resultType="_int">
-		SELECT COUNT(*) FROM ORDERQNA
+		SELECT COUNT(*) 
+		FROM ORDERQNA OQ
+        JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
+		WHERE OM.DR_NO=#{drNo}
+		AND OQNA_STATUS='Y'
 	</select>
 	
 	<select id="updateReview" parameterType="DPdReview" resultMap="pdReviewListMap">
@@ -244,7 +287,7 @@
 	</select>
 	
 	<update id="updateReviewInsert" parameterType="DPdReview">
-		UPDATE PRODUCTREVIEW SET PDREVIEW_CONTENT = #{pdReviewContent} WHERE ORDER_NO=#{orderNo} AND DR_NO=#{dNo}
+		UPDATE PRODUCTREVIEW SET PDREVIEW_CONTENT = #{pdReviewContent},PRP_ORIGINAL=#{originFile},PRP_RENAME=#{renameFile} WHERE ORDER_NO=#{orderNo} AND DR_NO=#{dNo}
 	</update>
 	
 	
@@ -326,4 +369,10 @@
 	<update id="orderCancelUpdate" parameterType="DOrderList">
 		UPDATE ORDERMG SET O_CODE=#{oCode} WHERE ORDER_NO=#{orderNo}
 	</update>
+	
+	<select id="selectPdReviewPhoto" resultType="string" parameterType="DPdReview">
+		SELECT PRP_RENAME
+		FROM PRODUCTREVIEW
+		WHERE ORDER_NO=#{orderNo} AND DR_NO=#{dNo}
+	</select>
 </mapper>
