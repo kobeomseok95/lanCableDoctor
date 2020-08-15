@@ -1,6 +1,7 @@
 package com.kh.landocProject.dmypage.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,9 @@ public class DmyPageServiceImpl implements DmyPageService{
 	}
 	
 	@Override
-	public int getListCountReview() {
+	public int getListCountReview(String drNo) {
 		
-		return dMypageDao.getListCoundReview();
+		return dMypageDao.getListCoundReview(drNo);
 	}
 
 	@Override
@@ -97,15 +98,15 @@ public class DmyPageServiceImpl implements DmyPageService{
 	
 
 	@Override
-	public int getListCountOrderList() {
+	public int getListCountOrderList(HashMap<String,Object> order) {
 		// TODO Auto-generated method stub
-		return dMypageDao.getListCountOrderList();
+		return dMypageDao.getListCountOrderList(order);
 	}
 
 	@Override
-	public int getListCountOrderQna() {
+	public int getListCountOrderQna(String drNo) {
 		// TODO Auto-generated method stub
-		return dMypageDao.getListCountOrderQna();
+		return dMypageDao.getListCountOrderQna(drNo);
 	}
 
 	@Override
@@ -227,8 +228,24 @@ public class DmyPageServiceImpl implements DmyPageService{
 		
 		return dMypageDao.selectCommentCount(drNo);
 	}
-	
-	
+
+	public String selectPdReviewPhoto(DPdReview review) {
+		
+		return dMypageDao.selectPdReviewPhoto(review);
+	}
+
+	@Override
+	public int getListCountSearchOrderList(HashMap<String, Object> search) {
+		
+		return dMypageDao.getListCountSearchOrderList(search);
+	}
+
+	@Override
+	public int getListCountSearchOrderList2(HashMap<String, Object> search) {
+		
+		return dMypageDao.getListCountSearchOrderList2(search);
+	}
+
 	
 	
 }

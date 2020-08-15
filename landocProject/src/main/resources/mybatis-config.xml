@@ -54,6 +54,7 @@
 		<typeAlias type="com.kh.landocProject.payment.model.vo.OrderMg" alias="OrderMg" />
 		<typeAlias type="com.kh.landocProject.payment.model.vo.OrderProduct" alias="OrderProduct" />
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrProfile" alias="DrProfile" />
+		<typeAlias type="com.kh.landocProject.payment.model.vo.Cart" alias="Cart" />
 	</typeAliases>
 
 

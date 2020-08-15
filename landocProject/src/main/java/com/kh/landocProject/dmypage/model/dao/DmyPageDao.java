@@ -1,6 +1,7 @@
 package com.kh.landocProject.dmypage.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -31,9 +32,9 @@ public class DmyPageDao {
 		return (ArrayList) sqlSessionTemplate.selectList("dMypage.pdReviewList", drNo, rowBounds);
 	}
 
-	public int getListCoundReview() {
+	public int getListCoundReview(String drNo) {
 		
-		return sqlSessionTemplate.selectOne("dMypage.pdReviewListCount");
+		return sqlSessionTemplate.selectOne("dMypage.pdReviewListCount",drNo);
 	}
 
 	public ArrayList<DOrderList> selectOrderList(String drNo, CMypagePageInfo pi) {
@@ -101,14 +102,14 @@ public class DmyPageDao {
 		return sqlSessionTemplate.insert("dMypage.orderQnaInsert", qna);
 	}
 
-	public int getListCountOrderList() {
+	public int getListCountOrderList(HashMap<String,Object> order) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectOne("dMypage.orderListCount");
+		return sqlSessionTemplate.selectOne("dMypage.orderListCount",order);
 	}
 
-	public int getListCountOrderQna() {
+	public int getListCountOrderQna(String drNo) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.selectOne("dMypage.orderQnaListCount");
+		return sqlSessionTemplate.selectOne("dMypage.orderQnaListCount",drNo);
 	}
 
 	public DPdReview updateReview(DPdReview review) {
@@ -214,6 +215,22 @@ public class DmyPageDao {
 	public int selectCommentCount(String drNo) {
 		
 		return sqlSessionTemplate.selectOne("dMypage.selectCommentCount", drNo);
+	}
+
+	public String selectPdReviewPhoto(DPdReview review) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectPdReviewPhoto",review);
+	}
+
+	public int getListCountSearchOrderList(HashMap<String, Object> search) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("dMypage.getListCountSearchOrderList",search);
+	}
+
+	public int getListCountSearchOrderList2(HashMap<String, Object> search) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("dMypage.getListCountSearchOrderList2",search);
+
 	}
 	
 	

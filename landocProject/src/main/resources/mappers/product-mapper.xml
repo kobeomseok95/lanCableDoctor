@@ -112,9 +112,21 @@
 			COUNT(*) 
 		FROM 
 			PRODUCT
-		<if test="categoryNo != 7">
+		<if test="categoryNo != 7 and condition == null">
 		WHERE
 			CT_CODE = #{categoryNo}
+		</if>
+		<if test="condition != null and condition == 1">
+		WHERE
+			PD_NO = #{keyword}
+		</if>
+		<if test="condition != null and condition == 2">
+		WHERE
+			CT_CODE = #{keyword}
+		</if>
+		<if test="condition != null and condition == 3">
+		WHERE
+			PD_NAME = #{keyword}
 		</if>
 	</select>
 	
@@ -144,6 +156,8 @@
 		    JOIN PRODUCTPHOTO C ON A.PD_NO = C.PD_NO
 		WHERE
 		    C.PDP_TYPE = 0
+		 AND
+		 	A.PD_STATUS = 'Y'
 		    <include refid="categoryFormula" />
 		<include refid="sortFormula" />
 	</select>
@@ -155,6 +169,7 @@
 			PRODUCT
 		WHERE 
 			PD_NAME LIKE '%' || #{keyword} || '%'
+		AND PD_STATUS = 'Y'
 	</select>
 	
 	<select id="suggestProduct" parameterType="string" resultMap="product">
@@ -171,6 +186,7 @@
 		    WHERE 
 		        PD_NAME LIKE '%' || #{keyword} || '%'
 		        AND B.PDP_TYPE = 0
+		        AND A.PD_STATUS = 'Y'
 		    ORDER BY 
 		        (RECOMEND * 5) + (PD_COUNT) DESC) F
 		<![CDATA[
@@ -205,6 +221,7 @@
 		WHERE
 		    C.PDP_TYPE = 0
 		    AND A.PD_NAME LIKE '%' || #{keyword} || '%'
+		    AND A.PD_STATUS = 'Y'
 		<include refid="sortFormula" />		
 	</select>
 	
@@ -326,8 +343,83 @@
 		)
 	</insert>
 	
+	<select id="getAdminProducts" parameterType="hashMap" resultMap="product">
+		SELECT 
+		    *    
+		FROM
+		    PRODUCT A
+		    JOIN PCATEGORY B ON A.CT_CODE = B.CT_CODE
+		WHERE PD_STATUS = 'Y'
+		<if test="condition != null and condition == 1">
+		AND
+			A.PD_NO = #{keyword}
+		</if>
+		<if test="condition != null and condition == 2">
+		AND
+			A.CT_CODE = #{keyword}
+		</if>
+		<if test="condition != null and condition == 3">
+		AND
+			A.PD_NAME LIKE '%' || #{keyword} || '%'
+		</if>
+		ORDER BY
+			PD_UPLOADDATE DESC
+	</select>
+	
+	<insert id="insertProduct" parameterType="Product">
+		INSERT INTO PRODUCT
+		VALUES(
+			SEQ_PRODUCT.NEXTVAL,
+			#{pdName},
+			#{originPrice},
+			#{discountPer},
+			#{sellPrice},
+			#{volume},
+			#{subExplicate},
+			#{drugWay},
+			#{shelflife},
+			0,null,null,
+			#{categoryCode},
+			0,
+			SYSDATE,
+			'Y'
+		)
+	</insert>
+	
+	<insert id="insertProductPhoto" parameterType="ProductPhoto">
+		INSERT INTO PRODUCTPHOTO
+		VALUES(
+			SEQ_PRODUCTPHOTO.NEXTVAL,
+			SEQ_PRODUCT.CURRVAL,
+			#{fileName},
+			#{filePath},
+			#{photoType}
+		)
+	</insert>
+	
+	<select id="getProductFileNames" parameterType="_int" resultType="string">
+		SELECT PDP_RENAME
+		FROM PRODUCTPHOTO
+		WHERE PD_NO = #{pdNo}
+	</select>
+	
+	<delete id="deleteProduct" parameterType="_int">
+		UPDATE PRODUCT
+		SET PD_STATUS = 'N'
+		WHERE PD_NO = #{pdNo}
+	</delete>
 	
 </mapper>
+
+
+
+
+
+
+
+
+
+
 
 
 

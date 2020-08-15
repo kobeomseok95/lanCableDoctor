@@ -1,6 +1,7 @@
 package com.kh.landocProject.cmypage.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -105,19 +106,19 @@ public class cMypageDao {
 	}
 
 	// 리뷰 수
-	public int getListCountReview() {
+	public int getListCountReview(String cNo) {
 
-		return sqlSessionTemplate.selectOne("cMypage.pdReviewListCount");
+		return sqlSessionTemplate.selectOne("cMypage.pdReviewListCount",cNo);
 	}
 
-	public int getListCountOrderList() {
+	public int getListCountOrderList(HashMap<String,Object> order) {
 		
-		return sqlSessionTemplate.selectOne("cMypage.orderListCount");
+		return sqlSessionTemplate.selectOne("cMypage.orderListCount",order);
 	}
 
-	public int getListCountOrderQna() {
+	public int getListCountOrderQna(String cNo) {
 		
-		return sqlSessionTemplate.selectOne("cMypage.orderQnaListCount");
+		return sqlSessionTemplate.selectOne("cMypage.orderQnaListCount",cNo);
 	}
 
 	// 업데이트 할 리뷰 정보 가져오기
@@ -164,6 +165,21 @@ public class cMypageDao {
 	public int orderCancel(OrderList order) {
 		
 		return sqlSessionTemplate.update("cMypage.orderCancelUpdate", order);
+	}
+
+	public String selectPdReviewPhoto(PdReview review) {
+		
+		return sqlSessionTemplate.selectOne("cMypage.selectPdReviewPhoto",review);
+	}
+
+	public int getListCountSearchOrderList(HashMap<String, Object> search) {
+		
+		return sqlSessionTemplate.selectOne("cMypage.getListCountSearchOrderList",search);
+	}
+
+	public int getListCountSearchOrderList2(HashMap<String, Object> search) {
+		
+		return sqlSessionTemplate.selectOne("cMypage.getListCountSearchOrderList2",search);
 	}
 
 

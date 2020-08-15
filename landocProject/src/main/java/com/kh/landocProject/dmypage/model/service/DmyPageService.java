@@ -1,6 +1,7 @@
 package com.kh.landocProject.dmypage.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
@@ -36,13 +37,13 @@ public interface DmyPageService {
 	int orderQnaInsert(DOrderQna qna);
 
 	// 리뷰 수
-	int getListCountReview();
+	int getListCountReview(String drNo);
 
 	// 주문 수
-	int getListCountOrderList();
+	int getListCountOrderList(HashMap<String,Object> order);
 
 	// 주문 qna 수
-	int getListCountOrderQna();
+	int getListCountOrderQna(String drNo);
 
 	DPdReview updateReview(DPdReview review);
 
@@ -83,4 +84,11 @@ public interface DmyPageService {
 	ArrayList<DrProfile> selectCommentList(String drNo);
 
 	int selectCommentCount(String drNo);
+
+	String selectPdReviewPhoto(DPdReview review);
+
+	int getListCountSearchOrderList(HashMap<String, Object> search);
+
+	int getListCountSearchOrderList2(HashMap<String, Object> search);
+
 }
