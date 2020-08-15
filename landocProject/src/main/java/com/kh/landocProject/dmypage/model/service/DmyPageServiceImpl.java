@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.dmypage.model.dao.DmyPageDao;
 import com.kh.landocProject.dmypage.model.vo.DOrderList;
@@ -213,6 +214,18 @@ public class DmyPageServiceImpl implements DmyPageService{
 	public int selectChosenReplyCount(String drNo) {
 		
 		return dMypageDao.selectChosenReplyCount(drNo);
+	}
+
+	@Override
+	public ArrayList<DrProfile> selectCommentList(String drNo) {
+		
+		return dMypageDao.selectCommentList(drNo);
+	}
+
+	@Override
+	public int selectCommentCount(String drNo) {
+		
+		return dMypageDao.selectCommentCount(drNo);
 	}
 	
 	

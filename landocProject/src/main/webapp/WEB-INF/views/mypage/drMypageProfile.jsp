@@ -32,11 +32,24 @@
    <!-- Main Stylesheets -->
    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css"/>
 
+	<!--===============================================================================================-->	
+		<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/resources/table_images/icons/favicon.ico"/>
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/table_vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/table_fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/table_vendor/animate/animate.css">
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/table_vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/table_vendor/perfect-scrollbar/perfect-scrollbar.css">
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/table_css/util.css">
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/table_css/main.css">
+	<!--===============================================================================================-->
 
-   <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-   <![endif]-->
+	<script src="https://kit.fontawesome.com/02aa01148e.js" crossorigin="anonymous"></script>
 
    <style>
    	.title{font-size:15px;font-weight:600; position:relative;}
@@ -44,12 +57,8 @@
    	
    	.favoriteY{color:red;}
    	.favorite{color:black;}
-   
+  
    </style>
-   
-   
-   
-   
    
 </head>
 <body>
@@ -81,11 +90,9 @@
 		              	<span class="content" id="drLikeCount" style="font-size:20px; color:#a82400;">${likeCount }</span>
 		              </a>
            		 </div>
-                  
                </div>
             </div>
      
-            
             <div class="row" style="width:90%;height:40%;text-align:center;">
                 <div class="col-lg-7 mt-3" style="text-align:left;">
                		<span class="title" style="position:relative;">소속병원</span>&nbsp;&nbsp;
@@ -110,20 +117,14 @@
 
             <div class="row" style="width:90%;height:40%;text-align:center;">
                <div class="col-lg-12 mt-3">
-               		
-               		
-               		<!-- <div class="progress">
-					  <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-					</div> -->
                			<div style="float:left;">
   						<span class="title">채택률(${chosenPer }%)</span>
   						</div>
-  						<div class="progress" style="height:30px; width:100%; float:left; margin-top:10px;">
-	  						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+  						<div class="progress" style="width:100%; float:left; margin-top:10px;">
+	  						<div " class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
 	  								aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${chosenPer}%;">${chosenPer }%
 	  						</div>
 						</div>
-  					
                </div>
                
             </div>
@@ -133,7 +134,7 @@
    <!-- Player section end -->
 
    <!-- Songs details section -->
-   <section class="songs-details-section">
+   <section class="songs-details-section" style="padding-top:50px;">
       <div class="container">
         
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -144,12 +145,10 @@
          	$(document).ready(function(){
          		var heartval = "${heart}";
          		if(heartval >0){
-         			console.log(heartval);
          			$(".favorite").attr("class", "material-icons favoriteY").text("favorite");
          			$(".heart").prop("name", heartval);
          			
          		}else{
-         			console.log(heartval);
          			$(".favorite").attr("class", "material-icons favorite").text("favorite_border");
          			$(".heart").prop("name", heartval);
          		}
@@ -157,9 +156,7 @@
          		$(".back").on("click",function(){
          			var that=$(".heart");
          			var drNo="${dp.drNo}";
-         			console.log("drNo:" + drNo);
          			var cNo="${cNo}";
-         			console.log("cNo:" + cNo);
          			
          			if(cNo == 'none'){
          				alert("일반 회원 로그인이 필요한 서비스 입니다.");
@@ -188,75 +185,142 @@
                                     +"message: " + request.responseText
                                     +"error: " + errorData);
                            }
-         					
-         				
-         				
          			})
-         			
          		})
-         		
          	})
-         
-         
-         
          </script>
          
          
          
-         
-         
-         
          <br>
+         
+       	<div class="row" style="margin:0;">
+         	<div class="col-lg-5">
+               <p style="font-size:20px;font-color:black;weigth:600;">${dp.drName } 선생님 comments (${commentCount })</p> 
+             </div>
+       
+         
+         	<div class="col-lg-7 mb-2"  style="float:left; text-align:right;" onclick="openModal();">
+            	<i class="far fa-edit fa-2x" style="color:#007ee5;"></i>
+            	<!-- <i class="far fa-plus-square fa-2x"></i> -->
+            </div>
+            
+            
+            <button style="display:none;" id="modalBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"></button>
+			
+			<!-- 모달창!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+			<div class="modal fade" 
+			id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <p class="modal-title" id="exampleModalLabel" style="font-size:15px; font-weight:600;">${dp.drName } 선생님께 코멘트 작성</p>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        <form>
+			          <div class="form-group">
+			            <label for="recipient-name" class="col-form-label">Recipient:</label>
+			            <input type="text" class="form-control" id="recipient-name">
+			          </div>
+			          <div class="form-group">
+			            <label for="message-text" class="col-form-label">comment</label>
+			            <textarea class="form-control" id="message-text"></textarea>
+			          </div>
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary">작성하기</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			            
+            <script>
+            	function openModal(){
+            		
+            		
+            		$("#modalBtn").click();
+            	}
+            	
+            	$('#exampleModal').on('show.bs.modal', function (event) {
+            		  var button = $(event.relatedTarget) // Button that triggered the modal
+            		  var recipient = button.data('whatever') // Extract info from data-* attributes
+            		  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            		  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            		  var modal = $(this)
+            		  modal.find('.modal-title').text('New message to ' + recipient)
+            		  modal.find('.modal-body input').val(recipient)
+            		})
+            </script>
+            
+            
+            
+            
+         </div>
+         
+         
+         <!--table영역--------------------------------------------------------------------------------------------- -->
+         <div class="row">
+         <div class="limiter">
+		 <div class="container-fluid-table100">
+			<div class="wrap-table100">
+				<div class="table100 ver1 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">번호</th>
+									<th class="cell100 column2">프로필</th>
+									<th class="cell100 column3">작성자</th>
+									<th class="cell100 column4">내용</th>
+									<th class="cell100 column5">작성날짜</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+								<c:forEach var="cl" items="${commentList }">
+								<tr class="row100 body">
+									<td class="cell100 column1">${cl.commentRowNum }</td>
+									
+									<c:if test="${!empty cl.proRename }">
+										<td class="cell100 column2">
+											<img src="/projectFiles/${cl.proRename }" style="width:30%; height:auto;">
+										</td>
+									</c:if>
+									
+									<c:if test="${empty cl.proRename }">
+										<td class="cell100 column2">
+											<img style="width:30%; height:auto;" src="https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/hamster.png">
+										</td>
+									</c:if>
+									
+									<td class="cell100 column3">${cl.cNickName }</td>
+									<td class="cell100 column4">${cl.drComment}</td>
+									<td class="cell100 column5">${cl.drCommentDate }</td>
+								</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+         
+    </div>     
+         
+        <!--  <br>
          <div class="row">
             <div class="col-lg-5">
-               <h3>선생님은 어때? (??)</h3>   <!--?? = 댓글 수-->
-            </div>
-         </div>
-         <br>
-         <div class="row">
-            <table class="table">
-               <thead>
-                  <tr>
-                     <th colspan="2" style="width:20%">작성자</th>
-                     <th style="width:60%">내용</th>
-                     <th style="width:20%">작성날짜</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td><img class="rounded-circle" src="../images/car.jpg"></td>
-                     <td>고범수</td>
-                     <td>제가 비만인데요! 의사선생님이 제 배를 자꾸 만지세요ㅠㅠㅠ 이 병원갔다가 천국갈뻔했습니다!</td>
-                     <td>2020-07-05</td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-         <br>
-         <div class="row">
-            <div class="col-lg-4"></div>
-            <div class="col-lg-4">   <!--class="col-md-10 col-lg-8 col-xl-7 mx-auto my-3"-->
-               <nav>
-                  <button class="btn btn-md" onclick="location.href='#'">&laquo;</button>
-                  &nbsp;
-                  <button class="btn btn-md" onclick="location.href='#'">1</button>
-                  &nbsp;
-                  <button class="btn btn-md" onclick="location.href='#'">2</button>
-                  &nbsp;
-                  <button class="btn btn-md" onclick="location.href='#'">3</button>
-                  &nbsp;
-                  <button class="btn btn-md" onclick="location.href='#'">4</button>
-                  &nbsp;
-                  <button class="btn btn-md" onclick="location.href='#'">5</button>
-                  &nbsp;
-                  <button class="btn btn-md" onclick="location.href='#'">&raquo;</button>
-               </nav>
-            </div>
-         </div>
-         <br>
-         <div class="row">
-            <div class="col-lg-5">
-               <h3>선생님께 피드백을!</h3>   <!--?? = 댓글 수-->
+               <h3>선생님께 피드백을!</h3>   ?? = 댓글 수
             </div>
          </div>
          <br>
@@ -270,7 +334,7 @@
                   </div>
                </form>
             </div>
-         </div>
+         </div>  -->
       </div>
    </section>
    <!-- Songs details section -->
@@ -285,6 +349,31 @@
    <script src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
    <script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
    <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
-  
+   
+   
+   <!--===============================================================================================-->	
+	<script src="<%=request.getContextPath()%>/resources/table_vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/table_vendor/bootstrap/js/popper.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/table_vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/table_vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/table_vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			var ps = new PerfectScrollbar(this);
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+			
+		
+	</script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/resources/table_js/main.js"></script>
+   
+   
    </body>
 </html>

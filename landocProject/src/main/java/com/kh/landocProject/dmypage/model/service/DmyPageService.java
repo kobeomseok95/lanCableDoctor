@@ -2,6 +2,7 @@ package com.kh.landocProject.dmypage.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
@@ -78,4 +79,8 @@ public interface DmyPageService {
 	int selectReplyCount(String drNo);
 
 	int selectChosenReplyCount(String drNo);
+
+	ArrayList<DrProfile> selectCommentList(String drNo);
+
+	int selectCommentCount(String drNo);
 }

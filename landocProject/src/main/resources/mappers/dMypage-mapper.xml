@@ -79,9 +79,12 @@
 		<result property="proRename" column="PRO_RENAME"/>
 		<result property="adNo" column="AD_NO"/>
 		<result property="chooseStatus" column="AD_CHOOSESTATUS"/>
+		<result property="commentRowNum" column="ROWNUM"/>
 		<result property="drCommentNo" column="DR_COMMENT_NO"/>
 		<result property="drCommentDate" column="DR_COMMENT_DATE"/>
-		<result property="drComment" column="DR_COMMENT"/>		
+		<result property="drComment" column="DR_COMMENT"/>	
+		<result property="cNo" column="C_NO"/>
+		<result property="cNickName" column="C_NICKNAME"/>
 	</resultMap>
 
 
@@ -417,10 +420,25 @@
 		FROM ASKDRREPLY
 		WHERE DR_NO=#{drNo}
 			AND ADR_CHOOSESTATUS='Y'
-	
 	</select>
 	
+	<select id="selectCommentCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM DRCOMMENT
+		WHERE DR_NO=#{drNo}
+	</select>
 	
+	<select id="selectCommentList" parameterType="string" resultMap="DrProfileMap">
+		SELECT ROWNUM, DR_COMMENT_NO, DR_COMMENT_DATE, DR_COMMENT, C_NO, C_NICKNAME, PRO_RENAME, DR_NO
+		FROM (
+		    SELECT DR_COMMENT_NO, DR_COMMENT_DATE, DR_COMMENT, DC.C_NO, C.C_NICKNAME, PH.PRO_RENAME, DC.DR_NO
+		    FROM DRCOMMENT DC
+		        JOIN CLIENT C ON(DC.C_NO = C.C_NO)
+		        LEFT JOIN PROFILEPHOTO PH ON (DC.C_NO = PH.C_NO)
+		    WHERE DC.DR_NO=#{drNo}
+		    ORDER BY DR_COMMENT_DATE DESC
+		)
+	</select>
 	
 	
 	

@@ -19,9 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.Exception.cMypageException;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePagination;
+import com.kh.landocProject.common.Pagination;
 import com.kh.landocProject.dmypage.exception.DmypageException;
 import com.kh.landocProject.dmypage.model.service.DmyPageService;
 import com.kh.landocProject.dmypage.model.vo.DOrderList;
@@ -425,6 +427,9 @@ public class DmyPageController {
 		int replyCount = 0;
 		int chosenReplyCount = 0;
 		double chosenPer = 0;
+		int commentCount = 0;
+		PageInfo commentPage = null;
+		ArrayList<DrProfile> commentList = null;
 		
 		// 의사가 로그인해서 마이페이지 프로필 확인 들어갈 경우
 		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
@@ -444,6 +449,13 @@ public class DmyPageController {
 				double chosenPer1 = ((double)chosenReplyCount/replyCount)*100 ;
 				chosenPer = Math.round(chosenPer1 *100)/ 100.0;
 			}
+		
+			// DRCOMMENT
+			commentCount = dMypageService.selectCommentCount(drNo);
+			commentPage = Pagination.getDrComment(1,commentCount);
+//			commentList = dMypageService.selectCommentList(drNo, commentPage);
+			commentList = dMypageService.selectCommentList(drNo);
+			
 		}
 
 		// 일반 회원이 로그인해서 의사에게 물어봐 답변 의사 프로필 들어갈 경우
@@ -470,6 +482,12 @@ public class DmyPageController {
 			hl.setdNo(replyDrNo);
 			heart = dMypageService.selectMyDrLikeCount(hl);
 			
+			// DRCOMMENT
+			commentCount = dMypageService.selectCommentCount(replyDrNo);
+			commentPage = Pagination.getDrComment(1,commentCount);
+			commentList = dMypageService.selectCommentList(replyDrNo);
+			
+			
 		}else {
 			cNo = "none";
 			heart = 0;
@@ -482,6 +500,10 @@ public class DmyPageController {
 		mv.addObject("replyCount", replyCount);
 		mv.addObject("chosenReplyCount", chosenReplyCount);
 		mv.addObject("chosenPer", chosenPer);
+		mv.addObject("commentCount", commentCount);
+		mv.addObject("commentPage", commentPage);
+		mv.addObject("commentList", commentList);
+		
 		mv.setViewName("mypage/drMypageProfile");
 		
 		return mv;

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
@@ -198,6 +199,21 @@ public class DmyPageDao {
 	public int selectChosenReplyCount(String drNo) {
 		
 		return sqlSessionTemplate.selectOne("dMypage.selectChosenReplyCount", drNo);
+	}
+
+	public ArrayList<DrProfile> selectCommentList(String drNo) {
+		
+		/*
+		 * int offset = (commentPage.getCurrentPage() -1) * commentPage.getBoardLimit();
+		 * RowBounds rowBounds = new RowBounds(offset, commentPage.getBoardLimit());
+		 */
+		
+		return (ArrayList)sqlSessionTemplate.selectList("dMypage.selectCommentList", drNo);
+	}
+
+	public int selectCommentCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectCommentCount", drNo);
 	}
 	
 	
