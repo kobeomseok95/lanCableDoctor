@@ -110,6 +110,12 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.proRecommand(param);
 	}
 
+	@Override
+	public int recommendInsert(HashMap<String, Object> reco) {
+		
+		return productDao.recommendInsert(reco);
+	}
+
 
 
 }

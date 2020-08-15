@@ -2,6 +2,7 @@ package com.kh.landocProject.product.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 public class DrComment implements Serializable{
 
@@ -15,6 +16,7 @@ public class DrComment implements Serializable{
 	private String drComment;
 	private String drNo;
 	private String pdNo;
+	private List<DrComment> drCo;
 	protected DrComment() {
 	}
 	protected DrComment(int drCommentNo, Date drCommentDate, String drComment, String drNo, String pdNo) {
@@ -23,6 +25,16 @@ public class DrComment implements Serializable{
 		this.drComment = drComment;
 		this.drNo = drNo;
 		this.pdNo = pdNo;
+	}
+	
+	protected DrComment(int drCommentNo, Date drCommentDate, String drComment, String drNo, String pdNo,
+			List<DrComment> drCo) {
+		this.drCommentNo = drCommentNo;
+		this.drCommentDate = drCommentDate;
+		this.drComment = drComment;
+		this.drNo = drNo;
+		this.pdNo = pdNo;
+		this.drCo = drCo;
 	}
 	public int getDrCommentNo() {
 		return drCommentNo;
@@ -54,13 +66,20 @@ public class DrComment implements Serializable{
 	public void setPdNo(String pdNo) {
 		this.pdNo = pdNo;
 	}
+	
+	public List<DrComment> getDrCo() {
+		return drCo;
+	}
+	public void setDrCo(List<DrComment> drCo) {
+		this.drCo = drCo;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
 		return "DrComment [drCommentNo=" + drCommentNo + ", drCommentDate=" + drCommentDate + ", drComment=" + drComment
-				+ ", drNo=" + drNo + ", pdNo=" + pdNo + "]";
+				+ ", drNo=" + drNo + ", pdNo=" + pdNo + ", drCo=" + drCo + "]";
 	}
 	
 }

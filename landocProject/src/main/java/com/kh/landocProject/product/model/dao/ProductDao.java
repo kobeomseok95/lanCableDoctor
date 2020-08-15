@@ -104,5 +104,10 @@ public class ProductDao {
 		return sqlSessionTemplate.selectList("productMapper.proRecommand", param);
 	}
 
+	public int recommendInsert(HashMap<String, Object> reco) {
+		
+		return sqlSessionTemplate.insert("productMapper.recommendInsert", reco);
+	}
+
 	
 }

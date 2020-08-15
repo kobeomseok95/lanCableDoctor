@@ -165,7 +165,6 @@
                </div>
             </div>
             <div class="row" style="height: 300px; overflow: auto;">
-            <input type="hidden" name="drNo" value=${drNo }>
                <c:forEach var="pro" items="${proReco }" varStatus="status">
                     <!--상품 리스트 나오는 부분-->
 	               <div style="position: relative; margin-top: 10px;margin-bottom:20px; margin-left:30px; margin-right: 35px;">
@@ -275,6 +274,7 @@
 				listPro.push("${list.pdNo}");
 				listImg.push("${list.pdpRename}");
 			</c:forEach>
+			var drNo = "${drNo}";
 			
 		
 			
@@ -308,6 +308,12 @@
 						hidden.setAttribute('value', listPro[index]);
 						p1.appendChild(hidden);
 						
+						var hid = document.createElement('input');
+						hid.setAttribute('type','hidden');
+						hid.setAttribute('name','drNo');
+						hid.setAttribute('value', drNo);
+						p1.appendChild(hid);
+						
 						var p3 = document.createElement('textarea');
 						p3.className='form-controll textarea';
 						p3.setAttribute('rows',"5");
@@ -333,7 +339,7 @@
 						p4.appendChild(p6);
 					
 						p6.innerHTML="자, 최소 200자 이상)"
-					
+						
 						
 						
 						}else{

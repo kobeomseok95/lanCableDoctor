@@ -80,15 +80,6 @@
 		<result property="pdpRename" column="PDP_RENAME"/>
 		<result property="pdName" column="PD_NAME"/>
 		<result property="discount" column="DISCOUNT"/>
-		
-	</resultMap>
-	
-	<resultMap type="DrComment" id="drComment">
-		<id property="drCommentNo" column="DR_COMMENT_NO"/>
-		<result property="drCommentDate" column="DR_COMMENT_DATE"/>
-		<result property="drComment" column="DR_COMMENT"/>
-		<result property="cNo" column = "C_NO"/>
-		<result property="drNo" column = "DR_NO"/>
 	</resultMap>
 	
 	<sql id="sortFormula">
@@ -438,6 +429,11 @@
 		    C.PDP_TYPE = 0
 		    <include refid="categoryFormula" />
 	</select>
+	
+	<insert id="recommendInsert" parameterType="java.util.Map">
+		INSERT INTO DRRECOMMEND
+		VALUES(SEQ_DRRM.NEXTVAL, #{drComment}, #{pdNo}, #{drNo}, SYSDATE)
+	</insert>
 	
 </mapper>
 
