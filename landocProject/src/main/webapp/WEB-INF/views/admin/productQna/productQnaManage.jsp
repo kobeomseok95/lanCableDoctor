@@ -36,7 +36,6 @@
         .pagination {display: block; text-align: center;}
         .pagination a { color: black; float: none; padding: 8px 16px; text-decoration: none;}
       
-      
    </style>
 </head>
 <body>
@@ -74,6 +73,7 @@
                 <th class="firstLine">상품명</th>
                 <th class="firstLine">작성자</th>
                 <th class="firstLine">답변상태</th>
+                <th class="firstLine">질문상세보기</th>
             </tr>
             <c:if test="${empty qnas }">
             <tr>
@@ -105,6 +105,9 @@
                 	<c:if test="${qna.status eq 'N'}">
                 	답변대기
                 	</c:if>
+                </td>
+                <td>
+                	<button class="qnaDetail">질문상세보기</button>
                 </td>
             </tr>            
             	</c:forEach>
@@ -150,16 +153,25 @@
     </div>
 	</c:if>
 
+	<c:if test="${boardType eq 2 }">
+	
+	</c:if>
    
     <script>
-
-        // 테이블 한 줄 hover효과 주는 function
-        $("#contentTb td").mouseenter(function(){
-            $(this).parent().css({"background" : "lightgrey"});
-        }).mouseout(function(){
-            $(this).parent().css({"background" : "white"});
-        });
-      
+		$(function(){
+        	// 테이블 한 줄 hover효과 주는 function
+	        $("#contentTb td").mouseenter(function(){
+	            $(this).parent().css({"background" : "lightgrey"});
+	        }).mouseout(function(){
+	            $(this).parent().css({"background" : "white"});
+	        });
+			
+        	$(".qnaDetail").on("click", function(){
+        		var pdqNo = $(this).parent().parent().find('td:first').children("input[type='hidden']").val();
+        		location.href="productQnaDetail.do?pdqNo=" + pdqNo;
+        	});
+		});
+      	
     </script>
 
 

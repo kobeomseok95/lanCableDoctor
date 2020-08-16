@@ -74,4 +74,9 @@ public class AdminProductServiceImpl implements AdminProductService{
 	public List<ProductQna> getAdminQnas(PageInfo pageInfo) {
 		return adminProductDao.getAdminQnas(pageInfo);
 	}
+
+	@Override
+	public ProductQna getAdminQna(int pdqNo) {
+		return adminProductDao.getAdminQna(pdqNo);
+	}
 }

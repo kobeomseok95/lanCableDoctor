@@ -34,4 +34,6 @@ public interface AdminProductService {
 
 	List<ProductQna> getAdminQnas(PageInfo pageInfo);
 
+	ProductQna getAdminQna(int pdqNo);
+
 }

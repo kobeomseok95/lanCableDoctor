@@ -473,6 +473,31 @@
 		    ) A
 	</select>
 	
+	<select id="getAdminQna" parameterType="_int" resultMap="productQnas">
+		SELECT 
+		    A.PDQ_NO,
+		    A.PDQ_TITLE,
+		    A.PDQ_CONTENT,
+		    A.PDQ_SUBMITDATE,
+		    A.PDQ_ANSWERSTATUS,
+		    A.PDQ_ANSWERCONTENT,
+		    A.PD_NO,
+		    A.C_NO,
+		    A.DR_NO,
+		    A.SECRETSTATUS,
+		    A.SECRETPASSWORD,
+		    B.C_NICKNAME,
+		    C.DR_NAME,
+		    D.PD_NAME
+		FROM
+		    PRODUCTQNA A
+		    LEFT JOIN CLIENT B ON A.C_NO = B.C_NO
+		    LEFT JOIN DRCLIENT C ON A.DR_NO = C.DR_NO
+		    JOIN PRODUCT D ON A.PD_NO = D.PD_NO
+		WHERE
+		    A.PDQ_NO = #{pdqNo}		
+	</select>
+	
 </mapper>
 
 

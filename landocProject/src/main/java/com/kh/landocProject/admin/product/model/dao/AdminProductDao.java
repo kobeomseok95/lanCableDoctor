@@ -68,4 +68,8 @@ public class AdminProductDao {
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getBoardLimit());
 		return sqlSessionTemplate.selectList("productMapper.getAdminQnas", null, rowBounds);
 	}
+
+	public ProductQna getAdminQna(int pdqNo) {
+		return sqlSessionTemplate.selectOne("productMapper.getAdminQna", pdqNo);
+	}
 }

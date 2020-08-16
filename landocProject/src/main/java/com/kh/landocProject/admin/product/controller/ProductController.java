@@ -260,9 +260,14 @@ public class ProductController {
 		return mv;
 	}
 
-	@RequestMapping("productQnaDetail.do")
-	public String productQnaDetail() {
-		return "admin/productQna/productQnaDetail";
+	@RequestMapping(value="productQnaDetail.do", method=RequestMethod.GET)
+	public ModelAndView productQnaDetail(ModelAndView mv,
+															@RequestParam int pdqNo) {
+		ProductQna qna = adminProductImpl.getAdminQna(pdqNo);
+		
+		mv.addObject("qna", qna);
+		mv.setViewName("admin/productQna/productQnaDetail");
+		return mv;
 	}
 	
 	
