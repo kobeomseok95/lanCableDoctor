@@ -516,7 +516,6 @@ public class DmyPageController {
 			// DRCOMMENT
 			commentCount = dMypageService.selectCommentCount(drNo);
 			commentPage = Pagination.getDrComment(1,commentCount);
-//			commentList = dMypageService.selectCommentList(drNo, commentPage);
 			commentList = dMypageService.selectCommentList(drNo);
 			
 		}
@@ -558,6 +557,7 @@ public class DmyPageController {
 		
 		mv.addObject("dp", dp);
 		mv.addObject("cNo", cNo);
+		mv.addObject("replyDrNo", replyDrNo);
 		mv.addObject("heart", heart);
 		mv.addObject("likeCount", likeCount);
 		mv.addObject("replyCount", replyCount);
@@ -600,6 +600,76 @@ public class DmyPageController {
 		
 	}
 		
+	
+	@RequestMapping(value="insertDrComment.do", method= {RequestMethod.POST,RequestMethod.GET})
+	public void insertDrComment(HashMap<String, String> map, HttpSession session, HttpServletResponse response,
+							@RequestParam(value="cNo", required=false) String cNo,
+							@RequestParam(value="comment", required=false) String comment,
+							@RequestParam(value="drNo", required=false) String drNo,
+							@RequestParam(value="replyDrNo", required=false) String replyDrNo) throws JsonIOException, IOException {
+		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		cNo = loginClient.getcNo();
+
+//		System.out.println("controller에서 replyDrNo" + replyDrNo);
+//		System.out.println("controller에서 cNo" + cNo);
+//		System.out.println("controller에서 comment" + comment);
+//		System.out.println("controller에서 drNo" + drNo);
+		
+		map.put("cNo", cNo);
+		map.put("drNo", drNo);
+		map.put("replyDrNo",replyDrNo);
+		map.put("comment",comment);
+		
+		int result = dMypageService.insertDrComment(map);
+		
+		ArrayList<DrProfile> dpList = dMypageService.selectCommentList(drNo);
+//		System.out.println("controller에서 dpList : " + dpList);
+		
+		response.setContentType("applicateion/json;charset=utf-8");
+		
+		Gson gson = new Gson();
+		
+		gson.toJson(dpList, response.getWriter());
+		
+		
+	}
+	
+	@RequestMapping(value="ajaxCommentList.do", method= {RequestMethod.POST,RequestMethod.GET})
+	public void ajaxCommentList(HttpSession session, HttpServletResponse response,
+													@RequestParam(value="cNo", required=false) String cNo,
+													@RequestParam(value="drNo", required=false) String drNo,
+													@RequestParam(value="replyDrNo", required=false) String replyDrNo) throws JsonIOException, IOException{
+		System.out.println("여기로 오나?");
+		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		
+		cNo = loginClient.getcNo();
+		
+		if(drNo == null) {
+			drNo = replyDrNo;
+		}
+		
+		ArrayList<DrProfile> dpList =  dMypageService.getAjaxCommentList(drNo);
+		
+		int commentCount = dMypageService.getCommentCount(drNo);
+		
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("commentCount", commentCount);
+		data.put("dpList", dpList);
+		data.put("cNo", cNo);
+		
+		response.setContentType("applicateion/json;charset=utf-8");
+		
+		Gson gson = new Gson();
+		
+		gson.toJson("data", response.getWriter());
+		
+	}
+	
+	
+	
+	
 		public String saveFile(MultipartFile file, HttpServletRequest request) {
 
 		      

@@ -486,5 +486,38 @@
 		FROM PRODUCTREVIEW
 		WHERE ORDER_NO=#{orderNo} AND DR_NO=#{dNo}
 	</select>
+	
+	<insert id="insertDrComment" parameterType="hashMap">
+		INSERT INTO DRCOMMENT
+		VALUES(SEQ_DRCOMMENT.NEXTVAL
+				, SYSDATE
+				, #{comment}
+				, #{cNo}
+				, #{drNo}
+		)
+	</insert>
+	
+	<select id="getAjaxCommentList" parameterType="string" resultMap="DrProfileMap">
+		SELECT ROWNUM, DR_COMMENT_NO, DR_COMMENT_DATE, DR_COMMENT, C_NO, C_NICKNAME, PRO_RENAME, DR_NO
+		FROM (
+		    SELECT DR_COMMENT_NO, DR_COMMENT_DATE, DR_COMMENT, DC.C_NO, C.C_NICKNAME, PH.PRO_RENAME, DC.DR_NO
+		    FROM DRCOMMENT DC
+		        JOIN CLIENT C ON(DC.C_NO = C.C_NO)
+		        LEFT JOIN PROFILEPHOTO PH ON (DC.C_NO = PH.C_NO)
+		    WHERE DC.DR_NO=#{drNo}
+		    ORDER BY DR_COMMENT_DATE DESC
+		)
+	</select> 
+	
+	<select id="getCommentCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM DRCOMMENT
+		WHERE DR_NO=#{drNo}
+	</select>
+	
+	
+	
+	
+	
 
 </mapper>

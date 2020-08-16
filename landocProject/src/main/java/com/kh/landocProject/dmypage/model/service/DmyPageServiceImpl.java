@@ -246,6 +246,24 @@ public class DmyPageServiceImpl implements DmyPageService{
 		return dMypageDao.getListCountSearchOrderList2(search);
 	}
 
+	@Override
+	public int insertDrComment(HashMap<String, String> map) {
+		
+		return dMypageDao.insertDrComment(map);
+	}
+
+	@Override
+	public ArrayList<DrProfile> getAjaxCommentList(String drNo) {
+		
+		return dMypageDao.getAjaxCommentList(drNo);
+	}
+
+	@Override
+	public int getCommentCount(String drNo) {
+		
+		return dMypageDao.getCommentCount(drNo);
+	}
+
 	
 	
 }

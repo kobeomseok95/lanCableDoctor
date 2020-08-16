@@ -58,6 +58,7 @@
    	.favoriteY{color:red;}
    	.favorite{color:black;}
   
+  	.imgStyle{width:30%; height:auto;}
    </style>
    
 </head>
@@ -121,7 +122,7 @@
   						<span class="title">채택률(${chosenPer }%)</span>
   						</div>
   						<div class="progress" style="width:100%; float:left; margin-top:10px;">
-	  						<div " class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+	  						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
 	  								aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${chosenPer}%;">${chosenPer }%
 	  						</div>
 						</div>
@@ -196,7 +197,7 @@
          
        	<div class="row" style="margin:0;">
          	<div class="col-lg-5">
-               <p style="font-size:20px;font-color:black;weigth:600;">${dp.drName } 선생님 comments (${commentCount })</p> 
+               <p style="font-size:20px;font-color:black;weigth:600;" id="commentCount">${dp.drName } 선생님 comments (${commentCount })</p> 
              </div>
        
          
@@ -215,25 +216,25 @@
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <p class="modal-title" id="exampleModalLabel" style="font-size:15px; font-weight:600;">${dp.drName } 선생님께 코멘트 작성</p>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModalBtn">
 			          <span aria-hidden="true">&times;</span>
 			        </button>
 			      </div>
 			      <div class="modal-body">
-			        <form>
-			          <div class="form-group">
+			        <form id="insertDrCommentForm" action="insertDrComment.do" method="POST">
+			          <!-- <div class="form-group">
 			            <label for="recipient-name" class="col-form-label">Recipient:</label>
 			            <input type="text" class="form-control" id="recipient-name">
-			          </div>
+			          </div> -->
 			          <div class="form-group">
 			            <label for="message-text" class="col-form-label">comment</label>
-			            <textarea class="form-control" id="message-text"></textarea>
+			            <textarea class="form-control" id="comment"></textarea>
 			          </div>
 			        </form>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary">작성하기</button>
+			        <button type="button" class="btn btn-primary" id="submitModal">작성하기</button>
 			      </div>
 			    </div>
 			  </div>
@@ -241,9 +242,13 @@
 			            
             <script>
             	function openModal(){
-            		
-            		
-            		$("#modalBtn").click();
+            		var cNo = "${cNo}";
+            		if(cNo == null){
+            			alert("일반 회원만 코멘트 작성이 가능합니다.");
+            			return;
+            		}else{
+	            		$("#modalBtn").click();            			
+            		}
             	}
             	
             	$('#exampleModal').on('show.bs.modal', function (event) {
@@ -255,11 +260,106 @@
             		  modal.find('.modal-title').text('New message to ' + recipient)
             		  modal.find('.modal-body input').val(recipient)
             		})
+            		
+            	$("#submitModal").on("click", function(){
+            		var cNo = "${cNo}";
+            		var comment = $("#comment").val();
+            		var drNo = "${dp.drNo}";
+            		var replyDrNo="${replyDrNo}";
+            		$.ajax({
+            			type:"POST",
+            			data:{cNo:cNo, comment:comment, drNo:drNo, replyDrNo:replyDrNo},
+            			url:"insertDrComment.do",
+            			success:function(data){
+            						alert("코멘트 작성에 성공하셨습니다.");
+            						$("#closeModalBtn").trigger("click");
+            						commentHTML(data);
+            				
+            					/* $.ajax({
+            						type:"get",
+            						data:{c:No,c:No, drNo:drNo, replyDrNo:replyDrNo},
+            						dataType:"JSON",
+            						url:"ajaxCommentList.do",
+            						success:function(data){
+            							commentHTML(data);
+            						},
+            						error:function(request, status, errorData){
+					                    alert("error code: " + request.status + "\n"
+					                            +"message: " + request.responseText
+					                            +"error: " + errorData);
+					               	}
+            					}) */
+            				
+            			},
+            			error:function(request, status, errorData){
+		                    alert("error code: " + request.status + "\n"
+		                            +"message: " + request.responseText
+		                            +"error: " + errorData);
+		               	}
+            		})
+            	})
+            	
+            	
+            	function commentHTML(data){
+            		
+            		$("#commentCount").text("${dp.drName} 선생님 comment (" + data.commentCount + ")");
+            		$("#tBody").html("");
+            		
+            		
+            		for(var i in data){
+            			$tr = $("<tr>");
+            			$tr.attr("class", "row100 body");
+         				$td = $("<td>");
+            			
+            			$tdNo = $("<td>").text(data[i].commentRowNum).addClass("cell100 column1");
+            			$tr.append($tdNo);
+            			
+            			
+            			if(!data[i].proRename){
+	            			var $tdProRename = $("<td>");
+	            			$tdProRename.attr("class", "cell100 column2");
+	            			
+	            			var $img = $("<img>");
+	            			$img.attr("class", "imgStyle");
+	            			$img.attr("src", "https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/hamster.png");
+	            			
+	            			$tdProRename.append($img);
+	            			$tr.append($tdProRename);
+            				
+            			}else{
+            				var $tdProRename = $("<td>");
+	            			$tdProRename.attr("class", "cell100 column2");
+	            			
+	            			var $file = data[i].proRename;
+	            			var $img = $("<img>");
+	            			$img.attr("class", "imgStyle");
+	            			////여기 질문!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	            			$img.attr("src","/projectFiles/$file");
+	            			
+	            			$tdProRename.append($img);
+	            			$tr.append($tdProRename);
+	            			
+            			}// if end
+            			
+            			$tdCNo= $("<td>").text(data[i].cNickName).addClass("cell100 column3");
+            			$tr.append($tdCNo);
+            			
+            			$tdComment = $("<td>").text(data[i].drComment).addClass("cell100 column4");
+              			$tr.append($tdComment);
+            			
+            			$tdDate = $("<td>").text(data[i].drCommentDate).addClass("cell100 column5");
+            			$tr.append($tdDate);
+            			
+            			$("#tBody").append($tr);
+            		
+            			
+            		}// for end
+            		
+            		
+            	}// function end
+            	
+            		
             </script>
-            
-            
-            
-            
          </div>
          
          
@@ -282,31 +382,42 @@
 							</thead>
 						</table>
 					</div>
+					
+					
+					<script>
+					</script>
 
 					<div class="table100-body js-pscroll">
 						<table>
-							<tbody>
-								<c:forEach var="cl" items="${commentList }">
-								<tr class="row100 body">
-									<td class="cell100 column1">${cl.commentRowNum }</td>
-									
-									<c:if test="${!empty cl.proRename }">
-										<td class="cell100 column2">
-											<img src="/projectFiles/${cl.proRename }" style="width:30%; height:auto;">
-										</td>
-									</c:if>
-									
-									<c:if test="${empty cl.proRename }">
-										<td class="cell100 column2">
-											<img style="width:30%; height:auto;" src="https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/hamster.png">
-										</td>
-									</c:if>
-									
-									<td class="cell100 column3">${cl.cNickName }</td>
-									<td class="cell100 column4">${cl.drComment}</td>
-									<td class="cell100 column5">${cl.drCommentDate }</td>
-								</tr>
-								</c:forEach>
+							<tbody id="tBody">
+								<c:if test="${empty commentList }">
+									<tr class="row100 body">
+										<td colspan="5" style="text-align:center;">작성된 코멘트가 없습니다.</td>
+									</tr>
+								</c:if>
+							
+								<c:if test="${!empty commentList }">
+									<c:forEach var="cl" items="${commentList }">
+									<tr class="row100 body">
+										<td class="cell100 column1">${cl.commentRowNum }</td>
+										
+										<c:if test="${!empty cl.proRename }">
+											<td class="cell100 column2">
+												<img src="/projectFiles/${cl.proRename }" class="imgStyle">
+											</td>
+										</c:if>
+										
+										<c:if test="${empty cl.proRename }">
+											<td class="cell100 column2">
+												<img class="imgStyle" src="https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/hamster.png">
+											</td>
+										</c:if>
+										<td class="cell100 column3">${cl.cNickName }</td>
+										<td class="cell100 column4">${cl.drComment}</td>
+										<td class="cell100 column5">${cl.drCommentDate }</td>
+									</tr>
+									</c:forEach>
+								</c:if>
 							</tbody>
 						</table>
 					</div>
@@ -316,30 +427,9 @@
 	</div>
          
     </div>     
-         
-        <!--  <br>
-         <div class="row">
-            <div class="col-lg-5">
-               <h3>선생님께 피드백을!</h3>   ?? = 댓글 수
-            </div>
-         </div>
-         <br>
-         <div class="row">
-            <div class="col-lg-12 col-sm-12">
-               <form action="#">
-                  <textarea rows="2" style="width: 100%;"></textarea>
-                  <div align="right">
-                     <button class="btn btn-sm" type="submit"
-                        style="background-color: #0071ce; color:white;">작성하기</button>
-                  </div>
-               </form>
-            </div>
-         </div>  -->
-      </div>
+   </div>
    </section>
-   <!-- Songs details section -->
-   
-   
+  
    <%@ include file="../static/footer.jsp"%>
    
    <!--====== Javascripts & Jquery ======-->
@@ -373,7 +463,6 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/resources/table_js/main.js"></script>
-   
    
    </body>
 </html>

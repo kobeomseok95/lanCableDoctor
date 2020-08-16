@@ -91,4 +91,10 @@ public interface DmyPageService {
 
 	int getListCountSearchOrderList2(HashMap<String, Object> search);
 
+	int insertDrComment(HashMap<String, String> map);
+
+	ArrayList<DrProfile> getAjaxCommentList(String drNo);
+
+	int getCommentCount(String drNo);
+
 }

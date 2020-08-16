@@ -232,6 +232,21 @@ public class DmyPageDao {
 		return sqlSessionTemplate.selectOne("dMypage.getListCountSearchOrderList2",search);
 
 	}
+
+	public int insertDrComment(HashMap<String, String> map) {
+		
+		return sqlSessionTemplate.insert("dMypage.insertDrComment", map);
+	}
+
+	public ArrayList<DrProfile> getAjaxCommentList(String drNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("dMypage.getAjaxCommentList", drNo);
+	}
+
+	public int getCommentCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.getCommentCount",drNo);
+	}
 	
 	
 	
