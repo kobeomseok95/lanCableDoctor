@@ -9,6 +9,7 @@ public class ProductQna implements Serializable {
 	 */
 	private static final long serialVersionUID = 8744762527288551902L;
 	private int pdNo;
+	private String pdName;
 	private int rno;
 	private int pdqNo;
 	private String title;
@@ -26,10 +27,13 @@ public class ProductQna implements Serializable {
 	public ProductQna() {
 	}
 	
-	public ProductQna(int pdNo, int rno, int pdqNo, String title, String content, Date submitDate, String status,
-			String answerContent, String cNo, String cNickname, String drNo, String drName, String secretStatus,
-			String secretPwd) {
+	
+
+	public ProductQna(int pdNo, String pdName, int rno, int pdqNo, String title, String content, Date submitDate,
+			String status, String answerContent, String cNo, String cNickname, String drNo, String drName,
+			String secretStatus, String secretPwd) {
 		this.pdNo = pdNo;
+		this.setPdName(pdName);
 		this.rno = rno;
 		this.pdqNo = pdqNo;
 		this.title = title;
@@ -44,6 +48,8 @@ public class ProductQna implements Serializable {
 		this.secretStatus = secretStatus;
 		this.secretPwd = secretPwd;
 	}
+
+
 
 	public int getPdNo() {
 		return pdNo;
@@ -161,12 +167,23 @@ public class ProductQna implements Serializable {
 		this.secretPwd = secretPwd;
 	}
 
+	public String getPdName() {
+		return pdName;
+	}
+
+	public void setPdName(String pdName) {
+		this.pdName = pdName;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "ProductQna [pdNo=" + pdNo + ", rno=" + rno + ", pdqNo=" + pdqNo + ", title=" + title + ", content="
-				+ content + ", submitDate=" + submitDate + ", status=" + status + ", answerContent=" + answerContent
-				+ ", cNo=" + cNo + ", cNickname=" + cNickname + ", drNo=" + drNo + ", drName=" + drName
-				+ ", secretStatus=" + secretStatus + ", secretPwd=" + secretPwd + "]";
+		return "ProductQna [pdNo=" + pdNo + ", pdName=" + pdName + ", rno=" + rno + ", pdqNo=" + pdqNo + ", title="
+				+ title + ", content=" + content + ", submitDate=" + submitDate + ", status=" + status
+				+ ", answerContent=" + answerContent + ", cNo=" + cNo + ", cNickname=" + cNickname + ", drNo=" + drNo
+				+ ", drName=" + drName + ", secretStatus=" + secretStatus + ", secretPwd=" + secretPwd + "]";
 	}
+
 	
 }
