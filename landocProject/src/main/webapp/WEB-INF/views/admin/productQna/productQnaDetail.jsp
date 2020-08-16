@@ -33,10 +33,7 @@
 
         /* textarea */
         textarea {width: 95%;}
-
-      
-
-
+		.styleHd	{display: none;}
 </style>
 </head>
 <body>
@@ -80,7 +77,7 @@
 		     <tr>
 		     <c:if test="${qna.status eq 'N' }"> 
 		         <th class="firstLine">답변할 내용</th>
-		         <td id="answerForm">
+		         <td>
 					<form action="answerQna.do" method="POST">
 						<input name="pdqNo" type="hidden" value="${qna.pdqNo }" />
 		            	<textarea name="answerContent" rows="5"></textarea>
@@ -90,7 +87,13 @@
 		     <c:if test="${qna.status eq 'Y' }">
 				<th class="firstLine">답변한 내용</th>
 				<td>
-					${qna.answerContent }
+					<div id="answerContent" class="toggles">
+						${qna.answerContent }
+					</div>
+					<form class="styleHd toggles" action="answerQna.do" method="POST">
+						<input name="pdqNo" type="hidden" value="${qna.pdqNo }" />
+		            	<textarea name="answerContent" rows="5">${qna.answerContent }</textarea>
+		            </form>
 				</td>
 		     </c:if>
 		     </tr>
@@ -102,9 +105,11 @@
 		    <button type="button" id="answerQna">답변제출</button>
 		</c:if>
 		<c:if test="${qna.status eq 'Y' }">
-			<button type="button">답변수정</button>
+			<button type="button" id="modifyAnswer" class="toggles">답변수정</button>
+			<button type="button" id="answerQna" class="styleHd toggles">수정하기</button>
+			<button type="button" id="answerCancel" class="styleHd toggles">수정취소</button>
 		</c:if>
-		    <button type="button" onclick="location.href='javascript:history.back();'">뒤로가기</button>
+		    <button type="button" id="goBack" class="toggles" onclick="location.href='javascript:history.back();'">뒤로가기</button>
 		</div>
         <br><br><br><br><br><br>
     </div>
@@ -138,7 +143,29 @@
 	        		return false;
 	        	}
 	        });
-        });
+	        
+	        $("#modifyAnswer").on('click', function(){
+	        	$('.toggles').each(function(index, item){
+	        		if( $(this).hasClass('styleHd') === true ){
+	        			$(this).removeClass('styleHd');
+	        		}
+	        		else{
+	        			$(this).addClass('styleHd');
+	        		}
+				});
+	        });
+	        
+        	$("#answerCancel").on('click', function(){
+        		$('.toggles').each(function(index, item){
+	        		if( $(this).hasClass('styleHd') === true ){
+	        			$(this).removeClass('styleHd');
+	        		}
+	        		else{
+	        			$(this).addClass('styleHd');
+	        		}
+				});
+	        });
+        });	//end of jquery
 
 
     </script>
