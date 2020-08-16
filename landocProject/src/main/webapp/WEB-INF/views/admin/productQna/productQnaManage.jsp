@@ -18,7 +18,7 @@
         #contentTb tr{line-height: 40px;}
         #contentTb th{border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
         #contentTb td{width: auto; border: 1px solid #bbb; font-size:14px;}
-        #contentTb button{height: 35px; width: 55%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
+        #contentTb button{height: 35px; width: 40%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
         #contentTb button:hover{background-color: #007ee5; color: white;}
 
 
@@ -73,7 +73,7 @@
                 <th class="firstLine">상품명</th>
                 <th class="firstLine">작성자</th>
                 <th class="firstLine">답변상태</th>
-                <th class="firstLine">질문상세보기</th>
+                <th class="firstLine">상세보기 / 삭제</th>
             </tr>
             <c:if test="${empty qnas }">
             <tr>
@@ -108,6 +108,7 @@
                 </td>
                 <td>
                 	<button class="qnaDetail">질문상세보기</button>
+                	<button class="qnaDelete">삭제하기</button>
                 </td>
             </tr>            
             	</c:forEach>
@@ -169,6 +170,24 @@
         	$(".qnaDetail").on("click", function(){
         		var pdqNo = $(this).parent().parent().find('td:first').children("input[type='hidden']").val();
         		location.href="productQnaDetail.do?pdqNo=" + pdqNo;
+        	});
+        	
+        	$(".qnaDelete").on('click', function(){
+        		if(confirm('해당 Q&A를 삭제하시겠습니까?')){
+        			var pdqNo = $(this).parent().parent().find('td:first').children("input[type='hidden']").val();
+        			
+        			var $form = $('<form action="deleteQnA.do" method="POST"></form>');
+        			var $input = $('<input type="hidden" name="pdqNo" />');
+        			$input.attr("value", pdqNo);
+        			$form.append($input);
+        			$('body').append($form);
+        			$form.submit();
+        			
+        			alert("삭제되었습니다.");
+        		}
+        		else{
+        			return false;
+        		}
         	});
 		});
       	

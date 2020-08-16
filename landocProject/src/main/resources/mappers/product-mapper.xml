@@ -508,6 +508,12 @@
 			PDQ_NO = #{pdqNo}
 	</update>
 	
+	<delete id="deleteQnA" parameterType="_int">
+		DELETE FROM PRODUCTQNA
+		WHERE
+			PDQ_NO = #{pdqNo}
+	</delete>
+	
 </mapper>
 
 

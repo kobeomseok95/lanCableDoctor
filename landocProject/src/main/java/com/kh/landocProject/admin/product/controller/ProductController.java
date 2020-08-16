@@ -290,7 +290,20 @@ public class ProductController {
 		}
 	}
 	
-	
+	@RequestMapping(value="deleteQnA.do", method=RequestMethod.POST)
+	public String deleteQnA(@RequestParam int pdqNo,
+										RedirectAttributes ra) {
+		int result = adminProductImpl.deleteQnA(pdqNo);
+		
+		if(result > 0) {
+			ra.addAttribute("pageNo", 1);
+			ra.addAttribute("boardType", 1);
+			return "redirect:productQnaManage.do";
+		}
+		else {
+			return "";
+		}
+	}
 }
 
 
