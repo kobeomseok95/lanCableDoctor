@@ -49,5 +49,18 @@ public class AdminProductServiceImpl implements AdminProductService{
 		return adminProductDao.deleteProduct(pdNo);
 	}
 
-	
+	@Override
+	public Product getProductDetail(int pdNo) {
+		return adminProductDao.getProductDetail(pdNo);
+	}
+
+	@Override
+	public int updateProduct(Product p) {
+		return adminProductDao.updateProduct(p);
+	}
+
+	@Override
+	public int updateProductPhoto(List<ProductPhoto> photos) {
+		return adminProductDao.updateProductPhoto(photos);
+	}
 }

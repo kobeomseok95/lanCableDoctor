@@ -378,7 +378,7 @@
 			#{subExplicate},
 			#{drugWay},
 			#{shelflife},
-			0,null,null,
+			0,
 			#{categoryCode},
 			0,
 			SYSDATE,
@@ -408,6 +408,36 @@
 		SET PD_STATUS = 'N'
 		WHERE PD_NO = #{pdNo}
 	</delete>
+	
+	<update id="updateProduct" parameterType="Product">
+		UPDATE 
+			PRODUCT
+		SET
+			PD_NAME = #{pdName},
+			ORIGIN_PRICE = #{originPrice},
+			DISCOUNT = #{discountPer},
+			SELL_PRICE = #{sellPrice},
+			VOLUME = #{volume},
+			SUB_EX = #{subExplicate},
+			DRUG_WAY = #{drugWay},
+			SHELFLIFE = #{shelflife},
+			CT_CODE = #{categoryCode},
+			PD_UPLOADDATE = SYSDATE
+		WHERE
+			PD_NO = #{pdNo}
+	</update>
+	
+	<update id="updateProductPhoto" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+			UPDATE 
+				PRODUCTPHOTO
+			SET
+				PDP_RENAME = #{item.fileName}
+			WHERE
+				PD_NO = #{item.pdNo}
+				AND PDP_TYPE = #{item.photoType}
+		</foreach>
+	</update>
 	
 </mapper>
 

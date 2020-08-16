@@ -23,6 +23,10 @@ public interface AdminProductService {
 
 	int deleteProduct(int pdNo);
 
-	
+	Product getProductDetail(int pdNo);
+
+	int updateProduct(Product p);
+
+	int updateProductPhoto(List<ProductPhoto> photos);
 
 }

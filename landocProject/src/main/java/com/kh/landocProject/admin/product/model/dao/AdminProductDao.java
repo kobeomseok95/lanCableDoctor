@@ -46,6 +46,15 @@ public class AdminProductDao {
 		return sqlSessionTemplate.update("productMapper.deleteProduct", pdNo);
 	}
 
-	
+	public Product getProductDetail(int pdNo) {
+		return sqlSessionTemplate.selectOne("productMapper.getProductDetail", pdNo);
+	}
 
+	public int updateProduct(Product p) {
+		return sqlSessionTemplate.update("productMapper.updateProduct", p);
+	}
+
+	public int updateProductPhoto(List<ProductPhoto> photos) {
+		return sqlSessionTemplate.update("productMapper.updateProductPhoto", photos);
+	}
 }
