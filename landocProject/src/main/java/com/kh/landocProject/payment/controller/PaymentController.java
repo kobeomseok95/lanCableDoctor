@@ -126,22 +126,30 @@ public class PaymentController {
 			ArrayList<Cart> cart
 			) throws PaymentException{
 		
-		
+		int allOriginPrice=0;
 		int allPrice =0;	// 총 결제금액
 		int allDiscount=0;	// 총 할인금액
 		for(int i =0; i<listOriginPrice.size();i++) {
 			
 			cart.add(new Cart(listCartNo.get(i),listRenameFile.get(i), listPdNo.get(i),listPdName.get(i),listCount.get(i),null, null, listOriginPrice.get(i), listDiscount.get(i),listSellPrice.get(i) ));
+			allOriginPrice += listOriginPrice.get(i) * listCount.get(i);
 			allPrice +=listSellPrice.get(i)*listCount.get(i);
 			allDiscount +=listOriginPrice.get(i)*listDiscount.get(i)/100*listCount.get(i);
 		
+			
 		}
 		
 		
-		
+		System.out.println("alOriginPrice:"+allOriginPrice);
 		System.out.println("allPrice:"+allPrice);
 		System.out.println("allDiscount:"+allDiscount);
 		System.out.println("array:"+cart);
+		
+		mv.addObject("allPrice", allPrice);
+		mv.addObject("allDiscount", allDiscount);
+		mv.addObject("cart", cart);
+		mv.addObject("allOriginPrice", allOriginPrice);
+		mv.setViewName("payment/cartPay");
 	
 		return mv;
 	}
@@ -160,19 +168,27 @@ public class PaymentController {
 			ArrayList<Cart> cart
 			) throws PaymentException{
 		
+		int allOriginPrice=0;
 		int allPrice =0;	// 총 결제금액
 		int allDiscount=0;	// 총 할인금액
 		for(int i =0; i<listOriginPrice.size();i++) {
 			cart.add(new Cart(listCartNo.get(i),listRenameFile.get(i), listPdNo.get(i),listPdName.get(i),listCount.get(i),null, null, listOriginPrice.get(i), listDiscount.get(i),listSellPrice.get(i) ));
+			allOriginPrice += listOriginPrice.get(i) * listCount.get(i);
 			allPrice +=listSellPrice.get(i)*listCount.get(i);
 			allDiscount +=listOriginPrice.get(i)*listDiscount.get(i)/100*listCount.get(i);
 		
 		}
 		
-		
+		System.out.println("alOriginPrice:"+allOriginPrice);
 		System.out.println("allPrice:"+allPrice);
 		System.out.println("allDiscount:"+allDiscount);
 		System.out.println("array:"+cart);
+		
+		mv.addObject("allPrice", allPrice);
+		mv.addObject("allDiscount", allDiscount);
+		mv.addObject("cart", cart);
+		mv.addObject("allOriginPrice", allOriginPrice);
+		mv.setViewName("payment/cartPay");
 		
 		return mv;
 	}
@@ -278,4 +294,44 @@ public class PaymentController {
 			}
 
 	}
+	
+	
+		@RequestMapping(value="cartPaySuccessView.do",method=RequestMethod.GET )
+		public String cartPaySuccessView(Payment p, OrderMg or, String drNo, String cNo, @RequestParam("opCount")List<Integer> opCount,
+														Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice,
+														String paymentComment, @RequestParam("pdNo")List<Integer> pdNo) {
+			System.out.println("pdNo : " + pdNo);
+			p.setAmountPrice(allPrice - discountPrice - usePoint);
+			int result = 0;
+			int result1 = 0;
+			int result3 = 0;
+			
+			if(usePoint != 0) {
+				result = payService.insertPayment(p);
+			}else {
+				result1 = payService.insertPayment1(p);
+			}
+			
+			
+			if(result > 0 || result1 > 0) {
+				int orderRmg = payService.insertOrderMg(or);
+				
+				/* OrderMg orderNo = payService.selectOrderNo(); */
+				int orderNo = payService.selectOrderNo();
+				
+				
+				
+				System.out.println(orderNo);
+				
+				HashMap<String, Object> list = new HashMap<String, Object>();
+				for(int i = 0; i < pdNo.size(); i++) {
+					list.put("pdNo", pdNo.get(i));
+					list.put("opCount", opCount.get(i));
+					list.put("orderNo", orderNo);
+					System.out.println("list : " + list);
+					result3 = payService.cartPaySuccess(list);
+				}
+			}
+			return "payment/paySuccess";
+		}
 }

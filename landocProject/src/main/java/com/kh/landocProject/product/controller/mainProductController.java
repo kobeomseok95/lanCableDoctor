@@ -245,13 +245,15 @@ public class mainProductController {
 	@RequestMapping(value="recommand.do")
 	public ModelAndView recommand(ModelAndView mv,@RequestParam("drNo")List<String> drNo,
 			@RequestParam("pdNo")List<Integer>  pdNo, @RequestParam("drComment")List<String> drComment) {
+		System.out.println("drNo : " + drNo);
+		System.out.println("pdNo : " + pdNo);
+		System.out.println("drComment : " + drComment);
 		int result = 0;
 		HashMap<String,Object> reco = new HashMap<String,Object>();
 		for(int i = 0; i < pdNo.size(); i++) {
 			reco.put("drComment", drComment.get(i));
 			reco.put("pdNo", pdNo.get(i));
 			reco.put("drNo", drNo.get(i));
-			
 			result = productServiceImpl.recommendInsert(reco);
 		}
 		

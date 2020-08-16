@@ -430,7 +430,7 @@
 		    <include refid="categoryFormula" />
 	</select>
 	
-	<insert id="recommendInsert" parameterType="java.util.Map">
+	<insert id="recommendInsert" parameterType="hashMap">
 		INSERT INTO DRRECOMMEND
 		VALUES(SEQ_DRRM.NEXTVAL, #{drComment}, #{pdNo}, #{drNo}, SYSDATE)
 	</insert>
