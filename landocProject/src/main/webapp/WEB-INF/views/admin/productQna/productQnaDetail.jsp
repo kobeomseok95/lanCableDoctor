@@ -33,10 +33,7 @@
 
         /* textarea */
         textarea {width: 95%;}
-
-      
-
-
+		.styleHd	{display: none;}
 </style>
 </head>
 <body>
@@ -48,50 +45,72 @@
         <h3>상품 QnA</h3>
 
         <!--테이블 부분-->
-        <form id="answer" action="#" method="post">
-            <table id="contentTb">
-                <tr>
-                    <th class="firstLine">번호</th>
-                    <td>123</td>
-                </tr>
-                <tr>
-                    <th class="firstLine">제목</th>
-                    <td>화장실이 어디에요?</td>
-                </tr>
-                <tr>
-                    <th class="firstLine">상품번호</th>
-                    <td>444</td>
-                </tr>
-                <tr>
-                    <th class="firstLine">상품명</th>
-                    <td>게보린</td>
-                </tr>
-                <tr>
-                    <th class="firstLine">작성자</th>
-                    <td>고범석짱짱짱</td>
-                </tr>
-                <tr>
-                    <th class="firstLine">내용</th>
-                    <td>이거 인간적으로 너무 작은거 아니에요?</td>
-                </tr>
-                <tr>
-                    <th class="firstLine">답변할 내용</th>
-                    <td>
-                        <textarea rows="5">양심이 없으시군요!</textarea>
-                    </td>
-                </tr>
-                 
-            </table>
+        
+		 <table id="contentTb">
+		     <tr>
+		         <th class="firstLine">번호</th>
+		         <td id="pdqNo">${qna.pdqNo }</td>
+		     </tr>
+		     <tr>
+		         <th class="firstLine">제목</th>
+		         <td>${qna.title }</td>
+		     </tr>
+		     <tr>
+		         <th class="firstLine">상품명</th>
+		         <td>${qna.pdName }</td>
+		     </tr>
+		     <tr>
+		         <th class="firstLine">작성자</th>
+				<td>
+				<c:if test="${empty qna.cNo && !empty qna.drNo }">
+				${qna.drName }(의사)
+				</c:if>
+				<c:if test="${!empty qna.cNo && empty qna.drNo }">
+				${qna.cNickname }
+				</c:if> 
+				</td>
+		     </tr>
+		     <tr>
+		         <th class="firstLine">내용</th>
+		         <td>${qna.content }</td>
+		     </tr>
+		     <tr>
+		     <c:if test="${qna.status eq 'N' }"> 
+		         <th class="firstLine">답변할 내용</th>
+		         <td>
+					<form action="answerQna.do" method="POST">
+						<input name="pdqNo" type="hidden" value="${qna.pdqNo }" />
+		            	<textarea name="answerContent" rows="5"></textarea>
+		            </form>
+		         </td>
+		     </c:if>
+		     <c:if test="${qna.status eq 'Y' }">
+				<th class="firstLine">답변한 내용</th>
+				<td>
+					<div id="answerContent" class="toggles">
+						${qna.answerContent }
+					</div>
+					<form class="styleHd toggles" action="answerQna.do" method="POST">
+						<input name="pdqNo" type="hidden" value="${qna.pdqNo }" />
+		            	<textarea name="answerContent" rows="5">${qna.answerContent }</textarea>
+		            </form>
+				</td>
+		     </c:if>
+		     </tr>
+		      
+		 </table>
             
-             <!--수정하기 뒤로 가기 버튼영역-->
-            <div id="btnArea">
-                <button type="sumbit" onclick="goModify();">수정하기</button>
-                <button type="button" onclick="goBack();">뒤로가기</button>
-            </div>
-            
-            
-        </form>
-
+        <div id="btnArea">
+		<c:if test="${qna.status eq 'N' }">
+		    <button type="button" id="answerQna">답변제출</button>
+		</c:if>
+		<c:if test="${qna.status eq 'Y' }">
+			<button type="button" id="modifyAnswer" class="toggles">답변수정</button>
+			<button type="button" id="answerQna" class="styleHd toggles">수정하기</button>
+			<button type="button" id="answerCancel" class="styleHd toggles">수정취소</button>
+		</c:if>
+		    <button type="button" id="goBack" class="toggles" onclick="location.href='javascript:history.back();'">뒤로가기</button>
+		</div>
         <br><br><br><br><br><br>
     </div>
 
@@ -99,16 +118,55 @@
    
     <script>
         
-        function goAnswer() {
-            $("#answer").submit();
-        }
+        $(function(){
+	        // 테이블 한 줄 hover효과 주는 function
+	        $("#contentTb td").mouseenter(function () {
+	            $(this).parent().css({ "background": "lightgrey" });
+	        }).mouseout(function () {
+	            $(this).parent().css({ "background": "white" });
+	        });
+			
+	        $("#answerQna").on('click', function(event){
+	        	event.preventDefault();
+	        	var content = $('textarea[name="answerContent"]').val();
+	        	
+	        	if( content.length === 0 || content.replace( /(\s*)/g, "").length === 0 ){
+	        		alert("공백 답변은 제출할 수 없습니다.");
+	        		return false;
+	        	}
+	        	
+	        	if(confirm("답변을 제출하시겠습니까?")){
+	        		$('form').submit();
+	        		alert("답변 완료되었습니다.");
+	        	}
+	        	else{
+	        		return false;
+	        	}
+	        });
+	        
+	        $("#modifyAnswer").on('click', function(){
+	        	$('.toggles').each(function(index, item){
+	        		if( $(this).hasClass('styleHd') === true ){
+	        			$(this).removeClass('styleHd');
+	        		}
+	        		else{
+	        			$(this).addClass('styleHd');
+	        		}
+				});
+	        });
+	        
+        	$("#answerCancel").on('click', function(){
+        		$('.toggles').each(function(index, item){
+	        		if( $(this).hasClass('styleHd') === true ){
+	        			$(this).removeClass('styleHd');
+	        		}
+	        		else{
+	        			$(this).addClass('styleHd');
+	        		}
+				});
+	        });
+        });	//end of jquery
 
-        // 테이블 한 줄 hover효과 주는 function
-        $("#contentTb td").mouseenter(function () {
-            $(this).parent().css({ "background": "lightgrey" });
-        }).mouseout(function () {
-            $(this).parent().css({ "background": "white" });
-        });
 
     </script>
 

@@ -6,12 +6,16 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.dmypage.model.dao.DmyPageDao;
 import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
 import com.kh.landocProject.dmypage.model.vo.DPdReview;
 import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
+import com.kh.landocProject.dmypage.model.vo.DrProfile;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
+import com.kh.landocProject.member.model.vo.DrClient;
 
 @Service("dMypageService")
 public class DmyPageServiceImpl implements DmyPageService{
@@ -160,6 +164,71 @@ public class DmyPageServiceImpl implements DmyPageService{
 	}
 
 	@Override
+	public String selectDrProfile(String drNo) {
+		
+		return dMypageDao.selectDrProfile(drNo);
+	}
+
+	@Override
+	public DrProfile selectOneDr(String replyDrNo) {
+		
+		return dMypageDao.selectOneDr(replyDrNo);
+	}
+
+	@Override
+	public int selectMyDrLikeCount(HpLike hl) {
+		
+		return dMypageDao.selectMyDrLikeCount(hl);
+	}
+
+	@Override
+	public int deleteDrLike(HpLike hl) {
+		
+		return dMypageDao.deleteDrLike(hl);
+	}
+
+	@Override
+	public int insertDrLike(HpLike hl) {
+		
+		return dMypageDao.insertDrLike(hl);
+	}
+
+	@Override
+	public int selectDrLikeCount(String drNo) {
+		
+		return dMypageDao.selectDrLikeCount(drNo);
+	}
+
+	@Override
+	public int selectLikeCount(String drNo) {
+		
+		return dMypageDao.selectLikeCount(drNo);
+	}
+
+	@Override
+	public int selectReplyCount(String drNo) {
+		
+		return dMypageDao.selectReplyCount(drNo);
+	}
+
+	@Override
+	public int selectChosenReplyCount(String drNo) {
+		
+		return dMypageDao.selectChosenReplyCount(drNo);
+	}
+
+	@Override
+	public ArrayList<DrProfile> selectCommentList(String drNo) {
+		
+		return dMypageDao.selectCommentList(drNo);
+	}
+
+	@Override
+	public int selectCommentCount(String drNo) {
+		
+		return dMypageDao.selectCommentCount(drNo);
+	}
+
 	public String selectPdReviewPhoto(DPdReview review) {
 		
 		return dMypageDao.selectPdReviewPhoto(review);
@@ -176,10 +245,25 @@ public class DmyPageServiceImpl implements DmyPageService{
 		
 		return dMypageDao.getListCountSearchOrderList2(search);
 	}
-	
-	
-	
-	
+
+	@Override
+	public int insertDrComment(HashMap<String, String> map) {
+		
+		return dMypageDao.insertDrComment(map);
+	}
+
+	@Override
+	public ArrayList<DrProfile> getAjaxCommentList(String drNo) {
+		
+		return dMypageDao.getAjaxCommentList(drNo);
+	}
+
+	@Override
+	public int getCommentCount(String drNo) {
+		
+		return dMypageDao.getCommentCount(drNo);
+	}
+
 	
 	
 }

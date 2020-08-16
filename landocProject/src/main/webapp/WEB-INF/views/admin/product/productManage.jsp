@@ -96,7 +96,7 @@
            		<td>${product.discountPer } % </td>
            		<td class="price">${product.sellPrice }</td>
            		<td>
-           			<button onclick="goUpdate();">수정하기</button>
+           			<button class="updateProduct">수정하기</button>
                     <button class="deleteProduct">삭제하기</button>
            		</td>
             </tr>
@@ -196,7 +196,7 @@
            		<td>${product.discountPer } % </td>
            		<td class="price">${product.sellPrice }</td>
            		<td>
-           			<button onclick="goUpdate();">수정하기</button>
+           			<button class="updateProduct">수정하기</button>
                     <button class="deleteProduct">삭제하기</button>
            		</td>
             </tr>
@@ -317,6 +317,17 @@
 	        		alert("삭제되었습니다.");
         		}
         		else return false;
+        	});
+        	
+        	$('.updateProduct').on('click', function(){
+        		var pdNo = $(this).parent().siblings('.pdNo').text();
+        		
+        		var $updateForm = $('<form action="updateProductView.do" method="GET"></form>');
+        		var $input = $('<input name="pdNo" type="hidden" />');
+        		$input.attr("value", pdNo);
+        		$updateForm.append($input);
+        		$('body').append($updateForm);
+        		$updateForm.submit();
         	});
         });	//end of jquery
     </script>

@@ -127,7 +127,7 @@ img {
                         </div>
     
                         <div class="col-9 text-left pt-2">
-                            <div style="font-weight: 300;">
+                            <!-- <div style="font-weight: 300;">
                                 <a href="/q/?search_query=서울 치과" style="color: #1d458d;font-weight: 600;text-decoration: underline;">
                                     	서울
                                 </a>
@@ -142,7 +142,7 @@ img {
                                 <a href="/q/?search_query=이미지치과의원" style="color: #1d458d;font-weight: 600;text-decoration: underline;s">
                                     	이미지치과의원
                                 </a>
-                            </div>
+                            </div> -->
     
                             <div class="hospital-doctor-name-box d-flex align-items-center mt-3 mb-3" style="font-size:20px; font-weight:600;">
                             <input type="hidden" value="${hp.hpNo }" id="hpNoAjax">
@@ -309,7 +309,6 @@ img {
                 
                 <script>
                		$(document).ready(function(){
-               			
                			var heartval = "${heart}";
                			
                			if(heartval >0){
@@ -2265,9 +2264,6 @@ img {
 						</c:if>                   
                 </div>
              
-             
-             
-             
                 <!-- QnA -->
                 <div class="row p-3 w-100">
                 <div class="col-20 w-100">
@@ -2443,24 +2439,14 @@ img {
                     </div>
                 </c:if>
                 
-               
-                
                 </div>
                 </div>
                 </div>
-    
-    
             </div>
-    
     
         </div>
    
-    
     <script>
-    <!-- 리뷰 에이작스 처리 ********************************************************************************************************-->
-
-    
-  
   	 // 병원 qna 처리 ********************************************************************************************************-
     	function goHpQnaDetail(){
     		var hpNo = $("#hpNoAjax").val();

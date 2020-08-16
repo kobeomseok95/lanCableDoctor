@@ -20,6 +20,7 @@ import com.kh.landocProject.admin.product.model.service.AdminProductService;
 import com.kh.landocProject.common.Pagination;
 import com.kh.landocProject.product.model.vo.Product;
 import com.kh.landocProject.product.model.vo.ProductPhoto;
+import com.kh.landocProject.product.model.vo.ProductQna;
 
 @Controller
 public class ProductController {
@@ -66,18 +67,19 @@ public class ProductController {
 	public String productInsert(ModelAndView mv,
 											Product p,
 											@RequestParam String volumeUnit,
+											@RequestParam String volumeEx,
 											@RequestParam("thumbnail") MultipartFile thumbnail,
 											@RequestParam("detail") MultipartFile detail,
 											RedirectAttributes ra) {
-		p.setVolume(p.getVolume() + volumeUnit);
+		p.setVolume(p.getVolume() + volumeUnit  + " * " + volumeEx);
 		int result = adminProductImpl.insertProduct(p);
 		
 		if(result > 0) {
 			HashMap<String, MultipartFile> photoMap = new HashMap<>();
 			photoMap.put("thumbnail", thumbnail);
 			photoMap.put("detail", detail);
-			//리스트로 받아 DB에 저장
-			List<ProductPhoto> photoList = saveFiles(photoMap);
+
+			List<ProductPhoto> photoList = saveFiles(photoMap, p.getPdNo());
 			for(ProductPhoto pt : photoList) {
 				adminProductImpl.insertProductPhoto(pt);
 			}
@@ -92,7 +94,7 @@ public class ProductController {
 		return "redirect:productManage.do";
 	}
 
-	private List<ProductPhoto> saveFiles(HashMap<String, MultipartFile> photoMap) {
+	private List<ProductPhoto> saveFiles(HashMap<String, MultipartFile> photoMap, int pdNo) {
 		File folder = new File(filePath);
 		if(!folder.exists())
 			folder.mkdirs();
@@ -118,7 +120,7 @@ public class ProductController {
 				p.setFileName(fileName);
 			}
 			p.setFilePath(filePath);
-			
+			p.setPdNo(pdNo);
 			String saveFile = filePath + p.getFileName();
 			try {
 				photoMap.get(key).transferTo(new File(saveFile));
@@ -159,11 +161,136 @@ public class ProductController {
 		}
 	}
 
-	@RequestMapping("productDetail.do")
-	public String productDetail() {
-		return "admin/product/productDetail";
+	@RequestMapping(value="updateProductView.do", method=RequestMethod.GET)
+	public ModelAndView updateProductView(ModelAndView mv,
+														@RequestParam int pdNo) {
+		Product product = adminProductImpl.getProductDetail(pdNo);
+		List<String> photos = adminProductImpl.getProductFileNames(pdNo);
+		
+		String volumeStr = product.getVolume();
+		HashMap<String, String> splitVolume = splitVolume(volumeStr);
+		
+		mv.addObject("product", product);
+		mv.addObject("photos", photos);
+		mv.addObject("detailViewType", 2);
+		mv.addObject("volume", Integer.valueOf(splitVolume.get("volumeNo")));
+		mv.addObject("volumeUnit", splitVolume.get("volumeUnit"));
+		mv.addObject("volumeEx", splitVolume.get("volumeEx"));
+		mv.setViewName("admin/product/productUpdateForm");
+		return mv;
 	}
 
+	private HashMap<String, String> splitVolume(String volumeStr) {
+		String volumeNo = "";
+		String volumeUnit = "";
+		String volumeEx = "";
+		
+		for(int i = 0; i < volumeStr.length(); i++) {
+			char x = volumeStr.charAt(i);
+			
+			if(0 <= i && i <= 7) {
+				if( '0' <= x && x <= '9' ) {
+					volumeNo += x;
+				}
+				else if( x == ' ' || x == '*' ) {
+					continue;
+				}
+				else {
+					volumeUnit += x;
+				}
+			}
+			else {
+				volumeEx += x;
+			}
+		}
+		
+		HashMap<String, String> splitVolume = new HashMap<String, String>();
+		splitVolume.put("volumeNo", volumeNo);
+		splitVolume.put("volumeUnit", volumeUnit);
+		splitVolume.put("volumeEx", volumeEx);
+		
+		return splitVolume;
+	}
+
+	@RequestMapping(value="updateProduct.do", method=RequestMethod.POST)
+	public String updateProduct(ModelAndView mv,
+											Product p,
+											@RequestParam String volumeUnit,
+											@RequestParam String volumeEx,
+											@RequestParam(value="thumbnail", required=false) MultipartFile thumbnail,
+											@RequestParam(value="detail", required=false) MultipartFile detail,
+											RedirectAttributes ra) {
+		int updateNewPhoto = 0, updateProduct = 0;
+		
+		p.setVolume(p.getVolume() + volumeUnit  + " * " + volumeEx);
+		updateProduct = adminProductImpl.updateProduct(p);
+		
+		if(updateProduct < 0) {
+			return "";
+		}
+		if( !thumbnail.getOriginalFilename().equals("") && !detail.getOriginalFilename().equals("") ) {
+			List<String> fileNames = adminProductImpl.getProductFileNames(p.getPdNo());
+			productFileDetele(fileNames);
+			
+			HashMap<String, MultipartFile> photoMap = new HashMap<>();
+			photoMap.put("thumbnail", thumbnail);
+			photoMap.put("detail", detail);
+
+			List<ProductPhoto> photos = saveFiles(photoMap, p.getPdNo());
+			updateNewPhoto = adminProductImpl.updateProductPhoto(photos);
+		}
+		
+		ra.addAttribute("pageNo", 1);
+		ra.addAttribute("boardType", 1);
+		return "redirect:productManage.do";
+	}
+		
+	@RequestMapping(value="productQnaManage.do", method=RequestMethod.GET)
+	public ModelAndView productQnaManage(ModelAndView mv,
+																@RequestParam int boardType,
+																@RequestParam int pageNo) {
+		int listCount = adminProductImpl.getAdminQnaCount();
+		PageInfo pageInfo = Pagination.getPageInfo(pageNo, listCount);
+		List<ProductQna> qnas = adminProductImpl.getAdminQnas(pageInfo);
+		
+		mv.addObject("page", pageInfo);
+		mv.addObject("qnas", qnas);
+		mv.addObject("boardType", 1);
+		mv.setViewName("admin/productQna/productQnaManage");
+		return mv;
+	}
+
+	@RequestMapping(value="productQnaDetail.do", method=RequestMethod.GET)
+	public ModelAndView productQnaDetail(ModelAndView mv,
+															@RequestParam int pdqNo) {
+		ProductQna qna = adminProductImpl.getAdminQna(pdqNo);
+		
+		mv.addObject("qna", qna);
+		mv.setViewName("admin/productQna/productQnaDetail");
+		return mv;
+	}
+	
+	@RequestMapping(value="answerQna.do", method=RequestMethod.POST)
+	public String answerProductQna(@RequestParam String answerContent,
+																@RequestParam int pdqNo,
+																RedirectAttributes ra) {
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("pdqNo", pdqNo);
+		param.put("answerContent", answerContent);
+		
+		int result = adminProductImpl.answerQna(param);
+		
+		if(result > 0) {
+			ra.addAttribute("boardType", 1);
+			ra.addAttribute("pageNo", 1);
+			return "redirect:productQnaManage.do";			
+		}
+		else {
+			return "";
+		}
+	}
+	
+	
 }
 
 

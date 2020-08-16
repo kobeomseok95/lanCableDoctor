@@ -3,11 +3,15 @@ package com.kh.landocProject.dmypage.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
 import com.kh.landocProject.dmypage.model.vo.DPdReview;
 import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
+import com.kh.landocProject.dmypage.model.vo.DrProfile;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
+import com.kh.landocProject.member.model.vo.DrClient;
 
 public interface DmyPageService {
 	ArrayList<DPdReview> selectPdReviewList(String drNo, CMypagePageInfo pi);
@@ -59,9 +63,38 @@ public interface DmyPageService {
 
 	int orderCancel(DOrderList order);
 
+	String selectDrProfile(String drNo);
+
+	DrProfile selectOneDr(String replyDrNo);
+
+	int selectMyDrLikeCount(HpLike hl);
+
+	int deleteDrLike(HpLike hl);
+
+	int insertDrLike(HpLike hl);
+
+	int selectDrLikeCount(String drNo);
+
+	int selectLikeCount(String drNo);
+
+	int selectReplyCount(String drNo);
+
+	int selectChosenReplyCount(String drNo);
+
+	ArrayList<DrProfile> selectCommentList(String drNo);
+
+	int selectCommentCount(String drNo);
+
 	String selectPdReviewPhoto(DPdReview review);
 
 	int getListCountSearchOrderList(HashMap<String, Object> search);
 
 	int getListCountSearchOrderList2(HashMap<String, Object> search);
+
+	int insertDrComment(HashMap<String, String> map);
+
+	ArrayList<DrProfile> getAjaxCommentList(String drNo);
+
+	int getCommentCount(String drNo);
+
 }

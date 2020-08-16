@@ -41,6 +41,8 @@
 	
 	<resultMap type="ProductQna" id="productQnas">
 		<id property="pdqNo" column="PDQ_NO" />
+		<result property="pdNo" column="PD_NO" />
+		<result property="pdName" column="PD_NAME" />
 		<result property="rno" column="RNO" />
 		<result property="title" column="PDQ_TITLE" />
 		<result property="content" column="PDQ_CONTENT" />
@@ -389,7 +391,7 @@
 			#{subExplicate},
 			#{drugWay},
 			#{shelflife},
-			0,null,null,
+			0,
 			#{categoryCode},
 			0,
 			SYSDATE,
@@ -434,6 +436,103 @@
 		INSERT INTO DRRECOMMEND
 		VALUES(SEQ_DRRM.NEXTVAL, #{drComment}, #{pdNo}, #{drNo}, SYSDATE)
 	</insert>
+	
+	<update id="updateProduct" parameterType="Product">
+		UPDATE 
+			PRODUCT
+		SET
+			PD_NAME = #{pdName},
+			ORIGIN_PRICE = #{originPrice},
+			DISCOUNT = #{discountPer},
+			SELL_PRICE = #{sellPrice},
+			VOLUME = #{volume},
+			SUB_EX = #{subExplicate},
+			DRUG_WAY = #{drugWay},
+			SHELFLIFE = #{shelflife},
+			CT_CODE = #{categoryCode},
+			PD_UPLOADDATE = SYSDATE
+		WHERE
+			PD_NO = #{pdNo}
+	</update>
+	
+	<update id="updateProductPhoto" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+			UPDATE 
+				PRODUCTPHOTO
+			SET
+				PDP_RENAME = #{item.fileName}
+			WHERE
+				PD_NO = #{item.pdNo}
+				AND PDP_TYPE = #{item.photoType}
+		</foreach>
+	</update>
+	
+	<select id="getAdminQnaCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCTQNA
+	</select>
+	
+	<select id="getAdminQnas" resultMap="productQnas">
+		SELECT 
+		    ROWNUM AS RNO,
+		    A.*
+		FROM
+		    (SELECT
+		        A.PDQ_NO,
+		        A.PDQ_TITLE,
+		        A.PDQ_CONTENT,
+		        A.PDQ_SUBMITDATE,
+		        A.PDQ_ANSWERSTATUS,
+		        A.PDQ_ANSWERCONTENT,
+		        A.PD_NO,
+		        A.C_NO,
+		        A.DR_NO,
+		        B.C_NICKNAME,
+		        C.DR_NAME,
+		        D.PD_NAME
+		    FROM
+		        PRODUCTQNA A
+		        LEFT JOIN CLIENT B ON A.C_NO = B.C_NO
+		        LEFT JOIN DRCLIENT C ON A.DR_NO = C.DR_NO
+		        JOIN PRODUCT D ON A.PD_NO = D.PD_NO
+		    ORDER BY
+		        PDQ_SUBMITDATE DESC
+		    ) A
+	</select>
+	
+	<select id="getAdminQna" parameterType="_int" resultMap="productQnas">
+		SELECT 
+		    A.PDQ_NO,
+		    A.PDQ_TITLE,
+		    A.PDQ_CONTENT,
+		    A.PDQ_SUBMITDATE,
+		    A.PDQ_ANSWERSTATUS,
+		    A.PDQ_ANSWERCONTENT,
+		    A.PD_NO,
+		    A.C_NO,
+		    A.DR_NO,
+		    A.SECRETSTATUS,
+		    A.SECRETPASSWORD,
+		    B.C_NICKNAME,
+		    C.DR_NAME,
+		    D.PD_NAME
+		FROM
+		    PRODUCTQNA A
+		    LEFT JOIN CLIENT B ON A.C_NO = B.C_NO
+		    LEFT JOIN DRCLIENT C ON A.DR_NO = C.DR_NO
+		    JOIN PRODUCT D ON A.PD_NO = D.PD_NO
+		WHERE
+		    A.PDQ_NO = #{pdqNo}		
+	</select>
+	
+	<update id="answerQna" parameterType="hashMap">
+		UPDATE 
+			PRODUCTQNA
+		SET
+			PDQ_ANSWERSTATUS = 'Y',
+			PDQ_ANSWERCONTENT = #{answerContent}
+		WHERE
+			PDQ_NO = #{pdqNo}
+	</update>
 	
 </mapper>
 

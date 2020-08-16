@@ -20,10 +20,10 @@
         #contentTb td{width: auto; border: 1px solid #bbb; font-size:14px;}
         #contentTb button{height: 35px; width: 55%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
         #contentTb button:hover{background-color: #007ee5; color: white;}
-      #contentTb input{width:95%; border:none;}`
+      #contentTb input{width:95%; border:none;}
       
-      #categoryCode{width:98%; height:40px; font-size:18px;margin:0}
-      #volumn{width:30%; height:25px; font-size:15px;}
+      /* #categoryCode{width:98%; height:40px; font-size:18px;margin:0} 이거 한사람 누구야?*/
+      #volumn, #categoryCode {width:30%; height:25px; font-size:15px;}
       #contentTb input[type=file]{height:50px;}
 
         /* textarea */
@@ -51,34 +51,38 @@
                 <tr>
                     <th class="firstLine cate">상품 카테고리</th>
                     <td>
-                       <div style="width:100%;float:left;">
-                        <select id="categoryCode" name="categoryCode">
-                            <option value="1">종합건강</option>
-                            <option value="2">눈건강</option>
-                            <option value="4">장건강</option>
-                            <option value="5">피로개선</option>
-                            <option value="6">피부건강</option>
-                            <option value="3">뼈 & 관절건강</option>
-                        </select>
+                       <div style="width:80%;float:left;">
+	                        <select id="categoryCode" name="categoryCode">
+	                            <option value="1">종합건강</option>
+	                            <option value="2">눈건강</option>
+	                            <option value="4">장건강</option>
+	                            <option value="5">피로개선</option>
+	                            <option value="6">피부건강</option>
+	                            <option value="3">뼈 & 관절건강</option>
+	                        </select>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">상품명</th>
                     <td>
-                        <input type="text" name="pdName" />
+                    	<div style="width:80%;float:left;">
+                        	<input type="text" id="pdName" name="pdName" />
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">상품 부연 설명</th>
                     <td>
-                        <input type="text" name="subExplicate" />
+                    	<div style="width:80%;float:left;">
+                        	<input type="text" name="subExplicate" />
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">정가</th>
                     <td>
-                    <div style="width:100%;float:left;">
+                    <div style="width:80%;float:left;">
                         <input id="originPrice" type="number" name="originPrice" style="width:15%"
                         value="0" min="0" /> 원
                     </div>
@@ -87,7 +91,7 @@
                 <tr>
                     <th class="firstLine">할인율</th>
                     <td>
-                    <div style="width:100%;float:left;">
+                    <div style="width:80%;float:left;">
                         <input id="discountPer" type="number" name="discountPer" style="width:15%"
                         value="0" min="0" max="100"/> %
                     </div>
@@ -96,29 +100,48 @@
                 <tr>
                     <th class="firstLine">판매가격</th>
                     <td>
-                    <div style="width:100%;float:left;">
-                        <input id="sellPrice" type="number" name="sellPrice" style="width:15%"
-                        value="0" min="0"/> 원
-                    </div>
+	                    <div style="width:80%;float:left;">
+	                        <input id="sellPrice" type="number" name="sellPrice" style="width:15%"
+	                        value="0" min="0"/> 원
+	                    </div>
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">용량</th>
                     <td>
-                        <input type="text" name="volume" style="width:15%"/>
-                        <select id="volumn" name="volumeUnit">
-                            <option value="mg">mg</option>
-                            <option value="IU">IU</option>
-                            <option value="μg">μg</option>
-                            <option value="ug">ug</option>
-                            <option value="mcg">mcg</option>
-                        </select>
+                    	<div style="width:80%;float:left;">
+	                        <input type="text" name="volume"/>
+	                	</div>
+                    </td>
+                </tr>
+                <tr>
+                	<th class="firstLine">용량 단위</th>
+                	<td>
+                		<div style="width:80%;float:left;">
+	                		<select id="volumn" name="volumeUnit">
+	                            <option value="mg">mg</option>
+	                            <option value="IU">IU</option>
+	                            <option value="μg">μg</option>
+	                            <option value="ug">ug</option>
+	                            <option value="mcg">mcg</option>
+	                        </select>
+	                	</div>
+                	</td>
+                </tr>
+                <tr>
+                    <th class="firstLine">용량 부연 설명</th>
+                    <td>
+                    	<div style="width:80%;float:left;">
+                        	<input type="text" name="volumeEx"/>
+                    	</div>
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">섭취방법</th>
                     <td>
-                        <input type="text" name="drugWay" />
+                    	<div style="width:80%;float:left;">
+                        	<input type="text" name="drugWay" />
+                   		</div>
                     </td>
                 </tr>
                 <tr>
@@ -130,21 +153,23 @@
                 <tr>
                     <th class="firstLine">썸네일 이미지</th>
                     <td>
-                        <input type="file" name="thumbnail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
+                    	<div style="width:80%;float:left;">
+                        	<input type="file" id="thumbnail" name="thumbnail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
+                    	</div>
                     </td>
                 </tr>
                 <tr>
                     <th class="firstLine">상세 설명 이미지</th>
                     <td>
-                        <input type="file" name="detail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
+                    	<div style="width:80%;float:left;">
+                        	<input type="file" id="detail" name="detail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
+                    	</div>
                     </td>
                 </tr>
             </table>
-            <!-- 학원에서 상품 추가, 삭제하기! -->
-             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
                 <button type="submit">등록하기</button>
-                <button type="button" onclick="goBack();">뒤로가기</button>
+                <button type="button" onclick="location.href='javascript:history.back();'">뒤로가기</button>
             </div>
                
         </form>
@@ -179,6 +204,33 @@
 	        	if( Number($("#sellPrice").val()) < 0 )
 	        		$("#sellPrice").val('0');
 	        });
+
+			$("form").on('submit', function(event){
+				event.preventDefault();
+				
+				var pdName = $("#pdName").val();
+	        	var originPrice = $("#originPrice").val();
+	        	var sellPrice = $("#sellPrice").val();
+	        	var thumbnail = $("#thumbnail").val();
+	        	var detail = $("#detail").val();
+	        	
+	        	if(pdName.length <= 3){
+	        		alert('상품명은 최소 세 글자 이상이어야 합니다.');
+	        		return false;
+	        	}
+	        	
+	        	if(originPrice === "" || sellPrice === ""){
+	        		alert('상품 가격을 입력해주셔야 합니다.');
+	        		return false;
+	        	}
+	        	
+	        	if(thumbnail === "" || detail === ""){
+	        		alert('썸네일 및 상세설명 사진을 올려주셔야 합니다.');
+	        		return false;
+	        	}
+	        	
+	        	return true;
+			});
      	});//end of jquery
      	
      	 function fileCheck(obj){

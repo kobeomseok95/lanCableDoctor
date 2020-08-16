@@ -12,6 +12,7 @@ import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.admin.product.model.dao.AdminProductDao;
 import com.kh.landocProject.product.model.vo.Product;
 import com.kh.landocProject.product.model.vo.ProductPhoto;
+import com.kh.landocProject.product.model.vo.ProductQna;
 
 @Service
 public class AdminProductServiceImpl implements AdminProductService{
@@ -49,5 +50,38 @@ public class AdminProductServiceImpl implements AdminProductService{
 		return adminProductDao.deleteProduct(pdNo);
 	}
 
-	
+	@Override
+	public Product getProductDetail(int pdNo) {
+		return adminProductDao.getProductDetail(pdNo);
+	}
+
+	@Override
+	public int updateProduct(Product p) {
+		return adminProductDao.updateProduct(p);
+	}
+
+	@Override
+	public int updateProductPhoto(List<ProductPhoto> photos) {
+		return adminProductDao.updateProductPhoto(photos);
+	}
+
+	@Override
+	public int getAdminQnaCount() {
+		return adminProductDao.getAdminQnaCount();
+	}
+
+	@Override
+	public List<ProductQna> getAdminQnas(PageInfo pageInfo) {
+		return adminProductDao.getAdminQnas(pageInfo);
+	}
+
+	@Override
+	public ProductQna getAdminQna(int pdqNo) {
+		return adminProductDao.getAdminQna(pdqNo);
+	}
+
+	@Override
+	public int answerQna(HashMap<String, Object> param) {
+		return adminProductDao.answerQna(param);
+	}
 }
