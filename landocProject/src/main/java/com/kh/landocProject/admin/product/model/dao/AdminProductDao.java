@@ -72,4 +72,8 @@ public class AdminProductDao {
 	public ProductQna getAdminQna(int pdqNo) {
 		return sqlSessionTemplate.selectOne("productMapper.getAdminQna", pdqNo);
 	}
+
+	public int answerQna(HashMap<String, Object> param) {
+		return sqlSessionTemplate.update("productMapper.answerQna", param);
+	}
 }

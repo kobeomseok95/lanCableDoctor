@@ -52,7 +52,7 @@
 		 <table id="contentTb">
 		     <tr>
 		         <th class="firstLine">번호</th>
-		         <td>${qna.pdqNo }</td>
+		         <td id="pdqNo">${qna.pdqNo }</td>
 		     </tr>
 		     <tr>
 		         <th class="firstLine">제목</th>
@@ -80,8 +80,9 @@
 		     <tr>
 		     <c:if test="${qna.status eq 'N' }"> 
 		         <th class="firstLine">답변할 내용</th>
-		         <td>
-					<form action="" method="POST">
+		         <td id="answerForm">
+					<form action="answerQna.do" method="POST">
+						<input name="pdqNo" type="hidden" value="${qna.pdqNo }" />
 		            	<textarea name="answerContent" rows="5"></textarea>
 		            </form>
 		         </td>
@@ -96,10 +97,14 @@
 		      
 		 </table>
             
-             <!--수정하기 뒤로 가기 버튼영역-->
-		<div id="btnArea">
-		    <button type="button" onclick="goModify();">답변수정하기</button>
-		    <button type="button" onclick="goBack();">뒤로가기</button>
+        <div id="btnArea">
+		<c:if test="${qna.status eq 'N' }">
+		    <button type="button" id="answerQna">답변제출</button>
+		</c:if>
+		<c:if test="${qna.status eq 'Y' }">
+			<button type="button">답변수정</button>
+		</c:if>
+		    <button type="button" onclick="location.href='javascript:history.back();'">뒤로가기</button>
 		</div>
         <br><br><br><br><br><br>
     </div>
@@ -108,16 +113,33 @@
    
     <script>
         
-        function goAnswer() {
-            $("#answer").submit();
-        }
-
-        // 테이블 한 줄 hover효과 주는 function
-        $("#contentTb td").mouseenter(function () {
-            $(this).parent().css({ "background": "lightgrey" });
-        }).mouseout(function () {
-            $(this).parent().css({ "background": "white" });
+        $(function(){
+	        // 테이블 한 줄 hover효과 주는 function
+	        $("#contentTb td").mouseenter(function () {
+	            $(this).parent().css({ "background": "lightgrey" });
+	        }).mouseout(function () {
+	            $(this).parent().css({ "background": "white" });
+	        });
+			
+	        $("#answerQna").on('click', function(event){
+	        	event.preventDefault();
+	        	var content = $('textarea[name="answerContent"]').val();
+	        	
+	        	if( content.length === 0 || content.replace( /(\s*)/g, "").length === 0 ){
+	        		alert("공백 답변은 제출할 수 없습니다.");
+	        		return false;
+	        	}
+	        	
+	        	if(confirm("답변을 제출하시겠습니까?")){
+	        		$('form').submit();
+	        		alert("답변 완료되었습니다.");
+	        	}
+	        	else{
+	        		return false;
+	        	}
+	        });
         });
+
 
     </script>
 

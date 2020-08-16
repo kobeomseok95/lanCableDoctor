@@ -79,4 +79,9 @@ public class AdminProductServiceImpl implements AdminProductService{
 	public ProductQna getAdminQna(int pdqNo) {
 		return adminProductDao.getAdminQna(pdqNo);
 	}
+
+	@Override
+	public int answerQna(HashMap<String, Object> param) {
+		return adminProductDao.answerQna(param);
+	}
 }

@@ -36,4 +36,6 @@ public interface AdminProductService {
 
 	ProductQna getAdminQna(int pdqNo);
 
+	int answerQna(HashMap<String, Object> param);
+
 }

@@ -270,7 +270,25 @@ public class ProductController {
 		return mv;
 	}
 	
-	
+	@RequestMapping(value="answerQna.do", method=RequestMethod.POST)
+	public String answerProductQna(@RequestParam String answerContent,
+																@RequestParam int pdqNo,
+																RedirectAttributes ra) {
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("pdqNo", pdqNo);
+		param.put("answerContent", answerContent);
+		
+		int result = adminProductImpl.answerQna(param);
+		
+		if(result > 0) {
+			ra.addAttribute("boardType", 1);
+			ra.addAttribute("pageNo", 1);
+			return "redirect:productQnaManage.do";			
+		}
+		else {
+			return "";
+		}
+	}
 }
 
 

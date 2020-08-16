@@ -498,6 +498,16 @@
 		    A.PDQ_NO = #{pdqNo}		
 	</select>
 	
+	<update id="answerQna" parameterType="hashMap">
+		UPDATE 
+			PRODUCTQNA
+		SET
+			PDQ_ANSWERSTATUS = 'Y',
+			PDQ_ANSWERCONTENT = #{answerContent}
+		WHERE
+			PDQ_NO = #{pdqNo}
+	</update>
+	
 </mapper>
 
 
