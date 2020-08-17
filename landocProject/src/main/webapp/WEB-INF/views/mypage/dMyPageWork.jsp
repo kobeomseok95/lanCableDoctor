@@ -98,7 +98,7 @@
 			</div>
 
 			<div class="row mt-3">
-				<button class="btn w-100 py-3 pl-5 text-left" id="" style="border: 2px solid #9b9b9b; font-size: 21px;">
+				<button class="btn w-100 py-3 pl-5 text-left" id="" onclick="location.href='drHpQna.do'" style="border: 2px solid #9b9b9b; font-size: 21px;">
                   	  병원 QnA 답변글
                 </button>
 			</div>
