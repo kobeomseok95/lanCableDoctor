@@ -129,18 +129,19 @@
 		UPDATE CART SET CART_COUNT=#{count}+#{cartCount} WHERE C_NO=#{cNo} AND PD_NO=#{pdNo}
 	</update>
 	
-	<insert id="cartPaySuccess" parameterType="hasHMap">
-		INSERT INTO ORDERPRODUCT
-		VALUES(#{pdNo}, #{orderNo}, #{opCount})
-	</insert>
-	
 	<select id="selectPayOrderNo" resultType="_int">
 		SELECT ORDER_NO
 		FROM(SELECT ORDER_NO
 				FROM ORDERMG
 				ORDER BY ROWNUM DESC)
 		WHERE ROWNUM = 1
-		
 	</select>
+	
+	<insert id="cartPaySuccess" parameterType="hashMap">
+		<foreach collection="list" item="cp" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+			INTO ORDERPRODUCT
+			VALUES(#{cp.pdNo}, #{cp.orderNo}, #{cp.opCount})
+		</foreach>
+	</insert>
 	
 </mapper>

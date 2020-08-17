@@ -49,7 +49,7 @@ public interface ProductService {
 
 	List<Product> proRecommand(HashMap<String, Integer> param);
 
-	int recommendInsert(HashMap<String, Object> reco);
+	int drRecommendInsert(List<HashMap<String, Object>> list);
 
 
 }

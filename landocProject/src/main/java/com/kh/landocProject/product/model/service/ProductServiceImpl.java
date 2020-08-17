@@ -111,9 +111,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int recommendInsert(HashMap<String, Object> reco) {
+	public int drRecommendInsert(List<HashMap<String, Object>> list) {
 		
-		return productDao.recommendInsert(reco);
+		return productDao.drRecommendInsert(list);
 	}
 
 

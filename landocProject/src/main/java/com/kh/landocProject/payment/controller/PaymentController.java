@@ -278,38 +278,40 @@ public class PaymentController {
 
 	}
 	
-	
-		@RequestMapping(value="cartPaySuccessView.do",method=RequestMethod.GET )
-		public String cartPaySuccessView(Payment p, OrderMg or, String drNo, String cNo, @RequestParam("opCount")List<Integer> opCount,
-														Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice,
-														String paymentComment, @RequestParam("pdNo")List<Integer> pdNo) {
+	@RequestMapping(value="cartPaySuccessView.do",method=RequestMethod.GET )
+	public String cartPaySuccessView(Payment p, OrderMg or, String drNo, String cNo, @RequestParam("opCount")List<Integer> opCount,
+													Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice,
+													String paymentComment, @RequestParam("pdNo")List<Integer> pdNo) {
 
-			p.setAmountPrice(allPrice - discountPrice - usePoint);
-			int result = 0;
-			int result1 = 0;
-			int result3 = 0;
-			
-			if(usePoint != 0) {
-				result = payService.insertPayment(p);
-			}else {
-				result1 = payService.insertPayment1(p);
-			}
-			
-			
-			if(result > 0 || result1 > 0) {
-				int orderRmg = payService.insertOrderMg(or);
-				
-				int orderNo = payService.selectOrderNo();
-				
-				HashMap<String, Object> list = new HashMap<String, Object>();
-				for(int i = 0; i < pdNo.size(); i++) {
-					list.put("pdNo", pdNo.get(i));
-					list.put("opCount", opCount.get(i));
-					list.put("orderNo", orderNo);
-//					System.out.println("list : " + list);
-					result3 = payService.cartPaySuccess(list);
-				}
-			}
-			return "payment/paySuccess";
+		p.setAmountPrice(allPrice - discountPrice - usePoint);
+		int result = 0;
+		int result1 = 0;
+		int result3 = 0;
+		
+		if(usePoint != 0) {
+			result = payService.insertPayment(p);
+		}else {
+			result1 = payService.insertPayment1(p);
 		}
+		
+		
+		if(result > 0 || result1 > 0) {
+			int orderRmg = payService.insertOrderMg(or);
+			
+			int orderNo = payService.selectOrderNo();
+			
+			List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+			HashMap<String,Object> cartPay = null;
+			
+			for(int i = 0; i < pdNo.size(); i++) {
+				cartPay = new HashMap<String,Object>();
+				cartPay.put("pdNo", pdNo.get(i));
+				cartPay.put("opCount", opCount.get(i));
+				cartPay.put("orderNo", orderNo);
+				list.add(cartPay);
+			}
+			result3 = payService.cartPaySuccess(list);
+		}
+		return "payment/paySuccess";
+	}
 }

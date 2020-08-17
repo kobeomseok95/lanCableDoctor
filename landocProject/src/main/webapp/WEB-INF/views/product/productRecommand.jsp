@@ -382,7 +382,7 @@
                   var p3 = document.createElement('textarea');
                   p3.className='form-controll textarea';
                   p3.setAttribute('rows',"5");
-                  p3.setAttribute("id","comment"+index);
+                  p3.setAttribute("id","drComment"+index);
                   p3.setAttribute("name", "drComment");
                   p3.setAttribute("placeholder", "병원에 대해 간략한 소개를 적어주세요. (200자 이상)" );   
                   p3.setAttribute("onkeyup", "textCounter(this, 'counter"+index+" ' "+", 200);");
@@ -405,7 +405,9 @@
                
                   p6.innerHTML="자, 최소 200자 이상)"
                   
-                  
+                  console.log(pdNo);
+                  console.log(drNo);
+                  console.log(drComment);
                   
                   }else{
                      $("#pdDiv").remove();

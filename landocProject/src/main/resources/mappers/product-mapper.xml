@@ -432,11 +432,6 @@
 		    <include refid="categoryFormula" />
 	</select>
 	
-	<insert id="recommendInsert" parameterType="hashMap">
-		INSERT INTO DRRECOMMEND
-		VALUES(SEQ_DRRM.NEXTVAL, #{drComment}, #{pdNo}, #{drNo}, SYSDATE)
-	</insert>
-	
 	<update id="updateProduct" parameterType="Product">
 		UPDATE 
 			PRODUCT
@@ -534,6 +529,17 @@
 			PDQ_NO = #{pdqNo}
 	</update>
 	
+	<insert id="drRecommendInsert" parameterType="hashMap">
+	INSERT INTO DRRECOMMEND(DRRM_NO, DRRM_COMMENT, PD_NO, DR_NO, DRRM_SUBMITDATE)
+	SELECT SEQ_DRRM.NEXTVAL, A.* FROM(
+		<foreach  item="reco" collection="list" separator="UNION ALL ">
+			SELECT #{reco.drComment} as DRRM_COMMENT,
+						#{reco.pdNo} as PD_NO,
+						#{reco.drNo} as DR_NO,
+						SYSDATE as DRRM_SUBMITDATE
+			FROM DUAL
+		</foreach>) A
+	</insert> 
 </mapper>
 
 

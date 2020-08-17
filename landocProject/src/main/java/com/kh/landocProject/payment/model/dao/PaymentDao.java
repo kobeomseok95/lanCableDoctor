@@ -2,6 +2,7 @@ package com.kh.landocProject.payment.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,15 +85,14 @@ public class PaymentDao {
 		return sqlSessionTemplate.update("payMapper.cartUpdate",cart);
 	}
 
-	public int cartPaySuccess(HashMap<String, Object> list) {
-		
-		return sqlSessionTemplate.insert("payMapper.cartPaySuccess",list);
-	}
-	
 	public int selectOrderNo() {
 		
 		return sqlSessionTemplate.selectOne("payMapper.selectPayOrderNo");
 	}
 
+	public int cartPaySuccess(List<HashMap<String, Object>> list) {
+		
+		return sqlSessionTemplate.insert("payMapper.cartPaySuccess", list);
+	}
 
 }
