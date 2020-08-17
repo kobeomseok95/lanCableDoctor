@@ -65,7 +65,8 @@
             </form>
         </div>
 
-        <input id="noAnswer" type="checkbox" />&nbsp;<label for="noAnswer">답변대기만 보기</label>
+        <input id="showNotAnswer" type="checkbox" 
+        <c:if test='${!empty showNoAnswer && showNoAnswer eq "y"}'>checked</c:if> />&nbsp;답변대기만 보기
 
         <!--테이블 부분-->
         <table id="contentTb">
@@ -80,7 +81,7 @@
             </tr>
             <c:if test="${empty qnas }">
             <tr>
-            	<td colspan='6' style='text-align: center;'>'상품들의 QNA가 존재하지 않습니다.'</td>
+            	<td colspan='7' style='text-align: center;'>'상품들의 QNA가 존재하지 않습니다.'</td>
             </tr>
             </c:if>
             <c:if test="${!empty qnas }">
@@ -125,6 +126,7 @@
 	        	<c:url var="pageBack" value="productQnaManage.do">
 	        		<c:param name="pageNo" value="${page.currentPage - 1 }" />
 	        		<c:param name="boardType" value="1" />
+	        		<c:param name="showNoAnswer" value="${showNoAnswer }" />
 	        	</c:url>
 	            <a href="${pageBack }">&laquo;</a>
 	        </c:if>
@@ -136,7 +138,8 @@
 	       		<c:if test="${page.currentPage ne p}">
 	       			<c:url var="goPage" value="productQnaManage.do">
 	        			<c:param name="pageNo" value="${p }" />
-	        		<c:param name="boardType" value="1" />
+	        			<c:param name="boardType" value="1" />
+	        			<c:param name="showNoAnswer" value="${showNoAnswer }" />
 	        		</c:url>
 	       		<a href="${goPage }">${p }</a>
 	       		</c:if> 
@@ -146,11 +149,12 @@
 	            <c:url var="pageFront" value="productQnaManage.do">
 	        		<c:param name="pageNo" value="${page.currentPage + 1 }" />
 	        		<c:param name="boardType" value="1" />
+	        		<c:param name="showNoAnswer" value="${showNoAnswer }" />
 	        	</c:url>
 	            <a href="${pageFront }">&raquo;</a>        
 	        </c:if>
         </c:if>
-        <c:if test="${empty page || page.maxPage eq 1 }"></c:if>
+        <c:if test="${page.endPage eq 0}"></c:if>
         </div>
 
         <br><br><br><br><br><br>
@@ -166,27 +170,28 @@
         	<form action="productQnaSearch.do" method="GET" >
 	            <select id="condition" name="condition">
 	                <option value="1"
-	                <c:if test="${condition eq 1 }">selected</c:if>>상품 번호</option>
+	                <c:if test="${param['condition'] eq 1 }">selected</c:if>>상품 번호</option>
 	                <option value="2"
-	                <c:if test="${condition eq 2 }">selected</c:if>>상품명</option>
+	                <c:if test="${param['condition'] eq 2 }">selected</c:if>>상품명</option>
 	                <option value="3"
-	                <c:if test="${condition eq 3 }">selected</c:if>>문의글 제목</option>
+	                <c:if test="${param['condition'] eq 3 }">selected</c:if>>문의글 제목</option>
 	                <option value="4"
-	                <c:if test="${condition eq 4 }">selected</c:if>>문의글 내용</option>
+	                <c:if test="${param['condition'] eq 4 }">selected</c:if>>문의글 내용</option>
 	                <option value="5"
-	                <c:if test="${condition eq 5 }">selected</c:if>>의사 회원 성함</option>
+	                <c:if test="${param['condition'] eq 5 }">selected</c:if>>의사 회원 성함</option>
 	                <option value="6"
-	                <c:if test="${condition eq 6 }">selected</c:if>>닉네임</option>
+	                <c:if test="${param['condition'] eq 6 }">selected</c:if>>닉네임</option>
 	            </select>
-	            <input type="text" id="keyword" name="keyword" value="${keyword }" />
+	            <input type="text" id="keyword" name="keyword" value="${param['keyword'] }" />
 	            <input type="hidden" name="pageNo" value="1" />
 	            <input type="hidden" name="boardType" value="2" />
 	            <button type="button" id="submitBtn">검색하기</button>
 	            <button type="button" onclick='location.href="productQnaManage.do?boardType=1&pageNo=1"'>검색 초기화</button>
             </form>
         </div>
-
-        <input id="noAnswer" type="checkbox" />&nbsp;<label for="noAnswer">답변대기만 보기</label>
+		
+        <input id="showNotAnswer" type="checkbox"
+        <c:if test="${!empty param['showNoAnswer'] && param['showNoAnswer'] eq 'y' }">checked</c:if> />&nbsp;답변대기만 보기
 
         <!--테이블 부분-->
         <table id="contentTb">
@@ -201,7 +206,7 @@
             </tr>
             <c:if test="${empty qnas }">
             <tr>
-            	<td colspan='6' style='text-align: center;'>'상품들의 QNA가 존재하지 않습니다.'</td>
+            	<td colspan='7' style='text-align: center;'>'상품들의 QNA가 존재하지 않습니다.'</td>
             </tr>
             </c:if>
             <c:if test="${!empty qnas }">
@@ -246,8 +251,8 @@
 	        	<c:url var="pageBack" value="productQnaSearch.do">
 	        		<c:param name="pageNo" value="${page.currentPage - 1 }" />
 	        		<c:param name="boardType" value="1" />
-	        		<c:param name="condition" value="${condition }" />
-	        		<c:param name="keyword" value="${keyword }" />
+	        		<c:param name="condition" value="${param['condition'] }" />
+	        		<c:param name="keyword" value="${param['keyword'] }" />
 	        	</c:url>
 	            <a href="${pageBack }">&laquo;</a>
 	        </c:if>
@@ -260,8 +265,8 @@
 	       			<c:url var="goPage" value="productQnaSearch.do">
 	        			<c:param name="pageNo" value="${p }" />
 	        			<c:param name="boardType" value="1" />
-		        		<c:param name="condition" value="${condition }" />
-		        		<c:param name="keyword" value="${keyword }" />
+		        		<c:param name="condition" value="${param['condition'] }" />
+		        		<c:param name="keyword" value="${param['keyword'] }" />
 	        		</c:url>
 	       		<a href="${goPage }">${p }</a>
 	       		</c:if> 
@@ -271,13 +276,13 @@
 	            <c:url var="pageFront" value="productQnaSearch.do">
 	        		<c:param name="pageNo" value="${page.currentPage + 1 }" />
 	        		<c:param name="boardType" value="1" />
-	        		<c:param name="condition" value="${condition }" />
-	        		<c:param name="keyword" value="${keyword }" />
+	        		<c:param name="condition" value="${param['condition'] }" />
+	        		<c:param name="keyword" value="${param['keyword'] }" /> 
 	        	</c:url>
 	            <a href="${pageFront }">&raquo;</a>        
 	        </c:if>
         </c:if>
-        <c:if test="${empty page || page.maxPage eq 1 }"></c:if>
+        <c:if test="${page.endPage eq 0}"></c:if>
         </div>
 
         <br><br><br><br><br><br>
@@ -326,6 +331,26 @@
         		else{
         			$('form').submit();
         		}
+        		
+        	});
+        	
+         	$("#showNotAnswer").on('click', function(){
+        		var boardType = ${boardType};
+        		var condition = $('#condition').val();
+        		var keyword = "${param['keyword']}";
+
+	        	if( $(this).is(":checked") == true && boardType === 1 ){
+	        		location.href='productQnaManage.do?boardType=' + boardType + '&pageNo=1&showNoAnswer=y';
+	        	}
+	        	else if( $(this).is(":checked") == false && boardType === 1 ){
+	        		location.href='productQnaManage.do?boardType=' + boardType + '&pageNo=1&showNoAnswer=n';
+	        	}
+	        	else if( $(this).is(":checked") == true && boardType === 2 ){
+	        		location.href='productQnaSearch.do?boardType=' + boardType + '&pageNo=1&showNoAnswer=y&condition=' + condition + '&keyword=' + keyword;
+	        	}
+	        	else if( $(this).is(":checked") == false && boardType === 2 ){
+	        		location.href='productQnaSearch.do?boardType=' + boardType + '&pageNo=1&showNoAnswer=n&condition=' + condition + '&keyword=' + keyword;
+	        	}
         		
         	});
 		});	//end of jquery

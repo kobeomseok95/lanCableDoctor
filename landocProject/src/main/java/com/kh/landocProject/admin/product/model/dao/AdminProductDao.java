@@ -59,14 +59,14 @@ public class AdminProductDao {
 		return sqlSessionTemplate.update("productMapper.updateProductPhoto", photos);
 	}
 
-	public int getAdminQnaCount() {
-		return sqlSessionTemplate.selectOne("productMapper.getAdminQnaCount");
+	public int getAdminQnaCount(HashMap<String, Object> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getAdminQnaCount", param);
 	}
 
-	public List<ProductQna> getAdminQnas(PageInfo pageInfo) {
+	public List<ProductQna> getAdminQnas(HashMap<String, Object> param, PageInfo pageInfo) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getBoardLimit());
-		return sqlSessionTemplate.selectList("productMapper.getAdminQnas", null, rowBounds);
+		return sqlSessionTemplate.selectList("productMapper.getAdminQnas", param, rowBounds);
 	}
 
 	public ProductQna getAdminQna(int pdqNo) {
