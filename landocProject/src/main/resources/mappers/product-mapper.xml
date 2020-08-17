@@ -124,7 +124,7 @@
 		SELECT 
 			COUNT(*) 
 		FROM 
-			PRODUCT
+			PRODUCT A
 		<if test="categoryNo != 7 and condition == null">
 		WHERE
 			CT_CODE = #{categoryNo}
@@ -140,6 +140,11 @@
 		<if test="condition != null and condition == 3">
 		WHERE
 			PD_NAME = #{keyword}
+		</if>
+		<if test="condition != null and condition == 4">
+			JOIN PCATEGORY B ON A.CT_CODE = B.CT_CODE
+		WHERE
+			B.CT_NAME LIKE '%' || #{keyword} || '%'
 		</if>
 	</select>
 	
@@ -375,6 +380,10 @@
 		AND
 			A.PD_NAME LIKE '%' || #{keyword} || '%'
 		</if>
+		<if test="condition != null and condition == 4">
+		AND
+			B.CT_NAME LIKE '%' || #{keyword} || '%'
+		</if>
 		ORDER BY
 			PD_UPLOADDATE DESC
 	</select>
@@ -540,6 +549,13 @@
 			FROM DUAL
 		</foreach>) A
 	</insert> 
+	
+	<delete id="deleteQnA" parameterType="_int">
+		DELETE FROM PRODUCTQNA
+		WHERE
+			PDQ_NO = #{pdqNo}
+	</delete>
+
 </mapper>
 
 

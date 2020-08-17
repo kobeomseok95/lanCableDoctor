@@ -51,4 +51,52 @@
 	
 	</insert>
   
+  	
+  	<select id="getHpQnaListCount" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM HPQNA
+  		WHERE HP_NO=#{hpNo}
+  			AND HP_QNA_YN='Y'
+  	</select>
+  
+  	
+  	<select id="getHpQnaList" parameterType="_int" resultMap="HpQnaResultMap">
+  		SELECT HP_QNA_NO, HP_QNA_TITLE, HP_QNA_DATE, HP_QNA_REDATE, HP_QNA_REPLY, HP_QNA_YN, HQ.C_NO, C.C_NICKNAME, 
+        		HQ.DR_NO, D.DR_NAME, HQ.HP_NO, D.DR_PROFILE
+		FROM HPQNA HQ
+		    JOIN CLIENT C ON(HQ.C_NO = C.C_NO)
+		    JOIN DRCLIENT D ON(HQ.DR_NO = D.DR_NO)
+		WHERE HQ.HP_NO=#{hpNo}
+			AND HP_QNA_YN='Y'
+		ORDER BY HP_QNA_DATE DESC  
+  	</select>
+  
+  	
+  	<select id="getNotYetList" parameterType="_int" resultMap="HpQnaResultMap">
+  		SELECT HP_QNA_NO, HP_QNA_TITLE, HP_QNA_DATE, HP_QNA_REDATE, HP_QNA_REPLY, HP_QNA_YN, HQ.C_NO, C.C_NICKNAME, 
+        		HQ.DR_NO, D.DR_NAME, HQ.HP_NO, D.DR_PROFILE
+		FROM HPQNA HQ
+		    JOIN CLIENT C ON(HQ.C_NO = C.C_NO)
+		    JOIN DRCLIENT D ON(HQ.DR_NO = D.DR_NO)
+		WHERE HQ.HP_NO=#{hpNo}
+			AND HP_QNA_YN='N'
+		ORDER BY HP_QNA_DATE
+  	</select>
+  
+  	
+  	<update id="updateHpQnaReply" parameterType="hashMap">
+  		UPDATE HPQNA
+  		SET HP_QNA_REDATE=SYSDATE, HP_QNA_REPLY=#{hpQnaReply}, DR_NO=#{drNo}, HP_QNA_YN='Y'
+  		WHERE HP_QNA_NO=#{hpQnANo}
+  	</update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </mapper>

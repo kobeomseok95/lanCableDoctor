@@ -84,4 +84,9 @@ public class AdminProductServiceImpl implements AdminProductService{
 	public int answerQna(HashMap<String, Object> param) {
 		return adminProductDao.answerQna(param);
 	}
+
+	@Override
+	public int deleteQnA(int pdqNo) {
+		return adminProductDao.deleteQnA(pdqNo);
+	}
 }

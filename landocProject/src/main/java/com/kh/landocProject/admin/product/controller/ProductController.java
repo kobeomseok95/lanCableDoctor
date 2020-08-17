@@ -106,7 +106,7 @@ public class ProductController {
 			if( key.equals("thumbnail") ) {
 				p.setPhotoType(0);
 				
-				String fileName = "thumbnail" + 
+				String fileName = "thumb" + 
 						System.currentTimeMillis() + 
 						photoMap.get(key).getOriginalFilename();
 				p.setFileName(fileName);
@@ -165,14 +165,13 @@ public class ProductController {
 	public ModelAndView updateProductView(ModelAndView mv,
 														@RequestParam int pdNo) {
 		Product product = adminProductImpl.getProductDetail(pdNo);
-		List<String> photos = adminProductImpl.getProductFileNames(pdNo);
+//		List<String> photos = adminProductImpl.getProductFileNames(pdNo);
 		
 		String volumeStr = product.getVolume();
 		HashMap<String, String> splitVolume = splitVolume(volumeStr);
 		
 		mv.addObject("product", product);
-		mv.addObject("photos", photos);
-		mv.addObject("detailViewType", 2);
+//		mv.addObject("photos", photos);
 		mv.addObject("volume", Integer.valueOf(splitVolume.get("volumeNo")));
 		mv.addObject("volumeUnit", splitVolume.get("volumeUnit"));
 		mv.addObject("volumeEx", splitVolume.get("volumeEx"));
@@ -290,7 +289,67 @@ public class ProductController {
 		}
 	}
 	
+	@RequestMapping(value="deleteQnA.do", method=RequestMethod.POST)
+	public String deleteQnA(@RequestParam int pdqNo,
+										RedirectAttributes ra) {
+		int result = adminProductImpl.deleteQnA(pdqNo);
+		
+		if(result > 0) {
+			ra.addAttribute("pageNo", 1);
+			ra.addAttribute("boardType", 1);
+			return "redirect:productQnaManage.do";
+		}
+		else {
+			return "";
+		}
+	}
 	
+	@RequestMapping(value="detailProductView.do", method=RequestMethod.GET)
+	public ModelAndView detailProductView(ModelAndView mv,
+															@RequestParam int pdNo) {
+		Product product = adminProductImpl.getProductDetail(pdNo);
+		List<String> photos = adminProductImpl.getProductFileNames(pdNo);
+		
+		String volumeStr = product.getVolume();
+		HashMap<String, String> splitVolume = splitVolume(volumeStr);
+		
+		mv.addObject("volume", Integer.valueOf(splitVolume.get("volumeNo")));
+		mv.addObject("volumeUnit", splitVolume.get("volumeUnit"));
+		mv.addObject("volumeEx", splitVolume.get("volumeEx"));
+		mv.addObject("product", product);
+		for(String s : photos) {
+			if( s.contains("thumb") ) {
+				mv.addObject("thumbnail", s);
+			}
+			else {
+				mv.addObject("detail", s);
+			}
+		}
+		mv.setViewName("admin/product/productDetail");
+		return mv;
+	}
+
+	@RequestMapping(value="productManageSearch.do", method=RequestMethod.GET)
+	public ModelAndView productManageSearch(@RequestParam int condition,
+																	@RequestParam String keyword,
+																	@RequestParam int pageNo,
+																	@RequestParam int boardType,
+																	ModelAndView mv) {
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("condition", condition);
+		param.put("keyword", keyword.replaceAll("\\p{Z}", ""));
+		
+		int listCount = adminProductImpl.getAdminListCount(param);
+		PageInfo pageInfo = Pagination.getPageInfo(pageNo, listCount);
+		List<Product> products = adminProductImpl.getAdminProducts(param, pageInfo);
+		
+		mv.addObject("page", pageInfo);
+		mv.addObject("boardType", boardType);
+		mv.addObject("products", products);
+		mv.addObject("param", param);
+		mv.setViewName("admin/product/productManage");
+		return mv;
+	}
 }
 
 

@@ -38,4 +38,6 @@ public interface AdminProductService {
 
 	int answerQna(HashMap<String, Object> param);
 
+	int deleteQnA(int pdqNo);
+
 }

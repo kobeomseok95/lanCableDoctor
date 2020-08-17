@@ -76,4 +76,8 @@ public class AdminProductDao {
 	public int answerQna(HashMap<String, Object> param) {
 		return sqlSessionTemplate.update("productMapper.answerQna", param);
 	}
+
+	public int deleteQnA(int pdqNo) {
+		return sqlSessionTemplate.delete("productMapper.deleteQnA", pdqNo);
+	}
 }
