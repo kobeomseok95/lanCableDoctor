@@ -165,14 +165,13 @@ public class ProductController {
 	public ModelAndView updateProductView(ModelAndView mv,
 														@RequestParam int pdNo) {
 		Product product = adminProductImpl.getProductDetail(pdNo);
-		List<String> photos = adminProductImpl.getProductFileNames(pdNo);
+//		List<String> photos = adminProductImpl.getProductFileNames(pdNo);
 		
 		String volumeStr = product.getVolume();
 		HashMap<String, String> splitVolume = splitVolume(volumeStr);
 		
 		mv.addObject("product", product);
-		mv.addObject("photos", photos);
-		mv.addObject("detailViewType", 2);
+//		mv.addObject("photos", photos);
 		mv.addObject("volume", Integer.valueOf(splitVolume.get("volumeNo")));
 		mv.addObject("volumeUnit", splitVolume.get("volumeUnit"));
 		mv.addObject("volumeEx", splitVolume.get("volumeEx"));
@@ -303,6 +302,31 @@ public class ProductController {
 		else {
 			return "";
 		}
+	}
+	
+	@RequestMapping(value="detailProductView.do", method=RequestMethod.GET)
+	public ModelAndView detailProductView(ModelAndView mv,
+															@RequestParam int pdNo) {
+		Product product = adminProductImpl.getProductDetail(pdNo);
+		List<String> photos = adminProductImpl.getProductFileNames(pdNo);
+		
+		String volumeStr = product.getVolume();
+		HashMap<String, String> splitVolume = splitVolume(volumeStr);
+		
+		mv.addObject("volume", Integer.valueOf(splitVolume.get("volumeNo")));
+		mv.addObject("volumeUnit", splitVolume.get("volumeUnit"));
+		mv.addObject("volumeEx", splitVolume.get("volumeEx"));
+		mv.addObject("product", product);
+		for(String s : photos) {
+			if( s.contains("thumb") ) {
+				mv.addObject("thumbnail", s);
+			}
+			else {
+				mv.addObject("detail", s);
+			}
+		}
+		mv.setViewName("admin/product/productDetail");
+		return mv;
 	}
 }
 

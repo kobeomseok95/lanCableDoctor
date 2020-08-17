@@ -76,7 +76,7 @@
                 <th class="firstLine">상품가격</th>
                 <th class="firstLine">할인율</th>
                 <th class="firstLine">판매가격</th>
-                <th class="firstLine"></th>
+                <th class="firstLine">상세 / 삭제</th>
             </tr>
             	<c:if test="${empty products }">
             <tr>
@@ -96,7 +96,7 @@
            		<td>${product.discountPer } % </td>
            		<td class="price">${product.sellPrice }</td>
            		<td>
-           			<button class="updateProduct">수정하기</button>
+           			<button class="detailProduct">상세보기</button>
                     <button class="deleteProduct">삭제하기</button>
            		</td>
             </tr>
@@ -196,7 +196,7 @@
            		<td>${product.discountPer } % </td>
            		<td class="price">${product.sellPrice }</td>
            		<td>
-           			<button class="updateProduct">수정하기</button>
+           			<button class="detailProduct">상세보기</button>
                     <button class="deleteProduct">삭제하기</button>
            		</td>
             </tr>
@@ -329,9 +329,26 @@
         		$('body').append($updateForm);
         		$updateForm.submit();
         	});
+        	
+        	$('.detailProduct').on('click', function(){
+        		var pdNo = $(this).parent().siblings('.pdNo').text();
+        		location.href='detailProductView.do?pdNo=' + pdNo;
+        	});
+        	
         });	//end of jquery
     </script>
 
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
