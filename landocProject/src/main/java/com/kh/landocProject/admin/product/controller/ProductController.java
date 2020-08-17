@@ -106,7 +106,7 @@ public class ProductController {
 			if( key.equals("thumbnail") ) {
 				p.setPhotoType(0);
 				
-				String fileName = "thumbnail" + 
+				String fileName = "thumb" + 
 						System.currentTimeMillis() + 
 						photoMap.get(key).getOriginalFilename();
 				p.setFileName(fileName);
@@ -326,6 +326,28 @@ public class ProductController {
 			}
 		}
 		mv.setViewName("admin/product/productDetail");
+		return mv;
+	}
+
+	@RequestMapping(value="productManageSearch.do", method=RequestMethod.GET)
+	public ModelAndView productManageSearch(@RequestParam int condition,
+																	@RequestParam String keyword,
+																	@RequestParam int pageNo,
+																	@RequestParam int boardType,
+																	ModelAndView mv) {
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("condition", condition);
+		param.put("keyword", keyword.replaceAll("\\p{Z}", ""));
+		
+		int listCount = adminProductImpl.getAdminListCount(param);
+		PageInfo pageInfo = Pagination.getPageInfo(pageNo, listCount);
+		List<Product> products = adminProductImpl.getAdminProducts(param, pageInfo);
+		
+		mv.addObject("page", pageInfo);
+		mv.addObject("boardType", boardType);
+		mv.addObject("products", products);
+		mv.addObject("param", param);
+		mv.setViewName("admin/product/productManage");
 		return mv;
 	}
 }
