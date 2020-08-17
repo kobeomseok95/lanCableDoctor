@@ -38,6 +38,9 @@ public interface PaymentService {
 
 	int cartUpdate(HashMap<String, Object> cart);
 
+	int cartPaySuccess(HashMap<String, Object> list);
+
+	int selectOrderNo();
 
 
 

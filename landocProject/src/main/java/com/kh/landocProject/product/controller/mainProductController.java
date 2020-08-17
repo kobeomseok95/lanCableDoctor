@@ -1,9 +1,11 @@
 package com.kh.landocProject.product.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kh.landocProject.dmypage.model.vo.DrProductRecommends;
+import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.product.model.service.ProductService;
+import com.kh.landocProject.product.model.vo.DrComment;
 import com.kh.landocProject.product.model.vo.Product;
 import com.kh.landocProject.product.model.vo.ProductDetailPagination;
 import com.kh.landocProject.product.model.vo.ProductPagination;
@@ -215,6 +217,50 @@ public class mainProductController {
 		else{
 			return "fail";
 		}
+	}
+	
+	@RequestMapping(value="recommandView.do")
+	public ModelAndView recommandView(ModelAndView mv, @RequestParam int categoryNo, HttpSession session) {
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo = loginDrClient.getDrNo();
+		
+		HashMap<String, Integer> param = new HashMap<String, Integer>();
+		param.put("categoryNo", categoryNo);
+		
+		List<Product> proReco = productServiceImpl.proRecommand(param);
+		
+		System.out.println("proReco : " + proReco);
+		
+		if(proReco != null) {
+			mv.addObject("proReco", proReco);
+			mv.addObject("drNo", drNo);
+			mv.setViewName("product/productRecommand");
+		}else {
+			System.out.println("못찾음;;");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="recommand.do")
+	public ModelAndView recommand(ModelAndView mv,@RequestParam("drNo")List<String> drNo,
+			@RequestParam("pdNo")List<Integer>  pdNo, @RequestParam("drComment")List<String> drComment) {
+		int result = 0;
+		HashMap<String,Object> reco = new HashMap<String,Object>();
+		
+		for(int i = 0; i < pdNo.size(); i++) {
+			reco.put("drComment", drComment.get(i));
+			reco.put("pdNo", pdNo.get(i));
+			reco.put("drNo", drNo.get(i));
+			result = productServiceImpl.recommendInsert(reco);
+		}
+		
+		if(result > 0) {
+			mv.setViewName("mypage/dMyPageWork");
+			return mv;
+		}
+		
+		return mv;
 	}
 }
 
