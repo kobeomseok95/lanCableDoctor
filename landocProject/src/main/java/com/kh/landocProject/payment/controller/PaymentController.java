@@ -140,10 +140,10 @@ public class PaymentController {
 		}
 		
 		
-		System.out.println("alOriginPrice:"+allOriginPrice);
-		System.out.println("allPrice:"+allPrice);
-		System.out.println("allDiscount:"+allDiscount);
-		System.out.println("array:"+cart);
+//		System.out.println("alOriginPrice:"+allOriginPrice);
+//		System.out.println("allPrice:"+allPrice);
+//		System.out.println("allDiscount:"+allDiscount);
+//		System.out.println("array:"+cart);
 		
 		mv.addObject("allPrice", allPrice);
 		mv.addObject("allDiscount", allDiscount);
@@ -179,10 +179,10 @@ public class PaymentController {
 		
 		}
 		
-		System.out.println("alOriginPrice:"+allOriginPrice);
-		System.out.println("allPrice:"+allPrice);
-		System.out.println("allDiscount:"+allDiscount);
-		System.out.println("array:"+cart);
+//		System.out.println("alOriginPrice:"+allOriginPrice);
+//		System.out.println("allPrice:"+allPrice);
+//		System.out.println("allDiscount:"+allDiscount);
+//		System.out.println("array:"+cart);
 		
 		mv.addObject("allPrice", allPrice);
 		mv.addObject("allDiscount", allDiscount);
@@ -198,13 +198,9 @@ public class PaymentController {
 	
 	@RequestMapping(value = "payView.do", method = RequestMethod.GET)
 	public String payView(Model model,Integer pdNo, String pdName, HttpSession session, String productCount, HttpServletResponse response_equals) throws IOException {
-//		System.out.println(pdName);
-//		System.out.println(productCount);
-//		System.out.println("pdNo : " + pdNo);
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
-//		System.out.println("loginClient : " + loginClient);
-//		System.out.println("loginDrClient : " + loginDrClient);
+
 		if(loginClient != null && loginDrClient == null) {
 			String cNo = loginClient.getcNo();
 			MemberPay loginClient3 = payService.loginClient3(cNo);
@@ -239,10 +235,6 @@ public class PaymentController {
 				model.addAttribute("address5", address5);
 			}
 		}else {
-//			response_equals.setContentType("text/html; charset=UTF-8");
-//			PrintWriter out_equals = response_equals.getWriter();
-//			out_equals.println("<script>alert('로그인 후 구입이 가능합니다.');</script>");
-//			out_equals.flush();
 			String msg = "로그인 후 구입이 가능합니다.";
 			model.addAttribute("msg", msg);
 			model.addAttribute("pdNo", pdNo);
@@ -254,18 +246,9 @@ public class PaymentController {
 	
 	@RequestMapping(value="paySuccessView.do",method=RequestMethod.GET )
 	public String paySuccessView(Model model, OrderProduct op, OrderMg or, Payment p,String drNo, String cNo, String opCount, Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice, String paymentComment){
-		
-//		System.out.println(usePoint);
-//		System.out.println(p);
-//		System.out.println(allPrice);
-//		System.out.println(discountPrice);
-//		System.out.println(paymentComment);
-//		System.out.println(opCount);
-//		System.out.println(cNo);
+	
 		p.setAmountPrice(allPrice - discountPrice - usePoint);
-			
-			
-			
+
 			int result = 0;
 			int result1 = 0;
 			if(usePoint != 0) {
@@ -275,21 +258,21 @@ public class PaymentController {
 			}
 			if(result > 0 || result1 > 0) {
 				int orderRmg = payService.insertOrderMg(or);
-//				System.out.println("orderRmg : " + orderRmg);
+
 				int orderPro = payService.insertOrderPro(op);
-//				System.out.println("orderRmg : " + orderRmg);
+
 				if(cNo != null && drNo == null) {
 					int updateC = payService.updateC(p);
 				}else if(cNo == null && drNo != null) {
 					int updateDr = payService.updateDr(p);
 				}
-//				System.out.println("성공!!");
+
 				model.addAttribute("cNo", cNo);
 				model.addAttribute("drNo", drNo);
 				return "payment/paySuccess";
 				
 			}else {
-//				System.out.println("실패!!");
+
 				return "payment/paySuccess";
 			}
 
@@ -300,7 +283,7 @@ public class PaymentController {
 		public String cartPaySuccessView(Payment p, OrderMg or, String drNo, String cNo, @RequestParam("opCount")List<Integer> opCount,
 														Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice,
 														String paymentComment, @RequestParam("pdNo")List<Integer> pdNo) {
-			System.out.println("pdNo : " + pdNo);
+
 			p.setAmountPrice(allPrice - discountPrice - usePoint);
 			int result = 0;
 			int result1 = 0;
@@ -316,19 +299,14 @@ public class PaymentController {
 			if(result > 0 || result1 > 0) {
 				int orderRmg = payService.insertOrderMg(or);
 				
-				/* OrderMg orderNo = payService.selectOrderNo(); */
 				int orderNo = payService.selectOrderNo();
-				
-				
-				
-				System.out.println(orderNo);
 				
 				HashMap<String, Object> list = new HashMap<String, Object>();
 				for(int i = 0; i < pdNo.size(); i++) {
 					list.put("pdNo", pdNo.get(i));
 					list.put("opCount", opCount.get(i));
 					list.put("orderNo", orderNo);
-					System.out.println("list : " + list);
+//					System.out.println("list : " + list);
 					result3 = payService.cartPaySuccess(list);
 				}
 			}

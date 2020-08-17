@@ -40,7 +40,6 @@ public interface PaymentService {
 
 	int cartPaySuccess(HashMap<String, Object> list);
 
-	/* OrderMg selectOrderNo(); */
 	int selectOrderNo();
 
 

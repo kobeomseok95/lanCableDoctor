@@ -99,12 +99,6 @@ public class PaymentServiceImpl implements PaymentService{
 		return payDao.cartPaySuccess(list);
 	}
 
-	/*
-	 * @Override public OrderMg selectOrderNo() {
-	 * 
-	 * return payDao.selectOrderNo(); }
-	 */
-
 	@Override
 	public int selectOrderNo() {
 		

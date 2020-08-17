@@ -88,12 +88,6 @@ public class PaymentDao {
 		
 		return sqlSessionTemplate.insert("payMapper.cartPaySuccess",list);
 	}
-
-	/*
-	 * public OrderMg selectOrderNo() {
-	 * 
-	 * return sqlSessionTemplate.selectOne("payMapper.selectPayOrderNo"); }
-	 */
 	
 	public int selectOrderNo() {
 		
