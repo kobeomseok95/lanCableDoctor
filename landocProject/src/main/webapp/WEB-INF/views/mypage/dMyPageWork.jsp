@@ -86,7 +86,7 @@
 
 
 			<div class="row mt-5">
-				<button class="btn w-100 py-3 pl-5 text-left" id="my_reviews" style="border: 2px solid #9b9b9b; font-size: 21px;">
+				<button class="btn w-100 py-3 pl-5 text-left" id="my_reviews" style="border: 2px solid #9b9b9b; font-size: 21px;" onclick="recommand();">
                     	건강 보조 식품 추천하기
                 </button>
 			</div>
@@ -183,6 +183,10 @@
 			}
 
 		})
+		
+		function recommand(){
+			location.href="recommandView.do?categoryNo=7";
+		}
 
 		function checkDrProfile(){
 			location.href="checkDrProfile.do";

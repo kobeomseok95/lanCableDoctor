@@ -90,7 +90,7 @@
         }
         
         function goProductQnA(){
-           location.href="productQnaManage.do";
+           location.href="productQnaManage.do?pageNo=1&boardType=1";
         }
         
         function goOrder(){

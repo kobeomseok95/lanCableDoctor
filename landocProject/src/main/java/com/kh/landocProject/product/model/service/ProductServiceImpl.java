@@ -1,5 +1,6 @@
 package com.kh.landocProject.product.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import com.kh.landocProject.product.model.vo.ProductDetailPagination;
 import com.kh.landocProject.product.model.vo.ProductPagination;
 import com.kh.landocProject.product.model.vo.ProductPhoto;
 import com.kh.landocProject.product.model.vo.ProductQna;
+import com.kh.landocProject.product.model.vo.ProductRecommand;
 import com.kh.landocProject.product.model.vo.ProductReview;
 
 @Service
@@ -101,5 +103,19 @@ public class ProductServiceImpl implements ProductService{
 	public int insertQna(ProductQna qna) {
 		return productDao.insertQna(qna);
 	}
+
+	@Override
+	public List<Product> proRecommand(HashMap<String, Integer> param) {
+		
+		return productDao.proRecommand(param);
+	}
+
+	@Override
+	public int recommendInsert(HashMap<String, Object> reco) {
+		
+		return productDao.recommendInsert(reco);
+	}
+
+
 
 }

@@ -20,6 +20,7 @@ import com.kh.landocProject.admin.product.model.service.AdminProductService;
 import com.kh.landocProject.common.Pagination;
 import com.kh.landocProject.product.model.vo.Product;
 import com.kh.landocProject.product.model.vo.ProductPhoto;
+import com.kh.landocProject.product.model.vo.ProductQna;
 
 @Controller
 public class ProductController {
@@ -242,11 +243,54 @@ public class ProductController {
 		ra.addAttribute("pageNo", 1);
 		ra.addAttribute("boardType", 1);
 		return "redirect:productManage.do";
-		
-	
 	}
 		
+	@RequestMapping(value="productQnaManage.do", method=RequestMethod.GET)
+	public ModelAndView productQnaManage(ModelAndView mv,
+																@RequestParam int boardType,
+																@RequestParam int pageNo) {
+		int listCount = adminProductImpl.getAdminQnaCount();
+		PageInfo pageInfo = Pagination.getPageInfo(pageNo, listCount);
+		List<ProductQna> qnas = adminProductImpl.getAdminQnas(pageInfo);
+		
+		mv.addObject("page", pageInfo);
+		mv.addObject("qnas", qnas);
+		mv.addObject("boardType", 1);
+		mv.setViewName("admin/productQna/productQnaManage");
+		return mv;
+	}
 
+	@RequestMapping(value="productQnaDetail.do", method=RequestMethod.GET)
+	public ModelAndView productQnaDetail(ModelAndView mv,
+															@RequestParam int pdqNo) {
+		ProductQna qna = adminProductImpl.getAdminQna(pdqNo);
+		
+		mv.addObject("qna", qna);
+		mv.setViewName("admin/productQna/productQnaDetail");
+		return mv;
+	}
+	
+	@RequestMapping(value="answerQna.do", method=RequestMethod.POST)
+	public String answerProductQna(@RequestParam String answerContent,
+																@RequestParam int pdqNo,
+																RedirectAttributes ra) {
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("pdqNo", pdqNo);
+		param.put("answerContent", answerContent);
+		
+		int result = adminProductImpl.answerQna(param);
+		
+		if(result > 0) {
+			ra.addAttribute("boardType", 1);
+			ra.addAttribute("pageNo", 1);
+			return "redirect:productQnaManage.do";			
+		}
+		else {
+			return "";
+		}
+	}
+	
+	
 }
 
 
