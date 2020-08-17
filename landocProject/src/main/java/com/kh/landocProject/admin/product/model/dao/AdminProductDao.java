@@ -80,4 +80,14 @@ public class AdminProductDao {
 	public int deleteQnA(int pdqNo) {
 		return sqlSessionTemplate.delete("productMapper.deleteQnA", pdqNo);
 	}
+
+	public int getAdminQnaSearchCount(HashMap<String, Object> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getAdminQnaSearchCount", param);
+	}
+
+	public List<ProductQna> getAdminSearchQnas(PageInfo pageInfo, HashMap<String, Object> param) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getBoardLimit());
+		return sqlSessionTemplate.selectList("productMapper.getAdminSearchQnas", param);
+	}
 }
