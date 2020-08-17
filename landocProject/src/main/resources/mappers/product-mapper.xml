@@ -471,11 +471,14 @@
 		</foreach>
 	</update>
 	
-	<select id="getAdminQnaCount" resultType="_int">
+	<select id="getAdminQnaCount" parameterType="hashMap" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCTQNA
+		<if test='showNoAnswer != null and showNoAnswer.equals("y")'>
+		WHERE PDQ_ANSWERSTATUS = 'N'
+		</if>
 	</select>
 	
-	<select id="getAdminQnas" resultMap="productQnas">
+	<select id="getAdminQnas" parameterType="hashMap" resultMap="productQnas">
 		SELECT 
 		    ROWNUM AS RNO,
 		    A.*
@@ -501,6 +504,9 @@
 		    ORDER BY
 		        PDQ_SUBMITDATE DESC
 		    ) A
+	    <if test='showNoAnswer != null and showNoAnswer.equals("y")'>
+		WHERE A.PDQ_ANSWERSTATUS = 'N'
+		</if>
 	</select>
 	
 	<select id="getAdminQna" parameterType="_int" resultMap="productQnas">
@@ -588,6 +594,9 @@
 		WHERE 
 			B.C_NICKNAME LIKE '%' || #{keyword} || '%'
 		</if>	
+		<if test='showNoAnswer != null and showNoAnswer.equals("y")'>
+			AND A.PDQ_ANSWERSTATUS = 'N'
+		</if>
 	</select>
 	
 	<select id="getAdminSearchQnas" parameterType="hashMap" resultMap="productQnas">
@@ -622,8 +631,11 @@
 		<if test="condition != null and condition == 6">
 			WHERE A.C_NICKNAME LIKE '%' || #{keyword} || '%'
 		</if>
+		<if test='showNoAnswer != null and showNoAnswer.equals("y")'>
+			AND A.PDQ_ANSWERSTATUS = 'N'
+		</if>
 	</select>
-	
+
 </mapper>
 
 
