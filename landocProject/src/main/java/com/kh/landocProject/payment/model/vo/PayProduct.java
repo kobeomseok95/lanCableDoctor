@@ -11,7 +11,7 @@ public class PayProduct implements Serializable{
 	
 	private int pdNo;
 	private String pdName;
-	private int OriginPrice;
+	private int originPrice;
 	private int discount;
 	private int sellPrice;
 	private String thumbnail;
@@ -26,7 +26,7 @@ public class PayProduct implements Serializable{
 			int ctCode, int productCount, String pdpRename) {
 		this.pdNo = pdNo;
 		this.pdName = pdName;
-		OriginPrice = originPrice;
+		this.originPrice = originPrice;
 		this.discount = discount;
 		this.sellPrice = sellPrice;
 		this.thumbnail = thumbnail;
@@ -52,11 +52,11 @@ public class PayProduct implements Serializable{
 	}
 
 	public int getOriginPrice() {
-		return OriginPrice;
+		return originPrice;
 	}
 
 	public void setOriginPrice(int originPrice) {
-		OriginPrice = originPrice;
+		this.originPrice = originPrice;
 	}
 
 	public int getDiscount() {
@@ -113,7 +113,7 @@ public class PayProduct implements Serializable{
 
 	@Override
 	public String toString() {
-		return "PayProduct [pdNo=" + pdNo + ", pdName=" + pdName + ", OriginPrice=" + OriginPrice + ", discount="
+		return "PayProduct [pdNo=" + pdNo + ", pdName=" + pdName + ", originPrice=" + originPrice + ", discount="
 				+ discount + ", sellPrice=" + sellPrice + ", thumbnail=" + thumbnail + ", ctCode=" + ctCode
 				+ ", productCount=" + productCount + ", pdpRename=" + pdpRename + "]";
 	}
