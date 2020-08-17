@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="AdminSalesMapper">
+ 	
+ 	<resultMap type="AdminSales" id="salesMap">
+ 		<result property="month01" column="MONTH01"/>
+ 		<result property="month02" column="MONTH02"/>
+ 		<result property="month03" column="MONTH03"/>
+ 		<result property="month04" column="MONTH04"/>
+ 		<result property="month05" column="MONTH05"/>
+ 		<result property="month06" column="MONTH06"/>
+ 		<result property="month07" column="MONTH07"/>
+ 		<result property="month08" column="MONTH08"/>
+ 		<result property="month09" column="MONTH08"/>
+ 		<result property="month10" column="MONTH10"/>
+ 		<result property="month11" column="MONTH11"/>
+ 		<result property="month12" column="MONTH12"/>
+ 	</resultMap>
+ 	
+ 	
+ 	
+ 	<select id="getMonthlySales" resultMap="salesMap">
+ 		SELECT 
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/01/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH01,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/02/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH02,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/03/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH03,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/04/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH04,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/05/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH05,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/06/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH06,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/07/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH07,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/08/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH08,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/09/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH09,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/10/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH10,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/11/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH11,
+		    SUM(CASE WHEN ORDER_DATE LIKE '%' || '/12/' || '%' THEN AMOUNT_PRICE ELSE 0 END) MONTH12
+		FROM PAYMENT
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+</mapper>

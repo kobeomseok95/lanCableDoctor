@@ -102,7 +102,7 @@
         }
         
         function goSales(){
-           location.href="#";
+           location.href="salesManage.do";
         }
         
 
