@@ -258,6 +258,28 @@ public class ProductController {
 		mv.setViewName("admin/productQna/productQnaManage");
 		return mv;
 	}
+	
+	@RequestMapping(value="productQnaSearch.do", method=RequestMethod.GET)
+	public ModelAndView productQnaSearch(ModelAndView mv,
+																@RequestParam int boardType,
+																@RequestParam int pageNo,
+																@RequestParam int condition,
+																@RequestParam String keyword) {
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("condition", condition);
+		param.put("keyword", keyword);
+		int listCount = adminProductImpl.getAdminQnaSearchCount(param);
+		PageInfo pageInfo = Pagination.getPageInfo(pageNo, listCount);
+		List<ProductQna> qnas = adminProductImpl.getAdminSearchQnas(pageInfo, param);
+		
+		mv.addObject("condition", condition);
+		mv.addObject("keyword", keyword);
+		mv.addObject("boardType", boardType);
+		mv.addObject("pageNo", pageNo);
+		mv.addObject("qnas", qnas);
+		mv.setViewName("admin/productQna/productQnaManage");
+		return mv;
+	}
 
 	@RequestMapping(value="productQnaDetail.do", method=RequestMethod.GET)
 	public ModelAndView productQnaDetail(ModelAndView mv,
