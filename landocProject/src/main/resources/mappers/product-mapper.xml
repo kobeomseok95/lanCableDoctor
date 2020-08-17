@@ -124,7 +124,7 @@
 		SELECT 
 			COUNT(*) 
 		FROM 
-			PRODUCT
+			PRODUCT A
 		<if test="categoryNo != 7 and condition == null">
 		WHERE
 			CT_CODE = #{categoryNo}
@@ -140,6 +140,11 @@
 		<if test="condition != null and condition == 3">
 		WHERE
 			PD_NAME = #{keyword}
+		</if>
+		<if test="condition != null and condition == 4">
+			JOIN PCATEGORY B ON A.CT_CODE = B.CT_CODE
+		WHERE
+			B.CT_NAME LIKE '%' || #{keyword} || '%'
 		</if>
 	</select>
 	
@@ -375,6 +380,10 @@
 		AND
 			A.PD_NAME LIKE '%' || #{keyword} || '%'
 		</if>
+		<if test="condition != null and condition == 4">
+		AND
+			B.CT_NAME LIKE '%' || #{keyword} || '%'
+		</if>
 		ORDER BY
 			PD_UPLOADDATE DESC
 	</select>
@@ -431,11 +440,6 @@
 		    C.PDP_TYPE = 0
 		    <include refid="categoryFormula" />
 	</select>
-	
-	<insert id="recommendInsert" parameterType="hashMap">
-		INSERT INTO DRRECOMMEND
-		VALUES(SEQ_DRRM.NEXTVAL, #{drComment}, #{pdNo}, #{drNo}, SYSDATE)
-	</insert>
 	
 	<update id="updateProduct" parameterType="Product">
 		UPDATE 
@@ -533,6 +537,92 @@
 		WHERE
 			PDQ_NO = #{pdqNo}
 	</update>
+	
+	<insert id="drRecommendInsert" parameterType="hashMap">
+	INSERT INTO DRRECOMMEND(DRRM_NO, DRRM_COMMENT, PD_NO, DR_NO, DRRM_SUBMITDATE)
+	SELECT SEQ_DRRM.NEXTVAL, A.* FROM(
+		<foreach  item="reco" collection="list" separator="UNION ALL ">
+			SELECT #{reco.drComment} as DRRM_COMMENT,
+						#{reco.pdNo} as PD_NO,
+						#{reco.drNo} as DR_NO,
+						SYSDATE as DRRM_SUBMITDATE
+			FROM DUAL
+		</foreach>) A
+	</insert> 
+	
+	<delete id="deleteQnA" parameterType="_int">
+		DELETE FROM PRODUCTQNA
+		WHERE
+			PDQ_NO = #{pdqNo}
+	</delete>
+	
+	<select id="getAdminQnaSearchCount" parameterType="hashMap" resultType="_int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			PRODUCTQNA A
+		<if test="condition != null and condition == 1">
+		WHERE 
+			A.PD_NO = #{keyword}
+		</if>	
+		<if test="condition != null and condition == 2">
+			JOIN PRODUCT B ON A.PD_NO = B.PD_NO
+		WHERE 
+			B.PD_NAME LIKE '%' || #{keyword} || '%'
+		</if>	
+		<if test="condition != null and condition == 3">
+		WHERE
+			A.PDQ_TITLE LIKE '%' || #{keyword} || '%'
+		</if>	
+		<if test="condition != null and condition == 4">
+		WHERE
+			A.PDQ_CONTENT LIKE '%' || #{keyword} || '%'
+		</if>	
+		<if test="condition != null and condition == 5">
+			JOIN DRCLIENT B ON A.DR_NO = B.DR_NO
+		WHERE 
+			B.DR_NAME LIKE '%' || #{keyword} || '%'
+		</if>	
+		<if test="condition != null and condition == 6">
+			JOIN CLIENT B ON A.C_NO = B.C_NO
+		WHERE 
+			B.C_NICKNAME LIKE '%' || #{keyword} || '%'
+		</if>	
+	</select>
+	
+	<select id="getAdminSearchQnas" parameterType="hashMap" resultMap="productQnas">
+		SELECT 
+		    ROWNUM AS RNO, A.*
+		FROM
+		    (SELECT
+		        A.PDQ_NO, A.PDQ_TITLE, A.PDQ_CONTENT,A.PDQ_SUBMITDATE,A.PDQ_ANSWERSTATUS,A.PDQ_ANSWERCONTENT,A.PD_NO,A.C_NO,A.DR_NO,B.C_NICKNAME,C.DR_NAME,D.PD_NAME
+		    FROM
+		        PRODUCTQNA A
+		        LEFT JOIN CLIENT B ON A.C_NO = B.C_NO
+		        LEFT JOIN DRCLIENT C ON A.DR_NO = C.DR_NO
+		        JOIN PRODUCT D ON A.PD_NO = D.PD_NO
+		    ORDER BY
+		        PDQ_SUBMITDATE DESC
+		    ) A
+		<if test="condition != null and condition == 1">
+			WHERE A.PD_NO = #{keyword}
+		</if>
+		<if test="condition != null and condition == 2">
+			WHERE A.PD_NAME LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="condition != null and condition == 3">
+			WHERE A.PDQ_TITLE LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="condition != null and condition == 4">
+			WHERE A.PDQ_CONTENT LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="condition != null and condition == 5">
+			WHERE A.DR_NAME LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="condition != null and condition == 6">
+			WHERE A.C_NICKNAME LIKE '%' || #{keyword} || '%'
+		</if>
+	</select>
 	
 </mapper>
 

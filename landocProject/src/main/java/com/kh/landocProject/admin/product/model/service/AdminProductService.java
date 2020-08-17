@@ -38,4 +38,10 @@ public interface AdminProductService {
 
 	int answerQna(HashMap<String, Object> param);
 
+	int deleteQnA(int pdqNo);
+
+	int getAdminQnaSearchCount(HashMap<String, Object> param);
+
+	List<ProductQna> getAdminSearchQnas(PageInfo pageInfo, HashMap<String, Object> param);
+
 }
