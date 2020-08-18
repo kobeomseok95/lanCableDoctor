@@ -50,6 +50,9 @@
 	.nameTd{
 		cursor : pointer;
 	}
+	span.sales{
+		text-decoration: line-through;
+	}
 </style>
 </head>
 
@@ -113,15 +116,15 @@
                         <ul class="list-group">
                             <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">판매금액</span>
-                                <span class="price" style="float: right;">
-                                	<c:if test="${product.originPrice eq product.sellPrice }">
-                                	<span class="price" style="text-decoration:line-through"></span>
-                                	</c:if>
-                                	<c:if test="${product.originPrice ne product.sellPrice }">
-                                    <span id="originPrice" class="price">${product.originPrice }원</span>
-                                	</c:if>
-                                    <strong class="price">${product.sellPrice }원</strong>
-                                </span>
+                                <!-- <div class="price" style="float: right;"> -->
+                               	<c:if test="${product.originPrice eq product.sellPrice }">
+                               		<span class="price" style="float: right;">${product.sellPrice }원</span>
+                               	</c:if>
+                               	<c:if test="${product.originPrice ne product.sellPrice }">
+	                                <span class="price" style="float : right;">${product.sellPrice }원  </span>
+	                                <span class="price sales mr-3" style="float : right;">${product.originPrice }원</span>
+                               	</c:if>
+                                <!-- </div> -->
                             </li>
                             <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">내용량</span>
@@ -145,15 +148,15 @@
                             <ul class="list-group">
                                 <li class="list-group-item border-0">
                                     <span>총 주문 금액</span>
-                                    <span id="allPrice" class="price" style="float: right;">${product.sellPrice }원</span>
+                                    <span id="allPrice" class="price" style="float: right;">${product.originPrice } 원</span>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <span class="discount">할인 금액</span>
-                                    <span id="discountPrice" class="discount price" style="float: right;">0</span>
+                                    <span id="discountPrice" class="discount price" style="float: right;">- ${product.originPrice - product.sellPrice } 원</span>
                                 </li>
                                 <li class="list-group-item border-0">
-                                    <span class="product-infor">총 금액</span>
-                                    <span id="payPrice" class="product-infor price" style="float: right;">${product.sellPrice }원</span>
+                                    <span class="product-infor">총 결제 금액</span>
+                                    <span id="payPrice" class="product-infor price" style="float: right;">${product.sellPrice } 원</span>
                                 </li>
                                 <li class="list-group-item border-0">
                                     <span>수량</span>
@@ -1184,10 +1187,13 @@
 			
             $("#productCount").on('change', function(){
             	var amount = $(this).val();
-            	var price = "${product.sellPrice }";
-            	var discountPrice = $("#discountPrice").text();
-            	$("#allPrice").text(numberWithCommas(amount * price) + "원");
-            	$("#payPrice").text(numberWithCommas(amount * price - discountPrice) + "원");
+            	var originPrice = ${product.originPrice };
+            	var sellPrice = ${product.sellPrice };
+            	var discountPrice = ${product.originPrice - product.sellPrice };
+            	
+            	$("#allPrice").text(numberWithCommas(amount * originPrice) + " 원");
+            	$("#discountPrice").text('-' + numberWithCommas(amount * discountPrice) + " 원");
+            	$("#payPrice").text(numberWithCommas(amount * sellPrice) + " 원");
             });
             
             $('#searchBtn').on('click', function(){
@@ -1267,6 +1273,7 @@
 			$('.price').each(function(index, item){
 				$(this).text(numberWithCommas($(this).text()));
 			});
+			
         });//end of jquery
         
         function numberWithCommas(x) {
