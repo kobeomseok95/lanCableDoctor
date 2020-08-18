@@ -106,4 +106,16 @@ public class PaymentServiceImpl implements PaymentService{
 		return payDao.cartPaySuccess(list);
 	}
 
+	@Override
+	public int deleteC(List<HashMap<String, Object>> list) {
+		
+		return payDao.cartPayDelete(list);
+	}
+
+	@Override
+	public int deleteD(List<HashMap<String, Object>> list) {
+		
+		return payDao.cartPayDeleteD(list);
+	}
+
 }

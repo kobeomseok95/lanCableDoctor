@@ -43,4 +43,8 @@ public interface PaymentService {
 
 	int cartPaySuccess(List<HashMap<String, Object>> list);
 
+	int deleteC(List<HashMap<String, Object>> list);
+
+	int deleteD(List<HashMap<String, Object>> list);
+
 }

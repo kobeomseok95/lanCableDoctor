@@ -197,7 +197,8 @@
 
 
 
-
+<!--form 태그 시작-->
+<form id="register-submit-form" action="recommand.do" method="POST" onsubmit="return checkValidate();">
 	<input type="hidden" name="csrfmiddlewaretoken"
 		value="7EYyK9n8kkbHp3Y3zYlR8e1LSwhuubipViDL0KoRy7LwZOtyK80JuVWhaIcpapZA">
 
@@ -259,11 +260,11 @@
 					</c:forEach>
 
 				</div>
+			</div>
 
 
 
-				<!--form 태그 시작-->
-				<form id="register-submit-form" action="recommand.do" method="POST">
+				
 					<!--추천 이유 작성 부분-->
 					<div class="summit-content-box mx-auto p-5 mt-4" id="row">
 						<div class="row mb-4">
@@ -324,10 +325,10 @@
 								추천 등록하기</button>
 						</div>
 					</div>
-				</form>
 			</div>
-		</div>
-	</div>
+			</div>
+		</form>
+	
 
 
 
@@ -414,16 +415,34 @@
                      
                   }
                
-               
-         
-      
          });
          
          });
       
       });
    </script>
-
+	
+	<script>
+	 $(function(){
+         var listPro = new Array();
+         <c:forEach var="list" items="${proReco }">
+            listPro.push("${list.pdNo}");
+         </c:forEach>
+			function checkValidate(){
+      		listPro.forEach(function(pdNo,index){
+			 var comment = $("#drComment"+index).val();
+		     var reg= /^[가-힣ㄱ-ㅎa-zA-Z0-9]{200,10000000}$/;
+		     
+			     if(!reg.test(comment)){
+			         alert("200자 이상의 병원 리뷰를 작성해주세요.");
+			         return false;
+			     }
+			     return true;
+			}
+       }
+	 });
+     
+	</script>
 
 
 	<%@ include file="../static/footer.jsp"%>

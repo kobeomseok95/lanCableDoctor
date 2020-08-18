@@ -273,7 +273,7 @@ public class PaymentController {
 				
 			}else {
 
-				return "payment/paySuccess";
+				return "payment/pay";
 			}
 
 	}
@@ -281,8 +281,9 @@ public class PaymentController {
 	@RequestMapping(value="cartPaySuccessView.do",method=RequestMethod.GET )
 	public String cartPaySuccessView(Payment p, OrderMg or, String drNo, String cNo, @RequestParam("opCount")List<Integer> opCount,
 													Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice,
-													String paymentComment, @RequestParam("pdNo")List<Integer> pdNo) {
-
+													String paymentComment, @RequestParam("pdNo")List<Integer> pdNo, Model model, HttpSession session) {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
 		p.setAmountPrice(allPrice - discountPrice - usePoint);
 		int result = 0;
 		int result1 = 0;
@@ -308,10 +309,25 @@ public class PaymentController {
 				cartPay.put("pdNo", pdNo.get(i));
 				cartPay.put("opCount", opCount.get(i));
 				cartPay.put("orderNo", orderNo);
+				cartPay.put("cNo", cNo);
+				cartPay.put("drNo", drNo);
 				list.add(cartPay);
 			}
 			result3 = payService.cartPaySuccess(list);
+			
+			if(cNo != null && drNo == null) {
+				int updateC = payService.updateC(p);
+				int DeleteCart = payService.deleteC(list);
+			}else if(cNo == null && drNo != null) {
+				int updateDr = payService.updateDr(p);
+				int DeleteCart = payService.deleteD(list);
+			}
+			model.addAttribute("cNo", cNo);
+			model.addAttribute("drNo", drNo);
+			return "payment/paySuccess";
+		}else {
+			
+			return "payment/pay";
 		}
-		return "payment/paySuccess";
 	}
 }

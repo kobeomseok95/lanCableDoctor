@@ -60,7 +60,7 @@
 	.pInput1{width: 250px; margin-left: 143px; height:35px; border: 1px solid lightgray;}
 	.search{float: right; margin-right: 10px; width: 130px; height:35px ; color: black; background-color: #e5f2fc; border: 0px; border-radius: 3px;}
 	.p4Label{margin-left:20px}
-	.p5{margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 600px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white;}
+	.p5{margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 600px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white; position:fixed; top:270px; bottom:1000px; }
 	.p6{border: 1px solid white; background-color: white; margin: 10px; height: 350px; border-radius: 7px;}
 	.p7{width : 375px; height:300px; padding:10px;}
 	.p8{margin-bottom:25px;margin-top:20px;}
@@ -177,7 +177,7 @@
 								</div>
 								<div style="margin-left: 20px; margin-right: 20px;">
 									<label style="margin-right: 100px;"><input type="radio" name="pay" style="margin-right: 10px;" disabled id="cradit">신용카드</label>
-									<label><input type="radio" name="pay" style="margin-right: 10px;" >가상계좌</label>
+									<label><input type="radio" name="pay" style="margin-right: 10px;" disabled>가상계좌</label>
 									<label style="margin-right: 52px;"><input name="pay" type="radio" style="margin-right: 10px;" disabled>실시간계좌이체</label>
 									<label><input type="radio" name="pay" style="margin-right: 10px;" checked readonly>카카오페이</label>
 								</div> 
@@ -386,5 +386,7 @@
 		})
 		
 	</script>
+	
+
 	
 </html>

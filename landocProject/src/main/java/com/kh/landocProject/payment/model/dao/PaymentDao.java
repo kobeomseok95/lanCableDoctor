@@ -95,4 +95,14 @@ public class PaymentDao {
 		return sqlSessionTemplate.insert("payMapper.cartPaySuccess", list);
 	}
 
+	public int cartPayDelete(List<HashMap<String, Object>> list) {
+		
+		return sqlSessionTemplate.delete("payMapper.cartDelete", list);
+	}
+
+	public int cartPayDeleteD(List<HashMap<String, Object>> list) {
+		
+		return sqlSessionTemplate.delete("payMapper.cartDeleteD", list);
+	}
+
 }
