@@ -73,9 +73,9 @@
 	                <option value="adNickname">작성자</option>
 	                <option value="hpcategory">진료과목</option>
 	            </select>
-            <input type="text" name="keyword" />
+            <input type="text" id="keyword" name="keyword" />
             <input type="hidden" name="pageNo" value="1" />
-            <button type="submit">검색하기</button>
+            <button id="searchAskDr" type="submit">검색하기</button>
             </form>
         </div>
         
@@ -173,9 +173,10 @@
 	                	진료과목
 	                </option>
 	            </select>
-            <input type="text" name="keyword" value="${keyword }" />
+            <input id="keyword" type="text" name="keyword" value="${keyword }" />
             <input type="hidden" name="pageNo" value="1" />
-            <button type="submit">검색하기</button>
+            <button id="searchAskDr" type="submit">검색하기</button>
+            <button type="button" onclick='location.href="askDrManage.do?pageNo=1"'>검색 초기화</button>
             </form>
         </div>
         
@@ -286,7 +287,38 @@
 				$("body").append($deleteForm);
 				$deleteForm.submit();
    			});
-   		});
+   			
+   			$("#searchAskDr").on({
+	       		click : function(){
+	       			if( $("#searchCondition option:selected").val() === "adNo" && 
+	       					!$.isNumeric($("#keyword").val()) ){
+	       				alert("게시글 번호는 숫자만 검색 가능합니다!");
+	       				return false;
+	       			}
+	       			else if( $("#keyword").val().length < 2 && $("#condition option:selected").val() !== "adNo" ){
+	       				alert("검색어를 2글자 이상 입력해주세요.");
+	       				return false;
+	       			}
+	       			else{
+	       				$("#searchForm").submit();
+	       			}
+	       		}
+        	});
+        	/* 검색할때 공백 다 제거! */
+        	$('body').keydown(function(key){
+       			if( key.keyCode === 13 && $("#searchCondition option:selected").val() === "adNo" && !$.isNumeric( $("#keyword").val() ) ){
+       				alert("게시글 번호는 숫자만 검색 가능합니다!");
+       				return false;
+       			}
+	        	else if( key.keyCode === 13 && $("#keyword").val().length < 2 && $("#searchCondition option:selected").val() !== "adNo"){
+        			alert("검색어를 2글자 이상 입력해주세요.");
+        			return false;
+        		}
+        		else {
+        			$("#searchForm").submit();
+        		}
+        	});
+   		});	//end of jquery
         
         
         // 테이블 한 줄 hover효과 주는 function

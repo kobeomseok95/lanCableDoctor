@@ -292,12 +292,15 @@
 	       			if( $("#keyword").val().length < 2 && $("#condition option:selected").val() === "3" ){
 	       				alert("검색어를 2글자 이상 입력해주세요.");
 	       			}
+	       			else if( $("#condition option:selected").val() === "1" && !$.isNumeric( $("#keyword").val() ) ){
+	       				alert("상품 코드는 숫자만 검색 가능합니다!");
+	       			}
 	       			else{
 	       				$("#searchForm").submit();
 	       			}
 	       		}
         	});
-        	
+        	//검색할때 공백 다 제거!
         	$('body').keydown(function(key){
         		if( key.keyCode === 13 && $("#keyword").val().length < 2 && $("#condition option:selected").val() === "3"){
         			alert("검색어를 2글자 이상 입력해주세요.");
@@ -306,6 +309,10 @@
         		else if( key.keyCode === 13 && $("#keyword").val().length >= 2 && $("#condition option:selected").val() === "3" ){
         			$("#searchForm").submit();
         		}
+       			else if( key.keyCode === 13 && $("#condition option:selected").val() === "1" && !$.isNumeric( $("#keyword").val() ) ){
+       				alert("상품 코드는 숫자만 검색 가능합니다!");
+       				return false;
+       			}
         	});
         	
         	$('.deleteProduct').on('click', function(){
