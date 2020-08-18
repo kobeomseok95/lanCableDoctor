@@ -36,15 +36,15 @@ public class DrProfile implements Serializable{
 	private String drComment;
 	private String cNo;
 	private String cNickName;
+	private int commentCount;
 	
 	public DrProfile() {
 	}
 
-
 	public DrProfile(String drNo, String drName, int hpNo, String hpName, int hpCateCode, String hpCateName,
 			String drEmail, int likeNum, int dislikeNum, String proRename, int adNo, String chooseStatus,
 			double choosePer, int commentRowNum, int drCommentNo, Date drCommentDate, String drComment, String cNo,
-			String cNickName) {
+			String cNickName, int commentCount) {
 		this.drNo = drNo;
 		this.drName = drName;
 		this.hpNo = hpNo;
@@ -64,203 +64,172 @@ public class DrProfile implements Serializable{
 		this.drComment = drComment;
 		this.cNo = cNo;
 		this.cNickName = cNickName;
+		this.commentCount = commentCount;
 	}
-
 
 	public String getDrNo() {
 		return drNo;
 	}
 
-
 	public void setDrNo(String drNo) {
 		this.drNo = drNo;
 	}
-
 
 	public String getDrName() {
 		return drName;
 	}
 
-
 	public void setDrName(String drName) {
 		this.drName = drName;
 	}
-
 
 	public int getHpNo() {
 		return hpNo;
 	}
 
-
 	public void setHpNo(int hpNo) {
 		this.hpNo = hpNo;
 	}
-
 
 	public String getHpName() {
 		return hpName;
 	}
 
-
 	public void setHpName(String hpName) {
 		this.hpName = hpName;
 	}
-
 
 	public int getHpCateCode() {
 		return hpCateCode;
 	}
 
-
 	public void setHpCateCode(int hpCateCode) {
 		this.hpCateCode = hpCateCode;
 	}
-
 
 	public String getHpCateName() {
 		return hpCateName;
 	}
 
-
 	public void setHpCateName(String hpCateName) {
 		this.hpCateName = hpCateName;
 	}
-
 
 	public String getDrEmail() {
 		return drEmail;
 	}
 
-
 	public void setDrEmail(String drEmail) {
 		this.drEmail = drEmail;
 	}
-
 
 	public int getLikeNum() {
 		return likeNum;
 	}
 
-
 	public void setLikeNum(int likeNum) {
 		this.likeNum = likeNum;
 	}
-
 
 	public int getDislikeNum() {
 		return dislikeNum;
 	}
 
-
 	public void setDislikeNum(int dislikeNum) {
 		this.dislikeNum = dislikeNum;
 	}
-
 
 	public String getProRename() {
 		return proRename;
 	}
 
-
 	public void setProRename(String proRename) {
 		this.proRename = proRename;
 	}
-
 
 	public int getAdNo() {
 		return adNo;
 	}
 
-
 	public void setAdNo(int adNo) {
 		this.adNo = adNo;
 	}
-
 
 	public String getChooseStatus() {
 		return chooseStatus;
 	}
 
-
 	public void setChooseStatus(String chooseStatus) {
 		this.chooseStatus = chooseStatus;
 	}
-
 
 	public double getChoosePer() {
 		return choosePer;
 	}
 
-
 	public void setChoosePer(double choosePer) {
 		this.choosePer = choosePer;
 	}
-
 
 	public int getCommentRowNum() {
 		return commentRowNum;
 	}
 
-
 	public void setCommentRowNum(int commentRowNum) {
 		this.commentRowNum = commentRowNum;
 	}
-
 
 	public int getDrCommentNo() {
 		return drCommentNo;
 	}
 
-
 	public void setDrCommentNo(int drCommentNo) {
 		this.drCommentNo = drCommentNo;
 	}
-
 
 	public Date getDrCommentDate() {
 		return drCommentDate;
 	}
 
-
 	public void setDrCommentDate(Date drCommentDate) {
 		this.drCommentDate = drCommentDate;
 	}
-
 
 	public String getDrComment() {
 		return drComment;
 	}
 
-
 	public void setDrComment(String drComment) {
 		this.drComment = drComment;
 	}
-
 
 	public String getcNo() {
 		return cNo;
 	}
 
-
 	public void setcNo(String cNo) {
 		this.cNo = cNo;
 	}
-
 
 	public String getcNickName() {
 		return cNickName;
 	}
 
-
 	public void setcNickName(String cNickName) {
 		this.cNickName = cNickName;
 	}
 
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 
 	@Override
 	public String toString() {
@@ -269,8 +238,10 @@ public class DrProfile implements Serializable{
 				+ likeNum + ", dislikeNum=" + dislikeNum + ", proRename=" + proRename + ", adNo=" + adNo
 				+ ", chooseStatus=" + chooseStatus + ", choosePer=" + choosePer + ", commentRowNum=" + commentRowNum
 				+ ", drCommentNo=" + drCommentNo + ", drCommentDate=" + drCommentDate + ", drComment=" + drComment
-				+ ", cNo=" + cNo + ", cNickName=" + cNickName + "]";
+				+ ", cNo=" + cNo + ", cNickName=" + cNickName + ", commentCount=" + commentCount + "]";
 	}
 
+
+	
 
 }

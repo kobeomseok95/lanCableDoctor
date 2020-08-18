@@ -85,6 +85,7 @@
 		<result property="drComment" column="DR_COMMENT"/>	
 		<result property="cNo" column="C_NO"/>
 		<result property="cNickName" column="C_NICKNAME"/>
+		<result property="commentCount" column="COMMENTCOUNT"/>
 	</resultMap>
 
 
@@ -469,13 +470,15 @@
 	</select>
 	
 	<select id="selectCommentList" parameterType="string" resultMap="DrProfileMap">
-		SELECT ROWNUM, DR_COMMENT_NO, DR_COMMENT_DATE, DR_COMMENT, C_NO, C_NICKNAME, PRO_RENAME, DR_NO
+		SELECT ROWNUM, DR_COMMENT_NO, DR_COMMENT_DATE, DR_COMMENT, C_NO, C_NICKNAME, PRO_RENAME, DR_NO, COMMENTCOUNT
 		FROM (
-		    SELECT DR_COMMENT_NO, DR_COMMENT_DATE, DR_COMMENT, DC.C_NO, C.C_NICKNAME, PH.PRO_RENAME, DC.DR_NO
+		    SELECT DR_COMMENT_NO, DR_COMMENT_DATE, DR_COMMENT, DC.C_NO, C.C_NICKNAME, PH.PRO_RENAME, DC.DR_NO,
+                (SELECT COUNT(*)FROM DRCOMMENT WHERE DR_NO='D01') COMMENTCOUNT
 		    FROM DRCOMMENT DC
 		        JOIN CLIENT C ON(DC.C_NO = C.C_NO)
 		        LEFT JOIN PROFILEPHOTO PH ON (DC.C_NO = PH.C_NO)
 		    WHERE DC.DR_NO=#{drNo}
+            group by DR_COMMENT_NO, DR_COMMENT_DATE, DR_COMMENT, DC.C_NO, C.C_NICKNAME, PH.PRO_RENAME, DC.DR_NO
 		    ORDER BY DR_COMMENT_DATE DESC
 		)
 	</select>
