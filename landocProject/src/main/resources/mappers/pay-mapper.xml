@@ -117,16 +117,25 @@
 		FROM CART C
 		JOIN PRODUCT P ON(C.PD_NO=P.PD_NO)
 		JOIN PRODUCTPHOTO PH ON(P.PD_NO=PH.PD_NO)
-		WHERE C.C_NO=#{cNo}
+		WHERE 
+		C.C_NO=#{cNo}
 		AND PH.PDP_TYPE=0
 	</select>
 	
 	<insert id="cartInsert" parameterType="hashMap">
+	<if test="cNo!=null">
 		INSERT INTO CART VALUES(SEQ_CART.NEXTVAL,#{count},null,#{cNo},#{pdNo})
+	</if>
+	<if test="drNo!=null">
+		INSERT INTO CART VALUES(SEQ_CART.NEXTVAL,#{count},#{drNo},null,#{pdNo})
+	</if>
 	</insert>
 	
 	<update id="cartUpdate" parameterType="hashMap">
-		UPDATE CART SET CART_COUNT=#{count}+#{cartCount} WHERE C_NO=#{cNo} AND PD_NO=#{pdNo}
+		UPDATE CART SET CART_COUNT=#{count}+#{cartCount} WHERE 
+		<if test="cNo !=null">C_NO=#{cNo}</if> 
+		<if test="drNo !=null">DR_NO=#{drNo}</if> 
+		AND PD_NO=#{pdNo}
 	</update>
 	
 
@@ -148,6 +157,24 @@
 			VALUES(#{cp.pdNo}, #{cp.orderNo}, #{cp.opCount})
 		</foreach>
 	</insert>
+	
+	<select id="selectDrCartList" parameterType="string" resultMap="cartMap">
+		SELECT C.CART_NO,
+		PH.PDP_RENAME,
+		P.PD_NO,P.PD_NAME,
+		C.CART_COUNT,
+		C.C_NO,
+		C.DR_NO,
+		P.ORIGIN_PRICE,
+		P.DISCOUNT,
+		P.SELL_PRICE
+		FROM CART C
+		JOIN PRODUCT P ON(C.PD_NO=P.PD_NO)
+		JOIN PRODUCTPHOTO PH ON(P.PD_NO=PH.PD_NO)
+		WHERE 
+		C.DR_NO=#{drNo}
+		AND PH.PDP_TYPE=0
+	</select>
 
 	
 </mapper>

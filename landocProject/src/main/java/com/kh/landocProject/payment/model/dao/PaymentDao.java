@@ -103,4 +103,9 @@ public class PaymentDao {
 		return sqlSessionTemplate.insert("payMapper.cartPaySuccess", list);
 	}
 
+	public ArrayList<Cart> selectDrCartList(String drNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("payMapper.selectDrCartList",drNo);
+	}
+
 }
