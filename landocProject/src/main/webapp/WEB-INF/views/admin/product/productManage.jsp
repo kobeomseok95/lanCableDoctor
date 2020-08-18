@@ -51,10 +51,11 @@
 
         <!--검색 창 부분-->
         <div id="searchArea">
-        	<form id="searchForm" action="productManage.do" method="GET">
+        	<form id="searchForm" action="productManageSearch.do" method="GET">
 	            <select id="condition" name="condition">
 	                <option value="1">상품 코드</option>
 	                <option value="2">카테고리 코드</option>
+	                <option value="4">카테고리명</option>
 	                <option value="3">상품명</option>
 	            </select>
 	            <input id="keyword" name="keyword" type="text" />
@@ -76,7 +77,7 @@
                 <th class="firstLine">상품가격</th>
                 <th class="firstLine">할인율</th>
                 <th class="firstLine">판매가격</th>
-                <th class="firstLine"></th>
+                <th class="firstLine">상세 / 삭제</th>
             </tr>
             	<c:if test="${empty products }">
             <tr>
@@ -96,7 +97,7 @@
            		<td>${product.discountPer } % </td>
            		<td class="price">${product.sellPrice }</td>
            		<td>
-           			<button onclick="goUpdate();">수정하기</button>
+           			<button class="detailProduct">상세보기</button>
                     <button class="deleteProduct">삭제하기</button>
            		</td>
             </tr>
@@ -148,12 +149,14 @@
 
         <!--검색 창 부분-->
         <div id="searchArea">
-        	<form id="searchForm" action="productManage.do" method="GET">
+        	<form id="searchForm" action="productManageSearch.do" method="GET">
 	            <select id="condition" name="condition">
 	                <option value="1" 
 	                <c:if test='${param["condition"] eq 1 }'>selected</c:if>>상품 코드</option>
 	                <option value="2"
 	                <c:if test='${param["condition"] eq 2 }'>selected</c:if>>카테고리 코드</option>
+	                <option value="4"
+	                <c:if test='${param["condition"] eq 4 }'>selected</c:if>>카테고리명</option>
 	                <option value="3"
 	                <c:if test='${param["condition"] eq 3 }'>selected</c:if>>상품명</option>
 	            </select>
@@ -176,7 +179,7 @@
                 <th class="firstLine">상품가격</th>
                 <th class="firstLine">할인율</th>
                 <th class="firstLine">판매가격</th>
-                <th class="firstLine"></th>
+                <th class="firstLine">상세 / 삭제</th>
             </tr>
             	<c:if test="${empty products }">
             <tr>
@@ -196,7 +199,7 @@
            		<td>${product.discountPer } % </td>
            		<td class="price">${product.sellPrice }</td>
            		<td>
-           			<button onclick="goUpdate();">수정하기</button>
+           			<button class="detailProduct">상세보기</button>
                     <button class="deleteProduct">삭제하기</button>
            		</td>
             </tr>
@@ -210,6 +213,7 @@
 		
         <br><br>
         <div class="pagination">
+        <!-- 검색결과 pagination -->
         <c:if test="${!empty page }">
 	        <c:if test="${page.currentPage ne 1 }">
 	        	<c:url var="pageBack" value="productManage.do">
@@ -318,9 +322,37 @@
         		}
         		else return false;
         	});
+        	
+        	$('.updateProduct').on('click', function(){
+        		var pdNo = $(this).parent().siblings('.pdNo').text();
+        		
+        		var $updateForm = $('<form action="updateProductView.do" method="GET"></form>');
+        		var $input = $('<input name="pdNo" type="hidden" />');
+        		$input.attr("value", pdNo);
+        		$updateForm.append($input);
+        		$('body').append($updateForm);
+        		$updateForm.submit();
+        	});
+        	
+        	$('.detailProduct').on('click', function(){
+        		var pdNo = $(this).parent().siblings('.pdNo').text();
+        		location.href='detailProductView.do?pdNo=' + pdNo;
+        	});
+        	
         });	//end of jquery
     </script>
 
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

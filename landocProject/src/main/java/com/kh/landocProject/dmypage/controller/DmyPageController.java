@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,17 +23,19 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.Exception.cMypageException;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePagination;
-import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
-import com.kh.landocProject.cmypage.model.vo.OrderList;
+import com.kh.landocProject.common.Pagination;
 import com.kh.landocProject.dmypage.exception.DmypageException;
 import com.kh.landocProject.dmypage.model.service.DmyPageService;
 import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
 import com.kh.landocProject.dmypage.model.vo.DPdReview;
 import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
+import com.kh.landocProject.dmypage.model.vo.DrProfile;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
 
@@ -42,13 +45,25 @@ public class DmyPageController {
 	@Autowired
 	DmyPageService dMypageService;
 	
+
 	// 사진 저장 폴더
 	private final String filePath = "C:\\lanCableDoctorProject\\files\\";
 	
+
 	@RequestMapping(value="doctorMypage.do")
-	public String dMyPage() {
+	public ModelAndView dMyPage(HttpSession session, ModelAndView mv, DrClient dr) {
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+
+		String drNo = loginDrClient.getDrNo();
+		String drProfile = dMypageService.selectDrProfile(drNo);
 		
-		return "mypage/dMyPageWork";
+		dr.setUserName(loginDrClient.getUserName());
+		dr.setEmail(loginDrClient.getEmail());
+		dr.setProRename(drProfile);
+		
+		mv.addObject("dr", dr);
+		mv.setViewName("mypage/dMyPageWork");
+		return mv;
 	}
 	
 	@RequestMapping(value="drPdReview.do")
@@ -466,6 +481,194 @@ public class DmyPageController {
 			return mv;
 		}
 		
+
+	@RequestMapping(value="checkDrProfile.do", method=RequestMethod.GET)
+	public ModelAndView checkDrProfile(HttpSession session, ModelAndView mv, DrProfile dp, HpLike hl, 
+										@RequestParam(value="replyDrNo", required=false) String replyDrNo) {
+	
+		int likeCount = 0;
+		int replyCount = 0;
+		int chosenReplyCount = 0;
+		double chosenPer = 0;
+		int commentCount = 0;
+		PageInfo commentPage = null;
+		ArrayList<DrProfile> commentList = null;
+		
+		// 의사가 로그인해서 마이페이지 프로필 확인 들어갈 경우
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo = "";
+		
+		if(loginDrClient != null) {
+			drNo = loginDrClient.getDrNo();
+			dp = dMypageService.selectOneDr(drNo);
+			
+			// 의사 좋아요 수
+			likeCount = dMypageService.selectLikeCount(drNo);
+			replyCount = dMypageService.selectReplyCount(drNo);
+			chosenReplyCount = dMypageService.selectChosenReplyCount(drNo);
+			if(chosenReplyCount == 0) {
+				chosenPer = 0.0; 
+			}else {
+				double chosenPer1 = ((double)chosenReplyCount/replyCount)*100 ;
+				chosenPer = Math.round(chosenPer1 *100)/ 100.0;
+			}
+		
+			// DRCOMMENT
+			commentCount = dMypageService.selectCommentCount(drNo);
+			commentPage = Pagination.getDrComment(1,commentCount);
+			commentList = dMypageService.selectCommentList(drNo);
+			
+		}
+
+		// 일반 회원이 로그인해서 의사에게 물어봐 답변 의사 프로필 들어갈 경우
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo = "";
+		int heart = 0;
+		
+		if(loginClient != null) {
+			cNo = loginClient.getcNo();
+			dp = dMypageService.selectOneDr(replyDrNo);
+			
+			// 의사 좋아요 수
+			likeCount = dMypageService.selectLikeCount(replyDrNo);
+			replyCount = dMypageService.selectReplyCount(replyDrNo);
+			chosenReplyCount = dMypageService.selectChosenReplyCount(replyDrNo);
+			if(chosenReplyCount == 0) {
+				chosenPer = 0.0; 
+			}else {
+				double chosenPer1 = ((double)chosenReplyCount/replyCount)*100 ;
+				chosenPer = Math.round(chosenPer1 *100)/ 100.0;
+			}
+			
+			hl.setcNo(cNo);
+			hl.setdNo(replyDrNo);
+			heart = dMypageService.selectMyDrLikeCount(hl);
+			
+			// DRCOMMENT
+			commentCount = dMypageService.selectCommentCount(replyDrNo);
+			commentPage = Pagination.getDrComment(1,commentCount);
+			commentList = dMypageService.selectCommentList(replyDrNo);
+			
+			
+		}else {
+			cNo = "none";
+			heart = 0;
+		}
+		
+		mv.addObject("dp", dp);
+		mv.addObject("cNo", cNo);
+		mv.addObject("replyDrNo", replyDrNo);
+		mv.addObject("heart", heart);
+		mv.addObject("likeCount", likeCount);
+		mv.addObject("replyCount", replyCount);
+		mv.addObject("chosenReplyCount", chosenReplyCount);
+		mv.addObject("chosenPer", chosenPer);
+		mv.addObject("commentCount", commentCount);
+		mv.addObject("commentPage", commentPage);
+		mv.addObject("commentList", commentList);
+		
+		mv.setViewName("mypage/drMypageProfile");
+		
+		return mv;
+	}
+		
+	@RequestMapping(value="likeDr.do", method=RequestMethod.POST, produces = "application/json")
+	public void likeDr(HttpServletResponse response, HpLike hl, HashMap<String, Integer> map,
+					@RequestParam("heart") Integer heart, 
+					@RequestParam("drNo") String drNo,
+					@RequestParam("cNo") String cNo) throws JsonIOException, IOException {
+		
+		hl.setcNo(cNo);
+		hl.setdNo(drNo);
+		
+		if(heart >=1) {
+			dMypageService.deleteDrLike(hl);
+			heart = 0;
+		}else {
+			dMypageService.insertDrLike(hl);
+			heart = 1;
+		}
+		
+		int drLikeCount = dMypageService.selectDrLikeCount(drNo);
+		
+		map.put("heart", heart);
+		map.put("drLikeCount", drLikeCount);
+		
+		Gson gson = new Gson();
+		
+		gson.toJson(map, response.getWriter());
+		
+	}
+		
+	
+	@RequestMapping(value="insertDrComment.do", method= {RequestMethod.POST,RequestMethod.GET})
+	public void insertDrComment(HashMap<String, String> map, HttpSession session, HttpServletResponse response,
+							@RequestParam(value="cNo", required=false) String cNo,
+							@RequestParam(value="comment", required=false) String comment,
+							@RequestParam(value="drNo", required=false) String drNo,
+							@RequestParam(value="replyDrNo", required=false) String replyDrNo) throws JsonIOException, IOException {
+		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		cNo = loginClient.getcNo();
+
+//		System.out.println("controller에서 replyDrNo" + replyDrNo);
+//		System.out.println("controller에서 cNo" + cNo);
+//		System.out.println("controller에서 comment" + comment);
+//		System.out.println("controller에서 drNo" + drNo);
+		
+		map.put("cNo", cNo);
+		map.put("drNo", drNo);
+		map.put("replyDrNo",replyDrNo);
+		map.put("comment",comment);
+		
+		int result = dMypageService.insertDrComment(map);
+		
+		ArrayList<DrProfile> dpList = dMypageService.selectCommentList(drNo);
+//		System.out.println("controller에서 dpList : " + dpList);
+		
+		response.setContentType("applicateion/json;charset=utf-8");
+		
+		Gson gson = new Gson();
+		
+		gson.toJson(dpList, response.getWriter());
+		
+		
+	}
+	
+	@RequestMapping(value="ajaxCommentList.do", method= {RequestMethod.POST,RequestMethod.GET})
+	public void ajaxCommentList(HttpSession session, HttpServletResponse response,
+													@RequestParam(value="cNo", required=false) String cNo,
+													@RequestParam(value="drNo", required=false) String drNo,
+													@RequestParam(value="replyDrNo", required=false) String replyDrNo) throws JsonIOException, IOException{
+		System.out.println("여기로 오나?");
+		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		
+		cNo = loginClient.getcNo();
+		
+		if(drNo == null) {
+			drNo = replyDrNo;
+		}
+		
+		ArrayList<DrProfile> dpList =  dMypageService.getAjaxCommentList(drNo);
+		
+		int commentCount = dMypageService.getCommentCount(drNo);
+		
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("commentCount", commentCount);
+		data.put("dpList", dpList);
+		data.put("cNo", cNo);
+		
+		response.setContentType("applicateion/json;charset=utf-8");
+		
+		Gson gson = new Gson();
+		
+		gson.toJson("data", response.getWriter());
+		
+	}
+	
+	
+
 		public String saveFile(MultipartFile file, HttpServletRequest request) {
 
 		      
@@ -507,4 +710,5 @@ public class DmyPageController {
 					f.delete();
 				}
 			}
+
 }

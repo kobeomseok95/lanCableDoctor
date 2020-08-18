@@ -137,22 +137,30 @@ public class PaymentController {
 			ArrayList<Cart> cart
 			) throws PaymentException{
 		
-		
+		int allOriginPrice=0;
 		int allPrice =0;	// 총 결제금액
 		int allDiscount=0;	// 총 할인금액
 		for(int i =0; i<listOriginPrice.size();i++) {
 			
 			cart.add(new Cart(listCartNo.get(i),listRenameFile.get(i), listPdNo.get(i),listPdName.get(i),listCount.get(i),null, null, listOriginPrice.get(i), listDiscount.get(i),listSellPrice.get(i) ));
+			allOriginPrice += listOriginPrice.get(i) * listCount.get(i);
 			allPrice +=listSellPrice.get(i)*listCount.get(i);
 			allDiscount +=listOriginPrice.get(i)*listDiscount.get(i)/100*listCount.get(i);
 		
+			
 		}
 		
 		
+//		System.out.println("alOriginPrice:"+allOriginPrice);
+//		System.out.println("allPrice:"+allPrice);
+//		System.out.println("allDiscount:"+allDiscount);
+//		System.out.println("array:"+cart);
 		
-		System.out.println("allPrice:"+allPrice);
-		System.out.println("allDiscount:"+allDiscount);
-		System.out.println("array:"+cart);
+		mv.addObject("allPrice", allPrice);
+		mv.addObject("allDiscount", allDiscount);
+		mv.addObject("cart", cart);
+		mv.addObject("allOriginPrice", allOriginPrice);
+		mv.setViewName("payment/cartPay");
 	
 		return mv;
 	}
@@ -171,19 +179,27 @@ public class PaymentController {
 			ArrayList<Cart> cart
 			) throws PaymentException{
 		
+		int allOriginPrice=0;
 		int allPrice =0;	// 총 결제금액
 		int allDiscount=0;	// 총 할인금액
 		for(int i =0; i<listOriginPrice.size();i++) {
 			cart.add(new Cart(listCartNo.get(i),listRenameFile.get(i), listPdNo.get(i),listPdName.get(i),listCount.get(i),null, null, listOriginPrice.get(i), listDiscount.get(i),listSellPrice.get(i) ));
+			allOriginPrice += listOriginPrice.get(i) * listCount.get(i);
 			allPrice +=listSellPrice.get(i)*listCount.get(i);
 			allDiscount +=listOriginPrice.get(i)*listDiscount.get(i)/100*listCount.get(i);
 		
 		}
 		
+//		System.out.println("alOriginPrice:"+allOriginPrice);
+//		System.out.println("allPrice:"+allPrice);
+//		System.out.println("allDiscount:"+allDiscount);
+//		System.out.println("array:"+cart);
 		
-		System.out.println("allPrice:"+allPrice);
-		System.out.println("allDiscount:"+allDiscount);
-		System.out.println("array:"+cart);
+		mv.addObject("allPrice", allPrice);
+		mv.addObject("allDiscount", allDiscount);
+		mv.addObject("cart", cart);
+		mv.addObject("allOriginPrice", allOriginPrice);
+		mv.setViewName("payment/cartPay");
 		
 		return mv;
 	}
@@ -193,13 +209,9 @@ public class PaymentController {
 	
 	@RequestMapping(value = "payView.do", method = RequestMethod.GET)
 	public String payView(Model model,Integer pdNo, String pdName, HttpSession session, String productCount, HttpServletResponse response_equals) throws IOException {
-//		System.out.println(pdName);
-//		System.out.println(productCount);
-//		System.out.println("pdNo : " + pdNo);
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
-//		System.out.println("loginClient : " + loginClient);
-//		System.out.println("loginDrClient : " + loginDrClient);
+
 		if(loginClient != null && loginDrClient == null) {
 			String cNo = loginClient.getcNo();
 			MemberPay loginClient3 = payService.loginClient3(cNo);
@@ -234,10 +246,6 @@ public class PaymentController {
 				model.addAttribute("address5", address5);
 			}
 		}else {
-//			response_equals.setContentType("text/html; charset=UTF-8");
-//			PrintWriter out_equals = response_equals.getWriter();
-//			out_equals.println("<script>alert('로그인 후 구입이 가능합니다.');</script>");
-//			out_equals.flush();
 			String msg = "로그인 후 구입이 가능합니다.";
 			model.addAttribute("msg", msg);
 			model.addAttribute("pdNo", pdNo);
@@ -249,18 +257,9 @@ public class PaymentController {
 	
 	@RequestMapping(value="paySuccessView.do",method=RequestMethod.GET )
 	public String paySuccessView(Model model, OrderProduct op, OrderMg or, Payment p,String drNo, String cNo, String opCount, Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice, String paymentComment){
-		
-//		System.out.println(usePoint);
-//		System.out.println(p);
-//		System.out.println(allPrice);
-//		System.out.println(discountPrice);
-//		System.out.println(paymentComment);
-//		System.out.println(opCount);
-//		System.out.println(cNo);
-//		p.setAmountPrice(allPrice - discountPrice - usePoint);
-			
-			
-			
+	
+		p.setAmountPrice(allPrice - discountPrice - usePoint);
+
 			int result = 0;
 			int result1 = 0;
 			if(usePoint != 0) {
@@ -270,23 +269,60 @@ public class PaymentController {
 			}
 			if(result > 0 || result1 > 0) {
 				int orderRmg = payService.insertOrderMg(or);
-//				System.out.println("orderRmg : " + orderRmg);
+
 				int orderPro = payService.insertOrderPro(op);
-//				System.out.println("orderRmg : " + orderRmg);
+
 				if(cNo != null && drNo == null) {
 					int updateC = payService.updateC(p);
 				}else if(cNo == null && drNo != null) {
 					int updateDr = payService.updateDr(p);
 				}
-//				System.out.println("성공!!");
+
 				model.addAttribute("cNo", cNo);
 				model.addAttribute("drNo", drNo);
 				return "payment/paySuccess";
 				
 			}else {
-//				System.out.println("실패!!");
+
 				return "payment/paySuccess";
 			}
 
+	}
+	
+	@RequestMapping(value="cartPaySuccessView.do",method=RequestMethod.GET )
+	public String cartPaySuccessView(Payment p, OrderMg or, String drNo, String cNo, @RequestParam("opCount")List<Integer> opCount,
+													Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice,
+													String paymentComment, @RequestParam("pdNo")List<Integer> pdNo) {
+
+		p.setAmountPrice(allPrice - discountPrice - usePoint);
+		int result = 0;
+		int result1 = 0;
+		int result3 = 0;
+		
+		if(usePoint != 0) {
+			result = payService.insertPayment(p);
+		}else {
+			result1 = payService.insertPayment1(p);
+		}
+		
+		
+		if(result > 0 || result1 > 0) {
+			int orderRmg = payService.insertOrderMg(or);
+			
+			int orderNo = payService.selectOrderNo();
+			
+			List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+			HashMap<String,Object> cartPay = null;
+			
+			for(int i = 0; i < pdNo.size(); i++) {
+				cartPay = new HashMap<String,Object>();
+				cartPay.put("pdNo", pdNo.get(i));
+				cartPay.put("opCount", opCount.get(i));
+				cartPay.put("orderNo", orderNo);
+				list.add(cartPay);
+			}
+			result3 = payService.cartPaySuccess(list);
+		}
+		return "payment/paySuccess";
 	}
 }

@@ -55,20 +55,27 @@
 		<div class="p-4" style="width: 1000px; display: inline-block;">
 			<div class="row">
                 <div class="col-2 d-flex align-items-center" style="border: 2px solid #9b9b9b; height: 131px;">
-                    <img class="img-fluid" style="width:100%; height: auto;" alt="Responsive image" src="#">
+                	<c:if test="${empty dr.proRename || dr.proRename eq ''}">
+                		<img style="width: 100%; height: auto;" src="/projectFiles/profile.png">
+                	</c:if>
+                	
+                	<c:if test="${!empty dr.proRename }">	
+                		<img style="width: 100%; height: auto;" src="/projectFiles/${dr.proRename }">
+                	</c:if>
+           
                 </div>
                 <div class="col-8 pl-5 text-left">
                     <div class="d-flex align-items-center">
                     <div class="review-list-title text-left" style="font-weight: bold; font-size: 35px;">
-                       		 고범석 의사님
+                       		 ${dr.userName } 의사님
                     </div>
                      
                     </div>
                     <div class="text-left py-2">
-                        beomseok@naver.com
+                        ${dr.email }
                     </div>
-                    <button type="button" id="edit_profile" class="btn btn-blackcontent w-25 p-1" style="font-size:18px; background-color: #0071ce; color: whitesmoke;">
-                       		 프로필 수정
+                    <button type="button" onclick="checkDrProfile();" id="edit_profile" class="btn btn-blackcontent w-25 p-1" style="font-size:18px; background-color: #0071ce; color: whitesmoke;">
+                       		 프로필 확인
 					</button>
 				
 					<button type="button" onclick="editHp();" id="edit_hospital" class="btn btn-blackcontent w-25 p-1" style="font-size:18px; background-color: #0071ce; color: whitesmoke">
@@ -79,7 +86,7 @@
 
 
 			<div class="row mt-5">
-				<button class="btn w-100 py-3 pl-5 text-left" id="my_reviews" style="border: 2px solid #9b9b9b; font-size: 21px;">
+				<button class="btn w-100 py-3 pl-5 text-left" id="my_reviews" style="border: 2px solid #9b9b9b; font-size: 21px;" onclick="recommand();">
                     	건강 보조 식품 추천하기
                 </button>
 			</div>
@@ -91,7 +98,7 @@
 			</div>
 
 			<div class="row mt-3">
-				<button class="btn w-100 py-3 pl-5 text-left" id="" style="border: 2px solid #9b9b9b; font-size: 21px;">
+				<button class="btn w-100 py-3 pl-5 text-left" id="" onclick="location.href='drHpQna.do'" style="border: 2px solid #9b9b9b; font-size: 21px;">
                   	  병원 QnA 답변글
                 </button>
 			</div>
@@ -176,7 +183,17 @@
 			}
 
 		})
+		
+		function recommand(){
+			location.href="recommandView.do?categoryNo=7";
+		}
 
+		function checkDrProfile(){
+			location.href="checkDrProfile.do";
+		}
+		
+		
+		
 	</script>
 
 	<%@ include file="../static/footer.jsp"%>

@@ -8,11 +8,15 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.dmypage.model.vo.DOrderList;
 import com.kh.landocProject.dmypage.model.vo.DOrderQna;
 import com.kh.landocProject.dmypage.model.vo.DPdReview;
 import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
+import com.kh.landocProject.dmypage.model.vo.DrProfile;
+import com.kh.landocProject.hospitalReview.model.vo.HpLike;
+import com.kh.landocProject.member.model.vo.DrClient;
 
 @Repository("dMypageDao")
 public class DmyPageDao {
@@ -153,6 +157,66 @@ public class DmyPageDao {
 		return sqlSessionTemplate.update("dMypage.orderCancelUpdate", order);
 	}
 
+	public String selectDrProfile(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectDrProfile", drNo);
+	}
+
+	public DrProfile selectOneDr(String replyDrNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectOneDr", replyDrNo);
+	}
+
+	public int selectMyDrLikeCount(HpLike hl) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectMyDrLikeCount", hl);
+	}
+
+	public int deleteDrLike(HpLike hl) {
+		
+		return sqlSessionTemplate.delete("dMypage.deleteDrLike", hl);
+	}
+
+	public int insertDrLike(HpLike hl) {
+		
+		return sqlSessionTemplate.insert("dMypage.insertDrLike", hl);
+	}
+
+	public int selectDrLikeCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectDrLikeCount", drNo);
+	}
+
+	public int selectLikeCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectLikeCount", drNo);
+	}
+
+	public int selectReplyCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectReplyCount",drNo);
+	}
+
+	public int selectChosenReplyCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectChosenReplyCount", drNo);
+	}
+
+	public ArrayList<DrProfile> selectCommentList(String drNo) {
+		
+		/*
+		 * int offset = (commentPage.getCurrentPage() -1) * commentPage.getBoardLimit();
+		 * RowBounds rowBounds = new RowBounds(offset, commentPage.getBoardLimit());
+		 */
+		
+		return (ArrayList)sqlSessionTemplate.selectList("dMypage.selectCommentList", drNo);
+	}
+
+	public int selectCommentCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.selectCommentCount", drNo);
+	}
+
 	public String selectPdReviewPhoto(DPdReview review) {
 		
 		return sqlSessionTemplate.selectOne("dMypage.selectPdReviewPhoto",review);
@@ -166,6 +230,22 @@ public class DmyPageDao {
 	public int getListCountSearchOrderList2(HashMap<String, Object> search) {
 		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectOne("dMypage.getListCountSearchOrderList2",search);
+
+	}
+
+	public int insertDrComment(HashMap<String, String> map) {
+		
+		return sqlSessionTemplate.insert("dMypage.insertDrComment", map);
+	}
+
+	public ArrayList<DrProfile> getAjaxCommentList(String drNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("dMypage.getAjaxCommentList", drNo);
+	}
+
+	public int getCommentCount(String drNo) {
+		
+		return sqlSessionTemplate.selectOne("dMypage.getCommentCount",drNo);
 	}
 	
 	

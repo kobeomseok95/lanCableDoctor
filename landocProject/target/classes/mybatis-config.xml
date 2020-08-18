@@ -53,8 +53,11 @@
 		<typeAlias type="com.kh.landocProject.payment.model.vo.Payment" alias="Payment" />
 		<typeAlias type="com.kh.landocProject.payment.model.vo.OrderMg" alias="OrderMg" />
 		<typeAlias type="com.kh.landocProject.payment.model.vo.OrderProduct" alias="OrderProduct" />
+		<typeAlias type="com.kh.landocProject.product.model.vo.ProductRecommand" alias="ProductRecommand" />
+		<typeAlias type="com.kh.landocProject.product.model.vo.DrComment" alias="DrComment" />
+		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrProfile" alias="DrProfile" />
 		<typeAlias type="com.kh.landocProject.payment.model.vo.Cart" alias="Cart" />
-
+		<typeAlias type="com.kh.landocProject.admin.sales.model.vo.AdminSales" alias="AdminSales" />
 	</typeAliases>
 
 
@@ -75,5 +78,6 @@
      	<mapper resource="/mappers/dMypage-mapper.xml" />
      	<mapper resource="/mappers/mainHpQna-mapper.xml" />
      	<mapper resource="/mappers/pay-mapper.xml" />
+     	<mapper resource="/mappers/adminSales-mapper.xml" />
 	</mappers>
 </configuration>

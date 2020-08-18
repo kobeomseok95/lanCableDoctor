@@ -2,6 +2,7 @@ package com.kh.landocProject.payment.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,11 +95,23 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
+
 	public int deleteCart(int cartNo){
 		
 		return payDao.deleteCart(cartNo);
 	}
 
 
+	public int selectOrderNo() {
+		
+		return payDao.selectOrderNo();
+	}
+
+
+	@Override
+	public int cartPaySuccess(List<HashMap<String, Object>> list) {
+	
+		return payDao.cartPaySuccess(list);
+	}
 
 }

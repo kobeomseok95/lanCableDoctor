@@ -24,10 +24,10 @@
 	<resultMap type="PayProduct" id="payProduct">
 		<id property="pdNo" column="PD_NO"/>
 		<result property="pdName" column="PD_NAME"/>
-		<result property="OriginPrice" column="ORIGIN_PRICE"/>
+		<result property="originPrice" column="ORIGIN_PRICE"/>
 		<result property="discount" column="DISCOUNT"/>
 		<result property="sellPrice" column="SELL_PRICE"/>
-		<result property="thumbnail" column="THUMBNAIL"/>
+		<!-- <result property="thumbnail" column="THUMBNAIL"/> -->
 		<result property="ctCode" column="CT_CODE"/>
 		<result property="pdpRename" column="PDP_RENAME"/>
 	</resultMap>
@@ -44,6 +44,14 @@
 		<result property="discount" column="DISCOUNT"/>
 		<result property="sellPrice" column="SELL_PRICE"/>
 	</resultMap>
+	
+	<resultMap type="OrderMg" id="orderResultSet">
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="cNo" column="C_NO"/>
+		<result property="drNo" column="DR_NO"/>
+		<result property="oCode" column="O_CODE"/>
+	</resultMap>
+	
 	<!-- 로그인 정보 -->
 	<select id="loginClient3" parameterType="MemberPay" resultMap="ClientResultMap">
 		SELECT C_NO, C_NAME, C_POINT, C_ADDRESS, C_POSTCODE, C_EMAIL, C_PHONE
@@ -58,7 +66,7 @@
 	</select>
 	<!-- 선택한 상품정보 -->
 	<select id="selectPro" parameterType="PayProduct" resultMap="payProduct">
-		SELECT P.PD_NO, PD_NAME, ORIGIN_PRICE, DISCOUNT, SELL_PRICE, THUMBNAIL, CT_CODE, PDP_RENAME
+		SELECT P.PD_NO, PD_NAME, ORIGIN_PRICE, DISCOUNT, SELL_PRICE, CT_CODE, PDP_RENAME
 		FROM PRODUCT P
 		LEFT JOIN PRODUCTPHOTO PP ON(P.PD_NO = PP.PD_NO) 
 		WHERE P.PD_NO = #{pdNo}
@@ -121,8 +129,25 @@
 		UPDATE CART SET CART_COUNT=#{count}+#{cartCount} WHERE C_NO=#{cNo} AND PD_NO=#{pdNo}
 	</update>
 	
+
 	<delete id="deleteCart" parameterType="_int">
 		DELETE FROM CART WHERE CART_NO=#{cartNo}
 	</delete>
+
+	<select id="selectPayOrderNo" resultType="_int">
+		SELECT ORDER_NO
+		FROM(SELECT ORDER_NO
+				FROM ORDERMG
+				ORDER BY ROWNUM DESC)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<insert id="cartPaySuccess" parameterType="hashMap">
+		<foreach collection="list" item="cp" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+			INTO ORDERPRODUCT
+			VALUES(#{cp.pdNo}, #{cp.orderNo}, #{cp.opCount})
+		</foreach>
+	</insert>
+
 	
 </mapper>

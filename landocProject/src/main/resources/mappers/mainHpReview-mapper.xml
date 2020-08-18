@@ -296,9 +296,6 @@
   </insert>
   
   <select id="selectMyHpLikeCount" parameterType="hpLike" resultType="_int">
-  	
-  	
-  	
   	SELECT COUNT(*)
   	FROM HPLIKE
   	<if test="cNo.equals('none')">

@@ -5,7 +5,7 @@
 <html lang="ko">
 <meta charset="UTF-8">
 <head>
-    <title>productDetail</title>
+    <title>productInsert</title>
     <script src= 'http://code.jquery.com/jquery-latest.js'></script>
     <style>
       /*오른쪽 영역부분*/
@@ -14,14 +14,16 @@
         
 
         /*오른쪽 영역 table*/
-        #contentTb{margin: 0 auto; margin-top: 2%; width: 100%; text-align:center; border: 2px solid #bbb; border-collapse: collapse;}
+        #contentTb{margin: 0 auto; margin-top: 2%; width: 80%; text-align:center; border: 2px solid #bbb; border-collapse: collapse;}
         #contentTb tr{line-height: 40px;}
         #contentTb th{border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
-        #contentTb td{width: auto; border: 1px solid #bbb; font-size:14px;}
+        #contentTb td{width: auto; border: 1px solid #bbb; font-size:14px; text-align: center;}
         #contentTb button{height: 35px; width: 55%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
         #contentTb button:hover{background-color: #007ee5; color: white;}
+      #contentTb input{width:95%; border:none;}
       
-      #contentTb select{width:33%; height:40px; font-size:18px;}
+      /* #categoryCode{width:98%; height:40px; font-size:18px;margin:0} 이거 한사람 누구야?*/
+      #volumn, #categoryCode {width:30%; height:25px; font-size:15px;}
       #contentTb input[type=file]{height:50px;}
 
         /* textarea */
@@ -41,104 +43,182 @@
 
     <!--여기서 부터 왼쪽 영역 contentArea-->
     <div id="contentArea">
-        <h3>상품 정보 수정</h3>
+        <h3>신규 상품 추가</h3>
 
         <!--테이블 부분-->
-        <form id="createProduct" action="#" method="post">
-            <table id="contentTb">
-                <tr>
-                    <th class="firstLine cate">상품 카테고리</th>
-                    <td>
-                        <select>
-                            <option>--------</option>
-                            <option>종합건강</option>
-                            <option>눈건강</option>
-                            <option>장건강</option>
-                            <option>피로개선</option>
-                            <option>피부건강</option>
-                            <option>뼈 & 관절건강</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="firstLine">상품명</th>
-                    <td>
-                        <input type="text" name="productName" />
-                    </td>
-                </tr>
-                <tr>
-                    <th class="firstLine">상품수량</th>
-                    <td>
-                        <input type="number" name="productQunatity" />
-                    </td>
-                </tr>
-                <tr>
-                    <th class="firstLine">상품 부연 설명</th>
-                    <td>
-                        <input type="text" name="productExplain" />
-                    </td>
-                </tr>
-                <tr>
-                    <th class="firstLine">상품 정가</th>
-                    <td>
-                        <input type="number" name="productPrice" style="width:15%"/> 원
-                    </td>
-                </tr>
-                <tr>
-                    <th class="firstLine">용량</th>
-                    <td>
-                        <input type="number" name="productCapacity1" style="width:15%"/>
-                        <select>
-                            <option>mg</option>
-                            <option>IU</option>
-                            <option>μg</option>
-                            <option>ug</option>
-                            <option>mcg</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="firstLine">섭취방법</th>
-                    <td>
-                        <input type="text" name="productHowToEat" />
-                    </td>
-                </tr>
-                <tr>
-                    <th class="firstLine">썸네일 이미지</th>
-                    <td>
-                        <input type="file" name="productThumbnail" />
-                    </td>
-                </tr>
-                <tr>
-                    <th class="firstLine">상세 설명 이미지</th>
-                    <td>
-                        <input type="file" name="productDetailImage" />
-                    </td>
-                </tr>
-            </table>
-            
-             <!--수정하기 뒤로 가기 버튼영역-->
-            <div id="btnArea">
-                <button type="sumbit" onclick="goModify();">수정하기</button>
-                <button type="button" onclick="goBack();">뒤로가기</button>
-            </div>
+           <table id="contentTb">
+               <tr>
+                   <th class="firstLine cate">상품 카테고리</th>
+                   <td>
+                   		<input id="pdNo" type="hidden" value="${product.pdNo }" />
+                        ${product.categoryName }
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">상품명</th>
+                   <td>
+                       	${product.pdName }
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">상품 부연 설명</th>
+                   <td>
+                       	${product.subExplicate }
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">정가</th>
+                   <td>
+					   ${product.originPrice }
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">할인율</th>
+                   <td>
+                       ${product.discountPer }
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">판매가격</th>
+                   <td>
+                        ${product.sellPrice }
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">용량</th>
+                   <td>
+                        ${volume }
+                   </td>
+               </tr>
+               <tr>
+               	<th class="firstLine">용량 단위</th>
+	               	<td>
+	                	${volumeUnit }
+	               	</td>
+               </tr>
+               <tr>
+                   <th class="firstLine">용량 부연 설명</th>
+                   <td>
+                   		${volumeEx }
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">섭취방법</th>
+                   <td>
+                   		${product.drugWay }
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">유통기한</th>
+                   <td>
+                       ${product.shelflife }
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">썸네일 이미지</th>
+                   <td>
+	                   	<c:set var="thumbnail" value="/projectFiles/${thumbnail }" />
+	               		<img src="${thumbnail }" />
+                   </td>
+               </tr>
+               <tr>
+                   <th class="firstLine">상세 설명 이미지</th>
+                   <td>
+	                   	<c:set var="detail" value="/projectFiles/${detail }" />
+	               		<img src="${detail }" />
+                   </td>
+               </tr>
+           </table>
+           <div id="btnArea">
+               <button type="button" class="updateProduct">수정하기</button>
+               <button type="button" onclick="location.href='javascript:history.back();'">뒤로가기</button>
+           </div>
                
-        </form>
         <br><br><br><br><br><br>
     </div>
 
 
      <script>
-     
-        // 테이블 한 줄 hover효과 주는 function
-        $("#contentTb td").mouseenter(function () {
-            $(this).parent().css({ "background": "lightgrey" });
-        }).mouseout(function () {
-            $(this).parent().css({ "background": "white" });
-        });
+     	$(function(){
+	        // 테이블 한 줄 hover효과 주는 function
+	        $("#contentTb td").mouseenter(function () {
+	            $(this).parent().css({ "background": "lightgrey" });
+	        }).mouseout(function () {
+	            $(this).parent().css({ "background": "white" });
+	        });
+			
+	        $("#discountPer").on('change', function(){
+	        	var op = $("#originPrice").val();
+	        	var dp = $(this).val();
+	        	
+	        	$("#sellPrice").val( parseInt(Number( (100 - dp) / 100 * op )) );
+	        	
+	        	if( Number($("#sellPrice").val()) < 0 )
+	        		$("#sellPrice").val('0');
+	        });
+	        $("#originPrice").on('change', function(){
+	        	var op = $(this).val();
+	        	var dp = $("#discountPer").val();
+	        	
+	        	$("#sellPrice").val(Number( (100 - dp) / 100 * op ));
+	        	
+	        	if( Number($("#sellPrice").val()) < 0 )
+	        		$("#sellPrice").val('0');
+	        });
 
+			$("form").on('submit', function(event){
+				event.preventDefault();
+				
+				var pdName = $("#pdName").val();
+	        	var originPrice = $("#originPrice").val();
+	        	var sellPrice = $("#sellPrice").val();
+	        	var thumbnail = $("#thumbnail").val();
+	        	var detail = $("#detail").val();
+	        	
+	        	if(pdName.length <= 3){
+	        		alert('상품명은 최소 세 글자 이상이어야 합니다.');
+	        		return false;
+	        	}
+	        	
+	        	if(originPrice === "" || sellPrice === ""){
+	        		alert('상품 가격을 입력해주셔야 합니다.');
+	        		return false;
+	        	}
+	        	
+	        	if(thumbnail === "" || detail === ""){
+	        		alert('썸네일 및 상세설명 사진을 올려주셔야 합니다.');
+	        		return false;
+	        	}
+	        	
+	        	return true;
+			});
+			
+			$('.updateProduct').on('click', function(){
+        		var pdNo = $("#pdNo").val();
+        		
+        		location.href='updateProductView.do?pdNo=' + pdNo;
+        	});
+			
+     	});//end of jquery
+     	
+     	 function fileCheck(obj){
+     		pathpoint = obj.value.lastIndexOf('.');
+     		filepoint = obj.value.substring(pathpoint + 1, obj.length);
+     		filetype = filepoint.toLowerCase();
+     		
+     		if( filetype == 'jpg' || filetype == 'gif' || filetype == 'png' || 
+     				filetype == 'jpeg' || filetype == 'bmp' ){
+     			//정상
+     		}
+     		else{
+     			alert('이미지 파일만 선택할 수 있습니다.');
+     			parentObj = obj.parentNode;
+     			node = parentObj.replaceChild(obj.cloneNode(true), obj);
+     			return false;
+     		}
+     	}
     </script>
-
+	
 
 </body>
 
