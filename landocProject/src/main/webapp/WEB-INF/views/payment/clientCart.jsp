@@ -43,6 +43,61 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
    <![endif]-->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<style type="text/css">
+	li{display: inline-block; float: left;}
+	.countBtn{background-color: #0071ce;color:white;  width: 30px; height: 30px;border: 1px #d9d9d9 solid;}
+	
+	input[type="checkbox"]{	
+	display: none;}
+	
+	input[type="checkbox"] + label{
+	display: inline-block;  
+    cursor: pointer;  
+    position: relative;  
+    padding-left: 40px;  
+    margin-right: 15px;  
+    font-size: 18px;
+
+
+	}
+	
+	
+	input[type="checkbox"] + label:before{
+				content: "";  
+    display: inline-block;  
+  
+    width: 24px;  
+    height: 24px;  
+  
+    margin-right: 10px;  
+    position: absolute;  
+    left: 0;  
+    bottom: 1px;  
+    background-color: #ccc;  
+    border-radius: 2px; 
+    box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);  
+
+
+			}
+			
+	input[type=checkbox]:checked + label:before { 
+
+    content: "\2713";  /* 체크모양 */
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
+    font-size: 18px; 
+    font-weight:800; 
+    color: #fff;  
+    background:#2f87c1;
+    text-align: center;  
+    line-height: 18px;  
+
+} 
+
+
+
+
+
+</style>
 </head>
 
 <body>
@@ -54,12 +109,16 @@
 	<%@ include file="../static/header.jsp"%>
     <!-- cart -->
     <div class="container">
-        <h3 class="text-center">장바구니</h3>
+        <h3 class="text-left m-5 p-3" style="color:#0071ce"><img src="/projectFiles/cart.png" width="60px" height="70px;">회원님의 장바구니</h3>
 
         <div class="row">
             <div class="allCheck">
-                <input type="checkbox" id="allProduct" class="allProduct">
-                <label for="allProduct" class="allProduct mx-3">전체선택</label>
+           
+            	 <input type="checkbox" id="allProduct" class="allProduct">
+            	 <label for="allProduct" class="allProduct mx-3" style="color:#2771be">전체선택</label>
+            
+                
+               
             </div>
         </div>
 
@@ -67,7 +126,7 @@
             <!-- 장바구니 내의 상품들 -->
            
             <div class="col-lg-8">
-                <table class="table mb-0">
+                <table class="table mb-0" class="table">
                     <tr style="display: none;">
                         <th style="width: 10%"></th>
                         <th style="width: 15%"></th>
@@ -80,11 +139,15 @@
                     
                     <tr class="tr">
                     
-                        <td><input type="checkbox" class="product-checkbox" name="cartCheck" id="cartCheck${status.index}" ></td>
-                        <td><img src="/projectFiles/${c.renameFile}" /></td>
+                        <td><input type="checkbox" class="product-checkbox" name="cartCheck" id="cartCheck${status.index}" >
+                        <label for="cartCheck${status.index}"></label></td>
+                        <td><a href="productDetail.do?pdNo=${c.pdNo}"><img src="/projectFiles/${c.renameFile}" width=110px height=110px/></a></td>
                         <td class="tdPrice">
-                            <h5>${c.pdName}</h5>
-                            <h5 id="originPrice${status.index}" class="originPrice">${c.originPrice}</h5>
+                            <span style="font-size: 16px; color: #676767">${c.pdName}</span>
+                            
+	                            <h6 id="originPrice${status.index}" class="originPrice" style="text-decoration: line-through; text-decoration-color:#676767; color: #676767">${c.originPrice}</h6>
+	                            <strong id="sellPrice2${status.index}" style="font-size: 23px; color: #2771be">${c.sellPrice}</strong>
+                          
                             <input type="hidden" id="renameFile${status.index}" name="renameFile" class="renameFile" value="${c.renameFile}">
                             <input type="hidden" id="originPrice2${status.index}" name="originPrice" class="originPrice" value="${c.originPrice}">
                             <input type="hidden" id="discount${status.index}" name="discount" class="discount" value="${c.discount}">
@@ -94,39 +157,52 @@
                             <input type="hidden" id="pdName${status.index}" name="pdName" class="pdName" value="${c.pdName}">
                         </td>
                         <td class="tdCount">
-	                        <button style="background-color: #4d7ca2c2;color:white;" type="button" onclick="minusCount(${status.index})">-</button>
-	                        <input type="text" style="width:50px;" class="count" name="count" id="count${status.index}" value="${c.cartCount}">
-	                        <button type="button" onclick="plusCount(${status.index})">+</button>
+                        		
+                        
+                        	<ul style="list-style: none;">
+	                        <li><button class="countBtn"  type="button" onclick="minusCount(${status.index})">-</button></li>
+	                        <li><input type="text" style="width:50px;height:30px;text-align:center;color:#676767;border: 1px #d9d9d9 solid;" class="count" name="count" id="count${status.index}" value="${c.cartCount}"></li>
+	                        <li><button class="countBtn" type="button" onclick="plusCount(${status.index})">+</button></li>
+	                        </ul>
                         </td>
-                        <td><button class="btn btn-sm " type="button" style="background-color: #4d7ca2c2;color:white;">삭제하기</button></td>
+                        <td><button class="btn btn-sm " type="button" style="background-color: #d9d9d9;color:white;" onclick="deleteCart(${c.cartNo});">삭제</button></td>
                       
                     </tr>
                     </c:forEach>
+                    <script>
+                    	
+                    	function deleteCart(cartNo){
+                    		var flag = confirm("해당상품을 삭제 하시겠습니까?");
+                    		if(flag){
+                    			location.href='deleteCart.do?cartNo='+cartNo;
+                    		}
+                    	}
+                    </script>
                    
                 </table>
             </div>
             <!-- 결제 -->
-            <div class="col-lg-4">
-                <div class="amountArea">
+            <div class="col-lg-4" >
+                <div class="amountArea" style="position: sticky; top: 50px;">
                     <ul class="list-group">
                         <li class="list-group-item border-0">
-                            <span>상품 주문 금액</span>
-                            <span style="float: right;" id="allPrice">0원</span>
+                            <span style="color: #676767">상품 주문 금액</span>
+                            <span style="float: right; color: #676767" id="allPrice">0원</span>
                         </li>
                         <li class="list-group-item border-0">
-                            <span>총 할인 금액</span>
-                            <span style="float: right;" id="allDiscount">0원</span>
+                            <span style="color: #676767">총 할인 금액</span>
+                            <span style="float: right; color: #676767" id="allDiscount">0원</span>
                         </li>
                         <li class="list-group-item border-0">
-                            <span>총 결제 금액</span>
-                            <span style="float: right;" id="payPrice">0원</span>
+                            <span style="color:#2771be">총 결제 금액</span>
+                            <span style="float: right; color:#2771be" id="payPrice">0원</span>
                         </li>
                     </ul>
                 </div>
                 <br>
-                <div class="text-center">
-                    <button class="btn btn-lg" type="button" onclick="selectOrder();">선택주문</button>
-                    <button class="btn btn-lg" type="submit">전체주문</button>
+                <div class="text-center"style="position: sticky; top: 250px;">
+                    <button class="btn-lg mb-2" style="width:80%; background-color: white; color:#676767;border: 1px #d9d9d9 solid; border-radius: 0.1px;" type="button" onclick="selectOrder();">선택주문</button>
+                    <button class="btn-lg" style="width:80%;border: 1px #d9d9d9 solid; border-radius: 0.1px;" type="submit">전체주문</button>
                 </div>
                 </form>
             </div>  
@@ -270,10 +346,15 @@
     		
     		/* 상품금액 정보*/
     		for(var i=0;i<listOriginPrice.length;i++){
-	    		var originPrice=listOriginPrice[i]
+	    		var originPrice = listOriginPrice[i];
+	    		var sellPrice2 = listSellPrice[i];
 	    		var originPriceComma = addComma(originPrice);
+	    		var sellPriceComma2 = addComma(sellPrice2);
 	    		$("#originPrice"+i).html(originPriceComma+"원");
+	    		$("#sellPrice2"+i).html(sellPriceComma2+"원");
     		}
+    		
+    		
     		
     	
     		

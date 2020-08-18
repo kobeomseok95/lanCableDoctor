@@ -57,9 +57,16 @@
 			<div class="row">
 				<div class="col-2 d-flex align-items-center"
 					style="border: 2px solid #9b9b9b; height: 131px;">
+					<c:if test="${loginClient.proRename eq null}">
 					<img class="img-fluid" style="width: 100%; height: auto;"
 						alt="Responsive image"
 						src="/projectFiles/profile.png">
+					</c:if>
+					<c:if test="${loginClient.proRename ne null}">
+					<img class="img-fluid" style="width: 100%; height: auto;"
+						alt="Responsive image"
+						src="/projectFiles/${loginCilent.proRename}">
+					</c:if>
 				</div>
 				<div class="col-8 pl-5 text-left">
 					<div class="d-flex align-items-center">

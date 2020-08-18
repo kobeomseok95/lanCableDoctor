@@ -66,13 +66,13 @@ public class AdminProductServiceImpl implements AdminProductService{
 	}
 
 	@Override
-	public int getAdminQnaCount() {
-		return adminProductDao.getAdminQnaCount();
+	public int getAdminQnaCount(HashMap<String, Object> param) {
+		return adminProductDao.getAdminQnaCount(param);
 	}
 
 	@Override
-	public List<ProductQna> getAdminQnas(PageInfo pageInfo) {
-		return adminProductDao.getAdminQnas(pageInfo);
+	public List<ProductQna> getAdminQnas(HashMap<String, Object> param, PageInfo pageInfo) {
+		return adminProductDao.getAdminQnas(param, pageInfo);
 	}
 
 	@Override
@@ -88,5 +88,15 @@ public class AdminProductServiceImpl implements AdminProductService{
 	@Override
 	public int deleteQnA(int pdqNo) {
 		return adminProductDao.deleteQnA(pdqNo);
+	}
+
+	@Override
+	public int getAdminQnaSearchCount(HashMap<String, Object> param) {
+		return adminProductDao.getAdminQnaSearchCount(param);
+	}
+
+	@Override
+	public List<ProductQna> getAdminSearchQnas(PageInfo pageInfo, HashMap<String, Object> param) {
+		return adminProductDao.getAdminSearchQnas(pageInfo, param);
 	}
 }

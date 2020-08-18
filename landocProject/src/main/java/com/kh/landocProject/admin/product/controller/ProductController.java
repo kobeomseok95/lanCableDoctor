@@ -247,14 +247,52 @@ public class ProductController {
 	@RequestMapping(value="productQnaManage.do", method=RequestMethod.GET)
 	public ModelAndView productQnaManage(ModelAndView mv,
 																@RequestParam int boardType,
-																@RequestParam int pageNo) {
-		int listCount = adminProductImpl.getAdminQnaCount();
+																@RequestParam int pageNo,
+																@RequestParam(required=false) String showNoAnswer) {
+		HashMap<String, Object> param = new HashMap<>();
+		if(showNoAnswer != null && showNoAnswer.equals("y")) {
+			param.put("showNoAnswer", showNoAnswer);
+		}
+		else {
+			param.put("showNoAnswer", "n");
+		}
+		int listCount = adminProductImpl.getAdminQnaCount(param);
 		PageInfo pageInfo = Pagination.getPageInfo(pageNo, listCount);
-		List<ProductQna> qnas = adminProductImpl.getAdminQnas(pageInfo);
+		List<ProductQna> qnas = adminProductImpl.getAdminQnas(param, pageInfo);
 		
+		System.out.println("*********Test line 263*********");
+		System.out.println(pageInfo);
+		
+		mv.addObject("showNoAnswer", showNoAnswer);
 		mv.addObject("page", pageInfo);
 		mv.addObject("qnas", qnas);
-		mv.addObject("boardType", 1);
+		mv.addObject("boardType", boardType);
+		mv.setViewName("admin/productQna/productQnaManage");
+		return mv;
+	}
+	
+	@RequestMapping(value="productQnaSearch.do", method=RequestMethod.GET)
+	public ModelAndView productQnaSearch(ModelAndView mv,
+																@RequestParam int boardType,
+																@RequestParam int pageNo,
+																@RequestParam int condition,
+																@RequestParam String keyword,
+																@RequestParam(required=false) String showNoAnswer) {
+		
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("condition", condition);
+		param.put("keyword", keyword);
+		if(showNoAnswer != null && showNoAnswer.equals("y")) {
+			param.put("showNoAnswer", showNoAnswer);
+		}
+		int listCount = adminProductImpl.getAdminQnaSearchCount(param);
+		PageInfo pageInfo = Pagination.getPageInfo(pageNo, listCount);
+		List<ProductQna> qnas = adminProductImpl.getAdminSearchQnas(pageInfo, param);
+		
+		mv.addObject("param", param);
+		mv.addObject("boardType", boardType);
+		mv.addObject("pageNo", pageNo);
+		mv.addObject("qnas", qnas);
 		mv.setViewName("admin/productQna/productQnaManage");
 		return mv;
 	}

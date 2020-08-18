@@ -39,6 +39,9 @@ public interface PaymentService {
 
 	int cartUpdate(HashMap<String, Object> cart);
 
+
+	int deleteCart(int cartNo);
+
 	int selectOrderNo();
 
 	int cartPaySuccess(List<HashMap<String, Object>> list);
@@ -46,5 +49,8 @@ public interface PaymentService {
 	int deleteC(List<HashMap<String, Object>> list);
 
 	int deleteD(List<HashMap<String, Object>> list);
+
+	ArrayList<Cart> selectDrCartList(String drNo);
+
 
 }
