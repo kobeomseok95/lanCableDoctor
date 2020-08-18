@@ -30,9 +30,9 @@ public interface AdminProductService {
 
 	int updateProductPhoto(List<ProductPhoto> photos);
 
-	int getAdminQnaCount();
+	int getAdminQnaCount(HashMap<String, Object> param);
 
-	List<ProductQna> getAdminQnas(PageInfo pageInfo);
+	List<ProductQna> getAdminQnas(HashMap<String, Object> param, PageInfo pageInfo);
 
 	ProductQna getAdminQna(int pdqNo);
 

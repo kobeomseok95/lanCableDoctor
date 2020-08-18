@@ -39,8 +39,13 @@ public interface PaymentService {
 
 	int cartUpdate(HashMap<String, Object> cart);
 
+
+	int deleteCart(int cartNo);
+
 	int selectOrderNo();
 
 	int cartPaySuccess(List<HashMap<String, Object>> list);
+
+	ArrayList<Cart> selectDrCartList(String drNo);
 
 }
