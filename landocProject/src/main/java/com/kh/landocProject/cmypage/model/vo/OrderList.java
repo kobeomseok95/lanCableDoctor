@@ -17,7 +17,7 @@ public class OrderList implements Serializable {
 	private int pdNo;
 	private int opCount;
 	private String pdName;
-	private String tumbnail;
+	private String thumbnail;
 	private int oCode;
 	private String oName;
 	private String discountPrice; // 원가-판매가+사용포인트(총할인금액)
@@ -36,24 +36,10 @@ public class OrderList implements Serializable {
 		super();
 	}
 
-	public OrderList(int orderNo, Date orderDate, String amountPrice, String cNo, int pdNo, String pdName,
-			String tumbnail, int oCode, String oName) {
-		this.orderNo = orderNo;
-		this.orderDate = orderDate;
-		this.amountPrice = amountPrice;
-		this.cNo = cNo;
-		this.pdNo = pdNo;
-		this.pdName = pdName;
-		this.tumbnail = tumbnail;
-		this.oCode = oCode;
-		this.oName = oName;
-	}
-
 	public OrderList(int orderNo, Date orderDate, String amountPrice, String paymentWay, int usePoint, String cNo,
-			int pdNo, int opCount, String pdName, String tumbnail, int oCode, String oName, String discountPrice,
+			int pdNo, int opCount, String pdName, String thumbnail, int oCode, String oName, String discountPrice,
 			String originPrice, String cName, int cPostCode, String cAddress, String cPhone, String countMultiple,
 			String date, Date calendarDate1, Date calendarDate2) {
-		super();
 		this.orderNo = orderNo;
 		this.orderDate = orderDate;
 		this.amountPrice = amountPrice;
@@ -63,7 +49,7 @@ public class OrderList implements Serializable {
 		this.pdNo = pdNo;
 		this.opCount = opCount;
 		this.pdName = pdName;
-		this.tumbnail = tumbnail;
+		this.thumbnail = thumbnail;
 		this.oCode = oCode;
 		this.oName = oName;
 		this.discountPrice = discountPrice;
@@ -150,12 +136,12 @@ public class OrderList implements Serializable {
 		this.pdName = pdName;
 	}
 
-	public String getTumbnail() {
-		return tumbnail;
+	public String getThumbnail() {
+		return thumbnail;
 	}
 
-	public void setTumbnail(String tumbnail) {
-		this.tumbnail = tumbnail;
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	public int getoCode() {
@@ -262,11 +248,13 @@ public class OrderList implements Serializable {
 	public String toString() {
 		return "OrderList [orderNo=" + orderNo + ", orderDate=" + orderDate + ", amountPrice=" + amountPrice
 				+ ", paymentWay=" + paymentWay + ", usePoint=" + usePoint + ", cNo=" + cNo + ", pdNo=" + pdNo
-				+ ", opCount=" + opCount + ", pdName=" + pdName + ", tumbnail=" + tumbnail + ", oCode=" + oCode
+				+ ", opCount=" + opCount + ", pdName=" + pdName + ", thumbnail=" + thumbnail + ", oCode=" + oCode
 				+ ", oName=" + oName + ", discountPrice=" + discountPrice + ", originPrice=" + originPrice + ", cName="
 				+ cName + ", cPostCode=" + cPostCode + ", cAddress=" + cAddress + ", cPhone=" + cPhone
 				+ ", countMultiple=" + countMultiple + ", date=" + date + ", calendarDate1=" + calendarDate1
 				+ ", calendarDate2=" + calendarDate2 + "]";
 	}
+
+	
 
 }

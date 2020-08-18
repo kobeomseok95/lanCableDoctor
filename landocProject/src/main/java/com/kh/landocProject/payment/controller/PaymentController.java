@@ -111,6 +111,17 @@ public class PaymentController {
 		
 	}
 	
+	@RequestMapping("deleteCart.do")
+	public String deleteCart(int cartNo) throws PaymentException{
+		
+		int result = payService.deleteCart(cartNo);
+		if(result>0){
+			return "redirect:clientCart.do";
+		}else {
+			throw new PaymentException("장바구니 삭제 실패");
+		}	
+	}
+	
 	
 	@RequestMapping("selectOrder.do")
 	public ModelAndView selectOrder(ModelAndView mv,

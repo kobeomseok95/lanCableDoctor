@@ -84,6 +84,11 @@ public class PaymentDao {
 		return sqlSessionTemplate.update("payMapper.cartUpdate",cart);
 	}
 
+	public int deleteCart(int cartNo) {
+		
+		return sqlSessionTemplate.delete("payMapper.deleteCart",cartNo);
+	}
+
 
 
 }

@@ -121,4 +121,8 @@
 		UPDATE CART SET CART_COUNT=#{count}+#{cartCount} WHERE C_NO=#{cNo} AND PD_NO=#{pdNo}
 	</update>
 	
+	<delete id="deleteCart" parameterType="_int">
+		DELETE FROM CART WHERE CART_NO=#{cartNo}
+	</delete>
+	
 </mapper>

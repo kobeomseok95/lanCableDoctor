@@ -38,6 +38,8 @@ public interface PaymentService {
 
 	int cartUpdate(HashMap<String, Object> cart);
 
+	int deleteCart(int cartNo);
+
 
 
 

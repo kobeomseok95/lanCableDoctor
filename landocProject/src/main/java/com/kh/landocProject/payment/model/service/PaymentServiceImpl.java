@@ -93,6 +93,12 @@ public class PaymentServiceImpl implements PaymentService{
 		return payDao.cartUpdate(cart);
 	}
 
+	@Override
+	public int deleteCart(int cartNo){
+		
+		return payDao.deleteCart(cartNo);
+	}
+
 
 
 }
