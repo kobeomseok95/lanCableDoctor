@@ -2,7 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Header section -->
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+	.badge{
+		background-color: red;
+		text-align: center;
+		margin-left : 10px;
+	}
+</style>
+</head>
 
+<body>
 <header class="header-section clearfix">
 
 	<c:url var="home" value="home.do" />
@@ -41,16 +54,14 @@
 				alert("승인을 받지 않으셨습니다.");
 			}
 		</script>
-		<!-- <li><a href="askDr.do">의사에게 물어봐</a></li>
-		<li><a href="productIndex.do">의사추천 영양제</a></li> -->
 		<div class="header-right" style="padding-top: 0%; padding-bottom: 0%;">
 		<c:choose>
 			<c:when test="${!empty loginClient && empty loginDrClient  && loginClient.cNo ne 'C00' }">
-			<div class="user-panel">
+			<div class="user-panel">	<!-- 일반 회원 로그인 -->
 				<li>
-					<a href="#"><c:out value="${loginClient.nickName }님 환영합니다"/></a>
+					<a href="#"><c:out value="${loginClient.nickName }님 환영합니다"/><span class="badge badge-pill"></span></a>
 					<ul class="sub-menu" style="left: 0px;">
-						<li><a href="clientMypage.do">나의활동</a></li>
+						<li><a href="clientMypage.do">나의활동<span class="badge badge-pill"></span></a></li>
 						<li><a href="mypagePoint.do">나의 포인트</a></li>
 						<li><a href="clientCart.do">장바구니</a></li>
 						<li><a href="modifyClientView.do">계정설정</a></li>
@@ -60,11 +71,11 @@
 			</div>
 			</c:when>
 			<c:when test="${empty loginClient && !empty loginDrClient && loginDrClient.approval eq 'Y'}">
-			<div class="user-panel">
+			<div class="user-panel">	<!-- 의사 회원 로그인 -->
 				<li>
 					<a href="#"><c:out value="${loginDrClient.userName }님 환영합니다"/></a>
 					<ul class="sub-menu" style="left: 0px;">
-						<li><a href="doctorMypage.do">나의활동</a></li>
+						<li><a href="doctorMypage.do">나의활동<span class="badge badge-pill"></span></a></li>
 						<li><a href="drMypagePoint.do">나의 포인트</a></li>
 						<li><a href="clientCart.do">장바구니</a></li>
 						<li><a href="modifyDrClientView.do">계정설정</a></li>
@@ -113,3 +124,32 @@
 	</ul>
 
 </header>
+</body>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+<script>
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
