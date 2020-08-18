@@ -38,15 +38,29 @@ public class PaymentController {
 	@RequestMapping(value="clientCart.do",method=RequestMethod.GET )
 	public ModelAndView clientCart(ModelAndView mv,HttpSession session) throws PaymentException{
 		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
-		ArrayList<Cart> cart = payService.selectCartList(cNo);
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+		if(loginClient != null && loginDrClient ==null) {
+			String cNo =loginClient.getcNo();
+			ArrayList<Cart> cart = payService.selectCartList(cNo);
+			if(cart!=null) {
+				mv.addObject("cart",cart);
+				mv.setViewName("payment/clientCart");
+			}else {
+				throw new PaymentException("장바구니 조회 실패");
+			}
+		}else if(loginDrClient != null && loginClient == null) {
+			String drNo = loginDrClient.getDrNo();
+			ArrayList<Cart> cart = payService.selectDrCartList(drNo);
+			if(cart!=null) {
+				mv.addObject("cart",cart);
+				mv.setViewName("payment/clientCart");
+			}else {
+				throw new PaymentException("장바구니 조회 실패");
+			}
 		
-		if(cart!=null) {
-			mv.addObject("cart",cart);
-			mv.setViewName("payment/clientCart");
-		}else {
-			throw new PaymentException("장바구니 조회 실패");
 		}
+		
+	
 		return mv;
 	}
 	
@@ -54,49 +68,99 @@ public class PaymentController {
 	public ModelAndView cartInsert(HttpServletResponse response,HttpSession session,ModelAndView mv,@RequestParam(value="count")int count,
 			@RequestParam(value="pdNo") Integer pdNo) throws PaymentException, IOException{
 		Client loginClient = (Client)session.getAttribute("loginClient");
-		String cNo =loginClient.getcNo();
-	
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
 		HashMap<String,Object> cart = new HashMap<String, Object>();
-		ArrayList<Cart> list = payService.selectCartList(cNo);
 		int result=0;
 		int update =0;
 		String msg="";
 		boolean flag= false;
-		for(int i=0; i<list.size(); i++){
-			
-			if(list.get(i).getPdNo()==pdNo){
-				cart.put("cartCount", list.get(i).getCartCount());
-				cart.put("count", count);
-				cart.put("pdNo", pdNo);
-				cart.put("cNo", cNo);
-				if(list.get(i).getCartCount()+count>5){
-					 msg="해당 상품 장바구니 수량을 초과하였습니다.(최대 5개)";
-					 mv.addObject("msg",msg);
-					 mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
-			         flag=true;
-			         break;
-				}
 		
-				update = payService.cartUpdate(cart);
+	if(loginClient !=null) {
+		String cNo =loginClient.getcNo();
+		ArrayList<Cart> list = payService.selectCartList(cNo);
+			for(int i=0; i<list.size(); i++){
 				
-				if(update>0){
-					msg= "장바구니에 담겼습니다.";
-					mv.addObject("msg",msg);
-					mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
-			         flag= true;
-			         break;
-				}else{
-					throw new PaymentException("장바구니 담기실패");
+				if(list.get(i).getPdNo()==pdNo){
+				
+					cart.put("cartCount", list.get(i).getCartCount());
+					cart.put("count", count);
+					cart.put("pdNo", pdNo);
+					cart.put("cNo", cNo);
+					cart.put("drNo",null);
+					if(list.get(i).getCartCount()+count>5){
+						 msg="해당 상품 장바구니 수량을 초과하였습니다.(최대 5개)";
+						 mv.addObject("msg",msg);
+						 mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+				         flag=true;
+				         break;
+					}
+			
+					update = payService.cartUpdate(cart);
 					
-				}	
-			} 		 
-		}
+					if(update>0){
+						msg= "장바구니에 담겼습니다.";
+						mv.addObject("msg",msg);
+						mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+				         flag= true;
+				         break;
+					}else{
+						throw new PaymentException("장바구니 담기실패");
+						
+					}	
+				} 		 	
+			}
+	}
+			
+	if(loginDrClient != null) {
+		String drNo=loginDrClient.getDrNo();
+		ArrayList<Cart> drList = payService.selectDrCartList(drNo);
+			for(int i=0; i<drList.size();i++) {
+				if(drList.get(i).getPdNo()==pdNo) {
+					cart.put("cartCount", drList.get(i).getCartCount());
+					cart.put("count", count);
+					cart.put("pdNo", pdNo);
+					cart.put("drNo", drNo);
+					cart.put("cNo", null);
+					if(drList.get(i).getCartCount()+count>5){
+						 msg="해당 상품 장바구니 수량을 초과하였습니다.(최대 5개)";
+						 mv.addObject("msg",msg);
+						 mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+				         flag=true;
+				         break;
+					}
+					
+					update = payService.cartUpdate(cart);
+					if(update>0){
+						msg= "장바구니에 담겼습니다.";
+						mv.addObject("msg",msg);
+						mv.setViewName("redirect:productDetail.do?pdNo="+pdNo);
+				         flag= true;
+				         break;
+					}else{
+						throw new PaymentException("장바구니 담기실패");
+						
+					}	
+				}
+			}
+	}
 		
 		if(flag!= true){
+			if(loginClient !=null) {
+			String cNo =loginClient.getcNo();
 			cart.put("count", count);
 			cart.put("pdNo", pdNo);
 			cart.put("cNo", cNo);
+			cart.put("drNo", null);
 			result = payService.cartInsert(cart);
+			} 
+			if(loginDrClient !=null) {
+				String drNo=loginDrClient.getDrNo();
+				cart.put("count", count);
+				cart.put("pdNo", pdNo);
+				cart.put("cNo", null);
+				cart.put("drNo", drNo);
+				result = payService.cartInsert(cart);
+			}
 			if(result!=0) {
 			msg= "장바구니에 담겼습니다.";
 			mv.addObject("msg",msg);
@@ -109,6 +173,17 @@ public class PaymentController {
 		
 	 return mv;
 		
+	}
+	
+	@RequestMapping("deleteCart.do")
+	public String deleteCart(int cartNo) throws PaymentException{
+		
+		int result = payService.deleteCart(cartNo);
+		if(result>0){
+			return "redirect:clientCart.do";
+		}else {
+			throw new PaymentException("장바구니 삭제 실패");
+		}	
 	}
 	
 	

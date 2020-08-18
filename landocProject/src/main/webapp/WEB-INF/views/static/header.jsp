@@ -66,6 +66,7 @@
 					<ul class="sub-menu" style="left: 0px;">
 						<li><a href="doctorMypage.do">나의활동</a></li>
 						<li><a href="drMypagePoint.do">나의 포인트</a></li>
+						<li><a href="clientCart.do">장바구니</a></li>
 						<li><a href="modifyDrClientView.do">계정설정</a></li>
 						<li><a href="logout.do">로그아웃</a></li>
 					</ul>

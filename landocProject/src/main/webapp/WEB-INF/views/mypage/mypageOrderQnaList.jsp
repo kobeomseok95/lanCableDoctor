@@ -56,7 +56,7 @@
 
 
 			<div class="review-list-title text-left" style="font-size: 40px;">
-				<a href="mypageWork.html"
+				<a href="clientMypage.do"
 					style="color: #0071ce; letter-spacing: -0.5px;"> 나의 QnA 문의글 </a> >
 				<strong class="ml-2">주문QnA</strong>
 			</div>
@@ -135,7 +135,7 @@
 								<div class="mr-2">상품명 :</div>
 								<div class="rounded-pill p-2 ml-1 mr-1"
 									style="background-color: #e9e9e9;">
-									<a href="#" style="color: #45668e;">${y.pdName}</a>
+									<a href="productDetail.do?pdNo=${y.pdNo}" style="color: #45668e;">${y.pdName}</a>
 								</div>
 							</div>
 						</div>

@@ -102,7 +102,7 @@
                   <c:forEach var="h" items="${likeHplist}">
                      <div class="doctor-total-box border-bottom">
 
-                        <a href="#" style="color: inherit; text-decoration: none;">
+                        <a href="mainHpReviewDetail.do?hpNo=${h.hpNo}&orderBy=1&currentPage=1" style="color: inherit; text-decoration: none;">
 
                            <div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
                               <div class="row px-3">
@@ -111,7 +111,7 @@
                                  <div class="col-3 profile-doctor-image-box p-0">
 
 
-                                    <img src="${h.proRename}.png"
+                                    <img src="/projectFile/${h.proRename}"
                                        class="img-circle profile-doctor-image border"
                                        style="width: 97px; height: 97px;">
 
