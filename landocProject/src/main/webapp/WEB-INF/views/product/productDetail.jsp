@@ -14,6 +14,7 @@
     <meta name="description" content="SolMusic HTML Template">
     <meta name="keywords" content="music, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery.min.js"></script>
 
 	<!-- Favicon -->
 	<link href="<%=request.getContextPath()%>/resources/img/favicon.ico" rel="shortcut icon" />
@@ -582,7 +583,6 @@
     <!-- Footer section end -->
 
     <!--====== Javascripts & Jquery ======-->
-    <script src="http://code.jquery.com/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>

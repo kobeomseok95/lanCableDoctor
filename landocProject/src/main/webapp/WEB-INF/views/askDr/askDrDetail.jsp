@@ -10,6 +10,7 @@
 	<meta name="description" content="SolMusic HTML Template">
 	<meta name="keywords" content="music, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="http://code.jquery.com/jquery.min.js"></script>
 	
 	<!-- Favicon -->
 	<link href="<%=request.getContextPath()%>/resources/img/favicon.ico" rel="shortcut icon" />
@@ -33,11 +34,11 @@
 	
 	<style>
 		.updateReply, .deleteReply, .updateReplyForm, .updateCancelReply{
-			background-color: #0071ce;
-			color: white;
-			margin-right: 5px;
-			width: 50px;
-			height: 30px;
+			background-color: #0071ce ! important;
+			color: white ! important;
+			margin-right: 5px ! important;
+			width: 50px ! important;
+			height: 30px ! important;
 		}
 		.popover{
 			width: 150px;
@@ -271,7 +272,6 @@
 	<%@ include file="../static/footer.jsp"%>
 	<!-- Footer section end -->
 	<!--====== Javascripts & Jquery ======-->
-	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>주문QnA</title>
+<title>마이페이지 - 의사에게 물어봐</title>
 <meta charset="UTF-8">
 <meta name="description" content="SolMusic HTML Template">
 <meta name="keywords" content="music, html">
@@ -24,6 +24,7 @@
 <!-- Stylesheets -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/font-awesome.min.css" />
 <link rel="stylesheet"
@@ -40,7 +41,6 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
    <![endif]-->
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 
 <body>
@@ -336,8 +336,6 @@
 	<%@ include file="../static/footer.jsp"%>
 	<!--====== Javascripts & Jquery ======-->
 	<script
-		src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
-	<script
 		src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
@@ -345,11 +343,7 @@
 		src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
-	<script>
-		$(function(){
-						
-		});	//end of jquery
-	</script>
+	
 </body>
 </html>
 
