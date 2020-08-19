@@ -296,6 +296,7 @@
 	       				alert("상품 코드는 숫자만 검색 가능합니다!");
 	       			}
 	       			else{
+	       				$("#keyword").val( $("#keyword").val().replace(/ /g, '') );
 	       				$("#searchForm").submit();
 	       			}
 	       		}
@@ -307,6 +308,7 @@
         			return false;
         		}
         		else if( key.keyCode === 13 && $("#keyword").val().length >= 2 && $("#condition option:selected").val() === "3" ){
+        			$("#keyword").val( $("#keyword").val().replace(/ /g, '') );
         			$("#searchForm").submit();
         		}
        			else if( key.keyCode === 13 && $("#condition option:selected").val() === "1" && !$.isNumeric( $("#keyword").val() ) ){

@@ -300,11 +300,12 @@
 	       				return false;
 	       			}
 	       			else{
+	       				$("#keyword").val( $("#keyword").val().replace(/ /g, '') );
 	       				$("#searchForm").submit();
 	       			}
 	       		}
         	});
-        	/* 검색할때 공백 다 제거! */
+			
         	$('body').keydown(function(key){
        			if( key.keyCode === 13 && $("#searchCondition option:selected").val() === "adNo" && !$.isNumeric( $("#keyword").val() ) ){
        				alert("게시글 번호는 숫자만 검색 가능합니다!");
@@ -315,6 +316,7 @@
         			return false;
         		}
         		else {
+        			$("#keyword").val( $("#keyword").val().replace(/ /g, '') );
         			$("#searchForm").submit();
         		}
         	});
