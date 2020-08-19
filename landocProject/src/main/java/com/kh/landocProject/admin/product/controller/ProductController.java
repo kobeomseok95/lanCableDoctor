@@ -235,7 +235,7 @@ public class ProductController {
 		if(updateProduct < 0) {
 			return "";
 		}
-		if( !thumbnail.getOriginalFilename().equals("") && !detail.getOriginalFilename().equals("") ) {
+		if( !thumbnail.getOriginalFilename().equals("") || !detail.getOriginalFilename().equals("") ) {
 			List<String> fileNames = adminProductImpl.getProductFileNames(p.getPdNo());
 			productFileDetele(fileNames);
 			

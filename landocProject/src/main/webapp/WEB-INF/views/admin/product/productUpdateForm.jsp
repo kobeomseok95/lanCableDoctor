@@ -197,7 +197,7 @@
                 </tr>
             </table>
             <div id="btnArea">
-                <button type="submit">수정하기</button>
+                <button id="updateProductBtn" type="button">수정하기</button>
                 <button type="button" onclick="location.href='javascript:history.back();'">뒤로가기</button>
             </div>
                
@@ -234,9 +234,7 @@
 	        		$("#sellPrice").val('0');
 	        });
 	        
-	        $("form").on('submit', function(event){
-				event.preventDefault();
-				
+	        $("#updateProductBtn").on('click', function(){
 				var pdName = $("#pdName").val();
 	        	var originPrice = $("#originPrice").val();
 	        	var sellPrice = $("#sellPrice").val();
@@ -258,7 +256,7 @@
 	        		return false;
 	        	}
 	        	
-	        	return true;
+	        	$('form').submit();
 			});
 	        
 	        $('#thumbnail').on('change', handleImgFileSelect);
