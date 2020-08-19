@@ -297,7 +297,7 @@
 	            						$(".modal-content").hide();
 	            						commentHTML(data);
 	            						$("#beforeCommentCount").val(data[0].commentCount);
-	            						console.log(data[0].commentCount);
+	            						/* console.log(data[0].commentCount); */
 	            			},
 	            			error:function(request, status, errorData){
 			                    alert("error code: " + request.status + "\n"
