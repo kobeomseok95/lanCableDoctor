@@ -280,6 +280,21 @@
      		});
      	}
      	
+     	function handleImgFileSelectTwo(e){
+     		var files = e.target.files;
+     		var filesArr = Array.prototype.slice.call(files);
+     		
+     		filesArr.forEach(function(f){
+     			sel_file = f;
+     			
+     			var reader = new FileReader();
+     			reader.onload = function(e){
+     				$('#detailPrev').attr('src', e.target.result);
+     			}
+     			reader.readAsDataURL(f);
+     		});
+     	}
+     	
      	 function fileCheck(obj){
      		pathpoint = obj.value.lastIndexOf('.');
      		filepoint = obj.value.substring(pathpoint + 1, obj.length);
