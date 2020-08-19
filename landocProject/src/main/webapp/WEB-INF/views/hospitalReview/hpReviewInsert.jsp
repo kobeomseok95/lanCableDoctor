@@ -242,6 +242,11 @@
          $('#open-hospital-search-modal').on('click', function(e) {
             e.preventDefault();
             $('#hospitalSearchModal').modal();
+            $("#search_hospital_name").text("");
+            $("#searchHpNameTb").text("");
+            $("#searchHpCateTb").text("");
+            
+          
          });
          
          // 병원 검색 -> 검색결과 띄우기
@@ -267,7 +272,7 @@
                         $td = $("<td>");
                         $hpNo = $("<td>").text(data[i].hpNo).addClass("listHpNo");
                         $hpNoIn = $("<input type='hidden' value='"+$hpNo.text()+"'>").addClass("listHpNoIn");
-                        /* console.log($hpNoIn.val()); */
+
                         $hpName = $("<td>").text(data[i].hpName).addClass("listLineName");
                         $hpNameIn = $("<input type='hidden' value='"+$hpName.text()+"'>").addClass("listLineNameIn");
                         
@@ -314,16 +319,13 @@
        $(document).on("click",".listLineName",function(){
           $(".listLineName").parent().parent().css("background","white");
           $(this).parent().parent().css({"background":"#cce5f9", "cursor":"pointer"});
-          /*  console.log("this: " + $(this).text()); */
-          
+
           // 진료과목  div hide&show 효과주기
            $(".hpCateArea").css("display","block");
       
 	       	hopiName = $(this).text();
 	       	hpNo = $hpNoIn.val();
-          	/* console.log("jsp에서 hopiName : " + hopiName);  */
-          	console.log("hpNo?? :"  + hpNo)
-           
+
           	// 선택한 병원 진료과목 나오게 하는 에이작스
           	$.ajax({
           		url:"searchHpCate.do",
@@ -373,15 +375,10 @@
         	$(".hpCate").parent().parent().css("background","white");
         	$(this).parent().parent().css({"background" : "#99cbf4", "cursor" : "pointer"});
         	
-  	       	var hpCate = $(this).text();
+  	       	hpCate = $(this).text();
   	       	var hpCateCode2 = $hpCateCodeIn.val();
-        	/* console.log(hpCate); */
-        	
-        	
+
            $("#hospital-search-save-btn").click(function(){
-        	   /* console.log("진료과목 : " + hpCate);
-        	   console.log("병원이름 : " + hopiName);
-        	   console.log("병원번호 : " + hpNo); */
                
         	   $("#hospitalSearchModal").modal("hide");
                 $("#hospital_name").val(hopiName +" ( " + hpCate + " ) ");
@@ -560,7 +557,7 @@
                   <span id="remove" style="display: none;">X</span>
                
                   <div class="file-preview" id="thumb-receipt">
-                     <img id="preView" name="preView">
+                     <img id="preView" name="preView" style="width:50%;height:50%;">
                   </div>
                   
                   <div class="clearfix"></div>
@@ -1105,7 +1102,7 @@
                                  </div>
                                  
                                  <div class="score" style="float:right;">
-                                    <span class="score-rating js-score price">0</span>
+                                    <span class="score-rating js-score price" style="color:#008000; font-weight:300;">0</span>
                                     <input type="hidden" id="price" name="price">
                                     <span>/</span>
                                     <span class="total">5</span>
@@ -1240,12 +1237,12 @@
                <div class="row collapse mt-2 mb-2 text-left" id="collapseExample">
                   <div class="col-sm-10 offset-sm-1">
                      <div class="p-3 border rounded-lg" style="font-size: 14px;color: #494949;">
-                        OOO 선생님 좋았습니다. 우선 <b class="text-emphasize-puple">진료실 내부</b>에서 상냥하게 인사해주고,
-                        <b class="text-emphasize-puple">처치내용</b>에 대해 단계별로 설명해주셨습니다.
-                        저는 <b class="text-emphasize-puple">OOOO이 아파서 갔는데</b> 왜 아픈지, 앞으로 치료는 어떤식으로 진행될 지,
+                        OOO 선생님 좋았습니다. 우선 <b style="color:#007ee5;">진료실 내부</b>에서 상냥하게 인사해주고,
+                        <b style="color:#007ee5;">처치내용</b>에 대해 단계별로 설명해주셨습니다.
+                        저는 <b style="color:#007ee5;">OOOO이 아파서 갔는데</b> 왜 아픈지, 앞으로 치료는 어떤식으로 진행될 지,
                         평소에 생활습관은 어떻게 가져가야 하는지에 대한 자세한 설명을 들을 수 있었습니다.
-                        이후 <b class="text-emphasize-puple">처치실에서도</b> 아픈 처치가 이루어지기 전에는 미리 알려주시고 환자를 배려하여 진행해주셨습니다.
-                        다만 <b class="text-emphasize-puple">단점으로는</b> 대기시간이 길었던 점과, 영업시간이 짧다는 점, 그리고 데스크 직원분들이 불친절했던 것을 꼽을 수 있습니다.
+                        이후 <b style="color:#007ee5;">처치실에서도</b> 아픈 처치가 이루어지기 전에는 미리 알려주시고 환자를 배려하여 진행해주셨습니다.
+                        다만 <b style="color:#007ee5;">단점으로는</b> 대기시간이 길었던 점과, 영업시간이 짧다는 점, 그리고 데스크 직원분들이 불친절했던 것을 꼽을 수 있습니다.
                      </div>
                   </div>
                </div>

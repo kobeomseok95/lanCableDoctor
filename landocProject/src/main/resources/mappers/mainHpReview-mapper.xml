@@ -95,9 +95,6 @@
   
   
   
-  
-  
-  
   <!-- 병원 모달창 검색 결과 쿼리문 -->
   <select id="selectHpList" parameterType="string" resultMap="HpResultSet">
      SELECT HP_NO, HP_NAME, HP_PHONE, HP_ADDRESS
@@ -190,6 +187,7 @@
   	SELECT COUNT(*)
   	FROM HPREVIEW
   	WHERE HP_NO=#{hpNo}
+  		AND RECEIPT_YN='Y'
   </select>
   
   
@@ -199,6 +197,7 @@
   	FROM HPREVIEW
   	WHERE HP_NO=#{hpNo}
   		AND LIKE_YN='Y'
+  		AND RECEIPT_YN='Y'
   </select>
   
   
@@ -208,6 +207,7 @@
   	FROM HPREVIEW
   	WHERE HP_NO=#{hpNo}
   		AND LIKE_YN='N'
+  		AND RECEIPT_YN='Y'
   </select>
   
   
@@ -220,6 +220,7 @@
 		FROM HPREVIEW HR
 		    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
 		WHERE HP_NO=#{hpNo}
+			AND RECEIPT_YN='Y'
   </select>
   
   
@@ -251,6 +252,7 @@
 		FROM HPREVIEW HR
 		    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
 		WHERE HP_NO=#{hpNo}
+			AND RECEIPT_YN='Y'
 		<if test="!keyword.equals('none')">
 			AND HP_RE_CONTENT LIKE '%' || #{keyword} || '%'
 		</if>
