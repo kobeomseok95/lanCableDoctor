@@ -1,21 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- Header section -->
-<head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css">
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<style>
-	.badge{
-		background-color: red;
-		text-align: center;
-		margin-left : 10px;
-	}
-</style>
-</head>
-
-<body>
 <header class="header-section clearfix">
 
 	<c:url var="home" value="home.do" />
@@ -124,16 +109,6 @@
 	</ul>
 
 </header>
-</body>
-<script src="http://code.jquery.com/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
-<script>
-
-</script>
 
 
 

@@ -10,11 +10,11 @@
 <meta name="description" content="SolMusic HTML Template">
 <meta name="keywords" content="music, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
-
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- Favicon -->
 <link href="<%=request.getContextPath()%>/resources/img/favicon.ico"
    rel="shortcut icon" />
+
 <!-- Google font -->
 <link
    href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
@@ -39,7 +39,6 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
    <![endif]-->
-<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
 <style>
 .modal {
    text-align: center;
@@ -61,7 +60,7 @@
 }
 
 .modal-content {
-   width: 1200px !important;
+   width: 1200px;
 }
 
 #posit {
@@ -111,7 +110,7 @@
 
                         <h5 class="modal-title">주문 상세정보</h5>
                         <button class="btn-transparent" type="button"
-                           data-dismiss="modal" aria-label="Close">
+                           data-dismiss="modal" aria-label="Close" style="border: 1px; background-color: white;">
                            <span aria-hidden="true"
                               style="font-size: 2.5rem; color: #9b9b9b;">×</span>
                         </button>
@@ -279,8 +278,8 @@
 
             <div class="point-breadcrumb text-left">
                <a href="clientMypage.do"
-                  style="color: #0071ce; letter-spacing: -0.5px; font-size: 25px;">
-                  나의 주문조회 </a> > <strong class="ml-2" style="font-size: 25px;">주문목록</strong>
+                  style="color: #0071ce; letter-spacing: -0.5px; font-size: 30px;">
+                  나의 주문조회 </a> > <strong class="ml-2" style="font-size: 30px;">주문목록</strong>
             </div>
 
             <!-- <div class="point-count-title mt-4 text-left" style="font-size: 30px;">
@@ -483,33 +482,9 @@
 
       </div>
    </div>
-   </div>
 
-   <script>
-      function cancel(value){
-         var orderNo =value;
-         var sellflag = confirm("주문취소 하시겠습니까?");
-            if(sellflag){
-               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=15";
-            }
-      }
-      
-      function pdreturn(value){
-         var orderNo = value;
-         var sellflag = confirm("반품요청 하시겠습니까?");
-            if(sellflag){
-                location.href="orderCancel.do?orderNo="+orderNo+"&oCode=6";
-            }
-      }
-      
-      function change(value){
-         var orderNo = value;
-         var sellflag = confirm("교환요청 하시겠습니까?");
-            if(sellflag){
-               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=10";
-            }
-      }
-   </script>
+
+   
 
    <!-- 페이징 처리 부분 -->
    <!--paginnation start-->
@@ -639,7 +614,18 @@
 
 
    <!--pagination end-->
-
+   <%@ include file="../static/footer.jsp"%>
+   <!--====== Javascripts & Jquery ======-->
+   <%-- <script
+      src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script> --%>
+   <script
+      src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
+   <script
+      src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
+   <script
+      src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
+   <script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
+   <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
    <script>
          function orderDetail(b){
                           
@@ -771,20 +757,38 @@
                
             })
          }
-    </script>
-
-
-
-   <%@ include file="../static/footer.jsp"%>
-   <!--====== Javascripts & Jquery ======-->
-<%--    <script src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script> --%>
-   <script
-      src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
-   <script
-      src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
-   <script
-      src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>
-   <script src="<%=request.getContextPath()%>/resources/js/mixitup.min.js"></script>
-   <script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
+      var msg ='<c:out value="${msg}"/>';
+      if(msg != ''){
+         alert(msg);
+      }
+      
+      
+   
+      
+   
+      function cancel(value){
+         var orderNo =value;
+         var sellflag = confirm("주문취소 하시겠습니까?");
+            if(sellflag){
+               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=15";
+            }
+      }
+      
+      function pdreturn(value){
+         var orderNo = value;
+         var sellflag = confirm("반품요청 하시겠습니까?");
+            if(sellflag){
+                location.href="orderCancel.do?orderNo="+orderNo+"&oCode=6";
+            }
+      }
+      
+      function change(value){
+         var orderNo = value;
+         var sellflag = confirm("교환요청 하시겠습니까?");
+            if(sellflag){
+               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=10";
+            }
+      }
+	</script>
 </body>
 </html>
