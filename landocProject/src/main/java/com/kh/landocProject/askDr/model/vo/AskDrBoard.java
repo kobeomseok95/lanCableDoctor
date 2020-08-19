@@ -25,16 +25,19 @@ public class AskDrBoard implements Serializable{
 	private String symptoms;
 	private String chooseStatus;
 	private String categoryNo;
+	private String categoryName;
 	private List<MultipartFile> symptomPicture;
 	private int countImage;
 	private int countReply;
+	private AskDrReply choosedReply;
 	
 	public AskDrBoard() {
 	}
 
 	public AskDrBoard(int rNo, int bNo, String bTitle, String nickname, String memberNo, Date submitDate, int height,
 			int weight, int age, String gender, String caution, String symptoms, String chooseStatus, String categoryNo,
-			List<MultipartFile> symptomPicture, int countImage, int countReply) {
+			String categoryName, List<MultipartFile> symptomPicture, int countImage, int countReply,
+			AskDrReply choosedReply) {
 		this.rNo = rNo;
 		this.bNo = bNo;
 		this.bTitle = bTitle;
@@ -49,10 +52,14 @@ public class AskDrBoard implements Serializable{
 		this.symptoms = symptoms;
 		this.chooseStatus = chooseStatus;
 		this.categoryNo = categoryNo;
+		this.categoryName = categoryName;
 		this.symptomPicture = symptomPicture;
 		this.countImage = countImage;
 		this.countReply = countReply;
+		this.choosedReply = choosedReply;
 	}
+
+
 
 	public int getrNo() {
 		return rNo;
@@ -194,13 +201,30 @@ public class AskDrBoard implements Serializable{
 		return serialVersionUID;
 	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public AskDrReply getChoosedReply() {
+		return choosedReply;
+	}
+
+	public void setChoosedReply(AskDrReply choosedReply) {
+		this.choosedReply = choosedReply;
+	}
+
 	@Override
 	public String toString() {
 		return "AskDrBoard [rNo=" + rNo + ", bNo=" + bNo + ", bTitle=" + bTitle + ", nickname=" + nickname
 				+ ", memberNo=" + memberNo + ", submitDate=" + submitDate + ", height=" + height + ", weight=" + weight
 				+ ", age=" + age + ", gender=" + gender + ", caution=" + caution + ", symptoms=" + symptoms
-				+ ", chooseStatus=" + chooseStatus + ", categoryNo=" + categoryNo + ", symptomPicture=" + symptomPicture
-				+ ", countImage=" + countImage + ", countReply=" + countReply + "]";
+				+ ", chooseStatus=" + chooseStatus + ", categoryNo=" + categoryNo + ", categoryName=" + categoryName
+				+ ", symptomPicture=" + symptomPicture + ", countImage=" + countImage + ", countReply=" + countReply
+				+ ", choosedReply=" + choosedReply + "]";
 	}
 
 	

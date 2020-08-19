@@ -9,7 +9,7 @@
    <meta name="description" content="SolMusic HTML Template">
    <meta name="keywords" content="music, html">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
+   <script src= 'http://code.jquery.com/jquery-latest.js'></script>
    <!-- Favicon -->
    <link href="img/favicon.ico" rel="shortcut icon"/>
 
@@ -30,10 +30,6 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
    <![endif]-->
-
-
-   <script src= 'http://code.jquery.com/jquery-latest.js'></script>
-
    <!--  <script src="https://kit.fontawesome.com/02aa01148e.js" crossorigin="anonymous"></script> -->
    
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -1389,7 +1385,7 @@
     <%@ include file="../static/footer.jsp" %>
    
    <!--====== Javascripts & Jquery ======-->
-   <script src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script>
+<%--    <script src="<%=request.getContextPath()%>/resources/js/jquery-3.2.1.min.js"></script> --%>
    <script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
    <script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
    <script src="<%=request.getContextPath()%>/resources/js/owl.carousel.min.js"></script>

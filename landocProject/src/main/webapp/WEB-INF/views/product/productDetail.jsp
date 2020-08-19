@@ -14,6 +14,7 @@
     <meta name="description" content="SolMusic HTML Template">
     <meta name="keywords" content="music, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery.min.js"></script>
 
 	<!-- Favicon -->
 	<link href="<%=request.getContextPath()%>/resources/img/favicon.ico" rel="shortcut icon" />
@@ -314,12 +315,12 @@
                 <h3 id="qCount" class="mb-5">상품 Q&A(${qnaCount })</h3>
                 <c:if test="${!empty loginDrClient || !empty loginClient }">
 					<button id="modalQna" class="btn btn-sm goProductQnA ml-3" data-toggle="modal" data-target="#goQnA"
-					style="background-color: #0071ce; height: 37px; width: 100px;">질문하기</button>
+					style="background-color: #0071ce; height: 37px; width: 100px; color: white;">질문하기</button>
 				</c:if>
-				<c:if test="${empty loginDrClient && empty loginClient }">
+				<%-- <c:if test="${empty loginDrClient && empty loginClient }">
 					<button id="modalQna" class="btn btn-sm goProductQnA ml-3" data-toggle="modal"
-					style="background-color: #0071ce; height: 37px; width: 100px;">질문하기</button>
-				</c:if>
+					style="background-color: #0071ce; height: 37px; width: 100px; color: white;">질문하기</button>
+				</c:if> --%>
                 <div class="col-lg-12 col-sm-12">
                     <table class="table">
                         <thead>
@@ -582,7 +583,6 @@
     <!-- Footer section end -->
 
     <!--====== Javascripts & Jquery ======-->
-    <script src="http://code.jquery.com/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
@@ -612,7 +612,7 @@
         	});
         	
         	/* 모달에서 Q&A 제출 */
-        	$('#submitModal').on('click', function(){
+        	$(document).on('click', '#submitModal', function(){
 				var title = $("#qnaTitle").val();
 				var content = $("#qnaContent").val();
 				var secretPwd = $("#secretPwd").val();
@@ -657,7 +657,14 @@
 				            	});
 							}
 							
+							$("#qnaTitle").val('');
+							$("#qnaContent").val('');
+							$("#qnaSecret").attr('checked', false);
+							$("#secretPwd").val('');
+							
 							$("#closeQnaModal").click();
+							$(".modal-backdrop.fade").remove();
+                            $(".modal-content").hide();
 						}
 						else{
 							alert("작성에 실패하였습니다.");
@@ -672,17 +679,7 @@
 			});
         	
         	$(document).on('click', '#modalQna', function(){
-        		var client = "${loginClient.cNo}";
-        		var drClient = "${loginDrClient.drNo}";
-        		
-        		if(client === "" && drClient === ""){
-        			if(confirm("회원만 질문하실 수 있습니다. 로그인하시겠습니까?")){
-        				location.href="loginView.do";
-        			}
-        			else{
-        				return false;
-        			}
-        		}
+        		$('.modal-content').removeAttr('style');
         	});
         	
         	function createModal(qna){

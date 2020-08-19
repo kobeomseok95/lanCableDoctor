@@ -332,6 +332,7 @@ public class MainAskDrController {
 		}
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="chooseAnswer.do", method=RequestMethod.POST)
 	public String chooseAnswer(@RequestParam int bNo,
 											@RequestParam int adrNo) {
@@ -339,10 +340,10 @@ public class MainAskDrController {
 		int resultOfBoard = askDrServiceImpl.updateAskDrBoardChooseStatus(bNo);
 		
 		if(resultOfAnswer > 0 && resultOfBoard > 0) {
-			return "redirect:/askDr.do";
+			return "success";
 		}
 		else {
-			return "";
+			return "error";
 		}
 	}
 	

@@ -173,7 +173,12 @@
                     <th class="firstLine">썸네일 이미지</th>
                     <td>
                     	<div style="width:80%;float:left;">
-                        	<input type="file" id="thumbnail" name="thumbnail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
+                        	<c:set var="thumbnails" value="/projectFiles/${thumbnail }" />
+                        	<input type="file" id="thumbnail" name="thumbnail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png"
+                        	value="${thumbnails }" />
+                    	</div>
+                    	<div>
+                    		<img src="${thumbnails }" id="thumbPrev" style="width: 75%;" />
                     	</div>
                     </td>
                 </tr>
@@ -181,14 +186,18 @@
                     <th class="firstLine">상세 설명 이미지</th>
                     <td>
                     	<div style="width:80%;float:left;">
-                        	<input type="file" id="detail" name="detail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
+                    		<c:set var="details" value="/projectFiles/${detail }" />
+                        	<input type="file" id="detail" name="detail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" 
+                        	value="${details }" />
+                    	</div>
+                    	<div>
+                    		<img src="${details }" id="detailPrev" style="width: 75%;" />
                     	</div>
                     </td>
                 </tr>
             </table>
-            <!-- 집가서 input file에 값 넣어주기 -->
             <div id="btnArea">
-                <button type="submit">수정하기</button>
+                <button id="updateProductBtn" type="button">수정하기</button>
                 <button type="button" onclick="location.href='javascript:history.back();'">뒤로가기</button>
             </div>
                
@@ -225,9 +234,7 @@
 	        		$("#sellPrice").val('0');
 	        });
 	        
-	        $("form").on('submit', function(event){
-				event.preventDefault();
-				
+	        $("#updateProductBtn").on('click', function(){
 				var pdName = $("#pdName").val();
 	        	var originPrice = $("#originPrice").val();
 	        	var sellPrice = $("#sellPrice").val();
@@ -249,9 +256,42 @@
 	        		return false;
 	        	}
 	        	
-	        	return true;
+	        	$('form').submit();
 			});
+	        
+	        $('#thumbnail').on('change', handleImgFileSelect);
+			$('#detail').on('change', handleImgFileSelectTwo);
      	});//end of jquery
+     	
+     	function handleImgFileSelect(e){
+     		var files = e.target.files;
+     		var filesArr = Array.prototype.slice.call(files);
+     		
+     		filesArr.forEach(function(f){
+     			sel_file = f;
+     			
+     			var reader = new FileReader();
+     			reader.onload = function(e){
+     				$('#thumbPrev').attr('src', e.target.result);
+     			}
+     			reader.readAsDataURL(f);
+     		});
+     	}
+     	
+     	function handleImgFileSelectTwo(e){
+     		var files = e.target.files;
+     		var filesArr = Array.prototype.slice.call(files);
+     		
+     		filesArr.forEach(function(f){
+     			sel_file = f;
+     			
+     			var reader = new FileReader();
+     			reader.onload = function(e){
+     				$('#detailPrev').attr('src', e.target.result);
+     			}
+     			reader.readAsDataURL(f);
+     		});
+     	}
      	
      	 function fileCheck(obj){
      		pathpoint = obj.value.lastIndexOf('.');
