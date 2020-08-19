@@ -260,9 +260,6 @@ public class ProductController {
 		PageInfo pageInfo = Pagination.getPageInfo(pageNo, listCount);
 		List<ProductQna> qnas = adminProductImpl.getAdminQnas(param, pageInfo);
 		
-		System.out.println("*********Test line 263*********");
-		System.out.println(pageInfo);
-		
 		mv.addObject("showNoAnswer", showNoAnswer);
 		mv.addObject("page", pageInfo);
 		mv.addObject("qnas", qnas);
