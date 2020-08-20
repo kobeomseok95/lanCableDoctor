@@ -4,14 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +29,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.landocProject.hospital.Exception.MainHpException;
 import com.kh.landocProject.hospital.model.service.MainHpService;
+import com.kh.landocProject.hospital.model.vo.Applicant;
+import com.kh.landocProject.hospital.model.vo.Hospital;
 import com.kh.landocProject.hospital.model.vo.HpSearch;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
@@ -34,6 +41,8 @@ public class MainHpController {
 
 	@Autowired
 	MainHpService mainHpService;
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	// 사진 저장 폴더 경로
 	private final String filePath =  "C:\\lanCableDoctorProject\\files\\";
@@ -368,6 +377,89 @@ public class MainHpController {
 		}else {
 			System.out.println("병원 소개 업데이트 실패!");
 			return "home";
+		}
+	}
+	
+	@RequestMapping(value="insertHpView.do", method=RequestMethod.GET)
+	public String insertHpView() {
+		return "hospital/insertHpView";
+	}
+	
+	@RequestMapping(value="emailConfirmHp.do", method=RequestMethod.POST)
+	public ModelAndView emailConfirmHp(ModelAndView mv,
+											@RequestParam String address2,
+											Hospital h,
+											Applicant a) {
+		h.setAddress(h.getAddress() + " " + address2);
+		
+		int insertHospital = mainHpService.insertHospital(h);
+		
+		List<Integer> list = Arrays.stream(h.getCategoryCode()).boxed().collect(Collectors.toList());
+		int insertHpList = mainHpService.insertHpList(list);
+		
+		int insertApplicant = mainHpService.insertApplicant(a);
+		if( insertHospital > 0 && insertApplicant > 0 && insertHpList > 0) {
+			// 난수 생성
+			StringBuffer temp = new StringBuffer();
+			Random rnd = new Random();
+			for (int i = 0; i < 10; i++) {
+				int rIndex = rnd.nextInt(3);
+				switch (rIndex) {
+				case 0:
+					temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+					break;
+				case 1:
+					temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+					break;
+				case 2:
+					temp.append((rnd.nextInt(10)));
+					break;
+				}
+			}
+			String dice = temp.toString();
+			String setfrom = "rornfl258@naver.com"; // 보내는 사람
+			String tomail = a.getApplicantEmail(); // 받는 사람 이메일
+			String title = "읍남매들 회원 인증 이메일 입니다."; // 제목
+			String content = System.getProperty("line.separator") + // 한줄씩 줄간격을 두기위해 작성
+	
+					System.getProperty("line.separator") +
+	
+					"회원가입 인증 메일입니다."
+	
+					+ System.getProperty("line.separator") +
+	
+					System.getProperty("line.separator") +
+	
+					" 인증번호는 " + dice + " 입니다. "
+	
+					+ System.getProperty("line.separator") +
+	
+					System.getProperty("line.separator") +
+	
+					"받으신 인증번호를 홈페이지에 입력해 주시면 됩니다."; // 내용
+	
+			try {
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+	
+				messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+				messageHelper.setTo(tomail); // 받는사람 이메일
+				messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+				messageHelper.setText(content); // 메일 내용
+	
+				mailSender.send(message);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			mv.addObject("hospital", h);
+			mv.addObject("applicant", a);
+			mv.addObject("dice", dice);
+			mv.setViewName("hospital/insertHpView2");
+			return mv;
+		}
+		else {
+			return null;
 		}
 	}
 }

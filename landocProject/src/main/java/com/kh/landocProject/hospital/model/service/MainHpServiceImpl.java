@@ -2,11 +2,14 @@ package com.kh.landocProject.hospital.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.landocProject.hospital.model.dao.MainHpDao;
+import com.kh.landocProject.hospital.model.vo.Applicant;
+import com.kh.landocProject.hospital.model.vo.Hospital;
 import com.kh.landocProject.hospital.model.vo.HpNameSplit;
 import com.kh.landocProject.hospital.model.vo.HpSearch;
 import com.kh.landocProject.hospital.model.vo.HpTime;
@@ -110,6 +113,21 @@ public class MainHpServiceImpl implements MainHpService{
 	public int updateComment(MainHp hp) {
 		
 		return mainHpDao.updateComment(hp);
+	}
+
+	@Override
+	public int insertHospital(Hospital h) {
+		return mainHpDao.insertHospital(h);
+	}
+
+	@Override
+	public int insertApplicant(Applicant a) {
+		return mainHpDao.insertApplicant(a);
+	}
+
+	@Override
+	public int insertHpList(List<Integer> list) {
+		return mainHpDao.insertHpList(list);
 	}
 
 	

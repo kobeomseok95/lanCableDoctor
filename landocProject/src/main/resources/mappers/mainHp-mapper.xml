@@ -53,7 +53,27 @@
 		<result property="cateName" column="HPCATE_NAME" />
   		<result property="cateCode" column="HPCATE_CODE" />
   </resultMap>
- 
+  
+  
+  <resultMap type="Hospital" id="insertHospital">
+  	<id property="hpNo" column="HP_NO" />
+  	<result property="hpName" column="HP_NAME" />
+  	<result property="hpPhone" column="HP_PHONE" />
+  	<result property="postCode" column="HP_POSTCODE" />
+  	<result property="address" column="HP_ADDRESS" />
+  	<!-- <result property="categoryCode" column="" /> -->
+  </resultMap>
+  
+  <resultMap type="Applicant" id="insertApplicant">
+  	<id property="aNo" column="ANO" />
+  	<result property="hpNo" column="HP_NO" />
+  	<result property="applicantName" column="ANAME" />
+  	<result property="applicantEmail" column="AEMAIL" />
+  	<result property="applicantPhone" column="APHONE" />
+  </resultMap>
+  
+  
+<!-- ResultMap ************** Query *********************** -->
 
   <!-- 병원 기본정보 select -->
   <select id="selectOneHp" parameterType="MainHp" resultMap="mainHpResultMap">
@@ -233,8 +253,47 @@
   	WHERE HP_NO = #{hpNo}
   </update>
   
+  <!-- 병원 insert -->
+  <insert id="insertHospital" parameterType="Hospital">
+  	INSERT INTO HOSPITAL
+  	VALUES(
+  		SEQ_HOSPITAL.NEXTVAL,
+  		#{hpName},
+  		#{hpPhone},
+  		#{postCode},
+  		#{address},
+  		0, 0, NULL, 'Y', 'N'
+  	)
+  </insert>
   
+  <insert id="insertHpList" parameterType="java.util.List">
+  	 <foreach collection="list" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+		 INTO HPLIST VALUES(
+		     (SELECT MAX(HP_SEQNO) + #{index} + 1 FROM HPLIST),
+		     (SELECT MAX(HP_NO) FROM HOSPITAL),
+		     #{item}
+		)
+     </foreach>
+  </insert>
   
-  
-  
+  <!-- 병원등록자 insert -->
+  <insert id="insertApplicant" parameterType="Applicant">
+  	INSERT INTO APPLICANT
+  	VALUES(  
+  		SEQ_APPLICANT.NEXTVAL,
+  		SEQ_HOSPITAL.CURRVAL,
+  		#{applicantName},
+  		#{applicantEmail},
+  		#{applicantPhone},
+  		<choose>
+  		<when test="checkService.size != 0">
+  		'Y'
+  		</when>
+  		<otherwise>
+  		'N'
+  		</otherwise>
+  		</choose>
+  	)
+  </insert>
+
 </mapper>

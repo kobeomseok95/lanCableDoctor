@@ -2,11 +2,14 @@ package com.kh.landocProject.hospital.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.hospital.model.vo.Applicant;
+import com.kh.landocProject.hospital.model.vo.Hospital;
 import com.kh.landocProject.hospital.model.vo.HpNameSplit;
 import com.kh.landocProject.hospital.model.vo.HpSearch;
 import com.kh.landocProject.hospital.model.vo.HpTime;
@@ -94,6 +97,18 @@ public class MainHpDao {
 	public int updateComment(MainHp hp) {
 		
 		return sqlSessionTemplate.update("mainHpMapper.updateComment", hp);
+	}
+
+	public int insertHospital(Hospital h) {
+		return sqlSessionTemplate.insert("mainHpMapper.insertHospital", h);
+	}
+
+	public int insertApplicant(Applicant a) {
+		return sqlSessionTemplate.insert("mainHpMapper.insertApplicant", a);
+	}
+
+	public int insertHpList(List<Integer> list) {
+		return sqlSessionTemplate.insert("mainHpMapper.insertHpList", list);
 	}
 	
 }

@@ -8,7 +8,7 @@
 		<img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
 	</a>
 	<ul class="main-menu">
-		<li><a href="#">병원찾기</a></li>
+		<li><a href="insertHpView.do">병원등록</a></li>
 	   
 		<c:choose>
 			<c:when test="${empty loginClient && empty loginDrClient }">
@@ -34,11 +34,7 @@
 			</c:otherwise>         	
 		</c:choose>
 		
-		<script>
-			function noApproval(){
-				alert("승인을 받지 않으셨습니다.");
-			}
-		</script>
+		
 		<div class="header-right" style="padding-top: 0%; padding-bottom: 0%;">
 		<c:choose>
 			<c:when test="${!empty loginClient && empty loginDrClient  && loginClient.cNo ne 'C00' }">
@@ -46,7 +42,7 @@
 				<li>
 					<a href="#"><c:out value="${loginClient.nickName }님 환영합니다"/><span class="badge badge-pill"></span></a>
 					<ul class="sub-menu" style="left: 0px;">
-						<li><a href="clientMypage.do">나의활동<span class="badge badge-pill"></span></a></li>
+						<li><a href="clientMypage.do">나의활동</a></li>
 						<li><a href="mypagePoint.do">나의 포인트</a></li>
 						<li><a href="clientCart.do">장바구니</a></li>
 						<li><a href="modifyClientView.do">계정설정</a></li>
@@ -60,7 +56,7 @@
 				<li>
 					<a href="#"><c:out value="${loginDrClient.userName }님 환영합니다"/></a>
 					<ul class="sub-menu" style="left: 0px;">
-						<li><a href="doctorMypage.do">나의활동<span class="badge badge-pill"></span></a></li>
+						<li><a href="doctorMypage.do">나의활동</a></li>
 						<li><a href="drMypagePoint.do">나의 포인트</a></li>
 						<li><a href="clientCart.do">장바구니</a></li>
 						<li><a href="modifyDrClientView.do">계정설정</a></li>
@@ -109,8 +105,11 @@
 	</ul>
 
 </header>
-
-
+<script>
+	function noApproval(){
+		alert("승인을 받지 않으셨습니다.");
+	}
+</script>
 
 
 
