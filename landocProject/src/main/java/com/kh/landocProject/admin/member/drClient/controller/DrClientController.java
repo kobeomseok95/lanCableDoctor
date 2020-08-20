@@ -71,9 +71,11 @@ public class DrClientController {
 				
 			}else {
 				if(condition.equals("drNo") && !condition.equals("")) {
-					dsc.setDrNo(value);
+					String drNo =  value.toUpperCase().trim().replaceAll("\\p{Z}", "");
+					dsc.setDrNo(drNo);
 				}else if(condition.equals("userName") && !condition.equals("")) {
-					dsc.setUserName(value);
+					String userName =  value.trim().replaceAll("\\p{Z}", "");
+					dsc.setUserName(userName);
 				}
 				
 				int searchListCount = dService.getSearchListCount(dsc);

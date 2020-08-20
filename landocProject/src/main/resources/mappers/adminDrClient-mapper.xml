@@ -58,7 +58,7 @@
   			  JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
   			  <where>
   			  	<if test="drNo != null and drNo != ''">
-  			  		AND DR_NO = #{drNo}
+  			  		AND DR_NO LIKE '%' || #{drNo} || '%'
   			  	</if>
   			  	<if test="userName != null and userName != ''">
   			  		AND DR_NAME LIKE '%' || #{userName} || '%'
@@ -77,7 +77,7 @@
   			  JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
   			  <where>
   			  	<if test="drNo != null and drNo != ''">
-  			  		AND DR_NO = #{drNo}
+  			  		AND DR_NO LIKE '%' || #{drNo} || '%'
   			  	</if>
   			  	<if test="userName != null and userName != ''">
   			  		AND DR_NAME LIKE '%' || #{userName} || '%'

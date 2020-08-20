@@ -232,10 +232,11 @@ public class mainProductController {
 	}
 	
 	@RequestMapping(value = "recommand.do")
-	public ModelAndView recommand(ModelAndView mv, @RequestParam("drNo") List<String> drNo,
+	public ModelAndView recommand(ModelAndView mv, @RequestParam("drNo") List<String> drNo, @RequestParam("drNo") String drNo1,
 													@RequestParam("pdNo") List<Integer> pdNo, @RequestParam("drComment") List<String> drComment) {
 		
 		int result = 0;
+		int update = 0;
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		HashMap<String, Object> reco = null;
 
@@ -247,9 +248,23 @@ public class mainProductController {
 			reco.put("drNo", drNo.get(i));
 			list.add(reco);
 		}
+		
+		String[] drNo2 = drNo1.split(",");
+		
+		String drNo3 = drNo2[0];
+		
+		System.out.println("drNo3 : " + drNo3);
+		
+		List<String> selectP = productServiceImpl.selectP(drNo3);
+		System.out.println("selectP : " + selectP);
+		
+		for(int i = 0; i < pdNo.size(); i++) {
+			
+		}
 		result = productServiceImpl.drRecommendInsert(list);
 
 		if (result > 0) {
+			update = productServiceImpl.recoUpdate(list);
 			mv.setViewName("mypage/dMyPageWork");
 			return mv;
 		}

@@ -116,6 +116,21 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.drRecommendInsert(list);
 	}
 
+	@Override
+	public int recoUpdate(List<HashMap<String, Object>> list) {
+		
+		return productDao.recoUpdate(list);
+	}
+
+	@Override
+	public List<String> selectP(String drNo) {
+		
+		return productDao.selectP(drNo);
+	}
+
+
+
+
 
 
 }

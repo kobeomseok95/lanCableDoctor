@@ -51,5 +51,11 @@ public interface ProductService {
 
 	int drRecommendInsert(List<HashMap<String, Object>> list);
 
+	int recoUpdate(List<HashMap<String, Object>> list);
+
+	List<String> selectP(String drNo);
+
+	
+
 
 }

@@ -1,6 +1,7 @@
 package com.kh.landocProject.member.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
@@ -113,6 +114,14 @@ public interface MainMemberService {
 	Client selectPwd(String cNo);
 	
 	DrClient selectDrPwd(String cNo);
+
+	ArrayList<String> selectHpList(Integer hpNo);
+
+	int checkEmailDup(String email);
+
+	int checkEmailDrDup(String email);
+
+	
 
 	
 

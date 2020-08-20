@@ -52,5 +52,9 @@ public interface PaymentService {
 
 	ArrayList<Cart> selectDrCartList(String drNo);
 
+	MemberPay selectC(String cNo);
+
+	MemberPay selectD(String drNo);
+
 
 }

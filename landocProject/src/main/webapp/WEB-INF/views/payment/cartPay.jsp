@@ -212,7 +212,7 @@
 			<div>
 				<strong>제품정보</strong>
 				<c:choose> 
-				<c:when test="${!empty loginClient && empty loginDrClient}"> 
+				<c:when test="${!empty loginClient4 && empty loginDrClient4}"> 
 				<form id="payment" action="cartPaySuccessView.do">
 				<c:forEach var="cart" items="${cart }" varStatus="status">
 					<div class="pa">
@@ -241,8 +241,8 @@
 						<div class="p3">
 							<div class="p4">
 								<label class="p4Label">주문자명</label><input type="text"
-									value="${loginClient.userName }" class="pInput" readonly>
-								<input type="hidden" name="cNo" value="${loginClient.cNo }">
+									value="${loginClient4.userName }" class="pInput" readonly>
+								<input type="hidden" name="cNo" value="${loginClient4.cNo }">
 								<%-- <input type="hidden" name="pdNo" value="${selectPro.pdNo }"> --%>
 								<%-- <input type="hidden" name="opCount" value="${productCount }"> --%>
 								<input type="hidden" name="pdName" value="${selectPro.pdName }">
@@ -251,25 +251,25 @@
 							</div>
 							<div class="p4">
 								<label class="p4Label">연락처</label><input type="text"
-									value="${loginClient.phone }" class="pInput" readonly>
+									value="${loginClient4.phone }" class="pInput" readonly>
 							</div>
 							<div class="p4">
 								<label class="p4Label">이메일</label><input type="text"
-									value="${loginClient.email }" class="pInput" readonly>
+									value="${loginClient4.email }" class="pInput" readonly>
 							</div>
 							<div class="p4">
 								<label class="p4Label">우편번호</label><input type="text"
-									value="${loginClient.post }" name="post" id="post"
+									value="${loginClient4.post }" name="post" id="post"
 									class="pInput1" readonly> <input type="button"
 									value="검색" class="search">
 							</div>
 							<div class="p4">
 								<label class="p4Label">도로명 주소</label><input type="text"
-									value="${loginClient.address }" id="address1" class="pInput" readonly>
+									value="${loginClient4.address }" id="address1" class="pInput" readonly>
 							</div>
 							<div class="p4">
 								<label class="p4Label">상세 주소</label><input type="text"
-									value="${loginClient.address }" id="address2" class="pInput" readonly>
+									value="${loginClient4.address }" id="address2" class="pInput" readonly>
 							</div>
 							<div class="p4">
 								<label class="p4Label">남기실 말</label><select
@@ -302,7 +302,7 @@
 										style="width: 100px;" value=0></span><br>
 								</div>
 								<div style="font-size: 15px; float: right;">
-									<span>보유 포인트 : </span><span id="point">${loginClient.point }</span>
+									<span>보유 포인트 : </span><span id="point">${loginClient4.point }</span>
 								</div>
 								<br>
 								<hr>
@@ -334,14 +334,14 @@
 
 						<div style="margin: 35px; text-align: center;">
 							<button type="button" id="pay" class="payBtn">결제</button>
-							<button type="button" class="noPay">취소</button>
+							<button type="button" class="noPay" onclick="noPay();">취소</button>
 						</div>
 					</div>
 				</form>
 				</c:when>
 
 
-				<c:when test="${empty loginClient && !empty loginDrClient}">
+				<c:when test="${empty loginClient4 && !empty loginDrClient4}">
 					<form id="payment" action="paySuccessView.do">	
 					<c:forEach var="cart" items="${cart }" varStatus="status">
 					<div class="pa">
@@ -369,28 +369,28 @@
 							</div>
 							<div class="p3">
 								<div class="p4">
-									<label style="margin-left:20px">주문자명</label><input id ="userName" type="text" value="${loginDrClient.userName }" class="pInput" readonly>
-									<input type="hidden" name="drNo" value="${loginDrClient.drNo }">
+									<label style="margin-left:20px">주문자명</label><input id ="userName" type="text" value="${loginDrClient4.userName }" class="pInput" readonly>
+									<input type="hidden" name="drNo" value="${loginDrClient4.drNo }">
 									<%-- 	<input type="hidden" name="pdNo" value="${selectPro.pdNo }">
 										<input type="hidden" name="opCount" value="${productCount }"> --%>
 										<input type="hidden" name="pdName" value="${selectPro.pdName }">
 										<input type="hidden" name="sellPrice" value="${selectPro.sellPrice }">
 								</div>
 								<div class="p4">
-									<label class="p4Label">연락처</label><input id ="phone" type="text" value="${loginDrClient.phone }" class="pInput" readonly>
+									<label class="p4Label">연락처</label><input id ="phone" type="text" value="${loginDrClient4.phone }" class="pInput" readonly>
 								</div>
 								<div class="p4">
-									<label class="p4Label">이메일</label><input id ="email" type="text" value="${loginDrClient.email }" class="pInput" readonly>
+									<label class="p4Label">이메일</label><input id ="email" type="text" value="${loginDrClient4.email }" class="pInput" readonly>
 								</div>
 								<div class="p4">
-									<label class="p4Label">우편번호</label><input type="text" value="${loginDrClient.post }" name="post" value="" id="post" class="pInput1" readonly> 
+									<label class="p4Label">우편번호</label><input type="text" value="${loginDrClient4.post }" name="post" value="" id="post" class="pInput1" readonly> 
 									<input type="button" class="search" value="검색">
 								</div>
 								<div class="p4">
-									<label class="p4Label">도로명 주소</label><input  type="text" value="${loginDrClient.address }" id="address1" class="pInput" readonly>
+									<label class="p4Label">도로명 주소</label><input  type="text" value="${loginDrClient4.address }" id="address3" class="pInput" readonly>
 								</div>
 								<div class="p4">
-									<label class="p4Label">상세 주소</label><input type="text" value="${loginDrClient.address }" id="address2" class="pInput" readonly>
+									<label class="p4Label">상세 주소</label><input type="text" value="${loginDrClient4.address }" id="address4" class="pInput" readonly>
 								</div>
 								<div class="p4">
 									<label class="p4Label">남기실 말</label><select name="paymentComment" class="pInput">
@@ -420,7 +420,7 @@
 										<strong>사용 포인트</strong>
 			                            <span style="float:right;"><input type="text" class="price" id="minusPoint" name="usePoint" style="width:100px; text-align:right" value=0></span><br>
 		                            </div>
-		                            <div style="font-size:15px; float:right;"><span >보유 포인트 : </span><span id="point">${loginDrClient.point }</span></div><br>
+		                            <div style="font-size:15px; float:right;"><span >보유 포인트 : </span><span id="point">${loginDrClient4.point }</span></div><br>
 		                            
 			                            
 		                            <hr>
@@ -448,7 +448,7 @@
 							
 							<div style="margin: 35px; text-align: center;">
 								<button type="button" id="pay" class="payBtn">결제</button>
-								<button type="button" class="noPay">취소</button>
+								<button type="button" class="noPay" onclick="noPay();">취소</button>
 							</div>
 						</div>
 					</form>
@@ -557,10 +557,20 @@
 		
 	</script>
 	<script>
-		var address = "${loginClient.address}";
+		var address = "${loginClient4.address}";
 		var addr = address.split(' / ');
 		$("#address1").val(addr[0]);
 		$("#address2").val(addr[1]);
+		
+		var address1 = "${loginDrClient4.address}";
+		var addr1 = address1.split(' / ');
+		$("#address3").val(addr1[0]);
+		$("#address4").val(addr1[1]);
+	</script>
+	<script>
+	function noPay(){
+   	 location.href="javascript:history.go(-1)";
+   }
 	</script>
 	</body>
 </html>

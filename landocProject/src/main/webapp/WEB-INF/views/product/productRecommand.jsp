@@ -198,7 +198,7 @@
 
 
 <!--form 태그 시작-->
-<form id="register-submit-form" action="recommand.do" method="POST" onsubmit="return checkValidate();">
+	<form id="register-submit-form" action="recommand.do" method="POST" onsubmit="return checkValidate();">
 	<input type="hidden" name="csrfmiddlewaretoken"
 		value="7EYyK9n8kkbHp3Y3zYlR8e1LSwhuubipViDL0KoRy7LwZOtyK80JuVWhaIcpapZA">
 
@@ -266,6 +266,7 @@
 
 				
 					<!--추천 이유 작성 부분-->
+				
 					<div class="summit-content-box mx-auto p-5 mt-4" id="row">
 						<div class="row mb-4">
 							<div class="col-sm-1">
@@ -310,6 +311,7 @@
 
 
 					</div>
+					
 					<script>
                         function textCounter(field,field2,maxlimit)
                         {
@@ -327,7 +329,8 @@
 					</div>
 			</div>
 			</div>
-		</form>
+			</form>
+
 	
 
 
@@ -385,6 +388,7 @@
                   p3.setAttribute('rows',"5");
                   p3.setAttribute("id","drComment"+index);
                   p3.setAttribute("name", "drComment");
+                  p3.setAttribute("required","required");
                   p3.setAttribute("placeholder", "병원에 대해 간략한 소개를 적어주세요. (200자 이상)" );   
                   p3.setAttribute("onkeyup", "textCounter(this, 'counter"+index+" ' "+", 200);");
                   p1.appendChild(p3);
@@ -404,17 +408,13 @@
                   var p6 = document.createElement("span");
                   p4.appendChild(p6);
                
-                  p6.innerHTML="자, 최소 200자 이상)"
-                  
-                  console.log(pdNo);
-                  console.log(drNo);
-                  console.log(drComment);
+                  p6.innerHTML="자, 최소 200자 이상 작성해 주시면 감사하겠습니다.)"
                   
                   }else{
                      $("#pdDiv").remove();
                      
                   }
-               
+                  
          });
          
          });
@@ -423,14 +423,28 @@
    </script>
 	
 	<script>
-	 $(function(){
-         var listPro = new Array();
-         <c:forEach var="list" items="${proReco }">
-            listPro.push("${list.pdNo}");
-         </c:forEach>
-			function checkValidate(){
-      		listPro.forEach(function(pdNo,index){
-			 var comment = $("#drComment"+index).val();
+
+    function checkValidate(){
+		var listPro = new Array();
+	    <c:forEach var="list" items="${proReco }">
+	       listPro.push("${list.pdNo}");
+	    </c:forEach>
+    /* 	for(int i= 1; i < listPro.length; i++){
+    		var comment+i = $("drComment"+i).val();
+    		 var reg= /^[가-힣ㄱ-ㅎa-zA-Z0-9]{200,10000000}$/;
+    		  
+    		  if(!reg.test(comment+i)){
+			         alert("200자 이상의 병원 리뷰를 작성해주세요.");
+			         return false;
+			     }
+			     return true;
+    		 
+    		
+    	}
+    	 */
+    	
+	   		/*  listPro.forEach(function(pdNo,index){
+	    	 var comment = $("#drComment"+index).val();
 		     var reg= /^[가-힣ㄱ-ㅎa-zA-Z0-9]{200,10000000}$/;
 		     
 			     if(!reg.test(comment)){
@@ -438,12 +452,41 @@
 			         return false;
 			     }
 			     return true;
-			}
-       }
-	 });
-     
+	    
+	    }); */
+	    
+	    
+	    
+	    var commentList = new Array();
+    	 listPro.forEach(function(pdNo,index){
+             $("#product1"+index).click(function(){
+                
+                   if($("#product1" + index).is(":checked") == true){
+                	  commentList.push(index);
+                   }
+                   
+          });
+          
+          });
+	    
+    	
+ 	    /* for(var i= 0; i < commentList.length; i++){
+     		var comment = $("#drComment"+commentList[i]).val();
+     		 var reg= /^[가-힣ㄱ-ㅎa-zA-Z0-9]{200,10000000}$/;
+     		  
+     		  if(!reg.test(comment)){
+ 			         alert("200자 이상의 병원 리뷰를 작성해주세요.");
+ 			         return false;
+ 			     }
+ 			     return true;
+     		 
+     		
+     	} */
+	    
+    	  
+    }
 	</script>
-
+	
 
 	<%@ include file="../static/footer.jsp"%>
 	<!--====== Javascripts & Jquery ======-->

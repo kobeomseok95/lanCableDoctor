@@ -130,4 +130,16 @@ public class PaymentServiceImpl implements PaymentService{
 		return payDao.selectDrCartList(drNo);
 	}
 
+	@Override
+	public MemberPay selectC(String cNo) {
+		
+		return payDao.selectC(cNo);
+	}
+
+	@Override
+	public MemberPay selectD(String drNo) {
+
+		return payDao.selectD(drNo);
+	}
+
 }

@@ -118,4 +118,14 @@ public class PaymentDao {
 		return (ArrayList)sqlSessionTemplate.selectList("payMapper.selectDrCartList",drNo);
 	}
 
+	public MemberPay selectC(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("payMapper.selectC", cNo);
+	}
+
+	public MemberPay selectD(String drNo) {
+
+		return sqlSessionTemplate.selectOne("payMapper.selectD", drNo);
+	}
+
 }

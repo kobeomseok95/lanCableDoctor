@@ -78,7 +78,7 @@
    <div class="limiter" id="login">
       <div class="container-login100">
          <div class="wrap-login100">
-            <form class="login100-form validate-form" action="drClientHpModify.do?drNo=${drClientHp1.drNo }" method="post" enctype="multipart/form-data">
+            <form class="login100-form validate-form" action="drClientHpModify.do?drNo=${drClientHp1.drNo }" method="post" enctype="multipart/form-data" onsubmit="return validate();">
             <%-- <input type="hidden" value="${drClientHp1.hpNo}" name="hpNo"> --%>
              <input type="hidden" value="${drClientHp1.drhpOrigin}" name="drhpOrigin1">
         	<input type="hidden" value="${drClientHp1.drhpRename}" name="drhpRename1">
@@ -110,7 +110,7 @@
 						data-validate="병원을 선택해 주세요">
 						<span class="focus-input100" data-placeholder="병원"></span> <select
 							class="input100" name="hpNo" id="hpNo" style="border: none;" >
-
+							<option value="0">병원을 선택하세요</option>
 							<c:forEach var="hp" items="${list }">
 							<option value="${hp.hpNo }">${hp.hpName }</option>
 							</c:forEach>
@@ -123,43 +123,35 @@
 						<span class="focus-input100" data-placeholder="주분야"></span> <select
 							class="input100" name="hpCateCode" id="hpCateCode"  
 							style="border: none;">
-							<option value="400">치과</option>
-							<option value="114">피부과</option>
-							<option value="108">성형외과</option>
-							<option value="112">안과</option>
-							<option value="110">산부인과</option>
-							<option value="115">비뇨기과</option>
-							<option value="103">정신건강의학과</option>
-							<option value="105">정형외과</option>
-							<option value="116">마취통증의학과</option>
-							<option value="106">신경외과</option>
-							<option value="120">재활의학과</option>
-							<option value="109">영상의학과</option>
-							<option value="104">외과</option>
-							<option value="102">신경과</option>
-							<option value="111">소아과</option>
-							<option value="101">내과</option>
-							<option value="113">이비인후과</option>
-							<option value="122">가정의학과</option>
-							<option value="300">한의원</option>
+
 						</select>
 
 					</div>
                <div>
+               
+               <button id="empPicUpload1" class="btn btn-sm" type="button" style="background-color:#007ee5;">
+					<h4 style="color:white; padding-bottom : 5px;">+</h4>
+				</button>
                   <label class="file1">재직 증명서 또는 사업자 등록증</label>
-                  <input class="fileBtn" type="file" id="uploadImage1" name="uploadFile1" required="required">
+                  <input class="fileBtn" type="file" id="uploadImage1" name="uploadFile1" style="display:none" required="required">
                   <div class="fileBox">
                      <img class="fileImg" id="imagePreview1" src="/projectFiles/${drClientHp1.drhpRename }"/>
                   </div>
 
+				<button id="empPicUpload2" class="btn btn-sm" type="button" style="background-color:#007ee5;" >
+					<h4 style="color:white; padding-bottom : 5px;">+</h4>
+				</button>
                   <label class="file2">신분증</label>
-                  <input type="file" id="uploadImage2" name="uploadFile2" required="required">
+                  <input type="file" id="uploadImage2" name="uploadFile2" style="display:none" required="required">
                   <div class="fileBox">
                      <img class="fileImg" id="imagePreview2" src="/projectFiles/${drClientHp2.drhpRename }"/>
                   </div>
 
+				<button id="empPicUpload3" class="btn btn-sm" type="button" style="background-color:#007ee5;">
+					<h4 style="color:white; padding-bottom : 5px;">+</h4>
+				</button>
                   <label class="file2">의사 면허증</label>
-                  <input type="file" id="uploadImage3" name="uploadFile3" required="required">
+                  <input type="file" id="uploadImage3" name="uploadFile3" style="display:none" required="required">
                   <div class="fileBox">
                      <img class="fileImg" id="imagePreview3" src="/projectFiles/${drClientHp3.drhpRename }"/>
                   </div>
@@ -168,7 +160,7 @@
                <div class="container-login100-form-btn" style="padding-top: 50px;">
                   <div class="wrap-login100-form-btn">
                      <div class="login100-form-bgbtn"></div>
-                     <button class="login100-form-btn">
+                     <button class="login100-form-btn" id="sub">
                         서류 제출
                      </button>
                   </div>
@@ -210,6 +202,25 @@
 </body>
 
 <script>
+
+		$(function(){
+			$("#empPicUpload1").on("click",function(e){
+				e.preventDefault();
+				$("#uploadImage1").click();
+			});
+		})
+		$(function(){
+			$("#empPicUpload2").on("click",function(e){
+				e.preventDefault();
+				$("#uploadImage2").click();
+			});
+		})
+		$(function(){
+			$("#empPicUpload3").on("click",function(e){
+				e.preventDefault();
+				$("#uploadImage3").click();
+			});
+		})
 
          function readUploadImage1(inputObject){
              if(inputObject.files && inputObject.files[0]){
@@ -270,4 +281,72 @@
         })    
       
    </script>
+
+   <script>
+    	$(function(){
+    		$("#sub").click(function(){
+    		var fileCheck1 = $("#uploadImage1").val();
+    		var fileCheck2 = $("#uploadImage2").val();
+    		var fileCheck3 = $("#uploadImage3").val();
+    		if(!fileCheck1 || !fileCheck2 || !fileCheck3){
+    			alert("새로운 파일을 제출해 주세요.");
+    			return false;
+    		}
+    		
+    		})
+    	})
+    </script> 
+    
+    <script>
+	 function validate(){
+ 		if($("#hpNo").val() == "0"){
+			alert("병원을 선택해 주세요.")
+			return false;
+		}
+		return true;
+			
+	 }
+	 </script>
+    
+   <!--  <script>
+    var a = "${drClientHp1.hpNo}";
+    $("#hpNo").val(a).prop("selected", true);
+    var b = "${drClientHp1.hpCateCode}";
+    $("#hpCateCode").val(b).prop("selected", true);
+    </script> -->
+    <script>
+		 
+	 	$("#hpNo").change(function(){
+	 		var hp = $("#hpNo").val();
+	 		$.ajax({
+ 				url:"hpCategory.do",
+ 				data:{hpNo: hp},
+ 				dataType:"json",
+ 				success:function(data){
+ 					for(var i = 0; i < data.length; i++){
+ 					 var s1 = document.getElementById('hpCateCode');
+ 					 var s2 = document.createElement('option');
+ 					 s2.setAttribute('value',data[i].hpCateCode);
+ 					 s2.innerHTML = data[i].hpCateName;
+ 					 s1.appendChild(s2);
+ 						
+ 					}
+ 				},
+ 				error:function(request, status, errorData){
+                     alert("error code: " + request.status + "\n"
+                           +"message: " + request.responseText
+                           +"error: " + errorData);
+                 } 
+ 			})
+	 	}) 
+	 </script>
+   	
+   
+   
+   
+   
+   
+   
+   
+   
 </html>

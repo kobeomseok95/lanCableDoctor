@@ -46,7 +46,7 @@
   	 FROM CLIENT
   	 <where>
   	 <if test="cNo != null and cNo != ''">
-  	 	AND C_NO = #{cNo}
+  	 	AND C_NO LIKE '%' || #{cNo} || '%'
   	 </if>
   	 <if test="userName != null and userName != ''">
   	 	AND C_NAME LIKE '%' || #{userName} || '%'
@@ -65,13 +65,13 @@
 		FROM CLIENT
 		<where>
 			<if test="cNo != null and cNo !=''">
-				AND C_NO = #{cNo}
+				AND C_NO LIKE '%' || #{cNo} || '%'
 			</if> 
 			<if test="userName != null and userName !=''">
-				AND C_NAME = #{userName}
+				AND C_NAME LIKE '%' || #{userName} || '%'
 			</if> 
 			<if test="nickName != null and nickName !=''">
-				AND C_NICKNAME = #{nickName}
+				AND C_NICKNAME LIKE '%' || #{nickName} || '%'
 			</if> 
 		</where>
 		ORDER BY C_ENROLL_DATE DESC)

@@ -109,5 +109,17 @@ public class ProductDao {
 		return sqlSessionTemplate.insert("productMapper.drRecommendInsert", list);
 	}
 
+	public int recoUpdate(List<HashMap<String, Object>> list) {
+		
+		return sqlSessionTemplate.update("productMapper.recoUpdate", list);
+	}
+
+	public List<String> selectP(String drNo) {
+		
+		return sqlSessionTemplate.selectList("productMapper.selectP", drNo);
+	}
+
+	
+
 	
 }

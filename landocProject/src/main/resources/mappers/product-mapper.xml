@@ -84,6 +84,14 @@
 		<result property="discount" column="DISCOUNT"/>
 	</resultMap>
 	
+	<resultMap type="DrComment" id="DrRecommendResultSet">
+		<id property="drCommentNo" column="DRRM_NO"/>
+		<result property="drComment" column="DRRM_COMMENT"/>
+		<result property="pdNo" column="PD_NO"/>
+		<result property="drNo" column="DR_NO"/>
+		<result property="drCommentDate" column="DRRM_SUBMITDATE"/>
+	</resultMap>
+	
 	<sql id="sortFormula">
 		<choose>
 			<when test="sortNo == 1">
@@ -635,7 +643,22 @@
 			AND A.PDQ_ANSWERSTATUS = 'N'
 		</if>
 	</select>
-
+	
+	<update id="recoUpdate" parameterType="hashMap">
+		<foreach collection="list" item="up" index="index" open="begin" close=";end;" separator=";" >
+			UPDATE PRODUCT
+			<set>
+			RECOMEND = RECOMEND + 1
+			</set>
+			WHERE PD_NO = #{up.pdNo}
+		</foreach>
+	</update> 
+	
+	<select id="selectP" parameterType="string" resultMap = "DrRecommendResultSet">
+		SELECT PD_NO
+		FROM DRRECOMMEND
+		WHERE DR_NO = #{drNo}
+	</select>
 </mapper>
 
 
