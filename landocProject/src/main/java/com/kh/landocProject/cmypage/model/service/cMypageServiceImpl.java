@@ -15,6 +15,7 @@ import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
+import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 
 
 
@@ -212,6 +213,18 @@ public class cMypageServiceImpl implements cMypageService {
 	@Override
 	public List<AskDrBoard> getNonChooseList(String cNo, CMypagePageInfo nonChoosePi) {
 		return cmDao.getNonChooseList(cNo, nonChoosePi);
+	}
+
+	@Override
+	public int getHpReCount(String cNo) {
+		
+		return cmDao.getHpReCount(cNo);
+	}
+
+	@Override
+	public ArrayList<HpReview> getMyHpReList(String cNo, CMypagePageInfo pi) {
+		
+		return cmDao.getMyHpReList(cNo,pi);
 	}
 	
 }

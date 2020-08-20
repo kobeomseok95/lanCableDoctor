@@ -57,6 +57,7 @@
   <resultMap type="HpReview" id="HpReviewResultSet4">
   		<id property="hpReNo" column="HP_RE_NO"/>
   		<result property="hpNo" column="HP_NO"/>
+  		<result property="hpName" column="HP_NAME"/>
   		<result property="cNo" column="C_NO"/>
   		<result property="cNickName" column="C_NICKNAME"/>
   		<result property="cProfile" column="C_PROFILE"/>
@@ -316,5 +317,31 @@
   	FROM HPLIKE
   	WHERE HP_NO=#{hpNo}
   </select>
+  
+  
+  <!-- 일반 회원 마이페이지 나의 리뷰 -->
+  <select id="getHpReCount" parameterType="string" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM HPREVIEW
+  	WHERE C_NO=#{cNo}
+  </select>
+  
+  
+  <select id="getMyHpReList" parameterType="string" resultMap="HpReviewResultSet4">
+  	SELECT HP_RE_NO, HR.HP_NO, HP.HP_NAME, HR.C_NO, C.C_NICKNAME, HP_RE_TITLE, HP_RE_CONTENT, HP_RE_DATE, LIKE_YN, HP_RE_AVG_RATE, 
+  				DETAIL_EXPLANATION, STAFF_KIND, WAITING_TIME, TREATMENT_RESULT, CLEANLINESS, PRICE, RECEIPT_YN, HP_RE_COUNT
+		FROM HPREVIEW HR
+		    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
+		    JOIN HOSPITAL HP ON(HR.HP_NO = HP.HP_NO)
+		WHERE HR.C_NO=#{cNo}
+			AND RECEIPT_YN='Y'
+  </select>
+  
+  
+  
+  
+  
+  
+  
   
 </mapper>
