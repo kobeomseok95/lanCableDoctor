@@ -127,23 +127,7 @@ img {
                         </div>
     
                         <div class="col-9 text-left pt-2">
-                            <!-- <div style="font-weight: 300;">
-                                <a href="/q/?search_query=서울 치과" style="color: #1d458d;font-weight: 600;text-decoration: underline;">
-                                    	서울
-                                </a>
-                                &gt;
-                                
-                                
-                                <a href="/q/?search_query=서초구 치과" style="color: #1d458d;font-weight: 600;text-decoration: underline;">
-                                    	서초구
-                                </a>
-                                &gt;
-                                
-                                <a href="/q/?search_query=이미지치과의원" style="color: #1d458d;font-weight: 600;text-decoration: underline;s">
-                                    	이미지치과의원
-                                </a>
-                            </div> -->
-    
+                            
                             <div class="hospital-doctor-name-box d-flex align-items-center mt-3 mb-3" style="font-size:20px; font-weight:600;">
                             <input type="hidden" value="${hp.hpNo }" id="hpNoAjax">
                             <input type="hidden" value="${hp.hpName }" id="hpNameAjax">
@@ -651,9 +635,9 @@ img {
                     <div class="my-5 border-top pt-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <div style="font-size: 20px;font-weight: bold; margin-bottom:12px;">영업시간</div>
-                            <button type="button" class="btn-transparent open_request_wrong_info border p-1" style="color: #494949;font-size: 12px;">
+                            <!-- <button type="button" class="btn-transparent open_request_wrong_info border p-1" style="color: #494949;font-size: 12px;">
                                		 병원 정보 수정 요청하기
-                            </button>
+                            </button> -->
                         </div>
                         
                         <div style="  letter-spacing: -0.7px;color: #b00020;font-size: 14px;" class="text-left">

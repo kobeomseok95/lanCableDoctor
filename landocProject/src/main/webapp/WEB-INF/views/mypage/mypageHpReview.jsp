@@ -717,19 +717,9 @@
                                             </c:if> 
                                     </div>
                                 </div>
-                                
                             </div>
-                            
                             </div>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-<!-- **************************************************************************************************************** -->
+ 
                      <div class="col-7" style="float:right;margin-top:30px;margin-left:20px;">
                         <div class="toast-message content-box text-left class49 mb-4" style="font-size: 14px;font-weight: 300;letter-spacing: -0.6px;">
 						                   ${hr.hpReContent }

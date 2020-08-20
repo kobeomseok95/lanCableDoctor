@@ -51,10 +51,6 @@
                     <td  colspan="7"><input type="text" value="${hp.hpName }" readonly></td>
                 </tr>
                 <tr>
-                    <th class="firstLine">진료과목 코드 번호</th>
-                    <td colspan="7"><input type="text" value="${hp.hpCateCode }" readonly></td>
-                </tr>
-                <tr>
                     <th class="firstLine">진료과목</th>
                     <td colspan="7"><input type="text" value="${hp.hpCateName }" readonly></td>
                 </tr>
