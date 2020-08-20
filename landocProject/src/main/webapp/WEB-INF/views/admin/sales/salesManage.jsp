@@ -60,7 +60,7 @@
 			       		['9월',   ${as.month09}],
 			       		['10월',   ${as.month10}],
 			       		['11월',   ${as.month11}],
-			       		['12월',   ${as.month12}],
+			       		['12월',   ${as.month12}]
 			      ]);
 			
 			      var options = {

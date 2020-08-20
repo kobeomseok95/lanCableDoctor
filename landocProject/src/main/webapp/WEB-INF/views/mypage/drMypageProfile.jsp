@@ -197,7 +197,19 @@
          
        	<div class="row" style="margin:0;">
          	<div class="col-lg-5">
-               <p style="font-size:20px;font-color:black;weigth:600;" id="commentCount">${dp.drName } 선생님 comments (${commentCount })</p> 
+         		<c:if test="${commentCount != null || commentCount != undefined}">
+              		 <p style="font-size:20px;font-color:black;weigth:600;" id="commentCount">${dp.drName } 선생님 comments (${commentCount })</p> 
+             	</c:if>
+             
+             	<c:if test="${commentCount == null || commentCount == undefined}">
+              		 <p style="font-size:20px;font-color:black;weigth:600;" id="commentCount">${dp.drName } 선생님 comments</p>
+              		 <p id="beforeCommentCount">()</p> 
+             	</c:if>
+             	
+             	
+             	
+             	
+             	
              </div>
        
          
@@ -205,13 +217,11 @@
             	<i class="far fa-edit fa-2x" style="color:#007ee5;"></i>
             	<!-- <i class="far fa-plus-square fa-2x"></i> -->
             </div>
-            
-            
+          
             <button style="display:none;" id="modalBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"></button>
 			
 			<!-- 모달창!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-			<div class="modal fade" 
-			id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog" role="document">
 			    <div class="modal-content">
 			      <div class="modal-header">
@@ -233,7 +243,7 @@
 			        </form>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="aaa">Close</button>
 			        <button type="button" class="btn btn-primary" id="submitModal">작성하기</button>
 			      </div>
 			    </div>
@@ -241,16 +251,21 @@
 			</div>
 			            
             <script>
-            	function openModal(){
-            		var cNo = "${cNo}";
-            		if(cNo == null){
-            			alert("일반 회원만 코멘트 작성이 가능합니다.");
-            			return;
-            		}else{
-	            		$("#modalBtn").click();            			
-            		}
-            	}
-            	
+	            function openModal(){
+	        		var cNo = "${cNo}";
+	        		
+	        		if(cNo === 'none'){
+	            		alert("일반 회원만 코멘트 작성이 가능합니다.");
+	        			return;
+	    
+	        		}else{     		
+	            		$("#modalBtn").click();
+	            		$("#comment").val("");
+	            		$(".modal-content").show();
+	        		}
+	        	}
+            
+            
             	$('#exampleModal').on('show.bs.modal', function (event) {
             		  var button = $(event.relatedTarget) // Button that triggered the modal
             		  var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -262,47 +277,40 @@
             		})
             		
             	$("#submitModal").on("click", function(){
-            		var cNo = "${cNo}";
-            		var comment = $("#comment").val();
-            		var drNo = "${dp.drNo}";
-            		var replyDrNo="${replyDrNo}";
-            		$.ajax({
-            			type:"POST",
-            			data:{cNo:cNo, comment:comment, drNo:drNo, replyDrNo:replyDrNo},
-            			url:"insertDrComment.do",
-            			success:function(data){
-            						alert("코멘트 작성에 성공하셨습니다.");
-            						$("#closeModalBtn").trigger("click");
-            						commentHTML(data);
-            				
-            					/* $.ajax({
-            						type:"get",
-            						data:{c:No,c:No, drNo:drNo, replyDrNo:replyDrNo},
-            						dataType:"JSON",
-            						url:"ajaxCommentList.do",
-            						success:function(data){
-            							commentHTML(data);
-            						},
-            						error:function(request, status, errorData){
-					                    alert("error code: " + request.status + "\n"
-					                            +"message: " + request.responseText
-					                            +"error: " + errorData);
-					               	}
-            					}) */
-            				
-            			},
-            			error:function(request, status, errorData){
-		                    alert("error code: " + request.status + "\n"
-		                            +"message: " + request.responseText
-		                            +"error: " + errorData);
-		               	}
-            		})
+            		if($("#comment").val() === ''){
+            			alert("글을 작성해주세요.");
+            			return;
+            			
+	            	}else{
+	            		var cNo = "${cNo}";
+	            		var comment = $("#comment").val();
+	            		var drNo = "${dp.drNo}";
+	            		var replyDrNo="${replyDrNo}";
+	            		$.ajax({
+	            			type:"POST",
+	            			data:{cNo:cNo, comment:comment, drNo:drNo, replyDrNo:replyDrNo},
+	            			url:"insertDrComment.do",
+	            			success:function(data){
+	            				
+	            						alert("코멘트 작성에 성공하셨습니다.");
+	            						$(".modal-backdrop.fade").remove();
+	            						$(".modal-content").hide();
+	            						commentHTML(data);
+	            						$("#beforeCommentCount").val(data[0].commentCount);
+	            						/* console.log(data[0].commentCount); */
+	            			},
+	            			error:function(request, status, errorData){
+			                    alert("error code: " + request.status + "\n"
+			                            +"message: " + request.responseText
+			                            +"error: " + errorData);
+			               	}
+	            		})
+            		}           
             	})
-            	
             	
             	function commentHTML(data){
             		
-            		$("#commentCount").text("${dp.drName} 선생님 comment (" + data.commentCount + ")");
+            		$("#commentCount").text("${dp.drName} 선생님 comment (" + data[0].commentCount + ")");
             		$("#tBody").html("");
             		
             		

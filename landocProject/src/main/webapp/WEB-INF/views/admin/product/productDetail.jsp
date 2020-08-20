@@ -118,14 +118,14 @@
                    <th class="firstLine">썸네일 이미지</th>
                    <td>
 	                   	<c:set var="thumbnail" value="/projectFiles/${thumbnail }" />
-	               		<img src="${thumbnail }" />
+	               		<img src="${thumbnail }" style="width: 75%;" />
                    </td>
                </tr>
                <tr>
                    <th class="firstLine">상세 설명 이미지</th>
                    <td>
 	                   	<c:set var="detail" value="/projectFiles/${detail }" />
-	               		<img src="${detail }" />
+	               		<img src="${detail }" style="width: 75%;" />
                    </td>
                </tr>
            </table>

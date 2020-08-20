@@ -610,12 +610,7 @@ public class DmyPageController {
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		cNo = loginClient.getcNo();
-
-//		System.out.println("controller에서 replyDrNo" + replyDrNo);
-//		System.out.println("controller에서 cNo" + cNo);
-//		System.out.println("controller에서 comment" + comment);
-//		System.out.println("controller에서 drNo" + drNo);
-		
+	
 		map.put("cNo", cNo);
 		map.put("drNo", drNo);
 		map.put("replyDrNo",replyDrNo);
@@ -624,7 +619,7 @@ public class DmyPageController {
 		int result = dMypageService.insertDrComment(map);
 		
 		ArrayList<DrProfile> dpList = dMypageService.selectCommentList(drNo);
-//		System.out.println("controller에서 dpList : " + dpList);
+		
 		
 		response.setContentType("applicateion/json;charset=utf-8");
 		

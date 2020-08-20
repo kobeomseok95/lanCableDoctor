@@ -10,6 +10,7 @@
 	<meta name="description" content="SolMusic HTML Template">
 	<meta name="keywords" content="music, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="http://code.jquery.com/jquery.min.js"></script>
 	
 	<!-- Favicon -->
 	<link href="<%=request.getContextPath()%>/resources/img/favicon.ico" rel="shortcut icon" />
@@ -33,11 +34,11 @@
 	
 	<style>
 		.updateReply, .deleteReply, .updateReplyForm, .updateCancelReply{
-			background-color: #0071ce;
-			color: white;
-			margin-right: 5px;
-			width: 50px;
-			height: 30px;
+			background-color: #0071ce ! important;
+			color: white ! important;
+			margin-right: 5px ! important;
+			width: 50px ! important;
+			height: 30px ! important;
 		}
 		.popover{
 			width: 150px;
@@ -128,7 +129,7 @@
 			</div>
 			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label"></label>
-				<div class="col-lg-9 col-sm-9 control-label my-3" align="right">
+				<div id="btns" class="col-lg-9 col-sm-9 control-label my-3" align="right">
 				<c:if test="${askDrBoardDetail.chooseStatus eq 'N' && empty loginDrClient && loginClient.nickName eq askDrBoardDetail.nickname }">
 					<button id="updateAskDrBoard" 
 						class="btn btn-sm" style="background-color: #0071ce; color:white;">수정하기</button>
@@ -271,7 +272,6 @@
 	<%@ include file="../static/footer.jsp"%>
 	<!-- Footer section end -->
 	<!--====== Javascripts & Jquery ======-->
-	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
@@ -315,15 +315,35 @@
 		
 			$("#chooseComplete").on("click", function(){
 				if(confirm("해당 답변을 채택하시겠습니까?")){
-		        	var $bNo = $("#AskDrBoardNo").val();
-					var $adrNo = $('input[name="chooseAnswer"]:checked').val();
-					var $chooseForm = $("<form></form>");
+		        	var bNo = $("#AskDrBoardNo").val();
+					var adrNo = $('input[name="chooseAnswer"]:checked').val();
+					
+					$.ajax({
+						type : 'POST',
+						data : {
+							bNo : bNo,
+							adrNo : adrNo
+						},
+						url : 'chooseAnswer.do',
+						error:function(request, status, errorData){
+		                    alert("error code: " + request.status + "\n"
+		                            +"message: " + request.responseText
+		                            +"error: " + errorData);
+		               	},           
+					    success: function(data) {
+					    	if(data === "success"){
+					    		getReplyList();
+					    	}
+						}
+					});
+					
+					/* var $chooseForm = $("<form></form>");
 					$chooseForm.attr("action", "chooseAnswer.do");
 					$chooseForm.attr("method", "post");
 					$chooseForm.append($("<input/>", {type: "hidden", name: "bNo", value: $bNo}));
 					$chooseForm.append($("<input/>", {type: "hidden", name: "adrNo", value: $adrNo}));
 					$(document.body).append($chooseForm);
-					$chooseForm.submit();
+					$chooseForm.submit(); */
 		        }
 		        else{
 		        	return false;
@@ -480,6 +500,12 @@
 							
 							$tdFive.append($btnOne);
 							$tdFive.append($btnTwo);
+						}
+						
+						else if(list[i].chooseStatus === 'Y'){
+							var $icon = $('<i class="fas fa-check fa-3x" style="color: #4EC54B;"></i>');
+							$tdFive.append($icon);
+							$("#btns").html('');
 						}
 						
 						$tr.append($tdOne);
