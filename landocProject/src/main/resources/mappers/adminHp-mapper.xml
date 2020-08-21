@@ -55,7 +55,27 @@
 		<result property="hpStatus" column="BE_HP_STATUS"/>
 	</resultMap>
 
-
+	<resultMap type="Hospital" id="nonApprovalHospitals">
+		<id property="hpNo" column="HP_NO" />
+		<result property="rNo" column="RNO" />
+		<result property="hpName" column="HP_NAME" />
+		<result property="hpPhone" column="HP_PHONE" />
+		<result property="postCode" column="HP_POSTCODE" />
+		<result property="address" column="HP_ADDRESS" />
+		<association property="applicant" javaType="Applicant">
+			<result property="applicantName" column="ANAME" />
+			<result property="applicantEmail" column="AEMAIL" />
+			<result property="applicantPhone" column="APHONE" />
+		</association>
+		<collection property="categories" javaType="java.util.List" resultMap="hpcategories" />
+	</resultMap>
+	
+	<resultMap type="HospitalCategories" id="hpcategories">
+		<result property="categoryNo" column="HPCATE_CODE" />
+		<result property="categoryName" column="HPCATE_NAME" />
+	</resultMap>
+	
+<!-- ************************ 경계 ************************ -->
 
 
 	<!-- 일반 리스트 카운트 조회용 -->
@@ -267,11 +287,27 @@
 		WHERE HP_NO = #{hpNo}
 	</delete>
 
+	<select id="getNonApprovalHospitalCounts" resultType="_int">
+		SELECT COUNT(*) FROM HOSPITAL
+		WHERE HP_APPROVAL = 'N'
+	</select>
 
-
-
-
-
+	<select id="getNonApprovalHospitals" resultMap="nonApprovalHospitals">
+		SELECT
+		    ROWNUM AS RNO, A.*
+		FROM
+		    (SELECT
+		        A.HP_NO, A.HP_NAME, A.HP_PHONE, A.HP_POSTCODE, A.HP_ADDRESS,
+		        C.HPCATE_CODE, C.HPCATE_NAME,
+		        D.ANAME, D.AEMAIL, D.APHONE
+		    FROM
+		        HOSPITAL A
+		        JOIN HPLIST B ON A.HP_NO = B.HP_NO
+		        JOIN HPCATEGORY C ON B.HPCATE_CODE = C.HPCATE_CODE
+		        JOIN APPLICANT D ON A.HP_NO = D.HP_NO
+		    WHERE
+		        A.HP_APPROVAL = 'N') A
+	</select>
 
 
 </mapper>

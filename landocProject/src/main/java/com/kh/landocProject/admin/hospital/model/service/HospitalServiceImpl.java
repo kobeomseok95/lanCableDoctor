@@ -1,6 +1,7 @@
 package com.kh.landocProject.admin.hospital.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.landocProject.admin.hospital.model.dao.HospitalDao;
 import com.kh.landocProject.admin.hospital.model.vo.AdminHpSearchCondition;
 import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
+import com.kh.landocProject.hospital.model.vo.Hospital;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 
@@ -111,5 +113,15 @@ public class HospitalServiceImpl implements HospitalService {
 	public int updateDenied(Integer hpNo) {
 		
 		return hpDao.updateDenied(hpNo);
+	}
+
+	@Override
+	public int getNonApprovalHospitalCounts() {
+		return hpDao.getNonApprovalHospitalCounts();
+	}
+
+	@Override
+	public List<Hospital> getNonApprovalHospitals(PageInfo pi) {
+		return hpDao.getNonApprovalHospitals(pi);
 	}
 }

@@ -1,8 +1,13 @@
 package com.kh.landocProject.hospital.model.vo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Applicant {
+public class Applicant implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2073745198576574248L;
 	private int aNo;
 	private String applicantName;
 	private String applicantEmail;
