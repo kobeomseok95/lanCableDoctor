@@ -61,7 +61,6 @@
   	<result property="hpPhone" column="HP_PHONE" />
   	<result property="postCode" column="HP_POSTCODE" />
   	<result property="address" column="HP_ADDRESS" />
-  	<!-- <result property="categoryCode" column="" /> -->
   </resultMap>
   
   <resultMap type="Applicant" id="insertApplicant">
@@ -295,5 +294,80 @@
   		</choose>
   	)
   </insert>
+  
+  <delete id="deleteHospital">
+  	DELETE FROM HOSPITAL
+  	WHERE HP_NO = #{hpNo}
+  </delete>  
+  
+  <delete id="deleteHpList">
+  	DELETE FROM HPLIST
+  	WHERE HP_NO = #{hpNo}
+  </delete>  
+  
+  <delete id="deleteApplicant">
+  	DELETE FROM APPLICANT
+  	WHERE ANO = #{aNo}
+  </delete>  
 
+  <select id="getHospitalSeq" parameterType="Hospital" resultType="_int">
+  	SELECT HP_NO
+  	FROM HOSPITAL
+  	WHERE
+  		HP_NAME = #{hpName}
+  		AND HP_PHONE = #{hpPhone}
+  		AND HP_POSTCODE = #{postCode}
+  </select>
+
+  <select id="getApplicantSeq" parameterType="Applicant" resultType="_int">
+  	SELECT ANO
+  	FROM APPLICANT
+  	WHERE
+  		ANAME = #{applicantName}
+  		AND  APHONE = #{applicantPhone}
+  </select>
+  
+  <insert id="insertHospitalFiles" parameterType="Hospital">
+  	INSERT ALL
+  	INTO DRHPPHOTO VALUES(
+  		(SELECT MAX(DRHP_NO) + 1 FROM DRHPPHOTO),
+  		#{brFileName}, #{brFileName}, 'NULL', 6, NULL, #{hpNo}
+  	)
+  	INTO DRHPPHOTO VALUES(
+	  	(SELECT MAX(DRHP_NO) + 2 FROM DRHPPHOTO),
+	  	#{idFileName}, #{idFileName}, 'NULL', 7, NULL, #{hpNo}
+  	)
+  	INTO DRHPPHOTO VALUES(
+  		(SELECT MAX(DRHP_NO) + 3 FROM DRHPPHOTO),
+  		#{dlFileName}, #{dlFileName}, 'NULL', 8, NULL, #{hpNo}
+  	)
+  	SELECT * FROM DUAL
+  </insert>
+  
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

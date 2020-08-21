@@ -130,6 +130,36 @@ public class MainHpServiceImpl implements MainHpService{
 		return mainHpDao.insertHpList(list);
 	}
 
+	@Override
+	public int deleteHospital(int hpNo) {
+		return mainHpDao.deleteHospital(hpNo);
+	}
+
+	@Override
+	public int deleteHpList(int hpNo) {
+		return mainHpDao.deleteHpList(hpNo);
+	}
+
+	@Override
+	public int deleteApplicant(int aNo) {
+		return mainHpDao.deleteApplicant(aNo);
+	}
+
+	@Override
+	public int getHospitalSeq(Hospital h) {
+		return mainHpDao.getHospitalSeq(h);
+	}
+
+	@Override
+	public int getApplicantSeq(Applicant a) {
+		return mainHpDao.getApplicantSeq(a);
+	}
+
+	@Override
+	public int insertHospitalFiles(Hospital h) {
+		return mainHpDao.insertHospitalFiles(h);
+	}
+
 	
 	
 }

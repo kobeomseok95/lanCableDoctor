@@ -217,9 +217,8 @@ public class MainHpController {
 			folder.mkdirs();
 		}
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String originFileName = file.getOriginalFilename();
-		String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." + originFileName.substring(originFileName.lastIndexOf(".")+1);
+		String renameFileName = System.currentTimeMillis() + originFileName;
 		
 		String saveFiles = filePath + renameFileName;
 		
@@ -396,9 +395,11 @@ public class MainHpController {
 		
 		List<Integer> list = Arrays.stream(h.getCategoryCode()).boxed().collect(Collectors.toList());
 		int insertHpList = mainHpService.insertHpList(list);
-		
 		int insertApplicant = mainHpService.insertApplicant(a);
-		if( insertHospital > 0 && insertApplicant > 0 && insertHpList > 0) {
+		
+		boolean selectSequenceNo = getSequenceNo(h, a);
+		
+		if( insertHospital > 0 && insertApplicant > 0 && insertHpList > 0 && selectSequenceNo) {
 			// 난수 생성
 			StringBuffer temp = new StringBuffer();
 			Random rnd = new Random();
@@ -451,9 +452,9 @@ public class MainHpController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			mv.addObject("hospital", h);
-			mv.addObject("applicant", a);
+
+			mv.addObject("hpNo", h.getHpNo());
+			mv.addObject("aNo", a.getaNo());
 			mv.addObject("dice", dice);
 			mv.setViewName("hospital/insertHpView2");
 			return mv;
@@ -462,4 +463,79 @@ public class MainHpController {
 			return null;
 		}
 	}
+	
+	private boolean getSequenceNo(Hospital h, Applicant a) {
+		int hospitalSeq = mainHpService.getHospitalSeq(h);
+		int applicantSeq = mainHpService.getApplicantSeq(a);
+		
+		if(hospitalSeq != 0 && applicantSeq != 0) {
+			h.setHpNo(hospitalSeq);
+			a.setaNo(applicantSeq);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@RequestMapping(value="cancelHospital.do", method=RequestMethod.POST)
+	public String cancelHospital(@RequestParam int hpNo,
+											@RequestParam int aNo) {
+		int deleteApplicant = mainHpService.deleteApplicant(aNo);
+		int deleteHpList = mainHpService.deleteHpList(hpNo);
+		int deleteHospital = mainHpService.deleteHospital(hpNo);
+		
+		if(deleteHospital > 0 && deleteApplicant > 0 && deleteHpList > 0) {
+			return "redirect:home.do";
+		}
+		else {
+			return "";
+		}
+	}
+	
+	@RequestMapping(value="insertHpMaterialView.do", method=RequestMethod.POST)
+	public ModelAndView insertHpMaterial(ModelAndView mv,
+															@RequestParam int hpNo,
+															@RequestParam int aNo) {
+		
+		mv.addObject("hpNo", hpNo);
+		mv.addObject("aNo", aNo);
+		mv.setViewName("hospital/insertHpView3");
+		return mv;
+	}
+	
+	@RequestMapping(value="insertCompleteView.do", method=RequestMethod.POST)
+	public String insertCompleteView(Hospital h) {
+		h.setBrFileName(saveFile(h.getBusinessRegistration()));
+		h.setIdFileName(saveFile(h.getIdentifyDocument()));
+		h.setDlFileName(saveFile(h.getDrLicense()));
+
+		int result = mainHpService.insertHospitalFiles(h);
+		
+		if(result > 0) {
+			return "hospital/insertHpView4";
+		}
+		else {
+			return "";
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -157,7 +157,7 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form" action="insertHpMaterial.do" method="post">
+				<form class="login100-form validate-form" action="insertHpMaterialView.do" method="post">
 					<span class="login100-form-title p-b-48">
 						<div class="logoDiv">
 							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
@@ -198,6 +198,10 @@
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
 							<button id="authentic" class="login100-form-btn">인증하기</button>
+						</div>
+						<div class="wrap-login100-form-btn mt-3">
+							<div class="login100-form-bgbtn"></div>
+							<button id="cancel" class="login100-form-btn">취소하기</button>
 						</div>
 					</div>
 
@@ -241,6 +245,9 @@
 	<script src="<%=request.getContextPath()%>/resources/login_js/main.js"></script>
 	<script>
 		$(function(){
+			var hpNo = "${hpNo}";
+			var aNo = "${aNo}";
+			
 			$("#authentic").on('click', function(){
 				var dice = "${dice}";
 				
@@ -249,7 +256,30 @@
 					return false;
 				}
 				else{
+					var $inputOne = $('<input type="hidden" name="hpNo" />');
+					$inputOne.attr('value', hpNo);
+					var $inputTwo = $('<input type="hidden" name="aNo" />');
+					$inputTwo.attr('value', aNo);
+					$('form').append($inputOne);
+					$('form').append($inputTwo);
 					$('form').submit();
+				}
+			});
+			
+			$("#cancel").on('click', function(){
+				if(confirm("병원등록을 취소하시겠습니까? 병원등록을 취소하면 처음부터 다시해야합니다.")){
+					var $form = $('<form id="cancelForm" action="cancelHospital.do" method="POST"></form>');
+					var $inputOne = $('<input type="hidden" name="hpNo" />');
+					$inputOne.attr('value', hpNo);
+					var $inputTwo = $('<input type="hidden" name="aNo" />');
+					$inputTwo.attr('value', aNo);
+					$form.append($inputOne);
+					$form.append($inputTwo);
+					$('body').html($form);
+					$("#cancelForm").submit();
+				}
+				else{
+					return false;
 				}
 			});
 		});	//end of jquery

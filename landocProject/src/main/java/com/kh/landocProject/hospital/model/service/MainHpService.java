@@ -50,4 +50,16 @@ public interface MainHpService {
 
 	int insertHpList(List<Integer> list);
 
+	int deleteHospital(int hpNo);
+
+	int deleteHpList(int hpNo);
+
+	int deleteApplicant(int aNo);
+
+	int getHospitalSeq(Hospital h);
+
+	int getApplicantSeq(Applicant a);
+
+	int insertHospitalFiles(Hospital h);
+
 }

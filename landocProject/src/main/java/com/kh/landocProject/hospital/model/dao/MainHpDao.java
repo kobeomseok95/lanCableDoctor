@@ -110,5 +110,29 @@ public class MainHpDao {
 	public int insertHpList(List<Integer> list) {
 		return sqlSessionTemplate.insert("mainHpMapper.insertHpList", list);
 	}
+
+	public int deleteHospital(int hpNo) {
+		return sqlSessionTemplate.delete("mainHpMapper.deleteHospital", hpNo);
+	}
+
+	public int deleteHpList(int hpNo) {
+		return sqlSessionTemplate.delete("mainHpMapper.deleteHpList", hpNo);
+	}
+
+	public int deleteApplicant(int aNo) {
+		return sqlSessionTemplate.delete("mainHpMapper.deleteApplicant", aNo);
+	}
+
+	public int getHospitalSeq(Hospital h) {
+		return sqlSessionTemplate.selectOne("mainHpMapper.getHospitalSeq", h);
+	}
+
+	public int getApplicantSeq(Applicant a) {
+		return sqlSessionTemplate.selectOne("mainHpMapper.getApplicantSeq", a);
+	}
+
+	public int insertHospitalFiles(Hospital h) {
+		return sqlSessionTemplate.insert("mainHpMapper.insertHospitalFiles", h);
+	}
 	
 }
