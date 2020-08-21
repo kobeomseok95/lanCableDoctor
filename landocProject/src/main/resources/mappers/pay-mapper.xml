@@ -158,6 +158,24 @@
 		</foreach>
 	</insert>
 	
+	<delete id="cartDelete" parameterType="hashMap">
+		DELETE FROM CART
+		<where>
+			<foreach collection="list" item="delete" open="" close="" separator="OR">
+				(C_NO = #{delete.cNo} AND PD_NO = #{delete.pdNo})
+			</foreach>
+		</where>
+	</delete>
+	
+	<delete id="cartDeleteD" parameterType="hashMap">
+		DELETE FROM CART
+		<where>
+			<foreach collection="list" item="delete" open="" close="" separator="OR">
+				(DR_NO = #{delete.drNo} AND PD_NO = #{delete.pdNo})
+			</foreach>
+		</where>
+	</delete>
+	
 	<select id="selectDrCartList" parameterType="string" resultMap="cartMap">
 		SELECT C.CART_NO,
 		PH.PDP_RENAME,
@@ -175,6 +193,16 @@
 		C.DR_NO=#{drNo}
 		AND PH.PDP_TYPE=0
 	</select>
-
 	
+	<select id="selectC" parameterType="MemberPay" resultMap="ClientResultMap">
+		SELECT * 
+		FROM CLIENT
+		WHERE C_NO = #{cNo}
+	</select>
+	
+	<select id="selectD" parameterType="MemberPay" resultMap="DrClientResultMap">
+		SELECT * 
+		FROM DRCLIENT
+		WHERE DR_NO = #{drNo}
+	</select>
 </mapper>

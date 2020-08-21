@@ -109,20 +109,29 @@
                </div>
 
                <div>
+               <button id="empPicUpload1" class="btn btn-sm" type="button" style="background-color:#007ee5;">
+					<h4 style="color:white; padding-bottom : 5px;">+</h4>
+				</button>
                   <label class="file1">재직 증명서 또는 사업자 등록증</label>
-                  <input class="fileBtn" type="file" id="uploadImage1" name="uploadFile1" required="required">
+                  <input class="fileBtn" type="file" id="uploadImage1" name="uploadFile1" required="required" style="display:none">
                   <div class="fileBox">
                      <img class="fileImg" id="imagePreview1"/>
                   </div>
-
+                  
+				<button id="empPicUpload2" class="btn btn-sm" type="button" style="background-color:#007ee5;">
+					<h4 style="color:white; padding-bottom : 5px;">+</h4>
+				</button>
                   <label class="file2">신분증</label>
-                  <input type="file" id="uploadImage2" name="uploadFile2" required="required">
+                  <input type="file" id="uploadImage2" name="uploadFile2" required="required" style="display:none">
                   <div class="fileBox">
                      <img class="fileImg" id="imagePreview2"/>
                   </div>
 
+				<button id="empPicUpload3" class="btn btn-sm" type="button" style="background-color:#007ee5;">
+					<h4 style="color:white; padding-bottom : 5px;">+</h4>
+				</button>
                   <label class="file2">의사 면허증</label>
-                  <input type="file" id="uploadImage3" name="uploadFile3" required="required"> 
+                  <input type="file" id="uploadImage3" name="uploadFile3" required="required" style="display:none"> 
                   <div class="fileBox"> 
                      <img class="fileImg" id="imagePreview3"/>
                   </div>
@@ -131,20 +140,10 @@
                <div class="container-login100-form-btn" style="padding-top: 50px;">
                   <div class="wrap-login100-form-btn">
                      <div class="login100-form-bgbtn"></div>
-                     <button class="login100-form-btn">
+                     <button class="login100-form-btn" id="sub">
                         서류 제출
                      </button>
                   </div>
-               </div>
-               
-               <div class="text-center p-t-115" style="padding-top: 30px;">
-                  <span class="txt1">
-                     회원이라구요?
-                  </span>
-
-                  <a class="txt2" href="loginView.do">
-                     로그인
-                  </a>
                </div>
             </form>
          </div>
@@ -174,6 +173,25 @@
 
 <script>
 
+$(function(){
+	$("#empPicUpload1").on("click",function(e){
+		e.preventDefault();
+		$("#uploadImage1").click();
+	});
+})
+$(function(){
+	$("#empPicUpload2").on("click",function(e){
+		e.preventDefault();
+		$("#uploadImage2").click();
+	});
+})
+$(function(){
+	$("#empPicUpload3").on("click",function(e){
+		e.preventDefault();
+		$("#uploadImage3").click();
+	});
+});
+		
          function readUploadImage1(inputObject){
              if(inputObject.files && inputObject.files[0]){
                 if(!(/image/i).test(inputObject.files[0].type)){
@@ -233,4 +251,18 @@
         })    
       
    </script>
+   <script>
+    	$(function(){
+    		$("#sub").click(function(){
+    		var fileCheck1 = $("#uploadImage1").val();
+    		var fileCheck2 = $("#uploadImage2").val();
+    		var fileCheck3 = $("#uploadImage3").val();
+    		if(!fileCheck1 || !fileCheck2 || !fileCheck3){
+    			alert("새로운 파일을 제출해 주세요.");
+    			return false;
+    			
+    		}
+    		})
+    	})
+    </script>
 </html>

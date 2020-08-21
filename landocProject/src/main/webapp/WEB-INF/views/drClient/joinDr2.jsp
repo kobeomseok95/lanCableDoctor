@@ -203,12 +203,6 @@
 							<button class="login100-form-btn">인증하기</button>
 						</div>
 					</div>
-
-					<div class="text-center p-t-115" style="padding-top: 30px;">
-						<span
-							class="txt1"> 회원이라구요? </span> <a class="txt2" href="loginView.do">
-							로그인 </a> 
-					</div>
 				</form>
 			</div>
 		</div>

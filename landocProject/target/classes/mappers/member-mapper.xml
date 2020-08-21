@@ -100,8 +100,9 @@
 	<!-- 의사회원 로그인_진교 -->
 	<select id="loginDrClient" parameterType="DrClient"
 		resultMap="DoctorResultSet">
-		SELECT *
-		FROM DRCLIENT
+		SELECT D.*, PP.PRO_RENAME, PP.PRO_ORIGIN
+		FROM DRCLIENT D
+		LEFT JOIN PROFILEPHOTO PP ON (D.DR_NO = PP.DR_NO)
 		WHERE DR_ID=#{userId}
 	</select>
 
@@ -109,7 +110,7 @@
 	<select id="searchIdClient" parameterType="Client"
 		resultMap="ClientResultSet">
 		SELECT *
-		FROM Client
+		FROM CLIENT
 		WHERE C_NAME=#{userName}
 		AND
 		C_EMAIL=#{email}
@@ -119,7 +120,7 @@
 	<select id="searchIdDrClient" parameterType="DrClient"
 		resultMap="DoctorResultSet">
 		SELECT *
-		FROM DrClient
+		FROM DRCLIENT
 		WHERE DR_NAME=#{userName}
 		AND
 		DR_EMAIL=#{email}
@@ -347,10 +348,11 @@
 	</update>
 	
 	<select id="selectDrClientHp1" parameterType="string" resultMap="DoctorResultSet">
-		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE
+		SELECT D.DR_NO, HP.HP_NO, DRHP.DRHP_ORIGIN, DRHP.DRHP_RENAME, PH_CODE, HP_NAME, D.HPCATE_CODE, HPCATE_NAME
 		FROM DRCLIENT D
 		LEFT JOIN DRHPPHOTO DRHP ON (D.DR_NO = DRHP.DR_NO)
 		LEFT JOIN HOSPITAL HP ON (D.HP_NO = HP.HP_NO) 
+		LEFT JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
 		WHERE D.DR_NO = #{drNo}
 		AND PH_CODE = 1
 	</select>
@@ -470,4 +472,24 @@
 		FROM DRCLIENT
 		WHERE DR_NO = #{drNo}
 	</select>
+	
+	<select id="selectHpList" parameterType="List" resultMap="DoctorResultSet">
+		SELECT H.HPCATE_CODE, HPCATE_NAME
+		FROM HPCATEGORY H
+		JOIN HPLIST L ON (H.HPCATE_CODE = L.HPCATE_CODE)
+		WHERE HP_NO = #{hpNo}
+	</select>
+	
+	<select id="joinEmailCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM CLIENT
+		WHERE C_EMAIL=#{email}
+	</select>
+	
+	<select id="joinDrEmailCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM DRCLIENT
+		WHERE DR_EMAIL=#{email}
+	</select>
+	
 </mapper>
