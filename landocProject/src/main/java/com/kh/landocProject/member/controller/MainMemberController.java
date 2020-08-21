@@ -48,7 +48,7 @@ public class MainMemberController {
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 //	사진 저장 폴더
-	private final String filePath = "C:\\lanCableDoctorProject\\files\\";
+	private final String filePath = "C:\\lanCableDoctorProject\\files\\"; 
 
 	@Autowired
 	private JavaMailSender mailSender;
