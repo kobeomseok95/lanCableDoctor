@@ -654,10 +654,11 @@
 		</foreach>
 	</update> 
 	
-	<select id="selectP" parameterType="string" resultMap = "DrRecommendResultSet">
-		SELECT PD_NO
+	<select id="checkPdNoDup" parameterType="DrComment" resultType="_int">
+		SELECT COUNT(*)
 		FROM DRRECOMMEND
-		WHERE DR_NO = #{drNo}
+		WHERE PD_NO= #{pdNo}
+		AND DR_NO = #{drNo}
 	</select>
 </mapper>
 

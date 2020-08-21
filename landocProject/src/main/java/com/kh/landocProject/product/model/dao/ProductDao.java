@@ -11,6 +11,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.landocProject.dmypage.model.vo.DrProductRecommends;
+import com.kh.landocProject.product.model.vo.DrComment;
 import com.kh.landocProject.product.model.vo.Product;
 import com.kh.landocProject.product.model.vo.ProductDetailPagination;
 import com.kh.landocProject.product.model.vo.ProductPagination;
@@ -114,10 +115,12 @@ public class ProductDao {
 		return sqlSessionTemplate.update("productMapper.recoUpdate", list);
 	}
 
-	public List<String> selectP(String drNo) {
+	public int checkPdNoDup(DrComment dc) {
 		
-		return sqlSessionTemplate.selectList("productMapper.selectP", drNo);
+		return sqlSessionTemplate.selectOne("productMapper.checkPdNoDup", dc);
 	}
+
+
 
 	
 

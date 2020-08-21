@@ -1,12 +1,13 @@
 package com.kh.landocProject.product.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.landocProject.dmypage.model.vo.DrProductRecommends;
 import com.kh.landocProject.member.model.vo.DrClient;
 import com.kh.landocProject.product.model.service.ProductService;
+import com.kh.landocProject.product.model.vo.DrComment;
 import com.kh.landocProject.product.model.vo.Product;
 import com.kh.landocProject.product.model.vo.ProductDetailPagination;
 import com.kh.landocProject.product.model.vo.ProductPagination;
@@ -249,18 +251,6 @@ public class mainProductController {
 			list.add(reco);
 		}
 		
-		String[] drNo2 = drNo1.split(",");
-		
-		String drNo3 = drNo2[0];
-		
-		System.out.println("drNo3 : " + drNo3);
-		
-		List<String> selectP = productServiceImpl.selectP(drNo3);
-		System.out.println("selectP : " + selectP);
-		
-		for(int i = 0; i < pdNo.size(); i++) {
-			
-		}
 		result = productServiceImpl.drRecommendInsert(list);
 
 		if (result > 0) {
@@ -271,5 +261,20 @@ public class mainProductController {
 
 		return mv;
 	}
+	// 상품 추천 중복
+		@RequestMapping("dupPdNo.do")
+		public void emailDuplicateCheck(HttpServletResponse response, Integer pdNo, String drNo, DrComment dc) throws IOException {
+			System.out.println("mainMemberController.java test line 1300");
+			System.out.println(pdNo);
+			System.out.println(drNo);
+			System.out.println(dc);
+			
+			boolean isUsable = productServiceImpl.checkPdNoDup(dc) == 0 ? true : false;
+			
+			PrintWriter pw = response.getWriter();
+			pw.print(isUsable);
+			pw.flush();
+			pw.close();
+		}
 	 
 }
