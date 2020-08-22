@@ -101,7 +101,6 @@
 		<div style="width: 1000px; display: inline-block">
 			<div class="row px-3 py-5" id="posit">
 				<!-- modal start-->
-
 				<div id="ordermodal" class="modal fade show" tabindex="-1"
 					role="dialog" aria-modal="true"
 					style="padding-right: 16px; display: none; margin-left: 170px;">
@@ -111,7 +110,7 @@
 
 								<h5 class="modal-title">주문 상세정보</h5>
 								<button class="btn-transparent" type="button"
-									data-dismiss="modal" aria-label="Close">
+									data-dismiss="modal" aria-label="Close" style="border: 1px; background-color: white;">
 									<span aria-hidden="true"
 										style="font-size: 2.5rem; color: #9b9b9b;">×</span>
 								</button>
@@ -279,8 +278,8 @@
 
 				<div class="point-breadcrumb text-left">
 					<a href="clientMypage.do"
-						style="color: #0071ce; letter-spacing: -0.5px; font-size: 25px;">
-						나의 주문조회 </a> > <strong class="ml-2" style="font-size: 25px;">주문목록</strong>
+						style="color: #0071ce; letter-spacing: -0.5px; font-size: 30px;">
+						나의 주문조회 </a> > <strong class="ml-2" style="font-size: 30px;">주문목록</strong>
 				</div>
 
 				<!-- <div class="point-count-title mt-4 text-left" style="font-size: 30px;">
@@ -483,9 +482,18 @@
 
 		</div>
 	</div>
-	</div>
+
 
 	<script>
+		var msg ='<c:out value="${msg}"/>';
+		if(msg != ''){
+			alert(msg);
+		}
+		
+		
+	
+		
+	
 		function cancel(value){
 			var orderNo =value;
 			var sellflag = confirm("주문취소 하시겠습니까?");

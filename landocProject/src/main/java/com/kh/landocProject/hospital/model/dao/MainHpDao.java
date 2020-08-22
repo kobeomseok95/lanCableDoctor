@@ -95,5 +95,15 @@ public class MainHpDao {
 		
 		return sqlSessionTemplate.update("mainHpMapper.updateComment", hp);
 	}
+
+	public ArrayList<HpSearch> selectHpAvgList(HpSearch hp) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectHpAvgList",hp);
+	}
+
+	public ArrayList<HpSearch> selectHpAvgListCate(String cateName) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectHpAvgListCate",cateName);
+	}
 	
 }

@@ -13,6 +13,7 @@ import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
+import com.kh.landocProject.member.model.vo.Client;
 
 
 
@@ -190,6 +191,18 @@ public class cMypageServiceImpl implements cMypageService {
 	public int getListCountSearchOrderList2(HashMap<String, Object> search) {
 		
 		return cmDao.getListCountSearchOrderList2(search);
+	}
+
+	@Override
+	public Client selectC(String cNo) {
+		
+		return cmDao.selectC(cNo);
+	}
+
+	@Override
+	public ArrayList<LikeHp> selectHpAvgList(String cNo) {
+		
+		return cmDao.selectHpAvgList(cNo);
 	}
 
 

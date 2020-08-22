@@ -42,6 +42,12 @@
 </head>
 
 <body>
+	<script type="text/javascript">
+		var msg = '<c:out value="${msg}"/>'
+		if(msg !=''){
+			alert(msg);
+		}
+	</script>
    <!-- Page Preloder -->
    <div id="preloder">
       <div class="loader"></div>

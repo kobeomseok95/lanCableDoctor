@@ -14,6 +14,7 @@ import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
+import com.kh.landocProject.member.model.vo.Client;
 
 @Repository("cmDao")
 public class cMypageDao {
@@ -180,6 +181,16 @@ public class cMypageDao {
 	public int getListCountSearchOrderList2(HashMap<String, Object> search) {
 		
 		return sqlSessionTemplate.selectOne("cMypage.getListCountSearchOrderList2",search);
+	}
+
+	public Client selectC(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("cMypage.selectC",cNo);
+	}
+
+	public ArrayList<LikeHp> selectHpAvgList(String cNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("cMypage.selectHpAvgList",cNo);
 	}
 
 

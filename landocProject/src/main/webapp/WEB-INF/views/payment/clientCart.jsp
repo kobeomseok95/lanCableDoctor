@@ -134,9 +134,10 @@
                         <th style="width: 25%"></th>
                         <th style="width: 10%"></th>
                     </tr>
+                   
                     <form action="allOrder.do" method="POST">
                     <c:forEach var="c" items="${cart}" varStatus="status">
-                    
+                    <c:if test="${!empty cart}">
                     <tr class="tr">
                     
                         <td><input type="checkbox" class="product-checkbox" name="cartCheck" id="cartCheck${status.index}" >
@@ -168,7 +169,16 @@
                         <td><button class="btn btn-sm " type="button" style="background-color: #d9d9d9;color:white;" onclick="deleteCart(${c.cartNo});">삭제</button></td>
                       
                     </tr>
+                    </c:if>
                     </c:forEach>
+                    <c:if test="${empty cart}">
+                    <tr class="tr">
+                    	<td colspan="5" style="text-align: center;color:rgba(0, 0, 0, 0.651);">
+                    	장바구니 목록이 없습니다.
+                    	</td>
+                    </tr>
+                    </c:if>
+                    
                     <script>
                     	
                     	function deleteCart(cartNo){
@@ -202,7 +212,17 @@
                 <br>
                 <div class="text-center"style="position: sticky; top: 250px;">
                     <button class="btn-lg mb-2" style="width:80%; background-color: white; color:#676767;border: 1px #d9d9d9 solid; border-radius: 0.1px;" type="button" onclick="selectOrder();">선택주문</button>
+                    <c:if test="${empty cart}">
+                     <button class="btn-lg" style="width:80%;border: 1px #d9d9d9 solid; border-radius: 0.1px;" type="button" onclick="empty()">전체주문</button>
+                     <script>
+                     	function empty(){
+                     		alert("장바구니를 추가하세요");
+                     	}
+                     </script>
+                    </c:if>
+                    <c:if test="${!empty cart}">
                     <button class="btn-lg" style="width:80%;border: 1px #d9d9d9 solid; border-radius: 0.1px;" type="submit">전체주문</button>
+               		</c:if>
                 </div>
                 </form>
             </div>  

@@ -10,7 +10,7 @@
 		<img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
 	</a>
 	<ul class="main-menu">
-		<li><a href="#">병원찾기</a></li>
+		<li><a href="home.do?result=25">병원찾기</a></li>
 	   
 		<c:choose>
 			<c:when test="${empty loginClient && empty loginDrClient }">

@@ -45,10 +45,15 @@ public class cMypageController {
 	// 사진 저장 폴더
 	private final String filePath = "C:\\lanCableDoctorProject\\files\\";
 	
+	
 	@RequestMapping(value="clientMypage.do", method=RequestMethod.GET)
-	public String mypageWorkjsp() {
-		
-		return "mypage/myPageWork";
+	public ModelAndView mypageWorkjsp(HttpSession session,ModelAndView mv) {
+		Client loginClient = (Client)session.getAttribute("loginClient"); 
+		String cNo= loginClient.getcNo();
+		Client loginClient1 = cmService.selectC(cNo);
+		mv.addObject("loginClient1",loginClient1);
+		mv.setViewName("mypage/myPageWork");
+		return mv;
 	}
 	
 	
@@ -58,9 +63,18 @@ public class cMypageController {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		ArrayList<LikeHp> list = cmService.selectList(cNo);
-
+		ArrayList<LikeHp> listAvg = cmService.selectHpAvgList(cNo); 
+		for(int i =0; i<listAvg.size();i++) {
+			for(int z=0; z<list.size();z++) {
+				if(listAvg.get(i).getHpNo() == list.get(z).getHpNo()) {
+					list.get(z).setHpAvgRate(listAvg.get(i).getHpAvgRate());
+					list.get(z).setReviewCount(listAvg.get(i).getReviewCount());
+				}
+			}
+		}
+	
 		int listCount = cmService.selectCount(cNo);
-		if(list!=null) {
+		if(list!=null && listAvg != null) {
 			  mv.addObject("likeHplist",list); 
 			  mv.addObject("likeHpCount",listCount);
 			  mv.setViewName("mypage/myPageLikeHospital");
@@ -74,7 +88,7 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="pdReview.do")
-	public ModelAndView pdReviewList(ModelAndView mv, HttpSession session,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+	public ModelAndView pdReviewList(ModelAndView mv, HttpSession session,@RequestParam(value="page", required=false) Integer page,String msg) throws cMypageException {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		int currentPage = 1;
@@ -90,6 +104,7 @@ public class cMypageController {
 		if(list!=null) {
 			mv.addObject("pdReviewList",list);
 			mv.addObject("pi",pi);
+			mv.addObject("msg",msg);
 			mv.setViewName("mypage/mypagePdReview");
 		}else {
 			throw new cMypageException("상품리뷰리스트 조회 실패!");
@@ -99,7 +114,7 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="myOrderList.do")
-	public ModelAndView myOrderList(ModelAndView mv,HttpSession session, @RequestParam(value="page", required=false) Integer page) {
+	public ModelAndView myOrderList(ModelAndView mv,HttpSession session, @RequestParam(value="page", required=false) Integer page,String msg) {
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
@@ -116,6 +131,7 @@ public class cMypageController {
 		ArrayList<OrderList> list = cmService.selectOrderList(cNo,pi);
 		
 		if(list!=null) {
+			mv.addObject("msg",msg);
 			mv.addObject("orderList",list);
 			mv.addObject("pi",pi);
 			mv.setViewName("mypage/mypageOrderList");
@@ -247,11 +263,8 @@ public class cMypageController {
 		int result2 = cmService.updateOrderStatus(review);
 		if(result>0 && result2>0) {
 			
-			  response.setContentType("text/html; charset=UTF-8");
-			  PrintWriter out_equals = response.getWriter();
-	          out_equals.println("<script>alert('리뷰작성이 완료되었습니다.');</script>");
-	          out_equals.flush();
-	          mv.setViewName("mypage/myPageWork");
+	  		  mv.addObject("msg","리뷰작성이 완료되었습니다.");
+	          mv.setViewName("redirect:pdReview.do");
 	     
 		}else{
 			throw new cMypageException("리뷰작성 실패!");
@@ -260,7 +273,7 @@ public class cMypageController {
 		}
 	
 	@RequestMapping(value="orderQnaList.do")
-	public ModelAndView orderQnaList(HttpSession session, ModelAndView mv,OrderQna qna,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+	public ModelAndView orderQnaList(HttpSession session, ModelAndView mv,OrderQna qna,@RequestParam(value="page", required=false) Integer page,String msg) throws cMypageException {
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
@@ -282,6 +295,7 @@ public class cMypageController {
 			mv.addObject("qnaYList",qnaY);
 			mv.addObject("qnaNList",qnaN);
 			mv.addObject("pi",pi);
+			mv.addObject("msg",msg);
 			mv.setViewName("mypage/mypageOrderQnaList");
 		}else {
 			throw new cMypageException("qna조회실패!");
@@ -343,11 +357,8 @@ public class cMypageController {
 		qna.setOqnaContent(oqnaContent);
 		int result = cmService.orderQnaInsert(qna);
 		if(result>0) {
-			  response.setContentType("text/html; charset=UTF-8");
-			  PrintWriter out_equals = response.getWriter();
-	          out_equals.println("<script>alert('문의작성이 완료되었습니다.');</script>");
-	          out_equals.flush();
-	          mv.setViewName("mypage/myPageWork");
+			  mv.addObject("msg","문의작성이 완료되었습니다.");
+	          mv.setViewName("redirect:orderQnaList.do");
 		}else {
 			throw new cMypageException("주문문의 작성실패!");
 		}
@@ -405,11 +416,8 @@ public class cMypageController {
 		}
 		int result= cmService.updateReviewInsert(review);
 		if(result >0) {
-			  response.setContentType("text/html; charset=UTF-8");
-			  PrintWriter out_equals = response.getWriter();
-	          out_equals.println("<script>alert('리뷰수정이 완료되었습니다.');</script>");
-	          out_equals.flush();
-	          mv.setViewName("mypage/myPageWork");
+			  mv.addObject("msg","리뷰수정이 완료되었습니다.");
+	          mv.setViewName("redirect:pdReview.do");
 		}else {
 			throw new cMypageException("리뷰 수정 실패!");
 		}
@@ -427,8 +435,8 @@ public class cMypageController {
 		 cp.setcPoint(cmService.selectCPoint(cNo));
 		 
 		
-			 mv.addObject("point",cp);
-			 mv.setViewName("mypage/mypagePoint");
+		mv.addObject("point",cp);
+		mv.setViewName("mypage/mypagePoint");
 	
 		 
 		 return mv;
@@ -438,7 +446,6 @@ public class cMypageController {
 	public ModelAndView pointList(ModelAndView mv, HttpSession session) throws cMypageException {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
-		
 		
 		ArrayList<CMypagePoint> listPoint = cmService.selectPointList(cNo);
 		int listCount = cmService.listCountPointList(cNo);
@@ -453,23 +460,21 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="orderCancel.do")
-	public ModelAndView orderCancel(ModelAndView mv,OrderList order,HttpServletResponse response, HttpSession session,@RequestParam(value="orderNo") int orderNo,@RequestParam(value="oCode") int oCode) throws cMypageException, IOException {
+	public ModelAndView orderCancel(ModelAndView mv,OrderList order,@RequestParam(value="orderNo") int orderNo,@RequestParam(value="oCode") int oCode) throws cMypageException, IOException {
 		order.setoCode(oCode);
 		order.setOrderNo(orderNo);
+		System.out.println(order);
 		int result = cmService.orderCancel(order);
 		if(result>0) {
-			  response.setContentType("text/html; charset=UTF-8");
-			  PrintWriter out_equals = response.getWriter();
-			  if(order.getoCode()==15) {
-				 out_equals.println("<script>alert('주문취소가 완료되었습니다.');</script>");
+			 if(order.getoCode()==15) {
+				  mv.addObject("msg","주문취소가 완료되었습니다.");
 			  }else if(order.getoCode()==6) {
-				  
-				 out_equals.println("<script>alert('반품요청이 완료되었습니다.');</script>");
+				  mv.addObject("msg","반품요청이 완료되었습니다.");		
 			  }else if(order.getoCode()==10) {
-				 out_equals.println("<script>alert('교환요청이 완료되었습니다.');</script>");
+				  mv.addObject("msg","교환요청이 완료되었습니다.");
 			  }
-	          out_equals.flush();
-	          mv.setViewName("mypage/myPageWork");
+				
+	          mv.setViewName("redirect:myOrderList.do");
 		}else {
 			throw new cMypageException("주문취소 실패");
 		}

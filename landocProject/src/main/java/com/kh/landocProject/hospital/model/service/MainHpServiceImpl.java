@@ -112,6 +112,18 @@ public class MainHpServiceImpl implements MainHpService{
 		return mainHpDao.updateComment(hp);
 	}
 
+	@Override
+	public ArrayList<HpSearch> selectHpAvgList(HpSearch hp) {
+		
+		return mainHpDao.selectHpAvgList(hp);
+	}
+
+	@Override
+	public ArrayList<HpSearch> selectHpAvgListCate(String cateName) {
+		
+		return mainHpDao.selectHpAvgListCate(cateName);
+	}
+
 	
 	
 }

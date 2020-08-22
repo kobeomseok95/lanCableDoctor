@@ -139,7 +139,7 @@
                      <c:param name="orderNo" value="${r.orderNo}"/>
                      
                   </c:url>
-                     <a href="${updateReview}" class=""> 수정 </a> | <a href="#"
+                     <a href="${updateReview}" class=""> 수정 </a> | <a href="productDetail.do?pdNo=${r.pdNo}"
                         class="review-list-detail"> 재구매 </a>
                   </div>
                </div>

@@ -93,8 +93,9 @@
 	<!-- 일반회원 로그인_진교 -->
 	<select id="loginClient" parameterType="Client"
 		resultMap="ClientResultSet">
-		SELECT *
-		FROM CLIENT
+		SELECT C.*,P.PRO_ORIGIN,P.PRO_RENAME
+		FROM CLIENT C
+        LEFT JOIN PROFILEPHOTO P ON(C.C_NO=P.C_NO) 
 		WHERE C_ID=#{userId}
 	</select>
 	<!-- 의사회원 로그인_진교 -->

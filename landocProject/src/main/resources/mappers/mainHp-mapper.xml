@@ -42,16 +42,14 @@
 		<result property="hpPhone" column="HP_PHONE" />
 		<result property="hpPostcode" column="HP_POSTCODE" />
 		<result property="hpAddress" column="HP_ADDRESS" />
-		<result property="hpX" column="HP_X" />
-		<result property="hpY" column="HP_Y" />
-		<result property="hpReview" column="HP_REVIEW" />
-		<result property="hpAvgRate" column="HP_AVG_RATE" />
+		<result property="hpAvgRate" column="HP_RE_AVG_RATE" />
 		<result property="hpTime" column="HP_TIME" />
-		<result property="proOrigin" column="PRO_ORIGIN" />
-		<result property="proRename" column="PRO_RENAME" />
-		<result property="proFilepath" column="PRO_FILEPATH" />
+		<result property="proOrigin" column="DRHP_ORIGIN" />
+		<result property="proRename" column="DRHP_RENAME" />
+		<result property="proFilepath" column="DRHP_FILEPATH" />
 		<result property="cateName" column="HPCATE_NAME" />
   		<result property="cateCode" column="HPCATE_CODE" />
+  		<result property="reviewCount" column="REVIEWCOUNT" />
   </resultMap>
  
 
@@ -94,27 +92,38 @@
 
   <!--병원이름검색  -->
   <select id="hpSearchListNormal" parameterType="HpSearch" resultMap="hpSearchMap">
-  	SELECT HP.HP_NO, HP.HP_NAME,
-		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X,
-		HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
-        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
-        PT.PRO_ORIGIN,PT.PRO_RENAME,PT.PRO_FILEPATH,
+  		SELECT HP.HP_NO, HP.HP_NAME,
+		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS,
+        DECODE(HT.HP_OPEN_TIME,NULL,'휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
+        DHP.DRHP_ORIGIN,DHP.DRHP_RENAME,DHP.DRHP_FILEPATH,
         LISTAGG(CAST(HG.HPCATE_name AS VARCHAR(100)),',') WITHIN GROUP (ORDER BY NULL )AS HPCATE_NAME
         FROM HPLIST HPL
         LEFT JOIN HPCATEGORY HG ON(HPL.HPCATE_CODE=HG.HPCATE_CODE)
         LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
         LEFT JOIN HPTIME HT ON(HPL.HP_NO = HT.HP_UNIQUENO)
-        LEFT JOIN PROFILEPHOTO PT ON(PT.HP_NO=HPL.HP_NO)
-		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY AND HP.HP_STATUS='Y'
-		<if test="area != '전체'">
-        AND hp_address LIKE '%'||#{area}||'%' 
+		LEFT JOIN DRHPPHOTO DHP ON(HP.HP_NO=DHP.HP_NO)
+		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY AND HP.HP_STATUS='Y' AND DHP.PH_CODE =5
+        <if test="area != '전체'">
+        AND hp_address LIKE '%'||#{area}||'%'
         </if>
-        AND HP_NAME LIKE #{hpName}
-        GROUP BY HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, 
-        HP.HP_ADDRESS, HP.HP_X, HP.HP_Y, HP.HP_REVIEW, HP.HP_AVG_RATE, 
-        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME), HT.HP_OPEN_TIME, NULL, '정보없음', '00:00', 
-        '휴무', HT.HP_OPEN_TIME, HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME, '~', HT.HP_CLOSE_TIME, 
-        PT.PRO_ORIGIN, PT.PRO_RENAME, PT.PRO_FILEPATH
+		AND HP_NAME LIKE #{hpName} group by HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, 
+		HP.HP_X, HP.HP_Y, HP.HP_REVIEW, HP.HP_AVG_RATE, DECODE(HT.HP_OPEN_TIME,NULL,'휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME), 
+		DHP.DRHP_ORIGIN, DHP.DRHP_RENAME, DHP.DRHP_FILEPATH
+  </select>
+  
+  <select id="selectHpAvgList" parameterType="HpSearch" resultMap="hpSearchMap">
+  	SELECT  HP.HP_NO, HP.HP_NAME,
+        DECODE(ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1),NULL,0,
+        ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1),ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1)) AS HP_RE_AVG_RATE,
+        COUNT(HW.HP_RE_AVG_RATE) AS REVIEWCOUNT
+        FROM HPLIST HPL
+        LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
+        LEFT JOIN HPREVIEW HW ON(HP.HP_NO=HW.HP_NO)
+		WHERE HP.HP_STATUS='Y'
+		<if test="area != '전체'">
+        AND hp_address LIKE '%'||#{area}||'%'
+        </if>
+        AND HP.HP_NAME LIKE #{hpName} group by HP.HP_NO, HP.HP_NAME
   </select>
 
 
@@ -186,20 +195,33 @@
 
   <!--진료과목별 검색-->
   <select id="hpCateSearchList" parameterType="string" resultMap="hpSearchMap">
-  	SELECT HP.HP_NO, HP.HP_NAME,
-		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, HP.HP_X,
-		HP.HP_Y,HP.HP_REVIEW, HP.HP_AVG_RATE,
-        DECODE(HT.HP_OPEN_TIME,NULL,'정보없음','00:00','휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
-        PT.PRO_ORIGIN,PT.PRO_RENAME,PT.PRO_FILEPATH,HG.HPCATE_name,HG.HPCATE_CODE
+  	 SELECT HP.HP_NO, HP.HP_NAME,
+		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS, 
+        DECODE(HT.HP_OPEN_TIME,NULL,'휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
+        DHP.DRHP_ORIGIN,DHP.DRHP_RENAME,DHP.DRHP_FILEPATH,HG.HPCATE_name,HG.HPCATE_CODE
         FROM HPLIST HPL
         LEFT JOIN HPCATEGORY HG ON(HPL.HPCATE_CODE=HG.HPCATE_CODE)
         LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
         LEFT JOIN HPTIME HT ON(HPL.HP_NO = HT.HP_UNIQUENO)
-        LEFT JOIN PROFILEPHOTO PT ON(PT.HP_NO=HPL.HP_NO)
-		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY AND HP.HP_STATUS='Y'
+        LEFT JOIN DRHPPHOTO DHP ON(HP.HP_NO=DHP.HP_NO)
+		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY AND HP.HP_STATUS='Y' AND DHP.PH_CODE =5
         AND HG.HPCATE_NAME = #{cateName}
    </select>
-
+	
+   <select id="selectHpAvgListCate" parameterType="string" resultMap="hpSearchMap">
+   		SELECT HP.HP_NO, HP.HP_NAME,
+        DECODE(ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1),NULL,0,
+        ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1),ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1)) AS HP_RE_AVG_RATE,
+        COUNT(HW.HP_RE_AVG_RATE) AS REVIEWCOUNT
+        FROM HPLIST HPL
+        LEFT JOIN HPCATEGORY HG ON(HPL.HPCATE_CODE=HG.HPCATE_CODE)
+        LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
+        LEFT JOIN HPREVIEW HW ON(HP.HP_NO=HW.HP_NO)
+		WHERE  HP.HP_STATUS='Y'
+        AND HG.HPCATE_NAME = #{cateName}
+        group by HP.HP_NO, HP.HP_NAME
+   	
+   </select>
   
   <!-- 기존 병원 소개 사진 delete -->
   <delete id="deleteOriginPics" parameterType="_int">

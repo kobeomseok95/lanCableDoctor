@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>상품리뷰</title>
+<title>주문취소 목록</title>
 <meta charset="UTF-8">
 <meta name="description" content="SolMusic HTML Template">
 <meta name="keywords" content="music, html">
@@ -75,8 +75,8 @@
 
 				<div class="point-breadcrumb text-left">
 					<a href="clientMypage.do"
-						style="color: #0071ce; letter-spacing: -0.5px; font-size: 25px;">
-						나의 주문조회 </a> > <strong class="ml-2" style="font-size: 25px;">주문취소/교환/반품
+						style="color: #0071ce; letter-spacing: -0.5px; font-size: 30px;">
+						나의 주문조회 </a> > <strong class="ml-2" style="font-size: 30px;">주문취소/교환/반품
 						목록</strong>
 				</div>
 
@@ -179,6 +179,7 @@
 		<ul class="pagination"
 			style="justify-content: center; padding-bottom: 30px;">
 			<!-- disabled가 있으면 마우스 커서가 금지표시로 바뀐다. -->
+		
 			<c:if test="${pi.currentPage eq 1 }">
 				<li class=disabled style="width: 30px;"><a href="#"
 					aria-label="Previous"> <span aria-hidden="true">«</span>
@@ -194,7 +195,8 @@
 				</a></li>
 			</c:if>
 
-			<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+			<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage }">
+				
 				<c:if test="${p eq pi.currentPage }">
 					<li class="active" style="width: 30px;"><a
 						href="#" style="color:#a82400;">${p}</a></li>
@@ -206,8 +208,9 @@
 					<li class="active" style="width: 30px;"><a
 						href="${blistCheck }">${p}</a></li>
 				</c:if>
-
 			</c:forEach>
+
+	
 			<c:if test="${pi.currentPage eq pi.maxPage }">
 				<li class=disabled style="width: 30px;"><a href="#"
 					aria-label="Previous"> <span aria-hidden="true">»</span>

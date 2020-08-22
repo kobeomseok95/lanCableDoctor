@@ -41,4 +41,8 @@ public interface MainHpService {
 
 	int updateComment(MainHp hp);
 
+	ArrayList<HpSearch> selectHpAvgList(HpSearch hp);
+
+	ArrayList<HpSearch> selectHpAvgListCate(String cateName);
+
 }

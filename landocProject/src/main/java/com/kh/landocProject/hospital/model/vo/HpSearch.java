@@ -1,7 +1,5 @@
 package com.kh.landocProject.hospital.model.vo;
 
-import java.util.ArrayList;
-
 public class HpSearch {
 	private int hpNo;
 	private String hpName;
@@ -16,8 +14,9 @@ public class HpSearch {
 	private String proOrigin;
 	private String proRename;
 	private String proFilepath;
-	private String CateName;
+	private String cateName;
 	private int cateCode;
+	private int reviewCount;
 	
 	// 병원검색 위한 값
 	private String area; 	// 지역
@@ -32,7 +31,7 @@ public class HpSearch {
 
 	public HpSearch(int hpNo, String hpName, String hpPhone, String hpPostcode, String hpAddress, String hpX,
 			String hpY, int hpReview, int hpAvgRate, String hpTime, String proOrigin, String proRename,
-			String proFilepath, String cateName, int cateCode, String area) {
+			String proFilepath, String cateName, int cateCode, int reviewCount, String area) {
 		super();
 		this.hpNo = hpNo;
 		this.hpName = hpName;
@@ -47,8 +46,9 @@ public class HpSearch {
 		this.proOrigin = proOrigin;
 		this.proRename = proRename;
 		this.proFilepath = proFilepath;
-		CateName = cateName;
+		this.cateName = cateName;
 		this.cateCode = cateCode;
+		this.reviewCount = reviewCount;
 		this.area = area;
 	}
 
@@ -211,13 +211,13 @@ public class HpSearch {
 
 
 	public String getCateName() {
-		return CateName;
+		return cateName;
 	}
 
 
 
 	public void setCateName(String cateName) {
-		CateName = cateName;
+		this.cateName = cateName;
 	}
 
 
@@ -230,6 +230,18 @@ public class HpSearch {
 
 	public void setCateCode(int cateCode) {
 		this.cateCode = cateCode;
+	}
+
+
+
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
 	}
 
 
@@ -251,12 +263,17 @@ public class HpSearch {
 		return "HpSearch [hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", hpPostcode=" + hpPostcode
 				+ ", hpAddress=" + hpAddress + ", hpX=" + hpX + ", hpY=" + hpY + ", hpReview=" + hpReview
 				+ ", hpAvgRate=" + hpAvgRate + ", hpTime=" + hpTime + ", proOrigin=" + proOrigin + ", proRename="
-				+ proRename + ", proFilepath=" + proFilepath + ", CateName=" + CateName + ", cateCode=" + cateCode
-				+ ", area=" + area + "]";
+				+ proRename + ", proFilepath=" + proFilepath + ", cateName=" + cateName + ", cateCode=" + cateCode
+				+ ", reviewCount=" + reviewCount + ", area=" + area + "]";
 	}
+
+
+
 
 	
 	
+	
+
 	
 
 	

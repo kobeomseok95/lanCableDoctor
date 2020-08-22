@@ -135,7 +135,7 @@
 								<div class="mr-2">상품명 :</div>
 								<div class="rounded-pill p-2 ml-1 mr-1"
 									style="background-color: #e9e9e9;">
-									<a href="#" style="color: #45668e;">${y.pdName}</a>
+									<a href="productDetail.do?pdNo=${y.pdNo}" style="color: #45668e;">${y.pdName}</a>
 								</div>
 							</div>
 						</div>

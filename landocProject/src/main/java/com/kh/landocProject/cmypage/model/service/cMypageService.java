@@ -9,6 +9,7 @@ import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
+import com.kh.landocProject.member.model.vo.Client;
 
 public interface cMypageService {
 
@@ -70,6 +71,10 @@ public interface cMypageService {
 	int getListCountSearchOrderList(HashMap<String, Object> search);
 
 	int getListCountSearchOrderList2(HashMap<String, Object> search);
+
+	Client selectC(String cNo);
+
+	ArrayList<LikeHp> selectHpAvgList(String cNo);
 
 	
 
