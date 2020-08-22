@@ -25,4 +25,6 @@ public interface HpReviewService {
 
 	int updateCPoint(String cNo);
 
+	int reviewDenied(Integer hpReNo);
+
 }

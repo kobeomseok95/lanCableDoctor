@@ -52,15 +52,11 @@
 
 	<div class="container" style="margin-top: 80px; text-align: center">
 		<div class="p-4" style="width: 1000px; display: inline-block;">
-
-
-
 			<div class="review-list-title text-left" style="font-size: 30px;">
 				<a href="doctorMypage.do"
 					style="color: #0071ce; letter-spacing: -0.5px;"> 나의 QnA 문의글 </a> >
 				<strong class="ml-2">주문QnA</strong>
 			</div>
-
 
 			<div class="pb-2 mt-5 review-list-subtitle text-left"
 				style="font-size: 30px; border-bottom: solid; border-color: rgba(0, 0, 0, 0.514);">답변

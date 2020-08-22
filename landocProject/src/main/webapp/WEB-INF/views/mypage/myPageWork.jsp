@@ -108,7 +108,7 @@
 			<div class="row mt-3" id="myReviewSub" style="display: none;">
 				<div class="btn w-100 py-3 pl-5 text-left" id=""
 					style="border: 2px solid #9b9b9b; font-size: 21px;">
-					<a href="#">병원리뷰</a><br> <a href="pdReview.do">상품리뷰</a><br>
+					<a href="myHpReview.do">병원리뷰</a><br> <a href="pdReview.do">상품리뷰</a><br>
 				</div>
 			</div>
 

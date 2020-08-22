@@ -17,6 +17,7 @@ import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
 import com.kh.landocProject.member.model.vo.Client;
+import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 
 @Repository("cmDao")
 public class cMypageDao {
@@ -213,6 +214,17 @@ public class cMypageDao {
 		RowBounds rowBounds = new RowBounds(offset, nonChoosePi.getBoardLimit());
 		return sqlSessionTemplate.selectList("askDr.getMyNonChooseList", cNo, rowBounds);
 
+	}
+
+	public int getHpReCount(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.getHpReCount", cNo);
+	}
+
+	public ArrayList<HpReview> getMyHpReList(String cNo, CMypagePageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.getMyHpReList", cNo, rowBounds);
 	}
 
 

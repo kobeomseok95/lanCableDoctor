@@ -119,14 +119,7 @@
                 </div>
             </div>
             <div class="card border-0 mr-0">
-                <a href="/mdd_event/" target="_self">
-                    <div class="card-body">
-                        <button type="button" class="btn btn-blackcontent w-100 h-100 p-3" style="font-size:16px; background-color: transparent;border: solid 1px #9b9b9b; color:#494949;">
-    
-                            포인트 더 받기
-                        </button>
-                    </div>
-                </a>
+              
             </div>
         </div>
     </div>

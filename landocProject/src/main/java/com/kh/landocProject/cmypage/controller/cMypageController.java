@@ -34,6 +34,7 @@ import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
+import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 import com.kh.landocProject.member.model.vo.Client;
 
 
@@ -553,6 +554,35 @@ public class cMypageController {
 		mv.setViewName("mypage/mypageAskDr");
 		return mv;
 	}
+	
+	// 희지 일반 회원 마이페이지(나의 병원리뷰)
+	@RequestMapping("myHpReview.do")
+	public ModelAndView myHpReview(ModelAndView mv, HttpSession session,
+							@RequestParam(value="page", required=false) Integer currentPage) {
+		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo = loginClient.getcNo();
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int hpReCount = cmService.getHpReCount(cNo);
+		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,hpReCount);
+		ArrayList<HpReview> hpReList = cmService.getMyHpReList(cNo, pi);
+		
+		mv.addObject("hpReList", hpReList);
+		mv.addObject("pi", pi);
+		mv.setViewName("mypage/mypageHpReview");
+		
+		return mv;
+	}
+	
+	
+	
+	
+	
+	
 }
 
 

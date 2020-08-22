@@ -172,6 +172,12 @@
   </update>
   
   
+  <!-- 리뷰 미승인 요청 -->
+  <update id="reviewDenied" parameterType="_int">
+  	UPDATE HPREVIEW
+  	SET RECEIPT_YN='X'
+  	WHERE HP_RE_NO=#{hpReNo}
+  </update>
   
   
   

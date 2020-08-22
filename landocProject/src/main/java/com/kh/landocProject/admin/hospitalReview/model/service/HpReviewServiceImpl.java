@@ -74,5 +74,12 @@ public class HpReviewServiceImpl implements HpReviewService{
 	}
 
 
+	@Override
+	public int reviewDenied(Integer hpReNo) {
+		
+		return hpReDao.reviewDenied(hpReNo);
+	}
+
+
 
 }

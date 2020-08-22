@@ -89,6 +89,12 @@ public class HpReviewDao {
 	}
 
 
+	public int reviewDenied(Integer hpReNo) {
+		
+		return sqlSessionTemplate.update("adminHpReMapper.reviewDenied", hpReNo);
+	}
+
+
 
 
    
