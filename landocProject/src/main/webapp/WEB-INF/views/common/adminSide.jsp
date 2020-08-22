@@ -37,6 +37,7 @@
         </div>
         <table id="sideBarTb">
             <!-- <tr><td><img src="../images/logo.png"></td></tr> -->
+            <tr><td><button onclick="goHospitalSubmit();">병원 등록 관리</button></td></tr>
             <tr><td><button onclick="goMember();">일반 회원 관리</button></td></tr>
             <tr><td><button onclick="goDoctor();">의사 회원 관리</button></td></tr>
             <tr><td><button onclick="goHospital();">병원 정보 관리</button></td></tr>
@@ -105,7 +106,9 @@
            location.href="salesManage.do";
         }
         
-
+		function goHospitalSubmit(){
+			location.href="hospitalSubmitManage.do?pageNo=1";
+		}
         
 
 
