@@ -19,7 +19,7 @@
         #contentTb tr{line-height: 40px;}
         #contentTb th{border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
         #contentTb td{width: auto; border: 1px solid #bbb; font-size:14px;}
-        #contentTb button{height: 35px; width: 35%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
+        #contentTb button{height: 35px; width: 70%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
         #contentTb button:hover{background-color: #007ee5; color: white;}
 
 
@@ -52,13 +52,13 @@
         <!--테이블 부분-->
         <table id="contentTb">
             <tr>
-                <th class="firstLine">병원 등록 번호</th>
-                <th class="firstLine">병원 이름</th>
-                <th class="firstLine">병원 전화번호</th>
-                <th class="firstLine">병원 우편번호</th>
-                <th class="firstLine">병원 주소</th>
-                <th class="firstLine">병원 진료과목</th>
-                <th class="firstLine">상세보기</th>
+                <th class="firstLine" style="width: 7%;">병원 등록 번호</th>
+                <th class="firstLine" style="width: 15%;">병원 이름</th>
+                <th class="firstLine" style="width: 10%;">병원 전화번호</th>
+                <th class="firstLine" style="width: 7%;">병원 우편번호</th>
+                <th class="firstLine" style="width: 30%;">병원 주소</th>
+                <th class="firstLine" style="width: 21%;">병원 진료과목</th>
+                <th class="firstLine" style="width: 20%;">상세보기</th>
             </tr>
             	<c:if test="${empty hospitals }">
             <tr>
@@ -70,7 +70,7 @@
             	<c:if test="${!empty hospitals }">
             		<c:forEach var="hp" items="${hospitals }">
             <tr>
-           		<td>${hp.hpNo }</td>
+           		<td class="hpNo">${hp.hpNo }</td>
            		<td>${hp.hpName }</td>
            		<td>${hp.hpPhone }</td>
            		<td>${hp.postCode }</td>
@@ -130,99 +130,21 @@
 	<br><br><br><br><br><br><br><br><br><br>
     </div>
     
-    <script>
-	    function goProduct(){
-	    	location.href="productManage.do?pageNo=1&boardType=1";
-	    }
-
-        function goProductInsert(){
-            location.href="goProductInsert.do";
-        }
-
-        function goUpdate(){
-           location.href="productDetail.do";
-        }
-        
-
-        // 테이블 한 줄 hover효과 주는 function
-        $("#contentTb td").mouseenter(function(){
-            $(this).parent().css({"background" : "lightgrey"});
-        }).mouseout(function(){
-            $(this).parent().css({"background" : "white"});
-        });
-        
-        function numberWithCommas(x) {
-		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
-        
-        $(function(){
-        	$('.price').each(function(index, item){
-        		$(this).text(numberWithCommas($(this).text()));
-        	});
-        	
-        	$("#searchProduct").on({
-	       		click : function(){
-	       			if( $("#keyword").val().length < 2 && $("#condition option:selected").val() === "3" ){
-	       				alert("검색어를 2글자 이상 입력해주세요.");
-	       			}
-	       			else if( $("#condition option:selected").val() === "1" && !$.isNumeric( $("#keyword").val() ) ){
-	       				alert("상품 코드는 숫자만 검색 가능합니다!");
-	       			}
-	       			else{
-	       				$("#keyword").val( $("#keyword").val().replace(/ /g, '') );
-	       				$("#searchForm").submit();
-	       			}
-	       		}
-        	});
-        	//검색할때 공백 다 제거!
-        	$('body').keydown(function(key){
-        		if( key.keyCode === 13 && $("#keyword").val().length < 2 && $("#condition option:selected").val() === "3"){
-        			alert("검색어를 2글자 이상 입력해주세요.");
-        			return false;
-        		}
-        		else if( key.keyCode === 13 && $("#keyword").val().length >= 2 && $("#condition option:selected").val() === "3" ){
-        			$("#keyword").val( $("#keyword").val().replace(/ /g, '') );
-        			$("#searchForm").submit();
-        		}
-       			else if( key.keyCode === 13 && $("#condition option:selected").val() === "1" && !$.isNumeric( $("#keyword").val() ) ){
-       				alert("상품 코드는 숫자만 검색 가능합니다!");
-       				return false;
-       			}
-        	});
-        	
-        	$('.deleteProduct').on('click', function(){
-        		if(confirm("삭제하시겠습니까?")){
-	        		var pdNo = $(this).parent().siblings('.pdNo').text();
-	        		
-	        		var $deleteForm = $('<form action="deleteProduct.do" method="POST"></form>');
-	        		var $input = $('<input name="pdNo" type="hidden" />');
-	        		$input.attr("value", pdNo);
-	        		$deleteForm.append($input);
-	        		$('body').append($deleteForm);
-	        		$deleteForm.submit();
-	        		alert("삭제되었습니다.");
-        		}
-        		else return false;
-        	});
-        	
-        	$('.updateProduct').on('click', function(){
-        		var pdNo = $(this).parent().siblings('.pdNo').text();
-        		
-        		var $updateForm = $('<form action="updateProductView.do" method="GET"></form>');
-        		var $input = $('<input name="pdNo" type="hidden" />');
-        		$input.attr("value", pdNo);
-        		$updateForm.append($input);
-        		$('body').append($updateForm);
-        		$updateForm.submit();
-        	});
-        	
-        	$('.detailProduct').on('click', function(){
-        		var pdNo = $(this).parent().siblings('.pdNo').text();
-        		location.href='detailProductView.do?pdNo=' + pdNo;
-        	});
-        	
-        });	//end of jquery
-    </script>
+<script>
+	$(function(){
+		// 테이블 한 줄 hover효과 주는 function
+	    $("#contentTb td").mouseenter(function(){
+	        $(this).parent().css({"background" : "lightgrey"});
+	    }).mouseout(function(){
+	        $(this).parent().css({"background" : "white"});
+	    });
+    	
+		$(".detailHospital").on('click', function(){
+			var hpNo = $(this).parent().siblings('.hpNo').text();
+			location.href='hospitalSubmitDetail.do?hpNo=' + hpNo;
+		});
+    });	//end of jquery
+</script>
 
 
 </body>

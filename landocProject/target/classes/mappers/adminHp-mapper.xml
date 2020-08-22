@@ -68,11 +68,17 @@
 			<result property="applicantPhone" column="APHONE" />
 		</association>
 		<collection property="categories" javaType="java.util.List" resultMap="hpcategories" />
+		<collection property="submitImgs" javaType="java.util.List" resultMap="submitImgs" />
 	</resultMap>
 	
 	<resultMap type="HospitalCategories" id="hpcategories">
 		<result property="categoryNo" column="HPCATE_CODE" />
 		<result property="categoryName" column="HPCATE_NAME" />
+	</resultMap>
+	
+	<resultMap type="SubmitImgs" id="submitImgs">
+		<result property="photoCode" column="PH_CODE" />
+		<result property="photoName" column="DRHP_RENAME" />
 	</resultMap>
 	
 <!-- ************************ 경계 ************************ -->
@@ -309,5 +315,37 @@
 		        A.HP_APPROVAL = 'N') A
 	</select>
 
+	<select id="getNonApprovalHospitalDetail" parameterType="_int" resultMap="nonApprovalHospitals" >
+		SELECT
+		    A.HP_NO, A.HP_NAME, A.HP_PHONE, A.HP_POSTCODE, A.HP_ADDRESS,
+		    B.ANAME, B.AEMAIL, B.APHONE,
+		    D.HPCATE_NAME,
+		    E.DRHP_RENAME, E.PH_CODE
+		FROM
+		    HOSPITAL A
+		    JOIN APPLICANT B ON A.HP_NO = B.HP_NO
+		    JOIN HPLIST C ON A.HP_NO = C.HP_NO
+		    JOIN HPCATEGORY D ON C.HPCATE_CODE = D.HPCATE_CODE
+		    JOIN DRHPPHOTO E ON A.HP_NO = E.HP_NO
+		WHERE
+		    A.HP_APPROVAL = 'N'
+		    AND A.HP_NO = #{hpNo}
+	</select>
+
 
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -20,6 +20,7 @@ import com.kh.landocProject.common.Pagination;
 import com.kh.landocProject.hospital.model.vo.Hospital;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
+import com.kh.landocProject.hospital.model.vo.SubmitImgs;
 
 @Controller
 public class HospitalController {
@@ -275,5 +276,38 @@ public class HospitalController {
 		return mv;
 	}
 	
-
+	@RequestMapping(value="hospitalSubmitDetail.do", method=RequestMethod.GET)
+	public ModelAndView hospitalSubmitDetail(ModelAndView mv,
+																@RequestParam int hpNo) {
+		Hospital h = hpService.getNonApprovalHospitalDetail(hpNo);
+		mv.addObject("hospital", h);
+		for(SubmitImgs s : h.getSubmitImgs()) {
+			if(s.getPhotoCode() == 6) {
+				mv.addObject("br", s.getPhotoName());
+			}
+			else if(s.getPhotoCode() == 7) {
+				mv.addObject("id", s.getPhotoName());
+			}
+			else if(s.getPhotoCode() == 8) {
+				mv.addObject("dl", s.getPhotoName());
+			}
+		}
+		mv.setViewName("admin/hospital/hospitalNonApprovalDetail");
+		return mv;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

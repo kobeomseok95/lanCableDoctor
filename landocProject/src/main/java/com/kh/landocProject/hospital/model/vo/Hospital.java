@@ -26,14 +26,15 @@ public class Hospital implements Serializable {
 	private String dlFileName;
 	private Applicant applicant;
 	private List<HospitalCategories> categories;
+	private List<SubmitImgs> submitImgs;
 	
 	public Hospital() {
 	}
 
 	public Hospital(int rNo, int hpNo, String hpName, String hpPhone, String postCode, String address,
-			int[] categoryCode, List<HospitalCategories> categories, MultipartFile businessRegistration,
-			MultipartFile identifyDocument, MultipartFile drLicense, String brFileName, String idFileName,
-			String dlFileName, Applicant applicant) {
+			int[] categoryCode, MultipartFile businessRegistration, MultipartFile identifyDocument,
+			MultipartFile drLicense, String brFileName, String idFileName, String dlFileName, Applicant applicant,
+			List<HospitalCategories> categories, List<SubmitImgs> submitImgs) {
 		this.rNo = rNo;
 		this.hpNo = hpNo;
 		this.hpName = hpName;
@@ -41,7 +42,6 @@ public class Hospital implements Serializable {
 		this.postCode = postCode;
 		this.address = address;
 		this.categoryCode = categoryCode;
-		this.categories = categories;
 		this.businessRegistration = businessRegistration;
 		this.identifyDocument = identifyDocument;
 		this.drLicense = drLicense;
@@ -49,6 +49,8 @@ public class Hospital implements Serializable {
 		this.idFileName = idFileName;
 		this.dlFileName = dlFileName;
 		this.applicant = applicant;
+		this.categories = categories;
+		this.submitImgs = submitImgs;
 	}
 
 	public int getrNo() {
@@ -107,14 +109,6 @@ public class Hospital implements Serializable {
 		this.categoryCode = categoryCode;
 	}
 
-	public List<HospitalCategories> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<HospitalCategories> categories) {
-		this.categories = categories;
-	}
-
 	public MultipartFile getBusinessRegistration() {
 		return businessRegistration;
 	}
@@ -171,12 +165,33 @@ public class Hospital implements Serializable {
 		this.applicant = applicant;
 	}
 
+	public List<HospitalCategories> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<HospitalCategories> categories) {
+		this.categories = categories;
+	}
+
+	public List<SubmitImgs> getSubmitImgs() {
+		return submitImgs;
+	}
+
+	public void setSubmitImgs(List<SubmitImgs> submitImgs) {
+		this.submitImgs = submitImgs;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "Hospital [rNo=" + rNo + ", hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", postCode="
 				+ postCode + ", address=" + address + ", categoryCode=" + Arrays.toString(categoryCode)
-				+ ", categories=" + categories + ", businessRegistration=" + businessRegistration
-				+ ", identifyDocument=" + identifyDocument + ", drLicense=" + drLicense + ", brFileName=" + brFileName
-				+ ", idFileName=" + idFileName + ", dlFileName=" + dlFileName + ", applicant=" + applicant + "]";
+				+ ", businessRegistration=" + businessRegistration + ", identifyDocument=" + identifyDocument
+				+ ", drLicense=" + drLicense + ", brFileName=" + brFileName + ", idFileName=" + idFileName
+				+ ", dlFileName=" + dlFileName + ", applicant=" + applicant + ", categories=" + categories
+				+ ", submitImgs=" + submitImgs + "]";
 	}
 }

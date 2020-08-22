@@ -119,4 +119,8 @@ public class HospitalDao {
 		return sqlSessionTemplate.selectList("adminHpMapper.getNonApprovalHospitals", null, rowBounds);
 	}
 
+	public Hospital getNonApprovalHospitalDetail(int hpNo) {
+		return sqlSessionTemplate.selectOne("adminHpMapper.getNonApprovalHospitalDetail", hpNo);
+	}
+
 }

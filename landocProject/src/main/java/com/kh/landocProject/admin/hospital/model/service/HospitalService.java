@@ -47,4 +47,6 @@ public interface HospitalService {
 
 	List<Hospital> getNonApprovalHospitals(PageInfo pi);
 
+	Hospital getNonApprovalHospitalDetail(int hpNo);
+
 }

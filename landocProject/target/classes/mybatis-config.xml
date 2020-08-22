@@ -61,6 +61,7 @@
 		<typeAlias type="com.kh.landocProject.hospital.model.vo.Hospital" alias="Hospital" />
 		<typeAlias type="com.kh.landocProject.hospital.model.vo.Applicant" alias="Applicant" />
 		<typeAlias type="com.kh.landocProject.hospital.model.vo.HospitalCategories" alias="HospitalCategories" />
+		<typeAlias type="com.kh.landocProject.hospital.model.vo.SubmitImgs" alias="SubmitImgs" />
 	</typeAliases>
 
 

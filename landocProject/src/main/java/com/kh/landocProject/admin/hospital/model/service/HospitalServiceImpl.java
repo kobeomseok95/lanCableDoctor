@@ -124,4 +124,9 @@ public class HospitalServiceImpl implements HospitalService {
 	public List<Hospital> getNonApprovalHospitals(PageInfo pi) {
 		return hpDao.getNonApprovalHospitals(pi);
 	}
+
+	@Override
+	public Hospital getNonApprovalHospitalDetail(int hpNo) {
+		return hpDao.getNonApprovalHospitalDetail(hpNo);
+	}
 }
