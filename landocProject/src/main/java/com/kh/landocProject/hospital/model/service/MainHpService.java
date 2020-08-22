@@ -44,6 +44,11 @@ public interface MainHpService {
 
 	int updateComment(MainHp hp);
 
+
+	ArrayList<HpSearch> selectHpAvgList(HpSearch hp);
+
+	ArrayList<HpSearch> selectHpAvgListCate(String cateName);
+
 	int insertHospital(Hospital h);
 
 	int insertApplicant(Applicant a);
@@ -61,5 +66,6 @@ public interface MainHpService {
 	int getApplicantSeq(Applicant a);
 
 	int insertHospitalFiles(Hospital h);
+
 
 }

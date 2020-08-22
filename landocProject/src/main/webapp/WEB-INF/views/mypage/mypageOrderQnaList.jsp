@@ -43,6 +43,12 @@
 </head>
 
 <body>
+	<script type="text/javascript">
+		var msg ='<c:out value="${msg}"/>'
+		if(msg!=''){
+			alert(msg);
+		}
+	</script>
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -55,7 +61,7 @@
 
 
 
-			<div class="review-list-title text-left" style="font-size: 40px;">
+			<div class="review-list-title text-left" style="font-size: 30px;">
 				<a href="clientMypage.do"
 					style="color: #0071ce; letter-spacing: -0.5px;"> 나의 QnA 문의글 </a> >
 				<strong class="ml-2">주문QnA</strong>

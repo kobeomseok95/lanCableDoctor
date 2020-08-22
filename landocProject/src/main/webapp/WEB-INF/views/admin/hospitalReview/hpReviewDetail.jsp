@@ -110,7 +110,7 @@
                 <tr>
                     <th class="firstLine">자세한 내용</th>
                     <td style="text-align: left;">
-                    	<textarea rows="15px;" cols="80px;">${adminHpRe.hpReContent }</textarea>
+                    	<textarea rows="15px;" cols="80px;" readonly>${adminHpRe.hpReContent }</textarea>
                     	
                     </td>
                 </tr> 
@@ -136,15 +136,17 @@
             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
             	<c:if test="${adminHpRe.approval eq 'N' }">
-	            	<input type="hidden" value="${adminHpRe.approval }" name="approval">
-	            	<input type="hidden" value="${adminHpRe.hpReNo }" name="hpReNo">
-	               	<input type="hidden" value="${adminHpRe.cNo }" name="cNo">
+	            	<input type="hidden" value="${adminHpRe.approval }" name="approval" id="approval">
+	            	<input type="hidden" value="${adminHpRe.hpReNo }" name="hpReNo" id="hpReNo">
+	               	<input type="hidden" value="${adminHpRe.cNo }" name="cNo" id="cNo">
 	                <button type="submit">리뷰 승인하기</button>
+	                <button type="button" onclick="reviewDenied();">미 승인하기</button>
 	                <button type="button" onclick="goBack();">뒤로가기</button>  
                 </c:if>
                 
                 <c:if test="${adminHpRe.approval eq 'Y' }">
                 	<button type="button" onclick="alreadyApproved();">리뷰 승인하기</button>
+                	<button type="button" onclick="alreadyApproved();">미 승인하기</button>
 	                <button type="button" onclick="goBack();">뒤로가기</button>                
                 </c:if>
                 
@@ -160,6 +162,17 @@
     		alert("이미 승인 완료된 리뷰 입니다.");
     	}
     
+    	function reviewDenied(){
+    		var hpReNo = $("#hpReNo").val();
+    		
+    		if(confirm("미승인 처리 하시겠습니까?")){
+    			location.href="reviewDenied.do?hpReNo=" + hpReNo;
+    			
+    		}else{
+    			
+    		}
+    	}
+    	
         function goBack(){
             location.href="javascript:history.go(-1)";
         }

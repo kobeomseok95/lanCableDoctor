@@ -69,7 +69,7 @@
     
             <div class="row mt-5">
                 <div class="w-100">
-                <button type="button" id="link_to_products" class="btn btn-block btn-lg btn-primary" style="background-color:  #0071ce;">상품 구매하기</button>
+                <button type="button" id="link_to_products" class="btn btn-block btn-lg btn-primary" onclick="location.href='productIndex.do?sortNo=1&pageNo=1&categoryNo=7'" style="background-color:  #0071ce;">상품 구매하기</button>
                 </div>
             </div>
     

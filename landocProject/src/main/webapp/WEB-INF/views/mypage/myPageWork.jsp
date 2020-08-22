@@ -41,10 +41,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
    <![endif]-->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 <style>
-	a{
-		color: black;
+	div a{
+		color: #45668e;
 	}
+
 </style>
 </head>
 
@@ -61,27 +63,27 @@
 		<div class="p-4" style="width: 1000px; display: inline-block;">
 			<div class="row">
 				<div class="col-2 d-flex align-items-center"
-					style="border: 2px solid #9b9b9b; height: 131px;">
-					<c:if test="${loginClient.proRename eq null}">
-					<img class="img-fluid" style="width: 100%; height: auto;"
+					style="border: 2px solid #9b9b9b; height: 131px; padding: 0px;">
+					<c:if test="${loginClient1.proRename eq null}">
+					<img class="img-fluid" style="width: 100%; height:100%;"
 						alt="Responsive image"
-						src="/projectFiles/profile.png">
+						src="https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/dog.png">
 					</c:if>
-					<c:if test="${loginClient.proRename ne null}">
-					<img class="img-fluid" style="width: 100%; height: auto;"
+					<c:if test="${loginClient1.proRename ne null}">
+					<img class="img-fluid" style="width: 100%; height: 100%;"
 						alt="Responsive image"
-						src="/projectFiles/${loginCilent.proRename}">
+						src="/projectFiles/${loginClient1.proRename}">
 					</c:if>
 				</div>
 				<div class="col-8 pl-5 text-left">
 					<div class="d-flex align-items-center">
 						<div class="review-list-title text-left"
-							style="font-weight: bold; font-size: 35px;">${loginClient.nickName}</div>
+							style="font-weight: bold; font-size: 35px;">${loginClient1.nickName}</div>
 
 					</div>
-					<div class="text-left py-2">${loginClient.email}</div>
-					<button type="button" id="edit_profile"
-						class="btn btn-blackcontent w-50 p-1"
+					<div class="text-left py-2">${loginClient1.email}</div>
+					<button type="button" id="edit_profile" 
+						class="btn btn-blackcontent w-50 p-1" onclick="location.href='modifyClientView.do'"
 						style="font-size: 18px; background-color: #0071ce; color: whitesmoke">
 						프로필 수정</button>
 
@@ -106,16 +108,16 @@
 			<div class="row mt-3" id="myReviewSub" style="display: none;">
 				<div class="btn w-100 py-3 pl-5 text-left" id=""
 					style="border: 2px solid #9b9b9b; font-size: 21px;">
-					<a href="#">병원리뷰</a><br> <a href="pdReview.do">상품리뷰</a><br>
+					<a href="myHpReview.do">병원리뷰</a><br> <a href="pdReview.do">상품리뷰</a><br>
 				</div>
 			</div>
 
-			<div class="row mt-3">
-				<button class="btn w-100 py-3 pl-5 text-left" id="myAskDr" style="border: 2px solid #9b9b9b; font-size: 21px;">
 					<c:url var="goMyAskDr" value="myAskDr.do">
 						<c:param name="cNo" value="${loginClient.cNo }" />
 					</c:url>
-					<a href='${goMyAskDr }'>나의 의사에게 물어봐 문의글</a>
+			<div class="row mt-3">
+				<button class="btn w-100 py-3 pl-5 text-left" id="myAskDr" style="border: 2px solid #9b9b9b; font-size: 21px;" onclick="location.href='${goMyAskDr}'">
+					나의 의사에게 물어봐 문의글
 				</button>
 			</div>
 

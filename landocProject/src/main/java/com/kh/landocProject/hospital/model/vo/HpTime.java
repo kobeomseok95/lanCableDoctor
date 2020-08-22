@@ -17,7 +17,7 @@ public class HpTime implements Serializable{
 	private String closeTime;
 	
 	private List<HpTime> hpTimeList;
-
+	
 	public HpTime() {
 	}
 

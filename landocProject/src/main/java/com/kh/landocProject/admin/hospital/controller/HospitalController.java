@@ -241,11 +241,14 @@ public class HospitalController {
 	@RequestMapping("denied.do")
 	public String denied(RedirectAttributes request, 
 					@RequestParam("hpNo") Integer hpNo) {
-//		System.out.println("여기로 옴!");
-		
+
 		int result = hpService.updateDenied(hpNo);
 		
-		if(result>0) {
+		// 승인 전 테이블(BEFORE_HPINFO, BEFORE_HPPIC)에 담아있는 정보 지우기
+		int deleteResult = hpService.deleteBeforeInfo(hpNo);
+		int deletePicResult = hpService.deleteBeforePic(hpNo);	
+		
+		if(result>0 && deleteResult >0 && deletePicResult >0) {
 			String deniedMsg = "denied";
 			request.addAttribute("deniedMsg", deniedMsg);
 			request.addAttribute("searchCondition", "noneCondition");

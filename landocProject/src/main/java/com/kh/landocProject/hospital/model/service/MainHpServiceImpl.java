@@ -116,6 +116,18 @@ public class MainHpServiceImpl implements MainHpService{
 	}
 
 	@Override
+	public ArrayList<HpSearch> selectHpAvgList(HpSearch hp) {
+		
+		return mainHpDao.selectHpAvgList(hp);
+	}
+
+	@Override
+	public ArrayList<HpSearch> selectHpAvgListCate(String cateName) {
+		
+		return mainHpDao.selectHpAvgListCate(cateName);
+	}
+
+	@Override
 	public int insertHospital(Hospital h) {
 		return mainHpDao.insertHospital(h);
 	}
@@ -158,6 +170,7 @@ public class MainHpServiceImpl implements MainHpService{
 	@Override
 	public int insertHospitalFiles(Hospital h) {
 		return mainHpDao.insertHospitalFiles(h);
+
 	}
 
 	
