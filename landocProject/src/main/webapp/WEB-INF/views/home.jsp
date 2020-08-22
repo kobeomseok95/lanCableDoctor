@@ -22,7 +22,8 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap"
 	rel="stylesheet">
-
+<!-- Font - Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
 <!-- Stylesheets -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" />

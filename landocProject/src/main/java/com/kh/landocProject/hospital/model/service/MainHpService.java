@@ -2,7 +2,10 @@ package com.kh.landocProject.hospital.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import com.kh.landocProject.hospital.model.vo.Applicant;
+import com.kh.landocProject.hospital.model.vo.Hospital;
 import com.kh.landocProject.hospital.model.vo.HpNameSplit;
 import com.kh.landocProject.hospital.model.vo.HpSearch;
 import com.kh.landocProject.hospital.model.vo.HpTime;
@@ -40,5 +43,23 @@ public interface MainHpService {
 	int updateHptime(HpTime ht2);
 
 	int updateComment(MainHp hp);
+
+	int insertHospital(Hospital h);
+
+	int insertApplicant(Applicant a);
+
+	int insertHpList(List<Integer> list);
+
+	int deleteHospital(int hpNo);
+
+	int deleteHpList(int hpNo);
+
+	int deleteApplicant(int aNo);
+
+	int getHospitalSeq(Hospital h);
+
+	int getApplicantSeq(Applicant a);
+
+	int insertHospitalFiles(Hospital h);
 
 }
