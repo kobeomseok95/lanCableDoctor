@@ -52,18 +52,14 @@
 
 	<div class="container" style="margin-top: 80px; text-align: center">
 		<div class="p-4" style="width: 1000px; display: inline-block;">
-
-
-
-			<div class="review-list-title text-left" style="font-size: 40px;">
-				<a href="mypageWork.html"
+			<div class="review-list-title text-left" style="font-size: 30px;">
+				<a href="doctorMypage.do"
 					style="color: #0071ce; letter-spacing: -0.5px;"> 나의 QnA 문의글 </a> >
 				<strong class="ml-2">주문QnA</strong>
 			</div>
 
-
 			<div class="pb-2 mt-5 review-list-subtitle text-left"
-				style="font-size: 25px; border-bottom: solid; border-color: rgba(0, 0, 0, 0.514);">답변
+				style="font-size: 30px; border-bottom: solid; border-color: rgba(0, 0, 0, 0.514);">답변
 				대기중인 QnA</div>
 			<table class="table w-100 border-bottom">
 				<tbody>
@@ -135,7 +131,7 @@
 								<div class="mr-2">상품명 :</div>
 								<div class="rounded-pill p-2 ml-1 mr-1"
 									style="background-color: #e9e9e9;">
-									<a href="#" style="color: #45668e;">${y.pdName}</a>
+									<a href="productDetail.do?pdNo=${y.pdNo}" style="color: #45668e;">${y.pdName}</a>
 								</div>
 							</div>
 						</div>
@@ -223,7 +219,12 @@
 		</ul>
 	</nav>
 	<!--pagination end-->
-
+	<script type="text/javascript">
+		var msg ='<c:out value="${msg}"/>';
+		if(msg != ''){
+			alert(msg);
+		}
+	</script>
 
 
 

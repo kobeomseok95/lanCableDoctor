@@ -175,13 +175,12 @@
 		 )
 	</select>
 
-	
+	<!-- ************************************************************************************************************************************************** -->
 	<!-- 병원 상세보기 조회용(기본 정보) -->
 	<select id="selectHpDetail" parameterType="_int" resultMap="adminHpResultMap">
 		SELECT HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, HP.HP_AVG_RATE, HP.HP_REVIEW,
 		        HP.HP_COMMENT, HP.HP_STATUS,
-		        LISTAGG(CAST(HG.HPCATE_NAME AS VARCHAR(100)),', ')WITHIN GROUP (ORDER BY NULL) AS HPCATE_NAME,
-		        LISTAGG(CAST(HG.HPCATE_CODE AS VARCHAR(100)),', ')WITHIN GROUP (ORDER BY NULL) AS HPCATE_CODE
+		        LISTAGG(CAST(HG.HPCATE_NAME AS VARCHAR(100)),', ')WITHIN GROUP (ORDER BY NULL) AS HPCATE_NAME
 		FROM HOSPITAL HP
 		    JOIN HPLIST HL ON (HP.HP_NO = HL.HP_NO)
 		    JOIN HPCATEGORY HG ON (HL.HPCATE_CODE = HG.HPCATE_CODE) 

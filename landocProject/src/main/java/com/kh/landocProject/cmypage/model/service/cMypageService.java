@@ -11,6 +11,8 @@ import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
+import com.kh.landocProject.member.model.vo.Client;
+import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 
 public interface cMypageService {
 
@@ -73,6 +75,11 @@ public interface cMypageService {
 
 	int getListCountSearchOrderList2(HashMap<String, Object> search);
 
+
+	Client selectC(String cNo);
+
+	ArrayList<LikeHp> selectHpAvgList(String cNo);
+
 	int getMyChooseCount(String cNo);
 
 	int getMyNonChooseCount(String cNo);
@@ -80,6 +87,10 @@ public interface cMypageService {
 	List<AskDrBoard> getChooseList(String cNo, CMypagePageInfo choosePi);
 
 	List<AskDrBoard> getNonChooseList(String cNo, CMypagePageInfo nonChoosePi);
+
+	int getHpReCount(String cNo);
+
+	ArrayList<HpReview> getMyHpReList(String cNo, CMypagePageInfo pi);
 
 	
 

@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-   <title>SolMusic | HTML Template</title>
+   <title>병원QnA</title>
    <meta charset="UTF-8">
    <meta name="description" content="SolMusic HTML Template">
    <meta name="keywords" content="music, html">
@@ -47,7 +47,13 @@
    <div class="container" style="margin-top: 80px;text-align: center">
         <div class="p-4" style="width: 1000px; display: inline-block;">
  
-            <div class="review-list-title text-left" style="font-size: 40px;"><strong>병원 QnA</strong></div>
+ 			<div class="review-list-title text-left" style="font-size: 30px;">
+				<a href="doctorMypage.do"
+					style="color: #0071ce; letter-spacing: -0.5px;"> 마이페이지 </a> >
+				<strong class="ml-2">병원 QnA</strong>
+			</div>
+ 
+         <!--    <div class="review-list-title text-left" style="font-size: 40px;"><strong>병원 QnA</strong></div> -->
     
                 <div class="pb-2 mt-5 review-list-subtitle text-left" style="font-size: 25px; border-bottom: solid; border-color:rgba(0, 0, 0, 0.514);">
                 		답변 대기중인 문의글</div>
@@ -165,10 +171,10 @@
                         <div class="row">
                             <div class="col-9">
                             	<div class="color49 toast-message mb-4" style="font-size: 14px;">
-                                    		${y.cNickName }
+                                    		질문자 닉네임 : ${y.cNickName }
                                 </div>
                                 <div class="color49 toast-message mb-4" style="font-size: 14px;">
-                                    		${y.qnaTitle}
+                                    		질문 내용 : ${y.qnaTitle}
                                 </div>
                             </div>
                   		</div>
@@ -178,7 +184,7 @@
                      <div style="font-weight:500;" class="d-flex justify-content-start align-items-center">
                     	 <div class="mr-2">의사 :</div>
 	                       <div class="rounded-pill p-2 ml-1 mr-1" style="background-color: #e9e9e9;">
-	                       		<a href="#" style="color: #45668e;" >${y.drName }</a></div>
+	                       		<a href="checkDrProfile.do" style="color: #45668e;" >${y.drName }</a></div>
                      </div>
                   </div>
                         <div class="row">

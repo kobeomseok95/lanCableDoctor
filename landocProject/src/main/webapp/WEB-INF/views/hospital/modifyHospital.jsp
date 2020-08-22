@@ -825,12 +825,10 @@
 					<div class="row collapse mt-2 mb-2 text-left" id="collapseExample">
 						<div class="col-sm-10 offset-sm-1">
 							<div class="p-3 border rounded-lg" style="font-size: 14px;color: #494949;">
-								OOO 선생님 좋았습니다. 우선 <b class="text-emphasize-puple">진료실 내부</b>에서 상냥하게 인사해주고,
-								<b class="text-emphasize-puple">처치내용</b>에 대해 단계별로 설명해주셨습니다.
-								저는 <b class="text-emphasize-puple">OOOO이 아파서 갔는데</b> 왜 아픈지, 앞으로 치료는 어떤식으로 진행될 지,
-								평소에 생활습관은 어떻게 가져가야 하는지에 대한 자세한 설명을 들을 수 있었습니다.
-								이후 <b class="text-emphasize-puple">처치실에서도</b> 아픈 처치가 이루어지기 전에는 미리 알려주시고 환자를 배려하여 진행해주셨습니다.
-								다만 <b class="text-emphasize-puple">단점으로는</b> 대기시간이 길었던 점과, 영업시간이 짧다는 점, 그리고 데스크 직원분들이 불친절했던 것을 꼽을 수 있습니다.
+								저희 OOO병원은  <b style="color:#007ee5;">총O의 전문적인 의료진</b>으로 구성되어있는 병원입니다. 
+								환자의 상태에 대한 자세하고 꼼꼼한 진료를 제공하며,  <b style="color:#007ee5;">과도한 약처방을 지양</b>하는 병원입니다.
+								 <b style="color:#007ee5;">전문적이고 신뢰감</b>을 줄 수 있는 병원이 되고자 노력합니다. 
+								
 							</div>
 						</div>
 					</div>

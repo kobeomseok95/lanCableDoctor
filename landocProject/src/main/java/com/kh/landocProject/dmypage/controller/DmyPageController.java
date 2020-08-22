@@ -67,7 +67,7 @@ public class DmyPageController {
 	}
 	
 	@RequestMapping(value="drPdReview.do")
-	public ModelAndView pdReviewList(ModelAndView mv, HttpSession session,@RequestParam(value="page", required=false) Integer page) throws DmypageException {
+	public ModelAndView pdReviewList(ModelAndView mv, HttpSession session,@RequestParam(value="page", required=false) Integer page, String msg) throws DmypageException {
 		
 		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 		String drNo =loginClient.getDrNo();
@@ -83,6 +83,7 @@ public class DmyPageController {
 		if(list!=null) {
 			mv.addObject("pdReviewList",list);
 			mv.addObject("pi",pi);
+			mv.addObject("msg",msg);
 			mv.setViewName("mypage/drMypagePdReview");
 		}else {
 			throw new DmypageException("상품리뷰리스트 조회 실패!");
@@ -92,7 +93,7 @@ public class DmyPageController {
 	}
 	
 	@RequestMapping(value="drMyOrderList.do")
-	public ModelAndView myOrderList(ModelAndView mv,HttpSession session,@RequestParam(value="page", required=false) Integer page) {
+	public ModelAndView myOrderList(ModelAndView mv,HttpSession session,@RequestParam(value="page", required=false) Integer page,String msg) {
 		
 		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 		String drNo =loginClient.getDrNo();
@@ -109,10 +110,11 @@ public class DmyPageController {
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		ArrayList<DOrderList> list = dMypageService.selectOrderList(drNo,pi);
-		System.out.println(list);
+		
 		if(list!=null) {
 			mv.addObject("orderList",list);
 			mv.addObject("pi",pi);
+			mv.addObject("msg",msg);
 			mv.setViewName("mypage/drMypageOrderList");
 		}
 		
@@ -217,7 +219,8 @@ public class DmyPageController {
 	}
 	
 	@RequestMapping(value="drPdReviewInsert.do")
-	public ModelAndView pdReviewInsert(ModelAndView mv,HttpServletResponse response,HttpSession session,
+	public ModelAndView pdReviewInsert(ModelAndView mv,
+			HttpSession session,
 			DPdReview review,
 			HttpServletRequest request,
 			@RequestParam(value="orderNo") int orderNo,
@@ -248,11 +251,8 @@ public class DmyPageController {
 		int result2 = dMypageService.updateOrderStatus(review);
 		if(result>0 && result2>0) {
 			
-			  response.setContentType("text/html; charset=UTF-8");
-			  PrintWriter out_equals = response.getWriter();
-	          out_equals.println("<script>alert('리뷰작성이 완료되었습니다.');</script>");
-	          out_equals.flush();
-	          mv.setViewName("mypage/dMyPageWork");
+			  mv.addObject("msg","리뷰작성이 완료되었습니다.");
+	          mv.setViewName("redirect:drPdReview.do");
 	     
 		}else{
 			throw new DmypageException("리뷰작성 실패!");
@@ -261,7 +261,7 @@ public class DmyPageController {
 		}
 	
 	@RequestMapping(value="drOrderQnaList.do")
-	public ModelAndView orderQnaList(HttpSession session, ModelAndView mv,DOrderQna qna,@RequestParam(value="page", required=false) Integer page) throws  DmypageException {
+	public ModelAndView orderQnaList(HttpSession session, ModelAndView mv,DOrderQna qna,@RequestParam(value="page", required=false) Integer page,String msg) throws  DmypageException {
 		
 		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 		String drNo =loginClient.getDrNo();
@@ -282,6 +282,7 @@ public class DmyPageController {
 		if(qnaY!=null && qnaN!=null) {
 			mv.addObject("qnaYList",qnaY);
 			mv.addObject("qnaNList",qnaN);
+			mv.addObject("msg",msg);
 			mv.addObject("pi",pi);
 			mv.setViewName("mypage/drMypageOrderQnaList");
 		}else {
@@ -291,7 +292,7 @@ public class DmyPageController {
 	}
 	
 	@RequestMapping(value="drMyOrderCancelList.do")
-	public ModelAndView orderCancelList(HttpSession session, ModelAndView mv,@RequestParam(value="page", required=false) Integer page) throws  DmypageException {
+	public ModelAndView orderCancelList(HttpSession session, ModelAndView mv,@RequestParam(value="page", required=false) Integer page,String msg) throws  DmypageException {
 		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 		String drNo =loginClient.getDrNo();
 		int currentPage = 1;
@@ -310,6 +311,7 @@ public class DmyPageController {
 		if(list!=null) {
 			mv.addObject("cancelList",list);
 			mv.addObject("pi",pi);
+			mv.addObject("msg",msg);
 			mv.setViewName("mypage/drMypageOrderCancelList");
 		}else {
 			throw new DmypageException("주문취소/교환 리스트 조회실패!");
@@ -335,7 +337,7 @@ public class DmyPageController {
 	
 
 	@RequestMapping(value="drOrderQnaInsert.do")
-	public ModelAndView orderQnaInsert(HttpSession session,ModelAndView mv,HttpServletResponse response,
+	public ModelAndView orderQnaInsert(ModelAndView mv,
 			@RequestParam(value="orderNo") int orderNo,
 			@RequestParam(value="orderQnaContent") String oqnaContent,
 			@RequestParam(value="orderQnaTitle") String oqnaTitle, DOrderQna qna) throws  IOException, DmypageException {
@@ -345,11 +347,8 @@ public class DmyPageController {
 		qna.setOqnaContent(oqnaContent);
 		int result = dMypageService.orderQnaInsert(qna);
 		if(result>0) {
-			  response.setContentType("text/html; charset=UTF-8");
-			  PrintWriter out_equals = response.getWriter();
-	          out_equals.println("<script>alert('문의작성이 완료되었습니다.');</script>");
-	          out_equals.flush();
-	          mv.setViewName("mypage/dMyPageWork");
+			mv.addObject("msg","문의작성이 완료되었습니다.");
+	          mv.setViewName("redirect:drOrderQnaList.do");
 		}else {
 			throw new DmypageException("주문문의 작성실패!");
 		}
@@ -409,11 +408,8 @@ public class DmyPageController {
 			}
 			int result= dMypageService.updateReviewInsert(review);
 			if(result >0) {
-				  response.setContentType("text/html; charset=UTF-8");
-				  PrintWriter out_equals = response.getWriter();
-		          out_equals.println("<script>alert('리뷰수정이 완료되었습니다.');</script>");
-		          out_equals.flush();
-		          mv.setViewName("mypage/dMyPageWork");
+				 mv.addObject("msg","리뷰수정이 완료되었습니다.");
+		          mv.setViewName("redirect:drPdReview.do");
 			}else {
 				throw new DmypageException("리뷰 수정 실패!");
 			}
@@ -457,23 +453,21 @@ public class DmyPageController {
 		}
 		
 		@RequestMapping(value="drOrderCancel.do")
-		public ModelAndView orderCancel(ModelAndView mv,DOrderList order,HttpServletResponse response, HttpSession session,@RequestParam(value="orderNo") int orderNo,@RequestParam(value="oCode") int oCode) throws IOException, DmypageException {
+		public ModelAndView orderCancel(ModelAndView mv,DOrderList order,@RequestParam(value="orderNo") int orderNo,@RequestParam(value="oCode") int oCode) throws IOException, DmypageException {
 			order.setoCode(oCode);
 			order.setOrderNo(orderNo);
 			int result = dMypageService.orderCancel(order);
 			if(result>0) {
-				  response.setContentType("text/html; charset=UTF-8");
-				  PrintWriter out_equals = response.getWriter();
+				 
 				  if(order.getoCode()==15) {
-					 out_equals.println("<script>alert('주문취소가 완료되었습니다.');</script>");
+					  mv.addObject("msg","주문취소가 완료되었습니다.");
 				  }else if(order.getoCode()==6) {
 					  
-					 out_equals.println("<script>alert('반품요청이 완료되었습니다.');</script>");
+					  mv.addObject("msg","반품요청이 완료되었습니다.");		
 				  }else if(order.getoCode()==10) {
-					 out_equals.println("<script>alert('교환요청이 완료되었습니다.');</script>");
+					  mv.addObject("msg","교환요청이 완료되었습니다.");
 				  }
-		          out_equals.flush();
-		          mv.setViewName("mypage/dMyPageWork");
+		          mv.setViewName("redirect:drMyOrderCancelList.do");
 			}else {
 				throw new DmypageException("주문취소 실패");
 			}

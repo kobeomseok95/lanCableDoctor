@@ -89,8 +89,23 @@
 								<p>
 									영수증 인증으로 믿을 수 있는 '진짜'리뷰! <br>리뷰작성하고 포인트 받아가세요!
 								</p>
-								<a href="#" class="site-btn">리뷰 작성하기</a> <a href="#"
-									class="site-btn sb-c2">병원 보기</a>
+								
+								<c:choose>
+						         <c:when test="${empty loginClient && empty loginDrClient }">
+						            <c:url var="loginPage" value="loginView.do"></c:url>
+						         	<a href="#" onclick="noUser();" class="site-btn">리뷰 작성하기</a>
+						         </c:when>
+						         <c:when test="${empty loginClient && !empty loginDrClient}">
+						         	<a href="#" onclick="noUser();" class="site-btn">리뷰 작성하기</a>
+						         </c:when>
+						         <c:when test="${empty loginClient && !empty loginDrClient && (loginDrClient.approval eq 'N' || loginDrClient.approval eq 'X')}">
+						         	<a href="#" onclick="noApproval();" class="site-btn">리뷰 작성하기</a>
+						         </c:when>
+						         <c:otherwise>
+						         	<a href="hpReviewInsert.do" class="site-btn">리뷰 작성하기</a>
+						         </c:otherwise>            
+						      </c:choose>
+								<a href="#hpSearch" class="site-btn sb-c2">병원 보기</a>
 							</div>
 						</div>
 						<div class="col-lg-6">
@@ -105,10 +120,22 @@
 			</div>
 		</div>
 	</section>
+	
+	
+	 <script>
+         function noApproval(){
+            alert("승인을 받지 않으셨습니다.");
+         }
+         function noUser(){
+        	 alert("일반 회원로그인이 필요한 서비스입니다.");
+        	 location.href="loginView.do";
+         }
+     </script>
+	
 	<!-- Hero section end -->
 
 	<!-- Intro section -->
-	<section class="intro-section spad">
+	<section class="intro-section spad" id="searchSection">
 		<div class="row">
 			<div class="col-xl-9 mx-auto" align="center">
 				<h1 class="mb-5" style="font-size: 50px;">SEARCH!!!</h1>
@@ -467,10 +494,15 @@
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 </body>
 <script>
-<%if(result != null){%>
-alert("탈퇴하셨습니다.");
+	<%if(result != null && !result.equals("25")){%>
+	alert("탈퇴하셨습니다.");
+	
+	<%}%>
 
-<%}%>
+	var result = '<c:out value="${result}"/>'
+	if(result === "25"){
+		location.href="#searchSection";
+	}
 </script>
 
 

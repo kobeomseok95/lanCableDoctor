@@ -204,17 +204,17 @@
 				  </c:if>
 				  <div class="file-preview" id="thumb-receipt">
 				  <c:if test="${review.renameFile eq null}">
-                     <img id="preView" name="preView">
+                     <img id="preView" name="pdReviewImg">
                	  </c:if>
                	  <c:if test="${review.renameFile ne null}">
-                     <img id="preView" name="preView" src="/projectFiles/${review.renameFile}" width="600px" height="300px">
+                     <img id="preView" name="pdReviewImg" src="/projectFiles/${review.renameFile}" width="600px" height="300px">
                	  </c:if>
                   </div>		
                   <!-- 이미지 첨부 버튼 -->		 
                   <div tabindex="500" class="btn btn-blackcontent btn-block p-3 btn-file" style="background-color:#0071ce" id="test">
                   
                      <span style="font-size: 18px; color: white;">사진 첨부하기</span>
-                     <input id="receipt_image" name="pdReviewImg" type="file" style="opacity: 0; " >
+                     <input id="receipt_image" name="pdReviewImg" type="file" style="opacity: 0;">
                   </div>
 										<div class="mt-1"
 											style="font-size: 14px; text-align: right; color: #494949; letter-spacing: -0.6px;">
