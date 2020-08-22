@@ -129,6 +129,7 @@
                      class="doc">의사회원</label>
                </div>
                <div class="idForm">
+               
                   <div class="wrap-input100 validate-input"
                      data-validate="영소문,숫자 4~20글자로 입력가능합니다." id="idinput">
                      <input class="input100" type="text" name="userId" id="userId">
@@ -202,7 +203,7 @@
    <script>
       $(function() {
          // 아이디 저장 코드   
-
+         
          // 설정되어 있는 쿠키의 값을 가져옵니다.
          var key = getCookie("key");
          $("#userId").val(key);

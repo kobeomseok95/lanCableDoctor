@@ -90,10 +90,32 @@
 				var inputValue = $("#searchValue").val();
 				console.log(inputValue);
 				
-				var expr = /^[a-zA-Z0-9ㄱ-ㅎ]{1,9}$/;
+				var expr = /^[a-zA-Z0-9 _]{0,9}$/;
 				
 				if(!expr.test(inputValue)){
 					alert("9자리 미만의 숫자를 입력해주세요");
+				}
+			}else if($("#searchCondition").val() == "userName"){
+				console.log($("#searchCondition").val());
+				
+				var inputValue = $("#searchValue").val();
+				console.log(inputValue);
+				
+				var expr = /^[가-힣ㄱ-ㅎ _]{1,4}$/;
+				
+				if(!expr.test(inputValue)){
+					alert("한글로 1~4글자로 입력해주세요.");
+				}
+			}else  if($("#searchCondition").val() == "nickName"){
+				console.log($("#searchCondition").val());
+				
+				var inputValue = $("#searchValue").val();
+				console.log(inputValue);
+				
+				var expr = /^[a-zA-Z0-9가-힣ㄱ-ㅎ _]{1,10}$/;
+				
+				if(!expr.test(inputValue)){
+					alert("1~10글자 사이로 입력해주세요");
 				}
 			}
 			

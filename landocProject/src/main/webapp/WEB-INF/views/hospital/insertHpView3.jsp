@@ -78,7 +78,7 @@
    <div class="limiter" id="login">
       <div class="container-login100">
          <div class="wrap-login100">
-            <form class="login100-form validate-form" action="joinDrClient3.do?drNo=${joinDrClient2.drNo }&hpNo=${joinDrClient2.hpNo}" method="post" enctype="multipart/form-data">
+            <form id="submitFiles" class="login100-form validate-form" action="insertCompleteView.do" method="post" enctype="multipart/form-data">
                <span class="login100-form-title p-b-48" >
                   <div class="logoDiv"> 
                      <img src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png" class="logo">
@@ -86,7 +86,7 @@
                </span>
                <div id="doctorJoin1">
                   <span class="login100-form-title p-b-26">
-                     의사 회원가입
+                     병원 제출 사진
                   </span>
                </div>
 
@@ -109,29 +109,20 @@
                </div>
 
                <div>
-               <button id="empPicUpload1" class="btn btn-sm" type="button" style="background-color:#007ee5;">
-					<h4 style="color:white; padding-bottom : 5px;">+</h4>
-				</button>
-                  <label class="file1">재직 증명서 또는 사업자 등록증</label>
-                  <input class="fileBtn" type="file" id="uploadImage1" name="uploadFile1" required="required" style="display:none">
+                  <label class="file1">사업자 등록증</label>
+                  <input class="fileBtn" type="file" id="uploadImage1" name="businessRegistration" required="required">
                   <div class="fileBox">
                      <img class="fileImg" id="imagePreview1"/>
                   </div>
-                  
-				<button id="empPicUpload2" class="btn btn-sm" type="button" style="background-color:#007ee5;">
-					<h4 style="color:white; padding-bottom : 5px;">+</h4>
-				</button>
-                  <label class="file2">신분증</label>
-                  <input type="file" id="uploadImage2" name="uploadFile2" required="required" style="display:none">
+
+                  <label class="file2">신청자 신분증</label>
+                  <input type="file" id="uploadImage2" name="identifyDocument" required="required">
                   <div class="fileBox">
                      <img class="fileImg" id="imagePreview2"/>
                   </div>
 
-				<button id="empPicUpload3" class="btn btn-sm" type="button" style="background-color:#007ee5;">
-					<h4 style="color:white; padding-bottom : 5px;">+</h4>
-				</button>
-                  <label class="file2">의사 면허증</label>
-                  <input type="file" id="uploadImage3" name="uploadFile3" required="required" style="display:none"> 
+                  <label class="file2">신청자 의사 면허증</label>
+                  <input type="file" id="uploadImage3" name="drLicense" required="required"> 
                   <div class="fileBox"> 
                      <img class="fileImg" id="imagePreview3"/>
                   </div>
@@ -140,10 +131,22 @@
                <div class="container-login100-form-btn" style="padding-top: 50px;">
                   <div class="wrap-login100-form-btn">
                      <div class="login100-form-bgbtn"></div>
-                     <button class="login100-form-btn" id="sub">
-                        서류 제출
-                     </button>
+                     <button id="submitBtn" type="button" class="login100-form-btn">서류제출</button>
                   </div>
+                  <div class="wrap-login100-form-btn mt-3">
+                     <div class="login100-form-bgbtn"></div>
+                     <button id="cancel" type="button" class="login100-form-btn">취소하기</button>
+                  </div>
+               </div>
+               
+               <div class="text-center p-t-115" style="padding-top: 30px;">
+                  <span class="txt1">
+                     회원이라구요?
+                  </span>
+
+                  <a class="txt2" href="loginView.do">
+                     로그인
+                  </a>
                </div>
             </form>
          </div>
@@ -172,97 +175,117 @@
 </body>
 
 <script>
-
-$(function(){
-	$("#empPicUpload1").on("click",function(e){
-		e.preventDefault();
-		$("#uploadImage1").click();
-	});
-})
-$(function(){
-	$("#empPicUpload2").on("click",function(e){
-		e.preventDefault();
-		$("#uploadImage2").click();
-	});
-})
-$(function(){
-	$("#empPicUpload3").on("click",function(e){
-		e.preventDefault();
-		$("#uploadImage3").click();
-	});
-});
+	$(function(){
+		var hpNo = "${hpNo}";
+		var aNo = "${aNo}";
 		
-         function readUploadImage1(inputObject){
-             if(inputObject.files && inputObject.files[0]){
-                if(!(/image/i).test(inputObject.files[0].type)){
-                   alert("이미지 파일을 선택해 주세요");
-                   return false;
-                }
-                
-                var reader = new FileReader();
-                
-                reader.onload = function(e){
-                   $("#imagePreview1").attr("src", e.target.result);
-                }
-                reader.readAsDataURL(inputObject.files[0]);
-             }        
-        }
-                  
-        $("#uploadImage1").change(function(){
-           readUploadImage1(this);
-        }) 
-         function readUploadImage2(inputObject){
-             if(inputObject.files && inputObject.files[0]){
-                if(!(/image/i).test(inputObject.files[0].type)){
-                   alert("이미지 파일을 선택해 주세요");
-                   return false;
-                }
-                
-                var reader = new FileReader();
-                
-                reader.onload = function(e){
-                   $("#imagePreview2").attr("src", e.target.result);
-                }
-                reader.readAsDataURL(inputObject.files[0]);
-             }        
-        }
-                  
-        $("#uploadImage2").change(function(){
-           readUploadImage2(this);
-        })   
-         function readUploadImage3(inputObject){
-             if(inputObject.files && inputObject.files[0]){
-                if(!(/image/i).test(inputObject.files[0].type)){
-                   alert("이미지 파일을 선택해 주세요");
-                   return false;
-                }
-                
-                var reader = new FileReader();
-                
-                reader.onload = function(e){
-                   $("#imagePreview3").attr("src", e.target.result);
-                }
-                reader.readAsDataURL(inputObject.files[0]);
-             }        
-        }
-                  
-        $("#uploadImage3").change(function(){
-           readUploadImage3(this);
-        })    
+		function readUploadImage1(inputObject){
+		     if(inputObject.files && inputObject.files[0]){
+		        if(!(/image/i).test(inputObject.files[0].type)){
+		           alert("이미지 파일을 선택해 주세요");
+		           return false;
+		        }
+		        
+		        var reader = new FileReader();
+		        
+		        reader.onload = function(e){
+		           $("#imagePreview1").attr("src", e.target.result);
+		        }
+		        reader.readAsDataURL(inputObject.files[0]);
+		     }        
+		}
+		          
+		$("#uploadImage1").change(function(){
+		   readUploadImage1(this);
+		}) 
+		 function readUploadImage2(inputObject){
+		     if(inputObject.files && inputObject.files[0]){
+		        if(!(/image/i).test(inputObject.files[0].type)){
+		           alert("이미지 파일을 선택해 주세요");
+		           return false;
+		        }
+		        
+		        var reader = new FileReader();
+		        
+		        reader.onload = function(e){
+		           $("#imagePreview2").attr("src", e.target.result);
+		        }
+		        reader.readAsDataURL(inputObject.files[0]);
+		     }        
+		}
+		          
+		$("#uploadImage2").change(function(){
+		   readUploadImage2(this);
+		})   
+		 function readUploadImage3(inputObject){
+		     if(inputObject.files && inputObject.files[0]){
+		        if(!(/image/i).test(inputObject.files[0].type)){
+		           alert("이미지 파일을 선택해 주세요");
+		           return false;
+		        }
+		        
+		        var reader = new FileReader();
+		        
+		        reader.onload = function(e){
+		           $("#imagePreview3").attr("src", e.target.result);
+		        }
+		        reader.readAsDataURL(inputObject.files[0]);
+		     }        
+		}
+		          
+		$("#uploadImage3").change(function(){
+		   readUploadImage3(this);
+		})    
+		
+		$("#cancel").on('click', function(){
+			if(confirm("병원등록을 취소하시겠습니까? 병원등록을 취소하면 처음부터 다시해야합니다.")){
+				var $form = $('<form id="cancelForm" action="cancelHospital.do" method="POST"></form>');
+				var $inputOne = $('<input type="hidden" name="hpNo" />');
+				$inputOne.attr('value', hpNo);
+				var $inputTwo = $('<input type="hidden" name="aNo" />');
+				$inputTwo.attr('value', aNo);
+				$form.append($inputOne);
+				$form.append($inputTwo);
+				$('body').html($form);
+				$("#cancelForm").submit();
+			}
+			else{
+				return false;
+			}
+		});
+		
+		$("#submitBtn").on('click', function(){
+			if($('#uploadImage1').val() === ""){
+				alert("사업자 등록증 사진을 기재해주세요!");
+				return false;
+			}
+			if($('#uploadImage2').val() === ""){
+				alert("본인의 신분증을 기재해주세요!");
+				return false;
+			}
+			if($('#uploadImage3').val() === ""){
+				alert("본인의 의사 면허증을 기재해주세요!");
+				return false;
+			}
+			
+			var $inputOne = $('<input type="hidden" name="hpNo" />');
+			$inputOne.attr('value', hpNo);
+			$("#submitFiles").append($inputOne);
+			$("#submitFiles").submit();
+		});
+		
+		
+	});	//end of jquery
+
       
    </script>
-   <script>
-    	$(function(){
-    		$("#sub").click(function(){
-    		var fileCheck1 = $("#uploadImage1").val();
-    		var fileCheck2 = $("#uploadImage2").val();
-    		var fileCheck3 = $("#uploadImage3").val();
-    		if(!fileCheck1 || !fileCheck2 || !fileCheck3){
-    			alert("새로운 파일을 제출해 주세요.");
-    			return false;
-    			
-    		}
-    		})
-    	})
-    </script>
 </html>
+
+
+
+
+
+
+
+
+

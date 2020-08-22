@@ -2,11 +2,14 @@ package com.kh.landocProject.hospital.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.hospital.model.vo.Applicant;
+import com.kh.landocProject.hospital.model.vo.Hospital;
 import com.kh.landocProject.hospital.model.vo.HpNameSplit;
 import com.kh.landocProject.hospital.model.vo.HpSearch;
 import com.kh.landocProject.hospital.model.vo.HpTime;
@@ -96,6 +99,7 @@ public class MainHpDao {
 		return sqlSessionTemplate.update("mainHpMapper.updateComment", hp);
 	}
 
+
 	public ArrayList<HpSearch> selectHpAvgList(HpSearch hp) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectHpAvgList",hp);
@@ -104,6 +108,41 @@ public class MainHpDao {
 	public ArrayList<HpSearch> selectHpAvgListCate(String cateName) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectHpAvgListCate",cateName);
+	}
+	public int insertHospital(Hospital h) {
+		return sqlSessionTemplate.insert("mainHpMapper.insertHospital", h);
+	}
+
+	public int insertApplicant(Applicant a) {
+		return sqlSessionTemplate.insert("mainHpMapper.insertApplicant", a);
+	}
+
+	public int insertHpList(List<Integer> list) {
+		return sqlSessionTemplate.insert("mainHpMapper.insertHpList", list);
+	}
+
+	public int deleteHospital(int hpNo) {
+		return sqlSessionTemplate.delete("mainHpMapper.deleteHospital", hpNo);
+	}
+
+	public int deleteHpList(int hpNo) {
+		return sqlSessionTemplate.delete("mainHpMapper.deleteHpList", hpNo);
+	}
+
+	public int deleteApplicant(int aNo) {
+		return sqlSessionTemplate.delete("mainHpMapper.deleteApplicant", aNo);
+	}
+
+	public int getHospitalSeq(Hospital h) {
+		return sqlSessionTemplate.selectOne("mainHpMapper.getHospitalSeq", h);
+	}
+
+	public int getApplicantSeq(Applicant a) {
+		return sqlSessionTemplate.selectOne("mainHpMapper.getApplicantSeq", a);
+	}
+
+	public int insertHospitalFiles(Hospital h) {
+		return sqlSessionTemplate.insert("mainHpMapper.insertHospitalFiles", h);
 	}
 	
 }

@@ -55,12 +55,12 @@
 	.p1{margin-top: 30px; background-color: #e5f2fc; width: 700px; height: 600px; border-radius: 7px; display: inline-block; position: relative;}
 	.p2{padding-left: 20px; padding-top: 20px; width: 700px;}
 	.p3{border: 1px solid #e5f2fc; margin-top: 25px; margin-left: 20px; width: 660px; border-radius: 7px; background-color: white;}
-	.p4{border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px;}
+	.p4{border-bottom: 1px solid lightgray; margin: 10px; margin-top: 20px; height: 50px; width:500px;}
 	.pInput{float: right; margin-right: 10px; width: 400px; height:35px; border: 1px solid lightgray;}
 	.pInput1{width: 250px; margin-left: 143px; height:35px; border: 1px solid lightgray;}
 	.search{float: right; margin-right: 10px; width: 130px; height:35px ; color: black; background-color: #e5f2fc; border: 0px; border-radius: 3px;}
 	.p4Label{margin-left:20px}
-	.p5{margin-left: 200px; margin-top: 30px; background-color: #e5f2fc; width: 400px; height: 600px; border-radius: 7px; display: inline-block; position: absolute; border: 1px solid white;}
+	.p5{ background-color: #e5f2fc; width: 400px; height: 600px; border-radius: 7px; position: sticky; top:0; border: 1px solid white;  float:right;}
 	.p6{border: 1px solid white; background-color: white; margin: 10px; height: 350px; border-radius: 7px;}
 	.p7{width : 375px; height:300px; padding:10px;}
 	.p8{margin-bottom:25px;margin-top:20px;}
@@ -82,11 +82,10 @@
 	<%@ include file="../static/header.jsp"%>
 
 	<div class="container">
-		<div class="p-4" style="width: 1200px; margin-bottom: 50px;">
 			<div class="p">
 				<h3>주문/결제</h3>
 			</div>
-			<div>
+			
 				<strong>제품정보</strong>
 				<div class="pa">
 					<div class="pay">
@@ -177,14 +176,14 @@
 								</div>
 								<div style="margin-left: 20px; margin-right: 20px;">
 									<label style="margin-right: 100px;"><input type="radio" name="pay" style="margin-right: 10px;" disabled id="cradit">신용카드</label>
-									<label><input type="radio" name="pay" style="margin-right: 10px;" >가상계좌</label>
+									<label><input type="radio" name="pay" style="margin-right: 10px;" disabled>가상계좌</label>
 									<label style="margin-right: 52px;"><input name="pay" type="radio" style="margin-right: 10px;" disabled>실시간계좌이체</label>
 									<label><input type="radio" name="pay" style="margin-right: 10px;" checked readonly>카카오페이</label>
 								</div> 
 								
 								<div style="margin: 35px; text-align: center;">
 								<button type="button" id="pay" class="payBtn">결제</button>
-								<button type="button" class="noPay" >취소</button>
+								<button type="button" class="noPay" onclick="noPay();">취소</button>
 								</div>
 							</div>
 						</form>
@@ -192,7 +191,8 @@
 					
 					
 					<c:when test="${empty loginClient3 && !empty loginDrClient3}">
-					<form id="payment" action="paySuccessView.do">	
+						<div style="width:700px;">
+						<form id="payment" action="paySuccessView.do">	
 						<div class="p1">
 							<div class="p2">
 								<h4 style="color: black;">주문자 정보</h4>
@@ -278,14 +278,14 @@
 							
 							<div style="margin: 35px; text-align: center;">
 								<button type="button" id="pay" class="payBtn">결제</button>
-								<button type="button" class="noPay">취소</button>
+								<button type="button" class="noPay" onclick="noPay();">취소</button>
 							</div>
 						</div>
-					</form>
+						</form>
+						</div>
 				</c:when>
 				</c:choose>
-			</div>
-		</div>
+
 	</div>
 
 
@@ -385,6 +385,12 @@
 			})
 		})
 		
+	</script>
+	
+	<script>
+	function noPay(){
+   	 location.href="javascript:history.go(-1)";
+   }
 	</script>
 	
 </html>

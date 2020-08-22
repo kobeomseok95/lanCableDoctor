@@ -2,12 +2,14 @@ package com.kh.landocProject.cmypage.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
 import com.kh.landocProject.cmypage.model.vo.LikeHp;
@@ -191,6 +193,26 @@ public class cMypageDao {
 	public ArrayList<LikeHp> selectHpAvgList(String cNo) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("cMypage.selectHpAvgList",cNo);
+	}
+	public int getMyChooseCount(String cNo) {
+		return sqlSessionTemplate.selectOne("askDr.getMyChooseCount", cNo);
+	}
+
+	public int getMyNonChooseCount(String cNo) {
+		return sqlSessionTemplate.selectOne("askDr.getMyNonChooseCount", cNo);
+	}
+
+	public List<AskDrBoard> getChooseList(String cNo, CMypagePageInfo choosePi) {
+		int offset = (choosePi.getCurrentPage() - 1) * choosePi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, choosePi.getBoardLimit());
+		return sqlSessionTemplate.selectList("askDr.getMyChooseList", cNo, rowBounds);
+	}
+
+	public List<AskDrBoard> getNonChooseList(String cNo, CMypagePageInfo nonChoosePi) {
+		int offset = (nonChoosePi.getCurrentPage() - 1) * nonChoosePi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, nonChoosePi.getBoardLimit());
+		return sqlSessionTemplate.selectList("askDr.getMyNonChooseList", cNo, rowBounds);
+
 	}
 
 

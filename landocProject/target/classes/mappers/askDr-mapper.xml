@@ -13,6 +13,7 @@
 	 
 	<resultMap type="AskDrBoard" id="AskDrBoardDetail">
 		<id property="bNo" column="AD_NO" />
+		<result property="rNo" column="RNO" />
 		<result property="bTitle" column="AD_TITLE" />
 		<result property="nickname" column="C_NICKNAME" />
 		<result property="height" column="AD_HEIGHT" />
@@ -23,8 +24,17 @@
 		<result property="symptoms" column="AD_SYMPTOM" />
 		<result property="chooseStatus" column="AD_CHOOSESTATUS" />
 		<result property="categoryNo" column="HP_CATE_CODE" />
+		<result property="categoryName" column="HPCATE_NAME" />
 		<result property="countImage" column="FILECOUNT" />
 		<result property="countReply" column="REPLYCOUNT" />
+		<result property="submitDate" column="AD_SUBMITDATE" />
+		<association property="choosedReply" javaType="AskDrReply">
+			<result property="adrNo" column="ADR_NO" />
+			<result property="drClientNo" column="DR_NO" />
+			<result property="drName" column="DR_NAME" />
+			<result property="content" column="ADR_CONTENT" />
+			<result property="replyDate" column="ADR_REPLYDATE" />
+		</association>
 	</resultMap>
 	
 	<resultMap type="SymptomsImage" id="SymptomsImage">
@@ -402,7 +412,52 @@
 		WHERE
 		    ADR_NO = #{adrNo}		
 	</update>
+	
+	<select id="getMyChooseCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM ASKDR WHERE C_NO = #{cNo} AND AD_CHOOSESTATUS = 'Y'
+	</select>
 
+	<select id="getMyNonChooseCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM ASKDR WHERE C_NO = #{cNo} AND AD_CHOOSESTATUS = 'N'
+	</select>
+	
+	<select id="getMyChooseList" parameterType="string" resultMap="AskDrBoardDetail">
+		SELECT
+		    ROWNUM AS RNO, A.*
+		FROM
+		    (SELECT
+		        A.AD_NO, A.AD_TITLE, C.DR_NO, C.DR_NAME, A.AD_HEIGHT, A.AD_SUBMITDATE,
+		        A.AD_WEIGHT, A.AD_AGE, A.AD_GENDER, A.AD_CAUTION, A.AD_SYMPTOM, A.HP_CATE_CODE,
+		        D.HPCATE_NAME, B.ADR_CONTENT, B.ADR_REPLYDATE
+		    FROM
+		        ASKDR A
+		        JOIN ASKDRREPLY B ON A.AD_NO = B.AD_NO
+		        JOIN DRCLIENT C ON B.DR_NO = C.DR_NO
+		        JOIN HPCATEGORY D ON A.HP_CATE_CODE = D.HPCATE_CODE
+		    WHERE
+		        A.AD_CHOOSESTATUS = 'Y'
+		        AND B.ADR_CHOOSESTATUS = 'Y'
+		        AND A.C_NO = #{cNo}
+		    ORDER BY
+		        A.AD_SUBMITDATE DESC) A
+	</select>
+	
+	<select id="getMyNonChooseList" parameterType="string" resultMap="AskDrBoardDetail">
+		SELECT
+		    ROWNUM AS RNO, A.*
+		FROM
+		    (SELECT
+		        A.AD_NO, B.HPCATE_NAME, A.AD_TITLE, A.AD_SUBMITDATE,
+		        A.HP_CATE_CODE
+		    FROM
+		        ASKDR A
+		        JOIN HPCATEGORY B ON A.HP_CATE_CODE = B.HPCATE_CODE
+		    WHERE
+		         A.C_NO = #{cNo}
+		        AND AD_CHOOSESTATUS = 'N'
+		    ORDER BY
+		        A.AD_SUBMITDATE DESC) A		
+	</select>
 </mapper>
 
 

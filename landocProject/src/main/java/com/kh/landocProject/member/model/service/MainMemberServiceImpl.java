@@ -1,6 +1,7 @@
 package com.kh.landocProject.member.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -319,6 +320,22 @@ public class MainMemberServiceImpl implements MainMemberService {
 	
 		return mDao.selectDrPwd(drNo);
 	}
+	@Override
+	public ArrayList<String> selectHpList(Integer hpNo) {
+		
+		return mDao.selectHpList(hpNo);
+	}
+	@Override
+	public int checkEmailDup(String email) {
+	
+		return mDao.checkEmailDup(email);
+	}
+	@Override
+	public int checkEmailDrDup(String email) {
+
+		return mDao.checkEmailDrDup(email);
+	}
+
 	
 
 }

@@ -2,10 +2,12 @@ package com.kh.landocProject.cmypage.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.cmypage.model.dao.cMypageDao;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
@@ -194,6 +196,7 @@ public class cMypageServiceImpl implements cMypageService {
 	}
 
 	@Override
+
 	public Client selectC(String cNo) {
 		
 		return cmDao.selectC(cNo);
@@ -205,6 +208,26 @@ public class cMypageServiceImpl implements cMypageService {
 		return cmDao.selectHpAvgList(cNo);
 	}
 
+	@Override
+	public int getMyChooseCount(String cNo) {
+		return cmDao.getMyChooseCount(cNo);
+	}
 
+
+	@Override
+	public int getMyNonChooseCount(String cNo) {
+		return cmDao.getMyNonChooseCount(cNo);
+	}
+
+	@Override
+	public List<AskDrBoard> getChooseList(String cNo, CMypagePageInfo choosePi) {
+		return cmDao.getChooseList(cNo, choosePi);
+	}
+
+	@Override
+	public List<AskDrBoard> getNonChooseList(String cNo, CMypagePageInfo nonChoosePi) {
+		return cmDao.getNonChooseList(cNo, nonChoosePi);
+	}
+	
 }
 

@@ -34,6 +34,8 @@
         #btnArea{text-align: center; padding-top: 45px;}
         #btnArea button{height: 40px; width: 15%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600; font-size:15px;}
         #btnArea button:hover{background-color: #007ee5; color: white;}
+        
+        .dellink	{ display:none; }
    </style>
 
 </head>
@@ -156,6 +158,9 @@
                     	<div style="width:80%;float:left;">
                         	<input type="file" id="thumbnail" name="thumbnail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
                     	</div>
+                    	<div>
+                    		<img src="" id="thumbPrev" style="width: 75%;" />
+                    	</div>
                     </td>
                 </tr>
                 <tr>
@@ -164,11 +169,14 @@
                     	<div style="width:80%;float:left;">
                         	<input type="file" id="detail" name="detail" onchange="fileCheck(this);" accept="image/gif, image/jpeg, image/png" />
                     	</div>
+                    	<div>
+                    		<img src="" id="detailPrev" style="width: 75%;" />
+                    	</div>
                     </td>
                 </tr>
             </table>
             <div id="btnArea">
-                <button type="submit">등록하기</button>
+                <button id="insertProduct" type="button">등록하기</button>
                 <button type="button" onclick="location.href='javascript:history.back();'">뒤로가기</button>
             </div>
                
@@ -204,10 +212,8 @@
 	        	if( Number($("#sellPrice").val()) < 0 )
 	        		$("#sellPrice").val('0');
 	        });
-
-			$("form").on('submit', function(event){
-				event.preventDefault();
-				
+			
+			$("#insertProduct").on('click', function(){
 				var pdName = $("#pdName").val();
 	        	var originPrice = $("#originPrice").val();
 	        	var sellPrice = $("#sellPrice").val();
@@ -229,26 +235,59 @@
 	        		return false;
 	        	}
 	        	
-	        	return true;
+	        	$('form').submit();
 			});
+			
+			$('#thumbnail').on('change', handleImgFileSelect);
+			$('#detail').on('change', handleImgFileSelectTwo);
      	});//end of jquery
      	
-     	 function fileCheck(obj){
-     		pathpoint = obj.value.lastIndexOf('.');
-     		filepoint = obj.value.substring(pathpoint + 1, obj.length);
-     		filetype = filepoint.toLowerCase();
+     	function handleImgFileSelect(e){
+     		var files = e.target.files;
+     		var filesArr = Array.prototype.slice.call(files);
      		
-     		if( filetype == 'jpg' || filetype == 'gif' || filetype == 'png' || 
-     				filetype == 'jpeg' || filetype == 'bmp' ){
-     			//정상
-     		}
-     		else{
-     			alert('이미지 파일만 선택할 수 있습니다.');
-     			parentObj = obj.parentNode;
-     			node = parentObj.replaceChild(obj.cloneNode(true), obj);
-     			return false;
-     		}
+     		filesArr.forEach(function(f){
+     			sel_file = f;
+     			
+     			var reader = new FileReader();
+     			reader.onload = function(e){
+     				$('#thumbPrev').attr('src', e.target.result);
+     			}
+     			reader.readAsDataURL(f);
+     		});
      	}
+     	
+     	function handleImgFileSelectTwo(e){
+     		var files = e.target.files;
+     		var filesArr = Array.prototype.slice.call(files);
+     		
+     		filesArr.forEach(function(f){
+     			sel_file = f;
+     			
+     			var reader = new FileReader();
+     			reader.onload = function(e){
+     				$('#detailPrev').attr('src', e.target.result);
+     			}
+     			reader.readAsDataURL(f);
+     		});
+     	}
+		
+		function fileCheck(obj){
+			pathpoint = obj.value.lastIndexOf('.');
+			filepoint = obj.value.substring(pathpoint + 1, obj.length);
+			filetype = filepoint.toLowerCase();
+			
+			if( filetype == 'jpg' || filetype == 'gif' || filetype == 'png' || 
+					filetype == 'jpeg' || filetype == 'bmp' ){
+				//정상
+			}
+			else{
+				alert('이미지 파일만 선택할 수 있습니다.');
+				parentObj = obj.parentNode;
+				node = parentObj.replaceChild(obj.cloneNode(true), obj);
+				return false;
+			}
+		}
     </script>
 	
 

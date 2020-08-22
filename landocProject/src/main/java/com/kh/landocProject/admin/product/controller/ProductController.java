@@ -165,13 +165,21 @@ public class ProductController {
 	public ModelAndView updateProductView(ModelAndView mv,
 														@RequestParam int pdNo) {
 		Product product = adminProductImpl.getProductDetail(pdNo);
-//		List<String> photos = adminProductImpl.getProductFileNames(pdNo);
+		List<String> photos = adminProductImpl.getProductFileNames(pdNo);
 		
 		String volumeStr = product.getVolume();
 		HashMap<String, String> splitVolume = splitVolume(volumeStr);
 		
+		for(String s : photos) {
+			if( s.contains("thumb") ) {
+				mv.addObject("thumbnail", s);
+			}
+			else {
+				mv.addObject("detail", s);
+			}
+		}
 		mv.addObject("product", product);
-//		mv.addObject("photos", photos);
+		mv.addObject("photos", photos);
 		mv.addObject("volume", Integer.valueOf(splitVolume.get("volumeNo")));
 		mv.addObject("volumeUnit", splitVolume.get("volumeUnit"));
 		mv.addObject("volumeEx", splitVolume.get("volumeEx"));
@@ -227,7 +235,7 @@ public class ProductController {
 		if(updateProduct < 0) {
 			return "";
 		}
-		if( !thumbnail.getOriginalFilename().equals("") && !detail.getOriginalFilename().equals("") ) {
+		if( !thumbnail.getOriginalFilename().equals("") || !detail.getOriginalFilename().equals("") ) {
 			List<String> fileNames = adminProductImpl.getProductFileNames(p.getPdNo());
 			productFileDetele(fileNames);
 			
@@ -259,9 +267,6 @@ public class ProductController {
 		int listCount = adminProductImpl.getAdminQnaCount(param);
 		PageInfo pageInfo = Pagination.getPageInfo(pageNo, listCount);
 		List<ProductQna> qnas = adminProductImpl.getAdminQnas(param, pageInfo);
-		
-		System.out.println("*********Test line 263*********");
-		System.out.println(pageInfo);
 		
 		mv.addObject("showNoAnswer", showNoAnswer);
 		mv.addObject("page", pageInfo);

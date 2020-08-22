@@ -2,11 +2,11 @@ package com.kh.landocProject.cmypage.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.cmypage.model.Exception.cMypageException;
 import com.kh.landocProject.cmypage.model.service.cMypageService;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
@@ -524,4 +525,40 @@ public class cMypageController {
 				f.delete();
 			}
 		}
+		
+	@RequestMapping(value="myAskDr.do", method=RequestMethod.GET)
+	public ModelAndView myAskDr(ModelAndView mv,
+				@RequestParam String cNo,
+				@RequestParam(required=false) Integer choosePage,
+				@RequestParam(required=false) Integer nonChoosePage) {
+		if( choosePage == null ) choosePage = 1;
+		if( nonChoosePage == null ) nonChoosePage = 1;
+		
+		int chooseCount = cmService.getMyChooseCount(cNo);
+		int nonChooseCount = cmService.getMyNonChooseCount(cNo);
+		
+		CMypagePageInfo choosePi = CMypagePagination.getPageInfo(choosePage,chooseCount);
+		CMypagePageInfo nonChoosePi = CMypagePagination.getPageInfo(nonChoosePage,nonChooseCount);
+		
+		List<AskDrBoard> chooseList = cmService.getChooseList(cNo, choosePi);
+		List<AskDrBoard> nonChooseList = cmService.getNonChooseList(cNo, nonChoosePi);
+
+		mv.addObject("chooseCount", chooseCount);
+		mv.addObject("nonChooseCount", nonChooseCount);
+		mv.addObject("cpi", choosePi);
+		mv.addObject("ncpi", nonChoosePi);
+		mv.addObject("chooseList", chooseList);
+		mv.addObject("nonChooseList", nonChooseList);
+		mv.setViewName("mypage/mypageAskDr");
+		return mv;
+	}
 }
+
+
+
+
+
+
+
+
+

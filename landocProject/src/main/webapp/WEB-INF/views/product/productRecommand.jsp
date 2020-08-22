@@ -197,7 +197,8 @@
 
 
 
-
+<!--form 태그 시작-->
+	<form id="register-submit-form" action="recommand.do" method="POST" onsubmit="return checkValidate();">
 	<input type="hidden" name="csrfmiddlewaretoken"
 		value="7EYyK9n8kkbHp3Y3zYlR8e1LSwhuubipViDL0KoRy7LwZOtyK80JuVWhaIcpapZA">
 
@@ -259,12 +260,13 @@
 					</c:forEach>
 
 				</div>
+			</div>
 
 
 
-				<!--form 태그 시작-->
-				<form id="register-submit-form" action="recommand.do" method="POST">
+				
 					<!--추천 이유 작성 부분-->
+				
 					<div class="summit-content-box mx-auto p-5 mt-4" id="row">
 						<div class="row mb-4">
 							<div class="col-sm-1">
@@ -294,14 +296,11 @@
 								<div class="col-sm-10 offset-sm-1">
 									<div class="p-3 border rounded-lg"
 										style="font-size: 14px; color: #494949;">
-										OOO 선생님 좋았습니다. 우선 <b class="text-emphasize-puple">진료실 내부</b>에서
-										상냥하게 인사해주고, <b class="text-emphasize-puple">처치내용</b>에 대해 단계별로
-										설명해주셨습니다. 저는 <b class="text-emphasize-puple">OOOO이 아파서 갔는데</b>
-										왜 아픈지, 앞으로 치료는 어떤식으로 진행될 지, 평소에 생활습관은 어떻게 가져가야 하는지에 대한 자세한 설명을
-										들을 수 있었습니다. 이후 <b class="text-emphasize-puple">처치실에서도</b> 아픈
-										처치가 이루어지기 전에는 미리 알려주시고 환자를 배려하여 진행해주셨습니다. 다만 <b
-											class="text-emphasize-puple">단점으로는</b> 대기시간이 길었던 점과, 영업시간이
-										짧다는 점, 그리고 데스크 직원분들이 불친절했던 것을 꼽을 수 있습니다.
+										안과의사들이 꼭 챙겨먹는 영양제이다. 일어나도 눈이 뻑뻑하거나 눈알이 아프다고 느끼면 <b style="color:#007ee5">적신호이다.</b>
+										40세 이상은 체내 루테인 함량이 절반 이하로 감소해 <b style="color:#007ee5">황반변성</b> 같은 노인성 안구질환이 쉽게 생긴다. 특히 <b style="color:#007ee5">황반변성</b>
+										은 실명까지 이어질 수 있기 때문에 중장년층은 꾸준히 섭취해야 한다. <b style="color:#007ee5">루테인</b>은 눈에 유해한 <b style="color:#007ee5">활성산호</b>를
+										제거해 <b style="color:#007ee5">백내장을 예방하고 안구건조를 막아준다.</b> OOOO는 눈 건강에 좋은 루테인, 베타카뢴, 비타민 E를 따로 섭취할 필요 없이 한알로 끝낼 수 있게 만들어졌다.
+										여기에 각막 보호에 효과적인 <b style="color:#007ee5">오메가3와</b>함께 먹으면 더 좋다.
 									</div>
 								</div>
 							</div>
@@ -309,6 +308,7 @@
 
 
 					</div>
+					
 					<script>
                         function textCounter(field,field2,maxlimit)
                         {
@@ -324,10 +324,11 @@
 								추천 등록하기</button>
 						</div>
 					</div>
-				</form>
 			</div>
-		</div>
-	</div>
+			</div>
+			</form>
+
+	
 
 
 
@@ -384,6 +385,7 @@
                   p3.setAttribute('rows',"5");
                   p3.setAttribute("id","drComment"+index);
                   p3.setAttribute("name", "drComment");
+                  p3.setAttribute("required","required");
                   p3.setAttribute("placeholder", "병원에 대해 간략한 소개를 적어주세요. (200자 이상)" );   
                   p3.setAttribute("onkeyup", "textCounter(this, 'counter"+index+" ' "+", 200);");
                   p1.appendChild(p3);
@@ -398,33 +400,76 @@
                   var p5 = document.createElement('span');
                   p5.setAttribute('id', 'counter'+index);
                   p4.appendChild(p5);
-                  p5.innerHTML="0"
+                  p5.innerHTML="0";
                   
                   var p6 = document.createElement("span");
                   p4.appendChild(p6);
                
-                  p6.innerHTML="자, 최소 200자 이상)"
+                  p6.innerHTML="자, 최소 200자 이상 작성해 주시면 감사하겠습니다.)";
                   
-                  console.log(pdNo);
-                  console.log(drNo);
-                  console.log(drComment);
+                  // 의사 추천 중복
+                  $.ajax({
+  	 				url:"dupPdNo.do",
+  	 				data:{pdNo:pdNo,
+  	 						drNo:drNo},
+  	 				success:function(data){
+  	 					if(data == "false"){ 
+  	 						alert("이미 추천하신 상품입니다.");
+  	 					 $("#product1" + index).prop("checked", false);
+  	 					 p6.remove();
+  	 					 p5.remove();
+  	 					 p4.remove();
+  	 					 p3.remove();
+  	 					 p2.remove();
+  	 					 p1.remove();
+  	 					}
+  	 				},
+  	 				error:function(request, status, errorData){
+  	                     alert("error code: " + request.status + "\n"
+  	                           +"message: " + request.responseText
+  	                           +"error: " + errorData);
+  	                 } 
+  	 			})
                   
                   }else{
                      $("#pdDiv").remove();
                      
                   }
-               
-               
-         
-      
+                  
+                 
          });
          
          });
       
       });
    </script>
+	
+	<script>
 
-
+    function checkValidate(){
+		var listPro = new Array();
+	    <c:forEach var="list" items="${proReco }">
+	       listPro.push("${list.pdNo}");
+	    </c:forEach>
+	    
+	    
+	    
+	    var commentList = new Array();
+    	 listPro.forEach(function(pdNo,index){
+             $("#product1"+index).click(function(){
+                
+                   if($("#product1" + index).is(":checked") == true){
+                	  commentList.push(index);
+                   }
+                   
+          });
+          
+          });
+	    
+    	  
+    }
+	</script>
+	
 
 	<%@ include file="../static/footer.jsp"%>
 	<!--====== Javascripts & Jquery ======-->

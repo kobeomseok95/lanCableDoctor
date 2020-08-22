@@ -58,6 +58,8 @@
 		<typeAlias type="com.kh.landocProject.dmypage.model.vo.DrProfile" alias="DrProfile" />
 		<typeAlias type="com.kh.landocProject.payment.model.vo.Cart" alias="Cart" />
 		<typeAlias type="com.kh.landocProject.admin.sales.model.vo.AdminSales" alias="AdminSales" />
+		<typeAlias type="com.kh.landocProject.hospital.model.vo.Hospital" alias="Hospital" />
+		<typeAlias type="com.kh.landocProject.hospital.model.vo.Applicant" alias="Applicant" />
 	</typeAliases>
 
 

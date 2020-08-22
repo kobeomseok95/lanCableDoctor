@@ -41,8 +41,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
    <![endif]-->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<style type="text/css">
-	a{color: #45668e;}
+
+<style>
+	a{
+		color: black;
+	}
+
 </style>
 </head>
 
@@ -109,9 +113,12 @@
 			</div>
 
 			<div class="row mt-3">
-				<button class="btn w-100 py-3 pl-5 text-left" id=""
-					style="border: 2px solid #9b9b9b; font-size: 21px;">나의
-					의사에게 물어봐 문의글</button>
+				<button class="btn w-100 py-3 pl-5 text-left" id="myAskDr" style="border: 2px solid #9b9b9b; font-size: 21px;">
+					<c:url var="goMyAskDr" value="myAskDr.do">
+						<c:param name="cNo" value="${loginClient.cNo }" />
+					</c:url>
+					<a href='${goMyAskDr }'>나의 의사에게 물어봐 문의글</a>
+				</button>
 			</div>
 
 
@@ -213,6 +220,7 @@
 		function likehp(){
 			location.href="likeHp.do";
 		}
+		
 	</script>
 
 

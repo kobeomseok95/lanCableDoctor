@@ -1,16 +1,15 @@
 package com.kh.landocProject.product.model.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.kh.landocProject.dmypage.model.vo.DrProductRecommends;
+import com.kh.landocProject.product.model.vo.DrComment;
 import com.kh.landocProject.product.model.vo.Product;
 import com.kh.landocProject.product.model.vo.ProductDetailPagination;
 import com.kh.landocProject.product.model.vo.ProductPagination;
 import com.kh.landocProject.product.model.vo.ProductPhoto;
 import com.kh.landocProject.product.model.vo.ProductQna;
-import com.kh.landocProject.product.model.vo.ProductRecommand;
 import com.kh.landocProject.product.model.vo.ProductReview;
 
 public interface ProductService {
@@ -50,6 +49,14 @@ public interface ProductService {
 	List<Product> proRecommand(HashMap<String, Integer> param);
 
 	int drRecommendInsert(List<HashMap<String, Object>> list);
+
+	int recoUpdate(List<HashMap<String, Object>> list);
+
+	int checkPdNoDup(DrComment dc);
+
+	
+
+	
 
 
 }

@@ -2,7 +2,9 @@ package com.kh.landocProject.cmypage.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import com.kh.landocProject.askDr.model.vo.AskDrBoard;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePoint;
 import com.kh.landocProject.cmypage.model.vo.LikeHp;
@@ -72,9 +74,19 @@ public interface cMypageService {
 
 	int getListCountSearchOrderList2(HashMap<String, Object> search);
 
+
 	Client selectC(String cNo);
 
 	ArrayList<LikeHp> selectHpAvgList(String cNo);
+
+	int getMyChooseCount(String cNo);
+
+	int getMyNonChooseCount(String cNo);
+
+	List<AskDrBoard> getChooseList(String cNo, CMypagePageInfo choosePi);
+
+	List<AskDrBoard> getNonChooseList(String cNo, CMypagePageInfo nonChoosePi);
+
 
 	
 

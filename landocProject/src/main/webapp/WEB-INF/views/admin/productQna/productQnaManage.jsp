@@ -329,6 +329,7 @@
         			return false;
         		}
         		else{
+        			$("#keyword").val( $("#keyword").val().replace(/ /g, '') );
         			$('form').submit();
         		}
         		

@@ -51,7 +51,26 @@
   		<result property="cateCode" column="HPCATE_CODE" />
   		<result property="reviewCount" column="REVIEWCOUNT" />
   </resultMap>
- 
+  
+  
+  <resultMap type="Hospital" id="insertHospital">
+  	<id property="hpNo" column="HP_NO" />
+  	<result property="hpName" column="HP_NAME" />
+  	<result property="hpPhone" column="HP_PHONE" />
+  	<result property="postCode" column="HP_POSTCODE" />
+  	<result property="address" column="HP_ADDRESS" />
+  </resultMap>
+  
+  <resultMap type="Applicant" id="insertApplicant">
+  	<id property="aNo" column="ANO" />
+  	<result property="hpNo" column="HP_NO" />
+  	<result property="applicantName" column="ANAME" />
+  	<result property="applicantEmail" column="AEMAIL" />
+  	<result property="applicantPhone" column="APHONE" />
+  </resultMap>
+  
+  
+<!-- ResultMap ************** Query *********************** -->
 
   <!-- 병원 기본정보 select -->
   <select id="selectOneHp" parameterType="MainHp" resultMap="mainHpResultMap">
@@ -255,8 +274,122 @@
   	WHERE HP_NO = #{hpNo}
   </update>
   
+  <!-- 병원 insert -->
+  <insert id="insertHospital" parameterType="Hospital">
+  	INSERT INTO HOSPITAL
+  	VALUES(
+  		SEQ_HOSPITAL.NEXTVAL,
+  		#{hpName},
+  		#{hpPhone},
+  		#{postCode},
+  		#{address},
+  		0, 0, NULL, 'Y', 'N'
+  	)
+  </insert>
   
+  <insert id="insertHpList" parameterType="java.util.List">
+  	 <foreach collection="list" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+		 INTO HPLIST VALUES(
+		     (SELECT MAX(HP_SEQNO) + #{index} + 1 FROM HPLIST),
+		     (SELECT MAX(HP_NO) FROM HOSPITAL),
+		     #{item}
+		)
+     </foreach>
+  </insert>
   
+  <!-- 병원등록자 insert -->
+  <insert id="insertApplicant" parameterType="Applicant">
+  	INSERT INTO APPLICANT
+  	VALUES(  
+  		SEQ_APPLICANT.NEXTVAL,
+  		SEQ_HOSPITAL.CURRVAL,
+  		#{applicantName},
+  		#{applicantEmail},
+  		#{applicantPhone},
+  		<choose>
+  		<when test="checkService.size != 0">
+  		'Y'
+  		</when>
+  		<otherwise>
+  		'N'
+  		</otherwise>
+  		</choose>
+  	)
+  </insert>
   
+  <delete id="deleteHospital">
+  	DELETE FROM HOSPITAL
+  	WHERE HP_NO = #{hpNo}
+  </delete>  
+  
+  <delete id="deleteHpList">
+  	DELETE FROM HPLIST
+  	WHERE HP_NO = #{hpNo}
+  </delete>  
+  
+  <delete id="deleteApplicant">
+  	DELETE FROM APPLICANT
+  	WHERE ANO = #{aNo}
+  </delete>  
+
+  <select id="getHospitalSeq" parameterType="Hospital" resultType="_int">
+  	SELECT HP_NO
+  	FROM HOSPITAL
+  	WHERE
+  		HP_NAME = #{hpName}
+  		AND HP_PHONE = #{hpPhone}
+  		AND HP_POSTCODE = #{postCode}
+  </select>
+
+  <select id="getApplicantSeq" parameterType="Applicant" resultType="_int">
+  	SELECT ANO
+  	FROM APPLICANT
+  	WHERE
+  		ANAME = #{applicantName}
+  		AND  APHONE = #{applicantPhone}
+  </select>
+  
+  <insert id="insertHospitalFiles" parameterType="Hospital">
+  	INSERT ALL
+  	INTO DRHPPHOTO VALUES(
+  		(SELECT MAX(DRHP_NO) + 1 FROM DRHPPHOTO),
+  		#{brFileName}, #{brFileName}, 'NULL', 6, NULL, #{hpNo}
+  	)
+  	INTO DRHPPHOTO VALUES(
+	  	(SELECT MAX(DRHP_NO) + 2 FROM DRHPPHOTO),
+	  	#{idFileName}, #{idFileName}, 'NULL', 7, NULL, #{hpNo}
+  	)
+  	INTO DRHPPHOTO VALUES(
+  		(SELECT MAX(DRHP_NO) + 3 FROM DRHPPHOTO),
+  		#{dlFileName}, #{dlFileName}, 'NULL', 8, NULL, #{hpNo}
+  	)
+  	SELECT * FROM DUAL
+  </insert>
   
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

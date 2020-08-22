@@ -157,17 +157,14 @@
 	<div class="limiter" id="login">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form"
-					action="joinDrClient2.do?dice=${dice }&email=${email}"
-					method="post">
+				<form class="login100-form validate-form" action="insertHpMaterialView.do" method="post">
 					<span class="login100-form-title p-b-48">
 						<div class="logoDiv">
-							<img class="logo"
-								src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
+							<img class="logo" src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png">
 						</div>
 					</span>
 					<div id="doctorJoin1">
-						<span class="login100-form-title p-b-26"> 의사 회원가입 </span>
+						<span class="login100-form-title p-b-26"> 이메일 인증하기 </span>
 					</div>
 
 					<div class="doctorForm">
@@ -200,8 +197,18 @@
 					<div class="container-login100-form-btn" style="padding-top: 50px;">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">인증하기</button>
+							<button id="authentic" class="login100-form-btn">인증하기</button>
 						</div>
+						<div class="wrap-login100-form-btn mt-3">
+							<div class="login100-form-bgbtn"></div>
+							<button id="cancel" class="login100-form-btn">취소하기</button>
+						</div>
+					</div>
+
+					<div class="text-center p-t-115" style="padding-top: 30px;">
+						<span
+							class="txt1"> 회원이라구요? </span> <a class="txt2" href="loginView.do">
+							로그인 </a> 
 					</div>
 				</form>
 			</div>
@@ -236,5 +243,53 @@
 		src="<%=request.getContextPath()%>/resources/login_vendor/countdowntime/countdowntime.js"></script>
 	<!--===============================================================================================-->
 	<script src="<%=request.getContextPath()%>/resources/login_js/main.js"></script>
+	<script>
+		$(function(){
+			var hpNo = "${hpNo}";
+			var aNo = "${aNo}";
+			
+			$("#authentic").on('click', function(){
+				var dice = "${dice}";
+				
+				if( dice !== $("#message").val() ){
+					alert("인증번호를 확인해주세요!");
+					return false;
+				}
+				else{
+					var $inputOne = $('<input type="hidden" name="hpNo" />');
+					$inputOne.attr('value', hpNo);
+					var $inputTwo = $('<input type="hidden" name="aNo" />');
+					$inputTwo.attr('value', aNo);
+					$('form').append($inputOne);
+					$('form').append($inputTwo);
+					$('form').submit();
+				}
+			});
+			
+			$("#cancel").on('click', function(){
+				if(confirm("병원등록을 취소하시겠습니까? 병원등록을 취소하면 처음부터 다시해야합니다.")){
+					var $form = $('<form id="cancelForm" action="cancelHospital.do" method="POST"></form>');
+					var $inputOne = $('<input type="hidden" name="hpNo" />');
+					$inputOne.attr('value', hpNo);
+					var $inputTwo = $('<input type="hidden" name="aNo" />');
+					$inputTwo.attr('value', aNo);
+					$form.append($inputOne);
+					$form.append($inputTwo);
+					$('body').html($form);
+					$("#cancelForm").submit();
+				}
+				else{
+					return false;
+				}
+			});
+		});	//end of jquery
+	</script>
 </body>
 </html>
+
+
+
+
+
+
+

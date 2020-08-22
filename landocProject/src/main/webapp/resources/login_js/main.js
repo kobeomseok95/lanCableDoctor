@@ -82,7 +82,7 @@
             }
         }
         else if($(input).attr('name') == 'nickName'){
-            if($(input).val().trim().match(/^[a-zA-Z0-9가-힣ㄱ-ㅎ]{4,20}$/) == null){
+            if($(input).val().trim().match(/^[a-zA-Z0-9가-힣ㄱ-ㅎ]{1,10}$/) == null){
                 return false;
             }
         }
@@ -142,6 +142,8 @@
         }
         
     });
+    
+    
 
     // $('input[type=radio][name=check]').on('click',function(){
     //     var chkValue = $('input[type=radio][name=check]:checked').val();
@@ -155,12 +157,6 @@
     //     }
     // })
 
-    $(function(){
-        $("#checkAll").click(function(){
-            var bool = $("#checkAll").prop("checked");
-            $(".infoBox").prop("checked",bool);
-        })
-    })
 
     // $(function(){
     //     $("#postcodify_search_button").postcodifyPopUp();

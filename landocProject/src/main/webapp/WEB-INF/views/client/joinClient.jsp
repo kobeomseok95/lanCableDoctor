@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<title>Login V2</title>
+	<title>일반 회원가입</title>
 	<meta charset="UTF-8">
 	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -109,7 +109,7 @@
 								<i class="zmdi zmdi-eye"></i>
 							</span>
 							<input class="input100" type="password" name="userPwd" id="userPwd">
-							<span class="focus-input100" data-placeholder="비밀번호"></span>
+							<span class="focus-input100" data-placeholder="비밀번호(대문자,특수기호 사용X,4~20자)"></span>
 						</div>
 
 						<div class="wrap-input100 validate-input" data-validate="비밀번호가 일치하지 않습니다.">
@@ -133,6 +133,9 @@
 						<div class="wrap-input100 validate-input" data-validate="이메일 양식으로 입력해주세요.">
 							<input class="input100" type="email" name="email" id="email">
 							<span class="focus-input100" data-placeholder="이메일"></span>
+							<span class="focus-input100 emailNO" id="emailNO" data-placeholder="사용이 불가능합니다." style="margin-left:70%; width:50%; display:none"></span>
+						<span class="focus-input100 emailOK" id="emailOK"data-placeholder="사용이 가능합니다." style="margin-left:73%; width:50%; display:none"></span>
+							<input type="hidden" name="emailDuplicateCheck" id="emailDuplicateCheck" value="0">
 						</div>
 
 						<div class="wrap-input100 validate-input" data-validate="'-'를 제외한 숫자 11글자로 입력해주세요.">
@@ -161,7 +164,7 @@
 							<span class="focus-input100" data-placeholder="상세주소"></span>
 						</div>
 						
-						<div>
+						<div class="list_agree">
 							<label><input type="checkbox" id="checkAll" class="infoBox">전체동의</label><br>
 							<div class="checkBox">
 								<input type="checkbox" id="check1" class="infoBox"><a href="agree1View.do">서비스 이용 약관</a><a>및</a><a href="agree2View.do">개인정보 취급 방침</a><a>(필수)</a><br>
@@ -262,19 +265,88 @@
 	 			})
 	 		})
 	 	})
-	 	
-	 	
-	 	
 	 </script>
+	 
+	 <!-- 이메일 중복 여부 -->
+	 <script>
+	 $(function(){
+	 		$("#email").on("keyup", function(){
+	 			var email= $(this).val().trim();
+	 			
+	 			if(email.length < 4){
+	 				$(".emailOK").hide();
+	 				$(".emailNO").hide();
+	 				$("#emailDuplicateCheck").val();
+	 				
+	 				return;
+	 			} 
+	 			$.ajax({
+	 				url:"dupEmail.do",
+	 				data:{email:email},
+	 				success:function(data){
+	 					if(data == "true"){ 
+	 						$(".emailNO").hide();
+	 						$(".emailOK").show();
+	 						$("#emailDuplicateCheck").val(1);
+	 					}else{
+	 						$(".emailNO").show();
+	 						$(".emailOK").hide();
+	 						$("#emailDuplicateCheck").val(0);
+	 					}
+	 				},
+	 				error:function(request, status, errorData){
+	                     alert("error code: " + request.status + "\n"
+	                           +"message: " + request.responseText
+	                           +"error: " + errorData);
+	                 } 
+	 			})
+	 		})
+	 	})
+	 </script>
+	 
 	 <script>
 	 function validate(){
-			// 아이디 중복 체크 후 회원가입 버튼 눌렀을 때
+			// 아이디 중복, 이메일 중복 체크 후 회원가입 버튼 눌렀을 때
 			if($("#idDuplicateCheck").val()==0){
 				alert("사용 가능한 아이디를 입력해 주세요.");
+				return false;
+			}else if($("#emailDuplicateCheck").val()==0){
+				alert("사용 가능한 이메일을 입력해 주세요.");
 				return false;
 			}
 			return true;
 	 }
+	 </script>
+	 
+	  <script>
+	 $(function(){
+
+			//기존 선택된 데이터 받아온다면 설정 
+			setCheckAll();
+		  
+		  //전체 체크박스 선택 시 
+		  $('#checkAll').on('change', function () {
+		    $(this).parents('.list_agree').find('input:checkbox').prop('checked', $(this).prop('checked'));
+		  });
+		  
+		  //전체 외 체크박스 선택 시
+		  $('.list_agree').find('input:checkbox').not('#checkAll').on('change', function () {
+		                setCheckAll();
+		  });
+		});
+
+		//체크된 개수에 따라 전체 체크박스 활성/비활성 
+		function setCheckAll() {
+		  var checkTotal = $('.list_agree').find('input:checkbox').not('#checkAll').length;
+		  var checkCount = 0;
+		  $('.list_agree').find('input:checkbox').not('#checkAll').each(function () {
+		    if ($(this).prop('checked')) {
+		      checkCount++;
+		    }
+		  });
+
+		  $('#checkAll').prop('checked', checkTotal == checkCount);
+		}
 	 </script>
 	 
 </body>

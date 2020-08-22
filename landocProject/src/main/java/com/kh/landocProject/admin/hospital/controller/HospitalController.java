@@ -61,7 +61,6 @@ public class HospitalController {
 			
 			list = hpService.selectAllList(pi);
 			
-//			System.out.println(list);
 		}else {
 			if(condition.equals("hpNo") && !condition.equals("")) {
 				int hpNo = Integer.valueOf(value);

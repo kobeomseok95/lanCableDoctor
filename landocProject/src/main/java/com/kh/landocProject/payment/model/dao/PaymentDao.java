@@ -103,9 +103,29 @@ public class PaymentDao {
 		return sqlSessionTemplate.insert("payMapper.cartPaySuccess", list);
 	}
 
+	public int cartPayDelete(List<HashMap<String, Object>> list) {
+		
+		return sqlSessionTemplate.delete("payMapper.cartDelete", list);
+	}
+
+	public int cartPayDeleteD(List<HashMap<String, Object>> list) {
+		
+		return sqlSessionTemplate.delete("payMapper.cartDeleteD", list);
+	}
+
 	public ArrayList<Cart> selectDrCartList(String drNo) {
 		
 		return (ArrayList)sqlSessionTemplate.selectList("payMapper.selectDrCartList",drNo);
+	}
+
+	public MemberPay selectC(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("payMapper.selectC", cNo);
+	}
+
+	public MemberPay selectD(String drNo) {
+
+		return sqlSessionTemplate.selectOne("payMapper.selectD", drNo);
 	}
 
 }
