@@ -252,7 +252,7 @@
     
 	    <c:when test="${empty loginClient3 && !empty loginDrClient3}">
 	    <!-- 의사 회원 -->
-	    <form>
+	    <form id="payment" action="paySuccessView.do">
 	    <!--왼쪽영역-->
 	        <div id="leftArea">
 	            
@@ -277,7 +277,12 @@
 	                </tr>
 	        </table>
 	        
-	
+			   <input type="hidden" name="cNo" value="${loginClient3.cNo }">
+				<input type="hidden" name="pdNo" value="${selectPro.pdNo }">
+				<input type="hidden" name="opCount" value="${productCount }">
+				<input type="hidden" name="pdName" value="${selectPro.pdName }">
+				<input type="hidden" name="sellPrice" value="${selectPro.sellPrice }">
+				
 	            <div id="orderInfo">
 	                <div id="orderInfo2">
 	                    <p id="orderInfoHeader">주문자 정보</p>
@@ -302,10 +307,10 @@
 	                            <td class="firstTd" rowspan="2" id="detailAddress">
 	                                상세주소
 	                            </td>
-	                            <td><input type="text" value="${address1 }" class="secondTdBox" readonly></td>
+	                            <td><input type="text" value="${address4 }" class="secondTdBox" readonly></td>
 	                        </tr>
 	                        <tr>
-	                            <td><input type="text" value="${address2 }" class="secondTdBox" readonly></td>
+	                            <td><input type="text" value="${address5 }" class="secondTdBox" readonly></td>
 	                            <td></td>
 	                        </tr>
 	                         <tr>
@@ -350,6 +355,10 @@
 	                    </tr>
 	                </table>
 	            </div>
+	
+				<input type="hidden" name="allPrice" value=${selectPro.originPrice * productCount}>
+				<input type="hidden" name="discountPrice" value=${(selectPro.originPrice - selectPro.sellPrice) * productCount}>
+				<input type="hidden" name="amountPrice" value=0>
 	
 	            <div id="payMethod">
 	                <p>결제수단선택</p>

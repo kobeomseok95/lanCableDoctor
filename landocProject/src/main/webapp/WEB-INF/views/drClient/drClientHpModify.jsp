@@ -165,16 +165,6 @@
                      </button>
                   </div>
                </div>
-               
-               <!-- <div class="text-center p-t-115" style="padding-top: 30px;">
-                  <span class="txt1">
-                     회원이라구요?
-                  </span>
-
-                  <a class="txt2" href="loginView.do">
-                     로그인
-                  </a>
-               </div> -->
             </form>
          </div>
       </div>
@@ -308,12 +298,6 @@
 	 }
 	 </script>
     
-   <!--  <script>
-    var a = "${drClientHp1.hpNo}";
-    $("#hpNo").val(a).prop("selected", true);
-    var b = "${drClientHp1.hpCateCode}";
-    $("#hpCateCode").val(b).prop("selected", true);
-    </script> -->
     <script>
 		 
 	 	$("#hpNo").change(function(){
@@ -323,6 +307,7 @@
  				data:{hpNo: hp},
  				dataType:"json",
  				success:function(data){
+ 					$('#hpCateCode').children('option').remove();
  					for(var i = 0; i < data.length; i++){
  					 var s1 = document.getElementById('hpCateCode');
  					 var s2 = document.createElement('option');
