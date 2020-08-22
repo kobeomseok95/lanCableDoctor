@@ -69,11 +69,14 @@ public class ClientController {
 				
 			}else {
 				if(condition.equals("cNo") && !condition.equals("")) {
-					msc.setcNo(value);
+					String cNo = value.toUpperCase().trim().replaceAll("\\p{Z}", "");
+					msc.setcNo(cNo);
 				}else if(condition.equals("userName") && !condition.equals("")) {
-					msc.setUserName(value);
+					String userName = value.trim().replaceAll("\\p{Z}", "");
+					msc.setUserName(userName);
 				}else if(condition.equals("nickName") && !condition.equals("")) {
-					msc.setNickName(value);
+					String nickName = value.trim().replaceAll("\\p{Z}", "");
+					msc.setNickName(nickName);
 				}
 				
 				int searchListCount = cService.getSearchListCont(msc);

@@ -1,6 +1,7 @@
 package com.kh.landocProject.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -264,6 +265,18 @@ public class MainMemberDao {
 	public DrClient selectDrPwd(String drNo) {
 		
 		return sqlSessionTemplate.selectOne("memberMapper.selectDrPwd", drNo);
+	}
+	public ArrayList<String> selectHpList(Integer hpNo) {
+
+		return (ArrayList)sqlSessionTemplate.selectList("memberMapper.selectHpList", hpNo);
+	}
+	public int checkEmailDup(String email) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.joinEmailCheck", email);
+	}
+	public int checkEmailDrDup(String email) {
+		
+		return sqlSessionTemplate.selectOne("memberMapper.joinDrEmailCheck", email);
 	}
 
 

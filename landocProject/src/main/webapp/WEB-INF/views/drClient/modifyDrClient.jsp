@@ -213,7 +213,7 @@ input[type="file"] {
 				 			<c:param name="drNo" value="${loginDrClient2.drNo }"/>
 				 			<%-- <c:param name="hpNo" value="${loginDrClient2.hpNo }"/> --%>
 				 		</c:url>
-						<a id="subBtn" href="${DrClientHpUpdateView }">병원 수정하기</a>
+						<span style="color:lightgrey">(이직하신 경우 or 미승인 시)</span><a id="subBtn" href="${DrClientHpUpdateView }">병원 수정하기</a>
 						<c:url var="DrClientDelete" value="DrClientDelete.do">
 				 			<c:param name="drNo" value="${loginDrClient2.drNo }"/>
 				 			<c:param name="status" value="${loginDrClient2.status }"/>

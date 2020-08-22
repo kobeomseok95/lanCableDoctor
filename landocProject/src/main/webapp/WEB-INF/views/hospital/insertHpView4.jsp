@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-   <title>Login V2</title>
+   <title>병원 등록 완료</title>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description" content="SolMusic HTML Template">
@@ -77,52 +77,59 @@
       <div class="container-login100">
          <div class="wrap-login100">
 
-            <form class="login100-form validate-form" action="loginView.do">
-               <span class="login100-form-title p-b-48" >
-                  <div class="logoDiv"> 
-                     <img src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png" class="logo">
-                  </div>
+            <span class="login100-form-title p-b-48" >
+               <div class="logoDiv"> 
+                  <img src="<%=request.getContextPath()%>/resources/login_image/KakaoTalk_20200702_150917241.png" class="logo">
+               </div>
+            </span>
+            <div id="doctorJoin1">
+               <span class="login100-form-title p-b-26">
+                  의사 회원가입
                </span>
-               <div id="doctorJoin1">
-                  <span class="login100-form-title p-b-26">
-                     의사 회원가입
-                  </span>
+            </div>
+            
+            <div class="doctorForm">
+               <div class="nextBox">
+                  <label class="label1">정보 입력</label>
                </div>
-               
-               <div class="doctorForm">
-                  <div class="nextBox">
-                     <label class="label1">정보 입력</label>
-                  </div>
-                  <img class="img"src="<%=request.getContextPath()%>/resources/login_image/icon.png">
-                  <div class="nextBox">
-                     <label class="label2">이메일 인증</label>
-                  </div>
-                  <img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
-                  <div class="nextBox">
-                     <label class="label1">서류 제출</label>
-                  </div>
-                  <img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
-                  <div class="nextBox1">
-                     <label class="label1">승인 대기</label>
-                  </div>
+               <img class="img"src="<%=request.getContextPath()%>/resources/login_image/icon.png">
+               <div class="nextBox">
+                  <label class="label2">이메일 인증</label>
                </div>
-               <div class="resultDiv">
-                  감사합니다!<br>
-                  회원가입이 완료되었습니다.<br>
-                  승인 여부는 2~3일 정도 소요되며<br>
-                  이메일로 발송될 예정이고,<br>
-                  승인 완료 후 로그인이 가능합니다.
+               <img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
+               <div class="nextBox">
+                  <label class="label1">서류 제출</label>
                </div>
+               <img class="img" src="<%=request.getContextPath()%>/resources/login_image/icon.png">
+               <div class="nextBox1">
+                  <label class="label1">승인 대기</label>
+               </div>
+            </div>
+            <div class="resultDiv">
+               감사합니다!<br>
+               병원 등록이 완료되었습니다.<br>
+               승인 여부는 2~3일 정도 소요되며<br>
+               승인 결과는 이메일로 발송 될 예정입니다.
+            </div>
 
-               <div class="container-login100-form-btn">
-                  <div class="wrap-login100-form-btn">
-                     <div class="login100-form-bgbtn"></div>
-                     <button class="login100-form-btn">
-                        로그인
-                     </button>
-                  </div>
+            <div class="container-login100-form-btn">
+               <div class="wrap-login100-form-btn">
+                  <div class="login100-form-bgbtn"></div>
+                  <button class="login100-form-btn" onclick='location.href="home.do"'>
+                     홈으로
+                  </button>
                </div>
-            </form>
+            </div>
+            
+            <div class="text-center p-t-115" style="padding-top: 30px;">
+               <span class="txt1">
+                  회원이라구요?
+               </span>
+
+               <a class="txt2" href="loginView.do">
+                  로그인
+               </a>
+            </div>
          </div>
       </div>
    </div>
@@ -147,5 +154,6 @@
    <script src="<%=request.getContextPath()%>/resources/login_vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
    <script src="<%=request.getContextPath()%>/resources/login_js/main.js"></script>
+   
 </body>
 </html>

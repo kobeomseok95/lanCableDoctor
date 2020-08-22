@@ -200,7 +200,17 @@ public class PaymentController {
 			@RequestParam(value="listRenameFile") List<String> listRenameFile,
 			ArrayList<Cart> cart
 			) throws PaymentException{
-		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+		MemberPay loginClient4 = null;
+		MemberPay loginDrClient4 = null;
+		if(loginClient !=null && loginDrClient == null) {
+			String cNo = loginClient.getcNo();
+			loginClient4 = payService.selectC(cNo);
+		}else if(loginClient ==null && loginDrClient != null) {
+			String drNo = loginDrClient.getDrNo();
+			loginDrClient4 = payService.selectD(drNo);
+		}
 		int allOriginPrice=0;
 		int allPrice =0;	// 총 결제금액
 		int allDiscount=0;	// 총 할인금액
@@ -220,6 +230,8 @@ public class PaymentController {
 //		System.out.println("allDiscount:"+allDiscount);
 //		System.out.println("array:"+cart);
 		
+		mv.addObject("loginClient4", loginClient4);
+		mv.addObject("loginDrClient4", loginDrClient4);
 		mv.addObject("allPrice", allPrice);
 		mv.addObject("allDiscount", allDiscount);
 		mv.addObject("cart", cart);
@@ -242,7 +254,17 @@ public class PaymentController {
 			@RequestParam(value="renameFile") List<String> listRenameFile,
 			ArrayList<Cart> cart
 			) throws PaymentException{
-		
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+		MemberPay loginClient4 = null;
+		MemberPay loginDrClient4 = null;
+		if(loginClient !=null && loginDrClient == null) {
+			String cNo = loginClient.getcNo();
+			loginClient4 = payService.selectC(cNo);
+		}else if(loginClient ==null && loginDrClient != null) {
+			String drNo = loginDrClient.getDrNo();
+			loginDrClient4 = payService.selectD(drNo);
+		}
 		int allOriginPrice=0;
 		int allPrice =0;	// 총 결제금액
 		int allDiscount=0;	// 총 할인금액
@@ -258,7 +280,8 @@ public class PaymentController {
 //		System.out.println("allPrice:"+allPrice);
 //		System.out.println("allDiscount:"+allDiscount);
 //		System.out.println("array:"+cart);
-		
+		mv.addObject("loginClient4", loginClient4);
+		mv.addObject("loginDrClient4", loginDrClient4);
 		mv.addObject("allPrice", allPrice);
 		mv.addObject("allDiscount", allDiscount);
 		mv.addObject("cart", cart);
@@ -348,7 +371,7 @@ public class PaymentController {
 				
 			}else {
 
-				return "payment/paySuccess";
+				return "payment/pay";
 			}
 
 	}
@@ -356,8 +379,8 @@ public class PaymentController {
 	@RequestMapping(value="cartPaySuccessView.do",method=RequestMethod.GET )
 	public String cartPaySuccessView(Payment p, OrderMg or, String drNo, String cNo, @RequestParam("opCount")List<Integer> opCount,
 													Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice,
-													String paymentComment, @RequestParam("pdNo")List<Integer> pdNo) {
-
+													String paymentComment, @RequestParam("pdNo")List<Integer> pdNo, Model model,HttpSession session) {
+		
 		p.setAmountPrice(allPrice - discountPrice - usePoint);
 		int result = 0;
 		int result1 = 0;
@@ -383,9 +406,32 @@ public class PaymentController {
 				cartPay.put("pdNo", pdNo.get(i));
 				cartPay.put("opCount", opCount.get(i));
 				cartPay.put("orderNo", orderNo);
+				cartPay.put("cNo", cNo);
+				cartPay.put("drNo", drNo);
 				list.add(cartPay);
 			}
 			result3 = payService.cartPaySuccess(list);
+			
+			if(cNo != null && drNo == null) {
+				
+				int updateC = payService.updateC(p);
+				int DeleteCart = payService.deleteC(list);
+				
+				model.addAttribute("cNo", cNo);
+				model.addAttribute("drNo", drNo);
+				return "payment/paySuccess";
+			}else if(cNo == null && drNo != null) {
+				int updateDr = payService.updateDr(p);
+				int DeleteCart = payService.deleteD(list);
+	
+				model.addAttribute("cNo", cNo);
+				model.addAttribute("drNo", drNo);
+				return "payment/paySuccess";
+			}
+			
+		}else {
+			
+			return "payment/pay";
 		}
 		return "payment/paySuccess";
 	}

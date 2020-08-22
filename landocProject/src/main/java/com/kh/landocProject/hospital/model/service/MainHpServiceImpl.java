@@ -2,11 +2,14 @@ package com.kh.landocProject.hospital.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.landocProject.hospital.model.dao.MainHpDao;
+import com.kh.landocProject.hospital.model.vo.Applicant;
+import com.kh.landocProject.hospital.model.vo.Hospital;
 import com.kh.landocProject.hospital.model.vo.HpNameSplit;
 import com.kh.landocProject.hospital.model.vo.HpSearch;
 import com.kh.landocProject.hospital.model.vo.HpTime;
@@ -110,6 +113,51 @@ public class MainHpServiceImpl implements MainHpService{
 	public int updateComment(MainHp hp) {
 		
 		return mainHpDao.updateComment(hp);
+	}
+
+	@Override
+	public int insertHospital(Hospital h) {
+		return mainHpDao.insertHospital(h);
+	}
+
+	@Override
+	public int insertApplicant(Applicant a) {
+		return mainHpDao.insertApplicant(a);
+	}
+
+	@Override
+	public int insertHpList(List<Integer> list) {
+		return mainHpDao.insertHpList(list);
+	}
+
+	@Override
+	public int deleteHospital(int hpNo) {
+		return mainHpDao.deleteHospital(hpNo);
+	}
+
+	@Override
+	public int deleteHpList(int hpNo) {
+		return mainHpDao.deleteHpList(hpNo);
+	}
+
+	@Override
+	public int deleteApplicant(int aNo) {
+		return mainHpDao.deleteApplicant(aNo);
+	}
+
+	@Override
+	public int getHospitalSeq(Hospital h) {
+		return mainHpDao.getHospitalSeq(h);
+	}
+
+	@Override
+	public int getApplicantSeq(Applicant a) {
+		return mainHpDao.getApplicantSeq(a);
+	}
+
+	@Override
+	public int insertHospitalFiles(Hospital h) {
+		return mainHpDao.insertHospitalFiles(h);
 	}
 
 	

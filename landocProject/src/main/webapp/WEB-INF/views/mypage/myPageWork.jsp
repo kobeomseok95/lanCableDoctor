@@ -41,6 +41,11 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
    <![endif]-->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+	a{
+		color: black;
+	}
+</style>
 </head>
 
 <body>

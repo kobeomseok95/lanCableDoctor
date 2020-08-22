@@ -202,6 +202,7 @@
 						data-validate="병원을 선택해 주세요">
 						<span class="focus-input100" data-placeholder="병원"></span> 
 						<select class="input100" name="hpNo" id="hpNo" style="border: none;">
+						<option value="0">병원을 선택해 주세요</option>
 							<c:forEach var="hp" items="${list }">
 							<option value="${hp.hpNo }">${hp.hpName }</option>
 							</c:forEach>
@@ -209,29 +210,11 @@
 
 					</div>
 
-					<div class="wrap-input100 validate-input"
+					<div class="wrap-input100 validate-input" id="select1"
 						data-validate="정해진 진료과목을 선택 및 입력해주세요.">
 						<span class="focus-input100" data-placeholder="주분야"></span> 
 						<select class="input100" name="hpCateCode" id="hpCateCode" style="border: none;">
-							<option value="400">치과</option>
-							<option value="114">피부과</option>
-							<option value="108">성형외과</option>
-							<option value="112">안과</option>
-							<option value="110">산부인과</option>
-							<option value="115">비뇨기과</option>
-							<option value="103">정신건강의학과</option>
-							<option value="105">정형외과</option>
-							<option value="116">마취통증의학과</option>
-							<option value="106">신경외과</option>
-							<option value="120">재활의학과</option>
-							<option value="109">영상의학과</option>
-							<option value="104">외과</option>
-							<option value="102">신경과</option>
-							<option value="111">소아과</option>
-							<option value="101">내과</option>
-							<option value="113">이비인후과</option>
-							<option value="122">가정의학과</option>
-							<option value="300">한의원</option>
+						
 						</select>
 
 					</div>
@@ -250,7 +233,7 @@
 						<span class="btn-show-pass"> <i class="zmdi zmdi-eye"></i>
 						</span> <input class="input100" type="password" name="userPwd"
 							id="userPwd"> <span class="focus-input100"
-							data-placeholder="비밀번호"></span>
+							data-placeholder="비밀번호(대문자,특수기호 사용X,4~20자)"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input"
@@ -272,6 +255,9 @@
 						<input class="input100" type="email" name="email" id="email">
 						<span class="focus-input100"
 							data-placeholder="이메일(해당 메일로 인증번호가 발송됩니다.)"></span>
+							<span class="focus-input100 emailNO" id="emailNO" data-placeholder="사용이 불가능합니다." style="margin-left:70%; width:50%; display:none"></span>
+						<span class="focus-input100 emailOK" id="emailOK"data-placeholder="사용이 가능합니다." style="margin-left:73%; width:50%; display:none"></span>
+							<input type="hidden" name="emailDuplicateCheck" id="emailDuplicateCheck" value="0">
 					</div>
 
 					<div class="wrap-input100 validate-input"
@@ -310,7 +296,7 @@
 							class="focus-input100" data-placeholder="상세주소"></span>
 					</div>
 
-					<div>
+					<div class="list_agree">
 						<label><input type="checkbox" id="checkAll" class="infoBox">전체동의</label><br>
 						<div class="checkBox">
 							<input type="checkbox" id="check1" class="infoBox"><a
@@ -380,6 +366,7 @@
        });
        
     </script>
+    <!-- 아이디 중복 여부 -->
     <script>
 	 	$(function(){
 	 		$("#userId").on("keyup", function(){
@@ -393,8 +380,9 @@
 	 				return;
 	 			} 
 	 			
+	 			
 	 			$.ajax({
-	 				url:"drDupid.do",
+	 				url:"dupid.do",
 	 				data:{id:userId},
 	 				success:function(data){
 	 					if(data == "true"){ 
@@ -413,11 +401,48 @@
 	                           +"error: " + errorData);
 	                 } 
 	 			})
+	 			
 	 		})
 	 	})
-	 	
-	 	
-	 	
+	 </script>
+	  <!-- 이메일 중복 여부 -->
+	 <script>
+	 $(function(){
+	 		$("#email").on("keyup", function(){
+	 			var email= $(this).val().trim();
+	 			
+	 			if(email.length < 4){
+	 				$(".emailOK").hide();
+	 				$(".emailNO").hide();
+	 				$("#emailDuplicateCheck").val();
+	 				
+	 				return;
+	 			} 
+	 			
+	 			
+	 			$.ajax({
+	 				url:"dupEmail.do",
+	 				data:{email:email},
+	 				success:function(data){
+	 					if(data == "true"){ 
+	 						$(".emailNO").hide();
+	 						$(".emailOK").show();
+	 						$("#emailDuplicateCheck").val(1);
+	 					}else{
+	 						$(".emailNO").show();
+	 						$(".emailOK").hide();
+	 						$("#emailDuplicateCheck").val(0);
+	 					}
+	 				},
+	 				error:function(request, status, errorData){
+	                     alert("error code: " + request.status + "\n"
+	                           +"message: " + request.responseText
+	                           +"error: " + errorData);
+	                 } 
+	 			})
+	 			
+	 		})
+	 	})
 	 </script>
 	 <script>
 	 function validate(){
@@ -425,9 +450,72 @@
 			if($("#idDuplicateCheck").val()==0){
 				alert("사용 가능한 아이디를 입력해 주세요.");
 				return false;
+			}else if($("#emailDuplicateCheck").val()==0){
+				alert("사용 가능한 이메일을 입력해 주세요.");
+				return false;
+			}else if($("#hpNo").val() == "0"){
+				alert("병원을 선택해 주세요.")
+				return false;
 			}
 			return true;
 	 }
+	 </script>
+	 <script>
+	 $(function(){
+
+			//기존 선택된 데이터 받아온다면 설정 
+			setCheckAll();
+		  
+		  //전체 체크박스 선택 시 
+		  $('#checkAll').on('change', function () {
+		    $(this).parents('.list_agree').find('input:checkbox').prop('checked', $(this).prop('checked'));
+		  });
+		  
+		  //전체 외 체크박스 선택 시
+		  $('.list_agree').find('input:checkbox').not('#checkAll').on('change', function () {
+		                setCheckAll();
+		  });
+		});
+
+		//체크된 개수에 따라 전체 체크박스 활성/비활성 
+		function setCheckAll() {
+		  var checkTotal = $('.list_agree').find('input:checkbox').not('#checkAll').length;
+		  var checkCount = 0;
+		  $('.list_agree').find('input:checkbox').not('#checkAll').each(function () {
+		    if ($(this).prop('checked')) {
+		      checkCount++;
+		    }
+		  });
+
+		  $('#checkAll').prop('checked', checkTotal == checkCount);
+		}
+	 </script>
+	 
+	 <script>
+		 
+	 	$("#hpNo").change(function(){
+	 		var hp = $("#hpNo").val();
+	 		$.ajax({
+ 				url:"hpCategory.do",
+ 				data:{hpNo: hp},
+ 				dataType:"json",
+ 				success:function(data){
+ 					for(var i = 0; i < data.length; i++){
+ 					 var s1 = document.getElementById('hpCateCode');
+ 					 var s2 = document.createElement('option');
+ 					 s2.setAttribute('value',data[i].hpCateCode);
+ 					 s2.innerHTML = data[i].hpCateName;
+ 					 s1.appendChild(s2);
+ 						
+ 					}
+ 				},
+ 				error:function(request, status, errorData){
+                     alert("error code: " + request.status + "\n"
+                           +"message: " + request.responseText
+                           +"error: " + errorData);
+                 } 
+ 			})
+	 	}) 
 	 </script>
 </body>
 </html>

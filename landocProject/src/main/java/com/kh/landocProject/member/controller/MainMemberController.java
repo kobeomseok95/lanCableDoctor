@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -30,6 +28,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.landocProject.member.model.Exception.MainMemberException;
 import com.kh.landocProject.member.model.service.MainMemberService;
 import com.kh.landocProject.member.model.vo.Client;
@@ -49,7 +48,7 @@ public class MainMemberController {
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 //	사진 저장 폴더
-	private final String filePath = "C:\\lanCableDoctorProject\\files\\";
+	private final String filePath = "C:\\lanCableDoctorProject\\files\\"; 
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -521,7 +520,7 @@ public class MainMemberController {
 
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
-			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.'); history.go(-1);</script>");
+			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.');</script>");
 			out_equals.flush();
 
 			return mv2;
@@ -587,6 +586,7 @@ public class MainMemberController {
 				int result3 = mService.insertFile3(dhp);
 
 				if (result3 > 0) {
+
 					return "drClient/joinDr4";
 				} else {
 					response_equals.setContentType("text/html; charset=UTF-8");
@@ -932,7 +932,7 @@ public class MainMemberController {
 
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
-			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.'); history.go(-1);</script>");
+			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.');</script>");
 			out_equals.flush();
 
 			return mv2;
@@ -977,7 +977,7 @@ public class MainMemberController {
 
 			response_equals.setContentType("text/html; charset=UTF-8");
 			PrintWriter out_equals = response_equals.getWriter();
-			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.'); history.go(-1);</script>");
+			out_equals.println("<script>alert('인증번호가 일치하지않습니다. 인증번호를 다시 입력해주세요.');</script>");
 			out_equals.flush();
 
 			return mv2;
@@ -1196,7 +1196,7 @@ public class MainMemberController {
 		public ModelAndView DrClientHpUpdateView(ModelAndView mv, @RequestParam("drNo") String drNo) {
 			System.out.println("mainMemberController.java test line 1163");
 			DrClient drClientHp1 = mService.selectDrClientHp1(drNo);
-//			System.out.println("drClientHp1 : " + drClientHp1 );
+			System.out.println("drClientHp1 : " + drClientHp1 );
 			DrClient drClientHp2 = mService.selectDrClientHp2(drNo);
 //			System.out.println("drClientHp2 : " + drClientHp2 );
 			DrClient drClientHp3 = mService.selectDrClientHp3(drNo);
@@ -1234,112 +1234,115 @@ public class MainMemberController {
 //					System.out.println("file2 : " + file2);
 //					System.out.println("file3 : " + file3);
 //					System.out.println("hpCateCode : "+hpCateCode);
-			
-		
-			
-			if (!file1.getOriginalFilename().equals("")) {
-				String renameFileName1 = saveFile(file1, request);
-
+					
+					
+					
+					
+					
+					if (!file1.getOriginalFilename().equals("")) {
+						String renameFileName1 = saveFile(file1, request);
+						
 //						System.out.println("오리진 파일1 : " + file1.getOriginalFilename());
 //						System.out.println("renameFileName1 : " + renameFileName1);
 //						System.out.println();
-
-				dhp.setDrhpOrigin(file1.getOriginalFilename());
-
-				dhp.setDrhpRename(renameFileName1);
-				
-				
-			}
-			DrClient searchFile1 = mService.searchFile1(drNo);
-			if(searchFile1 != null) {
-				if(searchFile1.getDrhpRename() != null) {
-					deleteProfile(searchFile1.getDrhpRename(), request);
-				}
-			}
-			
-			int result1 = mService.drClientHpUpdate1(dhp);
-//			int result1 = mService.insertFile1(dhp);
-
-			if (result1 > 0) {
-				if (!file2.getOriginalFilename().equals("")) {
-					String renameFileName2 = saveFile(file2, request);
-
-//							System.out.println("오리진 파일2 : " + file2.getOriginalFilename());
-
-					dhp.setDrhpOrigin(file2.getOriginalFilename());
-
-					dhp.setDrhpRename(renameFileName2);
-					
-					
-
-				}
-				DrClient searchFile2 = mService.searchFile2(drNo);
-				
-				if(searchFile2 != null) {
-					if(searchFile2.getDrhpRename() != null) {
-						deleteProfile(searchFile2.getDrhpRename(), request);
-					}
-				}
-				int result2 = mService.drClientHpUpdate2(dhp);
-
-//				int result2 = mService.insertFile2(dhp);
-
-				if (result2 > 0) {
-					if (!file3.getOriginalFilename().equals("")) {
-						String renameFileName3 = saveFile(file3, request);
-
-//								System.out.println("오리진 파일3 : " + file3.getOriginalFilename());
-
-						dhp.setDrhpOrigin(file3.getOriginalFilename());
-
-						dhp.setDrhpRename(renameFileName3);
+						
+						dhp.setDrhpOrigin(file1.getOriginalFilename());
+						
+						dhp.setDrhpRename(renameFileName1);
 						
 						
 					}
-					DrClient searchFile3 = mService.searchFile3(drNo);
-					
-					if(searchFile3 != null) {
-						if(searchFile3.getDrhpRename() != null) {
-							deleteProfile(searchFile3.getDrhpRename(), request);
+					DrClient searchFile1 = mService.searchFile1(drNo);
+					if(searchFile1 != null) {
+						if(searchFile1.getDrhpRename() != null) {
+							deleteProfile(searchFile1.getDrhpRename(), request);
 						}
 					}
-					int result3 = mService.drClientHpUpdate3(dhp);
-					int result4 = mService.drClientApproval(d);
 					
-
-//					int result3 = mService.insertFile3(dhp);
-
-					if (result3 > 0) {
+					int result1 = mService.drClientHpUpdate1(dhp);
+//			int result1 = mService.insertFile1(dhp);
+					
+					if (result1 > 0) {
+						if (!file2.getOriginalFilename().equals("")) {
+							String renameFileName2 = saveFile(file2, request);
+							
+//							System.out.println("오리진 파일2 : " + file2.getOriginalFilename());
+							
+							dhp.setDrhpOrigin(file2.getOriginalFilename());
+							
+							dhp.setDrhpRename(renameFileName2);
+							
+							
+							
+						}
+						DrClient searchFile2 = mService.searchFile2(drNo);
 						
-						mv.setViewName("drClient/drClientHpModify2");
-						return mv;
+						if(searchFile2 != null) {
+							if(searchFile2.getDrhpRename() != null) {
+								deleteProfile(searchFile2.getDrhpRename(), request);
+							}
+						}
+						int result2 = mService.drClientHpUpdate2(dhp);
+						
+//				int result2 = mService.insertFile2(dhp);
+						
+						if (result2 > 0) {
+							if (!file3.getOriginalFilename().equals("")) {
+								String renameFileName3 = saveFile(file3, request);
+								
+//								System.out.println("오리진 파일3 : " + file3.getOriginalFilename());
+								
+								dhp.setDrhpOrigin(file3.getOriginalFilename());
+								
+								dhp.setDrhpRename(renameFileName3);
+								
+								
+							}
+							DrClient searchFile3 = mService.searchFile3(drNo);
+							
+							if(searchFile3 != null) {
+								if(searchFile3.getDrhpRename() != null) {
+									deleteProfile(searchFile3.getDrhpRename(), request);
+								}
+							}
+							int result3 = mService.drClientHpUpdate3(dhp);
+							int result4 = mService.drClientApproval(d);
+							
+							
+//					int result3 = mService.insertFile3(dhp);
+							
+							if (result3 > 0) {
+								
+								mv.setViewName("drClient/drClientHpModify2");
+								return mv;
+							} else {
+								response_equals.setContentType("text/html; charset=UTF-8");
+								PrintWriter out_equals = response_equals.getWriter();
+								out_equals.println("<script>alert('파일제출 실패하셨습니다.');</script>");
+								out_equals.flush();
+								mv.setViewName("drClient/drClientHpModify1");
+								return mv;
+							}
+						} else {
+							response_equals.setContentType("text/html; charset=UTF-8");
+							PrintWriter out_equals = response_equals.getWriter();
+							out_equals.println("<script>alert('파일제출 실패하셨습니다.');</script>");
+							out_equals.flush();
+							mv.setViewName("drClient/drClientHpModify1");
+							
+							return mv;
+						}
+						
 					} else {
 						response_equals.setContentType("text/html; charset=UTF-8");
 						PrintWriter out_equals = response_equals.getWriter();
 						out_equals.println("<script>alert('파일제출 실패하셨습니다.');</script>");
 						out_equals.flush();
 						mv.setViewName("drClient/drClientHpModify1");
+						
 						return mv;
 					}
-				} else {
-					response_equals.setContentType("text/html; charset=UTF-8");
-					PrintWriter out_equals = response_equals.getWriter();
-					out_equals.println("<script>alert('파일제출 실패하셨습니다.');</script>");
-					out_equals.flush();
-					mv.setViewName("drClient/drClientHpModify1");
-					
-					return mv;
-				}
-
-			} else {
-				response_equals.setContentType("text/html; charset=UTF-8");
-				PrintWriter out_equals = response_equals.getWriter();
-				out_equals.println("<script>alert('파일제출 실패하셨습니다.');</script>");
-				out_equals.flush();
-				mv.setViewName("drClient/drClientHpModify1");
-				
-				return mv;
-			}
+			
 			
 		}
 		
@@ -1347,24 +1350,26 @@ public class MainMemberController {
 		@RequestMapping("dupid.do")
 		public void idDuplicateCheck(HttpServletResponse response, String id) throws IOException {
 			System.out.println("mainMemberController.java test line 1300");
+			//일반회원
 			boolean isUsable = mService.checkIdDup(id) == 0 ? true : false;
+
+			//의사회원
+			boolean isUsable1 = mService.checkIdDrDup(id) == 0 ? true : false;
+
+			
+			boolean check = true;
+			if(isUsable == false || isUsable1 == false) {
+				check = false;
+			}else {
+				check = true;
+			}
 			
 			PrintWriter pw = response.getWriter();
-			pw.print(isUsable);
+			pw.print(check);
 			pw.flush();
 			pw.close();
 		}
-		// 의사회원 아이디 중복
-		@RequestMapping("drDupid.do")
-		public void idDrDuplicateCheck(HttpServletResponse response, String id) throws IOException {
-			System.out.println("mainMemberController.java test line 1311");
-			boolean isUsable = mService.checkIdDrDup(id) == 0 ? true : false;
-			
-			PrintWriter pw = response.getWriter();
-			pw.print(isUsable);
-			pw.flush();
-			pw.close();
-		}
+
 		
 		@RequestMapping(value = "agree1View.do", method = RequestMethod.GET)
 		public String agree1View() {
@@ -1379,7 +1384,7 @@ public class MainMemberController {
 			return "member/agree3";
 		}
 		
-		// 의사회원 아이디 중복
+		// 의사회원 비밀번호 중복
 		@RequestMapping("dupPwd.do")
 		public void pwdDrDuplicateCheck(HttpServletResponse response, String pwd, String cNo, String drNo, DrClient d, Client c) throws IOException {
 			System.out.println("mainMemberController.java test line 1385");
@@ -1412,5 +1417,48 @@ public class MainMemberController {
 			}
 		}
 		
+		@RequestMapping("hpCategory.do")
+		public void selectHpCate(HttpServletResponse response, @RequestParam(value="hpNo")Integer hpNo) throws IOException{
+			System.out.println("hpNo : " + hpNo);
+			ArrayList<String> hpList = null;
+			
+			hpList = mService.selectHpList(hpNo);
+			
+			
+			System.out.println("hpList : " +  hpList);
+			
+//			PrintWriter pw = response.getWriter();
+//			pw.print(hpList);
+//			pw.flush();
+//			pw.close();
+			response.setContentType("application/json; charset=utf-8");
+			new Gson().toJson(hpList, response.getWriter());
+			
+		}
+		
+		// 일반회원 이메일 중복
+		@RequestMapping("dupEmail.do")
+		public void emailDuplicateCheck(HttpServletResponse response, String email) throws IOException {
+			System.out.println("mainMemberController.java test line 1300");
+			// 일반회원
+			boolean isUsable = mService.checkEmailDup(email) == 0 ? true : false;
+			
+			// 의사회원
+			boolean isUsable1 = mService.checkEmailDrDup(email) == 0 ? true : false;
+			
+			
+			boolean check = true;
+			if(isUsable == false || isUsable1 == false) {
+				check=false;
+			}else {
+				check=true;
+			}
+			
+			PrintWriter pw = response.getWriter();
+			pw.print(check);
+			pw.flush();
+			pw.close();
+		}
+
 		
 }

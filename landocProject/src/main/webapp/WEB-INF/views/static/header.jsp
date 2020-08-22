@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header class="header-section clearfix">
-
    <c:url var="home" value="home.do" />
    <a href="${home }" class="site-logo">
       <img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
@@ -118,9 +117,8 @@
          }
      </script>
    
+
 </header>
-
-
 
 
 
