@@ -229,7 +229,12 @@
 		</ul>
 	</nav>
 
-
+	<script type="text/javascript">
+		var msg ='<c:out value="${msg}"/>';
+		if(msg != ''){
+			alert(msg);
+		}
+	</script>
 
 	<!--pagination end-->
 

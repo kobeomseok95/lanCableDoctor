@@ -54,13 +54,13 @@
 		style="text-align: center; margin-top: 80px; margin-bottom: 80px;">
 		<div class="p-4" style="width: 1000px; display: inline-block;">
 			<div class="row">
-                <div class="col-2 d-flex align-items-center" style="border: 2px solid #9b9b9b; height: 131px;">
+                <div class="col-2 d-flex align-items-center" style="border: 2px solid #9b9b9b; height: 131px; padding: 0px">
                 	<c:if test="${empty dr.proRename || dr.proRename eq ''}">
-                		<img style="width: 100%; height: auto;" src="/projectFiles/profile.png">
+                		<img style="width: 100%; height: 100%;" src="/projectFiles/profile.png">
                 	</c:if>
                 	
                 	<c:if test="${!empty dr.proRename }">	
-                		<img style="width: 100%; height: auto;" src="/projectFiles/${dr.proRename }">
+                		<img style="width: 100%; height: 100%;" src="/projectFiles/${dr.proRename }">
                 	</c:if>
            
                 </div>

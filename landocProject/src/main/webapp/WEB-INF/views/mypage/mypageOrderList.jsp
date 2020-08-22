@@ -133,33 +133,6 @@
 											</thead>
 											<tbody>
 
-
-
-												<tr>
-													<td class="first" rowspan="2"
-														style="border-right: solid lightgray 1px;">
-														B483299657 <span class="order-number" id="OrderNo">(1777031860)</span>
-
-													</td>
-													<td style="border-right: solid lightgray 1px;"><a
-														href="#" id="aPdName">비타민 C</a></td>
-													<td class="first" rowspan="2"
-														style="border-right: solid lightgray 1px;"><strong
-														class="num" id="price">36,740</strong>원 (<strong
-														class="num">1</strong>개)</td>
-													<td class="first" rowspan="2"
-														style="border-right: solid lightgray 1px;"><strong>-3,307</strong>원
-													</td>
-
-
-													<td class="first" rowspan="2"><strong
-														class="status-msg">배송완료<br></strong></td>
-												</tr>
-												<tr class="first">
-													<td><div>36,740원</div></td>
-												</tr>
-
-
 											</tbody>
 										</table>
 
@@ -178,25 +151,7 @@
 													id="clientInfo">
 
 													<tbody>
-														<tr>
-															<th scope="row" class="orderer"
-																style="background-color: #f8f8f8; color: #9b9b9b; text-align: center; border-right: solid lightgray 1px; width: 120px;">받으시는
-																분</th>
-															<td colspan="0">김소현</td>
-														</tr>
-														<tr>
-															<th scope="row" class="orderer"
-																style="background-color: #f8f8f8; color: #9b9b9b; text-align: center; border-right: solid lightgray 1px; width: 120px;">연락처</th>
-															<td colspan="0">010-9750-2902</td>
-														</tr>
-
-														<tr>
-															<th scope="row" class="orderer"
-																style="background-color: #f8f8f8; color: #9b9b9b; text-align: center; border-right: solid lightgray 1px; width: 120px;">주소</th>
-															<td colspan="0">[04947]<br> 서울특별시 광진구 영화사로9가길
-																33-5 (해성빌라) 401호<br>
-															</td>
-														</tr>
+														
 													</tbody>
 												</table>
 
@@ -221,40 +176,6 @@
 
 
 														<tbody id="payInfoBody">
-
-															<tr>
-																<th scope="row"
-																	style="background-color: #f8f8f8; color: #9b9b9b; text-align: center; border-right: solid lightgray 1px; width: 130px;">최종
-																	결제금액</th>
-																<td class="price final-price" style="text-align: right;">
-																	<strong>35,190</strong>원
-
-																</td>
-															</tr>
-
-															<tr class="sub sub-first sub-last">
-																<th scope="row"
-																	style="background-color: #f8f8f8; color: #9b9b9b; text-align: center; border-right: solid lightgray 1px;">결제수단</th>
-																<td class="price" style="text-align: right;"><strong>신용카드</strong></td>
-															</tr>
-
-															<tr class="sep">
-																<th scope="row"
-																	style="background-color: #f8f8f8; color: #9b9b9b; text-align: center; border-right: solid lightgray 1px;">상품금액</th>
-																<td class="price" style="text-align: right;"><strong>36,740</strong>원</td>
-															</tr>
-
-
-															<tr>
-																<th scope="row"
-																	style="background-color: #f8f8f8; color: #9b9b9b; text-align: center; border-right: solid lightgray 1px;">총할인금액</th>
-																<td class="price" style="text-align: right;"><strong>-3,307</strong>원</td>
-															</tr>
-															<tr class="hidden">
-																<th scope="row"
-																	style="background-color: #f8f8f8; color: #9b9b9b; text-align: center; border-right: solid lightgray 1px;">사용포인트</th>
-																<td class="price" style="text-align: right;"><strong>0</strong>원</td>
-															</tr>
 
 														</tbody>
 													</table>

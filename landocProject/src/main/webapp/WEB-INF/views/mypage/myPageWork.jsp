@@ -43,8 +43,8 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
-	a{
-		color: black;
+	div a{
+		color: #45668e;
 	}
 
 </style>
@@ -112,12 +112,12 @@
 				</div>
 			</div>
 
-			<div class="row mt-3">
-				<button class="btn w-100 py-3 pl-5 text-left" id="myAskDr" style="border: 2px solid #9b9b9b; font-size: 21px;">
 					<c:url var="goMyAskDr" value="myAskDr.do">
 						<c:param name="cNo" value="${loginClient.cNo }" />
 					</c:url>
-					<a href='${goMyAskDr }'>나의 의사에게 물어봐 문의글</a>
+			<div class="row mt-3">
+				<button class="btn w-100 py-3 pl-5 text-left" id="myAskDr" style="border: 2px solid #9b9b9b; font-size: 21px;" onclick="location.href='${goMyAskDr}'">
+					나의 의사에게 물어봐 문의글
 				</button>
 			</div>
 

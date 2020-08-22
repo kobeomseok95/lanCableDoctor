@@ -305,7 +305,7 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="myOrderCancelList.do")
-	public ModelAndView orderCancelList(HttpSession session, ModelAndView mv,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+	public ModelAndView orderCancelList(HttpSession session, ModelAndView mv,@RequestParam(value="page", required=false) Integer page,String msg) throws cMypageException {
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
@@ -324,6 +324,7 @@ public class cMypageController {
 		if(list!=null) {
 			mv.addObject("cancelList",list);
 			mv.addObject("pi",pi);
+			mv.addObject("msg",msg);
 			mv.setViewName("mypage/mypageOrderCancelList");
 		}else {
 			throw new cMypageException("주문취소/교환 리스트 조회실패!");
@@ -475,7 +476,7 @@ public class cMypageController {
 				  mv.addObject("msg","교환요청이 완료되었습니다.");
 			  }
 				
-	          mv.setViewName("redirect:myOrderList.do");
+	          mv.setViewName("redirect:myOrderCancelList.do");
 		}else {
 			throw new cMypageException("주문취소 실패");
 		}

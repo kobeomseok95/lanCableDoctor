@@ -61,32 +61,6 @@
          </div>
 
 
-         <!-- <div class="pb-2 mt-5 review-list-subtitle text-left" style="font-size: 25px; border-bottom: solid; border-color:rgba(0, 0, 0, 0.514);">답변 대기중인 QnA</div> -->
-         <!-- <table class="table w-100 border-bottom">
-                    <tbody>
-                    <tr style="background-color: #f8f8f8;color: #9b9b9b;">
-                        <th class="p-3" style="text-align: center;">분류</th>
-                        <th class="p-3" style="text-align: center;">제목</th>
-                        <th class="p-3" style="text-align: center;">작성일자</th>
-                        <th class="p-3" style="text-align: center;">진행상황</th>
-                    </tr>
-    
-                    
-                    <tr class="color49" style="font-size:14px;">
-                        <td style="vertical-align:middle; text-align: center;">주문문의</td>
-                        <td style="vertical-align:middle; text-align: center;">언제쯤 도착할까요?</td>
-                        <td style="vertical-align:middle; text-align: center;">2020년 7월 6일 1:14 오후</td>
-                        <td style="vertical-align:middle; text-align: center;">
-                            답변대기중
-                        </td>
-                    </tr>
-                   </tbody>
-                </table> -->
-
-
-         <!-- <div class="pb-2 mt-5 review-list-subtitle d-flex justify-content-between"  style="font-size: 25px; border-bottom: solid; border-color: rgba(0, 0, 0, 0.514);">
-                    답변완료된 QnA
-                </div> -->
          <c:if test="${empty pdReviewList}">
           <div class="color9b text-center" style="font-size: 1.313rem; margin-top: 73.7px;letter-spacing: -0.8px;">
                 <div class="my-3 text-center">
@@ -208,6 +182,12 @@
 	</nav>
 	<!--pagination end-->
  
+ 	<script type="text/javascript">
+	 	var msg ='<c:out value="${msg}"/>';
+		if(msg != ''){
+			alert(msg);
+		}
+ 	</script>
 
    <%@ include file="../static/footer.jsp"%>
    <!--====== Javascripts & Jquery ======-->

@@ -68,10 +68,10 @@
 
 				<div class="point-breadcrumb text-left">
 					<a href="clientMypage.do"
-						style="color: #0071ce; letter-spacing: -0.5px; font-size: 25px;">
+						style="color: #0071ce; letter-spacing: -0.5px; font-size: 30px;">
 						나의 주문조회 </a> > <a href="myOrderList.do"
-						style="color: #0071ce; letter-spacing: -0.5px; font-size: 25px;">
-						주문목록 </a> > <strong class="ml-2" style="font-size: 25px;">문의하기</strong>
+						style="color: #0071ce; letter-spacing: -0.5px; font-size: 30px;">
+						주문목록 </a> > <strong class="ml-2" style="font-size: 30px;">문의하기</strong>
 				</div>
 
 
