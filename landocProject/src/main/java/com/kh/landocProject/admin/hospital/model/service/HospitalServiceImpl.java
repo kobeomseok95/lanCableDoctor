@@ -129,4 +129,14 @@ public class HospitalServiceImpl implements HospitalService {
 	public Hospital getNonApprovalHospitalDetail(int hpNo) {
 		return hpDao.getNonApprovalHospitalDetail(hpNo);
 	}
+
+	@Override
+	public int approveHospital(int hpNo) {
+		return hpDao.approveHospital(hpNo);
+	}
+
+	@Override
+	public int rejectHospital(int hpNo) {
+		return hpDao.rejectHospital(hpNo);
+	}
 }

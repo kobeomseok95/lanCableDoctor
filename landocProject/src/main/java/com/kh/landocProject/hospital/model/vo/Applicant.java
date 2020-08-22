@@ -9,6 +9,7 @@ public class Applicant implements Serializable {
 	 */
 	private static final long serialVersionUID = 2073745198576574248L;
 	private int aNo;
+	private int hpNo;
 	private String applicantName;
 	private String applicantEmail;
 	private String applicantPhone;
@@ -18,14 +19,19 @@ public class Applicant implements Serializable {
 	public Applicant() {
 	}
 	
-	public Applicant(int aNo, String applicantName, String applicantEmail, String applicantPhone,
+	
+
+	public Applicant(int aNo, int hpNo, String applicantName, String applicantEmail, String applicantPhone,
 			List<String> checkService) {
 		this.aNo = aNo;
+		this.setHpNo(hpNo);
 		this.applicantName = applicantName;
 		this.applicantEmail = applicantEmail;
 		this.applicantPhone = applicantPhone;
 		this.checkService = checkService;
 	}
+
+
 
 	public int getaNo() {
 		return aNo;
@@ -67,10 +73,16 @@ public class Applicant implements Serializable {
 		this.checkService = checkService;
 	}
 
+	public int getHpNo() {
+		return hpNo;
+	}
+	public void setHpNo(int hpNo) {
+		this.hpNo = hpNo;
+	}
 	@Override
 	public String toString() {
-		return "Applicant [aNo=" + aNo + ", applicantName=" + applicantName + ", applicantEmail=" + applicantEmail
-				+ ", applicantPhone=" + applicantPhone + ", checkService=" + checkService + "]";
+		return "Applicant [aNo=" + aNo + ", hpNo=" + hpNo + ", applicantName=" + applicantName + ", applicantEmail="
+				+ applicantEmail + ", applicantPhone=" + applicantPhone + ", checkService=" + checkService + "]";
 	}
 
 	

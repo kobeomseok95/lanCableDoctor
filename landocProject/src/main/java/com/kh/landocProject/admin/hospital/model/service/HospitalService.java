@@ -49,4 +49,8 @@ public interface HospitalService {
 
 	Hospital getNonApprovalHospitalDetail(int hpNo);
 
+	int approveHospital(int hpNo);
+
+	int rejectHospital(int hpNo);
+
 }

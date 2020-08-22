@@ -63,7 +63,7 @@
             	<c:if test="${empty hospitals }">
             <tr>
             	<td colspan='7' style='text-align: center;'>
-            		상품이 없습니다.
+            		신청이 없습니다.
             	</td>
             </tr>
             	</c:if>

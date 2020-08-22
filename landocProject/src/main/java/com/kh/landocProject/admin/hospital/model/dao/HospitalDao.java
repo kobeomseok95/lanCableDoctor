@@ -123,4 +123,12 @@ public class HospitalDao {
 		return sqlSessionTemplate.selectOne("adminHpMapper.getNonApprovalHospitalDetail", hpNo);
 	}
 
+	public int approveHospital(int hpNo) {
+		return sqlSessionTemplate.update("adminHpMapper.approveHospital", hpNo);
+	}
+
+	public int rejectHospital(int hpNo) {
+		return sqlSessionTemplate.delete("adminHpMapper.rejectHospital", hpNo);
+	}
+
 }

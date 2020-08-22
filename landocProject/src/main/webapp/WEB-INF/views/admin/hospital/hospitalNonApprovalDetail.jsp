@@ -49,9 +49,7 @@
            <table id="contentTb">
                <tr>
                    <th class="firstLine">병원 고유 번호</th>
-                   <td>
-                   		${hospital.hpNo }
-                   </td>
+                   <td id="hpNo">${hospital.hpNo }</td>
                </tr>
                <tr>
                    <th class="firstLine">병원 이름</th>
@@ -104,7 +102,7 @@
                </tr>
                <tr>
                	<th class="firstLine">병원 등록 신청자 이메일</th>
-	               	<td>
+	               	<td id="aEmail">
                         ${hospital.applicant.applicantEmail }
 	               	</td>
                </tr>
@@ -131,8 +129,8 @@
                </tr>
            </table>
            <div id="btnArea">
-               <button type="button" class="approval">승인</button>
-               <button type="button" class="reject">거절</button>
+               <button type="button" id="approval">승인</button>
+               <button type="button" id="reject">거절</button>
                <button type="button" onclick="location.href='javascript:history.back();'">뒤로가기</button>
            </div>
                
@@ -149,8 +147,68 @@
 	            $(this).parent().css({ "background": "white" });
 	        });
 			
+	        $("#approval").on('click', function(){
+	        	let hpNo = $("#hpNo").text();
+				
+	        	if(confirm("해당 병원을 등록하시겠습니까?")){
+	        		var $form = $('<form action="approveHospital.do" method="POST"></form>');
+
+	        		var $inputOne = $('<input type="hidden" name="hpNo" />');
+	        		$inputOne.attr('value', hpNo);
+	        		
+	        		var $inputTwo = $('<input type="hidden" name="aEmail" />');
+	        		$inputTwo.attr('value', "${hospital.applicant.applicantEmail }");
+	        		
+	        		$form.append($inputOne);
+	        		$form.append($inputTwo);
+	        		
+	        		$('body').append($form);
+	        		$form.submit();
+	        		
+	        		alert("등록 완료되었습니다.");
+	        	}
+	        	else{
+	        		return false;
+	        	}
+	        });
 	        
-     	});//end of jquery
+	        $("#reject").on('click', function(){
+	        	let hpNo = $("#hpNo").text();
+				
+	        	if(confirm("해당 병원을 등록거부하시겠습니까?")){
+	        		var $form = $('<form action="rejectHospital.do" method="POST"></form>');
+	        		
+	        		var $inputOne = $('<input type="hidden" name="hpNo" />');
+	        		$inputOne.attr('value', hpNo);
+	        		
+	        		var $inputTwo = $('<input type="hidden" name="aEmail" />');
+	        		$inputTwo.attr('value', "${hospital.applicant.applicantEmail }");
+	        		
+	        		var $inputThree = $('<input type="hidden" name="br" />');
+	        		$inputThree.attr('value', "${br}");
+	        		
+	        		var $inputFour = $('<input type="hidden" name="id" />');
+	        		$inputFour.attr('value', "${id}");
+	        		
+	        		var $inputFive = $('<input type="hidden" name="dl" />');
+	        		$inputFive.attr('value', "${dl}");
+
+	        		$form.append($inputOne);
+	        		$form.append($inputTwo);
+	        		$form.append($inputThree);
+	        		$form.append($inputFour);
+	        		$form.append($inputFive);
+	        		
+	        		$('body').append($form);
+	        		$form.submit();
+	        		
+	        		alert("등록 거부 완료되었습니다.")
+	        	}
+	        	else{
+	        		return false;
+	        	}
+	        });
+     	});	//end of jquery
     </script>
 	
 

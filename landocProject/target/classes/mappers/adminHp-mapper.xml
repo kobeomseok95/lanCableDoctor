@@ -331,7 +331,23 @@
 		    AND A.HP_NO = #{hpNo}
 	</select>
 
-
+	<update id="approveHospital" parameterType="_int">
+		UPDATE HOSPITAL
+		SET HP_APPROVAL = 'Y'
+		WHERE HP_NO = #{hpNo}
+	</update>
+	
+	<delete id="rejectHospital" parameterType="_int"><!-- 에러뜰경우 ;지워주기 -->
+		{CALL 
+			DECLARE 
+			BEGIN 
+				DELETE FROM HPLIST WHERE HP_NO = #{hpNo};
+				DELETE FROM APPLICANT WHERE HP_NO = #{hpNo};
+				DELETE FROM DRHPPHOTO WHERE HP_NO = #{hpNo};
+				DELETE FROM HOSPITAL WHERE HP_NO = #{hpNo};
+			END  
+		}
+	</delete>
 </mapper>
 
 
