@@ -16,6 +16,7 @@ import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
 import com.kh.landocProject.member.model.vo.Client;
+import com.kh.landocProject.product.model.vo.ProductQna;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 
 
@@ -239,6 +240,26 @@ public class cMypageServiceImpl implements cMypageService {
 	public ArrayList<HpReview> getMyHpReList(String cNo, CMypagePageInfo pi) {
 		
 		return cmDao.getMyHpReList(cNo,pi);
+	}
+
+	@Override
+	public int getProductQnaAnswerCount(String cNo) {
+		return cmDao.getProductQnaAnswerCount(cNo);
+	}
+
+	@Override
+	public int getProductQnaNonAnswerCount(String cNo) {
+		return cmDao.getProductQnaNonAnswerCount(cNo);
+	}
+
+	@Override
+	public List<ProductQna> getAnswerProductQnaList(String cNo, CMypagePageInfo answerPi) {
+		return cmDao.getAnswerProductQnaList(cNo, answerPi);
+	}
+
+	@Override
+	public List<ProductQna> getNonAnswerProductQnaList(String cNo, CMypagePageInfo nonAnswerPi) {
+		return cmDao.getNonAnswerProductQnaList(cNo, nonAnswerPi);
 	}
 	
 }

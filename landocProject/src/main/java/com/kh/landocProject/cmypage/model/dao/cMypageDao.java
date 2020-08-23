@@ -17,6 +17,7 @@ import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
 import com.kh.landocProject.member.model.vo.Client;
+import com.kh.landocProject.product.model.vo.ProductQna;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 
 @Repository("cmDao")
@@ -225,6 +226,26 @@ public class cMypageDao {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.getMyHpReList", cNo, rowBounds);
+	}
+
+	public int getProductQnaAnswerCount(String cNo) {
+		return sqlSessionTemplate.selectOne("productMapper.getProductQnaAnswerCount", cNo);
+	}
+
+	public int getProductQnaNonAnswerCount(String cNo) {
+		return sqlSessionTemplate.selectOne("productMapper.getProductQnaNonAnswerCount", cNo);
+	}
+
+	public List<ProductQna> getAnswerProductQnaList(String cNo, CMypagePageInfo answerPi) {
+		int offset = (answerPi.getCurrentPage() - 1) * answerPi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, answerPi.getBoardLimit());
+		return sqlSessionTemplate.selectList("productMapper.getAnswerProductQnaList", cNo, rowBounds);
+	}
+
+	public List<ProductQna> getNonAnswerProductQnaList(String cNo, CMypagePageInfo nonAnswerPi) {
+		int offset = (nonAnswerPi.getCurrentPage() - 1) * nonAnswerPi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, nonAnswerPi.getBoardLimit());
+		return sqlSessionTemplate.selectList("productMapper.getNonAnswerProductQnaList", cNo, rowBounds);
 	}
 
 
