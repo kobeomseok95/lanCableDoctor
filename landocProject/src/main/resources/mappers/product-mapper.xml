@@ -661,21 +661,31 @@
 		AND DR_NO = #{drNo}
 	</select>
 
-	<select id="getProductQnaAnswerCount" parameterType="string" resultType="_int">
+	<select id="getProductQnaAnswerCount" parameterType="hashMap" resultType="_int">
 		SELECT COUNT(*)
 		FROM PRODUCTQNA
 		WHERE PDQ_ANSWERSTATUS = 'Y'
-		AND C_NO = #{cNo}	
+		<if test='type != null and !type.equals("") and type.equals("Client")'>
+			AND C_NO = #{no}
+		</if>
+		<if test='type != null and !type.equals("") and type.equals("DrClient")'>
+			AND DR_NO = #{no}
+		</if>
 	</select>
 
-	<select id="getProductQnaNonAnswerCount" parameterType="string" resultType="_int">
+	<select id="getProductQnaNonAnswerCount" parameterType="hashMap" resultType="_int">
 		SELECT COUNT(*)
 		FROM PRODUCTQNA
 		WHERE PDQ_ANSWERSTATUS = 'N'
-		AND C_NO = #{cNo}	
+		<if test='type != null and !type.equals("") and type.equals("Client")'>
+			AND C_NO = #{no}
+		</if>
+		<if test='type != null and !type.equals("") and type.equals("DrClient")'>
+			AND DR_NO = #{no}
+		</if>
 	</select>
 
-	<select id="getAnswerProductQnaList" parameterType="string" resultMap="productQnas">
+	<select id="getAnswerProductQnaList" parameterType="hashMap" resultMap="productQnas">
 		SELECT 
 		    ROWNUM AS RNO, A.*
 		FROM
@@ -687,13 +697,18 @@
 		        JOIN PRODUCT B ON A.PD_NO = B.PD_NO
 		    WHERE
 		        A.PDQ_ANSWERSTATUS = 'Y'
-		        AND A.C_NO = #{cNo}
+			<if test='type != null and !type.equals("") and type.equals("Client")'>
+				AND C_NO = #{no}
+			</if>
+			<if test='type != null and !type.equals("") and type.equals("DrClient")'>
+				AND DR_NO = #{no}
+			</if>
 		    ORDER BY
 		    	A.PDQ_SUBMITDATE DESC
 		    ) A	
 	</select>
 
-	<select id="getNonAnswerProductQnaList" parameterType="string" resultMap="productQnas">
+	<select id="getNonAnswerProductQnaList" parameterType="hashMap" resultMap="productQnas">
 		SELECT 
 		    ROWNUM AS RNO, A.*
 		FROM
@@ -705,7 +720,12 @@
 		        JOIN PRODUCT B ON A.PD_NO = B.PD_NO
 		    WHERE
 		        A.PDQ_ANSWERSTATUS = 'N'
-		        AND A.C_NO = #{cNo}
+			<if test='type != null and !type.equals("") and type.equals("Client")'>
+				AND C_NO = #{no}
+			</if>
+			<if test='type != null and !type.equals("") and type.equals("DrClient")'>
+				AND DR_NO = #{no}
+			</if>
 		    ORDER BY
 		    	A.PDQ_SUBMITDATE DESC
 		    ) A	

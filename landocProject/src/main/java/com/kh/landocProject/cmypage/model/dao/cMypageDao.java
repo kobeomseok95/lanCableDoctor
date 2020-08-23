@@ -228,24 +228,24 @@ public class cMypageDao {
 		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.getMyHpReList", cNo, rowBounds);
 	}
 
-	public int getProductQnaAnswerCount(String cNo) {
-		return sqlSessionTemplate.selectOne("productMapper.getProductQnaAnswerCount", cNo);
+	public int getProductQnaAnswerCount(HashMap<String, String> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getProductQnaAnswerCount", param);
 	}
 
-	public int getProductQnaNonAnswerCount(String cNo) {
-		return sqlSessionTemplate.selectOne("productMapper.getProductQnaNonAnswerCount", cNo);
+	public int getProductQnaNonAnswerCount(HashMap<String, String> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getProductQnaNonAnswerCount", param);
 	}
 
-	public List<ProductQna> getAnswerProductQnaList(String cNo, CMypagePageInfo answerPi) {
+	public List<ProductQna> getAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo answerPi) {
 		int offset = (answerPi.getCurrentPage() - 1) * answerPi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, answerPi.getBoardLimit());
-		return sqlSessionTemplate.selectList("productMapper.getAnswerProductQnaList", cNo, rowBounds);
+		return sqlSessionTemplate.selectList("productMapper.getAnswerProductQnaList", param, rowBounds);
 	}
 
-	public List<ProductQna> getNonAnswerProductQnaList(String cNo, CMypagePageInfo nonAnswerPi) {
+	public List<ProductQna> getNonAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo nonAnswerPi) {
 		int offset = (nonAnswerPi.getCurrentPage() - 1) * nonAnswerPi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, nonAnswerPi.getBoardLimit());
-		return sqlSessionTemplate.selectList("productMapper.getNonAnswerProductQnaList", cNo, rowBounds);
+		return sqlSessionTemplate.selectList("productMapper.getNonAnswerProductQnaList", param, rowBounds);
 	}
 
 

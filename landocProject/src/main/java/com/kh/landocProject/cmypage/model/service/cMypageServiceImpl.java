@@ -243,23 +243,23 @@ public class cMypageServiceImpl implements cMypageService {
 	}
 
 	@Override
-	public int getProductQnaAnswerCount(String cNo) {
-		return cmDao.getProductQnaAnswerCount(cNo);
+	public int getProductQnaAnswerCount(HashMap<String, String> param) {
+		return cmDao.getProductQnaAnswerCount(param);
 	}
 
 	@Override
-	public int getProductQnaNonAnswerCount(String cNo) {
-		return cmDao.getProductQnaNonAnswerCount(cNo);
+	public int getProductQnaNonAnswerCount(HashMap<String, String> param) {
+		return cmDao.getProductQnaNonAnswerCount(param);
 	}
 
 	@Override
-	public List<ProductQna> getAnswerProductQnaList(String cNo, CMypagePageInfo answerPi) {
-		return cmDao.getAnswerProductQnaList(cNo, answerPi);
+	public List<ProductQna> getAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo answerPi) {
+		return cmDao.getAnswerProductQnaList(param, answerPi);
 	}
 
 	@Override
-	public List<ProductQna> getNonAnswerProductQnaList(String cNo, CMypagePageInfo nonAnswerPi) {
-		return cmDao.getNonAnswerProductQnaList(cNo, nonAnswerPi);
+	public List<ProductQna> getNonAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo nonAnswerPi) {
+		return cmDao.getNonAnswerProductQnaList(param, nonAnswerPi);
 	}
 	
 }

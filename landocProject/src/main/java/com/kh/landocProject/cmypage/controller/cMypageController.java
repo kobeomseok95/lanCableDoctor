@@ -589,14 +589,18 @@ public class cMypageController {
 		if(answerPage == null)		answerPage = 1;
 		if(nonAnswerPage == null)	nonAnswerPage =1;
 		
-		int answerCount = cmService.getProductQnaAnswerCount(cNo);
-		int nonAnswerCount = cmService.getProductQnaNonAnswerCount(cNo);
+		HashMap<String, String> param = new HashMap<>();
+		param.put("type", "Client");
+		param.put("no", cNo);
+		
+		int answerCount = cmService.getProductQnaAnswerCount(param);
+		int nonAnswerCount = cmService.getProductQnaNonAnswerCount(param);
 		
 		CMypagePageInfo answerPi = CMypagePagination.getPageInfo(answerPage,answerCount);
 		CMypagePageInfo nonAnswerPi = CMypagePagination.getPageInfo(nonAnswerPage,nonAnswerCount);
 		
-		List<ProductQna> answerProductQna = cmService.getAnswerProductQnaList(cNo, answerPi);
-		List<ProductQna> nonAnswerProductQna = cmService.getNonAnswerProductQnaList(cNo, nonAnswerPi);
+		List<ProductQna> answerProductQna = cmService.getAnswerProductQnaList(param, answerPi);
+		List<ProductQna> nonAnswerProductQna = cmService.getNonAnswerProductQnaList(param, nonAnswerPi);
 
 		mv.addObject("napi", nonAnswerPi);
 		mv.addObject("napq", nonAnswerProductQna);
