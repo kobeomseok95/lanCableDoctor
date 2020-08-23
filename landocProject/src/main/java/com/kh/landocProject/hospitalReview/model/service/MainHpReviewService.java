@@ -49,6 +49,9 @@ public interface MainHpReviewService {
 
    int selectHpLikeCount(Integer hpNo);
 
+   String selectHpThumbnail(Integer hpNo);
+
+
 
 
 

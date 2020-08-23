@@ -115,7 +115,14 @@ img {
                     <div class="row p-3">
                         <div class="image-box col-2 p-0">
                             <div style="width: 100%;">
-                                <img src="#" style="width:100%; height:auto;">
+                            	<c:if test="${!empty hpThumb }">
+                            		<img src="/projectFiles/${hpThumb }" style="width:109px; height:102px;">
+                            	</c:if>
+                                
+                                <c:if test="${empty hpThumb }">
+                            		<img src="/projectFiles/noneThumb.png" style="width:109px; height:102px;">
+                            	</c:if>
+                                
                             </div>
                             
                             <div class="mt-2">

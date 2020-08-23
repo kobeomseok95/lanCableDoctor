@@ -136,6 +136,12 @@ public class MainHpReviewDao {
 		
 		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectHpLikeCount", hpNo);
 	}
+
+
+	public String selectHpThumbnail(Integer hpNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.selectHpThumbnail", hpNo);
+	}
 	
 	
 	
