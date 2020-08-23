@@ -93,13 +93,13 @@ public interface cMypageService {
 
 	ArrayList<HpReview> getMyHpReList(String cNo, CMypagePageInfo pi);
 
-	int getProductQnaAnswerCount(String cNo);
+	int getProductQnaAnswerCount(HashMap<String, String> param);
 
-	int getProductQnaNonAnswerCount(String cNo);
+	int getProductQnaNonAnswerCount(HashMap<String, String> param);
 
-	List<ProductQna> getAnswerProductQnaList(String cNo, CMypagePageInfo answerPi);
+	List<ProductQna> getAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo answerPi);
 
-	List<ProductQna> getNonAnswerProductQnaList(String cNo, CMypagePageInfo nonAnswerPi);
+	List<ProductQna> getNonAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo nonAnswerPi);
 
 	
 

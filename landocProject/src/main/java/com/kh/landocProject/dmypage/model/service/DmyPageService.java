@@ -2,6 +2,7 @@ package com.kh.landocProject.dmypage.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
 import com.kh.landocProject.cmypage.model.vo.CMypagePageInfo;
@@ -12,6 +13,7 @@ import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
 import com.kh.landocProject.dmypage.model.vo.DrProfile;
 import com.kh.landocProject.hospitalReview.model.vo.HpLike;
 import com.kh.landocProject.member.model.vo.DrClient;
+import com.kh.landocProject.product.model.vo.ProductQna;
 
 public interface DmyPageService {
 	ArrayList<DPdReview> selectPdReviewList(String drNo, CMypagePageInfo pi);
@@ -96,5 +98,13 @@ public interface DmyPageService {
 	ArrayList<DrProfile> getAjaxCommentList(String drNo);
 
 	int getCommentCount(String drNo);
+
+	int getProductQnaAnswerCount(HashMap<String, String> param);
+
+	int getProductQnaNonAnswerCount(HashMap<String, String> param);
+
+	List<ProductQna> getAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo answerPi);
+
+	List<ProductQna> getNonAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo nonAnswerPi);
 
 }
