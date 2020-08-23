@@ -195,7 +195,17 @@ public class MainHpController {
 	      hp.setHpName(hpNameLike);
 	   
 	      ArrayList<HpSearch> hpList = mainHpService.hpSearchListNormal(hp);
-	      if(hpList !=null) {
+	      ArrayList<HpSearch> listAvg = mainHpService.selectHpAvgList(hp);
+	  	for(int i =0; i<listAvg.size();i++) {
+			for(int z=0; z<hpList.size();z++) {
+				if(listAvg.get(i).getHpNo() == hpList.get(z).getHpNo()) {
+					hpList.get(z).setHpAvgRate(listAvg.get(i).getHpAvgRate());
+					hpList.get(z).setReviewCount(listAvg.get(i).getReviewCount());
+				}
+			}
+		}
+	      
+	      if(hpList !=null && listAvg != null) {
 	    	  mv.addObject("hp",hpList);
 	    	  mv.addObject("area",area);
 	    	  mv.addObject("hpName", hpTitle);
@@ -252,8 +262,16 @@ public class MainHpController {
 	@RequestMapping(value="hpCate.do")
 	public ModelAndView hpCateSearch(ModelAndView mv, HttpSession session,@RequestParam(value="cateName") String cateName) throws MainHpException{
 		  ArrayList<HpSearch> hpList = mainHpService.hpCateSearchList(cateName);
-	      
-	      if(hpList !=null) {
+	      ArrayList<HpSearch> listAvg = mainHpService.selectHpAvgListCate(cateName);
+	      for(int i =0; i<listAvg.size();i++) {
+				for(int z=0; z<hpList.size();z++) {
+					if(listAvg.get(i).getHpNo() == hpList.get(z).getHpNo()) {
+						hpList.get(z).setHpAvgRate(listAvg.get(i).getHpAvgRate());
+						hpList.get(z).setReviewCount(listAvg.get(i).getReviewCount());
+					}
+				}
+			}
+	      if(hpList !=null && listAvg != null) {
 	    	  mv.addObject("hp",hpList);
 	    	  mv.addObject("cateName", cateName);
 	    	  mv.setViewName("hospital/hpSearch");
@@ -390,7 +408,6 @@ public class MainHpController {
 											Hospital h,
 											Applicant a) {
 		h.setAddress(h.getAddress() + " " + address2);
-		
 		int insertHospital = mainHpService.insertHospital(h);
 		
 		List<Integer> list = Arrays.stream(h.getCategoryCode()).boxed().collect(Collectors.toList());
@@ -466,6 +483,7 @@ public class MainHpController {
 	
 	private boolean getSequenceNo(Hospital h, Applicant a) {
 		int hospitalSeq = mainHpService.getHospitalSeq(h);
+		a.setHpNo(hospitalSeq);
 		int applicantSeq = mainHpService.getApplicantSeq(a);
 		
 		if(hospitalSeq != 0 && applicantSeq != 0) {

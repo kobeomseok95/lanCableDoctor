@@ -16,6 +16,7 @@ import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
+import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 
 @Repository("cmDao")
@@ -185,6 +186,15 @@ public class cMypageDao {
 		return sqlSessionTemplate.selectOne("cMypage.getListCountSearchOrderList2",search);
 	}
 
+	public Client selectC(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("cMypage.selectC",cNo);
+	}
+
+	public ArrayList<LikeHp> selectHpAvgList(String cNo) {
+		
+		return (ArrayList)sqlSessionTemplate.selectList("cMypage.selectHpAvgList",cNo);
+	}
 	public int getMyChooseCount(String cNo) {
 		return sqlSessionTemplate.selectOne("askDr.getMyChooseCount", cNo);
 	}
@@ -203,6 +213,7 @@ public class cMypageDao {
 		int offset = (nonChoosePi.getCurrentPage() - 1) * nonChoosePi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, nonChoosePi.getBoardLimit());
 		return sqlSessionTemplate.selectList("askDr.getMyNonChooseList", cNo, rowBounds);
+
 	}
 
 	public int getHpReCount(String cNo) {

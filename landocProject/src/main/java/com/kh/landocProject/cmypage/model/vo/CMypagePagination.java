@@ -17,6 +17,11 @@ public class CMypagePagination{
 		
 		endPage = startPage + pageLimit -1;
 		
+		if(listCount==0){
+			endPage =1;
+			maxPage =1;
+		}
+		
 		if(maxPage < endPage) {
 			endPage = maxPage;
 		}

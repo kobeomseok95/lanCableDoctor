@@ -15,8 +15,8 @@ import com.kh.landocProject.cmypage.model.vo.LikeHp;
 import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
+import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
-
 
 
 @Service("cmService")
@@ -196,9 +196,23 @@ public class cMypageServiceImpl implements cMypageService {
 	}
 
 	@Override
+
+	public Client selectC(String cNo) {
+		
+		return cmDao.selectC(cNo);
+	}
+
+	@Override
+	public ArrayList<LikeHp> selectHpAvgList(String cNo) {
+		
+		return cmDao.selectHpAvgList(cNo);
+	}
+
+	@Override
 	public int getMyChooseCount(String cNo) {
 		return cmDao.getMyChooseCount(cNo);
 	}
+
 
 	@Override
 	public int getMyNonChooseCount(String cNo) {

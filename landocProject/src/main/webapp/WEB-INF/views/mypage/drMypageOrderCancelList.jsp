@@ -75,8 +75,8 @@
 
 				<div class="point-breadcrumb text-left">
 					<a href="doctorMypage.do"
-						style="color: #0071ce; letter-spacing: -0.5px; font-size: 25px;">
-						나의 주문조회 </a> > <strong class="ml-2" style="font-size: 25px;">주문취소/교환/반품
+						style="color: #0071ce; letter-spacing: -0.5px; font-size: 30px;">
+						나의 주문조회 </a> > <strong class="ml-2" style="font-size: 30px;">주문취소/교환/반품
 						목록</strong>
 				</div>
 
@@ -135,13 +135,13 @@
 									style="border-right: solid 1px; border-color: lightgray; border-bottom: solid 1px; border-color: lightgray; vertical-align: middle;"
 									rowspan="2">
 									<div class="product-block">
-										<a href="#" target="_blank" class="product-thumbnail"
+										<a href="productDetail.do?pdNo=${o.pdNo}" target="_blank" class="product-thumbnail"
 											style="float: left;"> <img
-											src="../solmusic/img/blog/1.jpg"
+											src="/projectFiles/${o.thumbnail}"
 											style="width: 60px; height: 60px" alt=""></a>
 										<div class="product-content" style="padding-left: 77px;">
 											<div class="product-name">
-												<a href="#" target="_blank">${o.pdName}</a>
+												<a href="productDetail.do?pdNo=${o.pdNo}" target="_blank">${o.pdName}</a>
 											</div>
 
 
@@ -226,7 +226,13 @@
 		</ul>
 	</nav>
 
-
+	<script type="text/javascript">
+		var msg ='<c:out value="${msg}"/>';
+		if(msg != ''){
+			alert(msg);
+		}
+		
+	</script>
 
 	<!--pagination end-->
 

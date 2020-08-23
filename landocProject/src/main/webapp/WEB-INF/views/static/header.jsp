@@ -7,7 +7,7 @@
       <img src="<%=request.getContextPath()%>/resources/img/mainlogo.png" alt="" style="width: 100px; height: 100px;">
    </a>
    <ul class="main-menu">
-      <li><a href="#">병원찾기</a></li>
+      <li><a href="insertHpView.do">병원등록</a></li>
       
       <c:choose>
          <c:when test="${empty loginClient && empty loginDrClient }">
@@ -116,7 +116,6 @@
         	 location.href="loginView.do";
          }
      </script>
-   
 
 </header>
 

@@ -135,8 +135,8 @@
 	<!-- Hero section end -->
 
 	<!-- Intro section -->
-	<section class="intro-section spad">
-		<div class="row" id="hpSearch">
+	<section class="intro-section spad" id="searchSection">
+		<div class="row">
 			<div class="col-xl-9 mx-auto" align="center">
 				<h1 class="mb-5" style="font-size: 50px;">SEARCH!!!</h1>
 			</div>
@@ -494,10 +494,15 @@
 	<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 </body>
 <script>
-<%if(result != null){%>
-alert("탈퇴하셨습니다.");
+	<%if(result != null && !result.equals("25")){%>
+	alert("탈퇴하셨습니다.");
+	
+	<%}%>
 
-<%}%>
+	var result = '<c:out value="${result}"/>'
+	if(result === "25"){
+		location.href="#searchSection";
+	}
 </script>
 
 
