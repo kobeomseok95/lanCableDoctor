@@ -341,7 +341,7 @@
 		    JOIN CLIENT C ON(HR.C_NO = C.C_NO)
 		    JOIN HOSPITAL HP ON(HR.HP_NO = HP.HP_NO)
 		WHERE HR.C_NO=#{cNo}
-			AND RECEIPT_YN='Y'
+	ORDER BY HP_RE_DATE DESC
   </select>
   
   

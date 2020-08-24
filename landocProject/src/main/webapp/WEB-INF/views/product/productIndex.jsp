@@ -37,10 +37,11 @@
 	<![endif]-->
 	<style>
 	.price, .won{
-		font-size: 24px;
+		font-size: 20px;
 		font-weight: 600;
 		color: #0071ce;
 	}
+	a{font-size:16px;}
 	</style>
 </head>
 
@@ -103,7 +104,7 @@
                     </h4>
                 </div>
                 <div class="col-lg-9 pl-5">
-                    <div align="right">
+                    <div align="right" style="text-align:right;">
                         <ul class="list-group list-group-horizontal-sm" style="margin-left: 60px;">
                             <li class="list-group-item border-0 px-2">
                                 <p><a class="orderCondition" href="productIndex.do?sortNo=1&pageNo=1&categoryNo=${categoryNo }">최신순</a></p>
