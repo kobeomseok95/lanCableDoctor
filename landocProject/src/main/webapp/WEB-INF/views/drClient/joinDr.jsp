@@ -276,7 +276,6 @@
                   $tableBody.html("");
                   
                   if(data.length>0){   
-                	  // 검색결과가 존재할 경우 / tr하나 td두개 / 
                      for(var i in data){
                      	var $tr = $('<tr></tr>');
                      	
@@ -326,10 +325,6 @@
        		$(item).removeAttr('id', 'selectHp');
           });
           $(this).parent().css({"background" : "#99cbf4", "cursor" : "pointer"}).attr('id', 'selectHp');
-    	   
-    	   /* ***************************************************** */
-          /* $(".listLineName").parent().css("background","white");
-          $(this).parent().css({"background":"#cce5f9", "cursor":"pointer"}); */
 
           // 진료과목  div hide&show 효과주기
            $(".hpCateArea").css("display","block");
@@ -388,16 +383,10 @@
            
            
            $("#hospitalSearchModal").modal("hide");
-			<!-- input id = hpCateCode, hpCateName, hpNo, hpName -->
 			$("#hpCateName").val(cateName);
 			$("#hpCateCode").val(cateNo);
 			$("#hpName").val(hpName);
 			$("#hpNo").val(hpNo);
-			/* 
-           $("#hospital_name").val(hopiName +" ( " + hpCate + " ) ");
-           $("#hospital_id").val(hpNo);
-           $("#hospital_cateCode").val(hpCateCode2);
-	     	*/
        	});
        
      
