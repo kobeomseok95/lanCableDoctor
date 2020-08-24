@@ -110,6 +110,16 @@ public class AskDrDAO {
 	public List<DrClient> getSearchDr(String drName) {
 		return sqlSessionTemplate.selectList("askDr.getSearchDr", drName);
 	}
+
+	public int pointUpClient(String cNo) {
+		return sqlSessionTemplate.update("askDr.pointUpClient", cNo);
+	}
+
+	public int pointUpDr(String drNo) {
+		return sqlSessionTemplate.update("askDr.pointUpDr", drNo);
+	}
+
+	
 	
 }
 

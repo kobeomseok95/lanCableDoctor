@@ -126,4 +126,16 @@ public class AskDrServiceImpl implements AskDrService {
 	public List<DrClient> getSearchDr(String drName) {
 		return askDrDAO.getSearchDr(drName);
 	}
+
+	@Override
+	public int pointUpClient(String cNo) {
+		return askDrDAO.pointUpClient(cNo);
+	}
+
+	@Override
+	public int pointUpDr(String drNo) {
+		return askDrDAO.pointUpDr(drNo);
+	}
+
+	
 }
