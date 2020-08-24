@@ -282,7 +282,7 @@
 	                </tr>
 	        </table>
 	        
-			   <input type="hidden" name="cNo" value="${loginClient3.cNo }">
+			   <input type="hidden" name="drNo" value="${loginDrClient3.drNo }">
 				<input type="hidden" name="pdNo" value="${selectPro.pdNo }">
 				<input type="hidden" name="opCount" value="${productCount }">
 				<input type="hidden" name="pdName" value="${selectPro.pdName }">

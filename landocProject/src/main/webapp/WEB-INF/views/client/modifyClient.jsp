@@ -142,7 +142,7 @@ input[type="file"] {
 			<div class="titleName">
 				<h4 style="float: left; font-size:30;">나의 회원 정보</h4>
 			</div>
-			<form action="updateClient.do?cNo=${loginClient2.cNo }" method="post" enctype="multipart/form-data">
+			<form action="updateClient.do?cNo=${loginClient2.cNo }" method="post" enctype="multipart/form-data" id="modi">
 				<div class="myTable">
 					<table class="tableForm">
 
@@ -153,7 +153,7 @@ input[type="file"] {
 							</c:if>
 							<c:if test="${loginClient2.proRename == null }">
 							<td rowspan="4" class="title1"><img id="imagePreview1"
-								style="width: 400px; height: 300px;" src="/projectFiles/profile.png"></td>
+								style="width: 400px; height: 300px;" src="https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/dog.png"></td>
 							</c:if>
 							<td class="title">아이디</td>
 							<td class="modiInput"><input class="modiBox" name="userId" type="text" required="required"
@@ -191,7 +191,7 @@ input[type="file"] {
 					</div>
 					<div style="text-align: center; padding-top: 100px;">
 						<button value="수정하기"
-							style="width: 400px; background-color: #007ee5; color: white; border-radius: 5px; border: 0px; height: 50px;">수정하기</button>
+							style="width: 400px; background-color: #007ee5; color: white; border-radius: 5px; border: 0px; height: 50px;" onclick="validate();">수정하기</button>
 					</div>
 				</div>
 			</form>
@@ -240,42 +240,38 @@ input[type="file"] {
 			alert("회원정보 수정이 완료되었습니다.");
 		
 		<%}%>
-		
-		 $("#nickName").change(function(){
-             var value = $("#nickName").val();
-             var reg = /^[a-zA-Z0-9가-힣ㄱ-ㅎ]{4,20}$/;
-             if(!reg.test(value)){
-                 alert("영문자와 숫자로 4글자 이상 20글자 이하여야 합니다.");
-                 $("#nickName").focus().val('');
-             }
-         });
-		 
-		 $("#phone").change(function(){
-             var value = $("#phone").val();
-             var reg = /^[0-9]{11}$/;
-             if(!reg.test(value)){
-                 alert("-를 제외한 숫자 11개");
-                 $("#phone").focus().val('');
-             }
-         });
-		 
-		 $("#email").change(function(){
-             var value = $("#email").val();
-             var reg = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
-             if(!reg.test(value)){
-                 alert("이메일 형식으로 작성해주세요");
-                 $("#email").focus().val('');
-             }
-         });
-	
-		 $("#birth").change(function(){
-             var value = $("#birth").val();
-             var reg = /^[0-9]{6}$/;
-             if(!reg.test(value)){
-                 alert("주민번호 6자리");
-                 $("#birth").focus().val('');
-             }
-         });
+		 function validate(){
+			
+			 var value1 = $("#nickName").val();
+	         var reg1 = /^[a-zA-Z0-9가-힣ㄱ-ㅎ]{4,20}$/;
+	         var value2 = $("#phone").val();
+	         var reg2 = /^[0-9]{11}$/;
+	         var value3 = $("#email").val();
+	         var reg3 = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
+	         var value4 = $("#birth").val();
+	         var reg4 = /^[0-9]{6}$/;
+	         
+	         if(!reg1.test(value1)){
+	             alert("영문자와 숫자로 4글자 이상 20글자 이하여야 합니다.");
+	             $("#nickName").focus().val('');
+	             return false;
+	         }else if(!reg2.test(value2)){
+	             alert("-를 제외한 숫자 11개");
+	             $("#phone").focus().val('');
+	             return false;
+	         }else if(!reg3.test(value3)){
+	             alert("이메일 형식으로 작성해주세요");
+	             $("#email").focus().val('');
+	             return false;
+	         }else if(!reg4.test(value4)){
+	             alert("주민번호 6자리");
+	             $("#birth").focus().val('');
+	             return false;
+	         }else{
+	        	 $("#modi").submit();
+	         }
+	      
+		}
 	</script>
 	
 </body>
