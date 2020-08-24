@@ -100,7 +100,9 @@
 </style>
 </head>
 
-<body>
+
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
+
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -503,6 +505,11 @@
     		
     	})
     
+    	// 뒤로가기 막기
+    	 window.history.forward();
+    	 function noBack(){window.history.forward();}	
+    	
+    	 
     </script>
 
     <%@ include file="../static/footer.jsp"%>
