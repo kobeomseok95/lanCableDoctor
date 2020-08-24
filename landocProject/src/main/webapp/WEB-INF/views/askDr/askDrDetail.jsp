@@ -272,6 +272,7 @@
 	<%@ include file="../static/footer.jsp"%>
 	<!-- Footer section end -->
 	<!--====== Javascripts & Jquery ======-->
+	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
@@ -421,6 +422,8 @@
 			}
 			
 			function selectReplyList(list){
+				console.log("***Test line 424***");
+				console.log(list);
 				var $replyCountArea = $("#replyCountArea");
 				$replyCountArea.html('');
 				var $divClassOne = $("<div class='form-group form-inline'></div>");
@@ -457,14 +460,9 @@
 							$tdOne.append($icon);
 						}
 						else{
-							var $profile = ('<img class="rounded-circle" src="#" style="width: 70px; height: 80px;" />');
+							var $profile = ('<img class="rounded-circle" src="/projectFiles/' + list[i].profileRename + '" style="width: 70px; height: 80px;" />');
 							$tdOne.append($profile);
 						}
-						/* 
-							팝오버 여기!!!!!
-							체크사항 : getReplyList에서 drNo를 잘 가져오는지
-							
-						*/
 						var $tdTwo = $("<td class='nameTd'></td>");
 						var $inputDrno = $('<input type="hidden" class="drNo" />');
 						$inputDrno.val(list[i].drClientNo);
