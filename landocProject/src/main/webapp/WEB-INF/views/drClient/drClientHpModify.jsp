@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-   <title>병원수정</title>
+   <title>의사회원 병원수정</title>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description" content="SolMusic HTML Template">
@@ -73,7 +73,12 @@
    .fileImg{border-radius: 5px; width :100%; height: 700px;  border: 1px solid black;}
 </style>
 </head>
+<script type="text/javascript">
+ window.history.forward();
+ function noBack(){window.history.forward();}
+</script>
 <body>
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
    <%@ include file="../static/header.jsp"%>
    <div class="limiter" id="login">
       <div class="container-login100">

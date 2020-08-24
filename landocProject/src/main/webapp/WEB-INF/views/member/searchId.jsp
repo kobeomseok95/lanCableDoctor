@@ -64,7 +64,12 @@
 	.doc{margin-left: 30px;}
 </style>
 </head>
+<script type="text/javascript">
+ window.history.forward();
+ function noBack(){window.history.forward();}
+</script>
 <body>
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
 	<%@ include file="../static/header.jsp"%>
 	<div class="limiter" id="login">
 		<div class="container-login100">
