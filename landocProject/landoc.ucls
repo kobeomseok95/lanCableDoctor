@@ -5,7 +5,7 @@
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/askDr/controller/AskDrController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1064" y="668"/>    
+    <position height="-1" width="-1" x="1448" y="1448"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -15,7 +15,7 @@
   <class id="2" language="java" name="com.kh.landocProject.admin.askDr.model.vo.AdminAskDrBoard" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/askDr/model/vo/AdminAskDrBoard.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1164" y="372"/>    
+    <position height="-1" width="-1" x="1548" y="1152"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -26,868 +26,903 @@
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/hospital/controller/HospitalController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2324" y="150"/>    
+    <position height="-1" width="-1" x="1800" y="1542"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.kh.landocProject.admin.hospital.model.vo.Hospital" project="landocProject" 
-    file="/landocProject/src/main/java/com/kh/landocProject/admin/hospital/model/vo/Hospital.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1496" y="444"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="5" language="java" name="com.kh.landocProject.admin.hospitalReview.controller.HpReviewController" 
+  <class id="4" language="java" name="com.kh.landocProject.admin.hospitalReview.controller.HpReviewController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/hospitalReview/controller/HpReviewController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1060" y="1116"/>    
+    <position height="-1" width="-1" x="1444" y="1896"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpRePoint" 
+  <class id="5" language="java" name="com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpRePoint" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/hospitalReview/model/vo/AdminHpRePoint.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="818" y="1246"/>    
+    <position height="-1" width="-1" x="1202" y="2026"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpReview" 
+  <class id="6" language="java" name="com.kh.landocProject.admin.hospitalReview.model.vo.AdminHpReview" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/hospitalReview/model/vo/AdminHpReview.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1328" y="1246"/>    
+    <position height="-1" width="-1" x="1712" y="2026"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo" 
+  <class id="7" language="java" name="com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/hospitalReview/model/vo/PageInfo.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1062" y="1002"/>    
+    <position height="-1" width="-1" x="1446" y="1782"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="com.kh.landocProject.admin.hospitalReview.model.vo.SearchCondition" 
+  <class id="8" language="java" name="com.kh.landocProject.admin.hospitalReview.model.vo.SearchCondition" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/hospitalReview/model/vo/SearchCondition.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1066" y="1248"/>    
+    <position height="-1" width="-1" x="1450" y="2028"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="com.kh.landocProject.admin.member.client.controller.ClientController" 
+  <class id="9" language="java" name="com.kh.landocProject.admin.member.client.controller.ClientController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/member/client/controller/ClientController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1926" y="1128"/>    
+    <position height="-1" width="-1" x="2310" y="1908"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="com.kh.landocProject.admin.member.client.model.vo.ClientPage" 
+  <class id="10" language="java" name="com.kh.landocProject.admin.member.client.model.vo.ClientPage" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/member/client/model/vo/ClientPage.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2228" y="1130"/>    
+    <position height="-1" width="-1" x="2612" y="1910"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="com.kh.landocProject.admin.member.client.model.vo.MemberPageInfo" 
+  <class id="11" language="java" name="com.kh.landocProject.admin.member.client.model.vo.MemberPageInfo" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/member/client/model/vo/MemberPageInfo.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1918" y="1024"/>    
+    <position height="-1" width="-1" x="2302" y="1804"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="com.kh.landocProject.admin.member.client.model.vo.MemberSearchCondition" 
+  <class id="12" language="java" name="com.kh.landocProject.admin.member.client.model.vo.MemberSearchCondition" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/member/client/model/vo/MemberSearchCondition.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1928" y="1236"/>    
+    <position height="-1" width="-1" x="2312" y="2016"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="com.kh.landocProject.admin.member.drClient.controller.DrClientController" 
+  <class id="13" language="java" name="com.kh.landocProject.admin.member.drClient.controller.DrClientController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/member/drClient/controller/DrClientController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1404" y="1004"/>    
+    <position height="-1" width="-1" x="1788" y="1784"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="com.kh.landocProject.admin.member.drClient.model.vo.DrClientPage" 
+  <class id="14" language="java" name="com.kh.landocProject.admin.member.drClient.model.vo.DrClientPage" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/member/drClient/model/vo/DrClientPage.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1668" y="1124"/>    
+    <position height="-1" width="-1" x="2052" y="1904"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="com.kh.landocProject.admin.member.drClient.model.vo.DrClientPageInfo" 
+  <class id="15" language="java" name="com.kh.landocProject.admin.member.drClient.model.vo.DrClientPageInfo" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/member/drClient/model/vo/DrClientPageInfo.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2336" y="244"/>    
+    <position height="-1" width="-1" x="504" y="860"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="com.kh.landocProject.admin.member.drClient.model.vo.DrClientSearchCondition" 
+  <class id="16" language="java" name="com.kh.landocProject.admin.member.drClient.model.vo.DrClientSearchCondition" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/member/drClient/model/vo/DrClientSearchCondition.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1410" y="1118"/>    
+    <position height="-1" width="-1" x="1794" y="1898"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="com.kh.landocProject.admin.order.controller.OrderController" 
+  <class id="17" language="java" name="com.kh.landocProject.admin.order.controller.OrderController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/order/controller/OrderController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="758" y="956"/>    
+    <position height="-1" width="-1" x="1142" y="1736"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="com.kh.landocProject.admin.order.model.vo.OrderManage" project="landocProject" 
+  <class id="18" language="java" name="com.kh.landocProject.admin.order.model.vo.OrderManage" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/order/model/vo/OrderManage.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="754" y="1106"/>    
+    <position height="-1" width="-1" x="1138" y="1886"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="20" language="java" name="com.kh.landocProject.admin.orderQna.controller.OrderQnaController" 
+  <class id="19" language="java" name="com.kh.landocProject.admin.orderQna.controller.OrderQnaController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/orderQna/controller/OrderQnaController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="754" y="850"/>    
+    <position height="-1" width="-1" x="1138" y="1630"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="21" language="java" name="com.kh.landocProject.admin.orderQna.model.vo.OrderQna" project="landocProject" 
+  <class id="20" language="java" name="com.kh.landocProject.admin.orderQna.model.vo.OrderQna" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/orderQna/model/vo/OrderQna.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="742" y="760"/>    
+    <position height="-1" width="-1" x="1126" y="1540"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="22" language="java" name="com.kh.landocProject.admin.product.controller.ProductController" 
+  <class id="21" language="java" name="com.kh.landocProject.admin.product.controller.ProductController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/admin/product/controller/ProductController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2334" y="490"/>    
+    <position height="-1" width="-1" x="2676" y="834"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="23" language="java" name="com.kh.landocProject.admin.productQna.controller.ProductQnaController" 
-    project="landocProject" 
-    file="/landocProject/src/main/java/com/kh/landocProject/admin/productQna/controller/ProductQnaController.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="508" y="996"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="24" language="java" name="com.kh.landocProject.askDr.controller.MainAskDrController" 
+  <class id="22" language="java" name="com.kh.landocProject.askDr.controller.MainAskDrController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/askDr/controller/MainAskDrController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1230" y="244"/>    
+    <position height="-1" width="-1" x="1614" y="1024"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="25" language="java" name="com.kh.landocProject.askDr.model.vo.AskDrBoard" project="landocProject" 
+  <class id="23" language="java" name="com.kh.landocProject.askDr.model.vo.AskDrBoard" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/askDr/model/vo/AskDrBoard.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="986" y="232"/>    
+    <position height="-1" width="-1" x="1370" y="1012"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="26" language="java" name="com.kh.landocProject.askDr.model.vo.AskDrBoardPagination" project="landocProject" 
+  <class id="24" language="java" name="com.kh.landocProject.askDr.model.vo.AskDrBoardPagination" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/askDr/model/vo/AskDrBoardPagination.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1468" y="238"/>    
+    <position height="-1" width="-1" x="1852" y="1018"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="27" language="java" name="com.kh.landocProject.askDr.model.vo.AskDrCategoryMap" project="landocProject" 
+  <class id="25" language="java" name="com.kh.landocProject.askDr.model.vo.AskDrCategoryMap" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/askDr/model/vo/AskDrCategoryMap.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1232" y="132"/>    
+    <position height="-1" width="-1" x="1616" y="912"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="28" language="java" name="com.kh.landocProject.askDr.model.vo.AskDrReply" project="landocProject" 
+  <class id="26" language="java" name="com.kh.landocProject.askDr.model.vo.AskDrReply" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/askDr/model/vo/AskDrReply.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="922" y="374"/>    
+    <position height="-1" width="-1" x="1306" y="1154"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="29" language="java" name="com.kh.landocProject.askDr.model.vo.DrClient" project="landocProject" 
+  <class id="27" language="java" name="com.kh.landocProject.askDr.model.vo.DrClient" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/askDr/model/vo/DrClient.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1460" y="132"/>    
+    <position height="-1" width="-1" x="1844" y="912"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="30" language="java" name="com.kh.landocProject.askDr.model.vo.SymptomsImage" project="landocProject" 
+  <class id="28" language="java" name="com.kh.landocProject.askDr.model.vo.SymptomsImage" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/askDr/model/vo/SymptomsImage.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1480" y="368"/>    
+    <position height="-1" width="-1" x="1864" y="1148"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="31" language="java" name="com.kh.landocProject.cmypage.controller.cMypageController" 
+  <class id="29" language="java" name="com.kh.landocProject.cmypage.controller.cMypageController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/cmypage/controller/cMypageController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1744" y="364"/>    
+    <position height="-1" width="-1" x="2768" y="1148"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="32" language="java" name="com.kh.landocProject.cmypage.model.vo.CMypagePageInfo" project="landocProject" 
+  <class id="30" language="java" name="com.kh.landocProject.cmypage.model.vo.CMypagePageInfo" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/cmypage/model/vo/CMypagePageInfo.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1742" y="190"/>    
+    <position height="-1" width="-1" x="2766" y="974"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="33" language="java" name="com.kh.landocProject.cmypage.model.vo.CMypagePagination" project="landocProject" 
+  <class id="31" language="java" name="com.kh.landocProject.cmypage.model.vo.CMypagePagination" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/cmypage/model/vo/CMypagePagination.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1978" y="182"/>    
+    <position height="-1" width="-1" x="3002" y="966"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="34" language="java" name="com.kh.landocProject.cmypage.model.vo.CMypagePoint" project="landocProject" 
+  <class id="32" language="java" name="com.kh.landocProject.cmypage.model.vo.CMypagePoint" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/cmypage/model/vo/CMypagePoint.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2038" y="262"/>    
+    <position height="-1" width="-1" x="3062" y="1046"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="35" language="java" name="com.kh.landocProject.cmypage.model.vo.LikeHp" project="landocProject" 
+  <class id="33" language="java" name="com.kh.landocProject.cmypage.model.vo.LikeHp" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/cmypage/model/vo/LikeHp.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2042" y="336"/>    
+    <position height="-1" width="-1" x="3066" y="1120"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="36" language="java" name="com.kh.landocProject.cmypage.model.vo.OrderList" project="landocProject" 
+  <class id="34" language="java" name="com.kh.landocProject.cmypage.model.vo.OrderList" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/cmypage/model/vo/OrderList.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2044" y="418"/>    
+    <position height="-1" width="-1" x="3068" y="1202"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="37" language="java" name="com.kh.landocProject.cmypage.model.vo.OrderQna" project="landocProject" 
+  <class id="35" language="java" name="com.kh.landocProject.cmypage.model.vo.OrderQna" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/cmypage/model/vo/OrderQna.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1746" y="508"/>    
+    <position height="-1" width="-1" x="2770" y="1292"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="38" language="java" name="com.kh.landocProject.cmypage.model.vo.PdReview" project="landocProject" 
+  <class id="36" language="java" name="com.kh.landocProject.cmypage.model.vo.PdReview" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/cmypage/model/vo/PdReview.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1982" y="510"/>    
+    <position height="-1" width="-1" x="3006" y="1294"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="39" language="java" name="com.kh.landocProject.common.Pagination" project="landocProject" 
+  <class id="37" language="java" name="com.kh.landocProject.common.Pagination" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/common/Pagination.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1416" y="884"/>    
+    <position height="-1" width="-1" x="1800" y="1664"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="40" language="java" name="com.kh.landocProject.dmypage.controller.DmyPageController" 
+  <class id="38" language="java" name="com.kh.landocProject.dmypage.controller.DmyPageController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/dmypage/controller/DmyPageController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2332" y="404"/>    
+    <position height="-1" width="-1" x="2514" y="1308"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="41" language="java" name="com.kh.landocProject.hospital.controller.MainHpController" 
+  <class id="39" language="java" name="com.kh.landocProject.hospital.controller.MainHpController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/hospital/controller/MainHpController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2318" y="758"/>    
+    <position height="-1" width="-1" x="3342" y="1542"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="42" language="java" name="com.kh.landocProject.hospital.model.vo.HpNameSplit" project="landocProject" 
+  <class id="40" language="java" name="com.kh.landocProject.hospital.model.vo.HpNameSplit" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/hospital/model/vo/HpNameSplit.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2330" y="318"/>    
+    <position height="-1" width="-1" x="498" y="934"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="43" language="java" name="com.kh.landocProject.hospital.model.vo.HpSearch" project="landocProject" 
+  <class id="41" language="java" name="com.kh.landocProject.hospital.model.vo.HpSearch" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/hospital/model/vo/HpSearch.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2316" y="676"/>    
+    <position height="-1" width="-1" x="3340" y="1460"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="44" language="java" name="com.kh.landocProject.hospital.model.vo.MainHp" project="landocProject" 
+  <class id="42" language="java" name="com.kh.landocProject.hospital.model.vo.MainHp" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/hospital/model/vo/MainHp.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2322" y="844"/>    
+    <position height="-1" width="-1" x="3346" y="1628"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="45" language="java" name="com.kh.landocProject.hospitalReview.controller.MainHpReviewController" 
+  <class id="43" language="java" name="com.kh.landocProject.hospitalReview.controller.MainHpReviewController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/hospitalReview/controller/MainHpReviewController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1768" y="670"/>    
+    <position height="-1" width="-1" x="2792" y="1454"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="46" language="java" name="com.kh.landocProject.hospitalReview.model.vo.HpReview" project="landocProject" 
+  <class id="44" language="java" name="com.kh.landocProject.hospitalReview.model.vo.HpReview" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/hospitalReview/model/vo/HpReview.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2062" y="664"/>    
+    <position height="-1" width="-1" x="3086" y="1448"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="47" language="java" name="com.kh.landocProject.hospitalReview.model.vo.SearchHp" project="landocProject" 
+  <class id="45" language="java" name="com.kh.landocProject.hospitalReview.model.vo.SearchHp" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/hospitalReview/model/vo/SearchHp.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1768" y="584"/>    
+    <position height="-1" width="-1" x="2792" y="1368"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="48" language="java" name="com.kh.landocProject.member.controller.MainMemberController" 
+  <class id="46" language="java" name="com.kh.landocProject.member.controller.MainMemberController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/member/controller/MainMemberController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1754" y="748"/>    
+    <position height="-1" width="-1" x="2778" y="1532"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="49" language="java" name="com.kh.landocProject.member.model.vo.Client" project="landocProject" 
+  <class id="47" language="java" name="com.kh.landocProject.member.model.vo.Client" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/member/model/vo/Client.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1402" y="674"/>    
+    <position height="-1" width="-1" x="1942" y="1438"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="50" language="java" name="com.kh.landocProject.member.model.vo.DrClient" project="landocProject" 
+  <class id="48" language="java" name="com.kh.landocProject.member.model.vo.DrClient" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/member/model/vo/DrClient.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2078" y="754"/>    
+    <position height="-1" width="-1" x="3102" y="1538"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="51" language="java" name="com.kh.landocProject.member.model.vo.DrhpPhoto" project="landocProject" 
+  <class id="49" language="java" name="com.kh.landocProject.member.model.vo.DrhpPhoto" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/member/model/vo/DrhpPhoto.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2086" y="832"/>    
+    <position height="-1" width="-1" x="3110" y="1616"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="52" language="java" name="com.kh.landocProject.member.model.vo.JoinHospital" project="landocProject" 
+  <class id="50" language="java" name="com.kh.landocProject.member.model.vo.JoinHospital" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/member/model/vo/JoinHospital.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1980" y="920"/>    
+    <position height="-1" width="-1" x="3004" y="1704"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="53" language="java" name="com.kh.landocProject.member.model.vo.ProfilePhoto" project="landocProject" 
+  <class id="51" language="java" name="com.kh.landocProject.member.model.vo.ProfilePhoto" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/member/model/vo/ProfilePhoto.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1764" y="916"/>    
+    <position height="-1" width="-1" x="2788" y="1700"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="54" language="java" name="com.kh.landocProject.product.controller.mainProductController" 
+  <class id="52" language="java" name="com.kh.landocProject.product.controller.mainProductController" 
     project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/product/controller/mainProductController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="726" y="404"/>    
+    <position height="-1" width="-1" x="2470" y="978"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="55" language="java" name="com.kh.landocProject.product.model.vo.Product" project="landocProject" 
+  <class id="53" language="java" name="com.kh.landocProject.product.model.vo.Product" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/product/model/vo/Product.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="730" y="516"/>    
+    <position height="-1" width="-1" x="2146" y="1156"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="56" language="java" name="com.kh.landocProject.product.model.vo.ProductPagination" project="landocProject" 
+  <class id="54" language="java" name="com.kh.landocProject.product.model.vo.ProductPagination" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/product/model/vo/ProductPagination.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="728" y="310"/>    
+    <position height="-1" width="-1" x="2454" y="830"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="57" language="java" name="com.kh.landocProject.product.model.vo.ProductPhoto" project="landocProject" 
+  <class id="55" language="java" name="com.kh.landocProject.product.model.vo.ProductPhoto" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/product/model/vo/ProductPhoto.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="724" y="604"/>    
+    <position height="-1" width="-1" x="2152" y="1284"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="58" language="java" name="com.kh.landocProject.product.model.vo.ProductQna" project="landocProject" 
+  <class id="56" language="java" name="com.kh.landocProject.product.model.vo.ProductQna" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/product/model/vo/ProductQna.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="504" y="516"/>    
+    <position height="-1" width="-1" x="2484" y="1144"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="59" language="java" name="com.kh.landocProject.product.model.vo.ProductReview" project="landocProject" 
+  <class id="57" language="java" name="com.kh.landocProject.product.model.vo.ProductReview" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/product/model/vo/ProductReview.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="510" y="608"/>    
+    <position height="-1" width="-1" x="2140" y="984"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="60" language="java" name="com.kh.landocProject.HomeController" project="landocProject" 
+  <class id="58" language="java" name="com.kh.landocProject.HomeController" project="landocProject" 
     file="/landocProject/src/main/java/com/kh/landocProject/HomeController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2328" y="578"/>    
+    <position height="-1" width="-1" x="496" y="1194"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <dependency id="61">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="39"/>  
-  </dependency>  
-  <association id="62">    
-    <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="63" name="askDrCategoryMap"/>      
-      <multiplicity id="64" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="27" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="65">    
-    <end type="SOURCE" refId="55" navigable="false">      
-      <attribute id="66" name="qnas"/>      
-      <multiplicity id="67" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="58" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="68">    
-    <end type="SOURCE" refId="48"/>    
-    <end type="TARGET" refId="49"/>  
-  </dependency>  
-  <dependency id="69">    
-    <end type="SOURCE" refId="54"/>    
-    <end type="TARGET" refId="55"/>  
-  </dependency>  
-  <dependency id="70">    
-    <end type="SOURCE" refId="31"/>    
-    <end type="TARGET" refId="32"/>  
-  </dependency>  
-  <dependency id="71">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="39"/>  
-  </dependency>  
-  <dependency id="72">    
-    <end type="SOURCE" refId="33"/>    
-    <end type="TARGET" refId="32"/>  
-  </dependency>  
-  <dependency id="73">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="28"/>  
-  </dependency>  
-  <dependency id="74">    
-    <end type="SOURCE" refId="31"/>    
-    <end type="TARGET" refId="33"/>  
-  </dependency>  
-  <dependency id="75">    
-    <end type="SOURCE" refId="45"/>    
-    <end type="TARGET" refId="46"/>  
-  </dependency>  
-  <dependency id="76">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="15"/>  
-  </dependency>  
-  <dependency id="77">    
-    <end type="SOURCE" refId="41"/>    
-    <end type="TARGET" refId="44"/>  
-  </dependency>  
-  <dependency id="78">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="8"/>  
-  </dependency>  
-  <dependency id="79">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="29"/>  
-  </dependency>  
-  <dependency id="80">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="11"/>  
-  </dependency>  
-  <dependency id="81">    
-    <end type="SOURCE" refId="31"/>    
-    <end type="TARGET" refId="49"/>  
-  </dependency>  
-  <dependency id="82">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="12"/>  
-  </dependency>  
-  <dependency id="83">    
-    <end type="SOURCE" refId="41"/>    
-    <end type="TARGET" refId="43"/>  
-  </dependency>  
-  <dependency id="84">    
-    <end type="SOURCE" refId="48"/>    
-    <end type="TARGET" refId="52"/>  
-  </dependency>  
-  <dependency id="85">    
-    <end type="SOURCE" refId="31"/>    
-    <end type="TARGET" refId="38"/>  
-  </dependency>  
-  <dependency id="86">    
-    <end type="SOURCE" refId="45"/>    
-    <end type="TARGET" refId="47"/>  
-  </dependency>  
-  <dependency id="87">    
-    <end type="SOURCE" refId="48"/>    
-    <end type="TARGET" refId="50"/>  
-  </dependency>  
-  <dependency id="88">    
-    <end type="SOURCE" refId="20"/>    
-    <end type="TARGET" refId="21"/>  
-  </dependency>  
-  <dependency id="89">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="26"/>  
-  </dependency>  
-  <dependency id="90">    
-    <end type="SOURCE" refId="54"/>    
+  <dependency id="59">    
+    <end type="SOURCE" refId="38"/>    
     <end type="TARGET" refId="56"/>  
   </dependency>  
-  <dependency id="91">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="7"/>  
+  <dependency id="60">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="42"/>  
   </dependency>  
-  <dependency id="92">    
-    <end type="SOURCE" refId="41"/>    
-    <end type="TARGET" refId="50"/>  
-  </dependency>  
-  <association id="93">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="94" name="imgs"/>      
-      <multiplicity id="95" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="30" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="96">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="8"/>  
-  </dependency>  
-  <association id="97">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="98" name="replys"/>      
-      <multiplicity id="99" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="100">    
-    <end type="SOURCE" refId="45"/>    
-    <end type="TARGET" refId="49"/>  
-  </dependency>  
-  <dependency id="101">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="39"/>  
-  </dependency>  
-  <dependency id="102">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="39"/>  
-  </dependency>  
-  <dependency id="103">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="19"/>  
-  </dependency>  
-  <dependency id="104">    
-    <end type="SOURCE" refId="48"/>    
-    <end type="TARGET" refId="53"/>  
-  </dependency>  
-  <dependency id="105">    
-    <end type="SOURCE" refId="39"/>    
-    <end type="TARGET" refId="12"/>  
-  </dependency>  
-  <dependency id="106">    
+  <dependency id="61">    
     <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="2"/>  
+    <end type="TARGET" refId="26"/>  
   </dependency>  
-  <dependency id="107">    
-    <end type="SOURCE" refId="31"/>    
-    <end type="TARGET" refId="36"/>  
+  <dependency id="62">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="31"/>  
   </dependency>  
-  <dependency id="108">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="6"/>  
+  <dependency id="63">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="10"/>  
   </dependency>  
-  <dependency id="109">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="48"/>  
-  </dependency>  
-  <association id="110">    
-    <end type="SOURCE" refId="55" navigable="false">      
-      <attribute id="111" name="reviews"/>      
-      <multiplicity id="112" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="59" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="113">    
-    <end type="SOURCE" refId="39"/>    
-    <end type="TARGET" refId="8"/>  
-  </dependency>  
-  <dependency id="114">    
-    <end type="SOURCE" refId="20"/>    
-    <end type="TARGET" refId="8"/>  
-  </dependency>  
-  <dependency id="115">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="8"/>  
-  </dependency>  
-  <dependency id="116">    
-    <end type="SOURCE" refId="31"/>    
-    <end type="TARGET" refId="37"/>  
-  </dependency>  
-  <dependency id="117">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="9"/>  
-  </dependency>  
-  <dependency id="118">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="17"/>  
-  </dependency>  
-  <dependency id="119">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="30"/>  
-  </dependency>  
-  <dependency id="120">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="49"/>  
-  </dependency>  
-  <dependency id="121">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="25"/>  
-  </dependency>  
-  <dependency id="122">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="28"/>  
-  </dependency>  
-  <association id="123">    
-    <end type="SOURCE" refId="55" navigable="false">      
-      <attribute id="124" name="photos"/>      
-      <multiplicity id="125" minimum="0" maximum="2147483647"/>    
+  <association id="64">    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="65" name="reviews">        
+        <position height="0" width="0" x="1630" y="376"/>      
+      </attribute>      
+      <multiplicity id="66" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="1630" y="376"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="57" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="126">    
-    <end type="SOURCE" refId="18"/>    
+  <dependency id="67">    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="8"/>  
   </dependency>  
-  <dependency id="127">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="13"/>  
+  <dependency id="68">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
   </dependency>  
-  <dependency id="128">    
-    <end type="SOURCE" refId="31"/>    
+  <dependency id="69">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <association id="70">    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="71" name="qnas">        
+        <position height="0" width="0" x="1980" y="628"/>      
+      </attribute>      
+      <multiplicity id="72" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="1980" y="628"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="56" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="73">    
+    <end type="SOURCE" refId="29"/>    
     <end type="TARGET" refId="35"/>  
   </dependency>  
-  <dependency id="129">    
-    <end type="SOURCE" refId="48"/>    
-    <end type="TARGET" refId="51"/>  
+  <dependency id="74">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="56"/>  
   </dependency>  
-  <dependency id="130">    
-    <end type="SOURCE" refId="20"/>    
-    <end type="TARGET" refId="39"/>  
+  <dependency id="75">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="45"/>  
   </dependency>  
-  <dependency id="131">    
+  <dependency id="76">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="41"/>  
+  </dependency>  
+  <dependency id="77">    
     <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="30"/>  
+  </dependency>  
+  <dependency id="78">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="50"/>  
+  </dependency>  
+  <dependency id="79">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <dependency id="80">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <association id="81">    
+    <end type="SOURCE" refId="53" navigable="false">      
+      <attribute id="82" name="photos">        
+        <position height="0" width="0" x="1428" y="680"/>      
+      </attribute>      
+      <multiplicity id="83" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="1428" y="680"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="55" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="84">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="47"/>  
+  </dependency>  
+  <dependency id="85">    
+    <end type="SOURCE" refId="29"/>    
     <end type="TARGET" refId="34"/>  
   </dependency>  
+  <dependency id="86">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="33"/>  
+  </dependency>  
+  <dependency id="87">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="46"/>  
+  </dependency>  
+  <dependency id="88">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <dependency id="89">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="32"/>  
+  </dependency>  
+  <dependency id="90">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <dependency id="91">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="14"/>  
+  </dependency>  
+  <dependency id="92">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="93">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <dependency id="94">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <dependency id="95">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <dependency id="96">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <dependency id="97">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="98">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="53"/>  
+  </dependency>  
+  <association id="99">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="100" name="imgs">        
+        <position height="0" width="0" x="384" y="780"/>      
+      </attribute>      
+      <multiplicity id="101" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="384" y="780"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="102">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <dependency id="103">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="104">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="27"/>  
+  </dependency>  
+  <dependency id="105">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="106">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="107">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="108">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="16"/>  
+  </dependency>  
+  <dependency id="109">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="110">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="47"/>  
+  </dependency>  
+  <dependency id="111">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="56"/>  
+  </dependency>  
+  <dependency id="112">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="56"/>  
+  </dependency>  
+  <dependency id="113">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="36"/>  
+  </dependency>  
+  <dependency id="114">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="20"/>  
+  </dependency>  
+  <dependency id="115">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="28"/>  
+  </dependency>  
+  <dependency id="116">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <dependency id="117">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="118">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="44"/>  
+  </dependency>  
+  <dependency id="119">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="54"/>  
+  </dependency>  
+  <association id="120">    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="121" name="askDrCategoryMap">        
+        <position height="0" width="0" x="384" y="780"/>      
+      </attribute>      
+      <multiplicity id="122" minimum="0" maximum="1">        
+        <position height="0" width="0" x="384" y="780"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="123">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="26"/>  
+  </dependency>  
+  <association id="124">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="125" name="replys">        
+        <position height="0" width="0" x="384" y="780"/>      
+      </attribute>      
+      <multiplicity id="126" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="384" y="780"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="127">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="49"/>  
+  </dependency>  
+  <dependency id="128">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="47"/>  
+  </dependency>  
+  <dependency id="129">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="47"/>  
+  </dependency>  
+  <dependency id="130">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="23"/>  
+  </dependency>  
+  <dependency id="131">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="30"/>  
+  </dependency>  
   <dependency id="132">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="39"/>  
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="133">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="51"/>  
+  </dependency>  
+  <dependency id="134">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="48"/>  
+  </dependency>  
+  <dependency id="135">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="48"/>  
+  </dependency>  
+  <dependency id="136">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="37"/>  
+  </dependency>  
+  <dependency id="137">    
+    <end type="SOURCE" refId="52"/>    
+    <end type="TARGET" refId="57"/>  
+  </dependency>  
+  <dependency id="138">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="42"/>  
   </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    

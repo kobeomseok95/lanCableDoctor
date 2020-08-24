@@ -345,7 +345,7 @@ public class PaymentController {
 			Payment p,String drNo, String cNo, String opCount, Integer usePoint,
 			Integer allPrice, Integer discountPrice, Integer amountPrice,
 			String paymentComment){
-	
+		
 		p.setAmountPrice(allPrice - discountPrice - usePoint);
 
 			int result = 0;
@@ -357,8 +357,13 @@ public class PaymentController {
 			result1 = payService.insertPayment1(p);
 			}
 			if(result > 0 || result1 > 0) {
+				
+				int orderNo = payService.selectPayOrderNo();
+				or.setOrderNo(orderNo);
+				System.out.println("or : " + or);
+				
 				int orderRmg = payService.insertOrderMg(or);
-
+				op.setOrderNo(orderNo);
 				int orderPro = payService.insertOrderPro(op);
 
 				if(cNo != null && drNo == null) {
@@ -399,7 +404,7 @@ public class PaymentController {
 		
 		
 		if(result > 0 || result1 > 0) {
-			int orderRmg = payService.insertOrderMg(or);
+			/* int orderRmg = payService.insertOrderMg(or); */
 			
 			int orderNo = payService.selectOrderNo();
 			
@@ -415,6 +420,8 @@ public class PaymentController {
 				cartPay.put("drNo", drNo);
 				list.add(cartPay);
 			}
+			int orderRmg = payService.insertCartOrderMg(list);
+			
 			result3 = payService.cartPaySuccess(list);
 			
 			if(cNo != null && drNo == null) {

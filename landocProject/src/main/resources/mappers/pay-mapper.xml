@@ -84,12 +84,12 @@
 	<!-- 주문관리 -->
 	<insert id="insertOrderMg" parameterType="OrderMg">
 		INSERT INTO ORDERMG
-		VALUES(SEQ_ORDERMG_NO.NEXTVAL, #{cNo}, #{drNo}, 2)
+		VALUES(#{orderNo}, #{pdNo}, #{cNo}, #{drNo}, 2)
 	</insert>
 	<!-- 상품 주문 -->
 	<insert id="insertOrderPro" parameterType="OrderProduct">
 		INSERT INTO ORDERPRODUCT
-		VALUES(#{pdNo}, SEQ_ORDERPRO_NO.NEXTVAL, #{opCount})
+		VALUES(#{orderNo}, #{pdNo}, #{opCount})
 	</insert>
 	<!-- 일반회원 포인트 차감 -->
 	<update id="updateC" parameterType="Payment">
@@ -142,10 +142,10 @@
 		DELETE FROM CART WHERE CART_NO=#{cartNo}
 	</delete>
 
-	<select id="selectPayOrderNo" resultType="_int">
+	<select id="selectOrderNo" resultType="_int">
 		SELECT ORDER_NO
 		FROM(SELECT ORDER_NO
-				FROM ORDERMG
+				FROM PAYMENT
 				ORDER BY ROWNUM DESC)
 		WHERE ROWNUM = 1
 	</select>
@@ -153,7 +153,7 @@
 	<insert id="cartPaySuccess" parameterType="hashMap">
 		<foreach collection="list" item="cp" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
 			INTO ORDERPRODUCT
-			VALUES(#{cp.pdNo}, #{cp.orderNo}, #{cp.opCount})
+			VALUES(#{cp.orderNo}, #{cp.pdNo}, #{cp.opCount})
 		</foreach>
 	</insert>
 	
@@ -205,4 +205,18 @@
 		WHERE DR_NO = #{drNo}
 	</select>
 	
+	<select id="selectPayOrderNo" resultType="_int">
+		SELECT ORDER_NO
+		FROM(SELECT ORDER_NO
+				FROM PAYMENT
+				ORDER BY ROWNUM DESC)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<insert id="insertCartOrderMg" parameterType="hashMap">
+		<foreach collection="list" item="cart" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+			INTO ORDERMG
+			VALUES(#{cart.orderNo}, #{cart.pdNo}, #{cart.cNo}, #{cart.drNo}, 2)
+		</foreach>
+	</insert>
 </mapper>

@@ -57,6 +57,10 @@ public interface PaymentService {
 
 	MemberPay selectD(String drNo);
 
+	int selectPayOrderNo();
+
+	int insertCartOrderMg(List<HashMap<String, Object>> list);
+
 	
 
 

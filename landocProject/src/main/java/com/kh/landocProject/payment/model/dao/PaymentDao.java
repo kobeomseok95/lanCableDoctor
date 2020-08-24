@@ -95,7 +95,7 @@ public class PaymentDao {
 
 	public int selectOrderNo() {
 		
-		return sqlSessionTemplate.selectOne("payMapper.selectPayOrderNo");
+		return sqlSessionTemplate.selectOne("payMapper.selectOrderNo");
 	}
 
 
@@ -127,6 +127,16 @@ public class PaymentDao {
 	public MemberPay selectD(String drNo) {
 
 		return sqlSessionTemplate.selectOne("payMapper.selectD", drNo);
+	}
+
+	public int selectPayOrderNo() {
+		
+		return sqlSessionTemplate.selectOne("payMapper.selectPayOrderNo");
+	}
+
+	public int insertCartOrderMg(List<HashMap<String, Object>> list) {
+
+		return sqlSessionTemplate.insert("payMapper.insertCartOrderMg", list);
 	}
 
 
