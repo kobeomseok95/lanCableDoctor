@@ -36,6 +36,7 @@ import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 import com.kh.landocProject.member.model.vo.Client;
+import com.kh.landocProject.product.model.vo.ProductQna;
 
 
 @Controller
@@ -578,7 +579,38 @@ public class cMypageController {
 		return mv;
 	}
 	
-	
+	@RequestMapping(value="productQnaList.do", method=RequestMethod.GET)
+	public ModelAndView productQnaList(HttpSession session,
+														ModelAndView mv,
+														@RequestParam(required=false) Integer answerPage,
+														@RequestParam(required=false) Integer nonAnswerPage) {
+		Client loginClient = (Client)session.getAttribute("loginClient");
+		String cNo = loginClient.getcNo();
+		if(answerPage == null)		answerPage = 1;
+		if(nonAnswerPage == null)	nonAnswerPage =1;
+		
+		HashMap<String, String> param = new HashMap<>();
+		param.put("type", "Client");
+		param.put("no", cNo);
+		
+		int answerCount = cmService.getProductQnaAnswerCount(param);
+		int nonAnswerCount = cmService.getProductQnaNonAnswerCount(param);
+		
+		CMypagePageInfo answerPi = CMypagePagination.getPageInfo(answerPage,answerCount);
+		CMypagePageInfo nonAnswerPi = CMypagePagination.getPageInfo(nonAnswerPage,nonAnswerCount);
+		
+		List<ProductQna> answerProductQna = cmService.getAnswerProductQnaList(param, answerPi);
+		List<ProductQna> nonAnswerProductQna = cmService.getNonAnswerProductQnaList(param, nonAnswerPi);
+
+		mv.addObject("napi", nonAnswerPi);
+		mv.addObject("napq", nonAnswerProductQna);
+		
+		mv.addObject("api", answerPi);
+		mv.addObject("apq", answerProductQna);
+		
+		mv.setViewName("mypage/mypageProductQnaList");
+		return mv;
+	}
 	
 	
 	

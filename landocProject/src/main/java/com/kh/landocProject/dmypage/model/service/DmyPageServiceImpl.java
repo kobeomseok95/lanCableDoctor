@@ -2,6 +2,7 @@ package com.kh.landocProject.dmypage.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
 import com.kh.landocProject.dmypage.model.vo.DrProfile;
 import com.kh.landocProject.hospitalReview.model.vo.HpLike;
 import com.kh.landocProject.member.model.vo.DrClient;
+import com.kh.landocProject.product.model.vo.ProductQna;
 
 @Service("dMypageService")
 public class DmyPageServiceImpl implements DmyPageService{
@@ -262,6 +264,26 @@ public class DmyPageServiceImpl implements DmyPageService{
 	public int getCommentCount(String drNo) {
 		
 		return dMypageDao.getCommentCount(drNo);
+	}
+
+	@Override
+	public int getProductQnaAnswerCount(HashMap<String, String> param) {
+		return dMypageDao.getProductQnaAnswerCount(param);
+	}
+
+	@Override
+	public int getProductQnaNonAnswerCount(HashMap<String, String> param) {
+		return dMypageDao.getProductQnaNonAnswerCount(param);
+	}
+
+	@Override
+	public List<ProductQna> getAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo answerPi) {
+		return dMypageDao.getAnswerProductQnaList(param, answerPi);
+	}
+
+	@Override
+	public List<ProductQna> getNonAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo nonAnswerPi) {
+		return dMypageDao.getNonAnswerProductQnaList(param, nonAnswerPi);
 	}
 
 	
