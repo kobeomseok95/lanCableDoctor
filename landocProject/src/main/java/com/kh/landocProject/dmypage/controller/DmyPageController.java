@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +39,7 @@ import com.kh.landocProject.dmypage.model.vo.DrProfile;
 import com.kh.landocProject.hospitalReview.model.vo.HpLike;
 import com.kh.landocProject.member.model.vo.Client;
 import com.kh.landocProject.member.model.vo.DrClient;
+import com.kh.landocProject.product.model.vo.ProductQna;
 
 @Controller
 public class DmyPageController {
@@ -658,46 +660,95 @@ public class DmyPageController {
 	
 	
 
-		public String saveFile(MultipartFile file, HttpServletRequest request) {
+	public String saveFile(MultipartFile file, HttpServletRequest request) {
 
-		      
-		      File folder = new File(filePath);
-		      
-		      if(!folder.exists()) {
-		         folder.mkdirs();
-		      }
-		      
-		      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		      String originFileName = file.getOriginalFilename();
-		      String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." + originFileName.substring(originFileName.lastIndexOf(".")+1);
-		      
-		      String saveFiles = filePath + renameFileName;
-		      
-		      
-		      try {
-		         file.transferTo(new File(saveFiles));   // 이 때 파일이 저장
-		         
-		      } catch (IllegalStateException e) {
-		         
-		         e.printStackTrace();
-		      } catch (IOException e) {
-		         
-		         e.printStackTrace();
-		      }
-		      
-		      return renameFileName;
-		   }
-		 
-		 
-		 
-		 
-			public void deleteFile(String fileName) {
-				
-				File f = new File(filePath + fileName);
-				
-				if(f.exists()) {
-					f.delete();
-				}
-			}
+	      
+	      File folder = new File(filePath);
+	      
+	      if(!folder.exists()) {
+	         folder.mkdirs();
+	      }
+	      
+	      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+	      String originFileName = file.getOriginalFilename();
+	      String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." + originFileName.substring(originFileName.lastIndexOf(".")+1);
+	      
+	      String saveFiles = filePath + renameFileName;
+	      
+	      
+	      try {
+	         file.transferTo(new File(saveFiles));   // 이 때 파일이 저장
+	         
+	      } catch (IllegalStateException e) {
+	         
+	         e.printStackTrace();
+	      } catch (IOException e) {
+	         
+	         e.printStackTrace();
+	      }
+	      
+	      return renameFileName;
+	   }
+	 
+	 
+	 
+	 
+	public void deleteFile(String fileName) {
+		
+		File f = new File(filePath + fileName);
+		
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+	
+	@RequestMapping(value="drProductQnaList.do", method=RequestMethod.GET)
+	public ModelAndView productQnaList(HttpSession session,
+														ModelAndView mv,
+														@RequestParam(required=false) Integer answerPage,
+														@RequestParam(required=false) Integer nonAnswerPage) {
+		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
+		String drNo = loginDrClient.getDrNo();
+		if(answerPage == null)		answerPage = 1;
+		if(nonAnswerPage == null)	nonAnswerPage =1;
+		
+		HashMap<String, String> param = new HashMap<>();
+		param.put("type", "DrClient");
+		param.put("no", drNo);
+		
+		int answerCount = dMypageService.getProductQnaAnswerCount(param);
+		int nonAnswerCount = dMypageService.getProductQnaNonAnswerCount(param);
+		
+		CMypagePageInfo answerPi = CMypagePagination.getPageInfo(answerPage,answerCount);
+		CMypagePageInfo nonAnswerPi = CMypagePagination.getPageInfo(nonAnswerPage,nonAnswerCount);
+		
+		List<ProductQna> answerProductQna = dMypageService.getAnswerProductQnaList(param, answerPi);
+		List<ProductQna> nonAnswerProductQna = dMypageService.getNonAnswerProductQnaList(param, nonAnswerPi);
 
+		mv.addObject("napi", nonAnswerPi);
+		mv.addObject("napq", nonAnswerProductQna);
+		
+		mv.addObject("api", answerPi);
+		mv.addObject("apq", answerProductQna);
+		
+		mv.setViewName("mypage/drMyPageProductQnaList");
+		return mv;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

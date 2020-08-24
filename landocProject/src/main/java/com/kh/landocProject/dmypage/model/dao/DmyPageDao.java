@@ -2,6 +2,7 @@ package com.kh.landocProject.dmypage.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -17,6 +18,7 @@ import com.kh.landocProject.dmypage.model.vo.DrMypagePoint;
 import com.kh.landocProject.dmypage.model.vo.DrProfile;
 import com.kh.landocProject.hospitalReview.model.vo.HpLike;
 import com.kh.landocProject.member.model.vo.DrClient;
+import com.kh.landocProject.product.model.vo.ProductQna;
 
 @Repository("dMypageDao")
 public class DmyPageDao {
@@ -246,6 +248,26 @@ public class DmyPageDao {
 	public int getCommentCount(String drNo) {
 		
 		return sqlSessionTemplate.selectOne("dMypage.getCommentCount",drNo);
+	}
+
+	public int getProductQnaAnswerCount(HashMap<String, String> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getProductQnaAnswerCount", param);
+	}
+
+	public int getProductQnaNonAnswerCount(HashMap<String, String> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getProductQnaNonAnswerCount", param);
+	}
+
+	public List<ProductQna> getAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo answerPi) {
+		int offset = (answerPi.getCurrentPage() - 1) * answerPi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, answerPi.getBoardLimit());
+		return sqlSessionTemplate.selectList("productMapper.getAnswerProductQnaList", param, rowBounds);
+	}
+
+	public List<ProductQna> getNonAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo nonAnswerPi) {
+		int offset = (nonAnswerPi.getCurrentPage() - 1) * nonAnswerPi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, nonAnswerPi.getBoardLimit());
+		return sqlSessionTemplate.selectList("productMapper.getNonAnswerProductQnaList", param, rowBounds);
 	}
 	
 	

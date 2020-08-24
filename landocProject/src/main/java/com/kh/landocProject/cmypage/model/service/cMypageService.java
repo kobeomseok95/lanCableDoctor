@@ -12,6 +12,7 @@ import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
 import com.kh.landocProject.member.model.vo.Client;
+import com.kh.landocProject.product.model.vo.ProductQna;
 import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 
 public interface cMypageService {
@@ -91,6 +92,14 @@ public interface cMypageService {
 	int getHpReCount(String cNo);
 
 	ArrayList<HpReview> getMyHpReList(String cNo, CMypagePageInfo pi);
+
+	int getProductQnaAnswerCount(HashMap<String, String> param);
+
+	int getProductQnaNonAnswerCount(HashMap<String, String> param);
+
+	List<ProductQna> getAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo answerPi);
+
+	List<ProductQna> getNonAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo nonAnswerPi);
 
 	
 
