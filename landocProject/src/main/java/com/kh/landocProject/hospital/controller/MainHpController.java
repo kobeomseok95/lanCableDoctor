@@ -196,19 +196,13 @@ public class MainHpController {
 	   
 	      ArrayList<HpSearch> hpList = mainHpService.hpSearchListNormal(hp);
 	      ArrayList<HpSearch> listAvg = mainHpService.selectHpAvgList(hp);
-	  	for(int i =0; i<listAvg.size();i++) {
-			for(int z=0; z<hpList.size();z++) {
-				if(listAvg.get(i).getHpNo() == hpList.get(z).getHpNo()) {
-					hpList.get(z).setHpAvgRate(listAvg.get(i).getHpAvgRate());
-					hpList.get(z).setReviewCount(listAvg.get(i).getReviewCount());
-				}
-			}
-		}
+			
 	      
 	      if(hpList !=null && listAvg != null) {
 	    	  mv.addObject("hp",hpList);
 	    	  mv.addObject("area",area);
 	    	  mv.addObject("hpName", hpTitle);
+	    	  mv.addObject("listAvg",listAvg);
 	    	  mv.setViewName("hospital/hpSearch");
 	      }else {
 	    	  throw new MainHpException("병원검색 실패!");
@@ -263,17 +257,11 @@ public class MainHpController {
 	public ModelAndView hpCateSearch(ModelAndView mv, HttpSession session,@RequestParam(value="cateName") String cateName) throws MainHpException{
 		  ArrayList<HpSearch> hpList = mainHpService.hpCateSearchList(cateName);
 	      ArrayList<HpSearch> listAvg = mainHpService.selectHpAvgListCate(cateName);
-	      for(int i =0; i<listAvg.size();i++) {
-				for(int z=0; z<hpList.size();z++) {
-					if(listAvg.get(i).getHpNo() == hpList.get(z).getHpNo()) {
-						hpList.get(z).setHpAvgRate(listAvg.get(i).getHpAvgRate());
-						hpList.get(z).setReviewCount(listAvg.get(i).getReviewCount());
-					}
-				}
-			}
+			
 	      if(hpList !=null && listAvg != null) {
 	    	  mv.addObject("hp",hpList);
 	    	  mv.addObject("cateName", cateName);
+	    	  mv.addObject("listAvg",listAvg);
 	    	  mv.setViewName("hospital/hpSearch");
 	      }else {
 	    	  throw new MainHpException("진료과목 검색 실패!");

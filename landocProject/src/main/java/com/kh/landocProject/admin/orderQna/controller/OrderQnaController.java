@@ -128,21 +128,17 @@ public class OrderQnaController {
 	public ModelAndView orderQnaInsert(HttpSession session,ModelAndView mv,HttpServletResponse response,
 			@RequestParam(value="oqnaNo") int oqnaNo,
 			@RequestParam(value="answer") String answer,
-			OrderQna qna) throws  IOException, OrderQnaException {
+			OrderQna qna) throws OrderQnaException {
 	
 		qna.setOqnaNo(oqnaNo);
 		qna.setOqnaAnswer(answer);
 		int currentPage = 1;
 		
 		int listCount = oqService.getListCountOrderQna();
-		
-	
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		
-		
-		ArrayList<OrderQna> list = oqService.selectOrdrQnaList(pi);
 		int result = oqService.orderQnaInsert(qna);
+		ArrayList<OrderQna> list = oqService.selectOrdrQnaList(pi);
 		if(result>0 && list!=null) {
 			mv.addObject("result","답변등록이 완료되었습니다.");
 			mv.addObject("list",list);

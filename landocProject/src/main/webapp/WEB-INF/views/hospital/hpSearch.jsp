@@ -108,7 +108,7 @@
                      </div>
                   </c:if>
                   <c:if test="${not empty hp}">
-                  <c:forEach var="h" items="${hp}">
+                  <c:forEach var="h" items="${hp}" varStatus="status">
                   
                      <div class="doctor-total-box border-bottom detailHpReview" id="hpInfo" onmouseenter="hpover('${h.hpAddress}')" 
                       onmouseleave="hpout('${h.hpAddress}')">
@@ -125,7 +125,7 @@
 
                                     <img src="/projectFiles/${h.proRename}"
                                        class="img-circle profile-doctor-image border"
-                                       style="width: 100%; height: 100%;">
+                                       style="width: 109px; height: 102px;">
 
                                  </div>
 
@@ -144,7 +144,7 @@
 
                                     <div class="review-star-box d-flex align-items-start mt-1">
 
-                                       <c:if test="${h.hpAvgRate eq 0 }">
+                                          <c:if test="${listAvg[status.index].hpAvgRate eq 0 }">
 			                            			<img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -153,7 +153,7 @@
 			                            	
 			                            	
 			                            	</c:if>
-                            	 			<c:if test="${h.hpAvgRate ge 0 && h.hpAvgRate lt 1}">
+                            	 			<c:if test="${listAvg[status.index].hpAvgRate gt 0 && listAvg[status.index].hpAvgRate lt 1}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -162,7 +162,7 @@
                                             </c:if>
                                             
                                             
-                                            <c:if test="${h.hpAvgRate eq 1}">
+                                            <c:if test="${listAvg[status.index].hpAvgRate eq 1}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -170,7 +170,7 @@
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
                                             </c:if>
                                             
-                                            <c:if test="${h.hpAvgRate gt 1 && h.hpAvgRate lt 2}">
+                                            <c:if test="${listAvg[status.index].hpAvgRate gt 1 && listAvg[status.index].hpAvgRate lt 2}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -178,7 +178,7 @@
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
                                             </c:if>
                                             
-                                            <c:if test="${h.hpAvgRate eq 2}">
+                                            <c:if test="${listAvg[status.index].hpAvgRate eq 2}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
@@ -187,7 +187,7 @@
                                             </c:if>
                                             
                                             
-                                            <c:if test="${h.hpAvgRate gt 2 && h.hpAvgRate lt 3}">
+                                            <c:if test="${listAvg[status.index].hpAvgRate gt 2 && listAvg[status.index].hpAvgRate lt 3}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image">
@@ -195,7 +195,7 @@
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
                                             </c:if>
                                             
-                                            <c:if test="${h.hpAvgRate eq 3}">
+                                            <c:if test="${listAvg[status.index].hpAvgRate eq 3}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
@@ -203,7 +203,7 @@
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
                                             </c:if>
                                             
-                                            <c:if test="${h.hpAvgRate gt 3 && h.hpAvgRate lt 4}">
+                                            <c:if test="${listAvg[status.index].hpAvgRate gt 3 && listAvg[status.index].hpAvgRate lt 4}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
@@ -211,7 +211,7 @@
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Empty-icon.svg" alt="Responsive image" class="star-image">
                                             </c:if>
                                             
-                                            <c:if test="${h.hpAvgRate eq 4}">
+                                            <c:if test="${listAvg[status.index].hpAvgRate eq 4}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
@@ -220,7 +220,7 @@
                                             </c:if>
                                             
                                           
-                                            <c:if test="${h.hpAvgRate gt 4 && h.hpAvgRate lt 5}">
+                                            <c:if test="${listAvg[status.index].hpAvgRate gt 4 && listAvg[status.index].hpAvgRate lt 5}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
@@ -228,7 +228,7 @@
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Half-Full-icon.svg" alt="Responsive image" class="star-image">
                                             </c:if>
                                             
-                                           <c:if test="${h.hpAvgRate eq 5}">
+                                           <c:if test="${listAvg[status.index].hpAvgRate eq 5}">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image"> 
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
                                                     <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/img/mdd_event/Star-Full-icon.svg" alt="Responsive image" class="star-image">
@@ -237,9 +237,8 @@
                                             </c:if>
 
 
-
                                        <div class="review-count-box ml-1" style="font-size: 12px;">
-                                          ${h.hpAvgRate} (${h.reviewCount})</div>
+                                           ${listAvg[status.index].hpAvgRate} (${listAvg[status.index].reviewCount})</div>
                                     </div>
 
 

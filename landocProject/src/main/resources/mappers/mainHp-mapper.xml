@@ -128,10 +128,11 @@
 		AND HP_NAME LIKE #{hpName} group by HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, 
 		DECODE(HT.HP_OPEN_TIME,NULL,'휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME),
 		DHP.DRHP_ORIGIN, DHP.DRHP_RENAME, DHP.DRHP_FILEPATH
+		ORDER BY 1
   </select>
   
   <select id="selectHpAvgList" parameterType="HpSearch" resultMap="hpSearchMap">
-  	SELECT  HP.HP_NO, HP.HP_NAME,
+  	SELECT HP.HP_NO, HP.HP_NAME,
         DECODE(ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1),NULL,0,
         ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1),ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1)) AS HP_RE_AVG_RATE,
         COUNT(HW.HP_RE_AVG_RATE) AS REVIEWCOUNT
@@ -143,6 +144,7 @@
         AND hp_address LIKE '%'||#{area}||'%'
         </if>
         AND HP.HP_NAME LIKE #{hpName} group by HP.HP_NO, HP.HP_NAME
+        ORDER BY 1
   </select>
 
 
@@ -225,6 +227,7 @@
         LEFT JOIN DRHPPHOTO DHP ON(HP.HP_NO=DHP.HP_NO)
 		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY AND HP.HP_STATUS='Y' AND DHP.PH_CODE =5
         AND HG.HPCATE_NAME = #{cateName}
+        ORDER BY 1
    </select>
 	
    <select id="selectHpAvgListCate" parameterType="string" resultMap="hpSearchMap">
@@ -239,7 +242,7 @@
 		WHERE  HP.HP_STATUS='Y'
         AND HG.HPCATE_NAME = #{cateName}
         group by HP.HP_NO, HP.HP_NAME
-   	
+   		ORDER BY 1
    </select>
   
   <!-- 기존 병원 소개 사진 delete -->

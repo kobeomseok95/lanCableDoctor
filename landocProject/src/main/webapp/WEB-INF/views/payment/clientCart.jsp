@@ -278,11 +278,18 @@
     		var listPdName = new Array();
     		var listPdNo = new Array();
     		var listRenameFile = new Array();
+    		
+    		
     		if($("input[name=cartCheck]:checked").length==0){
     			alert("상품을 선택하세요");
     		}else{
-    		
+    			// 선택상품만 post방식으로 submit 하기위함
+    			  var form = document.createElement("form");
+    			    form.setAttribute("method", 'POST');
+    			    form.setAttribute("action",'selectOrder.do');
+    			    
     		for(var i=0;i<listSellPrice.length;i++){
+    			
     		if($("#cartCheck"+i).is(":checked")){
     				listOriginPrice2.push($("#originPrice2"+i).val());
     				listDiscount2.push($("#discount"+i).val());
@@ -296,8 +303,20 @@
     			
     			};
     		}
-    			location.href="selectOrder.do?listOriginPrice="+listOriginPrice2+"&listDiscount="+listDiscount2+"&listSellPrice="+listSellPrice2
-    					+"&listCartNo="+listCartNo+"&listPdName="+listPdName+"&listPdNo="+listPdNo+"&listCount="+listCount2+"&listRenameFile="+listRenameFile;
+    		
+    		var listName = ['listOriginPrice','listDiscount','listSellPrice','listCartNo','listPdName','listPdNo','listCount','listRenameFile'];
+    		var listValue= [listOriginPrice2,listDiscount2,listSellPrice2,listCartNo,listPdName,listPdNo,listCount2,listRenameFile];
+    		
+   		    for(var i=0; i<listName.length;i++){
+	    		var hiddenField = document.createElement("input");
+			    hiddenField.setAttribute("type", "hidden");
+		        hiddenField.setAttribute("name", listName[i]);
+		        hiddenField.setAttribute("value", listValue[i]);
+		        
+		        form.appendChild(hiddenField);
+   		    }
+   			 document.body.appendChild(form);
+			 form.submit();
     		}
     	}
     	 

@@ -67,19 +67,12 @@ public class cMypageController {
 		String cNo =loginClient.getcNo();
 		ArrayList<LikeHp> list = cmService.selectList(cNo);
 		ArrayList<LikeHp> listAvg = cmService.selectHpAvgList(cNo); 
-		for(int i =0; i<listAvg.size();i++) {
-			for(int z=0; z<list.size();z++) {
-				if(listAvg.get(i).getHpNo() == list.get(z).getHpNo()) {
-					list.get(z).setHpAvgRate(listAvg.get(i).getHpAvgRate());
-					list.get(z).setReviewCount(listAvg.get(i).getReviewCount());
-				}
-			}
-		}
-	
+		
 		int listCount = cmService.selectCount(cNo);
 		if(list!=null && listAvg != null) {
 			  mv.addObject("likeHplist",list); 
 			  mv.addObject("likeHpCount",listCount);
+			  mv.addObject("listAvg",listAvg);
 			  mv.setViewName("mypage/myPageLikeHospital");
 			  
 			 
