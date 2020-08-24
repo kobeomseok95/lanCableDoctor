@@ -58,7 +58,7 @@
     });
     
     
-    function validate (input) {
+   /* function validate (input) {
         console.log("회원input");
         
         if($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
@@ -104,6 +104,78 @@
             }
         }
         else {
+            if($(input).val().trim() == ''){
+                return false;
+            }
+        }
+    }*/
+    
+    function validate (input) {
+        console.log("회원input");
+        
+        if($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
+            if($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
+                return false;
+            }
+        }
+        else if($(input).attr('name') == 'userId'){
+            if($(input).val().trim().match(/^[a-zA-Z0-9]{4,20}$/) == null){
+                return false;
+            }
+        }
+        else if($(input).attr('name') == 'userPwd'){
+            if($(input).val().trim().match(/^[a-z0-9]{4,20}$/) == null){
+                return false;
+            }
+        }
+        else if($(input).attr('name') == 'userName'){
+            if($(input).val().trim().match(/^[가-힣]{2,4}$/) == null){
+                return false;
+            }
+        }
+        else if($(input).attr('name') == 'nickName'){
+            if($(input).val().trim().match(/^[a-zA-Z0-9가-힣ㄱ-ㅎ]{1,10}$/) == null){
+                return false;
+            }
+        }
+        else if($(input).attr('name') == 'phone'){
+            if($(input).val().trim().match(/^[0-9]{11}$/) == null){
+                return false;
+            }
+        }
+        else if($(input).attr('name') == 'birth'){
+            if($(input).val().trim().match(/^[0-9]{6}$/) == null){
+                return false;
+            }
+        }
+        else if($(input).attr('name') == 'checkPwd'){
+            if($(input).val().trim().match(/^[a-z0-9]{4,20}$/) == null){
+                return false;
+            }else if($(input).val() != $("#userPwd").val()){
+                return false;
+            }
+        }
+        else if( $('input[name="categoryCode"]:checked').length < 0 ){
+			alert("진료과목을 최소 한 가지 이상 선택해주세요!");
+			return false;
+		}else if( $('input[name="hpName"]').val()==="" ){
+			alert("병원 이름을 입력해주세요!");
+			return false;
+		}else if( $('input[name="applicantName"]').val()==="" ){
+			alert("병원 등록 신청자 성함을 입력해주세요!");
+			return false;
+		}else if( $('input[name="applicantEmail"]').val()==="" ){
+			alert("병원 등록 신청자 이메일을 입력해주세요!");
+			return false;
+		}else if( $('input[name="applicantPhone"]').val()==="" ){
+			alert("병원 등록 신청자 전화번호를 입력해주세요!");
+			return false;
+		}else if( $('input[name="postCode"]').val() === "" ||
+				$('input[name="address"]').val() === "" ||
+				$('input[name="address2"]').val() === "")	{
+				alert("병원 주소를 입력해주세요!");
+				return false;
+		}else {
             if($(input).val().trim() == ''){
                 return false;
             }

@@ -331,7 +331,7 @@
 		  
 		  //전체 체크박스 선택 시 
 		  $('#checkAll').on('change', function () {
-		    $(this).parents('.list_agree').find('input:checkbox').prop('checked', $(this).prop('checked'));
+		  	$(this).parents('.list_agree').find('input:checkbox').prop('checked', $(this).prop('checked'));
 		  });
 		  
 		  //전체 외 체크박스 선택 시
