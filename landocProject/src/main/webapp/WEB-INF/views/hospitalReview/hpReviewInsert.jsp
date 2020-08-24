@@ -254,6 +254,7 @@
                data:{hpName:hpName},
                dataType:"json",
                success:function(data){
+            	  
                   $tableBody = $("#searchHpNameTb");
                   $tableBody.html("");
                   var $tr;
@@ -276,8 +277,10 @@
                         $hpPhone = $("<td>").text(data[i].hpPHone).addClass("listLine");
                         
                         $hpName.append($hpNameIn);
-                        $hpNo.append($hpNoIn);
+        
                         $td.append($hpName);
+                       
+                        $td.append($hpNoIn);
                         $tr.append($td);
                         
                         $tr.append($hpAddress);
@@ -320,7 +323,9 @@
            $(".hpCateArea").css("display","block");
       
 	       	hopiName = $(this).text();
-	       	hpNo = $hpNoIn.val();
+	       	/* hpNo = $hpNoIn.val(); */
+	       	hpNo = $(this).next().val();
+	       
 
           	// 선택한 병원 진료과목 나오게 하는 에이작스
           	$.ajax({
@@ -349,6 +354,7 @@
                             $hpCateCode.append($hpCateCodeIn);
                             $hpCateName.append($hpCateNameIn);
                             $td.append($hpCateName);
+                            $td.append($hpCateCodeIn);
                             $tr.append($td);
                             $tableBody.append($tr);
                          
@@ -373,9 +379,16 @@
         	
   	       	hpCate = $(this).text();
   	       	var hpCateCode2 = $hpCateCodeIn.val();
-
+  	     
+  	       /* 	console.log("hpCateName? : " + hpCate);
+  	       	console.log("hpCateCode? : " + hpCateCode2);
+  	       	console.log(hpNo); */
+  	       	
            $("#hospital-search-save-btn").click(function(){
-               
+        	   $("#hospital_name").val("");
+               $("#hospital_id").val("");
+               $("#hospital_cateCode").val("");
+        	   
         	   $("#hospitalSearchModal").modal("hide");
                 $("#hospital_name").val(hopiName +" ( " + hpCate + " ) ");
                 $("#hospital_id").val(hpNo);

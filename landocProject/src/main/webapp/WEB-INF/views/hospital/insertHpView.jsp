@@ -228,34 +228,37 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="정해진 진료과목을 선택 및 입력해주세요.">
-						<div>
-							<input name="categoryCode" type="checkbox" value="400" /> 치과
-							<input name="categoryCode" type="checkbox" value="114" /> 피부과
-							<input name="categoryCode" type="checkbox" value="108" /> 성형외과
-							<input name="categoryCode" type="checkbox" value="112" /> 안과
-						</div>
-						<div>
-							<input name="categoryCode" type="checkbox" value="110" /> 산부인과
-							<input name="categoryCode" type="checkbox" value="115" /> 비뇨기과
-							<input name="categoryCode" type="checkbox" value="103" /> 정신의학과
-							<input name="categoryCode" type="checkbox" value="105" /> 정형외과
-						</div>
-						<div>
-							<input name="categoryCode" type="checkbox" value="116" /> 마취통증의학과
-							<input name="categoryCode" type="checkbox" value="106" /> 신경외과
-							<input name="categoryCode" type="checkbox" value="120" /> 재활의학과
-							<input name="categoryCode" type="checkbox" value="109" /> 영상의학과
-						</div>
-						<div>
-							<input name="categoryCode" type="checkbox" value="104" /> 외과
-							<input name="categoryCode" type="checkbox" value="102" /> 신경과
-							<input name="categoryCode" type="checkbox" value="111" /> 소아과
-							<input name="categoryCode" type="checkbox" value="101" /> 내과
-						</div>
-						<div>
-							<input name="categoryCode" type="checkbox" value="113" /> 이비인후과
-							<input name="categoryCode" type="checkbox" value="122" /> 가정의학과
-							<input name="categoryCode" type="checkbox" value="300" /> 한의원
+					
+						<div style="overflow:auto; width:480px; height:300px; margin-left:10px;">
+							<input name="categoryCode" type="checkbox" value="400" /> 치과<br>
+							<input name="categoryCode" type="checkbox" value="114" /> 피부과<br>
+							<input name="categoryCode" type="checkbox" value="108" /> 성형외과<br>
+							<input name="categoryCode" type="checkbox" value="112" /> 안과<br>
+						
+						<!-- <div> -->
+							<input name="categoryCode" type="checkbox" value="110" /> 산부인과<br>
+							<input name="categoryCode" type="checkbox" value="115" /> 비뇨기과<br>
+							<input name="categoryCode" type="checkbox" value="103" /> 정신의학과<br>
+							<input name="categoryCode" type="checkbox" value="105" /> 정형외과<br>
+						<!-- </div>
+						<div> -->
+							<input name="categoryCode" type="checkbox" value="116" /> 마취통증의학과<br>
+							<input name="categoryCode" type="checkbox" value="106" /> 신경외과<br>
+							<input name="categoryCode" type="checkbox" value="120" /> 재활의학과<br>
+							<input name="categoryCode" type="checkbox" value="109" /> 영상의학과<br>
+						<!-- </div>
+						<div> -->
+							<input name="categoryCode" type="checkbox" value="104" /> 외과<br>
+							<input name="categoryCode" type="checkbox" value="102" /> 신경과<br>
+							<input name="categoryCode" type="checkbox" value="111" /> 소아과<br>
+							<input name="categoryCode" type="checkbox" value="101" /> 내과<br>
+						<!-- </div>
+						<div> -->
+							<input name="categoryCode" type="checkbox" value="113" /> 이비인후과<br>
+							<input name="categoryCode" type="checkbox" value="122" /> 가정의학과<br>
+							<input name="categoryCode" type="checkbox" value="300" /> 한의원<br>
+						<!-- </div>
+						</div> -->
 						</div>
 						<span class="focus-input100" data-placeholder="병원 진료과목 선택"></span> 
 					</div>

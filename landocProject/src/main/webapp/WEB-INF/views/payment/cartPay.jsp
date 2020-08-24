@@ -54,24 +54,24 @@
     <script src= 'http://code.jquery.com/jquery-latest.js'></script>
     
     <style>
-       /*  body{width: 1400px;} */
+        /*  body{width: 1400px;} */
         #header h2{text-align: center; font-size:30px;}
-        #leftArea{width: 900px;display: inline-block; position:relative; left:200px; margin-top:30px;}
+        #leftArea{width: 800px;display: inline-block; position:relative; left:100px; margin-top:30px;}
         #pInfo{margin-bottom: 10px; padding-top:20px; color:#676767; font-weight: 600; padding-left: 10px;}
        
         /*상품 테이블 영역*/
         #productTb{border-top: 1px solid black; border-bottom: 1px solid black; width: 100%;}
-        #productTb tr{line-height: 100px;}
-        #productTb td{padding-right: 40px; font-size: 16px; color: #676767; font-weight: 600;}
+        #productTb tr{line-height: 120px;}
+        #productTb td{padding-right: 20px; font-size: 16px; color: #676767; font-weight: 600;}
        /*  #productImg{width:30%; height: 30%;} */
         
-        .pThumbnail{padding-left: 30px;}
-        .pName{width:383px;}
-        .pAmount{}
+        .pThumbnail{padding-left: 30px; padding-right:0;}
+        .pName{width:350px; padding-right:0;}
+        .pAmount{ padding-right:0;}
         .totalPrice{font-size: 23px !important; color:#007ee5 !important; width:}
 
         /*주문자 정보 영역*/
-        #orderInfo{background-color: #e5f2fc;width: 900px; height: 630px; margin-top: 50px;}
+        #orderInfo{background-color: #e5f2fc;width: 800px; height: 630px; margin-top: 50px;}
         #orderInfo2{ margin: 30px 30px;}
         #orderInfoHeader{margin-bottom: 10px; padding-top:20px; color:#676767; font-weight: 600; padding-left: 10px;}
         #orderInfoTb{width: 100%;background-color:white;}
@@ -83,7 +83,7 @@
         #payComment{width : 560px; height:80px; border:none; text-align-last:center;}
      
         /*오른쪽 영역*/
-        #rightArea{width:400px;height: 690px; float: right; background-color:#e5f2fc; position: sticky; top: 0; z-index: 999; right:200px;}
+        #rightArea{width:400px;height: 690px; float: right; background-color:#e5f2fc; position: sticky; top: 0; z-index: 999; right:100px;}
         #payInfo{width:380px;background-color: white; margin-left: 11px; margin-top: 11px;}
         #payInfoTb{line-height: 60px; font-size: 16px;}
         .payFirstTd{padding-right: 110px; font-weight: 600; padding-left: 30px;}

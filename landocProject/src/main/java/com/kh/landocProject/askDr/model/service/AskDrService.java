@@ -52,5 +52,9 @@ public interface AskDrService {
 
 	int updateAskDrBoardReply(AskDrReply askDrReply);
 
-	List<DrClient> getSearchDr(String drName);	
+	List<DrClient> getSearchDr(String drName);
+
+	int pointUpClient(String cNo);
+
+	int pointUpDr(String drNo);
 }

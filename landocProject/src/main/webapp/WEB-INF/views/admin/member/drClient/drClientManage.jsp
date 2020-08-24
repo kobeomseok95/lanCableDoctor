@@ -131,15 +131,15 @@
                 <th class="firstLine">회원 번호</th>
                 <th class="firstLine">아이디</th>
                 <th class="firstLine">이름</th>
-                <th class="firstLine">생년월일</th>
+                <!-- <th class="firstLine">생년월일</th> -->
                 <th class="firstLine">휴대폰 번호</th>
                 <th class="firstLine">이메일</th>
                 <th class="firstLine">포인트</th>
                 <!-- <th class="firstLine">우편번호</th>
                 <th class="firstLine">상세주소</th> -->
-                <th class="firstLine">소속병원</th>
+                <th class="firstLine" style="width:200px;">소속병원</th>
                 <th class="firstLine">주분야</th>
-                <th class="firstLine">프로필</th>
+               <!--  <th class="firstLine">프로필</th> -->
                 <!-- <th class="firstLine">마케팅 여부</th> -->
                 <th class="firstLine">승인대기 여부</th>
                 <th class="firstLine">가입 날짜</th>
@@ -154,7 +154,7 @@
 		                <td>${dCli.drNo }</td>
 		                <td>${dCli.userId }</td>
 		                <td>${dCli.userName }</td>
-		                <td>${dCli.birth }</td>
+		                <%-- <td>${dCli.birth }</td> --%>
 		                <td>${dCli.phone }</td>
 		                <td>${dCli.email }</td>
 		                <td>${dCli.point }</td>
@@ -162,7 +162,7 @@
 		                <td>${dCli.address }</td> --%>
 		                <td>${dCli.hpName }</td>
 		                <td>${dCli.hpCateName }</td>
-		                <td>${dCli.profile }</td>
+		                <%-- <td>${dCli.profile }</td> --%>
 		                <%-- <td>${dCli.marketing }</td> --%>
 		                <td>${dCli.approval }</td>
 		                <td>${dCli.enrollDate }</td>

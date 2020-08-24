@@ -458,6 +458,19 @@
 		    ORDER BY
 		        A.AD_SUBMITDATE DESC) A		
 	</select>
+	
+	<update id="pointUpClient" parameterType="string">
+		UPDATE CLIENT
+		SET C_POINT = C_POINT + 50
+		WHERE C_NO = #{cNo}
+	</update>
+	
+	<update id="pointUpDr" parameterType="string">
+		UPDATE DRCLIENT
+		SET DR_POINT = DR_POINT + 50
+		WHERE DR_NO = #{drNo}
+	</update>
+	
 </mapper>
 
 
