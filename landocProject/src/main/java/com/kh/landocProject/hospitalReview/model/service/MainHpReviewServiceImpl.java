@@ -131,6 +131,12 @@ public class MainHpReviewServiceImpl implements MainHpReviewService{
 		return MainHpReDao.selectHpLikeCount(hpNo);
 	}
 
+	@Override
+	public String selectHpThumbnail(Integer hpNo) {
+		
+		return MainHpReDao.selectHpThumbnail(hpNo);
+	}
+
 	
    
    

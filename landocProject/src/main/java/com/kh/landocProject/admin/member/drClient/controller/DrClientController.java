@@ -48,11 +48,7 @@ public class DrClientController {
 			if(page != null) {
 				currentPage = page;
 			}
-			
-//			System.out.println("controller에서 currentPage : " + currentPage);
-//			System.out.println("controller에서 condition : " + condition);
-//			System.out.println("controller에서 value : " + value);
-			
+
 			DrClientSearchCondition dsc = new DrClientSearchCondition();
 			
 			ArrayList<DrClientPage> list = null;
@@ -112,14 +108,11 @@ public class DrClientController {
 								@RequestParam(value="msg", required=false) String msg) {
 		System.out.println("adminClientController.java test line 111");
 		
-//		System.out.println("drNo:" + drNo);
 		ArrayList<DrClientPage> list = null;
 		list = dService.selectDrClientDetail(drNo);
-//		System.out.println(msg);
 	
-//		System.out.println(list);
 		drPage = dService.selectDrClientDetail1(drNo);
-//		System.out.println(drPage);
+
 		
 		if(list != null) {
 			mv.addObject("drPage", drPage);
@@ -133,10 +126,6 @@ public class DrClientController {
 	@RequestMapping(value="drClientApproval1.do")
 	public String drClientApproval1(String drNo,String email, String approval, RedirectAttributes redirectAttributes) {
 		System.out.println("adminClientController.java test line 133");
-		
-//		System.out.println("drNo:" + drNo);
-//		System.out.println("email:" + email);
-//		System.out.println("approval:" + approval);
 		
 		String msg="";
 		if(approval.equals("N") || approval.equals("X")) {
@@ -198,9 +187,7 @@ public class DrClientController {
 	@RequestMapping(value="drClientApproval2.do")
 	public String drClientApproval2(String drNo, String email, RedirectAttributes redirectAttributes, String approval) {
 		System.out.println("adminClientController.java test line 198");
-		
-//		System.out.println(email);
-//		System.out.println(approval);
+
 		String msg="";
 		if(approval.equals("N")) {
 

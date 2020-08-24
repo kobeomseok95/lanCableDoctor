@@ -62,15 +62,15 @@
 }
 /* .tableForm td{border-bottom: 1px solid black; border-top: 1px solid black; } */
 .title {
-	background-color: lightgray;
+	background-color: #e9e9e9;
 	width: 200px;
-	border-bottom: 1px solid black;
-	border-top: 1px solid black;
+	border-bottom: 1px solid lightgray;
+	border-top: 1px solid lightgray;
 }
 
 .title1 {
 	width: 400px;
-	border-top: 1px solid black;
+	border-top: 1px solid lightgray;
 }
 
 .modibtn {
@@ -97,18 +97,18 @@
 }
 
 .modiInput {
-	border-bottom: 1px solid black;
-	border-top: 1px solid black;
+	border-bottom: 1px solid lightgray;
+	border-top: 1px solid lightgray;
 }
 
 #noBtn {
-	background-color: lightgray;
-	border-radius: 3px;
+	background-color: #e9e9e9;
+	border-radius: 5px;
 	border: 0px;
-	height: 30px;
-	width: 110px;
+	height: 40px;
+	width: 120px;
 	display: block;
-	padding-top:2px;
+	padding-top:6px;
 }
 
 input[type="file"] {
@@ -140,7 +140,7 @@ input[type="file"] {
 	<div class="container">
 		<div class="p-4" style="width: 1000px; display: inline-block;">
 			<div class="titleName">
-				<h4 style="float: left;">나의 회원 정보</h4>
+				<h4 style="float: left; font-size:30;">나의 회원 정보</h4>
 			</div>
 			<form action="updateClient.do?cNo=${loginClient2.cNo }" method="post" enctype="multipart/form-data">
 				<div class="myTable">

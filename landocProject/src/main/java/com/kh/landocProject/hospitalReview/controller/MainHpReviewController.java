@@ -172,6 +172,9 @@ public class MainHpReviewController {
 		// 병원 기본 사진
 		ArrayList<MainHp> picList = MainHpReService.selectHpPics(hpNo);
 
+		// 병원 썸네일 사진
+		String hpThumb = MainHpReService.selectHpThumbnail(hpNo);
+		
 		// 병원 영업시간
 		ArrayList<HpTime> timeList = MainHpReService.selectHpTime(hpNo);
 
@@ -285,6 +288,7 @@ public class MainHpReviewController {
 		if (hp != null && picList != null && timeList != null) {
 			mv.addObject("hp", hp);
 			mv.addObject("picList", picList);
+			mv.addObject("hpThumb", hpThumb);
 			mv.addObject("timeList", timeList);
 			mv.addObject("likeNum", likeNum);
 			mv.addObject("reviewNum", reviewNum);

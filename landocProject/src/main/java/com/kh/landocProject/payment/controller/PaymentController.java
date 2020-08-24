@@ -289,7 +289,9 @@ public class PaymentController {
 	
 	
 	@RequestMapping(value = "payView.do", method = RequestMethod.GET)
-	public String payView(Model model,Integer pdNo, String pdName, HttpSession session, String productCount, HttpServletResponse response_equals) throws IOException {
+	public String payView(Model model,Integer pdNo, String pdName,
+			HttpSession session, String productCount,
+			HttpServletResponse response_equals) throws IOException {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
 
@@ -312,13 +314,14 @@ public class PaymentController {
 		}else if(loginClient == null && loginDrClient != null) {
 			String drNo = loginDrClient.getDrNo();
 			MemberPay loginDrClient3 = payService.loginDrClient3(drNo);
-//			System.out.println("loginDrClient3 : " +loginDrClient3);
+
 			PayProduct selectPro = payService.selectPro(pdNo);
 			
 			String[] address3 = loginDrClient3.getAddress().split(" / ");
 			
 			String address4 = address3[0];
 			String address5 = address3[1];
+			
 			if(loginDrClient3 != null) {
 				model.addAttribute("loginDrClient3", loginDrClient3);
 				model.addAttribute("selectPro", selectPro);
@@ -330,6 +333,7 @@ public class PaymentController {
 			String msg = "로그인 후 구입이 가능합니다.";
 			model.addAttribute("msg", msg);
 			model.addAttribute("pdNo", pdNo);
+			
 			return "redirect:productDetail.do";
 		}
 		
@@ -337,12 +341,16 @@ public class PaymentController {
 	}
 	
 	@RequestMapping(value="paySuccessView.do",method=RequestMethod.GET )
-	public String paySuccessView(Model model, OrderProduct op, OrderMg or, Payment p,String drNo, String cNo, String opCount, Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice, String paymentComment){
+	public String paySuccessView(Model model, OrderProduct op, OrderMg or,
+			Payment p,String drNo, String cNo, String opCount, Integer usePoint,
+			Integer allPrice, Integer discountPrice, Integer amountPrice,
+			String paymentComment){
 	
 		p.setAmountPrice(allPrice - discountPrice - usePoint);
 
 			int result = 0;
 			int result1 = 0;
+			
 			if(usePoint != 0) {
 			result = payService.insertPayment(p);
 			}else {
@@ -361,6 +369,7 @@ public class PaymentController {
 
 				model.addAttribute("cNo", cNo);
 				model.addAttribute("drNo", drNo);
+				
 				return "payment/paySuccess";
 				
 			}else {
@@ -371,11 +380,13 @@ public class PaymentController {
 	}
 	
 	@RequestMapping(value="cartPaySuccessView.do",method=RequestMethod.GET )
-	public String cartPaySuccessView(Payment p, OrderMg or, String drNo, String cNo, @RequestParam("opCount")List<Integer> opCount,
-													Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice,
-													String paymentComment, @RequestParam("pdNo")List<Integer> pdNo, Model model,HttpSession session) {
+	public String cartPaySuccessView(Payment p, OrderMg or, String drNo, String cNo,
+			Integer usePoint, Integer allPrice, Integer discountPrice, Integer amountPrice,
+			String paymentComment, @RequestParam("opCount")List<Integer> opCount,
+			@RequestParam("pdNo")List<Integer> pdNo, Model model,HttpSession session) {
 		
 		p.setAmountPrice(allPrice - discountPrice - usePoint);
+		
 		int result = 0;
 		int result1 = 0;
 		int result3 = 0;
@@ -413,6 +424,7 @@ public class PaymentController {
 				
 				model.addAttribute("cNo", cNo);
 				model.addAttribute("drNo", drNo);
+				
 				return "payment/paySuccess";
 			}else if(cNo == null && drNo != null) {
 				int updateDr = payService.updateDr(p);
@@ -420,6 +432,7 @@ public class PaymentController {
 	
 				model.addAttribute("cNo", cNo);
 				model.addAttribute("drNo", drNo);
+				
 				return "payment/paySuccess";
 			}
 			

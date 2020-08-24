@@ -19,8 +19,6 @@
 	  	<result property="hpPhone" column="HP_PHONE"/>
 	  	<result property="hpPostCode" column="HP_POSTCODE"/>
 	  	<result property="hpAddress" column="HP_ADDRESS"/>
-	  	<result property="hpx" column="HP_X"/>
-	  	<result property="hpy" column="HP_Y"/>
 	  	<result property="hpAvgRate" column="HP_AVG_RATE"/>
 	  	<result property="hpReCount" column="HP_REVIEW"/>
 	  	<result property="hpComment" column="HP_COMMENT"/>
@@ -148,7 +146,7 @@
   
   <!-- 병원 기본 정보 select -->
   <select id="selectHpBasicInfo" parameterType="_int" resultMap="HpReviewResultSet">
-  	SELECT HP_NO, HP_NAME, HP_PHONE, HP_POSTCODE, HP_ADDRESS, HP_X, HP_Y, HP_AVG_RATE, HP_REVIEW, HP_COMMENT, HP_STATUS
+  	SELECT HP_NO, HP_NAME, HP_PHONE, HP_POSTCODE, HP_ADDRESS, HP_AVG_RATE, HP_REVIEW, HP_COMMENT, HP_STATUS
   	FROM HOSPITAL
   	WHERE HP_NO=#{hpNo}
   </select>
@@ -164,12 +162,21 @@
   </select>
   
   
+  <!-- 병원 Thumbnail select -->
+  <select id="selectHpThumbnail" parameterType="_int" resultType="string">
+  	SELECT DRHP_RENAME
+  	FROM DRHPPHOTO
+  	WHERE HP_NO=#{hpNo}
+  		AND PH_CODE=5
+  </select>
+  
   
   <!-- 병원 영업시간 select -->
   <select id="selectHpTime" parameterType="_int" resultMap="HpReviewResultSet3">
   	SELECT HP_UNIQUENO, HP_DAY, HP_OPEN_TIME, HP_CLOSE_TIME
   	FROM HPTIME
   	WHERE HP_UNIQUENO=#{hpNo}
+  	ORDER BY HPTIME_SEQNO
   </select>
   
   

@@ -163,7 +163,12 @@
 }
 </style>
 </head>
+<script type="text/javascript">
+ window.history.forward();
+ function noBack(){window.history.forward();}
+</script>
 <body>
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
 <%@ include file="../static/header.jsp"%>
 	<div class="limiter" id="login">
 		<div class="container-login100">
@@ -500,13 +505,14 @@
  				data:{hpNo: hp},
  				dataType:"json",
  				success:function(data){
+ 					
+ 					$('#hpCateCode').children('option').remove(); 
  					for(var i = 0; i < data.length; i++){
  					 var s1 = document.getElementById('hpCateCode');
  					 var s2 = document.createElement('option');
  					 s2.setAttribute('value',data[i].hpCateCode);
  					 s2.innerHTML = data[i].hpCateName;
- 					 s1.appendChild(s2);
- 						
+ 					 s1.appendChild(s2);		
  					}
  				},
  				error:function(request, status, errorData){

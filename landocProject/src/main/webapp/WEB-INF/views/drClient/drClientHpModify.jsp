@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-   <title>병원수정</title>
+   <title>의사회원 병원수정</title>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description" content="SolMusic HTML Template">
@@ -73,7 +73,12 @@
    .fileImg{border-radius: 5px; width :100%; height: 700px;  border: 1px solid black;}
 </style>
 </head>
+<script type="text/javascript">
+ window.history.forward();
+ function noBack(){window.history.forward();}
+</script>
 <body>
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
    <%@ include file="../static/header.jsp"%>
    <div class="limiter" id="login">
       <div class="container-login100">
@@ -165,16 +170,6 @@
                      </button>
                   </div>
                </div>
-               
-               <!-- <div class="text-center p-t-115" style="padding-top: 30px;">
-                  <span class="txt1">
-                     회원이라구요?
-                  </span>
-
-                  <a class="txt2" href="loginView.do">
-                     로그인
-                  </a>
-               </div> -->
             </form>
          </div>
       </div>
@@ -308,12 +303,6 @@
 	 }
 	 </script>
     
-   <!--  <script>
-    var a = "${drClientHp1.hpNo}";
-    $("#hpNo").val(a).prop("selected", true);
-    var b = "${drClientHp1.hpCateCode}";
-    $("#hpCateCode").val(b).prop("selected", true);
-    </script> -->
     <script>
 		 
 	 	$("#hpNo").change(function(){
@@ -323,6 +312,7 @@
  				data:{hpNo: hp},
  				dataType:"json",
  				success:function(data){
+ 					$('#hpCateCode').children('option').remove();
  					for(var i = 0; i < data.length; i++){
  					 var s1 = document.getElementById('hpCateCode');
  					 var s2 = document.createElement('option');
