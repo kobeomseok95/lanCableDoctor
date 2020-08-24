@@ -37,20 +37,15 @@ public class HpReviewController {
                         @RequestParam(value="page", required=false) Integer page,
                         @RequestParam(value="searchCondition", required=false) String condition,
                         @RequestParam(value="searchValue", required=false) String value,
-                        @RequestParam(value="msg", required=false) String msg)  {
-      
+                        @RequestParam(value="msg", required=false) String msg,
+                        @RequestParam(value="denied", required=false) String denied)   {
       
          try{
         	 int currentPage = 1;
         	 if(page != null) {
         		 currentPage = page;
         	 }
-        	 
-//      System.out.println("controller에서 currentPage : " + currentPage);
-//      System.out.println("controller에서 condition : " + condition);
-//      System.out.println("controller에서 value : " + value);
-        	 
-        	 
+ 
         	 SearchCondition sc = new SearchCondition();
         	 
         	 ArrayList<AdminHpReview> list = null;
@@ -107,6 +102,7 @@ public class HpReviewController {
         		 mv.addObject("condition",condition);
         		 mv.addObject("value",value);
         		 mv.addObject("msg",msg);
+        		 mv.addObject("denied", denied);
         		 mv.setViewName("admin/hospitalReview/hpReviewManage");
         	 }else{
         		 System.out.println("병원 리뷰 조회 실패!");
@@ -116,10 +112,7 @@ public class HpReviewController {
          }catch(NumberFormatException e) {
         	 e.printStackTrace();
          }
-      
-//      System.out.println("controller에서 리스트 : " + list);
       return mv;
-      
    }
    
    
@@ -129,15 +122,7 @@ public class HpReviewController {
                            @RequestParam("hpReNo") Integer hpReNo,
                            @RequestParam(value="page", required=false) Integer page,
                            @RequestParam(value="msg", required=false) String msg){
-      
-//      int currentPage = 1;
-//      
-//      if(page != null) {
-//         currentPage = page;
-//      }
-//      System.out.println("controller에서 hpReNo : " + hpReNo);
-      
-   
+ 
       adminHpRe = hpReService.selectHpReDetail(hpReNo);
       
       
@@ -162,8 +147,7 @@ public class HpReviewController {
 	   
 	   // 리뷰 승인하기
 	   int result =  hpReService.approvalHpRe(hpReNo);
-//	   System.out.println("controller에서 result : " + result);
-	   
+
 	   // 적립포인트 내역
 	   adminHpRePt.setHpReNo(hpReNo);
 	   adminHpRePt.setcNo(cNo);
@@ -204,6 +188,53 @@ public class HpReviewController {
 		  return "redirect:hpReviewDetail.do";	// 세부페이지로 이동
 	   
    }
+   
+   
+   // 리뷰 미승인 요청
+   @RequestMapping("reviewDenied.do")
+   public String reviewDenied(RedirectAttributes redirectAttributes, 
+		   				@RequestParam("hpReNo") Integer hpReNo) {
+	   
+	   int reviewDenied = hpReService.reviewDenied(hpReNo);
+	   String denied = "";
+	   
+	   if(reviewDenied>0) {
+		  denied = "ok"; 
+		  redirectAttributes.addAttribute("searchCondition", "noneCondition");
+		  redirectAttributes.addAttribute("searchValue", "noneValue");
+		  redirectAttributes.addAttribute("denied", denied);
+		  
+		  return "redirect:hpReList.do";	// 리스트 페이지로 이동
+	   }else {
+		   denied="영수증 승인에 실패했습니다.";
+		   redirectAttributes.addAttribute("denied",denied);
+		   redirectAttributes.addAttribute("hpReNo",hpReNo);
+			  
+		   return "redirect:hpReviewDetail.do";	// 세부페이지로 이동
+	   }
+	   
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
 }

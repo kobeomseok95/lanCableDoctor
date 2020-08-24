@@ -117,7 +117,7 @@
 
 			<div class="row mt-3" id="myQnaSub" style="display: none;">
 				<div class="btn w-100 py-3 pl-5 text-left" id="" style="border: 2px solid #9b9b9b; font-size: 21px;">
-					<a href="#" style="color: #45668e;">상품 QnA</a><br>
+					<a href="drProductQnaList.do" style="color: #45668e;">상품 QnA</a><br>
 					<a href="drOrderQnaList.do" style="color: #45668e;">주문 QnA</a><br>
 				</div>
 			</div>

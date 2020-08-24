@@ -69,9 +69,11 @@
         
                     
                     <div class="point-breadcrumb text-left">
-                        <a href="mypageWork.html" style="color:  #0071ce;letter-spacing: -0.5px; font-size: 20px;">
-                            	${hpName }
-                        </a>
+                    	<c:url var="mainHpReview" value="mainHpReviewDetail.do">
+	                     <c:param name="hpNo" value="${hpNo}"/>
+	                     <c:param name="hpName" value="${hpName }"/>
+	                  </c:url>
+	                     <a href="${mainHpReview}" style="color:  #0071ce;letter-spacing: -0.5px; font-size: 20px;"> ${hpName } </a>
                         >
                         <strong class="ml-2" style="font-size: 20px;">QnA</strong>
                     </div>

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 	String msg = request.getParameter("msg");
+	String denied = request.getParameter("denied");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -330,6 +331,10 @@
 			alert("영수증 승인과 회원 포인트 적립에 성공했습니다.");
 		<%}%>
 	
+		<%if(denied != null){%>
+			alert("리뷰 미승인 처리에 성공했습니다.");
+		<%}%>
+		
 	</script>
 
 

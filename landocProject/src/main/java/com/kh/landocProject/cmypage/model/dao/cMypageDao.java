@@ -17,6 +17,8 @@ import com.kh.landocProject.cmypage.model.vo.OrderList;
 import com.kh.landocProject.cmypage.model.vo.OrderQna;
 import com.kh.landocProject.cmypage.model.vo.PdReview;
 import com.kh.landocProject.member.model.vo.Client;
+import com.kh.landocProject.product.model.vo.ProductQna;
+import com.kh.landocProject.hospitalReview.model.vo.HpReview;
 
 @Repository("cmDao")
 public class cMypageDao {
@@ -213,6 +215,37 @@ public class cMypageDao {
 		RowBounds rowBounds = new RowBounds(offset, nonChoosePi.getBoardLimit());
 		return sqlSessionTemplate.selectList("askDr.getMyNonChooseList", cNo, rowBounds);
 
+	}
+
+	public int getHpReCount(String cNo) {
+		
+		return sqlSessionTemplate.selectOne("MainHpReviewMapper.getHpReCount", cNo);
+	}
+
+	public ArrayList<HpReview> getMyHpReList(String cNo, CMypagePageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSessionTemplate.selectList("MainHpReviewMapper.getMyHpReList", cNo, rowBounds);
+	}
+
+	public int getProductQnaAnswerCount(HashMap<String, String> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getProductQnaAnswerCount", param);
+	}
+
+	public int getProductQnaNonAnswerCount(HashMap<String, String> param) {
+		return sqlSessionTemplate.selectOne("productMapper.getProductQnaNonAnswerCount", param);
+	}
+
+	public List<ProductQna> getAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo answerPi) {
+		int offset = (answerPi.getCurrentPage() - 1) * answerPi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, answerPi.getBoardLimit());
+		return sqlSessionTemplate.selectList("productMapper.getAnswerProductQnaList", param, rowBounds);
+	}
+
+	public List<ProductQna> getNonAnswerProductQnaList(HashMap<String, String> param, CMypagePageInfo nonAnswerPi) {
+		int offset = (nonAnswerPi.getCurrentPage() - 1) * nonAnswerPi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, nonAnswerPi.getBoardLimit());
+		return sqlSessionTemplate.selectList("productMapper.getNonAnswerProductQnaList", param, rowBounds);
 	}
 
 

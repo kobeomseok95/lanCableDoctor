@@ -53,6 +53,8 @@ public class MainHpReviewController {
 	  searchHpName(HttpServletResponse response, @RequestParam(value="hpName")
 	  String hpName) throws JsonIOException, IOException {
 	 
+	  hpName = hpName.trim().replaceAll("\\p{Z}", "");
+		  
 	  ArrayList<SearchHp> searchHpList = MainHpReService.selectList(hpName);
 	  
 	  response.setContentType("applicateion/json;charset=utf-8");

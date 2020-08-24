@@ -17,6 +17,7 @@ public class HpReview implements Serializable{
    private String cNickName;
    private String cProfile;
    private int hpNo;
+   private String hpName;
    private int hpCateCode;
    private String hpReTitle;
    private String hpReContent;
@@ -38,16 +39,17 @@ public class HpReview implements Serializable{
    public HpReview() {
    }
 
-public HpReview(int rowNum, int hpReNo, String cNo, String cNickName, String cProfile, int hpNo, int hpCateCode,
-		String hpReTitle, String hpReContent, Date hpReDate, String like, double avgRate, double explanation,
-		double kindness, double waitingTime, double trResult, double sanitary, double price, String status,
-		double count, String originFile, String renameFile, String filePath) {
+public HpReview(int rowNum, int hpReNo, String cNo, String cNickName, String cProfile, int hpNo, String hpName,
+		int hpCateCode, String hpReTitle, String hpReContent, Date hpReDate, String like, double avgRate,
+		double explanation, double kindness, double waitingTime, double trResult, double sanitary, double price,
+		String status, double count, String originFile, String renameFile, String filePath) {
 	this.rowNum = rowNum;
 	this.hpReNo = hpReNo;
 	this.cNo = cNo;
 	this.cNickName = cNickName;
 	this.cProfile = cProfile;
 	this.hpNo = hpNo;
+	this.hpName = hpName;
 	this.hpCateCode = hpCateCode;
 	this.hpReTitle = hpReTitle;
 	this.hpReContent = hpReContent;
@@ -113,6 +115,14 @@ public int getHpNo() {
 
 public void setHpNo(int hpNo) {
 	this.hpNo = hpNo;
+}
+
+public String getHpName() {
+	return hpName;
+}
+
+public void setHpName(String hpName) {
+	this.hpName = hpName;
 }
 
 public int getHpCateCode() {
@@ -258,14 +268,14 @@ public static long getSerialversionuid() {
 @Override
 public String toString() {
 	return "HpReview [rowNum=" + rowNum + ", hpReNo=" + hpReNo + ", cNo=" + cNo + ", cNickName=" + cNickName
-			+ ", cProfile=" + cProfile + ", hpNo=" + hpNo + ", hpCateCode=" + hpCateCode + ", hpReTitle=" + hpReTitle
-			+ ", hpReContent=" + hpReContent + ", hpReDate=" + hpReDate + ", like=" + like + ", avgRate=" + avgRate
-			+ ", explanation=" + explanation + ", kindness=" + kindness + ", waitingTime=" + waitingTime + ", trResult="
-			+ trResult + ", sanitary=" + sanitary + ", price=" + price + ", status=" + status + ", count=" + count
-			+ ", originFile=" + originFile + ", renameFile=" + renameFile + ", filePath=" + filePath + "]";
+			+ ", cProfile=" + cProfile + ", hpNo=" + hpNo + ", hpName=" + hpName + ", hpCateCode=" + hpCateCode
+			+ ", hpReTitle=" + hpReTitle + ", hpReContent=" + hpReContent + ", hpReDate=" + hpReDate + ", like=" + like
+			+ ", avgRate=" + avgRate + ", explanation=" + explanation + ", kindness=" + kindness + ", waitingTime="
+			+ waitingTime + ", trResult=" + trResult + ", sanitary=" + sanitary + ", price=" + price + ", status="
+			+ status + ", count=" + count + ", originFile=" + originFile + ", renameFile=" + renameFile + ", filePath="
+			+ filePath + "]";
 }
 
-
-
+   
 	   
 	}

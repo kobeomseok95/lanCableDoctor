@@ -396,7 +396,6 @@ public class MainHpController {
 											Hospital h,
 											Applicant a) {
 		h.setAddress(h.getAddress() + " " + address2);
-		
 		int insertHospital = mainHpService.insertHospital(h);
 		
 		List<Integer> list = Arrays.stream(h.getCategoryCode()).boxed().collect(Collectors.toList());
@@ -472,6 +471,7 @@ public class MainHpController {
 	
 	private boolean getSequenceNo(Hospital h, Applicant a) {
 		int hospitalSeq = mainHpService.getHospitalSeq(h);
+		a.setHpNo(hospitalSeq);
 		int applicantSeq = mainHpService.getApplicantSeq(a);
 		
 		if(hospitalSeq != 0 && applicantSeq != 0) {

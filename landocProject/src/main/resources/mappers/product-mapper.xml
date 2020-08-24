@@ -660,6 +660,78 @@
 		WHERE PD_NO= #{pdNo}
 		AND DR_NO = #{drNo}
 	</select>
+
+	<select id="getProductQnaAnswerCount" parameterType="hashMap" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCTQNA
+		WHERE PDQ_ANSWERSTATUS = 'Y'
+		<if test='type != null and !type.equals("") and type.equals("Client")'>
+			AND C_NO = #{no}
+		</if>
+		<if test='type != null and !type.equals("") and type.equals("DrClient")'>
+			AND DR_NO = #{no}
+		</if>
+	</select>
+
+	<select id="getProductQnaNonAnswerCount" parameterType="hashMap" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCTQNA
+		WHERE PDQ_ANSWERSTATUS = 'N'
+		<if test='type != null and !type.equals("") and type.equals("Client")'>
+			AND C_NO = #{no}
+		</if>
+		<if test='type != null and !type.equals("") and type.equals("DrClient")'>
+			AND DR_NO = #{no}
+		</if>
+	</select>
+
+	<select id="getAnswerProductQnaList" parameterType="hashMap" resultMap="productQnas">
+		SELECT 
+		    ROWNUM AS RNO, A.*
+		FROM
+		    (SELECT
+		        A.PDQ_TITLE, A.PDQ_SUBMITDATE, A.PDQ_CONTENT, A.PDQ_ANSWERCONTENT,
+		        B.PD_NO, B.PD_NAME
+		    FROM
+		        PRODUCTQNA A
+		        JOIN PRODUCT B ON A.PD_NO = B.PD_NO
+		    WHERE
+		        A.PDQ_ANSWERSTATUS = 'Y'
+			<if test='type != null and !type.equals("") and type.equals("Client")'>
+				AND C_NO = #{no}
+			</if>
+			<if test='type != null and !type.equals("") and type.equals("DrClient")'>
+				AND DR_NO = #{no}
+			</if>
+		    ORDER BY
+		    	A.PDQ_SUBMITDATE DESC
+		    ) A	
+	</select>
+
+	<select id="getNonAnswerProductQnaList" parameterType="hashMap" resultMap="productQnas">
+		SELECT 
+		    ROWNUM AS RNO, A.*
+		FROM
+		    (SELECT
+		        A.PDQ_TITLE, A.PDQ_SUBMITDATE, A.PDQ_CONTENT, 
+		        B.PD_NO, B.PD_NAME
+		    FROM
+		        PRODUCTQNA A
+		        JOIN PRODUCT B ON A.PD_NO = B.PD_NO
+		    WHERE
+		        A.PDQ_ANSWERSTATUS = 'N'
+			<if test='type != null and !type.equals("") and type.equals("Client")'>
+				AND C_NO = #{no}
+			</if>
+			<if test='type != null and !type.equals("") and type.equals("DrClient")'>
+				AND DR_NO = #{no}
+			</if>
+		    ORDER BY
+		    	A.PDQ_SUBMITDATE DESC
+		    ) A	
+	</select>
+
+
 </mapper>
 
 

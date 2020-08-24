@@ -68,7 +68,7 @@
            </c:if>
            
             <button onclick="searchHp();">검색하기</button>
-            <button type="button">신규 병원 등록</button>
+            <!-- <button type="button">신규 병원 등록</button> -->
         </div>
 		
 		<script>

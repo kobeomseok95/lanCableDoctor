@@ -342,6 +342,7 @@
   		HP_NAME = #{hpName}
   		AND HP_PHONE = #{hpPhone}
   		AND HP_POSTCODE = #{postCode}
+  		AND HP_APPROVAL = 'N'
   </select>
 
   <select id="getApplicantSeq" parameterType="Applicant" resultType="_int">
@@ -349,7 +350,9 @@
   	FROM APPLICANT
   	WHERE
   		ANAME = #{applicantName}
-  		AND  APHONE = #{applicantPhone}
+  		AND APHONE = #{applicantPhone}
+  		AND AEMAIL = #{applicantEmail}
+  		AND HP_NO = #{hpNo}
   </select>
   
   <insert id="insertHospitalFiles" parameterType="Hospital">

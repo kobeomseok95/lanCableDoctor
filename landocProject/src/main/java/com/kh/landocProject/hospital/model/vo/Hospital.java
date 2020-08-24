@@ -1,10 +1,17 @@
 package com.kh.landocProject.hospital.model.vo;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class Hospital {
+public class Hospital implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4345877759903350424L;
+	private int rNo;
 	private int hpNo;
 	private String hpName;
 	private String hpPhone;
@@ -17,13 +24,18 @@ public class Hospital {
 	private String brFileName;
 	private String idFileName;
 	private String dlFileName;
+	private Applicant applicant;
+	private List<HospitalCategories> categories;
+	private List<SubmitImgs> submitImgs;
 	
 	public Hospital() {
 	}
 
-	public Hospital(int hpNo, String hpName, String hpPhone, String postCode, String address, int[] categoryCode,
-			MultipartFile businessRegistration, MultipartFile identifyDocument, MultipartFile drLicense,
-			String brFileName, String idFileName, String dlFileName) {
+	public Hospital(int rNo, int hpNo, String hpName, String hpPhone, String postCode, String address,
+			int[] categoryCode, MultipartFile businessRegistration, MultipartFile identifyDocument,
+			MultipartFile drLicense, String brFileName, String idFileName, String dlFileName, Applicant applicant,
+			List<HospitalCategories> categories, List<SubmitImgs> submitImgs) {
+		this.rNo = rNo;
 		this.hpNo = hpNo;
 		this.hpName = hpName;
 		this.hpPhone = hpPhone;
@@ -36,6 +48,17 @@ public class Hospital {
 		this.brFileName = brFileName;
 		this.idFileName = idFileName;
 		this.dlFileName = dlFileName;
+		this.applicant = applicant;
+		this.categories = categories;
+		this.submitImgs = submitImgs;
+	}
+
+	public int getrNo() {
+		return rNo;
+	}
+
+	public void setrNo(int rNo) {
+		this.rNo = rNo;
 	}
 
 	public int getHpNo() {
@@ -85,49 +108,90 @@ public class Hospital {
 	public void setCategoryCode(int[] categoryCode) {
 		this.categoryCode = categoryCode;
 	}
+
 	public MultipartFile getBusinessRegistration() {
 		return businessRegistration;
 	}
+
 	public void setBusinessRegistration(MultipartFile businessRegistration) {
 		this.businessRegistration = businessRegistration;
 	}
+
 	public MultipartFile getIdentifyDocument() {
 		return identifyDocument;
 	}
+
 	public void setIdentifyDocument(MultipartFile identifyDocument) {
 		this.identifyDocument = identifyDocument;
 	}
+
 	public MultipartFile getDrLicense() {
 		return drLicense;
 	}
+
 	public void setDrLicense(MultipartFile drLicense) {
 		this.drLicense = drLicense;
 	}
+
 	public String getBrFileName() {
 		return brFileName;
 	}
+
 	public void setBrFileName(String brFileName) {
 		this.brFileName = brFileName;
 	}
+
 	public String getIdFileName() {
 		return idFileName;
 	}
+
 	public void setIdFileName(String idFileName) {
 		this.idFileName = idFileName;
 	}
+
 	public String getDlFileName() {
 		return dlFileName;
 	}
+
 	public void setDlFileName(String dlFileName) {
 		this.dlFileName = dlFileName;
 	}
 
+	public Applicant getApplicant() {
+		return applicant;
+	}
+
+	public void setApplicant(Applicant applicant) {
+		this.applicant = applicant;
+	}
+
+	public List<HospitalCategories> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<HospitalCategories> categories) {
+		this.categories = categories;
+	}
+
+	public List<SubmitImgs> getSubmitImgs() {
+		return submitImgs;
+	}
+
+	public void setSubmitImgs(List<SubmitImgs> submitImgs) {
+		this.submitImgs = submitImgs;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
-		return "Hospital [hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", postCode=" + postCode
-				+ ", address=" + address + ", categoryCode=" + Arrays.toString(categoryCode) + ", businessRegistration="
-				+ businessRegistration + ", identifyDocument=" + identifyDocument + ", drLicense=" + drLicense
-				+ ", brFileName=" + brFileName + ", idFileName=" + idFileName + ", dlFileName=" + dlFileName + "]";
+		return "Hospital [rNo=" + rNo + ", hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", postCode="
+				+ postCode + ", address=" + address + ", categoryCode=" + Arrays.toString(categoryCode)
+				+ ", businessRegistration=" + businessRegistration + ", identifyDocument=" + identifyDocument
+				+ ", drLicense=" + drLicense + ", brFileName=" + brFileName + ", idFileName=" + idFileName
+				+ ", dlFileName=" + dlFileName + ", applicant=" + applicant + ", categories=" + categories
+				+ ", submitImgs=" + submitImgs + "]";
 	}
-	
 }

@@ -1,6 +1,7 @@
 package com.kh.landocProject.admin.hospital.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.landocProject.admin.hospital.model.vo.AdminHpSearchCondition;
 import com.kh.landocProject.admin.hospitalReview.model.vo.PageInfo;
+import com.kh.landocProject.hospital.model.vo.Hospital;
 import com.kh.landocProject.hospital.model.vo.HpTime;
 import com.kh.landocProject.hospital.model.vo.MainHp;
 
@@ -105,6 +107,28 @@ public class HospitalDao {
 	public int updateDenied(Integer hpNo) {
 		
 		return sqlSessionTemplate.update("adminHpMapper.updateDenied", hpNo);
+	}
+
+	public int getNonApprovalHospitalCounts() {
+		return sqlSessionTemplate.selectOne("adminHpMapper.getNonApprovalHospitalCounts");
+	}
+
+	public List<Hospital> getNonApprovalHospitals(PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getBoardLimit());
+		return sqlSessionTemplate.selectList("adminHpMapper.getNonApprovalHospitals", null, rowBounds);
+	}
+
+	public Hospital getNonApprovalHospitalDetail(int hpNo) {
+		return sqlSessionTemplate.selectOne("adminHpMapper.getNonApprovalHospitalDetail", hpNo);
+	}
+
+	public int approveHospital(int hpNo) {
+		return sqlSessionTemplate.update("adminHpMapper.approveHospital", hpNo);
+	}
+
+	public int rejectHospital(int hpNo) {
+		return sqlSessionTemplate.delete("adminHpMapper.rejectHospital", hpNo);
 	}
 
 }

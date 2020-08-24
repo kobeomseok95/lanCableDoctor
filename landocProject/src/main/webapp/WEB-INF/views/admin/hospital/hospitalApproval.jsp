@@ -35,7 +35,7 @@
    <jsp:include page="../../common/adminSide.jsp"/>
 
     <!--여기서 부터 왼쪽 영역 contentArea-->
-    <form action="#" method="post">
+    <form action="basicInfoApproved.do" method="post">
         <div id="contentArea">
             <h3>병원 기본 정보 승인</h3>
 
@@ -44,7 +44,7 @@
             <table id="contentTb">
                 <tr>
                     <th class="firstLine">병원 번호</th>
-                    <td><input type="number" name="hpNo" value="${hp.hpNo }" readonly></td>
+                    <td><input type="number" name="hpNo" value="${hp.hpNo }" id="hpNo" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">병원 이름</th>
@@ -64,7 +64,10 @@
                 </tr> 
                 <tr>
                     <th class="firstLine">승인 상태</th>
-                    <td><input type="text" name="hpStatus" id="approval" value="${hp.hpStatus }" readonly></td>
+                    <c:if test="${hp.hpStatus eq 'H' }">
+                    <td><input type="text" name="hpStatus" id="approval" value="승인 대기중" readonly></td>
+                    </c:if>
+                    
                 </tr>   
                 <tr>
            			<th class="firstLine">재직증명서 및 사업자 등록증</th>
@@ -100,7 +103,7 @@
             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
             	<button type="submit" id="approval">승인 하기</button>
-            	<button type="submit" id="denied">미승인 요청</button>
+            	<button type="button" id="denied" onclick="hpInfoDenied();">미승인 요청</button>
                 <button type="button" onclick="goBack();">뒤로가기</button>
             </div>
 
@@ -114,19 +117,28 @@
 
 
     <script>
-    	$("#approval").click(function(){
+    /* 	$("#approval").click(function(){
     		$("form").attr("action", "basicInfoApproved.do");
     		
-    	})
+    	}) */
     	
-    	$("#denied").click(function(){
+    	function hpInfoDenied(){
+    		var hpNo = $("#hpNo").val();
+    		location.href="denied.do?hpNo=" + hpNo;
+   		 }
+    	
+    	
+    	/* $("#denied").click(function(){
     		$("form").attr("action", "denied.do");
     		
     	})
-    
+     */
     
         function goBack(){
-        	 location.href="javascript:history.go(-1)";
+    		var page = 1;
+    		var searchCondition = 'noneCondition';
+    		var searchValue = 'noneValue';
+        	 location.href="hpList.do?searchCondition=" + searchCondition + "&searchValue=" + searchValue;
         }
         
         
