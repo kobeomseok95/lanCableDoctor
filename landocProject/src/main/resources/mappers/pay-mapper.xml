@@ -27,7 +27,6 @@
 		<result property="originPrice" column="ORIGIN_PRICE"/>
 		<result property="discount" column="DISCOUNT"/>
 		<result property="sellPrice" column="SELL_PRICE"/>
-		<!-- <result property="thumbnail" column="THUMBNAIL"/> -->
 		<result property="ctCode" column="CT_CODE"/>
 		<result property="pdpRename" column="PDP_RENAME"/>
 	</resultMap>

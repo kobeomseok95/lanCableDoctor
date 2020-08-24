@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>일반 회원정보</title>
+<title>의사 회원정보</title>
 <meta charset="UTF-8">
 <meta name="description" content="SolMusic HTML Template">
 <meta name="keywords" content="music, html">
@@ -65,16 +65,16 @@
 }
 /* .tableForm td{border-bottom: 1px solid black; border-top: 1px solid black; } */
 .title {
-	background-color: lightgray;
+	background-color: #e9e9e9;
 	width: 200px;
-	border-bottom: 1px solid black;
-	border-top: 1px solid black;
+	border-bottom: 1px solid lightgray;
+	border-top: 1px solid lightgray;
 	text-align:center;
 }
 
 .title1 {
 	width: 400px !important;
-	border-top: 1px solid black;
+	border-top: 1px solid lightgray;
 }
 
 .modibtn {
@@ -104,27 +104,29 @@
 }
 
 .modiInput {
-	border-bottom: 1px solid black;
-	border-top: 1px solid black;
+	border-bottom: 1px solid lightgray;
+	border-top: 1px solid lightgray;
 }
 
 #subBtn {
 	background-color: #007ee5;
-	border-radius: 3px;
+	border-radius: 5px;
 	border: 0px;
 	color: white;
-	height:30px;
-	width: 110px;
+	height:40px;
+	width: 120px;
+	padding-top:6px;
 	display:inline-block;
 }
 
 #noBtn {
-	background-color: lightgray;
-	border-radius: 3px;
+	background-color: #e9e9e9;
+	border-radius: 5px;
 	border: 0px;
-	height: 30px;
-	color: white;
-	width: 110px;
+	height: 40px;
+	color:	black;
+	width: 120px;
+	padding-top:6px;
 	display:inline-block;
 }
 
@@ -155,7 +157,7 @@ input[type="file"] {
 	<div class="container">
 		<div class="p-4" style="width: 1000px; display: inline-block;">
 			<div class="titleName">
-				<h4 style="float: left;">나의 회원 정보</h4>
+				<h4 style="float: left; font-size:30px;">나의 회원 정보</h4>
 			</div>
 			<form  action="updateDrClient.do?drNo=${loginDrClient2.drNo }" method="post" enctype="multipart/form-data">
 				<div class="myTable">
@@ -213,7 +215,7 @@ input[type="file"] {
 				 			<c:param name="drNo" value="${loginDrClient2.drNo }"/>
 				 			<%-- <c:param name="hpNo" value="${loginDrClient2.hpNo }"/> --%>
 				 		</c:url>
-						<span style="color:lightgrey">(이직하신 경우 or 미승인 시)</span><a id="subBtn" href="${DrClientHpUpdateView }">병원 수정하기</a>
+						<span style="color:lightgrey; margin-right:10px">(이직하신 경우 or 미승인 시)</span><a id="subBtn" href="${DrClientHpUpdateView }">병원 수정하기</a>
 						<c:url var="DrClientDelete" value="DrClientDelete.do">
 				 			<c:param name="drNo" value="${loginDrClient2.drNo }"/>
 				 			<c:param name="status" value="${loginDrClient2.status }"/>

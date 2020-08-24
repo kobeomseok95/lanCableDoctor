@@ -211,7 +211,9 @@ public class mainProductController {
 	}
 
 	@RequestMapping(value = "recommandView.do")
-	public ModelAndView recommandView(ModelAndView mv, @RequestParam int categoryNo, HttpSession session) {
+	public ModelAndView recommandView(ModelAndView mv,
+			@RequestParam int categoryNo, HttpSession session) {
+		
 		DrClient loginDrClient = (DrClient) session.getAttribute("loginDrClient");
 		String drNo = loginDrClient.getDrNo();
 
@@ -219,8 +221,6 @@ public class mainProductController {
 		param.put("categoryNo", categoryNo);
 
 		List<Product> proReco = productServiceImpl.proRecommand(param);
-
-		System.out.println("proReco : " + proReco);
 
 		if (proReco != null) {
 			mv.addObject("proReco", proReco);
@@ -234,11 +234,13 @@ public class mainProductController {
 	}
 	
 	@RequestMapping(value = "recommand.do")
-	public ModelAndView recommand(ModelAndView mv, @RequestParam("drNo") List<String> drNo, @RequestParam("drNo") String drNo1,
-													@RequestParam("pdNo") List<Integer> pdNo, @RequestParam("drComment") List<String> drComment) {
+	public ModelAndView recommand(ModelAndView mv, @RequestParam("drNo") List<String> drNo,
+			@RequestParam("drNo") String drNo1, @RequestParam("pdNo") List<Integer> pdNo,
+			@RequestParam("drComment") List<String> drComment) {
 		
 		int result = 0;
 		int update = 0;
+		
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		HashMap<String, Object> reco = null;
 
@@ -256,6 +258,7 @@ public class mainProductController {
 		if (result > 0) {
 			update = productServiceImpl.recoUpdate(list);
 			mv.setViewName("mypage/dMyPageWork");
+			
 			return mv;
 		}
 
@@ -263,11 +266,8 @@ public class mainProductController {
 	}
 	// 상품 추천 중복
 		@RequestMapping("dupPdNo.do")
-		public void emailDuplicateCheck(HttpServletResponse response, Integer pdNo, String drNo, DrComment dc) throws IOException {
-			System.out.println("mainMemberController.java test line 1300");
-			System.out.println(pdNo);
-			System.out.println(drNo);
-			System.out.println(dc);
+		public void emailDuplicateCheck(HttpServletResponse response, Integer pdNo,
+				String drNo, DrComment dc) throws IOException {
 			
 			boolean isUsable = productServiceImpl.checkPdNoDup(dc) == 0 ? true : false;
 			

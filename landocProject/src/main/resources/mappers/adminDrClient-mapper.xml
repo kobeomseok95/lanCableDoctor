@@ -92,10 +92,10 @@
   	FROM DRCLIENT D
   	LEFT JOIN HOSPITAL HP ON(D.HP_NO = HP.HP_NO)
   	LEFT JOIN HPCATEGORY HPC ON(D.HPCATE_CODE = HPC.HPCATE_CODE)
-  	LEFT JOIN DRHPPHOTO DRHP ON(D.DR_NO = DRHP.DR_NO)
+<!--   	LEFT JOIN DRHPPHOTO DRHP ON(D.DR_NO = DRHP.DR_NO) -->
   	LEFT JOIN PROFILEPHOTO PRO ON(D.DR_NO = PRO.DR_NO)
   	WHERE D.DR_NO = #{drNo}
-  				AND PH_CODE = 1
+  				<!-- AND PH_CODE = 1 -->
   </select> 
   
   <select id="selectDrClientDetail" parameterType="string" resultMap="drClientResultSet">
@@ -117,4 +117,5 @@
   	SET DR_APPROVAL = 'X'
   	WHERE DR_NO = #{drNo}
   </update>
+  
 </mapper>

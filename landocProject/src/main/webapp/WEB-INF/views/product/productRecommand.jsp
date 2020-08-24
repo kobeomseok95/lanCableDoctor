@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-<title>SolMusic | HTML Template</title>
+<title>의사 추천 영양제</title>
 <meta charset="UTF-8">
 <meta name="description" content="SolMusic HTML Template">
 <meta name="keywords" content="music, html">
@@ -160,7 +160,12 @@
 }
 </style>
 </head>
+<script type="text/javascript">
+ window.history.forward();
+ function noBack(){window.history.forward();}
+</script>
 <body>
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
