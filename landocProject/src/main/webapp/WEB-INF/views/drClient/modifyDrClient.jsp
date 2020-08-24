@@ -159,7 +159,7 @@ input[type="file"] {
 			<div class="titleName">
 				<h4 style="float: left; font-size:30px;">나의 회원 정보</h4>
 			</div>
-			<form  action="updateDrClient.do?drNo=${loginDrClient2.drNo }" method="post" enctype="multipart/form-data">
+			<form  action="updateDrClient.do?drNo=${loginDrClient2.drNo }" method="post" enctype="multipart/form-data" id="modi">
 				<div class="myTable">
 					<table class="tableForm">
 
@@ -224,7 +224,7 @@ input[type="file"] {
 					</div>
 					<div style="text-align: center; padding-top: 100px;">
 						<button value="수정하기"
-							style="width: 400px; background-color: #007ee5; color: white; border-radius: 5px; border: 0px; height: 50px;">수정하기</button>
+							style="width: 400px; background-color: #007ee5; color: white; border-radius: 5px; border: 0px; height: 50px;" onclick="validate();">수정하기</button>
 					</div>
 
 				</div>
@@ -279,32 +279,45 @@ input[type="file"] {
 	
 	<%}%>
 		
-		 $("#phone").change(function(){
-             var value = $("#phone").val();
-             var reg = /^[0-9]{11}$/;
-             if(!reg.test(value)){
-                 alert("-를 제외한 숫자 11개");
-                 $("#phone").focus().val('');
-             }
-         });
-		 
-		 $("#email").change(function(){
-             var value = $("#email").val();
-             var reg = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
-             if(!reg.test(value)){
-                 alert("이메일 형식으로 작성해주세요");
-                 $("#email").focus().val('');
-             }
-         });
-	
-		 $("#birth").change(function(){
-             var value = $("#birth").val();
-             var reg = /^[0-9]{6}$/;
-             if(!reg.test(value)){
-                 alert("주민번호 6자리");
-                 $("#birth").focus().val('');
-             }
-         });
+	 function validate(){
+			
+         var value1 = $("#nickName").val();
+         var reg1 = /^[a-zA-Z0-9가-힣ㄱ-ㅎ]{4,20}$/;
+         var value2 = $("#phone").val();
+         var reg2 = /^[0-9]{11}$/;
+         var value3 = $("#email").val();
+         var reg3 = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
+         var value4 = $("#birth").val();
+         var reg4 = /^[0-9]{6}$/;
+         
+         if(!reg1.test(value1)){
+             alert("영문자와 숫자로 4글자 이상 20글자 이하여야 합니다.");
+             $("#nickName").focus().val('');
+             return false;
+         }else if(!reg2.test(value2)){
+             alert("-를 제외한 숫자 11개");
+             $("#phone").focus().val('');
+             return false;
+         }else if(!reg3.test(value3)){
+             alert("이메일 형식으로 작성해주세요");
+             $("#email").focus().val('');
+             return false;
+         }else if(!reg4.test(value4)){
+             alert("주민번호 6자리");
+             $("#birth").focus().val('');
+             return false;
+         }else{
+        	 $("#modi").submit();
+         }
+     
+         
+ 
+        
+  
+         
+         
+  
+}
 	</script>
 	
 	
