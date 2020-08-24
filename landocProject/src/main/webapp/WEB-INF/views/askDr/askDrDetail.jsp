@@ -422,8 +422,6 @@
 			}
 			
 			function selectReplyList(list){
-				console.log("***Test line 424***");
-				console.log(list);
 				var $replyCountArea = $("#replyCountArea");
 				$replyCountArea.html('');
 				var $divClassOne = $("<div class='form-group form-inline'></div>");
