@@ -372,7 +372,7 @@ public class MainAskDrController {
 										int bNo) throws JsonIOException, IOException {
 		List<AskDrReply> replys = askDrServiceImpl.selectAskDrBoardDetailReply( bNo );
 		
-		response.setContentType("application/json;charset=utf-8");	//
+		response.setContentType("application/json;charset=utf-8");	
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(replys, response.getWriter());
 //		void에서 replys를 반환하였다.

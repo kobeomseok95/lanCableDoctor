@@ -285,7 +285,7 @@
 						<div class="checkBox">
 							<input type="checkbox" id="check1" class="infoBox"><a href="agree1View.do">서비스 이용 약관</a><a>및</a><a href="agree2View.do">개인정보 취급 방침</a><a>(필수)</a><br>
 							<input type="checkbox" id="check2" class="infoBox"><a href="agree3View.do">위치기반 서비스 이용 약관</a><a>(필수)</a><br>
-							<input type="checkbox" id="check3" name="check3" value="Y" class="infoBox"><a>마케팅 정보수신 동의 (선택)</a>
+							<input type="checkbox" id="check3" name="checkMarketing" value="Y" class="infoBox"><a>마케팅 정보수신 동의 (선택)</a>
 						</div>
 					</div>
 

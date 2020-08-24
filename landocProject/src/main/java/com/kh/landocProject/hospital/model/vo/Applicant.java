@@ -13,25 +13,20 @@ public class Applicant implements Serializable {
 	private String applicantName;
 	private String applicantEmail;
 	private String applicantPhone;
-	private List<String> checkService;
-	
+	private String checkMarketing;
 	
 	public Applicant() {
 	}
-	
-	
 
 	public Applicant(int aNo, int hpNo, String applicantName, String applicantEmail, String applicantPhone,
-			List<String> checkService) {
+			String checkMarketing) {
 		this.aNo = aNo;
-		this.setHpNo(hpNo);
+		this.hpNo = hpNo;
 		this.applicantName = applicantName;
 		this.applicantEmail = applicantEmail;
 		this.applicantPhone = applicantPhone;
-		this.checkService = checkService;
+		this.checkMarketing = checkMarketing;
 	}
-
-
 
 	public int getaNo() {
 		return aNo;
@@ -39,6 +34,14 @@ public class Applicant implements Serializable {
 
 	public void setaNo(int aNo) {
 		this.aNo = aNo;
+	}
+
+	public int getHpNo() {
+		return hpNo;
+	}
+
+	public void setHpNo(int hpNo) {
+		this.hpNo = hpNo;
 	}
 
 	public String getApplicantName() {
@@ -65,25 +68,22 @@ public class Applicant implements Serializable {
 		this.applicantPhone = applicantPhone;
 	}
 
-	public List<String> getCheckService() {
-		return checkService;
+	public String getCheckMarketing() {
+		return checkMarketing;
 	}
 
-	public void setCheckService(List<String> checkService) {
-		this.checkService = checkService;
+	public void setCheckMarketing(String checkMarketing) {
+		this.checkMarketing = checkMarketing;
 	}
 
-	public int getHpNo() {
-		return hpNo;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
-	public void setHpNo(int hpNo) {
-		this.hpNo = hpNo;
-	}
+
 	@Override
 	public String toString() {
 		return "Applicant [aNo=" + aNo + ", hpNo=" + hpNo + ", applicantName=" + applicantName + ", applicantEmail="
-				+ applicantEmail + ", applicantPhone=" + applicantPhone + ", checkService=" + checkService + "]";
+				+ applicantEmail + ", applicantPhone=" + applicantPhone + ", checkMarketing=" + checkMarketing + "]";
 	}
 
-	
 }
