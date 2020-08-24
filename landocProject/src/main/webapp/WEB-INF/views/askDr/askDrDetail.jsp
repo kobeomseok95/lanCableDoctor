@@ -314,39 +314,47 @@
 				$updateForm.submit();
 			});
 		
-			$("#chooseComplete").on("click", function(){
-				if(confirm("해당 답변을 채택하시겠습니까?")){
-		        	var bNo = $("#AskDrBoardNo").val();
-					var adrNo = $('input[name="chooseAnswer"]:checked').val();
-					var cNo = "${loginClient.cNo}";
-					var drNo = $('input[name="chooseAnswer"]:checked').prev().val();
-					
-					$.ajax({
-						type : 'POST',
-						data : {
-							bNo : bNo,
-							adrNo : adrNo,
-							cNo : cNo,
-							drNo : drNo
-						},
-						url : 'chooseAnswer.do',
-						error:function(request, status, errorData){
-		                    alert("error code: " + request.status + "\n"
-		                            +"message: " + request.responseText
-		                            +"error: " + errorData);
-		               	},           
-					    success: function(data) {
-					    	if(data === "success"){
-					    		alert("채택 완료되었습니다. 회원님과 답변이 채택된 의원님께 50포인트 지급되었습니다.");
-					    		getReplyList();
-					    	}
-						}
-					});
-		        }
-		        else{
-		        	return false;
-		        }
-			});
+			$(document).on("click", '#chooseComplete', function(){
+				if( $("#replyTable tbody tr").length === 1 && $('input[name="chooseAnswer"]').length === 0){
+					alert("아직 답변이 없습니다.");
+				}
+				else if($('input[name="chooseAnswer"]:checked').length === 0 ){
+					alert("채택할 답변을 선택해주세요!");
+				}
+				else{
+					if(confirm("해당 답변을 채택하시겠습니까?")){
+			        	var bNo = $("#AskDrBoardNo").val();
+						var adrNo = $('input[name="chooseAnswer"]:checked').val();
+						var cNo = "${loginClient.cNo}";
+						var drNo = $('input[name="chooseAnswer"]:checked').prev().val();
+						
+						$.ajax({
+							type : 'POST',
+							data : {
+								bNo : bNo,
+								adrNo : adrNo,
+								cNo : cNo,
+								drNo : drNo
+							},
+							url : 'chooseAnswer.do',
+							error:function(request, status, errorData){
+			                    alert("error code: " + request.status + "\n"
+			                            +"message: " + request.responseText
+			                            +"error: " + errorData);
+			               	},           
+						    success: function(data) {
+						    	if(data === "success"){
+						    		alert("채택 완료되었습니다. 회원님과 답변이 채택된 의원님께 50포인트 지급되었습니다.");
+						    		getReplyList();
+						    	}
+							}
+						});
+			        }
+			        else{
+			        	return false;
+			        }	
+				}
+			});  /*end of chooseComplete*/
 			
 			$(document).on("click", "#insertReply", function(){
 				var drArray = new Array();
