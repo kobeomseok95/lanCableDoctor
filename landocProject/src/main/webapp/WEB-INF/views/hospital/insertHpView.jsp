@@ -280,21 +280,12 @@
 						<span class="focus-input100" data-placeholder="등록 신청자 연락처('-' 제외)"></span>
 					</div>
 
-					<div>
+					<div class="list_agree">
 						<label><input type="checkbox" id="checkAll" class="infoBox">전체동의</label><br>
 						<div class="checkBox">
-							<input type="checkbox" id="check1" name="checkService" value="one"  
-							class="infoBox">
-							<a href="agree1View.do">서비스 이용 약관</a><a>및</a>
-							<a href="agree2View.do">개인정보 취급 방침</a><a>(필수)</a>
-							<br> 
-							<input type="checkbox" id="check2" name="checkService" value="two" 
-							class="infoBox">
-							<a href="agree3View.do">위치기반 서비스 이용 약관</a><a>(필수)</a>
-							<br>
-							<input type="checkbox" id="check3" name="checkService" value="three" 
-							class="infoBox">
-							<a>마케팅 정보수신 동의 (선택)</a>
+							<input type="checkbox" id="check1" class="infoBox"><a href="agree1View.do">서비스 이용 약관</a><a>및</a><a href="agree2View.do">개인정보 취급 방침</a><a>(필수)</a><br>
+							<input type="checkbox" id="check2" class="infoBox"><a href="agree3View.do">위치기반 서비스 이용 약관</a><a>(필수)</a><br>
+							<input type="checkbox" id="check3" name="check3" value="Y" class="infoBox"><a>마케팅 정보수신 동의 (선택)</a>
 						</div>
 					</div>
 
@@ -353,43 +344,38 @@
 	$(function(){
 	   $("#postcodify_search_button").postcodifyPopUp();
 	  
-		$("#hpCommit").on('click', function(){
-			if( $('input[name="postCode"]').val() === "" ||
-				$('input[name="address"]').val() === "" ||
-				$('input[name="address2"]').val() === "")	{
-				alert("병원 주소를 입력해주세요!");
-				return false;
-			}
-			
-			if( $('input[name="categoryCode"]:checked').length < 0 ){
-				alert("진료과목을 최소 한 가지 이상 선택해주세요!");
-				return false;
-			}
-		 	
-			if( $('input[name="hpName"]').val()==="" ){
-				alert("병원 이름을 입력해주세요!");
-				return false;
-			}
-
-			if( $('input[name="applicantName"]').val()==="" ){
-				alert("병원 등록 신청자 성함을 입력해주세요!");
-				return false;
-			}
-			
-			if( $('input[name="applicantEmail"]').val()==="" ){
-				alert("병원 등록 신청자 이메일을 입력해주세요!");
-				return false;
-			}
-			
-			if( $('input[name="applicantPhone"]').val()==="" ){
-				alert("병원 등록 신청자 전화번호를 입력해주세요!");
-				return false;
-			}
-			
-			$('form').submit();
-		});
 	});
 	
 	</script>
+	<script>
+	 $(function(){
+
+			//기존 선택된 데이터 받아온다면 설정 
+			setCheckAll();
+		  
+		  //전체 체크박스 선택 시 
+		  $('#checkAll').on('change', function () {
+		  	$(this).parents('.list_agree').find('input:checkbox').prop('checked', $(this).prop('checked'));
+		  });
+		  
+		  //전체 외 체크박스 선택 시
+		  $('.list_agree').find('input:checkbox').not('#checkAll').on('change', function () {
+		                setCheckAll();
+		  });
+		});
+
+		//체크된 개수에 따라 전체 체크박스 활성/비활성 
+		function setCheckAll() {
+		  var checkTotal = $('.list_agree').find('input:checkbox').not('#checkAll').length;
+		  var checkCount = 0;
+		  $('.list_agree').find('input:checkbox').not('#checkAll').each(function () {
+		    if ($(this).prop('checked')) {
+		      checkCount++;
+		    }
+		  });
+
+		  $('#checkAll').prop('checked', checkTotal == checkCount);
+		}
+	 </script>
 </body>
 </html>
