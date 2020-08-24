@@ -455,7 +455,7 @@
 	<select id="selectC" parameterType="string" resultMap="ClientResultSet">
 		SELECT C.*,P.PRO_ORIGIN,P.PRO_RENAME
 		FROM CLIENT C
-        JOIN PROFILEPHOTO P ON(C.C_NO=P.C_NO) 
+        LEFT JOIN PROFILEPHOTO P ON(C.C_NO=P.C_NO) 
 		WHERE C.C_NO=#{cNo}
 	</select>
 </mapper>
