@@ -35,10 +35,10 @@
    <jsp:include page="../../common/adminSide.jsp"/>
 
     <!--여기서 부터 왼쪽 영역 contentArea-->
-    <form action="#" method="post">
+    <form action="insertAnswer.do" method="POST" id="qnaForm">
         <div id="contentArea">
             <h3>주문QnA detail</h3>
-
+	<input type="hidden" name="oqnaNo" id="oqnaNo" value="${detail.oqnaNo}">
 
             <!--테이블 부분-->
             <table id="contentTb">
@@ -78,10 +78,10 @@
                 <tr>
                     <th class="firstLine">답변</th>
                     <c:if test='${empty detail.oqnaAnswer}'>
-              		<td><input type="text" id="answer" name="answer" value="" placeholder="답변을 입력하세요"></td>
+              		<td><textarea id="answer" name="answer" placeholder="답변을 입력하세요" rows="5" cols="100" required="required"></textarea></td>
               		</c:if>
               		<c:if test='${not empty detail.oqnaAnswer}'>
-              		<td><input type="text" id="answer" name="answer" value="${detail.oqnaAnswer}" placeholder="답변을 입력하세요"></td>
+              		<td><textarea id="answer" name="answer"  rows="5" cols="100" required="required">${detail.oqnaAnswer}</textarea></td>
               		</c:if>
                 </tr>   
             </table>
@@ -90,10 +90,10 @@
             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
            	   <c:if test='${empty detail.oqnaAnswer}'>
-                <button type="button" onclick="goModify();">등록하기</button>
+                <button type="submit" class="subBtn" >등록하기</button>
                </c:if>
                 <c:if test='${not empty detail.oqnaAnswer}'>
-                <button type="button" onclick="goModify();">수정하기</button>
+                <button type="submit" class="subBtn" >수정하기</button>
                 </c:if>
                 <button type="button" onclick="goBack();">뒤로가기</button>
             </div>
@@ -106,19 +106,10 @@
 
     <script>
   
-    	
-        function goModify(){
-    	var oqnaNo = $("#qnaNo").val();
-    	var answer = $("#answer").val();
-    	if(answer ==""){
-    		alert("답변을 입력해주세요.");
-    	}else{
-    		location.href="insertAnswer.do?oqnaNo="+oqnaNo+"&answer="+answer;
-    	}
-            
-        }
-
-        function goBack(){
+    var answer = $("#answer").val();
+   
+     
+    	 function goBack(){
             location.href="orderQnaManage.do";
         }
 

@@ -2,7 +2,7 @@ package com.kh.landocProject.payment.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -211,25 +211,19 @@ public class PaymentController {
 			String drNo = loginDrClient.getDrNo();
 			loginDrClient4 = payService.selectD(drNo);
 		}
+		
+		
 		int allOriginPrice=0;
 		int allPrice =0;	// 총 결제금액
 		int allDiscount=0;	// 총 할인금액
 		for(int i =0; i<listOriginPrice.size();i++) {
-			
 			cart.add(new Cart(listCartNo.get(i),listRenameFile.get(i), listPdNo.get(i),listPdName.get(i),listCount.get(i),null, null, listOriginPrice.get(i), listDiscount.get(i),listSellPrice.get(i) ));
 			allOriginPrice += listOriginPrice.get(i) * listCount.get(i);
 			allPrice +=listSellPrice.get(i)*listCount.get(i);
 			allDiscount +=listOriginPrice.get(i)*listDiscount.get(i)/100*listCount.get(i);
-		
 			
 		}
-		
-		
-//		System.out.println("alOriginPrice:"+allOriginPrice);
-//		System.out.println("allPrice:"+allPrice);
-//		System.out.println("allDiscount:"+allDiscount);
-//		System.out.println("array:"+cart);
-		
+			
 		mv.addObject("loginClient4", loginClient4);
 		mv.addObject("loginDrClient4", loginDrClient4);
 		mv.addObject("allPrice", allPrice);

@@ -9,7 +9,7 @@ public class HpSearch {
 	private String hpX;
 	private String hpY;
 	private int hpReview;
-	private int hpAvgRate;
+	private double hpAvgRate;
 	private String hpTime;
 	private String proOrigin;
 	private String proRename;
@@ -30,7 +30,7 @@ public class HpSearch {
 
 
 	public HpSearch(int hpNo, String hpName, String hpPhone, String hpPostcode, String hpAddress, String hpX,
-			String hpY, int hpReview, int hpAvgRate, String hpTime, String proOrigin, String proRename,
+			String hpY, int hpReview, double hpAvgRate, String hpTime, String proOrigin, String proRename,
 			String proFilepath, String cateName, int cateCode, int reviewCount, String area) {
 		super();
 		this.hpNo = hpNo;
@@ -150,13 +150,13 @@ public class HpSearch {
 
 
 
-	public int getHpAvgRate() {
+	public double getHpAvgRate() {
 		return hpAvgRate;
 	}
 
 
 
-	public void setHpAvgRate(int hpAvgRate) {
+	public void setHpAvgRate(double hpAvgRate) {
 		this.hpAvgRate = hpAvgRate;
 	}
 

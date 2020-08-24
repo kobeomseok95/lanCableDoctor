@@ -7,14 +7,12 @@ public class LikeHp implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4793561637003452963L;
-
+	private int likeNo;
 	private int hpNo;
 	private String hpName;
 	private String hpPhone;
 	private String hpPostcode;
 	private String hpAddress;
-	private String hpX;
-	private String hpY;
 	
 	private double hpAvgRate;
 	private String hpTime;
@@ -28,17 +26,15 @@ public class LikeHp implements Serializable {
 	public LikeHp() {
 	}
 
-	public LikeHp(int hpNo, String hpName, String hpPhone, String hpPostcode, String hpAddress, String hpX, String hpY,
+	public LikeHp(int likeNo, int hpNo, String hpName, String hpPhone, String hpPostcode, String hpAddress,
 			double hpAvgRate, String hpTime, String proOrigin, String proRename, String proFilepath, String cateName,
 			int reviewCount) {
-		super();
+		this.likeNo = likeNo;
 		this.hpNo = hpNo;
 		this.hpName = hpName;
 		this.hpPhone = hpPhone;
 		this.hpPostcode = hpPostcode;
 		this.hpAddress = hpAddress;
-		this.hpX = hpX;
-		this.hpY = hpY;
 		this.hpAvgRate = hpAvgRate;
 		this.hpTime = hpTime;
 		this.proOrigin = proOrigin;
@@ -46,6 +42,14 @@ public class LikeHp implements Serializable {
 		this.proFilepath = proFilepath;
 		CateName = cateName;
 		this.reviewCount = reviewCount;
+	}
+
+	public int getLikeNo() {
+		return likeNo;
+	}
+
+	public void setLikeNo(int likeNo) {
+		this.likeNo = likeNo;
 	}
 
 	public int getHpNo() {
@@ -86,22 +90,6 @@ public class LikeHp implements Serializable {
 
 	public void setHpAddress(String hpAddress) {
 		this.hpAddress = hpAddress;
-	}
-
-	public String getHpX() {
-		return hpX;
-	}
-
-	public void setHpX(String hpX) {
-		this.hpX = hpX;
-	}
-
-	public String getHpY() {
-		return hpY;
-	}
-
-	public void setHpY(String hpY) {
-		this.hpY = hpY;
 	}
 
 	public double getHpAvgRate() {
@@ -166,18 +154,13 @@ public class LikeHp implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LikeHp [hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone + ", hpPostcode=" + hpPostcode
-				+ ", hpAddress=" + hpAddress + ", hpX=" + hpX + ", hpY=" + hpY + ", hpAvgRate=" + hpAvgRate
-				+ ", hpTime=" + hpTime + ", proOrigin=" + proOrigin + ", proRename=" + proRename + ", proFilepath="
-				+ proFilepath + ", CateName=" + CateName + ", reviewCount=" + reviewCount + "]";
+		return "LikeHp [likeNo=" + likeNo + ", hpNo=" + hpNo + ", hpName=" + hpName + ", hpPhone=" + hpPhone
+				+ ", hpPostcode=" + hpPostcode + ", hpAddress=" + hpAddress + ", hpAvgRate=" + hpAvgRate + ", hpTime="
+				+ hpTime + ", proOrigin=" + proOrigin + ", proRename=" + proRename + ", proFilepath=" + proFilepath
+				+ ", CateName=" + CateName + ", reviewCount=" + reviewCount + "]";
 	}
 
-	
-	
 
-
-
-	
 	
 
 
