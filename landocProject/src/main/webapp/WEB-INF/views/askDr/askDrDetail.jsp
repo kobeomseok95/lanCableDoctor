@@ -317,12 +317,16 @@
 				if(confirm("해당 답변을 채택하시겠습니까?")){
 		        	var bNo = $("#AskDrBoardNo").val();
 					var adrNo = $('input[name="chooseAnswer"]:checked').val();
+					var cNo = "${loginClient.cNo}";
+					var drNo = $('input[name="chooseAnswer"]:checked').prev().val();
 					
 					$.ajax({
 						type : 'POST',
 						data : {
 							bNo : bNo,
-							adrNo : adrNo
+							adrNo : adrNo,
+							cNo : cNo,
+							drNo : drNo
 						},
 						url : 'chooseAnswer.do',
 						error:function(request, status, errorData){
@@ -332,18 +336,11 @@
 		               	},           
 					    success: function(data) {
 					    	if(data === "success"){
+					    		alert("채택 완료되었습니다. 회원님과 답변이 채택된 의원님께 50포인트 지급되었습니다.");
 					    		getReplyList();
 					    	}
 						}
 					});
-					
-					/* var $chooseForm = $("<form></form>");
-					$chooseForm.attr("action", "chooseAnswer.do");
-					$chooseForm.attr("method", "post");
-					$chooseForm.append($("<input/>", {type: "hidden", name: "bNo", value: $bNo}));
-					$chooseForm.append($("<input/>", {type: "hidden", name: "adrNo", value: $adrNo}));
-					$(document.body).append($chooseForm);
-					$chooseForm.submit(); */
 		        }
 		        else{
 		        	return false;
@@ -463,13 +460,17 @@
 							var $profile = ('<img class="rounded-circle" src="#" style="width: 70px; height: 80px;" />');
 							$tdOne.append($profile);
 						}
-						
+						/* 
+							팝오버 여기!!!!!
+							체크사항 : getReplyList에서 drNo를 잘 가져오는지
+							
+						*/
 						var $tdTwo = $("<td class='nameTd'></td>");
 						var $inputDrno = $('<input type="hidden" class="drNo" />');
 						$inputDrno.val(list[i].drClientNo);
 						var $tdTwoInDiv = $('<div data-toggle="popover" data-html="true"></div>');
 						$tdTwoInDiv.attr("title", "<span>상세정보</span><a id='popoverHide'><i class='fas fa-times fa-1x'></i></a>");
-						$tdTwoInDiv.attr("data-content", "<a href='#'>선생님 프로필</a><br><a href='mainHpReviewDetail.do?hpNo=" + list[i].hpNo + "'>" + list[i].hpName + "</a>");
+						$tdTwoInDiv.attr("data-content", "<a href='checkDrProfile.do?replyDrNo=" + list[i].drClientNo + "'>선생님 프로필</a><br><a href='mainHpReviewDetail.do?hpNo=" + list[i].hpNo + "'>" + list[i].hpName + "</a>");
 						
 						$tdTwoInDiv.text(list[i].drName);
 						$tdTwo.append($inputDrno);
