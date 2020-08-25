@@ -360,7 +360,6 @@ public class PaymentController {
 				
 				int orderNo = payService.selectPayOrderNo();
 				or.setOrderNo(orderNo);
-				System.out.println("or : " + or);
 				
 				int orderRmg = payService.insertOrderMg(or);
 				op.setOrderNo(orderNo);

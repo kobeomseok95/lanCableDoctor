@@ -195,6 +195,12 @@
 		
 		
 	</script>
+	<script>
+	var msg ='<c:out value="${msg}"/>';
+	if(msg != ''){
+		alert(msg);
+	}
+	</script>
 
 	<%@ include file="../static/footer.jsp"%>
 	<!--====== Javascripts & Jquery ======-->

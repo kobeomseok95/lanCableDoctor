@@ -53,7 +53,7 @@ public class DmyPageController {
 	
 
 	@RequestMapping(value="doctorMypage.do")
-	public ModelAndView dMyPage(HttpSession session, ModelAndView mv, DrClient dr) {
+	public ModelAndView dMyPage(HttpSession session, ModelAndView mv, DrClient dr, String msg) {
 		DrClient loginDrClient = (DrClient)session.getAttribute("loginDrClient");
 
 		String drNo = loginDrClient.getDrNo();
@@ -64,6 +64,7 @@ public class DmyPageController {
 		dr.setProRename(drProfile);
 		
 		mv.addObject("dr", dr);
+		mv.addObject("msg",msg);
 		mv.setViewName("mypage/dMyPageWork");
 		return mv;
 	}

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -234,12 +235,13 @@ public class mainProductController {
 	}
 	
 	@RequestMapping(value = "recommand.do")
-	public ModelAndView recommand(ModelAndView mv, @RequestParam("drNo") List<String> drNo,
+	public String recommand(ModelAndView mv, Model model, @RequestParam("drNo") List<String> drNo,
 			@RequestParam("drNo") String drNo1, @RequestParam("pdNo") List<Integer> pdNo,
 			@RequestParam("drComment") List<String> drComment, HttpServletResponse response_equals)throws IOException {
 		
 		int result = 0;
 		int update = 0;
+		String msg = null;
 		
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		HashMap<String, Object> reco = null;
@@ -257,16 +259,12 @@ public class mainProductController {
 
 		if (result > 0) {
 			update = productServiceImpl.recoUpdate(list);
+			msg = "추천되었습니다.";
+			model.addAttribute("msg",msg);
 			
-			mv.setViewName("mypage/dMyPageWork");
-			response_equals.setContentType("text/html; charset=UTF-8");
-			PrintWriter out_equals = response_equals.getWriter();
-			out_equals.println("<script>alert('상품이 추천되었습니다.');</script>");
-			out_equals.flush();
-			return mv;
 		}
 
-		return mv;
+		return "redirect:doctorMypage.do";
 	}
 	// 상품 추천 중복
 		@RequestMapping("dupPdNo.do")
