@@ -186,7 +186,7 @@
    /*--------------------------------------------------------------*/   
    .hpCate{line-height:35px; width:470px;}
    
-
+	.imgSize{width:50%; height:50%;}
 
 
 </style>
@@ -592,11 +592,9 @@
                         }  */
                         
                   // x누르면 파일 사라지는 함수
-                  
-                  
                   $(function(){
                      $("#remove").on("click",function(){
-                        $("#preView").removeAttr("src");
+                        $("#preView").removeAttr("src").removeAttr("style");
                         $(this).hide();
                         });
                      })
@@ -614,6 +612,7 @@
                             
                             reader.onload = function(e){
                                $("#preView").attr("src", e.target.result);
+                               $("#preview").addClass("imgSize");
                             }
                             reader.readAsDataURL(inputObject.files[0]);
                          }        
@@ -1376,10 +1375,12 @@
          }else if($("#result").val()==0){
             alert("치료 후 결과 별점을 입력해주세요.");
             return false;
-         }else if(!reg.test(comment)){
+         }/* else if(!reg.test(comment)){
             alert("200자 이상의 병원 리뷰를 작성해주세요.");
             return false;
-         }else if(!$("#good_suggest_input").prop("checked") && !$("#wrong_suggest_input").prop("checked")){
+         } */
+         
+         else if(!$("#good_suggest_input").prop("checked") && !$("#wrong_suggest_input").prop("checked")){
             alert("좋아요 여부를 선택해주세요.");
             return false;
             

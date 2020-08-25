@@ -507,6 +507,7 @@ public class DmyPageController {
 		}
 		
 
+	// 의사 프로필_희지
 	@RequestMapping(value="checkDrProfile.do", method=RequestMethod.GET)
 	public ModelAndView checkDrProfile(HttpSession session, ModelAndView mv, DrProfile dp, HpLike hl, 
 										@RequestParam(value="replyDrNo", required=false) String replyDrNo) {
@@ -574,14 +575,39 @@ public class DmyPageController {
 			commentCount = dMypageService.selectCommentCount(replyDrNo);
 			commentPage = Pagination.getDrComment(1,commentCount);
 			commentList = dMypageService.selectCommentList(replyDrNo);
-			
-			
 		}else {
 			cNo = "none";
 			heart = 0;
 		}
 
-		System.out.println("controller에서 dp : " +dp);
+		// 로그인 안한 상태에서 의사 찾기로 의사 프로필 들어갈 경우
+		if(loginClient == null && loginDrClient == null) {
+			dp = dMypageService.selectOneDr(replyDrNo);
+			
+			// 의사 좋아요 수
+			likeCount = dMypageService.selectLikeCount(replyDrNo);
+			replyCount = dMypageService.selectReplyCount(replyDrNo);
+			chosenReplyCount = dMypageService.selectChosenReplyCount(replyDrNo);
+			if(chosenReplyCount == 0) {
+				chosenPer = 0.0; 
+			}else {
+				double chosenPer1 = ((double)chosenReplyCount/replyCount)*100 ;
+				chosenPer = Math.round(chosenPer1 *100)/ 100.0;
+			}
+			
+			hl.setcNo(cNo);
+			hl.setdNo(replyDrNo);
+			heart = dMypageService.selectMyDrLikeCount(hl);
+			
+			// DRCOMMENT
+			commentCount = dMypageService.selectCommentCount(replyDrNo);
+			commentPage = Pagination.getDrComment(1,commentCount);
+			commentList = dMypageService.selectCommentList(replyDrNo);
+		}else {
+			cNo = "none";
+			heart = 0;
+		}
+		
 		mv.addObject("dp", dp);
 		mv.addObject("cNo", cNo);
 		mv.addObject("replyDrNo", replyDrNo);

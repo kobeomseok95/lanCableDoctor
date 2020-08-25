@@ -86,7 +86,7 @@
 	height: 30px;
 	background: rgba(0, 123, 255, .5);
 	border-bottom: 1px solid #ddd;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: bold;
 	color: white;
 }
@@ -210,7 +210,7 @@
 							<c:forEach var="list" items="${searchList}">
 								<div class="doctor-total-box border-bottom">
 								<!-- -------------------------------------------------------------------------------- -->
-									<a href="#" style="color: inherit; text-decoration: none;">
+									<a href="checkDrProfile.do?replyDrNo=${list.drNo }" style="color: inherit; text-decoration: none;">
 										<div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
 											<div class="row px-3">
 												<div class="col-3 profile-doctor-image-box p-0">
@@ -228,7 +228,7 @@
 													class="mb-2">
 														${list.drName}
 													</div>
-													<div style="font-size: 1.313rem; font-weight: 200"
+													<div style="font-size: 16px; font-weight: 300"
 														class="d-flex justify-content-start align-items-start mb-2">
 														${list.hpName}
 													</div>
@@ -244,7 +244,7 @@
 														</span> --%>
 														
 														<div class="review-count-box ml-5"
-															style="font-size: 18px;">
+															style="font-size: 16px;">
 															<span>채택률</span>
 															<span>${list.choosePer}%</span>
 														</div>
@@ -355,7 +355,7 @@
 	            	}
 	            }
 	            goProfile.className = 'goProfile';
-	            goProfile.innerHTML = '<i class="far fa-address-card"></i>';
+	            goProfile.innerHTML = '<i class="far fa-address-card fa-lg"></i>';
 	            infoDiv.appendChild(titleDiv);
 	            titleDiv.appendChild(goProfile);
 	            
