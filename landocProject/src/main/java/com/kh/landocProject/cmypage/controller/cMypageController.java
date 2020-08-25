@@ -228,10 +228,10 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="pdReviewInsertView.do")
-	public ModelAndView pdReviewInsertView(HttpSession session,ModelAndView mv,@RequestParam(value="orderNo") int orderNo, OrderList order) throws cMypageException{
+	public ModelAndView pdReviewInsertView(HttpSession session,ModelAndView mv,OrderList order) throws cMypageException{
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
-		order.setOrderNo(orderNo);
+	
 		order.setcNo(cNo);
 		OrderList detail = cmService.selectOrderDetail(order);
 		if(detail!=null) {
@@ -396,6 +396,7 @@ public class cMypageController {
 		order.setcNo(cNo);
 		order.setOrderNo(orderNo);
 		order.setPdNo(pdNo);
+		
 		PdReview pr = cmService.updateReview(review);
 		OrderList detail = cmService.selectOrderDetail(order);
 		if(pr!=null && detail!=null) {
@@ -418,6 +419,7 @@ public class cMypageController {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		
+		review.setPdNo(pdNo);
 		review.setcNo(cNo);
 		review.setOrderNo(orderNo);
 		String rename = cmService.selectPdReviewPhoto(review);
@@ -495,7 +497,6 @@ public class cMypageController {
 		order.setoCode(oCode);
 		order.setOrderNo(orderNo);
 		order.setPdNo(pdNo);
-		System.out.println(order);
 		int result = cmService.orderCancel(order);
 		if(result>0) {
 			 if(order.getoCode()==15) {
