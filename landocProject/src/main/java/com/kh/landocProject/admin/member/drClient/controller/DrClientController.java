@@ -110,7 +110,7 @@ public class DrClientController {
 		
 		ArrayList<DrClientPage> list = null;
 		list = dService.selectDrClientDetail(drNo);
-	
+		System.out.println("list : " + list);
 		drPage = dService.selectDrClientDetail1(drNo);
 
 		

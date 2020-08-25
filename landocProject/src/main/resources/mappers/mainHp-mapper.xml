@@ -67,6 +67,7 @@
   	<result property="applicantName" column="ANAME" />
   	<result property="applicantEmail" column="AEMAIL" />
   	<result property="applicantPhone" column="APHONE" />
+  	<result property="checkMarketing" column="C_MARKETING" />
   </resultMap>
   
   
@@ -313,7 +314,7 @@
   		#{applicantEmail},
   		#{applicantPhone},
   		<choose>
-  		<when test="checkService.size != 0">
+  		<when test='checkMarketing != null and checkMarketing.equals("Y")'>
   		'Y'
   		</when>
   		<otherwise>

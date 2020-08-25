@@ -335,11 +335,18 @@ public class MainAskDrController {
 	@ResponseBody
 	@RequestMapping(value="chooseAnswer.do", method=RequestMethod.POST)
 	public String chooseAnswer(@RequestParam int bNo,
-											@RequestParam int adrNo) {
+											@RequestParam int adrNo,
+											@RequestParam String cNo,
+											@RequestParam String drNo) {
 		int resultOfAnswer = askDrServiceImpl.updateAskDrReplyChooseStatus(adrNo);
 		int resultOfBoard = askDrServiceImpl.updateAskDrBoardChooseStatus(bNo);
+		int pointUpClient = askDrServiceImpl.pointUpClient(cNo);
+		int pointUpDr = askDrServiceImpl.pointUpDr(drNo);
 		
-		if(resultOfAnswer > 0 && resultOfBoard > 0) {
+		if(resultOfAnswer > 0 && 
+				resultOfBoard > 0 &&
+				pointUpClient > 0 &&
+				pointUpDr > 0) {
 			return "success";
 		}
 		else {
@@ -365,7 +372,7 @@ public class MainAskDrController {
 										int bNo) throws JsonIOException, IOException {
 		List<AskDrReply> replys = askDrServiceImpl.selectAskDrBoardDetailReply( bNo );
 		
-		response.setContentType("application/json;charset=utf-8");	//
+		response.setContentType("application/json;charset=utf-8");	
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(replys, response.getWriter());
 //		void에서 replys를 반환하였다.

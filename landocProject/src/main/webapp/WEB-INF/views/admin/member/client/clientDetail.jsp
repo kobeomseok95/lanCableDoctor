@@ -37,7 +37,7 @@
     <jsp:include page="../../../common/adminSide.jsp"/>
 
     <!--여기서 부터 왼쪽 영역 contentArea-->
-    <form action="modifyClient.do" method="post">
+    <form id="modi"action="modifyClient.do" method="post">
         <div id="contentArea">
             <h3>회원 정보 수정</h3>
 
@@ -50,39 +50,39 @@
                 </tr>
                 <tr>
                     <th class="firstLine">아이디</th>
-                    <td><input type="text" value="${cPage.userId }" name="userId"></td>
+                    <td><input type="text" value="${cPage.userId }" name="userId" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">닉네임</th>
-                    <td><input type="text" value="${cPage.nickName }" name="nickName"></td>
+                    <td><input type="text" value="${cPage.nickName }" name="nickName" id="nickName"></td>
                 </tr>
                 <tr>
                     <th class="firstLine">이름</th>
-                    <td><input type="text" value="${cPage.userName }" name="userName"></td>
+                    <td><input type="text" value="${cPage.userName }" name="userName" id="userName"></td>
                 </tr>
                 <tr>
                     <th class="firstLine">생년월일</th>
-                    <td><input type="text" value="${cPage.birth }" name="birth"></td>
+                    <td><input type="text" value="${cPage.birth }" name="birth" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">휴대폰 번호</th>
-                    <td><input type="text" value="${cPage.phone }" name="phone"></td>
+                    <td><input type="text" value="${cPage.phone }" name="phone" readonly></td>
                 </tr>
                  <tr>
                     <th class="firstLine">이메일</th>
-                    <td><input type="text" value="${cPage.email }" name="email"></td>
+                    <td><input type="text" value="${cPage.email }" name="email" readonly></td>
                 </tr>
                 <tr>
                     <th class="firstLine">포인트</th>
-                    <td><input type="text" value="${cPage.point }" name="point"></td>
+                    <td><input type="text" value="${cPage.point }" name="point" readonly></td>
                 </tr>   
                 <tr>
                     <th class="firstLine">우편주소</th>
-                    <td><input type="text" value="${cPage.post }" name="post"></td>
+                    <td><input type="text" value="${cPage.post }" name="post" readonly></td>
                 </tr>  
                 <tr>
                     <th class="firstLine">상세주소</th>
-                    <td><input type="text" value="${cPage.address }" name="address"></td>
+                    <td><input type="text" value="${cPage.address }" name="address" readonly></td>
                 </tr>  
                 <c:if test="${cPage.proRename != null }">
                  <tr>
@@ -98,22 +98,22 @@
                 </c:if>
                 <tr>
                     <th class="firstLine">마케팅</th>
-                    <td><input type="text" value="${cPage.marketing }" name="marketing"></td>
+                    <td><input type="text" value="${cPage.marketing }" name="marketing" id="marketing"></td>
                 </tr>  
                  <tr>
                     <th class="firstLine">가입날짜</th>
-                    <td><input type="text" value="${cPage.enrollDate }" name="enrollDate"></td>
+                    <td><input type="text" value="${cPage.enrollDate }" name="enrollDate" readonly></td>
                 </tr>  
                 <tr>
                     <th class="firstLine">가입상태</th>
-                    <td><input type="text" value="${cPage.status }" name="status"></td>
+                    <td><input type="text" value="${cPage.status }" name="status" id="status"></td>
                 </tr>  
             </table>
             
 
             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
-                <button type="submit">수정하기</button>
+                <button type="button" onclick="validate();">수정하기</button>
                 <button type="button" onclick="goBack();">뒤로가기</button>
             </div>
 
@@ -157,7 +157,35 @@
 		<%if(msg != null){%>
 			alert("회원정보 수정에 실패했습니다.");
 		<%}%>
-	
+		</script>
+		<script>
+		
+		function validate(){
+			
+	         var value1 = $("#nickName").val();
+	         var reg1 = /^[a-zA-Z0-9가-힣ㄱ-ㅎ]{4,20}$/;
+	         var value2 = $("#userName").val();
+	         var reg2 = /^[가-힣]{2,4}$/;
+	         var value3 = $("#status").val();
+	         var reg3 = /^[N-NY-Y]{1}$/;
+	         
+	         if(!reg1.test(value1)){
+	             alert("영문자와 숫자로 4글자 이상 20글자 이하여야 합니다.");
+	             $("#nickName").focus().val('');
+	             return false;
+	         }else if(!reg2.test(value2)){
+	             alert("한글 2~4글자");
+	             $("#phone").focus().val('');
+	             return false;
+	         }else if(!reg3.test(value3)){
+	             alert("주민번호 6자리");
+	             $("#status").focus().val('');
+	             return false;
+	         }else{
+	        	 $("#modi").submit();
+	         }
+	  
+	}
 	</script>
   
 

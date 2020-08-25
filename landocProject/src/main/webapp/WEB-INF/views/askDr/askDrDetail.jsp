@@ -272,6 +272,7 @@
 	<%@ include file="../static/footer.jsp"%>
 	<!-- Footer section end -->
 	<!--====== Javascripts & Jquery ======-->
+	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery.slicknav.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
@@ -313,42 +314,47 @@
 				$updateForm.submit();
 			});
 		
-			$("#chooseComplete").on("click", function(){
-				if(confirm("해당 답변을 채택하시겠습니까?")){
-		        	var bNo = $("#AskDrBoardNo").val();
-					var adrNo = $('input[name="chooseAnswer"]:checked').val();
-					
-					$.ajax({
-						type : 'POST',
-						data : {
-							bNo : bNo,
-							adrNo : adrNo
-						},
-						url : 'chooseAnswer.do',
-						error:function(request, status, errorData){
-		                    alert("error code: " + request.status + "\n"
-		                            +"message: " + request.responseText
-		                            +"error: " + errorData);
-		               	},           
-					    success: function(data) {
-					    	if(data === "success"){
-					    		getReplyList();
-					    	}
-						}
-					});
-					
-					/* var $chooseForm = $("<form></form>");
-					$chooseForm.attr("action", "chooseAnswer.do");
-					$chooseForm.attr("method", "post");
-					$chooseForm.append($("<input/>", {type: "hidden", name: "bNo", value: $bNo}));
-					$chooseForm.append($("<input/>", {type: "hidden", name: "adrNo", value: $adrNo}));
-					$(document.body).append($chooseForm);
-					$chooseForm.submit(); */
-		        }
-		        else{
-		        	return false;
-		        }
-			});
+			$(document).on("click", '#chooseComplete', function(){
+				if( $("#replyTable tbody tr").length === 1 && $('input[name="chooseAnswer"]').length === 0){
+					alert("아직 답변이 없습니다.");
+				}
+				else if($('input[name="chooseAnswer"]:checked').length === 0 ){
+					alert("채택할 답변을 선택해주세요!");
+				}
+				else{
+					if(confirm("해당 답변을 채택하시겠습니까?")){
+			        	var bNo = $("#AskDrBoardNo").val();
+						var adrNo = $('input[name="chooseAnswer"]:checked').val();
+						var cNo = "${loginClient.cNo}";
+						var drNo = $('input[name="chooseAnswer"]:checked').prev().val();
+						
+						$.ajax({
+							type : 'POST',
+							data : {
+								bNo : bNo,
+								adrNo : adrNo,
+								cNo : cNo,
+								drNo : drNo
+							},
+							url : 'chooseAnswer.do',
+							error:function(request, status, errorData){
+			                    alert("error code: " + request.status + "\n"
+			                            +"message: " + request.responseText
+			                            +"error: " + errorData);
+			               	},           
+						    success: function(data) {
+						    	if(data === "success"){
+						    		alert("채택 완료되었습니다. 회원님과 답변이 채택된 의원님께 50포인트 지급되었습니다.");
+						    		getReplyList();
+						    	}
+							}
+						});
+			        }
+			        else{
+			        	return false;
+			        }	
+				}
+			});  /*end of chooseComplete*/
 			
 			$(document).on("click", "#insertReply", function(){
 				var drArray = new Array();
@@ -460,16 +466,15 @@
 							$tdOne.append($icon);
 						}
 						else{
-							var $profile = ('<img class="rounded-circle" src="#" style="width: 70px; height: 80px;" />');
+							var $profile = ('<img class="rounded-circle" src="/projectFiles/' + list[i].profileRename + '" style="width: 70px; height: 80px;" />');
 							$tdOne.append($profile);
 						}
-						
 						var $tdTwo = $("<td class='nameTd'></td>");
 						var $inputDrno = $('<input type="hidden" class="drNo" />');
 						$inputDrno.val(list[i].drClientNo);
 						var $tdTwoInDiv = $('<div data-toggle="popover" data-html="true"></div>');
 						$tdTwoInDiv.attr("title", "<span>상세정보</span><a id='popoverHide'><i class='fas fa-times fa-1x'></i></a>");
-						$tdTwoInDiv.attr("data-content", "<a href='#'>선생님 프로필</a><br><a href='mainHpReviewDetail.do?hpNo=" + list[i].hpNo + "'>" + list[i].hpName + "</a>");
+						$tdTwoInDiv.attr("data-content", "<a href='checkDrProfile.do?replyDrNo=" + list[i].drClientNo + "'>선생님 프로필</a><br><a href='mainHpReviewDetail.do?hpNo=" + list[i].hpNo + "'>" + list[i].hpName + "</a>");
 						
 						$tdTwoInDiv.text(list[i].drName);
 						$tdTwo.append($inputDrno);

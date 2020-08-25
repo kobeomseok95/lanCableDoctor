@@ -236,7 +236,7 @@ public class mainProductController {
 	@RequestMapping(value = "recommand.do")
 	public ModelAndView recommand(ModelAndView mv, @RequestParam("drNo") List<String> drNo,
 			@RequestParam("drNo") String drNo1, @RequestParam("pdNo") List<Integer> pdNo,
-			@RequestParam("drComment") List<String> drComment) {
+			@RequestParam("drComment") List<String> drComment, HttpServletResponse response_equals)throws IOException {
 		
 		int result = 0;
 		int update = 0;
@@ -257,8 +257,12 @@ public class mainProductController {
 
 		if (result > 0) {
 			update = productServiceImpl.recoUpdate(list);
-			mv.setViewName("mypage/dMyPageWork");
 			
+			mv.setViewName("mypage/dMyPageWork");
+			response_equals.setContentType("text/html; charset=UTF-8");
+			PrintWriter out_equals = response_equals.getWriter();
+			out_equals.println("<script>alert('상품이 추천되었습니다.');</script>");
+			out_equals.flush();
 			return mv;
 		}
 

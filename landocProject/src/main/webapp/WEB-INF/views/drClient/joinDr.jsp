@@ -28,6 +28,8 @@
 	href="<%=request.getContextPath()%>/resources/css/owl.carousel.min.css" />
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/slicknav.min.css" />
+<!--===============================================================================================-->
+<script src="<%=request.getContextPath()%>/resources/login_vendor/jquery/jquery-3.2.1.min.js"></script>
 
 <!-- Main Stylesheets -->
 <link rel="stylesheet"
@@ -167,7 +169,6 @@
  window.history.forward();
  function noBack(){window.history.forward();}
 </script>
-<body>
 <body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
 <%@ include file="../static/header.jsp"%>
 	<div class="limiter" id="login">
@@ -203,8 +204,15 @@
 							<label class="label1">승인 대기</label>
 						</div>
 					</div>
-					<div class="wrap-input100 validate-input"
-						data-validate="병원을 선택해 주세요">
+					<div class="wrap-input1001 validate-input" data-validate="병원을 검색해주세요.">
+						<input class="input100 postcodify_postcode5" type="text" name="hpName" value="" id="hpName" />
+						<input type="hidden" name="hpNo" id="hpNo" value="" />
+						<span class="focus-input100" data-placeholder="병원"></span>
+					</div>
+					<div class="searchDiv">
+						<button type="button" class="searchBtn" id="searchHp" data-toggle="modal" data-target="#hospitalSearchModal">검색</button>
+					</div>
+					<%-- <div class="wrap-input100 validate-input" data-validate="병원을 선택해 주세요">
 						<span class="focus-input100" data-placeholder="병원"></span> 
 						<select class="input100" name="hpNo" id="hpNo" style="border: none;">
 						<option value="0">병원을 선택해 주세요</option>
@@ -212,16 +220,228 @@
 							<option value="${hp.hpNo }">${hp.hpName }</option>
 							</c:forEach>
 						</select>
+					</div> --%>
+					
+					
+		<!--  Start of Modal  -->		
+   <div id="hospitalSearchModal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+     <div class="modal-dialog w-50" role="document">
+      <div class="modal-content">
+        <div class="modal-header p-4">
+         <h5 class="modal-title">병원명 입력</h5>
+         <button type="button" class="close pt-2 pr-3 pb-0 pl-0" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">×</span>
+         </button>
+        </div>
+        <div class="modal-body p-4">
+           <div>
+            <p style="font-size: 12px;color: #b00020;">
+               <b style="color: #494949">병원명을 검색하세요</b>
+            </p>
+           </div>
+           <div id="hospital-search-form">
+              <div class="input-group mb-3" style="border: solid 2px #007ee5;">
+                 <input type="text" id="search_hospital_name" name="search_hospital_name"class="form-control border-0" placeholder="병원이름을 입력하세요." aria-describedby="button-addon-hsearch">
+                 <div class="input-group-append pl-2 pr-2" style="background-color: #007ee5">
+                  <button class="btn btn-mdd border-0 w-100" type="button" id="button-addon-hsearch" style="background-color: transparent; color: white;">검색</button>
+                 </div>
+              </div>
+           </div>
+          
+          
+   <script>
+      // 병원 검색 모달창
+      $(function() {
+         // 병원 조회하기 버튼 클릭 => modal open.
+         $(document).on('click', '#open-hospital-search-modal', function(e) {
+            e.preventDefault();
+            $('#hospitalSearchModal').modal();
+            $("#search_hospital_name").text("");
+            $("#searchHpNameTb").text("");
+            $("#searchHpCateTb").text("");
+            
+          
+         });
+         
+         // 병원 검색 -> 검색결과 띄우기
+         $("#button-addon-hsearch").on("click",function(){
+            var hpName = $("#search_hospital_name").val();
+            
+            $.ajax({
+               url:"searchHpName.do",
+               data:{hpName:hpName},
+               dataType:"json",
+               success:function(data){
+                  $tableBody = $("#searchHpNameTb");
+                  $tableBody.html("");
+                  
+                  if(data.length>0){   
+                     for(var i in data){
+                     	var $tr = $('<tr></tr>');
+                     	
+                     	var $tdOne = $('<td class="listLineName"></td>');
+                     	var $inputHpNo = $('<input type="hidden" name="hpNo" />');
+                     	$inputHpNo.attr('value', data[i].hpNo);
+                     	$tdOne.append($inputHpNo);
+                     	$tdOne.append(data[i].hpName);
+                     	
+                     	var $tdTwo = $('<td class="listLineAdd"></td>');
+                     	$tdTwo.append(data[i].hpAddress);
+                     	
+                     	$tr.append($tdOne);
+                     	$tr.append($tdTwo);
+                     	$tableBody.append($tr);
+                     }
+                     
+                  }else{
+                     $tr = $("<tr>");
+                     $td = $("<td>");
+                     $hpName = $("<td>").text("등록된 병원이 없습니다.");
+                     
+                     
+                     $tr.append($td);
+                     $td.append($hpName);
+                     $tableBody.append($tr);
+                     
+                  }
+                  
+               },
+               error:function(request, status, errorData){
+                       alert("error code: " + request.status + "\n"
+                             +"message: " + request.responseText
+                             +"error: " + errorData);
+                    }
+            })
+         });
+         
+      });
+      
+      
+   </script>
+   <script>
+       $(document).on("click",".listLineName",function(){
+    	   $("#searchHpNameTb").children('tr').each(function(index, item){
+       		$(item).css("background","white");
+       		$(item).removeAttr('id', 'selectHp');
+          });
+          $(this).parent().css({"background" : "#99cbf4", "cursor" : "pointer"}).attr('id', 'selectHp');
 
-					</div>
+          // 진료과목  div hide&show 효과주기
+           $(".hpCateArea").css("display","block");
+      
+	       	var hpName = $(this).text();
+
+          	// 선택한 병원 진료과목 나오게 하는 에이작스
+          	$.ajax({
+          		url:"searchHpCate.do",
+                data:{hopiName:hpName},
+                dataType:"json",
+                success:function(data){
+                	  $tableBody = $("#searchHpCateTb");
+                      $tableBody.html("");
+                      
+                      if(data.length>0){   // 검색결과가 존재할 경우
+                         for(var i in data){
+                        	var $tr = $('<tr></tr>');
+                        	var $td = $('<td class="hpCate"></td>');
+                        	var $inputCateCode = $('<input type="hidden" class="hpCateCode" name="hpCateCode" />');
+                        	$inputCateCode.attr('value', data[i].hpCateCode);
+                        	
+                        	$td.append($inputCateCode);
+                        	$td.append(data[i].hpCateName);
+                        	
+                        	$tr.append($td);
+                        	$tableBody.append($tr);
+                         }
+                	}
+                },
+                error:function(request, status, errorData){
+                    alert("error code: " + request.status + "\n"
+                          +"message: " + request.responseText
+                          +"error: " + errorData);
+                 }
+                   
+          	});//ajax end
+          
+       
+       })
+       
+		// 진료과목 선택하는 것
+        $(document).on("click",".hpCate",function(){
+           $("#searchHpCateTb").children('tr').each(function(index, item){
+        		$(item).css("background","white");
+        		$(item).removeAttr('id', 'selectCategory');
+           });
+           $(this).parent().css({"background" : "#99cbf4", "cursor" : "pointer"}).attr('id', 'selectCategory');
+        });
+	    
+       	$(document).on('click', "#hospital-search-save-btn", function(){
+           var cateName = $("#selectCategory").children().text();
+           var cateNo = $("#selectCategory").children().children('.hpCateCode').val();
+           var hpName = $("#selectHp").children('.listLineName').text();
+           var hpNo = $("#selectHp").children('.listLineName').children('input[name="hpNo"]').val();
+           
+           
+           $("#hospitalSearchModal").modal("hide");
+			$("#hpCateName").val(cateName);
+			$("#hpCateCode").val(cateNo);
+			$("#hpName").val(hpName);
+			$("#hpNo").val(hpNo);
+       	});
+       
+     
+   </script>
+          
+           <div class="card border-0">
+              <div class="card-body p-0" style="border-top: solid 1px #007ee5;">
+                 <div class="small-greybox p-2" style="font-size: 12px; border-bottom:solid 1px #007ee5;">
+                    병원 검색결과 (검색결과 중 하나를 선택하세요)
+                 </div>
+
+                 <!--병원 검색 결과 나오는 부분-->
+                 <div class="border-left-0 hospital-search-result-container">
+                 <div style="overflow:hidden; width:450px;">
+                  <div class="list-group" style="height: 230px; width:470px; overflow-y: scroll;">
+                     
+                     <!--검색 결과 나오는 부분-->
+                     <table id="searchHpNameTb">
+                        <tr>
+                           <td></td>
+                           <td></td>
+                        </tr>
+                     </table>
+                  </div>
+                 </div><!-- -------- -->
+                 
+                  
+              		<!-- 선택한 병원 카테고리 나오는 부분 -->
+              		<div style="overflow:hidden; width:450px;">
+		              	<div class="list-group hpCateArea" style="height: 100px; width:470px; overflow-y: scroll; display:none;">
+			                 <table id="searchHpCateTb">
+			                 	<tr>
+			                 		<td></td>
+			                 	</tr>
+			                 </table>
+		                 </div>
+	                 </div><!-- -------- -->
+                </div>
+                 <button type="button" id="hospital-search-save-btn" class="btn btn-mdd w-100 p-2 mt-3" style="color: #FFFFFF;background-color: #007ee5;">
+                    선택완료
+                 </button>
+              </div>
+           </div>
+   
+        </div>
+      </div>
+     </div>
+   </div>
+	<!--  End of Modal  -->				
 
 					<div class="wrap-input100 validate-input" id="select1"
 						data-validate="정해진 진료과목을 선택 및 입력해주세요.">
-						<span class="focus-input100" data-placeholder="주분야"></span> 
-						<select class="input100" name="hpCateCode" id="hpCateCode" style="border: none;">
-						
-						</select>
-
+						<span class="focus-input100" data-placeholder="주분야"></span>
+						<input class="input100" name="hpCateName" id="hpCateName" type="text" style="border: none;" />
+						<input type="hidden" name="hpCateCode" id="hpCateCode" />
 					</div>
 
 					<div class="wrap-input100 validate-input"
@@ -336,9 +556,7 @@
 
 	<div id="dropDownSelect1"></div>
   <%@ include file="../static/footer.jsp"%>
-	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/resources/login_vendor/jquery/jquery-3.2.1.min.js"></script>
+	
 	<!--===============================================================================================-->
 	<script
 		src="<%=request.getContextPath()%>/resources/login_vendor/animsition/js/animsition.min.js"></script>

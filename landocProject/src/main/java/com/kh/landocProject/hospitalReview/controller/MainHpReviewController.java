@@ -197,44 +197,58 @@ public class MainHpReviewController {
 		for (HpReview list : hrList) {
 			avgRate += list.getAvgRate();
 		}
-		double totalAvgRate = Math.floor((avgRate / reviewNum) * 100 / 100.0);
+		double totalAvgRate2 = (double)avgRate / reviewNum;
+		double totalAvgRate= Double.parseDouble(String.format("%.2f",totalAvgRate2));
 
+		
 		double explanation = 0;
 		for (HpReview list : hrList) {
 			explanation += list.getExplanation();
 		}
-		double totalExplanation = Math.floor((explanation / reviewNum) * 100 / 100.0);
-
+		double totalExplanation2 = (double)explanation / reviewNum;
+		double totalExplanation = Double.parseDouble(String.format("%.2f",totalExplanation2));
+		
 		double kindness = 0;
 		for (HpReview list : hrList) {
 			kindness += list.getKindness();
 		}
-		double totalKindness = Math.floor((kindness / reviewNum) * 100 / 100.0);
-
+		double totalKindness2 = (double)kindness / reviewNum;
+		double totalKindness = Double.parseDouble(String.format("%.2f",totalKindness2));
+		
+		
+		
 		double waitingTime = 0;
 		for (HpReview list : hrList) {
 			waitingTime += list.getKindness();
 		}
-		double totalWaitingTime = Math.floor((waitingTime / reviewNum) * 100 / 100.0);
-
+		double totalWaitingTime2 = (double)waitingTime / reviewNum;
+		double totalWaitingTime = Double.parseDouble(String.format("%.2f",totalWaitingTime2));
+		
+		
 		double trResult = 0;
 		for (HpReview list : hrList) {
 			trResult += list.getKindness();
 		}
-		double totalTrResult = Math.floor((trResult / reviewNum) * 100 / 100.0);
-
+		double totalTrResult2 = (double)trResult / reviewNum;
+		double totalTrResult = Double.parseDouble(String.format("%.2f",totalTrResult2));
+		
+		
 		double sanitary = 0;
 		for (HpReview list : hrList) {
 			sanitary += list.getKindness();
 		}
-		double totalSanitary = Math.floor((sanitary / reviewNum) * 100 / 100.0);
-
+		double totalSanitary2 = (double)sanitary / reviewNum;
+		double totalSanitary = Double.parseDouble(String.format("%.2f",totalSanitary2));
+		
+		
 		double price = 0;
 		for (HpReview list : hrList) {
 			price += list.getKindness();
 		}
-		double totalPrice = Math.floor((price / reviewNum) * 100 / 100.0);
-
+		double totalPrice2 = (double)price / reviewNum;
+		double totalPrice = Double.parseDouble(String.format("%.2f",totalPrice2));
+		
+		
 		hr.setAvgRate(totalAvgRate);
 		hr.setExplanation(totalExplanation);
 		hr.setKindness(totalKindness);
@@ -243,6 +257,10 @@ public class MainHpReviewController {
 		hr.setSanitary(totalSanitary);
 		hr.setPrice(totalPrice);
 
+		System.out.println(hr);
+		System.out.println("리뷰 수  : " + reviewNum);
+		
+		
 		// 병원 리뷰 페이징 처리
 		if (currentPage == null) {
 			currentPage = 1;

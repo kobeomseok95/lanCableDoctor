@@ -56,7 +56,7 @@
 			<div class="row">
                 <div class="col-2 d-flex align-items-center" style="border: 2px solid #9b9b9b; height: 131px; padding: 0px">
                 	<c:if test="${empty dr.proRename || dr.proRename eq ''}">
-                		<img style="width: 100%; height: 100%;" src="/projectFiles/profile.png">
+                		<img style="width: 100%; height: 100%;" src="/projectFiles/doctorProfile.png">
                 	</c:if>
                 	
                 	<c:if test="${!empty dr.proRename }">	

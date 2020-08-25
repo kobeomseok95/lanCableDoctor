@@ -517,8 +517,11 @@ img {
     
                         </div>
                 
-                        <div style="font-size: 12px; font-weight: 300;  letter-spacing: -0.6px;color: #494949;cursor: pointer;" onclick="location.href='#reviewdetailinfo'">
-                            		${hpReList[0].hpReContent }
+                        <div style="font-size: 12px; font-weight: 300;  letter-spacing: -0.6px;color: #494949;cursor: pointer; onclick="location.href='#reviewdetailinfo'">
+                        	<textarea cols="30px;" rows="4px;" readonly style="border:none; overflow:hidden;">
+                        		${hpReList[0].hpReContent }
+                        	 </textarea>
+                            		
                         </div>
                         
                     </div>
@@ -1492,8 +1495,8 @@ img {
                        						<div>
 						         					<div class="text-center my-4 pt-5 pb-0" style="letter-spacing: -0.7px;font-size: 1rem;color:#9b9b9b;font-weight:bold;">
 						                            <img src="https://d23zwvh2kbhdec.cloudfront.net/static_20_08_04/img/nonpage.svg" class="img-fluid mb-2" alt="Responsive image">
-						                            <p class="m-0">아직 등록된 질문이 없습니다.</p>
-						                            <p class="m-0">첫 질문을 등록해보세요!</p>
+						                            <p class="m-0">아직 등록된 병원리뷰가 없습니다.</p>
+						                            <p class="m-0">첫 리뷰를 등록해보세요!</p>
 						                        </div>
                        					
                        				</div>
@@ -2167,13 +2170,16 @@ img {
                                     </div>
                                 </div>
                                 
-                                    <div class="toast-message content-box text-left class49 mb-4" style="font-size: 14px;font-weight: 300;letter-spacing: -0.6px;">
-						                   ${hpRe.hpReContent }
+                        			<div class="toast-message content-box text-left class49 mb-4" style="font-size: 14px;font-weight: 300;letter-spacing: -0.6px;">
+						            	<textarea rows="12px;" cols="100px;" readonly style="border:none;overflow:hidden;">${hpRe.hpReContent }</textarea>
+						            
+						                   
                                     </div>
-                                    <div class="d-flex my-2" style="overflow-x:auto;">
-                                        
-                                    </div>
-    
+                         
+                   				
+                                
+                                
+                                
                             </div>
                         </div>
                         </div>

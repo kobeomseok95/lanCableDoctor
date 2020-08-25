@@ -97,7 +97,7 @@
                 <c:if test="${drPage.proRename == null }">
                  <tr>
                     <th class="firstLine">프로필</th>
-                    <td><img id="imagePreview1"style="width: 100px; height: 100px;" src="/projectFiles/profile.png"></td>
+                    <td><img id="imagePreview1"style="width: 100px; height: 100px;" src="https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/dog.png"></td>
                 </tr>  
                 </c:if>
                 <c:forEach var="file" items="${list }">
@@ -124,8 +124,10 @@
 
             <!--수정하기 뒤로 가기 버튼영역-->
             <div id="btnArea">
+            <c:if test="${!empty list}">
            		<button type="submit">승인하기</button>
 				<button onclick="return no(this.form);">미승인 요청</button>
+			</c:if>
                 <!-- <button type="submit">수정하기</button> -->
                 <button type="button" onclick="goBack();">뒤로가기</button>
             </div>

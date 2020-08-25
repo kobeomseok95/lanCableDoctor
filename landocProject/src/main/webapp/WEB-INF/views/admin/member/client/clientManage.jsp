@@ -5,14 +5,15 @@
 	String msg = (String)request.getParameter("msg");
 %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"  xmlns="http://www.w3.org/1999/xhtml">
 <meta charset="UTF-8">
 <head>
+
     <title>clientManage</title>
     <script src= 'http://code.jquery.com/jquery-latest.js'></script>
     
     <style>
-        
+    
         /*오른쪽 영역부분*/
         #contentArea{position: absolute; left: 300px; top: 20px; width: 78%; height: 100%;}
         #contentArea h3{padding-bottom: 2%; text-align:center;}
@@ -37,7 +38,7 @@
      
     </style>
 <body>
-   
+
    <jsp:include page="../../../common/adminSide.jsp"/>
     
 
@@ -161,8 +162,8 @@
                 <th class="firstLine">휴대폰 번호</th>
                 <th class="firstLine">이메일</th>
                 <th class="firstLine">포인트</th>
-                <th class="firstLine">우편번호</th>
-                <th class="firstLine">상세주소</th>
+                <!-- <th class="firstLine">우편번호</th>
+                <th class="firstLine">상세주소</th> -->
                 <th class="firstLine">프로필</th>
                 <th class="firstLine">마케팅 여부</th>
                 <th class="firstLine">가입 날짜</th>
@@ -181,8 +182,8 @@
 		                <td>${cli.phone }</td>
 		                <td>${cli.email }</td>
 		                <td>${cli.point }</td>
-		                <td>${cli.post }</td>
-		                <td>${cli.address }</td>
+		                <%-- <td>${cli.post }</td>
+		                <td>${cli.address }</td> --%>
 		                <td>${cli.profile }</td>
 		                <td>${cli.marketing }</td>
 		                <td>${cli.enrollDate }</td>
@@ -283,10 +284,7 @@
 			</c:if>
 		</div><!-- pageingArea end -->
     </div><!-- 오른쪽 content end -->
-
-
-   
-
+ 
    <script>
    
         // 테이블 한 줄 hover효과 주는 function
