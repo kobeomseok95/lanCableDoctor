@@ -551,6 +551,7 @@ public class DmyPageController {
 			heart = 0;
 		}
 		
+		System.out.println("controller에서 dp : " +dp);
 		mv.addObject("dp", dp);
 		mv.addObject("cNo", cNo);
 		mv.addObject("replyDrNo", replyDrNo);
