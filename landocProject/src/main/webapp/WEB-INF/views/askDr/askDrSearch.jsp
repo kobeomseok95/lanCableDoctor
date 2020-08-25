@@ -86,7 +86,7 @@
 	height: 30px;
 	background: rgba(0, 123, 255, .5);
 	border-bottom: 1px solid #ddd;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: bold;
 	color: white;
 }
@@ -228,7 +228,7 @@
 													class="mb-2">
 														${list.drName}
 													</div>
-													<div style="font-size: 1.313rem; font-weight: 200"
+													<div style="font-size: 16px; font-weight: 300"
 														class="d-flex justify-content-start align-items-start mb-2">
 														${list.hpName}
 													</div>
@@ -245,7 +245,7 @@
 														
 														<!-- 여긴 채택률 -->
 														<div class="review-count-box ml-5"
-															style="font-size: 18px;">
+															style="font-size: 16px;">
 															<span>채택률</span>
 															<span>${list.choosePer}%</span>
 														</div>
@@ -360,9 +360,9 @@
 	            }
 	            
 	            var goProfile = document.createElement('a');
-	            goProfile.setAttribute('href', '#');		//의사 프로필
+	            goProfile.setAttribute('href', 'checkDrProfile.do?replyDrNo=');		//의사 프로필
 	            goProfile.className = 'goProfile';
-	            goProfile.innerHTML = '<i class="far fa-address-card"></i>';
+	            goProfile.innerHTML = '<i class="far fa-address-card fa-lg"></i>';
 	            infoDiv.appendChild(titleDiv);
 	            titleDiv.appendChild(goProfile);
 	            

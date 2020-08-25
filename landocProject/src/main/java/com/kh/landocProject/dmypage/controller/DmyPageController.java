@@ -478,6 +478,7 @@ public class DmyPageController {
 		}
 		
 
+	// 의사 프로필_희지
 	@RequestMapping(value="checkDrProfile.do", method=RequestMethod.GET)
 	public ModelAndView checkDrProfile(HttpSession session, ModelAndView mv, DrProfile dp, HpLike hl, 
 										@RequestParam(value="replyDrNo", required=false) String replyDrNo) {
