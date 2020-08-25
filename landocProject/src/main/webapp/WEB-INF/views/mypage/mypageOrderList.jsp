@@ -310,7 +310,7 @@
 									</div>
 
 									<div class="detail-link">
-										<a href="#" onclick="orderDetail(${o.orderNo});" class="link"
+										<a href="#" onclick="orderDetail(${o.orderNo},${o.pdNo});" class="link"
 											data-toggle="modal" data-target="#ordermodal">주문상세보기</a>
 
 									</div>
@@ -353,6 +353,7 @@
 									<div class="links">
 										<c:url var="orderQnaInsert" value="orderQnaInsertView.do">
 											<c:param name="orderNo" value="${o.orderNo}" />
+											<c:param name="pdNo" value="${o.pdNo}" />
 										</c:url>
 										<button type="button"
 											onclick="location.href='${orderQnaInsert}'" id="edit_profile"
@@ -362,20 +363,21 @@
 									</div>
 									<div class="buttons" style="float: right;">
 										<c:if test="${o.oCode ge 1 && o.oCode le 3}">
-											<button type="button" onclick="cancel(${o.orderNo})" id="edit_profile"
+											<button type="button" onclick="cancel(${o.orderNo},${o.pdNo})" id="edit_profile"
 											class="btn btn-blackcontent w-10 p-1"
 											style="font-size: 13px; background-color: #0071ce; color: whitesmoke">주문취소</button>
 
 										</c:if>
 										<c:if test="${o.oCode ge 4 && o.oCode le 5}">
-											<button type="button" onclick="pdreturn(${o.orderNo})" id="edit_profile"
+											<button type="button" onclick="pdreturn(${o.orderNo},${o.pdNo})" id="edit_profile"
 												class="btn btn-blackcontent w-10 p-1"
 												style="font-size: 13px; background-color: #0071ce; color: whitesmoke">반품신청</button>
-											<button type="button" onclick="change(${o.orderNo})" id="edit_profile"
+											<button type="button" onclick="change(${o.orderNo},${o.pdNo})" id="edit_profile"
 												class="btn btn-blackcontent w-10 p-1"
 												style="font-size: 13px; background-color: #0071ce; color: whitesmoke">교환신청</button>
 											<c:url var="pdReviewInset" value="pdReviewInsertView.do">
 												<c:param name="orderNo" value="${o.orderNo}" />
+												<c:param name="pdNo" value="${o.pdNo}" />
 											</c:url>
 											<button type="button"
 												onclick="location.href='${pdReviewInset}'" id="edit_profile"
@@ -386,6 +388,7 @@
 										<c:url var="updateReview" value="updateReviewView.do">
 											<c:param name="orderNo" value="${o.orderNo}"/>
 											<c:param name="cNo" value="${o.cNo }"/>
+											<c:param name="pdNo" value="${o.pdNo }"/>
 										</c:url>
 											<button type="button" id="edit_profile" onclick="location.href='${updateReview}'"
 												class="btn btn-blackcontent w-10 p-1"
@@ -415,27 +418,30 @@
 	
 		
 	
-		function cancel(value){
+		function cancel(value,pdNo){
 			var orderNo =value;
+		
 			var sellflag = confirm("주문취소 하시겠습니까?");
             if(sellflag){
-               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=15";
+               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=15&pdNo="+pdNo;
             }
 		}
 		
-		function pdreturn(value){
+		function pdreturn(value,pdNo){
 			var orderNo = value;
+		
 			var sellflag = confirm("반품요청 하시겠습니까?");
             if(sellflag){
-          		location.href="orderCancel.do?orderNo="+orderNo+"&oCode=6";
+          		location.href="orderCancel.do?orderNo="+orderNo+"&oCode=6&pdNo="+pdNo;
             }
 		}
 		
-		function change(value){
+		function change(value,pdNo){
 			var orderNo = value;
+		
 			var sellflag = confirm("교환요청 하시겠습니까?");
             if(sellflag){
-               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=10";
+               location.href="orderCancel.do?orderNo="+orderNo+"&oCode=10&pdNo="+pdNo;
             }
 		}
 	</script>
@@ -570,12 +576,13 @@
 	<!--pagination end-->
 
 	<script>
-			function orderDetail(b){
+			function orderDetail(b,n){
 			                 
 				var orderNo=b;
+				var pdNo=n;
 				$.ajax({
 					url:"cmOrderDetail.do",
-					data:{orderNo:orderNo},
+					data:{orderNo:orderNo,pdNo:pdNo},
 					dataType:"json",
 					success:function(data){
 						$tableBody = $("#orderInfo tbody");

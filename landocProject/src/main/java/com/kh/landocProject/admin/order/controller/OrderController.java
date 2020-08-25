@@ -151,8 +151,9 @@ public class OrderController {
 	public ModelAndView omGrant(HttpSession session,ModelAndView mv,HttpServletResponse response,
 			@RequestParam(value="orderNo") int orderNo,
 			@RequestParam(value="oCode") int oCode,
+			@RequestParam(value="pdNo") int pdNo,
 			OrderManage order) throws OrderException {
-	
+		order.setPdNo(pdNo);
 		order.setOrderNo(orderNo);
 		order.setoCode(oCode);
 		int currentPage = 1;
@@ -182,8 +183,9 @@ public class OrderController {
 	public ModelAndView omGrantCancel(HttpSession session,ModelAndView mv,HttpServletResponse response,
 			@RequestParam(value="orderNo") int orderNo,
 			@RequestParam(value="oCode") int oCode,
+			@RequestParam(value="pdNo") int pdNo,
 			OrderManage order) throws OrderException {
-	
+		order.setPdNo(pdNo);
 		order.setOrderNo(orderNo);
 		order.setoCode(oCode);
 		int currentPage = 1;

@@ -37,6 +37,7 @@
 		LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
 		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
 		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
+		WHERE OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
 		ORDER BY OQ.OQNA_DATE DESC
 	</select>
 	
@@ -49,7 +50,7 @@
 		LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
 		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
 		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
-		WHERE OQ.OQNA_NO=#{oqnaNo}
+		WHERE OQ.OQNA_NO=#{oqnaNo} AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
 	</select>
 	
 	
@@ -62,16 +63,16 @@
 		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
 		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
 		<if test='condition=="opOrder"'>
-		WHERE OM.ORDER_NO = #{search}
+		WHERE OM.ORDER_NO = #{search} AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
 		</if>
 		<if test='condition=="opId"'>
-		WHERE C.C_ID =#{search} OR D.DR_ID=#{search}
+		WHERE (C.C_ID =#{search} OR D.DR_ID=#{search}) AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
 		</if> 
 		<if test='condition=="opTitle"'>
-		WHERE OQ.OQNA_TITLE LIKE '%'||#{search}||'%'
+		WHERE OQ.OQNA_TITLE LIKE '%'||#{search}||'%' AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
 		</if>
 		<if test='condition=="opContent"'>
-		WHERE OQ.OQNA_CONTENT LIKE '%'||#{search}||'%'
+		WHERE OQ.OQNA_CONTENT LIKE '%'||#{search}||'%' AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
 		</if>
 	</select>
 	
@@ -88,7 +89,7 @@
 		LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
 		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
 		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
-		WHERE OQNA_STATUS = 'N'
+		WHERE OQNA_STATUS = 'N' AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
 		ORDER BY OQ.OQNA_DATE DESC
 		
 	</select>

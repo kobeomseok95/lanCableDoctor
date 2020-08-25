@@ -10,13 +10,14 @@ public class OrderManage{
 	private Date orderDate;
 	private String oName;
 	private int oCode;
+	private int pdNo;
 	
 	private String condition;
 	private String search;
 	public OrderManage() {
 	}
 	public OrderManage(int orderNo, String pdName, String cId, String drId, Date orderDate, String oName, int oCode,
-			String condition, String search) {
+			int pdNo, String condition, String search) {
 		super();
 		this.orderNo = orderNo;
 		this.pdName = pdName;
@@ -25,6 +26,7 @@ public class OrderManage{
 		this.orderDate = orderDate;
 		this.oName = oName;
 		this.oCode = oCode;
+		this.pdNo = pdNo;
 		this.condition = condition;
 		this.search = search;
 	}
@@ -70,6 +72,12 @@ public class OrderManage{
 	public void setoCode(int oCode) {
 		this.oCode = oCode;
 	}
+	public int getPdNo() {
+		return pdNo;
+	}
+	public void setPdNo(int pdNo) {
+		this.pdNo = pdNo;
+	}
 	public String getCondition() {
 		return condition;
 	}
@@ -85,9 +93,12 @@ public class OrderManage{
 	@Override
 	public String toString() {
 		return "OrderManage [orderNo=" + orderNo + ", pdName=" + pdName + ", cId=" + cId + ", drId=" + drId
-				+ ", orderDate=" + orderDate + ", oName=" + oName + ", oCode=" + oCode + ", condition=" + condition
-				+ ", search=" + search + "]";
+				+ ", orderDate=" + orderDate + ", oName=" + oName + ", oCode=" + oCode + ", pdNo=" + pdNo
+				+ ", condition=" + condition + ", search=" + search + "]";
 	}
+	
+	
+	
 	
 	
 }

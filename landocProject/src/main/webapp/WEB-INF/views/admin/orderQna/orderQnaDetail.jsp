@@ -77,12 +77,8 @@
                 </tr>   
                 <tr>
                     <th class="firstLine">답변</th>
-                    <c:if test='${empty detail.oqnaAnswer}'>
-              		<td><textarea id="answer" name="answer" placeholder="답변을 입력하세요" rows="5" cols="100" required="required"></textarea></td>
-              		</c:if>
-              		<c:if test='${not empty detail.oqnaAnswer}'>
-              		<td><textarea id="answer" name="answer"  rows="5" cols="100" required="required">${detail.oqnaAnswer}</textarea></td>
-              		</c:if>
+                    <td><textarea id="answer" name="answer"  rows="5" cols="100" required="required" placeholder="답변을 등록하세요.">${detail.oqnaAnswer}</textarea></td>
+              		
                 </tr>   
             </table>
          
@@ -106,9 +102,7 @@
 
     <script>
   
-    var answer = $("#answer").val();
-   
-     
+  
     	 function goBack(){
             location.href="orderQnaManage.do";
         }

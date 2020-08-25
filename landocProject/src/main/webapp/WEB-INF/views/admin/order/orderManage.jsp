@@ -132,7 +132,7 @@
                 <c:choose>
                 	<c:when test="${m.oCode eq 6 or m.oCode eq 10}">
                 	<td>
-                    <button type="button" onclick="location.href='omGrant.do?orderNo=${m.orderNo}&oCode=${m.oCode}'">승인</button>
+                    <button type="button" onclick="location.href='omGrant.do?orderNo=${m.orderNo}&oCode=${m.oCode}&pdNo=${m.pdNo}'">승인</button>
                 	</td>
                 	</c:when>
                 	<c:when test="${m.oCode eq 15}">
@@ -140,7 +140,7 @@
                 	</c:when>
                 	<c:otherwise>
                 	 <td>
-                    <button type="button" onclick="location.href='omGrantCancel.do?orderNo=${m.orderNo}&oCode=${m.oCode}'">승인취소</button>
+                    <button type="button" onclick="location.href='omGrantCancel.do?orderNo=${m.orderNo}&oCode=${m.oCode}&pdNo=${m.pdNo}'">승인취소</button>
                 	</td>
                 	</c:otherwise>
                 </c:choose>

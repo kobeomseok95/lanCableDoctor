@@ -72,11 +72,12 @@
                 <option value="opTitle" >제목</option>
                 <option value="opContent" selected="selected">내용</option>
             </c:if>
-            
-                <option value="opOrder">주문번호</option>
-                <option value="opId">아이디</option>
-                <option value="opTitle">제목</option>
+            <c:if test="${condition == null}">
+                <option value="opOrder" >주문번호</option>
+                <option value="opId" >아이디</option>
+                <option value="opTitle" >제목</option>
                 <option value="opContent">내용</option>
+            </c:if>
             </select>
             <input type="text" name="search" id="search" value="${search}" required="required">
             <button type="button" onclick="searchHpRe()">검색하기</button>
