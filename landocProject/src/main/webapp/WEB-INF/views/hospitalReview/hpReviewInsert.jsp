@@ -1276,7 +1276,7 @@
          <div class="summit-content-box mx-auto p-5 mt-4">
             <div class="row mb-4">
                <div class="col-sm-1">
-                  <div class="content-box-numbering align-middle mx-auto">6</div>
+                  <div class="content-box-numbering align-middle mx-auto">5</div>
                </div>
                <div class="col-sm-11 content-box-title">
                   이 병원은..?

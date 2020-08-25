@@ -233,7 +233,7 @@
                         	<tr>
                         		<td>
                                     <c:if test="${empty rec.profileFileName }">
-                                    <i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>
+                                    <img src="/projectFiles/doctorProfile.png" style="width:70px; height:70px;">
                                     </c:if>
                                     <c:if test="${!empty rec.profileFileName }">
                                     <img src="/projectFiles/${rec.profileFileName }" />
@@ -248,7 +248,7 @@
 											<i class='fas fa-times fa-1x'></i>
 										</a>"
 										data-content="
-										<a href='#'>선생님 프로필</a>
+										<a href='checkDrProfile.do?replyDrNo=${rec.drNo }'>선생님 프로필</a>
 										<br>
 										<a href='mainHpReviewDetail.do?hpNo=${rec.hpNo }'>${rec.hpName }</a>"
 										>
@@ -492,10 +492,11 @@
                         	<tr>
                         		<td>
                         		<c:if test="${empty review.cNo && !empty review.drNo && empty review.drProfile }">
-                        			<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>
+                        			<img src="https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/hamster.png" style="width:50px; height:auto;">
                         		</c:if>
                         		<c:if test="${!empty review.cNo && empty review.drNo && empty review.clientProfile }">
-                        			<i class="fas fa-user fa-5x" style="color: #b3b7ba;"></i>
+                        		<img src="https://d23zwvh2kbhdec.cloudfront.net/media/public/customers/photos/animals/hamster.png" style="width:50px; height:auto;">
+                        			<!-- <i class="fas fa-user fa-5x" style="color: #b3b7ba;"></i> -->
                         		</c:if>
                         		<c:if test="${empty review.cNo && !empty review.drNo && !empty review.drProfile }">
                         			<img src="/projectFiles/${review.drProfile }" />
