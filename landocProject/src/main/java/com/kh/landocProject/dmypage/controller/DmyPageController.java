@@ -495,6 +495,7 @@ public class DmyPageController {
 		String drNo = "";
 		
 		if(loginDrClient != null) {
+			System.out.println("line 498, 의사로그인");
 			drNo = loginDrClient.getDrNo();
 			dp = dMypageService.selectOneDr(drNo);
 			
@@ -550,6 +551,12 @@ public class DmyPageController {
 			cNo = "none";
 			heart = 0;
 		}
+		
+		System.out.println("*********Test line 554*********");
+		System.out.println("replyDrNo");
+		System.out.println(replyDrNo);
+		System.out.println("DoctorProfile");
+		System.out.println(dp);
 		
 		mv.addObject("dp", dp);
 		mv.addObject("cNo", cNo);
