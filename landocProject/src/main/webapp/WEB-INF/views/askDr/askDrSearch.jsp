@@ -210,7 +210,7 @@
 							<c:forEach var="list" items="${searchList}">
 								<div class="doctor-total-box border-bottom">
 								<!-- -------------------------------------------------------------------------------- -->
-									<a href="#" style="color: inherit; text-decoration: none;">
+									<a href="checkDrProfile.do?replyDrNo=${list.drNo }" style="color: inherit; text-decoration: none;">
 										<div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
 											<div class="row px-3">
 												<div class="col-3 profile-doctor-image-box p-0">
@@ -218,7 +218,7 @@
 													<img src="/projectFiles/doctorProfile.png">
 													</c:if>
 													<c:if test="${!empty list.profileFileName }">
-													<img src="${list.profileFileName}"
+													<img src="/projectFiles/${list.profileFileName}"
 														class="img-circle profile-doctor-image border"
 														style="width: 97px; height: 97px;">
 													</c:if>
@@ -243,7 +243,6 @@
 															 <b>${list.drDislike}</b>
 														</span> --%>
 														
-														<!-- 여긴 채택률 -->
 														<div class="review-count-box ml-5"
 															style="font-size: 16px;">
 															<span>채택률</span>
@@ -322,17 +321,6 @@
 		listAdr.push("${list.hpAddress}");
 	</c:forEach>
 	
-	/* var listTitle = new Array();
-	var listAdr = new Array();
-	var listFile = new Array();
-	var listDrName = new Array();
-	<c:forEach var="list" items="${searchList}" >
-	   listTitle.push("${list.hpName}");
-	   listAdr.push("${list.hpAddress}");
-	   listFile.push("${list.profileFileName}");
-	   listDrName.push("${list.drName}");
-	</c:forEach> */
-	
 	listAdr.forEach(function(addr, index){
 	      
 	    geocoder.addressSearch(addr, function(result, status) {
@@ -360,7 +348,7 @@
 	            }
 	            
 	            var goProfile = document.createElement('a');
-	            goProfile.setAttribute('href', 'checkDrProfile.do?replyDrNo=');		//의사 프로필
+	            goProfile.setAttribute('href', 'checkDrProfile.do?replyDrNo=' + searchList[i].drNo);		//의사 프로필
 	            goProfile.className = 'goProfile';
 	            goProfile.innerHTML = '<i class="far fa-address-card fa-lg"></i>';
 	            infoDiv.appendChild(titleDiv);
@@ -396,7 +384,8 @@
             		else if(searchList[i].hpAddress === listAdr[index] && 
             				searchList[i].profileFileName !== ""){
             			imgsrc =  document.createElement('img');
-                     	imgsrc.setAttribute( 'src', 'C:\\lanCableDoctorProject\\files\\' + searchList[i].profileFileName );
+                     	imgsrc.setAttribute( 'src', '/projectFiles/' + searchList[i].profileFileName );
+                     	imgsrc.setAttribute( 'style', 'width: 100%; height: 100%;' );
             		}
             	}
             	img.appendChild(imgsrc);
@@ -442,8 +431,7 @@
 	            var a = document.createElement('a');
 	            for(var i in searchList){
 	            	if(searchList[i].hpAddress === listAdr[index]){
-			            a.setAttribute('href', /*병원 프로필 만들어지면 완성하기*/
-			            		searchList[i].hpNo);
+			            a.setAttribute('href', 'mainHpReviewDetail.do?hpNo=' + searchList[i].hpNo);
 	            	}
 	            }
 	            a.innerHTML='병원가기';
