@@ -144,7 +144,9 @@
 		<if test="area != '전체'">
         AND hp_address LIKE '%'||#{area}||'%'
         </if>
-        AND HP.HP_NAME LIKE #{hpName} group by HP.HP_NO, HP.HP_NAME
+        AND HP.HP_NAME LIKE #{hpName} 
+        AND HW.RECEIPT_YN = 'Y'
+        group by HP.HP_NO, HP.HP_NAME
         ORDER BY 1
   </select>
 
@@ -242,6 +244,7 @@
         LEFT JOIN HPREVIEW HW ON(HP.HP_NO=HW.HP_NO)
 		WHERE  HP.HP_STATUS='Y'
         AND HG.HPCATE_NAME = #{cateName}
+        AND HW.RECEIPT_YN = 'Y'
         group by HP.HP_NO, HP.HP_NAME
    		ORDER BY 1
    </select>

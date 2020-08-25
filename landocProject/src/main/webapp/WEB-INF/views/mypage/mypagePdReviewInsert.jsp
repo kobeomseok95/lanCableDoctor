@@ -127,7 +127,7 @@
 
 											</td>
 											<td style="border-right: solid lightgray 1px;"><a
-												href="#">${orderDetail.pdName}</a></td>
+												href="productDetail.do?pdNo=${orderDetail.pdNo}">${orderDetail.pdName}</a></td>
 											<td class="price" rowspan="2"
 												style="border-right: solid lightgray 1px;"><strong
 												class="num">${orderDetail.countMultiple}</strong>원 (<strong

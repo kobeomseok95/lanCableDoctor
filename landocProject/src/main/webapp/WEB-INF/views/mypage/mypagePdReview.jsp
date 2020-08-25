@@ -145,6 +145,7 @@
                   <c:url var="updateReview" value="updateReviewView.do">
                      <c:param name="orderNo" value="${r.orderNo}"/>
                      <c:param name="cNo" value="${r.cNo}"/>
+                     <c:param name="pdNo" value="${r.pdNo}"/>
                   </c:url>
                      <a href="${updateReview}" class=""> 수정 </a> | <a href="productDetail.do?pdNo=${r.pdNo}"
                         class="review-list-detail"> 재구매 </a>

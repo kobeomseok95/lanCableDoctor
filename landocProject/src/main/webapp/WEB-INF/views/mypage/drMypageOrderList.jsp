@@ -312,7 +312,7 @@
 									</div>
 
 									<div class="detail-link">
-										<a href="#" onclick="orderDetail(${o.orderNo});" class="link"
+										<a href="#" onclick="orderDetail(${o.orderNo},${o.pdNo});" class="link"
 											data-toggle="modal" data-target="#ordermodal">주문상세보기</a>
 
 									</div>
@@ -355,6 +355,7 @@
 									<div class="links">
 										<c:url var="orderQnaInsert" value="drOrderQnaInsertView.do">
 											<c:param name="orderNo" value="${o.orderNo}" />
+											<c:param name="pdNo" value="${o.pdNo}" />
 										</c:url>
 										<button type="button"
 											onclick="location.href='${orderQnaInsert}'" id="edit_profile"
@@ -364,20 +365,21 @@
 									</div>
 									<div class="buttons" style="float: right;">
 										<c:if test="${o.oCode ge 1 && o.oCode le 3}">
-											<button type="button" onclick="cancel(${o.orderNo})" id="edit_profile"
+											<button type="button" onclick="cancel(${o.orderNo},${o.pdNo})" id="edit_profile"
 											class="btn btn-blackcontent w-10 p-1"
 											style="font-size: 13px; background-color: #0071ce; color: whitesmoke">주문취소</button>
 
 										</c:if>
 										<c:if test="${o.oCode ge 4 && o.oCode le 5}">
-											<button type="button" onclick="pdreturn(${o.orderNo})" id="edit_profile"
+											<button type="button" onclick="pdreturn(${o.orderNo},${o.pdNo})" id="edit_profile"
 												class="btn btn-blackcontent w-10 p-1"
 												style="font-size: 13px; background-color: #0071ce; color: whitesmoke">반품신청</button>
-											<button type="button" onclick="change(${o.orderNo})" id="edit_profile"
+											<button type="button" onclick="change(${o.orderNo},${o.pdNo})" id="edit_profile"
 												class="btn btn-blackcontent w-10 p-1"
 												style="font-size: 13px; background-color: #0071ce; color: whitesmoke">교환신청</button>
 											<c:url var="pdReviewInset" value="drPdReviewInsertView.do">
 												<c:param name="orderNo" value="${o.orderNo}" />
+												<c:param name="pdNo" value="${o.pdNo}" />
 											</c:url>
 											<button type="button"
 												onclick="location.href='${pdReviewInset}'" id="edit_profile"
@@ -388,6 +390,7 @@
 										<c:url var="updateReview" value="updateReviewView.do">
 											<c:param name="orderNo" value="${o.orderNo}"/>
 											<c:param name="drNo" value="${o.drNo }"/>
+											<c:param name="pdNo" value="${o.pdNo}" />
 										</c:url>
 											<button type="button" id="edit_profile" onclick="location.href='${updateReview}'"
 												class="btn btn-blackcontent w-10 p-1"
@@ -408,31 +411,31 @@
 	</div>
 
 	<script>
-		function cancel(value){
+		function cancel(value,pdNo){
 			var orderNo =value;
+		
 			var sellflag = confirm("주문취소 하시겠습니까?");
-            if(sellflag){
-               //여기 중요
-               location.href="drOrderCancel.do?orderNo="+orderNo+"&oCode=15";
-            }
+	        if(sellflag){
+	           location.href="drOrderCancel.do?orderNo="+orderNo+"&oCode=15&pdNo="+pdNo;
+	        }
 		}
 		
-		function pdreturn(value){
+		function pdreturn(value,pdNo){
 			var orderNo = value;
+		
 			var sellflag = confirm("반품요청 하시겠습니까?");
-            if(sellflag){
-               //여기 중요
-               location.href="drOrderCancel.do?orderNo="+orderNo+"&oCode=6";
-            }
+	        if(sellflag){
+	      		location.href="drOrderCancel.do?orderNo="+orderNo+"&oCode=6&pdNo="+pdNo;
+	        }
 		}
 		
-		function change(value){
+		function change(value,pdNo){
 			var orderNo = value;
+		
 			var sellflag = confirm("교환요청 하시겠습니까?");
-            if(sellflag){
-               //여기 중요
-               location.href="drOrderCancel.do?orderNo="+orderNo+"&oCode=10";
-            }
+	        if(sellflag){
+	           location.href="drOrderCancel.do?orderNo="+orderNo+"&oCode=10&pdNo="+pdNo;
+	        }
 		}
 	</script>
 
@@ -447,27 +450,23 @@
 					aria-label="Previous"> <span aria-hidden="true">«</span>
 				</a></li>
 			</c:if>
-			
-			
-			
-			
 
 			<c:if test="${pi.currentPage gt 1 }">
 				<c:if test ="${empty date && empty date1}">
-				<c:url var="blistBack" value="myOrderList.do">
+				<c:url var="blistBack" value="drMyOrderList.do">
 					<c:param name="page" value="${pi.currentPage -1 }" />
 				</c:url>
 				</c:if>
 				
 				<c:if test="${!empty date}">
-				<c:url var="blistBack" value="dateSearch.do">
+				<c:url var="blistBack" value="drDateSearch.do">
 					<c:param name="page" value="${pi.currentPage -1 }" />
 					<c:param name="date" value="${date}" />
 				</c:url>
 				</c:if>
 				
 				<c:if test="${!empty data1 && !empty date2 }">
-				<c:url var="blistBack" value="dateSearch2.do">
+				<c:url var="blistBack" value="drDateSearch2.do">
 					<c:param name="page" value="${pi.currentPage -1 }" />
 					<c:param name="startDate" value="${date1}" />
 					<c:param name="endDate" value="${date2}" />
@@ -487,7 +486,7 @@
 						href="#" style="color:#a82400;">${p}</a></li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
-					<c:url var="blistCheck" value="myOrderList.do">
+					<c:url var="blistCheck" value="drMyOrderList.do">
 						<c:param name="page" value="${p }" />
 					</c:url>
 					<li class="active" style="width: 30px;"><a
@@ -501,7 +500,7 @@
 						href="#" style="color:#a82400;">${p}</a></li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
-					<c:url var="blistCheck" value="dateSearch.do">
+					<c:url var="blistCheck" value="drDateSearch.do">
 						<c:param name="page" value="${p }" />
 						<c:param name="date" value="${date}" />
 					</c:url>
@@ -516,7 +515,7 @@
 						href="#" style="color:#a82400;">${p}</a></li>
 				</c:if>
 				<c:if test="${p ne pi.currentPage }">
-					<c:url var="blistCheck" value="dateSearch2.do">
+					<c:url var="blistCheck" value="drDateSearch2.do">
 						<c:param name="page" value="${p }" />
 						<c:param name="startDate" value="${date1}" />
 						<c:param name="endDate" value="${date2}" />
@@ -535,20 +534,20 @@
 
 			<c:if test="${pi.currentPage lt pi.maxPage }">
 				<c:if test ="${empty date && empty date1}">
-					<c:url var="blistNext" value="myOrderList.do">
+					<c:url var="blistNext" value="drMyOrderList.do">
 						<c:param name="page" value="${pi.currentPage +1 }" />
 					</c:url>
 				</c:if>
 				
 				<c:if test="${!empty date }">
-					<c:url var="blistNext" value="dateSearch.do">
+					<c:url var="blistNext" value="drDateSearch.do">
 						<c:param name="page" value="${pi.currentPage +1 }" />
 						<c:param name="date" value="${date}" />
 					</c:url>
 				</c:if>
 				
 				<c:if test="${!empty date1 && !empty date2}">
-					<c:url var="blistNext" value="dateSearch.do">
+					<c:url var="blistNext" value="drDateSearch2.do">
 						<c:param name="page" value="${pi.currentPage +1 }" />	
 						<c:param name="startDate" value="${date1}" />
 						<c:param name="endDate" value="${date2}" />
@@ -570,12 +569,13 @@
 	<!--pagination end-->
 
 	<script>
-			function orderDetail(b){
+			function orderDetail(b,n){
 			                 
 				var orderNo=b;
+				var pdNo=n;
 				$.ajax({
 					url:"drOrderDetail.do",
-					data:{orderNo:orderNo},
+					data:{orderNo:orderNo,pdNo:pdNo},
 					dataType:"json",
 					success:function(data){
 						$tableBody = $("#orderInfo tbody");

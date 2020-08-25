@@ -125,9 +125,13 @@ public class DmyPageController {
 	}
 	
 	@RequestMapping(value="drOrderDetail.do")
-	public void orderDetail(HttpSession session,HttpServletResponse response,DOrderList order,@RequestParam(value="orderNo")int orderNo,@RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+	public void orderDetail(HttpSession session,HttpServletResponse response,DOrderList order,
+			@RequestParam(value="orderNo")int orderNo,
+			@RequestParam(value="pdNo") int pdNo,
+			@RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
 		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 		String drNo =loginClient.getDrNo();
+		order.setPdNo(pdNo);
 		order.setDrNo(drNo);
 		order.setOrderNo(orderNo);
 		DOrderList detail = dMypageService.selectOrderDetail(order);
@@ -323,9 +327,13 @@ public class DmyPageController {
 	}
 	
 	@RequestMapping(value="drOrderQnaInsertView.do")
-	public ModelAndView orderQnaInsertView(HttpSession session,ModelAndView mv,@RequestParam(value="orderNo") int orderNo,DOrderList order) {
+	public ModelAndView orderQnaInsertView(HttpSession session,ModelAndView mv,
+			@RequestParam(value="orderNo") int orderNo,
+			@RequestParam(value="pdNo") int pdNo,
+			DOrderList order) {
 		DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 		String drNo =loginClient.getDrNo();
+		order.setPdNo(pdNo);
 		order.setDrNo(drNo);
 		order.setOrderNo(orderNo);
 		
@@ -343,11 +351,13 @@ public class DmyPageController {
 	public ModelAndView orderQnaInsert(ModelAndView mv,
 			@RequestParam(value="orderNo") int orderNo,
 			@RequestParam(value="orderQnaContent") String oqnaContent,
+			@RequestParam(value="pdNo") int pdNo,
 			@RequestParam(value="orderQnaTitle") String oqnaTitle, DOrderQna qna) throws  IOException, DmypageException {
 		
 		qna.setOrderNo(orderNo);
 		qna.setOqnaTitle(oqnaTitle);
 		qna.setOqnaContent(oqnaContent);
+		qna.setPdNo(pdNo);
 		int result = dMypageService.orderQnaInsert(qna);
 		if(result>0) {
 			mv.addObject("msg","문의작성이 완료되었습니다.");
@@ -360,13 +370,22 @@ public class DmyPageController {
 	
 	// 리뷰수정 위한 정보 조회
 		@RequestMapping(value="drUpdateReviewView.do")
-		public ModelAndView updateReview(HttpSession session,ModelAndView mv , DPdReview review, DOrderList order ,@RequestParam(value="orderNo") int orderNo ) throws  DmypageException {
+		public ModelAndView updateReview(HttpSession session,
+				ModelAndView mv ,
+				DPdReview review, 
+				DOrderList order ,
+				@RequestParam(value="orderNo") int orderNo,
+				@RequestParam(value="pdNo") int pdNo) throws  DmypageException {
 			DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 			String drNo =loginClient.getDrNo();
 			review.setdNo(drNo);
 			review.setOrderNo(orderNo);
+			review.setPdNo(pdNo);
+			
 			order.setDrNo(drNo);
 			order.setOrderNo(orderNo);
+			order.setPdNo(pdNo);
+			
 			DPdReview pr = dMypageService.updateReview(review);
 			DOrderList detail = dMypageService.selectOrderDetail(order);
 			if(pr!=null && detail!=null) {
@@ -385,9 +404,12 @@ public class DmyPageController {
 		public ModelAndView updateReviewInsert(ModelAndView mv,HttpServletRequest request,HttpServletResponse response,HttpSession session,
 				DPdReview review,@RequestParam(value="orderNo") int orderNo, 
 				@RequestParam(value="pdReview") String pdReviewContent,
+				@RequestParam(value="pdNo") int pdNo, 
 				@RequestParam(value="pdReviewImg",required = false) MultipartFile file) throws IOException,DmypageException  {
 			DrClient loginClient = (DrClient)session.getAttribute("loginDrClient");
 			String drNo =loginClient.getDrNo();
+			
+			review.setPdNo(pdNo);
 			review.setdNo(drNo);
 			review.setOrderNo(orderNo);
 			String rename = dMypageService.selectPdReviewPhoto(review);
@@ -397,12 +419,14 @@ public class DmyPageController {
 			if(!file.getOriginalFilename().equals("")){
 				
 				String renameFile = saveFile(file, request);
+				review.setPdNo(pdNo);
 				review.setRenameFile(renameFile);
 				review.setOriginFile(file.getOriginalFilename());
 				review.setdNo(drNo);
 				review.setOrderNo(orderNo);
 				review.setPdReviewContent(pdReviewContent);
 			}else {
+				review.setPdNo(pdNo);
 				review.setRenameFile(null);
 				review.setOriginFile(null);
 				review.setdNo(drNo);
@@ -456,9 +480,13 @@ public class DmyPageController {
 		}
 		
 		@RequestMapping(value="drOrderCancel.do")
-		public ModelAndView orderCancel(ModelAndView mv,DOrderList order,@RequestParam(value="orderNo") int orderNo,@RequestParam(value="oCode") int oCode) throws IOException, DmypageException {
+		public ModelAndView orderCancel(ModelAndView mv,DOrderList order,
+				@RequestParam(value="orderNo") int orderNo,
+				@RequestParam(value="pdNo") int pdNo,
+				@RequestParam(value="oCode") int oCode) throws IOException, DmypageException {
 			order.setoCode(oCode);
 			order.setOrderNo(orderNo);
+			order.setPdNo(pdNo);
 			int result = dMypageService.orderCancel(order);
 			if(result>0) {
 				 

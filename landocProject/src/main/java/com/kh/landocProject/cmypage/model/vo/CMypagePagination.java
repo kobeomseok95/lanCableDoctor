@@ -22,7 +22,7 @@ public class CMypagePagination{
 			maxPage =1;
 		}
 		
-		if(maxPage < endPage) {
+		else if(maxPage < endPage) {
 			endPage = maxPage;
 		}
 		

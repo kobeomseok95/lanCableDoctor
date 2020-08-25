@@ -79,7 +79,8 @@
 					method="post">
 					<input type="hidden" name="orderNo" id="orderNo"
 						value="${orderQna.orderNo }">
-
+					<input type="hidden" name="pdNo" id="pdNo"
+						value="${orderQna.pdNo }">
 					<div class="container-fluid  pt-5 pb-5"
 						style="text-align: center; padding-left: 0px; padding-right: 0px;">
 						<div style="width: 1000px; display: inline-block">

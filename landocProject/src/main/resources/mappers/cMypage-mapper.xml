@@ -132,6 +132,7 @@
         LEFT JOIN HOSPITAL HP ON(HL.HP_NO = HP.HP_NO)
         LEFT JOIN HPREVIEW HW ON(HP.HP_NO=HW.HP_NO)
 		WHERE  HL.C_NO =#{cNo} AND HP.HP_STATUS = 'Y'
+		AND HW.RECEIPT_YN = 'Y'
         group by HL.LIKE_NO, HP.HP_NO, HP.HP_NAME
         ORDER BY HL.LIKE_NO DESC
     </select>
@@ -157,21 +158,19 @@
 
 	<select id="orderList" parameterType="string"
 		resultMap="orderListMap">
-		SELECT
+	SELECT
 		PA.ORDER_NO,PA.ORDER_DATE,TO_CHAR(PA.AMOUNT_PRICE,'999,999,999') AS
 		AMOUNT_PRICE,PA.C_NO,OP.PD_NO,PD.PD_NAME,
 		OS.O_CODE,OS.O_NAME,PH.PDP_RENAME
 		FROM PAYMENT PA
-		JOIN ORDERPRODUCT OP
-		ON(PA.ORDER_NO=OP.ORDER_NO)
-		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
-		JOIN
-		ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
-		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
-        JOIN PRODUCTPHOTO PH ON(PH.PD_NO=PD.PD_NO)
+		LEFT JOIN ORDERPRODUCT OP ON(PA.ORDER_NO=OP.ORDER_NO)
+		LEFT JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
+		RIGHT JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
+		LEFT JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
+        LEFT JOIN PRODUCTPHOTO PH ON(PH.PD_NO=PD.PD_NO)
 		WHERE PA.C_NO =#{cNo} AND (OM.O_CODE BETWEEN 1
-		AND 5 OR OM.O_CODE=14) AND PH.PDP_TYPE=0
-		ORDER BY PA.ORDER_DATE DESC
+		AND 5 OR OM.O_CODE=14) AND PH.PDP_TYPE=0 AND OP.PD_NO=OM.PD_NO
+		ORDER BY PA.ORDER_NO DESC
 	</select>
 
 	<select id="orderDetail" parameterType="OrderList"
@@ -187,14 +186,14 @@
 		FROM
 		PAYMENT PA
 		JOIN ORDERPRODUCT OP ON(PA.ORDER_NO=OP.ORDER_NO)
-		JOIN PRODUCT
-		PD ON(PD.PD_NO=OP.PD_NO)
+		JOIN PRODUCT PD ON(PD.PD_NO=OP.PD_NO)
 		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
 		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
 		JOIN CLIENT C
 		ON(OM.C_NO=C.C_NO)
 		WHERE PA.C_NO =#{cNo} AND OM.ORDER_NO=#{orderNo}
-		ORDER BY PA.ORDER_DATE DESC
+		AND PD.PD_NO = #{pdNo} AND OP.PD_NO=OM.PD_NO
+	    ORDER BY PA.ORDER_DATE DESC
 	</select>
 
 	<select id="orderListDateSearch" parameterType="OrderList"
@@ -211,13 +210,13 @@
 		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
 		JOIN PRODUCTPHOTO PH ON(PH.PD_NO=PD.PD_NO)
 		WHERE PA.C_NO =#{cNo} AND (OM.O_CODE BETWEEN 1
-		AND 5 OR OM.O_CODE=14) AND PH.PDP_TYPE=0
-		<if test='date=="today"'>AND TRUNC(SYSDATE) - ORDER_DATE =0</if>
+		AND 5 OR OM.O_CODE=14) AND PH.PDP_TYPE=0 AND OP.PD_NO=OM.PD_NO
+		<if test='date=="today"'>AND TO_CHAR(SYSDATE,'YY/MM/DD') = TO_CHAR(ORDER_DATE,'YY/MM/DD')</if>
 		<if test='date=="weeks"'>AND 7>=TRUNC(SYSDATE)-ORDER_DATE </if>
 		<if test='date=="onemonth"'>AND 30>=TRUNC(SYSDATE) - ORDER_DATE </if>
 		<if test='date=="threemonth"'>AND 90>= TRUNC(SYSDATE) - ORDER_DATE </if>
 		<if test='date=="sixmonth"'>AND 180>= TRUNC(SYSDATE) - ORDER_DATE </if>
-		ORDER BY PA.ORDER_DATE DESC
+		ORDER BY PA.ORDER_NO DESC
 	</select>
 
 	<select id="orderListDateSearch2" parameterType="OrderList"
@@ -233,11 +232,11 @@
 		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
 		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
 		JOIN PRODUCTPHOTO PH ON(PH.PD_NO=PD.PD_NO)
-		WHERE PA.C_NO =#{cNo} AND (OM.O_CODE BETWEEN 1
-		AND 5 OR OM.O_CODE=14)
-		AND ORDER_DATE BETWEEN #{calendarDate1} AND
-		#{calendarDate2} AND PH.PDP_TYPE=0
-		ORDER BY PA.ORDER_DATE DESC
+		WHERE PA.C_NO =#{cNo} AND ((OM.O_CODE BETWEEN 1
+		AND 5) OR OM.O_CODE=14)
+		AND ORDER_DATE BETWEEN TO_DATE(#{calendarDate1},'YY/MM/DD') AND
+		TO_DATE(TO_CHAR(#{calendarDate2}+1,'YY/MM/DD')) AND PH.PDP_TYPE=0 AND OP.PD_NO=OM.PD_NO
+		ORDER BY PA.ORDER_NO DESC
 	</select>
 
 	<insert id="pdReviewInsert" parameterType="PdReview">
@@ -248,7 +247,7 @@
 
 	<update id="updateOStatus" parameterType="PdReview">
 		UPDATE ORDERMG SET
-		O_CODE=14 WHERE ORDER_NO =#{orderNo} AND C_NO=#{cNo}
+		O_CODE=14 WHERE ORDER_NO =#{orderNo} AND C_NO=#{cNo} AND PD_NO=#{pdNo}
 	</update>
 
 	<select id="orderQnaListY" parameterType="OrderQna"
@@ -260,7 +259,8 @@
 		ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
 		JOIN PRODUCT P
 		ON(P.PD_NO=OP.PD_NO)
-		WHERE OM.C_NO=#{cNo} AND OQ.OQNA_STATUS='Y'
+		WHERE OM.C_NO=#{cNo} AND OQ.OQNA_STATUS='Y' AND OQ.PD_NO=OM.PD_NO AND OM.PD_NO = OP.PD_NO
+		ORDER BY OQ.OQNA_NO DESC
 	</select>
 
 	<select id="orderQnaListN" parameterType="OrderQna"
@@ -268,12 +268,9 @@
 		SELECT OQ.*,P.PD_NO,P.PD_NAME,OM.C_NO
 		FROM ORDERQNA OQ
 		JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
-		JOIN
-		ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
-		JOIN PRODUCT P
-		ON(P.PD_NO=OP.PD_NO)
-		WHERE OM.C_NO=#{cNo} AND OQ.OQNA_STATUS='N'
-		ORDER BY OQ.OQNA_DATE DESC
+		JOIN PRODUCT P ON(P.PD_NO=OQ.PD_NO)
+		WHERE OM.C_NO=#{cNo} AND OQ.OQNA_STATUS='N' AND OM.PD_NO=OQ.PD_NO
+		ORDER BY OQ.OQNA_NO DESC
 	</select>
 
 	<select id="orderCancelList" parameterType="string"
@@ -289,13 +286,13 @@
 		JOIN ORDER_STATE OS ON(OM.O_CODE=OS.O_CODE)
 		JOIN PRODUCTPHOTO PH ON(PH.PD_NO=PD.PD_NO)
 		WHERE PA.C_NO =#{cNo} AND PH.PDP_TYPE=0 AND (OM.O_CODE BETWEEN 6
-		AND 13 OR OM.O_CODE = 15)  
-		ORDER BY PA.ORDER_DATE DESC
+		AND 13 OR OM.O_CODE = 15) AND OP.PD_NO=OM.PD_NO
+		ORDER BY PA.ORDER_NO DESC
 	</select>
 
 	<insert id="orderQnaInsert" parameterType="OrderQna">
 		INSERT INTO ORDERQNA
-		VALUES(SEQ_ORDERQNA.NEXTVAL,#{orderNo},#{oqnaTitle},#{oqnaContent},SYSDATE,'N',NULL)
+		VALUES(SEQ_ORDERQNA.NEXTVAL,#{oqnaTitle},#{oqnaContent},SYSDATE,'N',NULL,#{orderNo},#{pdNo})
 	</insert>
 
 	<select id="pdReviewListCount" resultType="_int" parameterType="string">
@@ -310,8 +307,8 @@
 		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
 		WHERE PA.C_NO=#{cNo}
 		<if test='ostate == "orderList"'>
-		AND OM.O_CODE BETWEEN 1
-		AND 5 OR OM.O_CODE =14
+		AND (OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE =14)
 		</if>
 		<if test='ostate == "cancelList"'>
 		AND OM.O_CODE BETWEEN 6
@@ -325,9 +322,9 @@
 		FROM PAYMENT PA
 		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
 		WHERE PA.C_NO=#{cNo}
-		AND OM.O_CODE BETWEEN 1
-		AND 5 OR OM.O_CODE =14
-		<if test='date=="today"'>AND TRUNC(SYSDATE) - PA.ORDER_DATE =0</if>
+		AND (OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE =14)
+		<if test='date=="today"'>AND TO_CHAR(SYSDATE,'YY/MM/DD') = TO_CHAR(ORDER_DATE,'YY/MM/DD')</if>
 		<if test='date=="weeks"'>AND 7>=TRUNC(SYSDATE)-PA.ORDER_DATE </if>
 		<if test='date=="onemonth"'>AND 30>=TRUNC(SYSDATE) - PA.ORDER_DATE </if>
 		<if test='date=="threemonth"'>AND 90>= TRUNC(SYSDATE) - PA.ORDER_DATE </if>
@@ -339,10 +336,11 @@
 		FROM PAYMENT PA
 		JOIN ORDERMG OM ON(OM.ORDER_NO=PA.ORDER_NO)
 		WHERE PA.C_NO=#{cNo}
-		AND OM.O_CODE BETWEEN 1
-		AND 5 OR OM.O_CODE =14
-		AND PA.ORDER_DATE BETWEEN #{calendarDate1} AND
-		#{calendarDate2}
+		AND (OM.O_CODE BETWEEN 1
+		AND 5 OR OM.O_CODE =14)
+		AND PA.ORDER_DATE BETWEEN TO_DATE(#{calendarDate1},'YY/MM/DD') AND
+		TO_DATE(TO_CHAR(#{calendarDate2}+1,'YY/MM/DD'))
+		ORDER BY PA.ORDER_NO DESC
 	</select>
 	
 	<select id="orderQnaListCount" resultType="_int" parameterType="string">
@@ -356,11 +354,12 @@
 	<select id="updateReview" parameterType="PdReview" resultMap="pdReviewListMap">
 		SELECT *
 		FROM PRODUCTREVIEW
-		WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo}
+		WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo} AND PD_NO=#{pdNo}
 	</select>
 	
 	<update id="updateReviewInsert">
-		UPDATE PRODUCTREVIEW SET PDREVIEW_CONTENT = #{pdReviewContent},PRP_ORIGINAL=#{originFile},PRP_RENAME=#{renameFile} WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo}
+		UPDATE PRODUCTREVIEW SET PDREVIEW_CONTENT = #{pdReviewContent},PRP_ORIGINAL=#{originFile},PRP_RENAME=#{renameFile} WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo} 
+		AND PD_NO = #{pdNo}
 	</update>
 	
 	
@@ -440,16 +439,15 @@
 	</select>
 	
 	<update id="orderCancelUpdate" parameterType="OrderList">
-		UPDATE ORDERMG SET O_CODE=#{oCode} WHERE ORDER_NO=#{orderNo}
+		UPDATE ORDERMG SET O_CODE=#{oCode} WHERE ORDER_NO=#{orderNo} AND PD_NO=#{pdNo}
 	</update>
 	
 	
 	
 	<select id="selectPdReviewPhoto" resultType="string" parameterType="PdReview">
-	
 		SELECT PRP_RENAME
 		FROM PRODUCTREVIEW
-		WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo}
+		WHERE ORDER_NO=#{orderNo} AND C_NO=#{cNo} AND PD_NO=#{pdNo}
 	</select>
 	
 	<select id="selectC" parameterType="string" resultMap="ClientResultSet">

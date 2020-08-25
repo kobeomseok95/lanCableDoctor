@@ -2,15 +2,12 @@ package com.kh.landocProject.payment.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -270,10 +267,6 @@ public class PaymentController {
 		
 		}
 		
-//		System.out.println("alOriginPrice:"+allOriginPrice);
-//		System.out.println("allPrice:"+allPrice);
-//		System.out.println("allDiscount:"+allDiscount);
-//		System.out.println("array:"+cart);
 		mv.addObject("loginClient4", loginClient4);
 		mv.addObject("loginDrClient4", loginDrClient4);
 		mv.addObject("allPrice", allPrice);

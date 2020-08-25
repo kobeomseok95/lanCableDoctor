@@ -67,12 +67,18 @@ public class cMypageController {
 		String cNo =loginClient.getcNo();
 		ArrayList<LikeHp> list = cmService.selectList(cNo);
 		ArrayList<LikeHp> listAvg = cmService.selectHpAvgList(cNo); 
-		
+		for(int i =0; i<listAvg.size();i++) {
+			for(int z=0; z<list.size();z++) {
+				if(listAvg.get(i).getHpNo() == list.get(z).getHpNo()) {
+					list.get(z).setHpAvgRate(listAvg.get(i).getHpAvgRate());
+					list.get(z).setReviewCount(listAvg.get(i).getReviewCount());
+				}
+			}
+		}
 		int listCount = cmService.selectCount(cNo);
 		if(list!=null && listAvg != null) {
 			  mv.addObject("likeHplist",list); 
 			  mv.addObject("likeHpCount",listCount);
-			  mv.addObject("listAvg",listAvg);
 			  mv.setViewName("mypage/myPageLikeHospital");
 			  
 			 
@@ -137,9 +143,13 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="cmOrderDetail.do")
-	public void orderDetail(HttpSession session,HttpServletResponse response,OrderList order,@RequestParam(value="orderNo")int orderNo,@RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+	public void orderDetail(HttpSession session,HttpServletResponse response,
+			OrderList order,
+			@RequestParam(value="orderNo")int orderNo,
+			@RequestParam(value="pdNo") int pdNo) throws JsonIOException, IOException {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
+		order.setPdNo(pdNo);
 		order.setcNo(cNo);
 		order.setOrderNo(orderNo);
 		OrderList detail = cmService.selectOrderDetail(order);
@@ -218,10 +228,10 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="pdReviewInsertView.do")
-	public ModelAndView pdReviewInsertView(HttpSession session,ModelAndView mv,@RequestParam(value="orderNo") int orderNo, OrderList order) throws cMypageException{
+	public ModelAndView pdReviewInsertView(HttpSession session,ModelAndView mv,OrderList order) throws cMypageException{
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
-		order.setOrderNo(orderNo);
+	
 		order.setcNo(cNo);
 		OrderList detail = cmService.selectOrderDetail(order);
 		if(detail!=null) {
@@ -234,8 +244,11 @@ public class cMypageController {
 		
 	}
 	@RequestMapping(value="pdReviewInsert.do")
-	public ModelAndView pdReviewInsert(ModelAndView mv,HttpServletRequest request, HttpServletResponse response,HttpSession session,PdReview review,@RequestParam(value="orderNo") int orderNo, @RequestParam(value="pdNo") int pdNo,
-			@RequestParam(value="pdReview") String pdReviewContent,@RequestParam(value="pdReviewImg",required = false) MultipartFile file) throws IOException, cMypageException {
+	public ModelAndView pdReviewInsert(ModelAndView mv,HttpServletRequest request, HttpServletResponse response,HttpSession session,PdReview review,
+			@RequestParam(value="orderNo") int orderNo,
+			@RequestParam(value="pdNo") int pdNo,
+			@RequestParam(value="pdReview") String pdReviewContent,
+			@RequestParam(value="pdReviewImg",required = false) MultipartFile file) throws IOException, cMypageException {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		if(!file.getOriginalFilename().equals("")) {
@@ -328,9 +341,14 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="orderQnaInsertView.do")
-	public ModelAndView orderQnaInsertView(HttpSession session,ModelAndView mv,@RequestParam(value="orderNo") int orderNo,OrderList order) {
+	public ModelAndView orderQnaInsertView(HttpSession session,
+			ModelAndView mv,
+			@RequestParam(value="orderNo") int orderNo,
+			@RequestParam(value="pdNo") int pdNo,
+			OrderList order) {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
+		order.setPdNo(pdNo);
 		order.setcNo(cNo);
 		order.setOrderNo(orderNo);
 		
@@ -347,11 +365,14 @@ public class cMypageController {
 	public ModelAndView orderQnaInsert(HttpSession session,ModelAndView mv,HttpServletResponse response,
 			@RequestParam(value="orderNo") int orderNo,
 			@RequestParam(value="orderQnaContent") String oqnaContent,
-			@RequestParam(value="orderQnaTitle") String oqnaTitle, OrderQna qna) throws cMypageException, IOException {
+			@RequestParam(value="orderQnaTitle") String oqnaTitle,
+			@RequestParam(value="pdNo") int pdNo,
+			OrderQna qna) throws cMypageException, IOException {
 		
 		qna.setOrderNo(orderNo);
 		qna.setOqnaTitle(oqnaTitle);
 		qna.setOqnaContent(oqnaContent);
+		qna.setPdNo(pdNo);
 		int result = cmService.orderQnaInsert(qna);
 		if(result>0) {
 			  mv.addObject("msg","문의작성이 완료되었습니다.");
@@ -364,11 +385,18 @@ public class cMypageController {
 	
 	// 리뷰수정 위한 정보 조회
 	@RequestMapping(value="updateReviewView.do")
-	public ModelAndView updateReview(ModelAndView mv , PdReview review, OrderList order ,@RequestParam(value="orderNo") int orderNo,  @RequestParam(value="cNo") String cNo) throws cMypageException {
+	public ModelAndView updateReview(ModelAndView mv , PdReview review, OrderList order ,
+			@RequestParam(value="orderNo") int orderNo, 
+			@RequestParam(value="pdNo") int pdNo, 
+			@RequestParam(value="cNo") String cNo) throws cMypageException {
 		review.setcNo(cNo);
 		review.setOrderNo(orderNo);
+		review.setPdNo(pdNo);
+		
 		order.setcNo(cNo);
 		order.setOrderNo(orderNo);
+		order.setPdNo(pdNo);
+		
 		PdReview pr = cmService.updateReview(review);
 		OrderList detail = cmService.selectOrderDetail(order);
 		if(pr!=null && detail!=null) {
@@ -385,11 +413,13 @@ public class cMypageController {
 	@RequestMapping(value="updateReview.do")
 	public ModelAndView updateReviewInsert(ModelAndView mv,HttpServletRequest request, HttpServletResponse response,HttpSession session,PdReview review,
 			@RequestParam(value="orderNo") int orderNo, 
+			@RequestParam(value="pdNo") int pdNo, 
 			@RequestParam(value="pdReview") String pdReviewContent,
 			@RequestParam(value="pdReviewImg",required = false) MultipartFile file) throws IOException, cMypageException  {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		
+		review.setPdNo(pdNo);
 		review.setcNo(cNo);
 		review.setOrderNo(orderNo);
 		String rename = cmService.selectPdReviewPhoto(review);
@@ -399,12 +429,14 @@ public class cMypageController {
 		if(!file.getOriginalFilename().equals("")){
 			
 			String renameFile = saveFile(file, request);
+			review.setPdNo(pdNo);
 			review.setRenameFile(renameFile);
 			review.setOriginFile(file.getOriginalFilename());
 			review.setcNo(cNo);
 			review.setOrderNo(orderNo);
 			review.setPdReviewContent(pdReviewContent);
 		}else {
+			review.setPdNo(pdNo);
 			review.setRenameFile(null);
 			review.setOriginFile(null);
 			review.setcNo(cNo);
@@ -457,10 +489,14 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="orderCancel.do")
-	public ModelAndView orderCancel(ModelAndView mv,OrderList order,@RequestParam(value="orderNo") int orderNo,@RequestParam(value="oCode") int oCode) throws cMypageException, IOException {
+	public ModelAndView orderCancel(ModelAndView mv,
+			OrderList order,
+			@RequestParam(value="orderNo") int orderNo,
+			@RequestParam(value="pdNo") int pdNo,
+			@RequestParam(value="oCode") int oCode) throws cMypageException, IOException {
 		order.setoCode(oCode);
 		order.setOrderNo(orderNo);
-		System.out.println(order);
+		order.setPdNo(pdNo);
 		int result = cmService.orderCancel(order);
 		if(result>0) {
 			 if(order.getoCode()==15) {
