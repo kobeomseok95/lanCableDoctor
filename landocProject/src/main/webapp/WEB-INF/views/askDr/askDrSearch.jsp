@@ -166,11 +166,12 @@
 }
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://kit.fontawesome.com/02aa01148e.js" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-	<link rel="stylesheet" type="text/css"
-		href="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/customer_web/style.css">
+	<link rel="stylesheet" type="text/css" href="https://d23zwvh2kbhdec.cloudfront.net/static_20_07_08/customer_web/style.css">
 	<!-- Page Preloder -->
 	<div id="preloder">
 		<div class="loader"></div>
@@ -208,13 +209,13 @@
 						<c:if test="${!empty searchList}">
 							<c:forEach var="list" items="${searchList}">
 								<div class="doctor-total-box border-bottom">
+								<!-- -------------------------------------------------------------------------------- -->
 									<a href="#" style="color: inherit; text-decoration: none;">
 										<div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
 											<div class="row px-3">
 												<div class="col-3 profile-doctor-image-box p-0">
 													<c:if test="${empty list.profileFileName }">
-													<i class="fas fa-user-nurse fa-7x profile-doctor-image"
-													style="color: #45668e;"></i>
+													<img src="/projectFiles/doctorProfile.png">
 													</c:if>
 													<c:if test="${!empty list.profileFileName }">
 													<img src="/projectFiles/${list.profileFileName}"
@@ -233,15 +234,14 @@
 													</div>
 													<div class="review-star-box d-flex align-items-start mt-1">
 														 <span class="mr-4">
-															 <i class="fas fa-thumbs-up fa-2x"
-															 style="color: #026219;"></i>
+															 <span class="material-icons favorite" style="font-size:30px; color:red;">favorite</span>
 															 <b>${list.drLike}</b>
 														</span>
-														 <span>
+														<%--  <span>
 															 <i class="fas fa-thumbs-down fa-2x"
 															 style="color: #a82400;"></i>
 															 <b>${list.drDislike}</b>
-														</span>
+														</span> --%>
 														
 														<div class="review-count-box ml-5"
 															style="font-size: 18px;">
@@ -377,8 +377,8 @@
             	for(var i in searchList){
             		if(searchList[i].hpAddress === listAdr[index] && 
             				searchList[i].profileFileName === ""){
-						imgsrc = document.createElement('i');
-						imgsrc.setAttribute('class', 'fas fa-user-nurse fa-7x profile-doctor-image');
+						imgsrc = document.createElement('img');
+						imgsrc.setAttribute('src', '/projectFiles/doctorProfile.png');
 						imgsrc.setAttribute('style', 'color: #45668e;');
             		}
             		else if(searchList[i].hpAddress === listAdr[index] && 

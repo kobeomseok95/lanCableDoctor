@@ -97,7 +97,7 @@
             <div class="row" style="width:90%;height:40%;text-align:center;">
                 <div class="col-lg-7 mt-3" style="text-align:left;">
                		<span class="title" style="position:relative;">소속병원</span>&nbsp;&nbsp;
-                    <span class="content"><a href="#">${dp.hpName }</a></span>
+                    <span class="content"><a href="mainHpReviewDetail.do?hpNo=${dp.hpNo }">${dp.hpName }</a></span>
                </div>
                
                <div class="col-lg-4 mt-3" style="text-align:left;">

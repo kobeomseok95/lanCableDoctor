@@ -551,13 +551,8 @@ public class DmyPageController {
 			cNo = "none";
 			heart = 0;
 		}
-		
-		System.out.println("*********Test line 554*********");
-		System.out.println("replyDrNo");
-		System.out.println(replyDrNo);
-		System.out.println("DoctorProfile");
-		System.out.println(dp);
-		
+
+		System.out.println("controller에서 dp : " +dp);
 		mv.addObject("dp", dp);
 		mv.addObject("cNo", cNo);
 		mv.addObject("replyDrNo", replyDrNo);
