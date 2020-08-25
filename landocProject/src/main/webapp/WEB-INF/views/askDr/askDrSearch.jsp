@@ -348,7 +348,12 @@
 	            }
 	            
 	            var goProfile = document.createElement('a');
-	            goProfile.setAttribute('href', 'checkDrProfile.do?replyDrNo=' + searchList[i].drNo);		//의사 프로필
+	            for(var i in searchList){
+	            	if(listAdr[index] === searchList[i].hpAddress){
+			            goProfile.setAttribute('href', 'checkDrProfile.do?replyDrNo=' + searchList[i].drNo);		//의사 프로필
+			            break;
+	            	}
+	            }
 	            goProfile.className = 'goProfile';
 	            goProfile.innerHTML = '<i class="far fa-address-card"></i>';
 	            infoDiv.appendChild(titleDiv);

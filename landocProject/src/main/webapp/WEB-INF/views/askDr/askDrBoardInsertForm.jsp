@@ -86,7 +86,7 @@
 				
 				<div class="form-group form-inline">
 					<label class="col-sm-3 control-label">신체정보</label>
-					<p style="color: #a82400">* 키, 몸무게, 나이, 성별은 비공개 처리되며 반드시 기재해주세요.</p>
+					<p style="color: #a82400">* 키, 몸무게, 나이, 성별은 반드시 기재해주세요.</p>
 				</div>
 				
 				<div class="form-group form-inline">
@@ -121,13 +121,12 @@
 					<textarea 	name="symptoms"
 						class="form-control col-sm-9" 
 						style="max-width: 70%;"
-						rows="10" placeholder="증상을 구체적으로 작성해주세요."></textarea>
+						rows="10" placeholder="증상을 구체적으로 최소 50자 이상 작성해주세요"></textarea>
 				</div>
 				
 				<div class="form-group form-inline">
 					<label class="col-sm-3 control-label">증상 사진</label>
-					<p style="color: #a82400">* 증상 사진은 게시글 작성자, 의사 선생님들 외에는 비공개
-						처리되며, 최대 3장 업로드 가능합니다.</p>
+					<p style="color: #a82400">* 증상 사진은 최대 3장 업로드 가능하며 사진의 경우에 따라 관리자에 의해 삭제조치될 수 있습니다.</p>
 				</div>
 				
 				<div class="form-group form-inline">
@@ -145,7 +144,7 @@
 				<div class="row mt-5">
 					<div class="col-sm-4"></div>
 					<div class="col-sm-4" style="text-align: center;">
-						<button class="btn btn-default" type="submit">제출하기</button>
+						<button id="submitAskDr" class="btn btn-default" type="button">제출하기</button>
 						&nbsp;
 						<button class="btn btn-default" type="reset">목록으로</button>
 					</div>
@@ -243,7 +242,28 @@
 					}
 				});//arr.forEach
 			}
-		});
+			
+			$(document).on('click', "#submitAskDr", function(){
+				if( !$.isNumeric($('input[name="height"]').val()) ||
+						!$.isNumeric($('input[name="weight"]').val()) ||
+						!$.isNumeric($('input[name="age"]').val()) ){
+					alert("키, 몸무게, 나이를 숫자로 입력해주세요!");
+					return false;
+				}
+				else if( $('input[name="gender"]:checked').length === 0 ){
+					alert("성별을 체크해주세요!");
+					return false;
+				}
+				else if( $('textarea[name="symptoms"]').val().replace(/ /g, '').length <= 50 ){
+					alert("증상을 최소 50자 이상 입력해주세요.");
+					return false;
+				}
+				else{
+					$('form').submit();
+				}
+			});
+			
+		});	//end of jquery
 	</script>
 </body>
 </html>
