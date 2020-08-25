@@ -345,11 +345,21 @@ public class MainAskDrController {
 		int resultOfBoard = askDrServiceImpl.updateAskDrBoardChooseStatus(bNo);
 		int pointUpClient = askDrServiceImpl.pointUpClient(cNo);
 		int pointUpDr = askDrServiceImpl.pointUpDr(drNo);
+
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("drNo", drNo);
+		param.put("cNo", cNo);
+		param.put("adrNo", adrNo);
+		int recordPointSaveOne = askDrServiceImpl.recordPointSaveClient(param);
+		int recordPointSaveTwo = askDrServiceImpl.recordPointSaveDr(param);
+		
 		
 		if(resultOfAnswer > 0 && 
 				resultOfBoard > 0 &&
 				pointUpClient > 0 &&
-				pointUpDr > 0) {
+				pointUpDr > 0 &&
+				recordPointSaveOne > 0 &&
+				recordPointSaveTwo > 0 ) {
 			return "success";
 		}
 		else {
