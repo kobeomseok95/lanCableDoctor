@@ -73,7 +73,7 @@
     position: absolute;  
     left: 0;  
     bottom: 1px;  
-    background-color: #ccc;  
+    background-color: #e9eefa;  
     border-radius: 2px; 
     box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);  
 
@@ -111,7 +111,7 @@
 	<%@ include file="../static/header.jsp"%>
     <!-- cart -->
     <div class="container">
-        <h3 class="text-left m-5 p-3" style="color:#0071ce"><img src="/projectFiles/cart.png" width="60px" height="70px;">회원님의 장바구니</h3>
+        <h3 class="text-left m-5 p-3" style="color:#0071ce">회원님의 장바구니</h3>
 
         <div class="row">
             <div class="allCheck">

@@ -210,7 +210,6 @@ public class cMypageController {
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		System.out.println("pi:"+pi);
 		order.setcNo(cNo);
 		order.setCalendarDate1(startDate);
 		order.setCalendarDate2(endDate);
@@ -296,9 +295,7 @@ public class cMypageController {
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		
-		
-		
+	
 		ArrayList<OrderQna> qnaY = cmService.orderQnaListY(cNo,pi);
 		ArrayList<OrderQna> qnaN = cmService.orderQnaListN(cNo);
 		if(qnaY!=null && qnaN!=null) {
