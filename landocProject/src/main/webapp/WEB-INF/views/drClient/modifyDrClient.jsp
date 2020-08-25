@@ -170,7 +170,7 @@ input[type="file"] {
 						</c:if>
 						<c:if test="${loginDrClient2.proRename == null }">
 							<td rowspan="6" class="title1"><img id="imagePreview1"
-								style="width: 400px; height: 400px;" src="/projectFiles/profile.png"></td>
+								style="width: 400px; height: 400px;" src="/projectFiles/doctorProfile.png"></td>
 						</c:if>
 							<td class="title">아이디</td>
 							<td class="modiInput"><input class="modiBox" type="text" name="userId"
