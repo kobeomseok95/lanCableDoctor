@@ -70,7 +70,7 @@
 					&nbsp;&nbsp;
 					<a href="askDr.do">의사에게 물어봐 > </a>
 					&nbsp;&nbsp;
-					<a href="javascript:history.back();">${subject }</a> 					
+					<a href="askDrBoard.do?category=${categoryNo}&pageNo=1">${subject }</a> 					
 				</label>
 			</div>
 

@@ -210,7 +210,8 @@
 					<div class="col-sm-4" style="text-align: center;">
 						<button id="submitAskDr" class="btn btn-default" type="button">제출하기</button>
 						&nbsp;
-						<button class="btn btn-default" type="reset">목록으로</button>
+						<button class="btn btn-default" type="button"
+						onclick="javascript:history.back();">목록으로</button>
 					</div>
 					<div class="col-sm-4"></div>
 				</div>

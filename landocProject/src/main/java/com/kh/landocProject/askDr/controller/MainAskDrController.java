@@ -228,6 +228,9 @@ public class MainAskDrController {
 		
 		for(MultipartFile mf : symptomPicture) {
 			String originalFileName = mf.getOriginalFilename();
+			if(originalFileName == null || originalFileName == "") {
+				break;
+			}
 			String fileName = System.currentTimeMillis() + originalFileName;
 			
 			String saveFile = filePath + fileName;
