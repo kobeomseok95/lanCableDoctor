@@ -204,12 +204,13 @@ public class cMypageController {
 		HashMap<String,Object> search = new HashMap<String, Object>();
 		search.put("search","dateSearch");
 		search.put("cNo",cNo);
-		search.put("CalendarDate1",startDate);
-		search.put("CalendarDate2",endDate);
+		search.put("calendarDate1",startDate);
+		search.put("calendarDate2",endDate);
 		int listCount = cmService.getListCountSearchOrderList2(search);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
+		System.out.println("pi:"+pi);
 		order.setcNo(cNo);
 		order.setCalendarDate1(startDate);
 		order.setCalendarDate2(endDate);
@@ -217,8 +218,8 @@ public class cMypageController {
 		if(list!=null) {
 			mv.addObject("orderList",list);
 			mv.addObject("pi",pi);
-			mv.addObject("date1",order.getCalendarDate1());
-			mv.addObject("date2", order.getCalendarDate2());
+			mv.addObject("date1",startDate);
+			mv.addObject("date2", endDate);
 			mv.setViewName("mypage/mypageOrderList");
 		}else {
 			throw new cMypageException("날짜검색 실패!");
