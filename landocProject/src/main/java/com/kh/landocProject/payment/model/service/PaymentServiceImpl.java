@@ -143,6 +143,18 @@ public class PaymentServiceImpl implements PaymentService{
 		return payDao.selectD(drNo);
 	}
 
+	@Override
+	public int selectPayOrderNo() {
+
+		return payDao.selectPayOrderNo();
+	}
+
+	@Override
+	public int insertCartOrderMg(List<HashMap<String, Object>> list) {
+		
+		return payDao.insertCartOrderMg(list);
+	}
+
 
 
 }

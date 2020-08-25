@@ -1339,7 +1339,7 @@ public class MainMemberController {
 			
 			hpList = mService.selectHpList(hpNo);
 			
-			System.out.println("hpList : " +  hpList);
+//			System.out.println("hpList : " +  hpList);
 		
 			response.setContentType("application/json; charset=utf-8");
 			new Gson().toJson(hpList, response.getWriter());

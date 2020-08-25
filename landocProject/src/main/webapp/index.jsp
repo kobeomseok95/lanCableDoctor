@@ -13,8 +13,6 @@
 	<!-- 클라이언트 페이지 이동 -->
 	 <%response.sendRedirect(request.getContextPath() + "/home.do");%>  
 	<!-- admin 페이지 이동(clientManage.jsp로 이동)  -->
-	<%--  <% response.sendRedirect(r
-	
-	equest.getContextPath() + "/admin.do"); %> --%> 
+	<%--  <% response.sendRedirect(request.getContextPath() + "/admin.do"); %> --%> 
 </body>
 </html>

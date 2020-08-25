@@ -10,13 +10,15 @@ public class OrderMg implements Serializable{
 	private static final long serialVersionUID = 1952096105229367276L;
 	
 	private int orderNo;
+	private int pdNo;
 	private String cNo;
 	private String drNo;
 	private int oCode;
 	protected OrderMg() {
 	}
-	protected OrderMg(int orderNo, String cNo, String drNo, int oCode) {
+	protected OrderMg(int orderNo, int pdNo, String cNo, String drNo, int oCode) {
 		this.orderNo = orderNo;
+		this.pdNo = pdNo;
 		this.cNo = cNo;
 		this.drNo = drNo;
 		this.oCode = oCode;
@@ -26,6 +28,12 @@ public class OrderMg implements Serializable{
 	}
 	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
+	}
+	public int getPdNo() {
+		return pdNo;
+	}
+	public void setPdNo(int pdNo) {
+		this.pdNo = pdNo;
 	}
 	public String getcNo() {
 		return cNo;
@@ -50,8 +58,12 @@ public class OrderMg implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "OrderMg [orderNo=" + orderNo + ", cNo=" + cNo + ", drNo=" + drNo + ", oCode=" + oCode + "]";
+		return "OrderMg [orderNo=" + orderNo + ", pdNo=" + pdNo + ", cNo=" + cNo + ", drNo=" + drNo + ", oCode=" + oCode
+				+ "]";
 	}
+	
+	
+	
 	
 	
 }

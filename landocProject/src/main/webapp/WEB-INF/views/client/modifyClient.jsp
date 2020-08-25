@@ -270,7 +270,6 @@ input[type="file"] {
 	         }else{
 	        	 $("#modi").submit();
 	         }
-	      
 		}
 	</script>
 	

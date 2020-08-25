@@ -113,7 +113,7 @@
          }
          function noUser(){
         	 alert("일반 회원로그인이 필요한 서비스입니다.");
-        	 location.href="loginView.do";
+        	 location.href="home.do";
          }
      </script>
 
