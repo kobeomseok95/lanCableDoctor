@@ -112,7 +112,7 @@
                   
                      <div class="doctor-total-box border-bottom detailHpReview" id="hpInfo" >
 
-                        <a href="#" style="color: inherit; text-decoration: none;" >
+                        <a href="#" style="color: inherit; text-decoration: none;" id="hp_a${status.index}">
 
                            <div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
                               <div class="row px-3">
@@ -315,7 +315,7 @@
    var mapContainer = document.getElementById('map');
    var mapOption = {
        center: new daum.maps.LatLng(37.450701, 126.570667),
-       level: 8
+       level: 10
    };  
 
    var map = new daum.maps.Map(mapContainer, mapOption); 
@@ -338,16 +338,23 @@
    
  
    
-  
+ var open_status=false;
+ var clickedOverlay = null;
+ var mapicon = '/projectFiles/mapicon3.png'
    listAdr.forEach(function(addr, index){
          
        geocoder.addressSearch(addr, function(result, status) {
            if (status === daum.maps.services.Status.OK) {
                var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+             
+               // 마커사진
+               var markerImage = new daum.maps.MarkerImage(
+            		   mapicon, new daum.maps.Size(28, 28));
 
                var marker = new daum.maps.Marker({
                    map: map,
-                   position: coords
+                   position: coords,
+                   image: markerImage
                });
            
                var content = document.createElement('div'); 
@@ -370,6 +377,10 @@
                // 닫기 이벤트 추가
                closeBtn.onclick = function() {
                    overlay.setMap(null);
+                   mapicon = '/projectFiles/mapicon3.png'
+                	   is_clicked=false;
+                   marker.setImage(markerImage);
+                   open_status=false;
                };
 
                
@@ -425,10 +436,73 @@
                    
                 // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
                 kakao.maps.event.addListener(marker, 'click', function() {
+                	mapicon='/projectFiles/mapicon4.png'
+                	var markerImage = new daum.maps.MarkerImage(
+                     		  mapicon, new daum.maps.Size(40, 45));
+					marker.setImage(markerImage);
+					
+                    open_status=true;
+                    if(clickedOverlay){
+                    	clickedOverlay.setMap(null);
+                    }
                     overlay.setMap(map);
+                    clickedOverlay=overlay;
+                    
                 });
-               
+                
+                kakao.maps.event.addListener(marker, 'mouseover', function() {
+                	mapicon='/projectFiles/mapicon4.png'
+                	var markerImage = new daum.maps.MarkerImage(
+                     		  mapicon, new daum.maps.Size(40, 45));
+					marker.setImage(markerImage);
+					overlay.setMap(map);
+					if(clickedOverlay){
+                    	clickedOverlay.setMap(null);
+                    }
+                    overlay.setMap(map);
+                    clickedOverlay=overlay;
+                  
+                });
+                kakao.maps.event.addListener(marker, 'mouseout', function() {
+                	mapicon='/projectFiles/mapicon3.png'
+                	var markerImage = new daum.maps.MarkerImage(
+                     		  mapicon, new daum.maps.Size(28, 28));
+					marker.setImage(markerImage);
+					
+                  
+                 	if(open_status!=true){
+                    	overlay.setMap(null);
+                 	}else{
+                 		overlay.setMap(map);  
+                 		
+                 	}
+                  
+                });
               
+                
+         
+                 $("#hp_a"+index).on('mouseenter',function(){
+                	mapicon='/projectFiles/mapicon4.png'
+                	var markerImage = new daum.maps.MarkerImage(
+                      		 mapicon, new daum.maps.Size(40, 45));
+                	marker.setImage(markerImage);
+                	if(clickedOverlay){
+                    	clickedOverlay.setMap(null);
+                    }
+                    overlay.setMap(map);
+                    clickedOverlay=overlay;
+                    map.setCenter(coords);
+                })
+                
+                $("#hp_a"+index).on('mouseleave',function(){
+                	mapicon='/projectFiles/mapicon3.png'
+                	var markerImage = new daum.maps.MarkerImage(
+                      		  mapicon, new daum.maps.Size(28, 28));
+                	marker.setImage(markerImage);
+                	overlay.setMap(null);
+                	
+                })
+               
                  
            } 
        });

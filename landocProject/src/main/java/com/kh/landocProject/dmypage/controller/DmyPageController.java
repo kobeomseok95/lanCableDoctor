@@ -570,14 +570,11 @@ public class DmyPageController {
 			hl.setcNo(cNo);
 			hl.setdNo(replyDrNo);
 			heart = dMypageService.selectMyDrLikeCount(hl);
-			
+
 			// DRCOMMENT
 			commentCount = dMypageService.selectCommentCount(replyDrNo);
 			commentPage = Pagination.getDrComment(1,commentCount);
 			commentList = dMypageService.selectCommentList(replyDrNo);
-		}else {
-			cNo = "none";
-			heart = 0;
 		}
 
 		// 로그인 안한 상태에서 의사 찾기로 의사 프로필 들어갈 경우
@@ -595,17 +592,10 @@ public class DmyPageController {
 				chosenPer = Math.round(chosenPer1 *100)/ 100.0;
 			}
 			
-			hl.setcNo(cNo);
-			hl.setdNo(replyDrNo);
-			heart = dMypageService.selectMyDrLikeCount(hl);
-			
 			// DRCOMMENT
 			commentCount = dMypageService.selectCommentCount(replyDrNo);
 			commentPage = Pagination.getDrComment(1,commentCount);
 			commentList = dMypageService.selectCommentList(replyDrNo);
-		}else {
-			cNo = "none";
-			heart = 0;
 		}
 		
 		mv.addObject("dp", dp);
@@ -631,18 +621,22 @@ public class DmyPageController {
 					@RequestParam("drNo") String drNo,
 					@RequestParam("cNo") String cNo) throws JsonIOException, IOException {
 		
+		System.out.println(cNo);
+		System.out.println(drNo);
 		hl.setcNo(cNo);
 		hl.setdNo(drNo);
 		
-		if(heart >=1) {
+		if(heart == 1) {
 			dMypageService.deleteDrLike(hl);
 			heart = 0;
 		}else {
 			dMypageService.insertDrLike(hl);
 			heart = 1;
 		}
+		System.out.println("controller에서 heart : " + heart);
 		
 		int drLikeCount = dMypageService.selectDrLikeCount(drNo);
+		System.out.println("controller에서 좋아요 카운트 : " + drLikeCount);
 		
 		map.put("heart", heart);
 		map.put("drLikeCount", drLikeCount);
