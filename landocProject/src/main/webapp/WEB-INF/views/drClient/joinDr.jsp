@@ -212,15 +212,6 @@
 					<div class="searchDiv">
 						<button type="button" class="searchBtn" id="searchHp" data-toggle="modal" data-target="#hospitalSearchModal">검색</button>
 					</div>
-					<%-- <div class="wrap-input100 validate-input" data-validate="병원을 선택해 주세요">
-						<span class="focus-input100" data-placeholder="병원"></span> 
-						<select class="input100" name="hpNo" id="hpNo" style="border: none;">
-						<option value="0">병원을 선택해 주세요</option>
-							<c:forEach var="hp" items="${list }">
-							<option value="${hp.hpNo }">${hp.hpName }</option>
-							</c:forEach>
-						</select>
-					</div> --%>
 					
 					
 		<!--  Start of Modal  -->		
@@ -253,8 +244,8 @@
       // 병원 검색 모달창
       $(function() {
          // 병원 조회하기 버튼 클릭 => modal open.
-         $(document).on('click', '#open-hospital-search-modal', function(e) {
-            e.preventDefault();
+         $(document).on('click', '#open-hospital-search-modal', function() {
+            //e.preventDefault();
             $('#hospitalSearchModal').modal();
             $("#search_hospital_name").text("");
             $("#searchHpNameTb").text("");
