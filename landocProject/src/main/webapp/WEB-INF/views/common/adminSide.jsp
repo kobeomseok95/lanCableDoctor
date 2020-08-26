@@ -18,7 +18,7 @@
 
         #sideBarTb{margin:0 auto; padding-top: 15px; width: 100%;}
         #sideBarTb td{text-align: center; padding:0;}
-        #sideBarTb button{border: none; width: 100%; font-size: 15px; font-weight: 800; padding: 6%; background-color: #bbb;}
+        #sideBarTb button{border: none; width: 100%; font-size: 15px; font-weight: 800; padding: 5%; background-color: #bbb;}
         #sideBarTb button:hover{background-color: white;}
         
         
