@@ -119,8 +119,15 @@ public class AskDrDAO {
 		return sqlSessionTemplate.update("askDr.pointUpDr", drNo);
 	}
 
-	
-	
+	public int recordPointSaveClient(HashMap<String, Object> param) {
+		return sqlSessionTemplate.update("askDr.recordPointSaveClient", param);
+	}
+
+	public int recordPointSaveDr(HashMap<String, Object> param) {
+		return sqlSessionTemplate.update("askDr.recordPointSaveDr", param);
+	}
+
+		
 }
 
 

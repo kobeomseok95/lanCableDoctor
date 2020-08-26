@@ -57,4 +57,9 @@ public interface AskDrService {
 	int pointUpClient(String cNo);
 
 	int pointUpDr(String drNo);
+
+	int recordPointSaveClient(HashMap<String, Object> param);
+
+	int recordPointSaveDr(HashMap<String, Object> param);
+
 }

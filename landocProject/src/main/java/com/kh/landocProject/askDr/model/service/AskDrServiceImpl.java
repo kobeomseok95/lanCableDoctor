@@ -137,5 +137,14 @@ public class AskDrServiceImpl implements AskDrService {
 		return askDrDAO.pointUpDr(drNo);
 	}
 
-	
+	@Override
+	public int recordPointSaveClient(HashMap<String, Object> param) {
+		return askDrDAO.recordPointSaveClient(param);
+	}
+
+	@Override
+	public int recordPointSaveDr(HashMap<String, Object> param) {
+		return askDrDAO.recordPointSaveDr(param);
+	}
+
 }

@@ -204,8 +204,8 @@ public class cMypageController {
 		HashMap<String,Object> search = new HashMap<String, Object>();
 		search.put("search","dateSearch");
 		search.put("cNo",cNo);
-		search.put("CalendarDate1",startDate);
-		search.put("CalendarDate2",endDate);
+		search.put("calendarDate1",startDate);
+		search.put("calendarDate2",endDate);
 		int listCount = cmService.getListCountSearchOrderList2(search);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
@@ -217,8 +217,8 @@ public class cMypageController {
 		if(list!=null) {
 			mv.addObject("orderList",list);
 			mv.addObject("pi",pi);
-			mv.addObject("date1",order.getCalendarDate1());
-			mv.addObject("date2", order.getCalendarDate2());
+			mv.addObject("date1",startDate);
+			mv.addObject("date2", endDate);
 			mv.setViewName("mypage/mypageOrderList");
 		}else {
 			throw new cMypageException("날짜검색 실패!");
@@ -295,9 +295,7 @@ public class cMypageController {
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-		
-		
-		
+	
 		ArrayList<OrderQna> qnaY = cmService.orderQnaListY(cNo,pi);
 		ArrayList<OrderQna> qnaN = cmService.orderQnaListN(cNo);
 		if(qnaY!=null && qnaN!=null) {

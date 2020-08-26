@@ -185,8 +185,8 @@ public class DmyPageController {
 		HashMap<String,Object> search = new HashMap<String, Object>();
 		search.put("search","dateSearch");
 		search.put("drNo",drNo);
-		search.put("CalendarDate1",startDate);
-		search.put("CalendarDate2",endDate);
+		search.put("calendarDate1",startDate);
+		search.put("calendarDate2",endDate);
 		int listCount = dMypageService.getListCountSearchOrderList2(search);
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
@@ -198,8 +198,8 @@ public class DmyPageController {
 		if(list!=null) {
 			mv.addObject("orderList",list);
 			mv.addObject("pi",pi);
-			mv.addObject("date1",order.getCalendarDate1());
-			mv.addObject("date2", order.getCalendarDate2());
+			mv.addObject("date1",startDate);
+			mv.addObject("date2", endDate);
 			mv.setViewName("mypage/drMypageOrderList");
 		}else {
 			throw new DmypageException("날짜검색 실패!");

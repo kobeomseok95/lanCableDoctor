@@ -110,8 +110,7 @@
                   <c:if test="${not empty hp}">
                   <c:forEach var="h" items="${hp}" varStatus="status">
                   
-                     <div class="doctor-total-box border-bottom detailHpReview" id="hpInfo" onmouseenter="hpover('${h.hpAddress}')" 
-                      onmouseleave="hpout('${h.hpAddress}')">
+                     <div class="doctor-total-box border-bottom detailHpReview" id="hpInfo" >
 
                         <a href="#" style="color: inherit; text-decoration: none;" >
 
@@ -336,6 +335,8 @@
       listFile.push("${result.proRename}");
       listHpNo.push("${result.hpNo}");
    </c:forEach>
+   
+ 
    
   
    listAdr.forEach(function(addr, index){
