@@ -471,7 +471,8 @@
 						var $tr = $("<tr></tr>");
 						var $tdOne = $("<td></td>");
 						if(list[i].profileRename === undefined){
-							var $icon = ('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
+							var $icon = ('<img class="rounded-circle" src="/projectFiles/doctorProfile.png" style="width: 70px; height: 80px;" />');
+							//src="/projectFiles/doctorProfile.png"
 							$tdOne.append($icon);
 						}
 						else{
