@@ -174,7 +174,7 @@
 								<td>
 								<!-- 프사가 없을경우와 있을경우 조건 처리하기 -->
 								<c:if test="${empty replys.profileRename }">
-									<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>
+									<img src="/projectFiles/doctorProfile.png" style="width:70px;height:70px;">
 								</c:if>
 								<c:if test="${!empty replys.profileRename }">
 									<c:set var="fullPath" value="/projectFiles/${replys.profileRename }" />
