@@ -62,6 +62,7 @@
     .info .link {color: #5085BB;}
 
 	#map{position: sticky;  top:0; margin-top: 50px;}
+	#hpInfo:hover{background-color: #007bff1f;}
 	.star-image{width:15px; height:15px;}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -101,9 +102,9 @@
                   </c:if>
                   <c:if test="${not empty likeHplist}">
                   <c:forEach var="h" items="${likeHplist}" varStatus="status">
-                     <div class="doctor-total-box border-bottom">
+                     <div class="doctor-total-box border-bottom" id="hpInfo">
 
-                        <a href="mainHpReviewDetail.do?hpNo=${h.hpNo}&orderBy=1&currentPage=1" style="color: inherit; text-decoration: none;">
+                        <a href="mainHpReviewDetail.do?hpNo=${h.hpNo}&orderBy=1&currentPage=1" style="color: inherit; text-decoration: none;" id="hp_a${status.index}">
 
                            <div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
                               <div class="row px-3">
@@ -313,101 +314,179 @@
    
    
 
-   listAdr.forEach(function(addr, index){
-         
-       geocoder.addressSearch(addr, function(result, status) {
-           if (status === daum.maps.services.Status.OK) {
-               var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-
-               var marker = new daum.maps.Marker({
-                   map: map,
-                   position: coords
-               });
+   var open_status=false;
+   var clickedOverlay = null;
+   var mapicon = '/projectFiles/mapicon3.png'
+     listAdr.forEach(function(addr, index){
            
-               var content = document.createElement('div'); 
-               content.className = 'wrap';
+         geocoder.addressSearch(addr, function(result, status) {
+             if (status === daum.maps.services.Status.OK) {
+                 var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+               
+                 // 마커사진
+                 var markerImage = new daum.maps.MarkerImage(
+              		   mapicon, new daum.maps.Size(28, 28));
+
+                 var marker = new daum.maps.Marker({
+                     map: map,
+                     position: coords,
+                     image: markerImage
+                 });
              
-               var info = document.createElement('div');
-               info.className = 'info';
-                content.appendChild(info);
+                 var content = document.createElement('div'); 
+                 content.className = 'wrap';
                
-               var title = document.createElement('div');
-               title.className = 'title';
-               title.innerHTML=listTitle[index];
-               info.appendChild(title);
-               
-               var closeBtn = document.createElement('button');
-               closeBtn.className = 'close';
-               
-               title.appendChild(closeBtn);
-            
-               // 닫기 이벤트 추가
-               closeBtn.onclick = function() {
-                   overlay.setMap(null);
-               };
-
-               
-               var body = document.createElement('div');
-               body.className='body';
-               info.appendChild(body);
-               
-               var img = document.createElement('div');
-               img.className='img';
-               body.appendChild(img);
-               
-               var imgsrc =  document.createElement('img');
-               imgsrc.setAttribute( 'src', '/projectFiles/'+ listFile[index]);
-               imgsrc.setAttribute('width','100%');
-               imgsrc.setAttribute('height','100%');
-               img.appendChild(imgsrc);
-               
-               var desc = document.createElement("div");
-               desc.className='desc';
-               body.appendChild(desc);
-               
-               var ellipsis = document.createElement('div');
-               ellipsis.className ='ellipsis';
-               ellipsis.innerHTML=listAdr[index];
-               desc.appendChild(ellipsis);
-               
-               var score = document.createElement('div');
-               score.className='jibun ellipsis';
+                 var info = document.createElement('div');
+                 info.className = 'info';
+                  content.appendChild(info);
+                 
+                 var title = document.createElement('div');
+                 title.className = 'title';
+                 title.innerHTML=listTitle[index];
+                 info.appendChild(title);
+                 
+                 var closeBtn = document.createElement('button');
+                 closeBtn.className = 'close';
+                 
+                 title.appendChild(closeBtn);
               
-               desc.appendChild(score);
-               
-              
-               var star = document.createElement('span')
-               star.className='fa fa-star checked';
-               score.appendChild(star);
-               
-               var starscore = document.createElement('span');
-               starscore.innerHTML='('+listAvgRate[index]+')';
-               score.appendChild(starscore);
-               
-               var page = document.createElement('div');
-               desc.appendChild(page);
-               
-               var a = document.createElement('a');
-               a.setAttribute('href','mainHpReviewDetail.do?hpNo='+listHpNo[index]+'&orderBy=1&currentPage=1');
-               a.innerHTML='상세보기';
-               page.appendChild(a);
-               
-               var overlay = new kakao.maps.CustomOverlay({
-                    content: content,
-                    position:coords
-                });
-                   
-                // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-                kakao.maps.event.addListener(marker, 'click', function() {
-                    overlay.setMap(map);
-                });
-      
-
+                 // 닫기 이벤트 추가
+                 closeBtn.onclick = function() {
+                     overlay.setMap(null);
+                     mapicon = '/projectFiles/mapicon3.png'
+                  	   is_clicked=false;
+                  	   marker.setImage(markerImage);
+                     open_status=false;
+                 };
 
                  
-           } 
-       });
-   });
+                 var body = document.createElement('div');
+                 body.className='body';
+                 info.appendChild(body);
+                 
+                 var img = document.createElement('div');
+                 img.className='img';
+                 body.appendChild(img);
+                 
+                 var imgsrc =  document.createElement('img');
+                 imgsrc.setAttribute( 'src', '/projectFiles/'+listFile[index]);
+                 imgsrc.setAttribute('width','100%');
+                 imgsrc.setAttribute('height','100%');
+                 img.appendChild(imgsrc);
+                 
+                 var desc = document.createElement("div");
+                 desc.className='desc';
+                 body.appendChild(desc);
+                 
+                 var ellipsis = document.createElement('div');
+                 ellipsis.className ='ellipsis';
+                 ellipsis.innerHTML=listAdr[index];
+                 desc.appendChild(ellipsis);
+                 
+                 var score = document.createElement('div');
+                 score.className='jibun ellipsis';
+                
+                 desc.appendChild(score);
+                 
+                
+                 var star = document.createElement('span')
+                 star.className='fa fa-star checked';
+                 score.appendChild(star);
+                 
+                 var starscore = document.createElement('span');
+                 starscore.innerHTML='('+listAvgRate[index]+')';
+                 score.appendChild(starscore);
+                 
+                 var page = document.createElement('div');
+                 desc.appendChild(page);
+                 
+                 var a = document.createElement('a');
+                 a.setAttribute('href','mainHpReviewDetail.do?hpNo='+listHpNo[index]+'&orderBy=1&currentPage=1');
+                 a.innerHTML='상세보기';
+                 page.appendChild(a);
+                 
+                 var overlay = new kakao.maps.CustomOverlay({
+                      content: content,
+                      position:coords
+                  });
+                     
+                  // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+                  kakao.maps.event.addListener(marker, 'click', function() {
+                  	mapicon='/projectFiles/mapicon4.png'
+                  	var markerImage = new daum.maps.MarkerImage(
+                       		  mapicon, new daum.maps.Size(40, 45));
+  					marker.setImage(markerImage);
+  					
+                      open_status=true;
+                      if(clickedOverlay){
+                      	clickedOverlay.setMap(null);
+                      }
+                      overlay.setMap(map);
+                      clickedOverlay=overlay;
+                      
+                  });
+                  
+                  kakao.maps.event.addListener(marker, 'mouseover', function() {
+                  	mapicon='/projectFiles/mapicon4.png'
+                  	var markerImage = new daum.maps.MarkerImage(
+                       		  mapicon, new daum.maps.Size(40, 45));
+  					marker.setImage(markerImage);
+  					overlay.setMap(map);
+  					if(clickedOverlay){
+                      	clickedOverlay.setMap(null);
+                      }
+                      overlay.setMap(map);
+                      clickedOverlay=overlay;
+                    
+                  });
+                  kakao.maps.event.addListener(marker, 'mouseout', function() {
+                  	mapicon='/projectFiles/mapicon3.png'
+                  	var markerImage = new daum.maps.MarkerImage(
+                       		  mapicon, new daum.maps.Size(28, 28));
+  					marker.setImage(markerImage);
+  					
+                    
+                   	if(open_status!=true){
+                      	overlay.setMap(null);
+                   	}else{
+                   		overlay.setMap(map);  
+                   		
+                   	}
+                    
+                  });
+                
+                  
+           
+                   $("#hp_a"+index).on('mouseenter',function(){
+                  	var hp_list 
+                  	mapicon='/projectFiles/mapicon4.png'
+                  	var markerImage = new daum.maps.MarkerImage(
+                        		 mapicon, new daum.maps.Size(40, 45));
+                  	marker.setImage(markerImage);
+                  	if(clickedOverlay){
+                    	clickedOverlay.setMap(null);
+                    }
+                    overlay.setMap(map);
+                    clickedOverlay=overlay;
+                    map.setCenter(coords);
+                  
+                  })
+                  
+                  $("#hp_a"+index).on('mouseleave',function(){
+                  	var hp_list 
+                  	mapicon='/projectFiles/mapicon3.png'
+                  	var markerImage = new daum.maps.MarkerImage(
+                        		  mapicon, new daum.maps.Size(28, 28));
+                  	marker.setImage(markerImage);
+                  	overlay.setMap(null);
+                  	
+                  })
+                 
+                   
+             } 
+         });
+     });
+     
    
    
      // HTML5의 geolocaiton으로 사용할 수 있는지 확인합니다.
