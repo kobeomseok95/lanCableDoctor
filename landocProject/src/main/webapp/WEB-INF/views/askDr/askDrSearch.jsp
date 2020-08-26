@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>찜한병원</title>
+<title>의사검색</title>
 <meta charset="UTF-8">
 <meta name="description" content="SolMusic HTML Template">
 <meta name="keywords" content="music, html">
@@ -164,6 +164,8 @@
 .goProfile{
 	margin-left: 9px;
 }
+
+#hpInfo:hover{background-color: #007bff1f;}
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://kit.fontawesome.com/02aa01148e.js" crossorigin="anonymous"></script>
@@ -207,10 +209,10 @@
 							</div>
 						</c:if>
 						<c:if test="${!empty searchList}">
-							<c:forEach var="list" items="${searchList}">
-								<div class="doctor-total-box border-bottom">
+							<c:forEach var="list" items="${searchList}" varStatus="status">
+								<div class="doctor-total-box border-bottom" id="hpInfo">
 								<!-- -------------------------------------------------------------------------------- -->
-									<a href="checkDrProfile.do?replyDrNo=${list.drNo }" style="color: inherit; text-decoration: none;">
+									<a href="checkDrProfile.do?replyDrNo=${list.drNo }" style="color: inherit; text-decoration: none;" id="hp_a${status.index}">
 										<div class="doctor-box p-2 pt-3" data-id="35982" data-slug="">
 											<div class="row px-3">
 												<div class="col-3 profile-doctor-image-box p-0">
@@ -299,7 +301,7 @@
 	var mapContainer = document.getElementById('map');
 	var mapOption = {
 	    center: new daum.maps.LatLng(35.9361525430941, 127.86992756379321),
-	    level: 13
+	    level: 10
 	};  
 	var map = new daum.maps.Map(mapContainer, mapOption); 
 	var geocoder = new daum.maps.services.Geocoder();
@@ -321,15 +323,25 @@
 		listAdr.push("${list.hpAddress}");
 	</c:forEach>
 	
+	
+	var open_status=false;
+	var clickedOverlay = null;
+	var mapicon = '/projectFiles/mapicon3.png'
 	listAdr.forEach(function(addr, index){
 	      
 	    geocoder.addressSearch(addr, function(result, status) {
 	        if (status === daum.maps.services.Status.OK) {
 	            var coords = new daum.maps.LatLng(result[0].y, result[0].x);
 	
+	            
+	            // 마커사진
+	            var markerImage = new daum.maps.MarkerImage(
+	            		   mapicon, new daum.maps.Size(28, 28));
+	            
 	            var marker = new daum.maps.Marker({
 	                map: map,
-	                position: coords
+	                position: coords,
+	                image: markerImage
 	            });
 	        
 	            var contentDiv = document.createElement('div'); 
@@ -367,6 +379,10 @@
 	            // 닫기 이벤트 추가
 	            closeBtn.onclick = function() {
 	                overlay.setMap(null);
+	                mapicon = '/projectFiles/mapicon3.png'
+	                	   is_clicked=false;
+	                marker.setImage(markerImage);
+	                open_status=false;
 	            };
 				
 	            var body = document.createElement('div');
@@ -449,13 +465,72 @@
 	                
 	             // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
 	            kakao.maps.event.addListener(marker, 'click', function() {
-	                overlay.setMap(map);
+	            	mapicon='/projectFiles/doctoricon3.png'
+	                	var markerImage = new daum.maps.MarkerImage(
+	                     		  mapicon, new daum.maps.Size(40, 45));
+				    marker.setImage(markerImage);
+	            	
+				    open_status=true;
+				    if(clickedOverlay){
+                    	clickedOverlay.setMap(null);
+                    }
+                    overlay.setMap(map);
+                    clickedOverlay=overlay;
 	            });
-	            /*
+	          
 	            kakao.maps.event.addListener(marker, 'mouseover', function() {
-	                alert('marker mouseover!');
-	            });
-	            */
+                	mapicon='/projectFiles/doctoricon3.png'
+                	var markerImage = new daum.maps.MarkerImage(
+                     		  mapicon, new daum.maps.Size(40, 45));
+					marker.setImage(markerImage);
+					overlay.setMap(map);
+					if(clickedOverlay){
+                    	clickedOverlay.setMap(null);
+                    }
+                    overlay.setMap(map);
+                    clickedOverlay=overlay;
+                  
+                });
+                kakao.maps.event.addListener(marker, 'mouseout', function() {
+                	mapicon='/projectFiles/mapicon3.png'
+                	var markerImage = new daum.maps.MarkerImage(
+                     		  mapicon, new daum.maps.Size(28, 28));
+					marker.setImage(markerImage);
+					
+                  
+                 	if(open_status!=true){
+                    	overlay.setMap(null);
+                 	}else{
+                 		overlay.setMap(map);  
+                 		
+                 	}
+                  
+                });
+              
+                
+         
+                 $("#hp_a"+index).on('mouseenter',function(){
+                	mapicon='/projectFiles/doctoricon3.png'
+                	var markerImage = new daum.maps.MarkerImage(
+                      		 mapicon, new daum.maps.Size(40, 45));
+                	marker.setImage(markerImage);
+                	if(clickedOverlay){
+                    	clickedOverlay.setMap(null);
+                    }
+                    overlay.setMap(map);
+                    clickedOverlay=overlay;
+                    map.setCenter(coords);
+                })
+                
+                $("#hp_a"+index).on('mouseleave',function(){
+                	mapicon='/projectFiles/mapicon3.png'
+                	var markerImage = new daum.maps.MarkerImage(
+                      		  mapicon, new daum.maps.Size(28, 28));
+                	marker.setImage(markerImage);
+                	overlay.setMap(null);
+                	
+                }) 
+	             
 	        } 
 	    });
 	});
