@@ -64,8 +64,22 @@
 									<span>의사</span>에게 바로 물어보세요!
 								</h2>
 								<p>랜선에서 검증 된 의사 선생님에게 물어보세요</p>
-								<a href="#" class="site-btn">의사에게 물어보기</a> <a href="#"
-									class="site-btn sb-c2">게시글 보기</a>
+								<c:choose>
+						         <c:when test="${empty loginClient && empty loginDrClient }">
+						            <c:url var="loginPage" value="loginView.do"></c:url>
+						         	<a href="#" onclick="noUser();" class="site-btn">의사에게 물어보기</a>
+						         </c:when>
+						         <c:when test="${empty loginClient && !empty loginDrClient}">
+						         	<a href="#" onclick="doctorUser();" class="site-btn">의사에게 물어보기</a>
+						         </c:when>
+						         <c:when test="${empty loginClient && !empty loginDrClient && (loginDrClient.approval eq 'N' || loginDrClient.approval eq 'X')}">
+						         	<a href="#" onclick="noApproval();" class="site-btn">의사에게 물어보기</a>
+						         </c:when>
+						         <c:otherwise>
+						         	<a href="askDrBoardInsertForm.do" class="site-btn">의사에게 물어보기</a>
+						         </c:otherwise>            
+						      </c:choose>
+								<a href="askDr.do"	class="site-btn sb-c2">게시글 보기</a>
 							</div>
 						</div>
 						<div class="col-lg-6">
@@ -96,7 +110,7 @@
 						         	<a href="#" onclick="noUser();" class="site-btn">리뷰 작성하기</a>
 						         </c:when>
 						         <c:when test="${empty loginClient && !empty loginDrClient}">
-						         	<a href="#" onclick="noUser();" class="site-btn">리뷰 작성하기</a>
+						         	<a href="#" onclick="doctorUser();" class="site-btn">리뷰 작성하기</a>
 						         </c:when>
 						         <c:when test="${empty loginClient && !empty loginDrClient && (loginDrClient.approval eq 'N' || loginDrClient.approval eq 'X')}">
 						         	<a href="#" onclick="noApproval();" class="site-btn">리뷰 작성하기</a>
@@ -105,7 +119,7 @@
 						         	<a href="hpReviewInsert.do" class="site-btn">리뷰 작성하기</a>
 						         </c:otherwise>            
 						      </c:choose>
-								<a href="#hpSearch" class="site-btn sb-c2">병원 보기</a>
+								<a href="#searchSection" class="site-btn sb-c2">병원 검색</a>
 							</div>
 						</div>
 						<div class="col-lg-6">
@@ -129,6 +143,9 @@
          function noUser(){
         	 alert("일반 회원로그인이 필요한 서비스입니다.");
         	 location.href="loginView.do";
+         }
+         function doctorUser(){
+        	 alert("일반 회원만 이용가능합니다.");
          }
      </script>
 	
@@ -441,7 +458,7 @@
 						<h4>쉽고, 빠르게 찾는</h4>
 						<h4>나만의 의사</h4>
 						<p>의사 이름을 검색해보세요.</p>
-						<a href="#">의사 검색하기 ></a>
+						<a href="askDr.do#drSearch">의사 검색하기 ></a>
 					</div>
 				</div>
 				<div class="col-md-4" style="text-align: center;">
@@ -455,7 +472,22 @@
 						<h4>영수증 인증으로</h4>
 						<h4>광고 없는 '진짜'리뷰</h4>
 						<p>진료내역을 인증한 실방문자만 리뷰를 쓸 수 있어요.</p>
-						<a href="#">리뷰 쓰러가기 ></a>
+						<c:choose>
+				         <c:when test="${empty loginClient && empty loginDrClient }">
+				            <c:url var="loginPage" value="loginView.do"></c:url>
+				         	<a href="#" onclick="noUser();">리뷰 작성하기 ></a>
+				         </c:when>
+				         <c:when test="${empty loginClient && !empty loginDrClient}">
+				         	<a href="#" onclick="doctorUser();">리뷰 작성하기 ></a>
+				         </c:when>
+				         <c:when test="${empty loginClient && !empty loginDrClient && (loginDrClient.approval eq 'N' || loginDrClient.approval eq 'X')}">
+				         	<a href="#" onclick="noApproval();" >리뷰 작성하기 ></a>
+				         </c:when>
+				         <c:otherwise>
+				         	<a href="hpReviewInsert.do">리뷰 작성하기 ></a>
+				         </c:otherwise>    
+						 </c:choose>
+					
 					</div>
 
 				</div>
@@ -471,7 +503,21 @@
 						<h4>병원 대신</h4>
 						<h4>랜선닥터에게 물어봐!</h4>
 						<p>랜선에서 검증 된 의사 선생님에게 물어보세요</p>
-						<a href="#">의사에게 물어보기 ></a>
+						<c:choose>
+				         <c:when test="${empty loginClient && empty loginDrClient }">
+				            <c:url var="loginPage" value="loginView.do"></c:url>
+				         	<a href="#" onclick="noUser();">의사에게 물어보기 ></a>
+				         </c:when>
+				         <c:when test="${empty loginClient && !empty loginDrClient}">
+				         	<a href="#" onclick="doctorUser();">의사에게 물어보기 ></a>
+				         </c:when>
+				         <c:when test="${empty loginClient && !empty loginDrClient && (loginDrClient.approval eq 'N' || loginDrClient.approval eq 'X')}">
+				         	<a href="#" onclick="noApproval();">의사에게 물어보기 ></a>
+				         </c:when>
+				         <c:otherwise>
+				         	<a href="askDrBoardInsertForm.do">의사에게 물어보기 ></a>
+				         </c:otherwise>            
+				        </c:choose>
 					</div>
 
 				</div>
