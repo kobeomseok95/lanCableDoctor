@@ -379,7 +379,7 @@
                    overlay.setMap(null);
                    mapicon = '/projectFiles/mapicon3.png'
                 	   is_clicked=false;
-                	   marker.setImage(markerImage);
+                   marker.setImage(markerImage);
                    open_status=false;
                };
 
@@ -482,7 +482,6 @@
                 
          
                  $("#hp_a"+index).on('mouseenter',function(){
-                	var hp_list 
                 	mapicon='/projectFiles/mapicon4.png'
                 	var markerImage = new daum.maps.MarkerImage(
                       		 mapicon, new daum.maps.Size(40, 45));
@@ -496,7 +495,6 @@
                 })
                 
                 $("#hp_a"+index).on('mouseleave',function(){
-                	var hp_list 
                 	mapicon='/projectFiles/mapicon3.png'
                 	var markerImage = new daum.maps.MarkerImage(
                       		  mapicon, new daum.maps.Size(28, 28));
