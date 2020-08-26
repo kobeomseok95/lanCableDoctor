@@ -17,7 +17,7 @@
         #contentArea h3{padding-bottom: 2%; text-align:center;}
         .contentTb{margin: 0 auto; margin-top: 2%; width: 80%; text-align:center; border: 2px solid #bbb; border-collapse: collapse;}
         .contentTb tr{line-height: 40px;}
-        .contentTb th{width:400px; border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
+        .contentTb th{width:150px; border-bottom: 2px solid #bbb; border-right: 1px solid #bbb; font-size:13px;}
         .contentTb td{width:600px; border: 1px solid #bbb; font-size:14px;}
         .contentTb button{height: 35px; width: 55%; border: 1px solid white; background-color: #bbb; border-radius: 5px; color: black; font-weight: 600;}
         .contentTb button:hover{background-color: #007ee5; color: white;}
@@ -79,6 +79,21 @@
             <tr>
                 <th class="firstLine">채택상태</th>
                 <td>${post.chooseStatus }</td>
+            </tr>
+            <tr>
+                <th class="firstLine">증상 사진</th>
+                <td>
+               	<c:choose>
+               		<c:when test="${empty post.imgs }">
+               		'해당 게시글에는 사진이 없습니다.'
+               		</c:when>
+               		<c:otherwise>
+               			<c:forEach var="image" items="${post.imgs }">
+               			<img src="/projectFiles/${image.fileName }" style="width:70%; height: 70%;" />
+               			</c:forEach>
+               		</c:otherwise>
+               	</c:choose>
+                </td>
             </tr>
         </table>
 

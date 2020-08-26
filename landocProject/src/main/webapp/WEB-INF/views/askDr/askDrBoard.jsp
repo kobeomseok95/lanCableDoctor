@@ -429,34 +429,22 @@
 	<script>
 	$(function(){
 		//로그인 회원만 접근 가능
+		
 		$(".goAskDrDetail").on("click", function(){
 			var bNo = $(this).children("input[type=hidden]").val();
 			
-			var client = "${loginClient.cNo}";
-			var drClient = "${loginDrClient.drNo}";
-			//
 			var searchBoardOption = "${searchBoardOption}";
 			var searchBoardContent = "${searchBoardContent}";
-			//
-			if( client !== "" || drClient !== "" ){
-				var url = "category=" + ${categoryNo} + "&bNo=" + bNo;
-				
-				if(searchBoardOption !== "" && searchBoardContent !== ""){
-					url += "&searchBoardOption=" + searchBoardOption + 
-						"&searchBoardContent=" + searchBoardContent;
-				}
-				location.href="askDrDetail.do?" + url;
+			
+			var url = "category=" + ${categoryNo} + "&bNo=" + bNo;
+			
+			if(searchBoardOption !== "" && searchBoardContent !== ""){
+				url += "&searchBoardOption=" + searchBoardOption + 
+					"&searchBoardContent=" + searchBoardContent;
 			}
-			else if( client === "" && drClient === "" ){
-				if(confirm("해당 게시글은 회원만 조회할 수 있습니다. 로그인하시겠습니까?")){
-					location.href="loginView.do";	
-				}
-				else{
-					return false;
-				}
-			}
+			location.href="askDrDetail.do?" + url;
 		});//end of goBoardDetail
-		
+		 
 		$(".goInsertAskDr").on("click", function(){
 			var client = "${loginClient.nickName}";
 			var drClient = "${loginDrClient.userName}";

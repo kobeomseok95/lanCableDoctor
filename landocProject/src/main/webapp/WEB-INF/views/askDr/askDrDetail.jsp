@@ -105,7 +105,16 @@
 			</div>
 			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label">복용중인 약 및 주의사항</label>
-				<div class="col-lg-9 col-sm-9 control-label">${askDrBoardDetail.caution }</div>
+				<div class="col-lg-9 col-sm-9 control-label">
+					<c:choose>
+					<c:when test="${empty askDrBoardDetail.caution || askDrBoardDetail.caution == '(null)' }">
+						주의사항이 없습니다.
+					</c:when>
+					<c:otherwise>
+						${askDrBoardDetail.caution }
+					</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
 			<div class="form-group form-inline">
 				<label class="col-lg-3 col-sm-3 control-label">구체적인 증상</label>
@@ -462,7 +471,8 @@
 						var $tr = $("<tr></tr>");
 						var $tdOne = $("<td></td>");
 						if(list[i].profileRename === undefined){
-							var $icon = ('<i class="fas fa-user-md fa-5x" style="color: #45668e;"></i>');
+							var $icon = ('<img class="rounded-circle" src="/projectFiles/doctorProfile.png" style="width: 70px; height: 80px;" />');
+							//src="/projectFiles/doctorProfile.png"
 							$tdOne.append($icon);
 						}
 						else{
