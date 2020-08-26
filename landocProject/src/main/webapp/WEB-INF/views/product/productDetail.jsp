@@ -54,6 +54,9 @@
 	span.sales{
 		text-decoration: line-through;
 	}
+	#searchProduct{border:1.5px solid #ccc; border-radius:5px;}
+	ul > li > span{font-size:16px;}
+	
 </style>
 </head>
 
@@ -78,7 +81,7 @@
                         <!-- 검색하기 -->
                         <form id="searchForm" action="productSearch.do" method="get">
                             <input type="text" id="searchProduct" name="keyword" /><!-- class="mb-4" -->
-                            <button id="searchBtn" type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            <button id="searchBtn" type="button" class="btn btn-default"><i class="fas fa-search" style="color:#007ee5;"></i></button>
                         </form>
                         <div id="suggestProduct">
                         	
@@ -129,19 +132,19 @@
                             </li>
                             <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">내용량</span>
-                                <span style="float: right;">${product.volume }</span>
+                                <span style="float: right; color:#515151;">${product.volume }</span>
                             </li>
                             <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">섭취방법</span>
-                                <span style="float: right;">${product.drugWay }</span>
+                                <span style="float: right; color:#515151;">${product.drugWay }</span>
                             </li>
                             <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">유통기한</span>
-                                <span style="float: right;">${product.shelflife }</span>
+                                <span style="float: right; color:#515151;">${product.shelflife }</span>
                             </li>
                             <li class="list-group-item border-0 mb-2">
                                 <span class="product-infor">추천수</span>
-                                <span style="float: right;">${recommendCount } </span>
+                                <span style="float: right; color:#515151;">${recommendCount } </span>
                             </li>
                         </ul>
 

@@ -144,7 +144,8 @@
        
          <script>
          	$(document).ready(function(){
-         		var heartval = "${heart}";
+         		heartval = "${heart}";
+         		console.log("heartval : " +heartval);
          		if(heartval >0){
          			$(".favorite").attr("class", "material-icons favoriteY").text("favorite");
          			$(".heart").prop("name", heartval);
@@ -155,15 +156,23 @@
          		}
          		
          		$(".back").on("click",function(){
+         			
          			var that=$(".heart");
+         			/* var drNo="${dp.drNo}";
+         			var cNo="${cNo}"; */
          			var drNo="${dp.drNo}";
-         			var cNo="${cNo}";
-         			
-         			if(cNo == 'none'){
-         				alert("일반 회원 로그인이 필요한 서비스 입니다.");
-         				return;
-         			}
-         			
+         			var cNo="${loginClient.cNo}";
+         			var loginClient = "${loginClient}";
+	        		var loginDrClient = "${loginDrClient}";  
+	        		
+	        		if(loginClient === '' && loginDrClient === ''){
+	            		alert("일반 회원 로그인이 필요한 서비스입니다.");
+	        			return;
+	        		}else if(loginClient === '' && loginDrClient != ''){
+	        			alert("일반 회원 로그인이 필요한 서비스입니다.");
+	        			return;
+	        		}
+	        		
          			$.ajax({
          				url:"likeDr.do",
          				type:"POST",
@@ -171,7 +180,7 @@
          				dataType:'json',
          				success:function(data){
          					that.prop('name',data.heart);
-         					
+         					console.log("heartval : " +heartval);
          					if(data.heart ==1){
          						$(".favorite").attr("class","material-icons favoriteY").text("favorite");
          						$("#drLikeCount").html(data.drLikeCount);
@@ -191,8 +200,6 @@
          	})
          </script>
          
-         
-         
          <br>
          
        	<div class="row" style="margin:0;">
@@ -205,10 +212,6 @@
               		 <p style="font-size:20px;font-color:black;weigth:600;" id="commentCount">${dp.drName } 선생님 comments</p>
               		 <p id="beforeCommentCount">()</p> 
              	</c:if>
-             	
-             	
-             	
-             	
              	
              </div>
        
@@ -253,11 +256,15 @@
             <script>
 	            function openModal(){
 	        		var cNo = "${cNo}";
+	        		var loginClient = "${loginClient}";
+	        		var loginDrClient = "${loginDrClient}";
 	        		
-	        		if(cNo === 'none'){
+	        		if(loginClient === '' && loginDrClient === ''){
 	            		alert("일반 회원만 코멘트 작성이 가능합니다.");
 	        			return;
-	    
+	        		}else if(loginClient === '' && loginDrClient != ''){
+	        			alert("일반 회원만 코멘트 작성이 가능합니다.");
+	        			return;
 	        		}else{     		
 	            		$("#modalBtn").click();
 	            		$("#comment").val("");

@@ -37,11 +37,13 @@
 	<![endif]-->
 	<style>
 	.price, .won{
-		font-size: 20px;
+		font-size: 22px;
 		font-weight: 600;
-		color: #0071ce;
+		color: #0077ee5;
 	}
-	a{font-size:16px;}
+	a{font-size:16px;font-weight:300;}
+	h4{font-size:20px;font-weight:600;}
+	#searchProduct{border:1.5px solid #ccc; border-radius:5px;}
 	</style>
 </head>
 
@@ -61,11 +63,11 @@
             <div class="row">
                 <div class="col-lg-2"></div>
                 <div class="col-lg-8">
-                    <div class="product-search">
+                    <div class="product-search" style="margin-bottom:20px; margin-top:20px;">
                     	<!-- 검색하기 -->
                         <form id="searchForm" action="productSearch.do" method="get">
                             <input type="text" id="searchProduct" name="keyword" /><!-- class="mb-4" -->
-                            <button id="searchBtn" type="button" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            <button id="searchBtn" type="button" class="btn btn-default"><i class="fas fa-search" style="color:#007ee5;"></i></button>
                         </form>
                         <div id="suggestProduct">
                         	
@@ -75,7 +77,7 @@
                 <div class="col-lg-2"></div>
             </div>
 
-            <div class="row mt-4">
+            <div class="row mt-4 mb-4">
 				<ul>
 				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=7">전체보기</a></li>
 				    <li><a href="productIndex.do?sortNo=${sortNo }&pageNo=1&categoryNo=1">종합건강</a></li>
@@ -104,8 +106,8 @@
                     </h4>
                 </div>
                 <div class="col-lg-9 pl-5">
-                    <div align="right" style="text-align:right;">
-                        <ul class="list-group list-group-horizontal-sm" style="margin-left: 60px;">
+                    <div align="right">
+                        <ul class="list-group list-group-horizontal-sm" style="margin-left: 450px;">
                             <li class="list-group-item border-0 px-2">
                                 <p><a class="orderCondition" href="productIndex.do?sortNo=1&pageNo=1&categoryNo=${categoryNo }">최신순</a></p>
                             </li>
