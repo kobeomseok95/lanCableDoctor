@@ -16,7 +16,7 @@
          <li><a href="#" onclick="noUser();">리뷰쓰기</a></li>
          </c:when>
          <c:when test="${empty loginClient && !empty loginDrClient}">
-         <li><a href="#" onclick="noUser();">리뷰쓰기</a></li>
+         <li><a href="#" onclick="doctorUser();">리뷰쓰기</a></li>
          </c:when>
          <c:when test="${empty loginClient && !empty loginDrClient && (loginDrClient.approval eq 'N' || loginDrClient.approval eq 'X')}">
          <li><a href="#" onclick="noApproval();">리뷰쓰기</a></li>
@@ -114,6 +114,9 @@
          function noUser(){
         	 alert("일반 회원로그인이 필요한 서비스입니다.");
         	 location.href="home.do";
+         }
+         function doctorUser(){
+        	 alert("일반 회원만 이용가능합니다.");
          }
      </script>
 

@@ -58,7 +58,7 @@
 			<br>
 			<br>
 			<br>
-			<div class="row">
+			<div class="row" id="drSearch">
 				<!-- <div class="section-title"> -->
 				<h1 class="mb-5" style="font-size: 50px;">의사선생님을 찾으세요?</h1>
 				<!-- </div> -->
