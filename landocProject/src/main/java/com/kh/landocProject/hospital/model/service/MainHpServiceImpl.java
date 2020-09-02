@@ -80,9 +80,9 @@ public class MainHpServiceImpl implements MainHpService{
 
 
 	@Override
-	public ArrayList<HpSearch> hpSearchListNormal(HpSearch hp) {
+	public ArrayList<HpSearch> hpSearchListNormal(HashMap<String,Object> map) {
 		
-		return mainHpDao.hpSearchListNormal(hp);
+		return mainHpDao.hpSearchListNormal(map);
 	}
 
 	@Override
@@ -116,9 +116,9 @@ public class MainHpServiceImpl implements MainHpService{
 	}
 
 	@Override
-	public ArrayList<HpSearch> selectHpAvgList(HpSearch hp) {
+	public ArrayList<HpSearch> selectHpAvgList(HashMap<String,Object> map) {
 		
-		return mainHpDao.selectHpAvgList(hp);
+		return mainHpDao.selectHpAvgList(map);
 	}
 
 	@Override

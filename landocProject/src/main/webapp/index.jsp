@@ -15,5 +15,6 @@
 	 <%response.sendRedirect(request.getContextPath() + "/home.do");%>  
 	<!-- admin 페이지 이동(clientManage.jsp로 이동)  -->
 	<%--  <% response.sendRedirect(request.getContextPath() + "/admin.do"); %> --%> 
-</body>
+</body
+>
 </html>

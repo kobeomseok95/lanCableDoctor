@@ -32,7 +32,7 @@ public interface MainHpService {
 
 	int updateApproval(Integer hpNo);
 
-	ArrayList<HpSearch> hpSearchListNormal(HpSearch hp);
+	ArrayList<HpSearch> hpSearchListNormal(HashMap<String,Object> map);
 
 	ArrayList<HpSearch> hpCateSearchList(String cateName);
 
@@ -45,7 +45,7 @@ public interface MainHpService {
 	int updateComment(MainHp hp);
 
 
-	ArrayList<HpSearch> selectHpAvgList(HpSearch hp);
+	ArrayList<HpSearch> selectHpAvgList(HashMap<String,Object> map);
 
 	ArrayList<HpSearch> selectHpAvgListCate(String cateName);
 

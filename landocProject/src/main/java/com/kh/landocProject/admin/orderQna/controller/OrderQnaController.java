@@ -97,7 +97,8 @@ public class OrderQnaController {
 	}
 	
 	@RequestMapping("qnaStatusN.do")
-	public ModelAndView qnaStatusN(ModelAndView mv,@RequestParam(value="page", required=false) Integer page) throws OrderQnaException {
+	public ModelAndView qnaStatusN(ModelAndView mv,
+			@RequestParam(value="page", required=false) Integer page) throws OrderQnaException {
 		
 		
 		int currentPage = 1;
@@ -107,11 +108,8 @@ public class OrderQnaController {
 		
 		int listCount = oqService.getListCountOrderQna();
 		
-	
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		
-	
 		ArrayList<OrderQna> list = oqService.qnaStatusN(pi);
 		if(list!=null) {
 			mv.addObject("pi",pi);
@@ -125,7 +123,8 @@ public class OrderQnaController {
 	}
 	
 	@RequestMapping("insertAnswer.do")
-	public ModelAndView orderQnaInsert(HttpSession session,ModelAndView mv,HttpServletResponse response,
+	public ModelAndView orderQnaInsert(HttpSession session,
+			ModelAndView mv,
 			@RequestParam(value="oqnaNo") int oqnaNo,
 			@RequestParam(value="answer") String answer,
 			OrderQna qna) throws OrderQnaException {

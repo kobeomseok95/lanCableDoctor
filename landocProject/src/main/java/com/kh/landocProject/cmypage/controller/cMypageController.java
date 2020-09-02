@@ -143,7 +143,8 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="cmOrderDetail.do")
-	public void orderDetail(HttpSession session,HttpServletResponse response,
+	public void orderDetail(HttpSession session,
+			HttpServletResponse response,
 			OrderList order,
 			@RequestParam(value="orderNo")int orderNo,
 			@RequestParam(value="pdNo") int pdNo) throws JsonIOException, IOException {
@@ -162,7 +163,11 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="dateSearch.do")
-	public ModelAndView orderListDateSearch(HttpSession session,ModelAndView mv,@RequestParam(value="date") String date, OrderList order,@RequestParam(value="page", required=false) Integer page) throws cMypageException {
+	public ModelAndView orderListDateSearch(HttpSession session,
+			ModelAndView mv,
+			@RequestParam(value="date") String date, 
+			@RequestParam(value="page", required=false) Integer page,
+			OrderList order) throws cMypageException {
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
 		int currentPage = 1;
@@ -244,7 +249,10 @@ public class cMypageController {
 		
 	}
 	@RequestMapping(value="pdReviewInsert.do")
-	public ModelAndView pdReviewInsert(ModelAndView mv,HttpServletRequest request, HttpServletResponse response,HttpSession session,PdReview review,
+	public ModelAndView pdReviewInsert(ModelAndView mv,
+			HttpServletRequest request, 
+			HttpSession session,
+			PdReview review,
 			@RequestParam(value="orderNo") int orderNo,
 			@RequestParam(value="pdNo") int pdNo,
 			@RequestParam(value="pdReview") String pdReviewContent,
@@ -274,6 +282,7 @@ public class cMypageController {
 			
 	  		  mv.addObject("msg","리뷰작성이 완료되었습니다.");
 	          mv.setViewName("redirect:pdReview.do");
+	      	
 	     
 		}else{
 			throw new cMypageException("리뷰작성 실패!");
@@ -282,7 +291,11 @@ public class cMypageController {
 		}
 	
 	@RequestMapping(value="orderQnaList.do")
-	public ModelAndView orderQnaList(HttpSession session, ModelAndView mv,OrderQna qna,@RequestParam(value="page", required=false) Integer page,String msg) throws cMypageException {
+	public ModelAndView orderQnaList(HttpSession session, 
+			ModelAndView mv,
+			OrderQna qna
+			,@RequestParam(value="page", required=false) Integer page,
+			String msg) throws cMypageException {
 		
 		Client loginClient = (Client)session.getAttribute("loginClient");
 		String cNo =loginClient.getcNo();
@@ -295,7 +308,6 @@ public class cMypageController {
 		
 		CMypagePageInfo pi = CMypagePagination.getPageInfo(currentPage,listCount);
 		
-	
 		ArrayList<OrderQna> qnaY = cmService.orderQnaListY(cNo,pi);
 		ArrayList<OrderQna> qnaN = cmService.orderQnaListN(cNo);
 		if(qnaY!=null && qnaN!=null) {
@@ -409,7 +421,7 @@ public class cMypageController {
 	}
 	
 	@RequestMapping(value="updateReview.do")
-	public ModelAndView updateReviewInsert(ModelAndView mv,HttpServletRequest request, HttpServletResponse response,HttpSession session,PdReview review,
+	public ModelAndView updateReviewInsert(ModelAndView mv,HttpServletRequest request,HttpSession session,PdReview review,
 			@RequestParam(value="orderNo") int orderNo, 
 			@RequestParam(value="pdNo") int pdNo, 
 			@RequestParam(value="pdReview") String pdReviewContent,
@@ -515,9 +527,7 @@ public class cMypageController {
 	
 	
 	 public String saveFile(MultipartFile file, HttpServletRequest request) {
-
-	      
-	      File folder = new File(filePath);
+		 File folder = new File(filePath);
 	      
 	      if(!folder.exists()) {
 	         folder.mkdirs();
@@ -526,11 +536,8 @@ public class cMypageController {
 	      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 	      String originFileName = file.getOriginalFilename();
 	      String renameFileName = sdf.format(new java.sql.Date(System.currentTimeMillis())) + "." + originFileName.substring(originFileName.lastIndexOf(".")+1);
-	      
 	      String saveFiles = filePath + renameFileName;
-	      
-	      
-	      try {
+	       try {
 	         file.transferTo(new File(saveFiles));   // 이 때 파일이 저장
 	         
 	      } catch (IllegalStateException e) {
@@ -540,20 +547,12 @@ public class cMypageController {
 	         
 	         e.printStackTrace();
 	      }
-	      
 	      return renameFileName;
 	   }
 	 
-	 
-	 
-	 
-		public void deleteFile(String fileName) {
-			
+	 	public void deleteFile(String fileName) {
 			File f = new File(filePath + fileName);
-			
-			if(f.exists()) {
-				f.delete();
-			}
+			if(f.exists()) {f.delete();}
 		}
 		
 	@RequestMapping(value="myAskDr.do", method=RequestMethod.GET)

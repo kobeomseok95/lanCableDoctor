@@ -111,28 +111,42 @@
 
 
   <!--병원이름검색  -->
-  <select id="hpSearchListNormal" parameterType="HpSearch" resultMap="hpSearchMap">
-  		SELECT HP.HP_NO, HP.HP_NAME,
-		HP.HP_PHONE,HP.HP_POSTCODE,HP.HP_ADDRESS,
+  <select id="hpSearchListNormal" parameterType="map" resultMap="hpSearchMap">
+  		SELECT 
+  		HP.HP_NO,
+  		HP.HP_NAME,
+		HP.HP_PHONE,
+		HP.HP_POSTCODE,
+		HP.HP_ADDRESS,
         DECODE(HT.HP_OPEN_TIME,NULL,'휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME) AS HP_TIME,
-        DHP.DRHP_ORIGIN,DHP.DRHP_RENAME,DHP.DRHP_FILEPATH,
+        DHP.DRHP_ORIGIN,
+        DHP.DRHP_RENAME,
+        DHP.DRHP_FILEPATH,
         LISTAGG(CAST(HG.HPCATE_name AS VARCHAR(100)),',') WITHIN GROUP (ORDER BY NULL )AS HPCATE_NAME
-        FROM HPLIST HPL
+        FROM 
+        HPLIST HPL
         LEFT JOIN HPCATEGORY HG ON(HPL.HPCATE_CODE=HG.HPCATE_CODE)
         LEFT JOIN HOSPITAL HP ON(HPL.HP_NO = HP.HP_NO)
         LEFT JOIN HPTIME HT ON(HPL.HP_NO = HT.HP_UNIQUENO)
 		LEFT JOIN DRHPPHOTO DHP ON(HP.HP_NO=DHP.HP_NO)
-		WHERE  TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY AND HP.HP_STATUS='Y' AND DHP.PH_CODE =5
+		WHERE  
+		TO_CHAR(SYSDATE,'DAY') = HT.HP_DAY AND 
+		HP.HP_STATUS='Y' AND 
+		DHP.PH_CODE =5
         <if test="area != '전체'">
         AND hp_address LIKE '%'||#{area}||'%'
         </if>
-		AND HP_NAME LIKE #{hpName} group by HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, 
+		AND HP_NAME LIKE 
+		<foreach collection="hpNameLike" index="index" item="hpNameLike" open="'%'||" close="||'%'" separator="||'%'||">
+			#{hpNameLike} 
+		</foreach>
+		group by HP.HP_NO, HP.HP_NAME, HP.HP_PHONE, HP.HP_POSTCODE, HP.HP_ADDRESS, 
 		DECODE(HT.HP_OPEN_TIME,NULL,'휴무',HT.HP_OPEN_TIME,HT.HP_OPEN_TIME||'~'||HT.HP_CLOSE_TIME),
 		DHP.DRHP_ORIGIN, DHP.DRHP_RENAME, DHP.DRHP_FILEPATH
 		ORDER BY 1
   </select>
   
-  <select id="selectHpAvgList" parameterType="HpSearch" resultMap="hpSearchMap">
+  <select id="selectHpAvgList" parameterType="map" resultMap="hpSearchMap">
   	SELECT HP.HP_NO, HP.HP_NAME,
         DECODE(ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1),NULL,0,
         ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1),ROUND(SUM(HW.HP_RE_AVG_RATE)/COUNT(HW.HP_RE_AVG_RATE),1)) AS HP_RE_AVG_RATE,
@@ -144,7 +158,10 @@
 		<if test="area != '전체'">
         AND hp_address LIKE '%'||#{area}||'%'
         </if>
-        AND HP.HP_NAME LIKE #{hpName} 
+        AND HP.HP_NAME LIKE 
+		<foreach collection="hpNameLike" index="index" item="hpNameLike" open="'%'||" close="||'%'" separator="||'%'||">
+			#{hpNameLike} 
+		</foreach>
         AND HW.RECEIPT_YN = 'Y'
         group by HP.HP_NO, HP.HP_NAME
         ORDER BY 1

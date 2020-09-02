@@ -54,8 +54,18 @@
 	</select>
 	
 	
-	<select id="orderQnaSearch" resultMap="orderQnaListMap" parameterType="adOrderQna">
-		SELECT OQ.OQNA_NO, OM.ORDER_NO,P.PD_NAME,OQ.OQNA_TITLE,C.C_ID,C.C_NO,D.DR_NO,D.DR_ID,OQ.OQNA_CONTENT,OQ.OQNA_DATE,OQ.OQNA_STATUS,OQ.OQNA_ANSWER
+	<select id="orderQnaSearch" resultMap="orderQnaListMap" 
+	parameterType="adOrderQna">
+		SELECT OQ.OQNA_NO, 
+		OM.ORDER_NO,
+		P.PD_NAME,
+		OQ.OQNA_TITLE,
+		C.C_ID,C.C_NO,
+		D.DR_NO,D.DR_ID,
+		OQ.OQNA_CONTENT,
+		OQ.OQNA_DATE,
+		OQ.OQNA_STATUS,
+		OQ.OQNA_ANSWER
 		FROM ORDERQNA OQ
 		LEFT JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
 		LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
@@ -63,16 +73,24 @@
 		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
 		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
 		<if test='condition=="opOrder"'>
-		WHERE OM.ORDER_NO = #{search} AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
+		WHERE OM.ORDER_NO = #{search} 
+		AND OM.PD_NO=OP.PD_NO 
+		AND OM.PD_NO=OQ.PD_NO
 		</if>
 		<if test='condition=="opId"'>
-		WHERE (C.C_ID =#{search} OR D.DR_ID=#{search}) AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
+		WHERE (C.C_ID =#{search} OR D.DR_ID=#{search}) 
+		AND OM.PD_NO=OP.PD_NO 
+		AND OM.PD_NO=OQ.PD_NO
 		</if> 
 		<if test='condition=="opTitle"'>
-		WHERE OQ.OQNA_TITLE LIKE '%'||#{search}||'%' AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
+		WHERE OQ.OQNA_TITLE LIKE '%'||#{search}||'%' 
+		AND OM.PD_NO=OP.PD_NO 
+		AND OM.PD_NO=OQ.PD_NO
 		</if>
 		<if test='condition=="opContent"'>
-		WHERE OQ.OQNA_CONTENT LIKE '%'||#{search}||'%' AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
+		WHERE OQ.OQNA_CONTENT LIKE '%'||#{search}||'%' 
+		AND OM.PD_NO=OP.PD_NO 
+		AND OM.PD_NO=OQ.PD_NO
 		</if>
 	</select>
 	
@@ -82,16 +100,28 @@
 	</select>
 	
 	<select id="qnaStatusN" resultMap="orderQnaListMap">
-		SELECT OQ.OQNA_NO, OM.ORDER_NO,P.PD_NAME,OQ.OQNA_TITLE,C.C_ID,C.C_NO,D.DR_NO,D.DR_ID,OQ.OQNA_CONTENT,OQ.OQNA_DATE,OQ.OQNA_STATUS,OQ.OQNA_ANSWER
+		SELECT OQ.OQNA_NO, 
+		OM.ORDER_NO,
+		P.PD_NAME,
+		OQ.OQNA_TITLE,
+		C.C_ID,
+		C.C_NO,
+		D.DR_NO,
+		D.DR_ID,
+		OQ.OQNA_CONTENT,
+		OQ.OQNA_DATE,
+		OQ.OQNA_STATUS,
+		OQ.OQNA_ANSWER
 		FROM ORDERQNA OQ
 		LEFT JOIN ORDERMG OM ON(OQ.ORDER_NO=OM.ORDER_NO)
 		LEFT JOIN ORDERPRODUCT OP ON(OM.ORDER_NO=OP.ORDER_NO)
 		LEFT JOIN PRODUCT P ON(OP.PD_NO=P.PD_NO)
 		LEFT JOIN CLIENT C ON(OM.C_NO=C.C_NO)
 		LEFT JOIN DRCLIENT D ON(OM.DR_NO=D.DR_NO)
-		WHERE OQNA_STATUS = 'N' AND OM.PD_NO=OP.PD_NO AND OM.PD_NO=OQ.PD_NO
+		WHERE OQNA_STATUS = 'N' 
+		AND OM.PD_NO=OP.PD_NO 
+		AND OM.PD_NO=OQ.PD_NO
 		ORDER BY OQ.OQNA_DATE DESC
-		
 	</select>
 	
 	<update id="orderQnaAnswer" parameterType="adOrderQna">

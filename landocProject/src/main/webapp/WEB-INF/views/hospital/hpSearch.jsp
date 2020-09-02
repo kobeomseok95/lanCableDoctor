@@ -479,8 +479,6 @@
                   
                 });
               
-                
-         
                  $("#hp_a"+index).on('mouseenter',function(){
                 	mapicon='/projectFiles/mapicon4.png'
                 	var markerImage = new daum.maps.MarkerImage(

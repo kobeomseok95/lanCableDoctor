@@ -68,9 +68,9 @@ public class MainHpDao {
 		return sqlSessionTemplate.update("mainHpMapper.updateApproval", hpNo);
 	}
 
-	public ArrayList<HpSearch> hpSearchListNormal(HpSearch hp) {
+	public ArrayList<HpSearch> hpSearchListNormal( HashMap<String,Object> map) {
 		
-		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.hpSearchListNormal",hp);
+		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.hpSearchListNormal",map);
 	}
 
 	public ArrayList<HpSearch> hpCateSearchList(String cateName) {
@@ -100,9 +100,9 @@ public class MainHpDao {
 	}
 
 
-	public ArrayList<HpSearch> selectHpAvgList(HpSearch hp) {
+	public ArrayList<HpSearch> selectHpAvgList(HashMap<String,Object> map) {
 		
-		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectHpAvgList",hp);
+		return (ArrayList)sqlSessionTemplate.selectList("mainHpMapper.selectHpAvgList",map);
 	}
 
 	public ArrayList<HpSearch> selectHpAvgListCate(String cateName) {

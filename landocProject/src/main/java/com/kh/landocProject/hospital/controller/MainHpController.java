@@ -179,23 +179,20 @@ public class MainHpController {
 
 	   
 	@RequestMapping(value="hpSearch.do")
-	public ModelAndView hpSearch(ModelAndView mv, HttpSession session,HpSearch hp,@RequestParam(value="area") String area, @RequestParam(value="hpSearch") String hpTitle) throws MainHpException{
+	public ModelAndView hpSearch(
+			ModelAndView mv,
+			HttpSession session,
+			@RequestParam(value="area") String area, 
+			@RequestParam(value="hpSearch") String hpTitle) throws MainHpException{
 		  
 	      String[] hpNameSplit = hpTitle.split("");
-	      String hpNameLike ="";
-	      for(int i =0; i<hpNameSplit.length;i++) {
-	    	 
-	    	   	if(i==hpNameSplit.length-1) {
-	    	   		hpNameLike += "%"+hpNameSplit[i]+"%";
-	    	   	}else {
-	    	   	    hpNameLike += "%"+hpNameSplit[i];
-	    	   	}
-	      }
-	      hp.setArea(area);
-	      hp.setHpName(hpNameLike);
+	    
+	      HashMap<String,Object> map = new HashMap<String, Object>();
+	      map.put("hpNameLike", hpNameSplit);
+	      map.put("area",area);
 	   
-	      ArrayList<HpSearch> hpList = mainHpService.hpSearchListNormal(hp);
-	      ArrayList<HpSearch> listAvg = mainHpService.selectHpAvgList(hp);
+	      ArrayList<HpSearch> hpList = mainHpService.hpSearchListNormal(map);
+	      ArrayList<HpSearch> listAvg = mainHpService.selectHpAvgList(map);
 			
 	  	for(int i =0; i<listAvg.size();i++) {
 			for(int z=0; z<hpList.size();z++) {

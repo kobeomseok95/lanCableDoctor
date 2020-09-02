@@ -166,6 +166,7 @@
                                     <span>수량</span>
                                     <input type="number" id="productCount" name="productCount" value="1" min="1" max="5"
                                         style="width: 15%; float: right;" />
+                                 
                                 </li>
                                 <li class="list-group-item border-0">
                                     <button class="btn btn-default goCart">
@@ -173,8 +174,16 @@
                                     </button>
                                     <script type="text/javascript">
                                     	function cart(){
+                                    		var loginClient = "<c:out value='${loginClient}'/>";
+                                    		var loginDrClient = "<c:out value='${loginDrClient}'/>";
+                                    		if(loginClient =="" && loginDrClient ==""){
+                                    			alert("로그인이 필요합니다.");
+                                    			location.href="loginView.do";
+                                    		}else{
+                                    		
                                     		var count=$("#productCount").val();                  
                                     		location.href="cartInsert.do?pdNo="+${product.pdNo}+"&count="+count;
+                                    		}
                                     	}
                                     </script>
                                     <button class="btn btn-default goPurchase" onclick="pay();">

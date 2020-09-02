@@ -322,7 +322,7 @@
     		}
     	}
     	 
-    	 /* 수량 제거시 가격정보 */
+    	 /* 수량 감소시 가격정보 */
     	function minusCount(index){
     		count=$("#count"+index).val()-1;
     		if(count<1){
